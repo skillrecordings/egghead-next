@@ -260,20 +260,21 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
   console.log(hits)
 
   return (
-    <OverlayWrapper className="@container absolute top-0 z-10 h-full max-w-full dark">
-      <div className="hidden xl:grid md:w-full grid-cols-2 gap-4 mx-8">
-        <div className="grid grid-rows-2 gap-4">
-          <HorizontalResourceCard
+    <OverlayWrapper className="absolute top-0 z-10 h-full max-w-full bg-opacity-100 dark">
+      <div className="hidden xl:grid grid-cols-2 gap-4 mx-8 p-24">
+        <div className="grid grid-rows-3 gap-4">
+          <ContinueCourseCard
             resource={
               {
-                title: `More Expert Curated ${tag.label} Courses`,
+                title: lesson?.collection?.title,
                 slug: tag.name,
-                image: tag.image_url,
-                path: `/q/${tag.name}?access_state=free&type=playlist`,
-                description: `A hand-curated collection of the best free ${tag.label} courses on egghead.io.`,
+                image: courseImage,
+                path: `/courses/${lesson?.collection?.slug}`,
+                description: `Continue to learn ${tag.label} with this course by ${lesson?.instructor?.full_name}!`,
                 byline: ``,
               } as any
             }
+            className="row-span-2"
           />
           <SearchCard tagLabel={tag.label as string} />
         </div>
