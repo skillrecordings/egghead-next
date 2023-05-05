@@ -139,7 +139,7 @@ export const activityInternalLinkClick = (
   resourceType: string,
   currentLocation: string,
   topic: string,
-  redirectTo: string,
+  redirectTo?: string,
   instructor?: string,
 ) =>
   track('clicked internal link', {
