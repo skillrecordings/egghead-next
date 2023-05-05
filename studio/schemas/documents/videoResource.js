@@ -50,7 +50,6 @@ export default {
       title: 'Duration',
       description: 'Duration in seconds',
       type: 'number',
-      validation: (Rule) => Rule.required(),
     },
   ],
   preview: {

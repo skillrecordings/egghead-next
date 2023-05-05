@@ -2,7 +2,6 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import Mux from '@mux/mux-node'
 import client from '@sanity/client'
-import {nanoid} from 'nanoid'
 
 const sanityClient = client({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -15,17 +14,15 @@ const secret = process.env.SANITY_WEBHOOK_SECRET || ''
 
 interface MuxAsset {
   muxAssetId: string
-  muxPlaybackId: string
+  muxPlaybackId?: string
 }
 
 async function createMuxAsset({
   originalVideoUrl,
   muxAsset,
-  duration,
 }: {
   originalVideoUrl: string
   muxAsset: MuxAsset
-  duration: number
 }) {
   if (!muxAsset?.muxAssetId) {
     const {Video} = new Mux()
@@ -35,7 +32,6 @@ async function createMuxAsset({
     })
 
     return {
-      duration: newMuxAsset.duration,
       muxAssetId: newMuxAsset.id,
       muxPlaybackId: newMuxAsset.playback_ids?.find((playback_id) => {
         return playback_id.policy === 'public'
@@ -43,13 +39,13 @@ async function createMuxAsset({
     }
   }
 
-  return {...muxAsset, duration}
+  return {...muxAsset}
 }
 
 const patchVideoResource = async (
   id: string,
   newMuxAsset: MuxAsset,
-  duration: string,
+  duration?: number,
 ) => {
   const {muxPlaybackId, muxAssetId} = newMuxAsset
 
@@ -94,16 +90,15 @@ const sanityLessonCreatedWebhook = async (
       const {_id, originalVideoUrl, muxAsset, duration} = req.body
       console.info('processing Sanity webhook: Lesson created', _id)
 
-      const {duration: assetDuration, ...newMuxAsset} = await createMuxAsset({
+      const {...newMuxAsset} = await createMuxAsset({
         originalVideoUrl,
         muxAsset,
-        duration,
       })
 
       // create a video resource
       // patch lesson resources array with ref using the video resource id
       try {
-        const resource = await patchVideoResource(_id, newMuxAsset, duration)
+        const resource = await patchVideoResource(_id, newMuxAsset)
         // await patchLessonWithVideoResource(_id, resource._id)
       } catch (e) {
         console.error(e)
