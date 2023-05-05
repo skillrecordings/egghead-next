@@ -27,6 +27,8 @@ import {Element as ScrollElement, scroller} from 'react-scroll'
 import SimpleBar from 'simplebar-react'
 import cx from 'classnames'
 import NewCuratedTopicPage from './curated/[slug]'
+import Link from 'next/link'
+import {track} from 'utils/analytics'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -164,6 +166,21 @@ const Search: FunctionComponent<SearchProps> = ({
             <RefinementList limit={6} attribute="instructor_name" />
             <RefinementList attribute="access_state" />
             <RefinementList attribute="type" />
+            <section className="flex flex-col items-center sm:pb-32 pt-3 pb-16 w-full h-full">
+              <Link
+                passHref
+                onClick={() => {
+                  track('clicked egghead for teams', {
+                    location: 'egghead-for-teams',
+                  })
+                }}
+                href="/pricing"
+              >
+                <a className="bg-gradient-to-b from-amber-300 to-amber-400 text-black rounded-md px-4 py-2 font-medium text-sm dark:border border-amber-500/50 hover:brightness-110 transition shadow-2xl shadow-amber-300/20">
+                  Level Up Your Team
+                </a>
+              </Link>
+            </section>
           </div>
         </SimpleBar>
       </aside>
@@ -202,6 +219,21 @@ const Search: FunctionComponent<SearchProps> = ({
               <RefinementList attribute="type" />
             </div>
           </div>
+          <section className="flex flex-col items-center justify-center sm:pb-32 pt-6 pb-16 w-full h-full">
+            <Link
+              passHref
+              onClick={() => {
+                track('clicked level-up-team', {
+                  location: 'egghead-for-teams',
+                })
+              }}
+              href="/pricing"
+            >
+              <a className="bg-gradient-to-b from-amber-300 to-amber-400 text-black rounded-md px-4 py-2 align-middle font-medium text-sm dark:border border-amber-500/50 hover:brightness-110 transition shadow-2xl shadow-amber-300/20">
+                Level Up Your Team
+              </a>
+            </Link>
+          </section>
         </SimpleBar>
       </div>
     )
