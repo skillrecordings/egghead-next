@@ -20,6 +20,10 @@ import {
   CardBody,
   CardMeta,
 } from 'components/card/index'
+import Markdown from 'components/markdown'
+import {get} from 'lodash'
+import {PlayIcon} from '@heroicons/react/solid'
+import {AcademicCapIcon} from '@heroicons/react/solid'
 
 const shapeHit = (hit: any) => {
   const {title, instructor_name, instructor_avatar_url, slug, image} = hit
@@ -43,6 +47,116 @@ const transformHits = (hits: any, amount: integer) => {
   return slicedHits.map((hit: any) => shapeHit(hit as any))
 }
 
+const ContinueCourseCard: React.FC<any> = ({
+  resource,
+  location,
+  className = 'border-none',
+  ...props
+}) => {
+  return (
+    <Card
+      {...props}
+      className={twMerge(
+        'bg-white dark:bg-gray-800 dark:bg-opacity-60 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden p-5 flex flex-col sm:space-y-5 space-y-0 sm:space-x-0 space-x-5 items-center justify-center sm:text-left text-center',
+        className,
+      )}
+    >
+      {resource.image && (
+        <Link href={resource.path}>
+          <a
+            onClick={() => {
+              track('clicked resource', {
+                resource: resource.path,
+                linkType: 'image',
+                location,
+              })
+            }}
+            className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
+            tabIndex={-1}
+          >
+            <CardPreview>
+              <Image
+                src={get(resource.image, 'src', resource.image)}
+                width={160}
+                height={160}
+                layout="fixed"
+                className="transition ease-in-out hover:scale-110 duration-100 object-cover rounded-md"
+                alt={`illustration for ${resource.title}`}
+              />
+            </CardPreview>
+          </a>
+        </Link>
+      )}
+      <CardContent className="flex flex-col justify-center items-center">
+        <CardHeader className="mx-16">
+          <Link href={resource.path}>
+            <a
+              onClick={() => {
+                track('clicked resource', {
+                  resource: resource.path,
+                  linkType: 'text',
+                  location,
+                })
+              }}
+              className="inline-block hover:text-blue-600 dark:hover:text-blue-300 w-fit"
+            >
+              <h3 className="text-lg lg:text-xl font-bold leading-tighter dark:text-white dark:hover:text-blue-300 text-center">
+                {resource.title}
+              </h3>
+            </a>
+          </Link>
+        </CardHeader>
+        <CardMeta className="text-xs justify-center text-gray-600 dark:text-gray-300 pb-2 pt-1 text-center">
+          {resource.byline}
+        </CardMeta>
+        <CardBody className="flex flex-col prose dark:prose-dark dark:prose-dark-sm dark:prose-a:text-blue-300 prose-a:text-blue-500 prose-sm max-w-none justify-center">
+          <Markdown>{resource.description}</Markdown>
+          <div className="grid grid-rows-2 items-center gap-y-2">
+            {/* bg-blue-600 rounded px-4 py-2 flex sm:w-full w-48 items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base */}
+            <button
+              className="bg-blue-600 rounded py-2 flex sm:w-full items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
+              onClick={() => {
+                analytics.events.engagementClickedWatchedLessonAgain(
+                  lesson.slug,
+                )
+                onClickRewatch()
+              }}
+            >
+              <AcademicCapIcon className="w-6 mr-2" />
+              Watch Full Course
+            </button>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => {
+                  router.push(nextLesson.path || '#')
+                  track('clicked play next', {
+                    lesson: lesson.slug,
+                    location: 'lesson overlay',
+                  })
+                }}
+                className="border border-blue-600 rounded px-4 py-2 flex sm:w-full w-48 items-center justify-center hover:bg-gray-900 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
+              >
+                <PlayIcon className="w-6 mr-2" /> Play Next
+              </button>
+              <button
+                onClick={() => {
+                  router.push(nextLesson.path || '#')
+                  track('clicked play next', {
+                    lesson: lesson.slug,
+                    location: 'lesson overlay',
+                  })
+                }}
+                className="border border-blue-600 rounded px-4 py-2 flex sm:w-full w-48 items-center justify-center hover:bg-gray-900 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
+              >
+                <IconRefresh className="w-6 mr-2" /> Watch Again
+              </button>
+            </div>
+          </div>
+        </CardBody>
+      </CardContent>
+    </Card>
+  )
+}
 const SearchCard = ({tagLabel}: {tagLabel: string}) => {
   const className = `bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden p-5 flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center`
   return (
