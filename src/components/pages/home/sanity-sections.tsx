@@ -157,7 +157,7 @@ const SanitySections = ({
   completedCoursesIds,
 }: {
   sections: SanitySectionType[]
-  location?: string
+  location: string
   completedCoursesIds?: number[]
 }) => {
   return (
@@ -169,7 +169,7 @@ const SanitySections = ({
             case section.slug === 'topics':
               return <Topics data={section} key={i} />
             case section.displayComponent === 'eggheadForTeamsCta':
-              return <EggheadForTeamsCta />
+              return <EggheadForTeamsCta location={location} />
           }
 
           return (

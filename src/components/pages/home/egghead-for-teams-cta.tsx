@@ -2,11 +2,23 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import analytics from 'utils/analytics'
 
-const EggheadForTeamsCta: FunctionComponent = () => {
+const EggheadForTeamsCta: FunctionComponent<{location: string}> = ({
+  location,
+}) => {
   return (
     <section className=" mb-16">
-      <Link href="/egghead-for-teams">
+      <Link
+        href="/egghead-for-teams"
+        onClick={() =>
+          analytics.events.activityCtaClick(
+            'team',
+            location,
+            '/egghead-for-teams',
+          )
+        }
+      >
         <div className="min-w-[24em] w-fit mx-auto cursor-pointer">
           <div className="dark:bg-gray-500 bg-slate-200 rounded p-[1px] transition-all hover:animate-gradient-xy hover:bg-gradient-to-br hover:from-amber-400 hover:via-amber-200 hover:to-yellow-400 ">
             <div className="relative justify-items-center md:w-[46rem] shrink-0 grid grid-cols-1 md:grid-cols-6 rounded gap-4 p-8 dark:bg-gray-800 bg-white">
