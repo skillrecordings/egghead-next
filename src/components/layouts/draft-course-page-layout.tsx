@@ -10,6 +10,7 @@ import {
   CheckCircleIcon,
   PlusCircleIcon,
 } from '@heroicons/react/outline'
+import Spinner from 'components/spinner'
 import {get, first, filter, isEmpty, truncate} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
@@ -34,6 +35,7 @@ import toast from 'react-hot-toast'
 import {Dialog, Transition} from '@headlessui/react'
 import useFileUploadReducer from 'hooks/use-file-upload-reducer'
 import VideoUploader from 'components/upload/video-uploader'
+import cx from 'classnames'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -161,6 +163,7 @@ const TitleChangeForm: React.FunctionComponent<RequestDraftCourseFormProps> = ({
       },
     })
   let currentTitle = state.context.title ? state.context.title : title
+  const isEditingOrSubmtting = state.matches('edit') || state.matches('loading')
   return (
     <Formik
       initialValues={{title: currentTitle}}
@@ -182,7 +185,7 @@ const TitleChangeForm: React.FunctionComponent<RequestDraftCourseFormProps> = ({
           <form className="grow" onSubmit={handleSubmit}>
             <div className="flex flex-col">
               <div className="relative flex flex-col sm:flex-row sm:space-y-0 sm:space-x-2 text-center sm:text-left">
-                {state.matches('edit') || state.matches('loading') ? (
+                {isEditingOrSubmtting ? (
                   <div className="container w-full px-0">
                     <div className="flex flex-row-reverse gap-1 absolute -top-6 right-0 z-10">
                       <button type="submit" disabled={isSubmitting}>
@@ -200,12 +203,20 @@ const TitleChangeForm: React.FunctionComponent<RequestDraftCourseFormProps> = ({
                       >
                         <XCircleIcon className="text-red-400" height={20} />
                       </button>
+                      <Spinner
+                        size={4}
+                        className={`text-black dark:text-white
+                          ${cx({
+                            hidden: !state.matches('loading'),
+                          })}
+                        `}
+                      />
                     </div>
                     <textarea
                       rows={3}
                       maxLength={90}
                       id="title"
-                      value={state.matches('edit') ? values.title : title}
+                      value={isEditingOrSubmtting ? values.title : title}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       required
@@ -217,7 +228,7 @@ const TitleChangeForm: React.FunctionComponent<RequestDraftCourseFormProps> = ({
                 ) : (
                   <>
                     <div
-                      className="container relative px-0 cursor-pointer border-2 border-transparent hover:box-border hover:border-2 hover:border-blue-500 rounded hover:bg-gray-100"
+                      className="container relative px-0 cursor-pointer border-2 border-transparent hover:box-border hover:border-2 hover:border-blue-500 rounded hover:bg-gray-100 hover:dark:bg-gray-800"
                       onClick={() => send({type: 'EDIT'})}
                     >
                       <h1 className="p-2 mt-4 text-2xl font-bold leading-tight text-center sm:text-3xl md:text-4xl md:leading-tighter md:text-left md:mt-0">
@@ -279,6 +290,8 @@ const DescriptionChangeForm: React.FunctionComponent<RequestDraftCourseFormProps
       ? state.context.description
       : description
 
+    const isEditingOrSubmtting =
+      state.matches('edit') || state.matches('loading')
     return (
       <Formik
         initialValues={{description: currentDescription}}
@@ -300,7 +313,7 @@ const DescriptionChangeForm: React.FunctionComponent<RequestDraftCourseFormProps
             <form className="grow" onSubmit={handleSubmit}>
               <div className="flex flex-col">
                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2o">
-                  {state.matches('edit') || state.matches('loading') ? (
+                  {isEditingOrSubmtting ? (
                     <div className="relative w-full">
                       <div className="flex flex-row-reverse gap-1 absolute -top-6 right-0 z-10">
                         <button type="submit" disabled={isSubmitting}>
@@ -318,12 +331,20 @@ const DescriptionChangeForm: React.FunctionComponent<RequestDraftCourseFormProps
                         >
                           <XCircleIcon className="text-red-400" height={20} />
                         </button>
+                        <Spinner
+                          size={4}
+                          className={`text-black dark:text-white
+                            ${cx({
+                              hidden: !state.matches('loading'),
+                            })}
+                          `}
+                        />
                       </div>
                       <textarea
                         rows={20}
                         id="description"
                         value={
-                          state.matches('edit')
+                          isEditingOrSubmtting
                             ? values.description
                             : description
                         }
@@ -338,7 +359,7 @@ const DescriptionChangeForm: React.FunctionComponent<RequestDraftCourseFormProps
                   ) : (
                     <>
                       <div
-                        className="container px-0 cursor-pointer border-2 border-transparent hover:box-border hover:border-2 hover:border-blue-500 rounded hover:bg-gray-100"
+                        className="container px-0 cursor-pointer border-2 border-transparent hover:box-border hover:border-2 hover:border-blue-500 rounded hover:bg-gray-100 hover:dark:bg-gray-800"
                         onClick={() => send({type: 'EDIT'})}
                       >
                         {currentDescription && (
