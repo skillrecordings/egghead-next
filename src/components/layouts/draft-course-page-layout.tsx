@@ -5,10 +5,11 @@ import Markdown from 'react-markdown'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import {
-  PencilAltIcon,
   XCircleIcon,
   CheckCircleIcon,
-  PlusCircleIcon,
+  PlusIcon,
+  DotsVerticalIcon,
+  ChevronDownIcon,
 } from '@heroicons/react/outline'
 import Spinner from 'components/spinner'
 import {get, first, filter, isEmpty, truncate} from 'lodash'
@@ -32,10 +33,12 @@ import {
 } from 'machines/draft-course-machine'
 import {trpc} from 'trpc/trpc.client'
 import toast from 'react-hot-toast'
-import {Dialog, Transition} from '@headlessui/react'
+import {Dialog, Transition, Disclosure} from '@headlessui/react'
 import useFileUploadReducer from 'hooks/use-file-upload-reducer'
 import VideoUploader from 'components/upload/video-uploader'
 import cx from 'classnames'
+import MuxPlayer from '@mux/mux-player-react'
+import {z} from 'zod'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -64,16 +67,17 @@ type SanitySoftwareLibrary = {
   library: SanityReference
 }
 
-type SanityLesson = {
-  _type: 'lesson'
-  _id: string
-  title: string
-  description?: string
-  repoUrl?: string
-  softwareLibraries?: SanitySoftwareLibrary[]
-  slug: SanitySlug
-  resource?: SanityReference
-}
+const SanityLesson = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  type: z.string(),
+  icon_url: z.string(),
+  duration: z.number(),
+  path: z.string(),
+  videoResourceId: z.string(),
+})
+type SanityLesson = z.infer<typeof SanityLesson>
 
 type CollectionResource = {
   title: string
@@ -576,6 +580,182 @@ const LessonCreationDialog = ({
   )
 }
 
+const LessonListItem = ({
+  lesson,
+  index,
+}: {
+  lesson: SanityLesson
+  index: number
+}) => {
+  const [displayTitle, setDisplayTitle] = React.useState(lesson.title)
+  const [lessonTitle, setLessonTitle] = React.useState(lesson.title)
+  const [lessonDescription, setLessonDescription] = React.useState(
+    lesson.description,
+  )
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
+
+  const updateLessonMutation = trpc.instructor.updateLesson.useMutation<{
+    title: string
+    description: string
+    id: string
+  }>({
+    onSuccess: (data) => {
+      setIsSubmitting(false)
+      toast.success(`Your lesson has been updated.`, {
+        duration: 6000,
+        icon: '✅',
+      })
+    },
+    onError: (error) => {
+      setDisplayTitle(lesson.title)
+      toast.error(
+        `There was a problem updating your lesson. Contact egghead staff if the issue persists.`,
+        {
+          duration: 6000,
+          icon: '❌',
+        },
+      )
+    },
+  })
+
+  return (
+    <li key={lesson.path} className="w-[45ch]">
+      <Disclosure>
+        {({open}) => (
+          <>
+            <div className="flex py-2 font-semibold leading-tight justify-between">
+              <div className="flex">
+                <div className="flex items-center mr-2 space-x-2 cursor-grab">
+                  <div className="flex">
+                    <DotsVerticalIcon
+                      height={20}
+                      className="text-gray-700 dark:text-gray-500"
+                    />
+                    <DotsVerticalIcon
+                      height={20}
+                      className="text-gray-700 dark:text-gray-500 -ml-[14px]"
+                    />
+                  </div>
+                  {lesson.icon_url && (
+                    <div className="flex items-center flex-shrink-0 w-8">
+                      <Image src={lesson.icon_url} width={24} height={24} />
+                    </div>
+                  )}
+                </div>
+                {lesson.path && (
+                  <div className="flex flex-col ">
+                    <div>
+                      <Link href={lesson.path}>
+                        <a className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100">
+                          {displayTitle}
+                        </a>
+                      </Link>
+                    </div>
+                    <div className="text-xs text-gray-700 dark:text-gray-500">
+                      {lesson.duration
+                        ? convertTimeWithTitles(lesson.duration, {
+                            showSeconds: true,
+                          })
+                        : '0m 0s'}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <Disclosure.Button>
+                <ChevronDownIcon
+                  data-headlessui-state="open"
+                  height={20}
+                  className={`self-center
+                  ${cx({
+                    'transform rotate-180': open,
+                  })}
+                `}
+                />
+              </Disclosure.Button>
+            </div>
+            <Transition
+              enter="transition duration-100 ease-out"
+              enterFrom="transform scale-95 opacity-0"
+              enterTo="transform scale-100 opacity-100"
+              leave="transition duration-75 ease-out"
+              leaveFrom="transform scale-100 opacity-100"
+              leaveTo="transform scale-95 opacity-0"
+            >
+              <Disclosure.Panel className="mx-4 mb-4 space-y-4">
+                <label className="font-semibold text-base">
+                  Title
+                  <input
+                    type="text"
+                    id="title"
+                    value={lessonTitle}
+                    onChange={(e) => setLessonTitle(e.target.value)}
+                    className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 block w-full appearance-none leading-normal resize-y prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mb-4"
+                  />
+                </label>
+
+                <label className="font-semibold text-base">
+                  Tag
+                  <input
+                    type="text"
+                    id="tag"
+                    className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 block w-full appearance-none leading-normal resize-y prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mb-4"
+                  />
+                </label>
+
+                <label className="font-semibold text-base">
+                  Description
+                  <textarea
+                    rows={5}
+                    id="description"
+                    value={lessonDescription}
+                    onChange={(e) => setLessonDescription(e.target.value)}
+                    className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 blockappearance-none leading-normal resize-y prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 w-full"
+                  />
+                </label>
+
+                <div className="flex flew-row justify-between">
+                  <span className="font-semibold text-base self-center">
+                    Video
+                  </span>
+                  <button className="font-semibold text-base text-blue-500 border border-transparent  hover:border hover:border-blue-500 py-2 px-4 rounded">
+                    Replace Video
+                  </button>
+                </div>
+
+                <MuxPlayer playbackId={lesson.videoResourceId} />
+
+                <button
+                  className="px-4 py-2 bg-blue-500  hover:bg-blue-400  text-white  rounded flex flex-row gap-1 align-middle justify-center place-self-center font-medium disabled:opacity-50"
+                  disabled={isSubmitting}
+                  onClick={async () => {
+                    setIsSubmitting(true)
+                    setDisplayTitle(lessonTitle)
+                    await updateLessonMutation.mutateAsync({
+                      lessonId: lesson.id,
+                      title: lessonTitle,
+                      description: lessonDescription,
+                    })
+                  }}
+                >
+                  {isSubmitting ? (
+                    <Spinner
+                      size={4}
+                      className={`text-black dark:text-white`}
+                    />
+                  ) : (
+                    'Save'
+                  )}
+                </button>
+              </Disclosure.Panel>
+            </Transition>
+          </>
+        )}
+      </Disclosure>
+      <hr />
+    </li>
+  )
+}
+
 const LessonList = ({
   courseId,
   setDialog,
@@ -590,48 +770,18 @@ const LessonList = ({
   return lessons ? (
     <div>
       <ul>
-        {lessons.map((lesson: LessonResource, index: number) => {
+        {lessons.map((lesson: SanityLesson, index: number) => {
           return (
-            <li key={lesson.slug}>
-              <div className="flex py-2 font-semibold leading-tight">
-                <div className="flex items-center mr-2 space-x-2">
-                  {lesson.icon_url && (
-                    <div className="flex items-center flex-shrink-0 w-8">
-                      <Image src={lesson.icon_url} width={24} height={24} />
-                    </div>
-                  )}
-                </div>
-                {lesson.path && (
-                  <div className="flex flex-col ">
-                    <div>
-                      <Link href={lesson.path}>
-                        <a className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100">
-                          {lesson.title}
-                        </a>
-                      </Link>
-                    </div>
-                    <div className="text-xs text-gray-700 dark:text-gray-500">
-                      {lesson.duration
-                        ? convertTimeWithTitles(lesson.duration, {
-                            showSeconds: true,
-                          })
-                        : '0m 0s'}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </li>
+            <LessonListItem lesson={lesson} key={lesson.id} index={index} />
           )
         })}
       </ul>
-      <button
-        className="w-full h-10 mt-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 rounded-b  flex justify-center"
-        onClick={() => setDialog(true)}
-      >
-        <PlusCircleIcon className=" place-self-center" height={20} />
-      </button>
     </div>
-  ) : null
+  ) : (
+    <p className="text-lg font-semibold text-black dark:text-white">
+      You haven't created any lessons yet!
+    </p>
+  )
 }
 
 const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
@@ -898,22 +1048,23 @@ const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             </div> */}
             <section className="mt-8">
               <div className="flex flex-col mb-2 space-y-4 ">
-                <div className="flex flex-row gap-4">
-                  <h2 className="text-xl font-bold">Course Content</h2>
+                <div className="flex flex-row gap-4 justify-between">
+                  <div>
+                    <h2 className="text-lg font-bold cursor-default">
+                      Conent Editor
+                    </h2>
+                    <div className="text-sm font-normal text-gray-600 dark:text-gray-300 cursor-default">
+                      {duration && `${convertTimeWithTitles(duration)} • `}
+                      {lessons.length + playlistLessons.length} lessons{' '}
+                    </div>
+                  </div>
                   <button
-                    className="w-10 h-8 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 rounded flex justify-center place-self-center"
+                    className="px-4 py-2 bg-blue-500  hover:bg-blue-400  text-white  rounded flex flex-row gap-1 align-middle justify-center place-self-center font-medium"
                     onClick={() => setDialogIsOpen(true)}
                   >
-                    <PlusCircleIcon
-                      className=" place-self-center "
-                      height={20}
-                    />
+                    <PlusIcon className="self-center" height={16} />
+                    Add Lesson
                   </button>
-                </div>
-
-                <div className="text-sm font-normal text-gray-600 dark:text-gray-300">
-                  {duration && `${convertTimeWithTitles(duration)} • `}
-                  {lessons.length + playlistLessons.length} lessons{' '}
                 </div>
               </div>
 

@@ -55,6 +55,18 @@ type SanityCourse = {
   searchIndexingState: string
 }
 
+const SanityLesson = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  type: z.string(),
+  icon_url: z.string(),
+  duration: z.number(),
+  path: z.string(),
+  videoResourceId: z.string(),
+})
+type SanityLesson = z.infer<typeof SanityLesson>
+
 const createSanityCourse = async (sanityCourse: SanityCourse) => {
   let transaction = sanityClient.transaction()
 
@@ -142,24 +154,29 @@ export const instructorRouter = router({
         courseId: z.string(),
       }),
     )
+    .output(z.array(SanityLesson))
     .query(async ({input, ctx}) => {
       const {courseId} = input
 
       const query = groq`*[_type == 'course' && _id == $id][0]{
         lessons[]-> {
+          "id": _id,
           title,
+          description,
           "type": _type,
-          "thumb_url": thumbnailUrl,
-          "http_url": awsFilename,
           "icon_url": softwareLibraries[0].library->image.url,
           "duration": resource->duration,
-          "path": "/lessons/" + slug.current
+          "path": "/lessons/" + slug.current,
+          "videoResourceId": resource->muxAsset.muxPlaybackId
         },
      }`
 
-      let {lessons} = await sanityClient.fetch(query, {
-        id: courseId,
-      })
+      let {lessons} = await sanityClient.fetch<{lessons: SanityLesson[]}>(
+        query,
+        {
+          id: courseId,
+        },
+      )
 
       let lessonsWithDefaultImage = lessons.map((lesson: any) => {
         if (!lesson.icon_url) {
@@ -247,5 +264,20 @@ export const instructorRouter = router({
           console.log('ERROR', err)
           return err
         })
+    }),
+  updateLesson: baseProcedure
+    .input(
+      z.object({
+        title: z.string().optional(),
+        description: z.string().optional(),
+        lessonId: z.string(),
+      }),
+    )
+    .mutation(async ({input, ctx}) => {
+      const {title, description, lessonId} = input
+
+      const lessonPatch = sanityClient.patch(lessonId).set({title, description})
+
+      return lessonPatch.commit()
     }),
 })

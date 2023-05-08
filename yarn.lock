@@ -3423,6 +3423,40 @@
     esdoc-ecmascript-proposal-plugin "^1.0.0"
     jsonwebtoken "^9.0.0"
 
+"@mux/mux-player-react@^1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@mux/mux-player-react/-/mux-player-react-1.11.0.tgz#a5282ce2dead20c1bcc55c1d7abdfbd28876e71c"
+  integrity sha512-OtdW0XMvg2wDJ+yZG27xPJCNrAm/j2itMrp/xd/eT++rueL2wjMTThrB/26HG2vL64MVF7chcCsGCH1xgWy+PA==
+  dependencies:
+    "@mux/mux-player" "1.11.0"
+    "@mux/playback-core" "0.18.1"
+    prop-types "^15.7.2"
+
+"@mux/mux-player@1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@mux/mux-player/-/mux-player-1.11.0.tgz#05a46461f7d5ccd2ce94046a9af7f9d48757badf"
+  integrity sha512-Gvo+KB88+ZZ3wVxiu4huMK79Dmdben58Oy0jjjSu90H0Ve+t0aaizjqvGzlil43HRnGthhG1KcLzPCCGZUI5Kg==
+  dependencies:
+    "@mux/mux-video" "0.15.2"
+    "@mux/playback-core" "0.18.1"
+    media-chrome "0.21.1"
+
+"@mux/mux-video@0.15.2":
+  version "0.15.2"
+  resolved "https://registry.yarnpkg.com/@mux/mux-video/-/mux-video-0.15.2.tgz#cec5e0abc67d6125bfdd7cb6752df013aa2855da"
+  integrity sha512-uYaQtA529WyVKKMO8aBy6bDFQAzdyT7LwzeMmh3ZIJL+lpCrWhUKHZMsqPvcRVtdlPTEV/yO1ERNNdo4f8J2gg==
+  dependencies:
+    "@mux/playback-core" "0.18.1"
+    castable-video "^0.5.2"
+
+"@mux/playback-core@0.18.1":
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/@mux/playback-core/-/playback-core-0.18.1.tgz#65740af719d4c9d2b9f7bf35d9f30dbe4184ce0a"
+  integrity sha512-apBkbf341UgEPT2UcaSK3jyk1gxud2uW+aT6o4ZQI+PUUSsq2eWMejBD2CSzRR589mwfWH7bOa0oxEZnBuduww==
+  dependencies:
+    hls.js "1.4.1"
+    mux-embed "^4.24.0"
+
 "@napi-rs/triples@^1.0.3":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@napi-rs/triples/-/triples-1.1.0.tgz#88c35b72e79a20b79bb4c9b3e2817241a1c9f4f9"
@@ -8685,6 +8719,11 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
+castable-video@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/castable-video/-/castable-video-0.5.2.tgz#cb0d3ec7336cbf163370c3d4e63bd14219c097b3"
+  integrity sha512-eP19NY8AF9G+Xj87R447GMkWuUc0W3DSNx5qOypH/+mr2aaHRONaIK5H4bxMgpXZslZ2vNNvCuVuKi3VdCUGEA==
+
 ccount@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ccount/-/ccount-1.1.0.tgz#246687debb6014735131be8abab2d93898f8d043"
@@ -13022,6 +13061,11 @@ hls.js@1.0.7:
   resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.7.tgz#b4ab75e7a46650d02245a1da091efd15f07d16eb"
   integrity sha512-NsGaksvOuYNyTmu/w239EtYFMadFzIoDkmStc1FDRcrGmvxOfMGKad/hLj4NHoE8H1S+Q8dT7HufMJJ6yiht7g==
 
+hls.js@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.4.1.tgz#0792582650e5dd4517f7ebbf8cd3ca3b6f900bb9"
+  integrity sha512-7/RBLhnmWbEVj/UxkqBK3rcqr/a2QAbSdjdp74iRKaPLosJoPwLw9mcjl5EOv6jutd0yHL8yGH3pSuUjNzRMyA==
+
 hls.js@^1.0.9:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.9.tgz#a3b92a0a2a4cdb3076c09639a8e06463b3a189f5"
@@ -15798,6 +15842,11 @@ mdx-bundler@^5.2.1:
     uuid "^8.3.2"
     xdm "^1.12.2"
 
+media-chrome@0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/media-chrome/-/media-chrome-0.21.1.tgz#a6d1c1d2ab48db7fab6ca42cc42518a64f6c4137"
+  integrity sha512-wiGKG4tucT5rYcHpaD9iV2W7xmQ8Ru/d1+zxpUpQarMJLlgKQ8/saZItFw7/UAIlss2QrLRGT/pPeg98MOI4Mg==
+
 media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
@@ -16307,6 +16356,11 @@ ms@^2.1.1:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
+
+mux-embed@^4.24.0:
+  version "4.25.0"
+  resolved "https://registry.yarnpkg.com/mux-embed/-/mux-embed-4.25.0.tgz#c220c56b42e1146b907a98eae97fdf9a40224199"
+  integrity sha512-All8AX518RikaOW8VYLne77WQN0UVNSgBQ8E9JKBulhnHAotSWDmMnERKG+jKkm+g0UjTJFcg0lRgg9ecaPsvA==
 
 mux.js@6.0.1:
   version "6.0.1"
