@@ -332,7 +332,7 @@ const DescriptionChangeForm: React.FunctionComponent<RequestDraftCourseFormProps
                         autoFocus
                         required
                         disabled={isSubmitting || !state.matches('edit')}
-                        className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md w-full appearance-none resize-y prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600"
+                        className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md w-full appearance-none  prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600"
                       />
                     </div>
                   ) : (
@@ -344,7 +344,7 @@ const DescriptionChangeForm: React.FunctionComponent<RequestDraftCourseFormProps
                         {currentDescription && (
                           <Markdown
                             allowDangerousHtml
-                            className="mb-6 text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 resize-y prose dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600"
+                            className="mb-6 mt-2 px-4 text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100  prose dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600"
                           >
                             {currentDescription}
                           </Markdown>
