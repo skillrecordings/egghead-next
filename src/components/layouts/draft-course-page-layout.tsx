@@ -184,7 +184,13 @@ const TitleChangeForm: React.FunctionComponent<RequestDraftCourseFormProps> = ({
               <div className="relative flex flex-col sm:flex-row sm:space-y-0 sm:space-x-2 text-center sm:text-left">
                 {state.matches('edit') || state.matches('loading') ? (
                   <div className="container w-full px-0">
-                    <div className="flex flex-row-reverse gap-2 absolute -top-6 right-4 z-10">
+                    <div className="flex flex-row-reverse gap-1 absolute -top-6 right-0 z-10">
+                      <button type="submit" disabled={isSubmitting}>
+                        <CheckCircleIcon
+                          className="text-green-400"
+                          height={20}
+                        />
+                      </button>
                       <button
                         type="button"
                         onClick={() => {
@@ -193,12 +199,6 @@ const TitleChangeForm: React.FunctionComponent<RequestDraftCourseFormProps> = ({
                         }}
                       >
                         <XCircleIcon className="text-red-400" height={20} />
-                      </button>
-                      <button type="submit" disabled={isSubmitting}>
-                        <CheckCircleIcon
-                          className="text-green-400"
-                          height={20}
-                        />
                       </button>
                     </div>
                     <textarea
@@ -209,18 +209,17 @@ const TitleChangeForm: React.FunctionComponent<RequestDraftCourseFormProps> = ({
                       onChange={handleChange}
                       onBlur={handleBlur}
                       required
+                      autoFocus
                       disabled={isSubmitting || !state.matches('edit')}
                       className="p-2 text-2xl font-bold leading-tight text-center sm:text-3xl md:text-4xl md:leading-tighter md:text-left md:mt-0 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md w-full max-w-[34ch] break-normal"
                     />
                   </div>
                 ) : (
                   <>
-                    <div className="container relative px-0">
-                      <PencilAltIcon
-                        height={20}
-                        className="absolute -top-6 right-2 z-10 text-gray-400 cursor-pointer"
-                        onClick={() => send({type: 'EDIT'})}
-                      />
+                    <div
+                      className="container relative px-0 cursor-pointer border-2 border-transparent hover:box-border hover:border-2 hover:border-blue-500 rounded hover:bg-gray-100"
+                      onClick={() => send({type: 'EDIT'})}
+                    >
                       <h1 className="p-2 mt-4 text-2xl font-bold leading-tight text-center sm:text-3xl md:text-4xl md:leading-tighter md:text-left md:mt-0">
                         {currentTitle}
                       </h1>
@@ -303,7 +302,13 @@ const DescriptionChangeForm: React.FunctionComponent<RequestDraftCourseFormProps
                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2o">
                   {state.matches('edit') || state.matches('loading') ? (
                     <div className="relative w-full">
-                      <div className="flex flex-row-reverse gap-2 absolute top-4 right-2 z-10">
+                      <div className="flex flex-row-reverse gap-1 absolute -top-6 right-0 z-10">
+                        <button type="submit" disabled={isSubmitting}>
+                          <CheckCircleIcon
+                            className="text-green-400"
+                            height={20}
+                          />
+                        </button>
                         <button
                           type="button"
                           onClick={() => {
@@ -312,12 +317,6 @@ const DescriptionChangeForm: React.FunctionComponent<RequestDraftCourseFormProps
                           }}
                         >
                           <XCircleIcon className="text-red-400" height={20} />
-                        </button>
-                        <button type="submit" disabled={isSubmitting}>
-                          <CheckCircleIcon
-                            className="text-green-400"
-                            height={20}
-                          />
                         </button>
                       </div>
                       <textarea
@@ -330,23 +329,22 @@ const DescriptionChangeForm: React.FunctionComponent<RequestDraftCourseFormProps
                         }
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        autoFocus
                         required
                         disabled={isSubmitting || !state.matches('edit')}
-                        className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 block w-full appearance-none leading-normal resize-y prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mt-14"
+                        className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md w-full appearance-none resize-y prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600"
                       />
                     </div>
                   ) : (
                     <>
-                      <div className="container relative px-0">
-                        <PencilAltIcon
-                          height={20}
-                          className="absolute top-4 right-2 z-10 text-gray-400 cursor-pointer"
-                          onClick={() => send({type: 'EDIT'})}
-                        />
+                      <div
+                        className="container px-0 cursor-pointer border-2 border-transparent hover:box-border hover:border-2 hover:border-blue-500 rounded hover:bg-gray-100"
+                        onClick={() => send({type: 'EDIT'})}
+                      >
                         {currentDescription && (
                           <Markdown
                             allowDangerousHtml
-                            className="mb-6 mt-14 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600"
+                            className="mb-6 text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 resize-y prose dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600"
                           >
                             {currentDescription}
                           </Markdown>
