@@ -180,8 +180,6 @@ export const instructorRouter = router({
         },
       )
 
-      console.log({lessons})
-
       let lessonsWithDefaultImage = lessons.map((lesson: any) => {
         if (!lesson.icon_url) {
           lesson.icon_url =
@@ -214,8 +212,6 @@ export const instructorRouter = router({
       })
 
       const videoResourceId = nanoid()
-
-      console.log({instructorId})
 
       const videoResource = {
         _id: videoResourceId,
@@ -294,15 +290,13 @@ export const instructorRouter = router({
     .mutation(async ({input, ctx}) => {
       const {lessons, courseId} = input
 
-      const coursePatch = sanityClient
-        .patch(courseId)
-        .set({
-          lessons: lessons.map((lesson) => ({
-            _ref: lesson.id,
-            _key: lesson.key,
-            _type: 'reference',
-          })),
-        })
+      const coursePatch = sanityClient.patch(courseId).set({
+        lessons: lessons.map((lesson) => ({
+          _ref: lesson.id,
+          _key: lesson.key,
+          _type: 'reference',
+        })),
+      })
 
       return coursePatch.commit()
     }),
