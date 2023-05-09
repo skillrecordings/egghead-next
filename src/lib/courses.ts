@@ -1,6 +1,7 @@
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import {loadPlaylist} from './playlists'
+import {z} from 'zod'
 
 const courseQuery = groq`
 *[_type == 'resource' && externalId == $courseId][0]{
@@ -175,5 +176,43 @@ export async function loadDraftSanityCourseById(id: string, token?: string) {
     ...course,
   }
 
-  return courseWithDefaults
+  return SanityDraftCourse.parse(courseWithDefaults)
 }
+
+const SanityLesson = z.object({
+  key: z.string(),
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  type: z.string(),
+  icon_url: z.string(),
+  duration: z.number(),
+  path: z.string(),
+  videoResourceId: z.string(),
+})
+export type SanityLesson = z.infer<typeof SanityLesson>
+
+const SanityDraftCourse = z.object({
+  id: z.string(),
+  title: z.string(),
+  slug: z.string(),
+  square_cover_480_url: z.string(),
+  productionProcessState: z.string(),
+  description: z.string(),
+  lessons: z.array(SanityLesson),
+  instructor: z.object({
+    avatar_url: z.string(),
+    full_name: z.string(),
+    slug: z.string(),
+    id: z.string(),
+  }),
+  tags: z.array(
+    z.object({
+      name: z.string(),
+      label: z.string(),
+      http_url: z.string(),
+      image_url: z.string(),
+    }),
+  ),
+})
+export type SanityDraftCourse = z.infer<typeof SanityDraftCourse>
