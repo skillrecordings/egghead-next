@@ -25,12 +25,14 @@ async function createMuxAsset({
   muxAsset: MuxAsset
 }) {
   if (!muxAsset?.muxAssetId) {
-    const {Video} = new Mux()
+    const {Video} = new Mux(
+      process.env.MUX_TOKEN_ID || '',
+      process.env.MUX_SECRET_KEY || '',
+    )
     const newMuxAsset = await Video.Assets.create({
       input: originalVideoUrl,
       playback_policy: ['public'],
     })
-
     return {
       muxAssetId: newMuxAsset.id,
       muxPlaybackId: newMuxAsset.playback_ids?.find((playback_id) => {
