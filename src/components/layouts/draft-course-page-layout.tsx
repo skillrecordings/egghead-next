@@ -375,13 +375,13 @@ const DescriptionChangeForm: React.FunctionComponent<RequestDraftCourseFormProps
                         autoFocus
                         required
                         disabled={isSubmitting || !state.matches('edit')}
-                        className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md w-full appearance-none  prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600"
+                        className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md w-full appearance-none  prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 "
                       />
                     </div>
                   ) : (
                     <>
                       <div
-                        className="container px-0 cursor-pointer border-2 border-transparent hover:box-border hover:border-2 hover:border-blue-500 rounded hover:bg-gray-100 hover:dark:bg-gray-800"
+                        className="container px-0 cursor-pointer border-2 border-transparent hover:box-border hover:border-2 hover:border-blue-500 rounded hover:bg-gray-100 hover:dark:bg-gray-800 min-h-[40rem]"
                         onClick={() => send({type: 'EDIT'})}
                       >
                         {currentDescription && (
