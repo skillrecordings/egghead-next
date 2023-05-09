@@ -33,6 +33,8 @@
     "@asbjorn/eslint-plugin-groq": "^1.0.0",
     "@babel/plugin-transform-react-pure-annotations": "^7.14.5",
     "@casl/ability": "^5.4.3",
+    "@dnd-kit/core": "^6.0.8",
+    "@dnd-kit/sortable": "^7.0.2",
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^1.0.4",
     "@mdx-js/mdx": "^2.0.0-next.9",

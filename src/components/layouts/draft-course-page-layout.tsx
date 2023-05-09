@@ -39,6 +39,23 @@ import VideoUploader from 'components/upload/video-uploader'
 import cx from 'classnames'
 import MuxPlayer from '@mux/mux-player-react'
 import {z} from 'zod'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DraggableSyntheticListeners,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable'
+import {AnyClass} from '@casl/ability/dist/types/types'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -68,6 +85,7 @@ type SanitySoftwareLibrary = {
 }
 
 const SanityLesson = z.object({
+  key: z.string(),
   id: z.string(),
   title: z.string(),
   description: z.string(),
@@ -582,10 +600,14 @@ const LessonCreationDialog = ({
 
 const LessonListItem = ({
   lesson,
-  index,
+  handle,
+  handleProps,
+  listeners,
 }: {
   lesson: SanityLesson
-  index: number
+  handle?: boolean
+  handleProps: any
+  listeners: DraggableSyntheticListeners
 }) => {
   const [displayTitle, setDisplayTitle] = React.useState(lesson.title)
   const [lessonTitle, setLessonTitle] = React.useState(lesson.title)
@@ -619,23 +641,25 @@ const LessonListItem = ({
   })
 
   return (
-    <li key={lesson.path} className="w-[45ch]">
+    <li className="w-[45ch]">
       <Disclosure>
         {({open}) => (
           <>
             <div className="flex py-2 font-semibold leading-tight justify-between">
               <div className="flex">
                 <div className="flex items-center mr-2 space-x-2 cursor-grab">
-                  <div className="flex">
-                    <DotsVerticalIcon
-                      height={20}
-                      className="text-gray-700 dark:text-gray-500"
-                    />
-                    <DotsVerticalIcon
-                      height={20}
-                      className="text-gray-700 dark:text-gray-500 -ml-[14px]"
-                    />
-                  </div>
+                  {handle ? (
+                    <div className="flex" ref={handleProps.ref} {...listeners}>
+                      <DotsVerticalIcon
+                        height={20}
+                        className="text-gray-700 dark:text-gray-500"
+                      />
+                      <DotsVerticalIcon
+                        height={20}
+                        className="text-gray-700 dark:text-gray-500 -ml-[14px]"
+                      />
+                    </div>
+                  ) : null}
                   {lesson.icon_url && (
                     <div className="flex items-center flex-shrink-0 w-8">
                       <Image src={lesson.icon_url} width={24} height={24} />
@@ -756,6 +780,45 @@ const LessonListItem = ({
   )
 }
 
+const SortableLessonListItem = ({
+  lesson,
+  handle,
+}: {
+  lesson: SanityLesson
+  handle?: boolean
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    setActivatorNodeRef,
+  } = useSortable({id: lesson.id})
+
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+      }
+    : undefined
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...(!handle ? listeners : undefined)}
+    >
+      <LessonListItem
+        lesson={lesson}
+        handle={handle}
+        handleProps={handle ? {ref: setActivatorNodeRef} : undefined}
+        listeners={listeners}
+      />
+    </div>
+  )
+}
+
 const LessonList = ({
   courseId,
   setDialog,
@@ -770,17 +833,90 @@ const LessonList = ({
   return lessons ? (
     <div>
       <ul>
-        {lessons.map((lesson: SanityLesson, index: number) => {
-          return (
-            <LessonListItem lesson={lesson} key={lesson.id} index={index} />
-          )
-        })}
+        <SortableLessonList lessons={lessons} courseId={courseId} handle />
       </ul>
     </div>
   ) : (
     <p className="text-lg font-semibold text-black dark:text-white">
       You haven't created any lessons yet!
     </p>
+  )
+}
+
+const SortableLessonList: React.FunctionComponent<{
+  lessons: SanityLesson[]
+  handle: boolean
+  courseId: string
+}> = ({lessons, handle, courseId}) => {
+  const [sortedLessons, setSortedLessons] = React.useState(lessons)
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  )
+  const timeout = React.useRef<any>()
+  const updateCourseListOrderMutation =
+    trpc.instructor.updateLessonListOrder.useMutation({
+      onSuccess: (data) => {
+        toast.success(`Lesson order has been updated.`, {
+          duration: 6000,
+          icon: '✅',
+        })
+      },
+      onError: (error) => {
+        setSortedLessons(lessons)
+        toast.error(
+          `There was a problem updating the lesson order, reset back to original. Contact egghead staff if the issue persists.`,
+          {
+            duration: 6000,
+            icon: '❌',
+          },
+        )
+      },
+    })
+
+  function handleDragEnd(event: any) {
+    clearTimeout(timeout.current)
+
+    const {active, over} = event
+
+    const oldIndex = sortedLessons.findIndex((obj) => obj.id === active.id)
+    const newIndex = sortedLessons.findIndex((obj) => obj.id === over.id)
+
+    if (active.id !== over.id) {
+      setSortedLessons((sortedLessons) => {
+        let newSortedLessons = arrayMove(sortedLessons, oldIndex, newIndex)
+
+        timeout.current = setTimeout(() => {
+          updateCourseListOrderMutation.mutate({
+            courseId,
+            lessons: newSortedLessons.map((lesson) => {
+              return {id: lesson.id, key: lesson.key}
+            }),
+          })
+        }, 3000)
+
+        return arrayMove(sortedLessons, oldIndex, newIndex)
+      })
+    }
+  }
+
+  return (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={sortedLessons}
+        strategy={verticalListSortingStrategy}
+      >
+        {sortedLessons.map((lesson) => (
+          <SortableLessonListItem key={lesson.id} lesson={lesson} handle />
+        ))}
+      </SortableContext>
+    </DndContext>
   )
 }
 

@@ -56,6 +56,7 @@ type SanityCourse = {
 }
 
 const SanityLesson = z.object({
+  key: z.string(),
   id: z.string(),
   title: z.string(),
   description: z.string(),
@@ -159,17 +160,18 @@ export const instructorRouter = router({
       const {courseId} = input
 
       const query = groq`*[_type == 'course' && _id == $id][0]{
-        lessons[]-> {
-          "id": _id,
-          title,
-          description,
-          "type": _type,
-          "icon_url": softwareLibraries[0].library->image.url,
-          "duration": resource->duration,
-          "path": "/lessons/" + slug.current,
-          "videoResourceId": resource->muxAsset.muxPlaybackId
+        lessons[] {
+          "key": _key,
+          "id":_ref,
+          "title": @->title,
+          "description": @->description,
+          "type": @-> _type,
+          "icon_url": @-> softwareLibraries[0].library->image.url,
+          "duration": @-> resource->duration,
+          "path": "/lessons/" + @-> slug.current,
+          "videoResourceId": @->resource->muxAsset.muxPlaybackId
         },
-     }`
+      }`
 
       let {lessons} = await sanityClient.fetch<{lessons: SanityLesson[]}>(
         query,
@@ -177,6 +179,8 @@ export const instructorRouter = router({
           id: courseId,
         },
       )
+
+      console.log({lessons})
 
       let lessonsWithDefaultImage = lessons.map((lesson: any) => {
         if (!lesson.icon_url) {
@@ -279,5 +283,27 @@ export const instructorRouter = router({
       const lessonPatch = sanityClient.patch(lessonId).set({title, description})
 
       return lessonPatch.commit()
+    }),
+  updateLessonListOrder: baseProcedure
+    .input(
+      z.object({
+        lessons: z.array(z.object({id: z.string(), key: z.string()})),
+        courseId: z.string(),
+      }),
+    )
+    .mutation(async ({input, ctx}) => {
+      const {lessons, courseId} = input
+
+      const coursePatch = sanityClient
+        .patch(courseId)
+        .set({
+          lessons: lessons.map((lesson) => ({
+            _ref: lesson.id,
+            _key: lesson.key,
+            _type: 'reference',
+          })),
+        })
+
+      return coursePatch.commit()
     }),
 })
