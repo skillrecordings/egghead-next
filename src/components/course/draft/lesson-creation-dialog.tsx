@@ -5,6 +5,9 @@ import useFileUploadReducer from 'hooks/use-file-upload-reducer'
 import React from 'react'
 import toast from 'react-hot-toast'
 import {trpc} from 'trpc/trpc.client'
+import cx from 'classnames'
+import Spinner from 'components/spinner'
+import {twMerge} from 'tailwind-merge'
 
 const LessonCreationForm: React.FunctionComponent<any> = ({
   setIsOpen,
@@ -37,6 +40,10 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
       )
     },
   })
+
+  const uploadingFile = fileUploadState?.files[0]
+  console.log({uploadingFile})
+  console.log({fileUploadState})
 
   return (
     <Formik
@@ -97,7 +104,14 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
                   className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 blockappearance-none leading-normal resize-y prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 w-96"
                 />
               </label>
-              <label className="flex justify-center h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
+              <label
+                className={twMerge(
+                  'flex justify-center h-32 px-4 transition-all bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none',
+                  cx({
+                    hidden: uploadingFile,
+                  }),
+                )}
+              >
                 <span className="flex items-center space-x-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -119,6 +133,32 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
                   </span>
                 </span>
                 <VideoUploader dispatch={dispatch} />
+              </label>
+              <label
+                className={twMerge(
+                  'flex justify-center h-32 px-4 transition-all bg-white border-2 border-gray-300 rounded-md appearance-none hover:border-gray-400 focus:outline-none',
+                  cx({
+                    hidden: !uploadingFile,
+                  }),
+                )}
+              >
+                <span className="flex items-center space-x-2">
+                  {uploadingFile?.percent === 100 ? (
+                    <>
+                      ✅
+                      <span className="font-medium text-gray-600 ml-2">
+                        {uploadingFile?.file?.name} uploaded
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <Spinner className="text-black dark:text-white" />
+                      <span className="font-medium text-gray-600">
+                        {uploadingFile?.file?.name} uploading...
+                      </span>
+                    </>
+                  )}
+                </span>
               </label>
               <div className="space-x-4 mt-4">
                 <button
