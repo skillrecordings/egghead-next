@@ -12,7 +12,7 @@ const VideoUploader = ({
   multiple,
 }: {
   dispatch: DispatchFunction
-  multiple: boolean
+  multiple?: boolean
 }) => {
   const uploaderRef = React.useRef(null)
 
