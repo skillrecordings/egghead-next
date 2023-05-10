@@ -87,7 +87,7 @@ const LessonListItem = ({
       <Disclosure>
         {({open}) => (
           <>
-            <div className="flex py-2 font-semibold leading-tight justify-between">
+            <div className="flex py-2 font-semibold leading-tight justify-between h-[3rem]">
               <div className="flex">
                 <div className="flex items-center mr-2 space-x-2 cursor-grab">
                   {handle ? (
@@ -117,13 +117,13 @@ const LessonListItem = ({
                         </a>
                       </Link>
                     </div>
-                    <div className="text-xs text-gray-700 dark:text-gray-500">
+                    {/* <div className="text-xs text-gray-700 dark:text-gray-500">
                       {lesson.duration
                         ? convertTimeWithTitles(lesson.duration, {
                             showSeconds: true,
                           })
                         : '0m 0s'}
-                    </div>
+                    </div> */}
                   </div>
                 )}
               </div>
