@@ -10,7 +10,7 @@ const sanityClient = client({
   token: process.env.SANITY_EDITOR_TOKEN,
 })
 
-const secret = process.env.SANITY_WEBHOOK_SECRET || ''
+const secret = process.env.SANITY_WEBHOOK_CREATED_SECRET || ''
 
 interface MuxAsset {
   muxAssetId: string

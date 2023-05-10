@@ -20,12 +20,16 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
-import {Disclosure, Transition} from '@headlessui/react'
+import {Dialog, Disclosure, Transition} from '@headlessui/react'
 import {ChevronDownIcon, DotsVerticalIcon} from '@heroicons/react/solid'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import {trpc} from 'trpc/trpc.client'
 import Spinner from 'components/spinner'
 import {z} from 'zod'
+import {Form, Formik} from 'formik'
+import VideoUploader from 'components/upload/video-uploader'
+import {twMerge} from 'tailwind-merge'
+import useFileUploadReducer from 'hooks/use-file-upload-reducer'
 
 const SanityLessonSchema = z.object({
   key: z.string(),
@@ -39,6 +43,208 @@ const SanityLessonSchema = z.object({
   videoResourceId: z.string(),
 })
 type SanityLessonType = z.infer<typeof SanityLessonSchema>
+
+const VideoResourceUpdateForm: React.FunctionComponent<any> = ({
+  setIsOpen,
+  lessonId,
+  lessonTitle,
+}) => {
+  const [fileUploadState, dispatch] = useFileUploadReducer([])
+
+  const isUploaded = fileUploadState.files[0]?.percent === 100
+
+  const createLessonMutation = trpc.instructor.replaceLessonVideo.useMutation<{
+    description: string
+    lessonId: string
+    title: string
+  }>({
+    onSuccess: (data) => {
+      toast.success(`${lessonTitle} video updated`, {
+        duration: 6000,
+        icon: '✅',
+      })
+    },
+    onError: (error) => {
+      toast.error(
+        `There was a problem updating the video for this lesson. Contact egghead staff if the issue persists.`,
+        {
+          duration: 6000,
+          icon: '❌',
+        },
+      )
+    },
+  })
+
+  const uploadingFile = fileUploadState?.files[0]
+  return (
+    <Formik
+      initialValues={{
+        title: undefined,
+        description: undefined,
+        lessons: undefined,
+      }}
+      // validationSchema={emailChangeSchema}
+      onSubmit={async (values) => {
+        // Use the response from this later to update the lesson list.
+        // We could also just do an optimistic update here.
+        await createLessonMutation.mutateAsync({
+          lessonId,
+          originalVideoUrl: fileUploadState.files[0].signedUrl as string,
+          title: lessonTitle,
+        })
+        setIsOpen(false)
+      }}
+    >
+      {(props) => {
+        const {
+          values,
+          isSubmitting,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+        } = props
+        return (
+          <Form className="grow w-full" onSubmit={handleSubmit}>
+            <div className="w-full mt-4 space-y-4 p-8">
+              <label
+                className={twMerge(
+                  'flex justify-center h-48 px-4 transition-all bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none',
+                  cx({
+                    hidden: uploadingFile,
+                  }),
+                )}
+              >
+                <span className="flex items-center space-x-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-6 h-6 text-gray-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    />
+                  </svg>
+                  <span className="font-medium text-gray-600">
+                    Drop video files, or{' '}
+                    <span className="text-blue-600 underline">browse</span>
+                  </span>
+                </span>
+                <VideoUploader dispatch={dispatch} />
+              </label>
+              <label
+                className={twMerge(
+                  'flex justify-center h-48 px-4 transition-all bg-white border-2 border-gray-300 rounded-md appearance-none hover:border-gray-400 focus:outline-none',
+                  cx({
+                    hidden: !uploadingFile,
+                  }),
+                )}
+              >
+                <span className="flex items-center space-x-2">
+                  {uploadingFile?.percent === 100 ? (
+                    <>
+                      ✅
+                      <span className="font-medium text-gray-600 ml-2">
+                        {uploadingFile?.file?.name} uploaded
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <Spinner className="text-black dark:text-white" />
+                      <span className="font-medium text-gray-600">
+                        {uploadingFile?.file?.name} uploading...
+                      </span>
+                    </>
+                  )}
+                </span>
+              </label>
+              <div className="space-x-4 mt-12">
+                <button
+                  className=" bg-blue-500 hover:bg-blue-600 py-2 px-4 rounded text-white disabled:bg-gray-200 disabled:hover:cursor-not-allowed"
+                  type="submit"
+                  disabled={!isUploaded}
+                >
+                  Submit
+                </button>
+                <button
+                  className=" py-2 px-4 rounded text-red-500 hover:bg-red-50"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </Form>
+        )
+      }}
+    </Formik>
+  )
+}
+
+export const VideoResourceUpdateDialog = ({
+  isOpen,
+  setIsOpen,
+  sanityLessonId,
+  lessonTitle,
+}: {
+  isOpen: boolean
+  setIsOpen: Function
+  sanityLessonId: string
+  lessonTitle: string
+}) => {
+  return (
+    <Transition show={isOpen} as="div">
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="relative z-50 w-full"
+      >
+        <Transition.Child
+          as={React.Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div
+            className="fixed inset-0 bg-black/30 dark:bg-white/30"
+            aria-hidden="true"
+          />
+        </Transition.Child>
+        <Transition.Child
+          as={React.Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0 scale-95"
+          enterTo="opacity-100 scale-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100 scale-100"
+          leaveTo="opacity-0 scale-95"
+        >
+          <div className="fixed inset-0 flex items-center justify-center p-4 w-full">
+            <Dialog.Panel className="flex flex-col items-center max-w-lg rounded dark:bg-gray-900 bg-white dark:text-gray-200 text-black p-8 w-full">
+              <Dialog.Title className=" text-xl font-bold">
+                Update Video for: {lessonTitle}
+              </Dialog.Title>
+
+              <VideoResourceUpdateForm
+                setIsOpen={setIsOpen}
+                lessonId={sanityLessonId}
+                lessonTitle={lessonTitle}
+              />
+            </Dialog.Panel>
+          </div>
+        </Transition.Child>
+      </Dialog>
+    </Transition>
+  )
+}
 
 const LessonListItem = ({
   lesson,
@@ -57,30 +263,33 @@ const LessonListItem = ({
     lesson.description,
   )
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const [upDateVideoDialogIsOpen, setUpDateVideoDialogIsOpen] =
+    React.useState(false)
 
-  const updateLessonMutation = trpc.instructor.updateLesson.useMutation<{
-    title: string
-    description: string
-    id: string
-  }>({
-    onSuccess: (data) => {
-      setIsSubmitting(false)
-      toast.success(`Your lesson has been updated.`, {
-        duration: 6000,
-        icon: '✅',
-      })
-    },
-    onError: (error) => {
-      setDisplayTitle(lesson.title)
-      toast.error(
-        `There was a problem updating your lesson. Contact egghead staff if the issue persists.`,
-        {
+  const updateLessonMutation =
+    trpc.instructor.updateLessonMetadata.useMutation<{
+      title: string
+      description: string
+      id: string
+    }>({
+      onSuccess: (data) => {
+        setIsSubmitting(false)
+        toast.success(`Your lesson has been updated.`, {
           duration: 6000,
-          icon: '❌',
-        },
-      )
-    },
-  })
+          icon: '✅',
+        })
+      },
+      onError: (error) => {
+        setDisplayTitle(lesson.title)
+        toast.error(
+          `There was a problem updating your lesson. Contact egghead staff if the issue persists.`,
+          {
+            duration: 6000,
+            icon: '❌',
+          },
+        )
+      },
+    })
 
   return (
     <li className="w-[45ch]">
@@ -183,9 +392,24 @@ const LessonListItem = ({
                   <span className="font-semibold text-base self-center">
                     Video
                   </span>
-                  <button className="font-semibold text-base text-blue-500 border border-transparent  hover:border hover:border-blue-500 py-2 px-4 rounded">
+                  <button
+                    className={twMerge(
+                      'font-semibold text-base text-blue-500 border border-transparent  hover:border hover:border-blue-500 py-2 px-4 rounded',
+                      cx({
+                        hidden: upDateVideoDialogIsOpen,
+                      }),
+                    )}
+                    onClick={() => setUpDateVideoDialogIsOpen(true)}
+                  >
                     Replace Video
                   </button>
+
+                  <VideoResourceUpdateDialog
+                    isOpen={upDateVideoDialogIsOpen}
+                    setIsOpen={setUpDateVideoDialogIsOpen}
+                    sanityLessonId={lesson.id}
+                    lessonTitle={lessonTitle}
+                  />
                 </div>
 
                 <MuxPlayer playbackId={lesson.videoResourceId} />

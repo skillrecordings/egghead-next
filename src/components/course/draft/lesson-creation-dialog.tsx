@@ -17,8 +17,6 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
 
   const isUploaded = fileUploadState.files[0]?.percent === 100
 
-  console.log({fileUploadState})
-
   const createLessonMutation = trpc.instructor.createLesson.useMutation<{
     description: string
     sanityCourseId: string
@@ -42,8 +40,6 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
   })
 
   const uploadingFile = fileUploadState?.files[0]
-  console.log({uploadingFile})
-  console.log({fileUploadState})
 
   return (
     <Formik

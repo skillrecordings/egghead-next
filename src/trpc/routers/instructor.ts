@@ -265,7 +265,7 @@ export const instructorRouter = router({
           return err
         })
     }),
-  updateLesson: baseProcedure
+  updateLessonMetadata: baseProcedure
     .input(
       z.object({
         title: z.string().optional(),
@@ -279,6 +279,52 @@ export const instructorRouter = router({
       const lessonPatch = sanityClient.patch(lessonId).set({title, description})
 
       return lessonPatch.commit()
+    }),
+  replaceLessonVideo: baseProcedure
+    .input(
+      z.object({
+        lessonId: z.string(),
+        originalVideoUrl: z.string(),
+        title: z.string(),
+      }),
+    )
+    .mutation(async ({input, ctx}) => {
+      const {lessonId, originalVideoUrl, title} = input
+
+      const videoResourceId = nanoid()
+
+      const videoResource = {
+        _id: videoResourceId,
+        _type: 'videoResource',
+        filename: `${slugify(
+          title.toLowerCase(),
+        )}-video-resource-${videoResourceId}`,
+        originalVideoUrl,
+      }
+
+      const lessonPatch = sanityClient.patch(lessonId).set({
+        resource: {
+          _key: nanoid(),
+          _ref: videoResourceId,
+          _type: 'reference',
+        },
+      })
+
+      let transaction = sanityClient.transaction()
+
+      transaction.create(videoResource)
+      transaction.patch(lessonPatch)
+
+      return transaction
+        .commit()
+        .then((sanityRes) => {
+          console.log('Transaction', sanityRes)
+          return sanityRes
+        })
+        .catch((err) => {
+          console.log('ERROR', err)
+          return err
+        })
     }),
   updateLessonListOrder: baseProcedure
     .input(
