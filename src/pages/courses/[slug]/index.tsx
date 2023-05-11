@@ -13,6 +13,10 @@ import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src'
 import courseDependencies from 'data/courseDependencies'
 import {loadDraftSanityCourse} from 'lib/courses'
+import {getAbilityFromToken} from 'server/ability'
+import {ACCESS_TOKEN_KEY} from 'utils/auth'
+import {useViewer} from 'context/viewer-context'
+import {useRouter} from 'next/router'
 const tracer = getTracer('course-page')
 
 type CourseProps = {
@@ -22,8 +26,10 @@ type CourseProps = {
 
 const Course: React.FC<CourseProps> = (props) => {
   const {data} = useSWR(`${props?.course?.slug}`, loadAuthedPlaylistForUser)
+  const router = useRouter()
+  const {viewer, loading} = useViewer()
 
-  if (props.draftCourse) {
+  if (props.draftCourse && viewer?.roles.includes('instructor')) {
     return (
       <DraftCourseLayout
         lessons={props.draftCourse.lessons}
@@ -117,8 +123,9 @@ export const getServerSideProps: GetServerSideProps = async ({
       }
     }
   } catch (e) {
+    const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
     const draftCourse = params && (await loadDraftCourse(params.slug as string))
-    if (draftCourse) {
+    if (draftCourse && ability.can('upload', 'Video')) {
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
       return {
         props: {

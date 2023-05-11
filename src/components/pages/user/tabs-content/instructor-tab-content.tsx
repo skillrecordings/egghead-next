@@ -24,23 +24,6 @@ type Topic = {
   id: string
 }
 
-export const getServerSideProps: GetServerSideProps = async function ({req}) {
-  const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
-
-  if (ability.can('upload', 'Video')) {
-    return {
-      props: {},
-    }
-  } else {
-    return {
-      redirect: {
-        destination: '/user/membership',
-        permanent: false,
-      },
-    }
-  }
-}
-
 const InstructorTabContent: React.FC<any> = ({
   instructors,
   topics,
