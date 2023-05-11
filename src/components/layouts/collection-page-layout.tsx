@@ -270,7 +270,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 
   const image_url = square_cover_480_url || image_thumb_url
 
-  const imageIsTag = image_url.includes('tags/image')
+  const imageIsTag = image_url?.includes('tags/image')
 
   const playlists = filter(course.items, {type: 'playlist'}) || []
 
