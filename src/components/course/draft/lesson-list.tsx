@@ -389,7 +389,7 @@ const LessonListItem = ({
                 </label>
 
                 <div className="flex flew-row justify-between">
-                  <span className="font-semibold text-base self-center">
+                  <span className="font-semibold text-base self-center py-2 border border-transparent">
                     Video
                   </span>
                   <button

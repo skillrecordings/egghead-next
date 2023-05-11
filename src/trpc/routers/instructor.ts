@@ -7,7 +7,10 @@ import {z} from 'zod'
 import {nanoid} from 'nanoid'
 import slugify from 'slugify'
 import {loadSanityInstructorByEggheadId} from '../../lib/instructors'
-import {loadDraftSanityCourseById} from '../../lib/courses'
+import {
+  loadDraftSanityCourseById,
+  loadSanityInstructorbyCourseId,
+} from '../../lib/courses'
 import {TRPCError} from '@trpc/server'
 import client from '@sanity/client'
 import groq from 'groq'
@@ -205,7 +208,7 @@ export const instructorRouter = router({
     .mutation(async ({input, ctx}) => {
       const {title = '', description, sanityCourseId, awsFilename} = input
 
-      const {instructor} = await loadDraftSanityCourseById(sanityCourseId)
+      const instructor = await loadSanityInstructorbyCourseId(sanityCourseId)
       const {id: instructorId} = instructor
       const lessonSlug = slugify(`${title}`.toLowerCase(), {
         remove: /[*+~.()'"!:@]/g,

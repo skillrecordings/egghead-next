@@ -135,6 +135,24 @@ export async function loadDraftSanityCourse(slug: string, token?: string) {
   return courseWithDefaults
 }
 
+export async function loadSanityInstructorbyCourseId(
+  id: string,
+  token?: string,
+) {
+  const query = groq`*[_type == 'course' && _id == $id][0]{
+    "instructor": collaborators[0]-> {
+      "avatar_url": person->image.url,
+      "full_name": person->name,
+      "slug": person->slug.current,
+      "id": _id
+    },
+ }`
+
+  const {instructor} = await sanityClient.fetch(query, {id})
+
+  return SanityInstructorSchema.parse(instructor)
+}
+
 export async function loadDraftSanityCourseById(id: string, token?: string) {
   const query = groq`*[_type == 'course' && _id == $id][0]{
     "id": _id,
@@ -192,6 +210,13 @@ const SanityLesson = z.object({
 })
 export type SanityLesson = z.infer<typeof SanityLesson>
 
+const SanityInstructorSchema = z.object({
+  avatar_url: z.string(),
+  full_name: z.string(),
+  slug: z.string(),
+  id: z.string(),
+})
+
 const SanityDraftCourse = z.object({
   id: z.string(),
   title: z.string(),
@@ -200,12 +225,7 @@ const SanityDraftCourse = z.object({
   productionProcessState: z.string(),
   description: z.string(),
   lessons: z.array(SanityLesson),
-  instructor: z.object({
-    avatar_url: z.string(),
-    full_name: z.string(),
-    slug: z.string(),
-    id: z.string(),
-  }),
+  instructor: SanityInstructorSchema,
   tags: z.array(
     z.object({
       name: z.string(),

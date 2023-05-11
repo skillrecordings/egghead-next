@@ -14,6 +14,7 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
   sanityCourseId,
 }) => {
   const [fileUploadState, dispatch] = useFileUploadReducer([])
+  const trpcUtils = trpc.useContext()
 
   const isUploaded = fileUploadState.files[0]?.percent === 100
 
@@ -23,6 +24,7 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
     title: string
   }>({
     onSuccess: (data) => {
+      trpcUtils.instructor.invalidate()
       toast.success(`Lesson added.`, {
         duration: 6000,
         icon: '✅',
