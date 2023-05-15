@@ -1,21 +1,21 @@
 export type Resource = {
-  title?: string
-  slug?: string
-  description?: string
+  title: string
+  slug: string
+  description: string
   icon_url?: string
   completed?: boolean
-  path?: string
+  path: string
   type?: string
 }
 
 export type CardResource = Resource & {
   id?: string
   externalId?: number
-  image?: string | {src: string; alt: string}
-  name?: string
+  image: string | {src: string; alt: string}
+  name: string
   tag?: any
   subTitle?: string
-  byline?: string
+  byline: string
   resources?: CardResource[]
   related?: CardResource[]
   instructor?: any
