@@ -292,11 +292,11 @@ const LessonListItem = ({
     })
 
   return (
-    <li className="w-[45ch]">
+    <li className="lg:w-[40ch]">
       <Disclosure>
         {({open}) => (
           <>
-            <div className="flex py-2 font-semibold leading-tight justify-between h-[3rem]">
+            <div className="flex py-2 font-semibold leading-tight justify-between min-h-[3rem]">
               <div className="flex">
                 <div className="flex items-center mr-2 space-x-2 cursor-grab">
                   {handle ? (
@@ -321,7 +321,7 @@ const LessonListItem = ({
                   <div className="flex flex-col ">
                     <div>
                       <Link href={lesson.path}>
-                        <a className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100">
+                        <a className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100 px-2 max-w-[40ch]">
                           {displayTitle}
                         </a>
                       </Link>
