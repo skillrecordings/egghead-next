@@ -68,6 +68,8 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
         'name': type,
         'description': summary,
         path,
+        'slug': slug.current,
+        byline,
         image,
         images {
           label,
@@ -86,33 +88,27 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
   }`
 
 const Resource = z.object({
-  id: z.string().optional(),
-  externalId: z.number().optional(),
-  title: z.string().optional(),
-  name: z.string().optional(),
-  description: z.string().optional(),
-  path: z.string().optional(),
-  image: z
-    .union([z.string(), z.object({src: z.string(), alt: z.string()})])
-    .optional(),
-  images: z
-    .object({
-      label: z.string().optional(),
-      url: z.string().optional(),
-    })
-    .optional(),
-  tag: z
-    .object({
-      name: z.string(),
-    })
-    .optional(),
-  ogImage: z.string().optional(),
-  instructor: z
-    .object({
-      name: z.string().optional(),
-      image: z.string().optional(),
-    })
-    .optional(),
+  id: z.string(),
+  externalId: z.number(),
+  title: z.string(),
+  name: z.string(),
+  description: z.string(),
+  path: z.string(),
+  slug: z.string(),
+  byline: z.string(),
+  image: z.union([z.string(), z.object({src: z.string(), alt: z.string()})]),
+  images: z.object({
+    label: z.string(),
+    url: z.string(),
+  }),
+  tag: z.object({
+    name: z.string(),
+  }),
+  ogImage: z.string(),
+  instructor: z.object({
+    name: z.string(),
+    image: z.string(),
+  }),
 })
 export type SanityResourceType = z.infer<typeof Resource>
 
@@ -132,7 +128,7 @@ const SanitySection = z.object({
   path: z.string().optional(),
   description: z.string().optional(),
   topics: z.array(Topic).optional(),
-  resources: z.array(Resource).optional().nullish(),
+  resources: z.array(Resource).nullish(),
 })
 export type SanitySectionType = z.infer<typeof SanitySection>
 
@@ -143,10 +139,7 @@ const CuratedHomePageData = z.object({
 export type CuratedHomePageDataType = z.infer<typeof CuratedHomePageData>
 
 export async function getStaticProps() {
-  const data = await sanityClient.fetch(homepageQuery).then((result) => {
-    console.log({result})
-    return CuratedHomePageData.parse(result)
-  })
+  const data = await sanityClient.fetch(homepageQuery)
   const holidayCourses = saleOn ? await loadHolidayCourses() : {}
 
   return {

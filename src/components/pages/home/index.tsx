@@ -19,7 +19,7 @@ const Home: React.FC<any> = ({
   const router = useRouter()
   const {data: completeCourseData} = trpc.progress.completedCourses.useQuery()
   const completedCoursesIds = completeCourseData?.map(
-    (course): number => course.collection.id,
+    (course: any): number => course.collection.id,
   )
 
   React.useEffect(() => {

@@ -5,30 +5,13 @@ import {loadLessonProgress, loadPlaylistProgress} from '../../lib/progress'
 import {loadUserCompletedCourses} from 'lib/users'
 
 export const progressRouter = router({
-  completedCourses: baseProcedure
-    .output(
-      z.array(
-        z.object({
-          completed_at: z.string(),
-          lesson_count: z.number(),
-          is_complete: z.boolean(),
-          collection: z.object({
-            slug: z.string(),
-            title: z.string(),
-            image: z.string(),
-            path: z.string(),
-            id: z.number(),
-          }),
-        }),
-      ),
-    )
-    .query(async ({ctx}) => {
-      const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
-      if (!token) return []
+  completedCourses: baseProcedure.query(async ({ctx}) => {
+    const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+    if (!token) return []
 
-      const {completeCourses} = await loadUserCompletedCourses(token)
-      return completeCourses
-    }),
+    const {completeCourses} = await loadUserCompletedCourses(token)
+    return completeCourses
+  }),
   forPlaylist: baseProcedure
     .input(
       z.object({
