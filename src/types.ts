@@ -30,6 +30,7 @@ export type LessonResource = Resource & {
   id: string | number
   tags: any[]
   lessons: any[]
+  primary_tag: any
   completed: boolean
   duration: number
   instructor: any
