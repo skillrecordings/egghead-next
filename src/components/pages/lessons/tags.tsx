@@ -44,8 +44,7 @@ const Tags: React.FC<{
           {/* <div className="font-medium">Tech used:</div> */}
           <ul className="grid items-center grid-flow-col-dense gap-5 text-sm">
             {collectionTags.map((tag: TagWithVersion, index: number) => {
-              const tagImageUrl = `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683914713/tags/${tag.name}.png`
-              const optimizedImageUrl = `https://res.cloudinary.com/dg3gyk0gu/image/fetch/w_72,h_72/${tagImageUrl}`
+              const tagImageUrl = `https://res.cloudinary.com/dg3gyk0gu/image/upload/w_72,h_72/v1683914713/tags/${tag.name}.png`
 
               return (
                 <li key={index} className="inline-flex items-center">
@@ -60,7 +59,7 @@ const Tags: React.FC<{
                       className="inline-flex items-center hover:underline"
                     >
                       <Image
-                        src={optimizedImageUrl}
+                        src={tagImageUrl}
                         alt={tag.name}
                         width={20}
                         height={20}
