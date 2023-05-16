@@ -43,35 +43,40 @@ const Tags: React.FC<{
         <div className="flex items-center space-x-4">
           {/* <div className="font-medium">Tech used:</div> */}
           <ul className="grid items-center grid-flow-col-dense gap-5 text-sm">
-            {collectionTags.map((tag: TagWithVersion, index: number) => (
-              <li key={index} className="inline-flex items-center">
-                <Link href={`/q/${tag.name}`}>
-                  <a
-                    onClick={() => {
-                      track(`clicked view topic`, {
-                        lesson: lessonSlug,
-                        topic: tag.name,
-                      })
-                    }}
-                    className="inline-flex items-center hover:underline"
-                  >
-                    <Image
-                      src={tag.image_url}
-                      alt={tag.name}
-                      width={20}
-                      height={20}
-                      className="flex-shrink-0"
-                    />
-                    <span className="ml-1">{tag.label}</span>
-                    {tag.version && (
-                      <span className="ml-2">
-                        <code>{tag.version}</code>
-                      </span>
-                    )}
-                  </a>
-                </Link>
-              </li>
-            ))}
+            {collectionTags.map((tag: TagWithVersion, index: number) => {
+              const tagImageUrl = `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683914713/tags/${tag.name}.png`
+              const optimizedImageUrl = `https://res.cloudinary.com/dg3gyk0gu/image/fetch/w_72,h_72/${tagImageUrl}`
+
+              return (
+                <li key={index} className="inline-flex items-center">
+                  <Link href={`/q/${tag.name}`}>
+                    <a
+                      onClick={() => {
+                        track(`clicked view topic`, {
+                          lesson: lessonSlug,
+                          topic: tag.name,
+                        })
+                      }}
+                      className="inline-flex items-center hover:underline"
+                    >
+                      <Image
+                        src={optimizedImageUrl}
+                        alt={tag.name}
+                        width={20}
+                        height={20}
+                        className="flex-shrink-0"
+                      />
+                      <span className="ml-1">{tag.label}</span>
+                      {tag.version && (
+                        <span className="ml-2">
+                          <code>{tag.version}</code>
+                        </span>
+                      )}
+                    </a>
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
         </div>
       )}
