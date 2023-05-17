@@ -6,6 +6,7 @@ const courseQuery = groq`
 *[_type == 'resource' && externalId == $courseId][0]{
   title,
   challengeRating,
+  "square_cover_480_url": image,
   description,
   summary,
   essentialQuestions[]->{
@@ -80,8 +81,11 @@ export async function loadCourseMetadata(id: number) {
 
   const course = await sanityClient.fetch(courseQuery, params)
 
-  if (course?.illustration?.url) {
-    course['square_cover_480_url'] = course.illustration.url
+  if (!course?.square_cover_480_url) {
+    const imageUrl = course?.dependencies
+      ? `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683914713/tags/${course?.dependencies[0]?.name}.png`
+      : 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1569292667/eggo/eggo_flair.png'
+    course['square_cover_480_url'] = imageUrl
   }
 
   return course
