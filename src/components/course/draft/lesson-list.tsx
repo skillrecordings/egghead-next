@@ -441,7 +441,7 @@ const LessonListItem = ({
           </>
         )}
       </Disclosure>
-      <hr />
+      <hr className=" opacity-50" />
     </li>
   )
 }

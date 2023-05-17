@@ -156,7 +156,6 @@ const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       Conent Editor
                     </h2>
                     <div className="text-sm font-normal text-gray-600 dark:text-gray-300 cursor-default">
-                      {/* {duration && `${convertTimeWithTitles(duration)} • `} */}
                       {lessons.length} lessons{' '}
                     </div>
                   </div>

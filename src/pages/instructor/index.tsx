@@ -27,7 +27,6 @@ Instructor.getLayout = function getLayout(Page: any, pageProps: any) {
 
 export const getServerSideProps: GetServerSideProps = async function ({req}) {
   const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
-  console.log('ability', ability, 'canUpload', ability.can('upload', 'Video'))
 
   if (ability.can('upload', 'Video')) {
     return {
