@@ -111,6 +111,7 @@ const Tag = (props: any) => {
                   ) : null
                 },
                 ResourceWidget: ({resource: resourceSlug, ...props}: any) => {
+                  console.log('ARTICLERESOURCES', articleResources)
                   const resource = find(articleResources, {slug: resourceSlug})
                   return resource ? (
                     <div className="not-prose my-8">
@@ -181,6 +182,7 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
   "articleResources": resources[type == "collection"]{
     "location": content[0].text,
     title,
+    description,
     "slug": slug.current,
     "podcasts": resources[type == "podcast"]{
       title,
@@ -189,17 +191,35 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
       "description": byline,
       "slug": slug.current,
       "name": type,
-  },
-   "collections": resources[type == "collection"]{
+    },
+    "collections": resources[type == "collection"]{
      title,
      'courses': resources[]->{
-       type,
-       title,
-       image,
-       path,
-       "description": summary,
-       byline,
-       'instructor': collaborators[]->[role == 'instructor'][0]{
+        type,
+        title,
+        image,
+        path,
+        "description": summary,
+        byline,
+        'instructor': collaborators[]->[role == 'instructor'][0]{
+          title,
+          'slug': person->slug.current,
+          'name': person->name,
+          'path': person->website,
+          'twitter': person->twitter,
+          'image': person->image.url
+        },
+      },
+    },
+    "articles": resources[type == "article"]{
+      title,
+      image,
+      path,
+      "byline": "",
+      description,
+      "name": type,
+      "slug": slug.current,
+      'instructor': collaborators[][0]->{
         title,
         'slug': person->slug.current,
         'name': person->name,
@@ -207,28 +227,27 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
         'twitter': person->twitter,
         'image': person->image.url
       },
-     }
-   },
-   "talks": resources[_type == "reference"]->{
-     title,
-     image,
-     "description": byline,
-     byline,
-     path,
-     "name": type,
-   }
+    },
+    "talks": resources[_type == "reference"]->{
+      title,
+      image,
+      "description": byline,
+      byline,
+      path,
+      "name": type,
+    }
   },
   "resources": resources[]-> {
     title,
     'instructor': collaborators[]->[role == 'instructor'][0]{
        'full_name': person->.name
      },
-     path,
-     "slug": slug.current,
+    path,
+    "slug": slug.current,
     "image_thumb_url": image,
     "lessons": resources[] {
-        title,
-        path
+      title,
+      path
     }
   }
 }`

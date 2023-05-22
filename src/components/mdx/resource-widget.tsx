@@ -8,7 +8,10 @@ const ResourceWidget: React.FC<{
   cta?: string
   location?: string
 }> = ({resource, location}: any) => {
-  const {podcasts, talks, collections} = resource
+  console.log('BEFORE')
+  const {podcasts, talks, collections, articles} = resource
+  console.log('RESOURCE', resource)
+  console.log('ARTICLES', articles)
   return (
     <>
       {collections &&
@@ -80,6 +83,67 @@ const ResourceWidget: React.FC<{
             </div>
           )
         })}
+      {articles && (
+        <div className="bg-gray-100 p-2 xl:p-4">
+          <h3 className="prose dark:prose-dark sm:prose-xl lg:prose-2xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 font-bold mb-4">
+            {resource.title}
+          </h3>
+          <p className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 mb-4">
+            {' '}
+            {resource.description}{' '}
+          </p>
+          <Grid className="hidden sm:grid sm:grid-cols-2 gap-2 md:grid-cols-4 xl:gap-4">
+            {articles?.map((article: any, i: number) => {
+              switch (articles.length) {
+                case 1: {
+                  return (
+                    <HorizontalResourceCard
+                      location={location}
+                      className="col-span-2 md:col-span-4"
+                      key={article.slug}
+                      resource={article}
+                    />
+                  )
+                }
+                default:
+                  return (
+                    <VerticalResourceCard
+                      className="md:col-span-2"
+                      location={location}
+                      key={article.slug}
+                      resource={article}
+                    />
+                  )
+              }
+            })}
+          </Grid>
+          <Grid className="grid sm:hidden sm:grid-cols-2 gap-2 md:grid-cols-4 xl:gap-4">
+            {articles?.map((article: any, i: number) => {
+              switch (articles.length) {
+                case 1: {
+                  return (
+                    <HorizontalResourceCard
+                      location={location}
+                      className="col-span-2 md:col-span-4"
+                      key={article.slug}
+                      resource={article}
+                    />
+                  )
+                }
+                default:
+                  return (
+                    <HorizontalResourceCard
+                      location={location}
+                      className=""
+                      key={article.slug}
+                      resource={article}
+                    />
+                  )
+              }
+            })}
+          </Grid>
+        </div>
+      )}
       {(podcasts || talks) && (
         <Grid className="grid grid-cols-2 gap-2 md:grid-cols-4 xl:gap-5 sm:gap-3">
           {talks.map((talk: any) => {
