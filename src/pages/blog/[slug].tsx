@@ -16,6 +16,7 @@ import ResourceWidget from 'components/mdx/resource-widget'
 import find from 'lodash/find'
 import {useScrollTracker} from 'react-scroll-tracker'
 import analytics from 'utils/analytics'
+import EmailSubscribeWidget from 'components/mdx/email-subscribe-widget'
 
 function urlFor(source: any): any {
   return imageUrlBuilder(sanityClient).image(source)
@@ -122,6 +123,13 @@ const Tag = (props: any) => {
                       />
                     </div>
                   ) : null
+                },
+                EmailSubscribeWidget: ({...props}: any) => {
+                  return (
+                    <div className="not-prose my-8">
+                      <EmailSubscribeWidget {...props} />
+                    </div>
+                  )
                 },
               }}
             />
