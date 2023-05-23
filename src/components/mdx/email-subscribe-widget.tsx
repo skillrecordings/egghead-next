@@ -9,14 +9,15 @@ const EmailSubscribeWidget = (props: any) => {
           Ready to pick up the pace?
         </h2>
         <p className="py-2">
-          sign up and receive regular updates on our latest articles and courses
+          enter your email and receive regular updates on our latest articles
+          and courses
         </p>
         <Formik
           initialValues={{
             email: '',
-            articles: true,
-            courses: false,
-            learningPaths: false,
+            portfolio: true,
+            fullStack: false,
+            typescript: false,
           }}
           onSubmit={async (values) => {
             setTimeout(() => {
@@ -32,18 +33,20 @@ const EmailSubscribeWidget = (props: any) => {
                 placeholder="Email"
                 className="text-black"
               />
-              <p className="py-2">What are you interested in hearing about?</p>
+              <p className="pt-8 pb-2 text-lg font-semibold leading-snug">
+                What do you want to take to the next level?
+              </p>
               <label className="pb-1">
-                <Field type="checkbox" name="articles" />
-                <span className="pl-2">Articles</span>
+                <Field type="checkbox" name="portfolio" />
+                <span className="pl-2">Portfolio Building</span>
               </label>
               <label className="pb-1">
-                <Field type="checkbox" name="courses" />
-                <span className="pl-2">Courses</span>
+                <Field type="checkbox" name="fullStack" />
+                <span className="pl-2">Full-Stack in 2023</span>
               </label>
               <label className="pb-4">
-                <Field type="checkbox" name="learningPaths" />
-                <span className="pl-2">Learning Paths</span>
+                <Field type="checkbox" name="typescript" />
+                <span className="pl-2">TypeScript</span>
               </label>
               <button
                 className="bg-blue-600 rounded-md font-semibold p-1"
