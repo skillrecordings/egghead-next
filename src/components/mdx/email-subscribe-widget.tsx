@@ -132,7 +132,6 @@ const EmailSubscribeWidget = (props: any) => {
                     You're signed up!
                   </h2>
                   <p className="py-2">Check your email for a confirmation</p>
-                  <button onClick={() => setIsSubmitted(false)}>Tap</button>
                 </div>
               )
             }
