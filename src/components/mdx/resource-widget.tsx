@@ -89,20 +89,20 @@ const ResourceWidget: React.FC<{
             {' '}
             {resource.description}{' '}
           </p>
-          <Grid>
+          <Grid className="hidden sm:grid sm:grid-cols-3 gap-4">
             {articles?.map((article: any, i: number) => {
               switch (articles.length) {
                 case 1: {
                   return (
                     <HorizontalResourceCard
                       location={location}
-                      className="col-span-2 md:col-span-4 dark:bg-gray-600"
+                      className="col-span-3 md:col-span-4 dark:bg-gray-600"
                       key={article.slug}
                       resource={article}
                     />
                   )
                 }
-                case 3:
+                case 2: {
                   return i === 0 ? (
                     <HorizontalResourceCard
                       location={location}
@@ -118,48 +118,29 @@ const ResourceWidget: React.FC<{
                       className="dark:bg-gray-600"
                     />
                   )
-                case 6:
-                  return i === 0 || i === 1 ? (
-                    <HorizontalResourceCard
-                      location={location}
-                      className="col-span-2 dark:bg-gray-600"
-                      key={article.slug}
-                      resource={article}
-                    />
-                  ) : (
-                    <VerticalResourceCard
-                      location={location}
-                      key={article.slug}
-                      resource={article}
-                      className="dark:bg-gray-600"
-                    />
-                  )
-                case 7:
-                  return i === 0 ? (
-                    <HorizontalResourceCard
-                      location={location}
-                      className="col-span-2 dark:bg-gray-600"
-                      key={article.slug}
-                      resource={article}
-                    />
-                  ) : (
-                    <VerticalResourceCard
-                      location={location}
-                      key={article.slug}
-                      resource={article}
-                      className="dark:bg-gray-600"
-                    />
-                  )
+                }
                 default:
                   return (
                     <VerticalResourceCard
                       location={location}
                       key={article.slug}
                       resource={article}
-                      className="dark:bg-gray-600 text-xs"
+                      className="dark:bg-gray-600"
                     />
                   )
               }
+            })}
+          </Grid>
+          <Grid className="sm:hidden grid gap-4">
+            {articles?.map((article: any, i: number) => {
+              return (
+                <HorizontalResourceCard
+                  location={location}
+                  className="col-span-2 dark:bg-gray-600"
+                  key={article.slug}
+                  resource={article}
+                />
+              )
             })}
           </Grid>
         </div>
