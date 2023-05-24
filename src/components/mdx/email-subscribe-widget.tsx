@@ -23,14 +23,16 @@ const EmailSubscribeWidget = (props: any) => {
   const [isSubmitted, setIsSubmitted] = React.useState(false)
   const identify = trpc.customerIO.identify.useMutation({
     onSuccess: (data) => {
-      console.log('IDENTIFY', data)
+      console.log(
+        'SUCCESS: Customer.io identification in EmailSubscribeWidget',
+        data,
+      )
     },
     onError: (error) => {
-      console.log('ERROR', error)
+      console.log('ERROR: Customer.io failure in EmailSubscribeWidget', error)
     },
   })
 
-  console.log('TEST', subscriber)
   return (
     <div className="grid sm:grid-cols-2 border-2 border-gray-300 dark:border-none rounded-md">
       <div className="flex flex-col prose prose-dark bg-gray-800 w-full p-6 rounded-l-md">
