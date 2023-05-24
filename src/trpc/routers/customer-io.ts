@@ -1,5 +1,6 @@
 import {router, baseProcedure} from '../trpc.server'
 import {z} from 'zod'
+import emailIsValid from 'utils/email-is-valid'
 
 const {TrackClient, RegionUS} = require('customerio-node')
 const siteId = process.env.CUSTOMER_IO_SITE_ID
@@ -26,6 +27,7 @@ export const customerIORouter = router({
       console.log('INPUT', input)
 
       if (!email && !id) return null
+      if (email && !emailIsValid(email)) return null
 
       console.log('SELECTED', selectedInterests)
 
