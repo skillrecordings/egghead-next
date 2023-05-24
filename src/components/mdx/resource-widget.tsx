@@ -8,10 +8,7 @@ const ResourceWidget: React.FC<{
   cta?: string
   location?: string
 }> = ({resource, location}: any) => {
-  console.log('BEFORE')
   const {podcasts, talks, collections, articles} = resource
-  console.log('RESOURCE', resource)
-  console.log('ARTICLES', articles)
   return (
     <>
       {collections &&

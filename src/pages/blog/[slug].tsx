@@ -112,7 +112,6 @@ const Tag = (props: any) => {
                   ) : null
                 },
                 ResourceWidget: ({resource: resourceSlug, ...props}: any) => {
-                  console.log('ARTICLERESOURCES', articleResources)
                   const resource = find(articleResources, {slug: resourceSlug})
                   return resource ? (
                     <div className="not-prose my-8">

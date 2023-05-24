@@ -9776,10 +9776,10 @@ cueplayer-react@^0.3.23:
     prop-types "^15.7.2"
     redux "^4.0.1"
 
-customerio-node@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/customerio-node/-/customerio-node-3.0.2.tgz#b85d8fc10493533ef604d0b9ef6c56bbf2719d55"
-  integrity sha512-ZllzUwD4COp1BI8p1T82J8B0ZE44C1+PPAmEjSDphJ0am7Dp84wga+eusxtoRmfTdexZ6bR/P2znOd+2MXPlsQ==
+customerio-node@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/customerio-node/-/customerio-node-4.1.0.tgz#27510962efad02dd10128974b4ceaf9b93c6bd59"
+  integrity sha512-9qW3yx/yp7hAuz1Tph9UcC4Nt2NCONOdY83ppNJ0se37ndH9mg1xrQqxFjjtJHdXvFnu33FDaSXrXVSFCVlm8g==
 
 cyclist@^1.0.1:
   version "1.0.1"

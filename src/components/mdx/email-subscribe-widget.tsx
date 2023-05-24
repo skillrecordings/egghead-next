@@ -1,10 +1,21 @@
 import Image from 'next/image'
 import {Formik, Field, Form} from 'formik'
 import useCio from 'hooks/use-cio'
+import {trpc} from 'trpc/trpc.client'
+import {format} from 'date-fns'
 
 const EmailSubscribeWidget = (props: any) => {
   const {subscriber, cioIdentify} = useCio()
+  const identify = trpc.customerIO.identify.useMutation({
+    onSuccess: (data) => {
+      console.log('IDENTIFY', data)
+    },
+    onError: (error) => {
+      console.log('ERROR', error)
+    },
+  })
 
+  console.log('TEST', subscriber)
   return (
     <div className="grid sm:grid-cols-2 border-2 border-gray-300 rounded-md">
       <div className="flex flex-col prose prose-dark bg-gray-800 w-full p-8 rounded-l-md">
@@ -19,13 +30,31 @@ const EmailSubscribeWidget = (props: any) => {
           initialValues={{
             email: '',
             portfolio: true,
-            fullStack: false,
+            fullStack2023: false,
             typescript: false,
           }}
           onSubmit={async (values) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2))
-            }, 500)
+            const {email, portfolio, fullStack2023, typescript} = values
+
+            const currentDateTime = Math.floor(Date.now() * 0.001) // Customer.io uses seconds with their UNIX epoch timestamps
+
+            console.log('1 INTERESTEST', values)
+
+            const selectedInterests = {
+              ...(portfolio && {portfolio: currentDateTime}),
+              ...(fullStack2023 && {fullStack2023: currentDateTime}),
+              ...(typescript && {typescript: currentDateTime}),
+            }
+
+            console.log('2 - INTERESTS', selectedInterests)
+
+            let id = subscriber?.id
+
+            if (!id) {
+              identify.mutateAsync({email, selectedInterests})
+            } else {
+              identify.mutateAsync({id, selectedInterests})
+            }
           }}
         >
           {({values}) => (
@@ -44,7 +73,7 @@ const EmailSubscribeWidget = (props: any) => {
                 <span className="pl-2">Portfolio Building</span>
               </label>
               <label className="pb-1">
-                <Field type="checkbox" name="fullStack" />
+                <Field type="checkbox" name="fullStack2023" />
                 <span className="pl-2">Full-Stack in 2023</span>
               </label>
               <label className="pb-4">
