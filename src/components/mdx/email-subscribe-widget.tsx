@@ -1,9 +1,11 @@
+import React from 'react'
 import Image from 'next/image'
 import {Formik, Field, Form} from 'formik'
 import useCio from 'hooks/use-cio'
 import {trpc} from 'trpc/trpc.client'
 import {format} from 'date-fns'
 import emailIsValid from 'utils/email-is-valid'
+import {set} from 'lodash'
 
 const validateEmail = (value: string) => {
   let error
@@ -17,7 +19,8 @@ const validateEmail = (value: string) => {
 }
 
 const EmailSubscribeWidget = (props: any) => {
-  const {subscriber, cioIdentify} = useCio()
+  const {subscriber} = useCio()
+  const [isSubmitted, setIsSubmitted] = React.useState(false)
   const identify = trpc.customerIO.identify.useMutation({
     onSuccess: (data) => {
       console.log('IDENTIFY', data)
@@ -30,7 +33,7 @@ const EmailSubscribeWidget = (props: any) => {
   console.log('TEST', subscriber)
   return (
     <div className="grid sm:grid-cols-2 border-2 border-gray-300 dark:border-none rounded-md">
-      <div className="flex flex-col prose prose-dark bg-gray-800 w-full p-8 rounded-l-md">
+      <div className="flex flex-col prose prose-dark bg-gray-800 w-full p-6 rounded-l-md">
         <Formik
           initialValues={{
             email: '',
@@ -52,66 +55,89 @@ const EmailSubscribeWidget = (props: any) => {
             let id = subscriber?.id
 
             if (!id) {
-              identify.mutateAsync({email, selectedInterests})
+              await identify.mutateAsync({email, selectedInterests})
             } else {
-              identify.mutateAsync({id, selectedInterests})
+              await identify.mutateAsync({id, selectedInterests})
             }
+
+            setIsSubmitted(true)
           }}
         >
-          {({values, errors, touched}) => (
-            <div>
-              <h2 className="text-3xl leading-tight font-bold">
-                Ready to pick up the pace?
-              </h2>
-              <p className="py-2">
-                enter your email and receive regular updates on our latest
-                articles and courses
-              </p>
+          {({values, errors, touched, isSubmitting}) => {
+            if (!isSubmitted) {
+              return (
+                <div>
+                  <h2 className="text-3xl leading-tight font-bold">
+                    Ready to pick up the pace?
+                  </h2>
+                  <p className="py-2">
+                    enter your email and receive regular updates on our latest
+                    articles and courses
+                  </p>
 
-              <Form className="flex flex-col">
-                <Field
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  className={`text-black ${
-                    errors.email && touched.email && 'border-red-400 bg-red-200'
-                  }`}
-                  validate={validateEmail}
-                />
-                {errors.email && touched.email ? (
-                  <div className="text-red-400">{errors.email}</div>
-                ) : null}
-                <p className="pt-8 pb-2 text-lg font-semibold leading-snug">
-                  What do you want to take to the next level?
-                </p>
-                <label className="pb-1">
-                  <Field type="checkbox" name="portfolio" />
-                  <span className="pl-2">Portfolio Building</span>
-                </label>
-                <label className="pb-1">
-                  <Field type="checkbox" name="fullStack2023" />
-                  <span className="pl-2">Full-Stack in 2023</span>
-                </label>
-                <label className="pb-4">
-                  <Field type="checkbox" name="typescript" />
-                  <span className="pl-2">TypeScript</span>
-                </label>
-                <button
-                  className={`bg-blue-600 rounded-md font-semibold p-1 ${
-                    errors.email &&
-                    touched.email &&
-                    'opacity-50 cursor-not-allowed'
-                  }`}
-                  type="submit"
-                  disabled={(errors.email && touched.email) || !values.email}
-                >
-                  SIGN UP
-                </button>
-              </Form>
-            </div>
-          )}
+                  <Form className="flex flex-col">
+                    <Field
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      className={`text-black ${
+                        errors.email &&
+                        touched.email &&
+                        'border-red-400 bg-red-200'
+                      }`}
+                      validate={validateEmail}
+                    />
+                    {errors.email && touched.email ? (
+                      <div className="text-red-400">{errors.email}</div>
+                    ) : null}
+                    <p className="pt-8 pb-2 text-lg font-semibold leading-snug">
+                      What do you want to take to the next level?
+                    </p>
+                    <label className="pb-1">
+                      <Field type="checkbox" name="portfolio" />
+                      <span className="pl-2">Portfolio Building</span>
+                    </label>
+                    <label className="pb-1">
+                      <Field type="checkbox" name="fullStack2023" />
+                      <span className="pl-2">Full-Stack in 2023</span>
+                    </label>
+                    <label className="pb-4">
+                      <Field type="checkbox" name="typescript" />
+                      <span className="pl-2">TypeScript</span>
+                    </label>
+                    <button
+                      className={`bg-blue-600 rounded-md font-semibold p-1 ${
+                        errors.email &&
+                        touched.email &&
+                        'opacity-50 cursor-not-allowed'
+                      } ${isSubmitting && 'opacity-50 cursor-not-allowed'}}`}
+                      type="submit"
+                      disabled={
+                        (errors.email && touched.email) ||
+                        !values.email ||
+                        isSubmitting
+                      }
+                    >
+                      {isSubmitting ? 'SUBMITTING...' : 'SIGN UP'}
+                    </button>
+                  </Form>
+                </div>
+              )
+            } else {
+              return (
+                <div>
+                  <h2 className="text-3xl leading-tight font-bold">
+                    You're signed up!
+                  </h2>
+                  <p className="py-2">Check your email for a confirmation</p>
+                  <button onClick={() => setIsSubmitted(false)}>Tap</button>
+                </div>
+              )
+            }
+          }}
         </Formik>
       </div>
+
       <div className="hidden sm:flex sm:flex-col p-6 rounded-r-md text-gray-800 bg-white">
         <h2 className="text-3xl leading-tight font-bold">Your time matters.</h2>
         <p className="py-2">
