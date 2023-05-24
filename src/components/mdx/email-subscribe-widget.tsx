@@ -29,7 +29,7 @@ const EmailSubscribeWidget = (props: any) => {
 
   console.log('TEST', subscriber)
   return (
-    <div className="grid sm:grid-cols-2 border-2 border-gray-300 rounded-md">
+    <div className="grid sm:grid-cols-2 border-2 border-gray-300 dark:border-none rounded-md">
       <div className="flex flex-col prose prose-dark bg-gray-800 w-full p-8 rounded-l-md">
         <Formik
           initialValues={{
@@ -112,7 +112,7 @@ const EmailSubscribeWidget = (props: any) => {
           )}
         </Formik>
       </div>
-      <div className="hidden sm:flex sm:flex-col p-6 rounded-r-md text-gray-800">
+      <div className="hidden sm:flex sm:flex-col p-6 rounded-r-md text-gray-800 bg-white">
         <h2 className="text-3xl leading-tight font-bold">Your time matters.</h2>
         <p className="py-2">
           Our tutorials will respect it and keep you up to date.
