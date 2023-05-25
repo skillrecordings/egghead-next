@@ -144,19 +144,52 @@ const EmailSubscribeWidget = (props: any) => {
       </div>
 
       <div className="hidden sm:flex sm:flex-col p-6 rounded-r-md text-gray-800 bg-white dark:bg-gray-800 dark:text-white border-y-2 border-r-2 border-gray-300 dark:border-none">
-        <h2 className="text-3xl leading-tight font-bold">Your time matters.</h2>
-        <p className="pt-2">
-          Our tutorials will respect it and keep you up to date.
-        </p>
-        <div className="flex flex-col h-full w-full justify-center">
-          <div className="flex flex-row justify-center">
-            <Image
-              width={280}
-              height={280}
-              src="https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/490/full/EGH_BeginnersReact2.png"
-            ></Image>
-          </div>
+        {/* Shown in dark mode */}
+        <div className="hidden dark:flex flex-col pb-4">
+          <Image
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637569318/share-learner-review/egghead-logo_2x.png"
+            alt=""
+            title=""
+            width="90%"
+            height={24}
+            layout="responsive"
+            objectFit="contain"
+          />
         </div>
+
+        {/* Shown in light mode */}
+        <div className="dark:hidden pb-4">
+          <Image
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1605643202/og-images/egghead-logo.svg"
+            alt=""
+            title=""
+            width="90%"
+            height={24}
+            layout="responsive"
+            objectFit="contain"
+          />
+        </div>
+
+        <h2 className="text-lg font-semibold leading-snug">
+          We're here to help.
+        </h2>
+        <p className="pt-2">
+          Sign up for one or more of our <b>FREE</b> email courses
+        </p>
+        <ul className="pt-4">
+          <li className="pb-2">
+            ⭐️ <b>Portfolio Building:</b> Learn how to build a badass developer
+            portfolio so you can land that next job
+          </li>
+          <li className="pb-2">
+            ⭐️ <b>Full-Stack in 2023:</b> Build several full-stack apps using
+            the latest tools and trends (Open AI, Next.js, Remix, and more)
+          </li>
+          <li>
+            ⭐️ <b>TypeScript:</b> Build a solid foundation in TypeScript and
+            learn some advanced techniques along the way
+          </li>
+        </ul>
       </div>
     </div>
   )
