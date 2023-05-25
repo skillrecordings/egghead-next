@@ -59,6 +59,7 @@ const EmailSubscribeWidget = (props: any) => {
             if (!id) {
               await identify.mutateAsync({email, selectedInterests})
             } else {
+              // TODO: adjust so the component is hidden if user is subscribed
               await identify.mutateAsync({id, selectedInterests})
             }
 
@@ -78,21 +79,24 @@ const EmailSubscribeWidget = (props: any) => {
                   </p>
 
                   <Form className="flex flex-col">
-                    <Field
-                      type="email"
-                      name="email"
-                      placeholder="Email"
-                      className={`text-black ${
-                        errors.email &&
-                        touched.email &&
-                        'border-red-400 bg-red-200'
-                      }`}
-                      validate={validateEmail}
-                    />
+                    <label className="flex flex-col">
+                      Email:
+                      <Field
+                        type="email"
+                        name="email"
+                        placeholder="email@example.com"
+                        className={`text-black rounded-md ${
+                          errors.email &&
+                          touched.email &&
+                          'border-red-400 bg-red-200'
+                        }`}
+                        validate={validateEmail}
+                      />
+                    </label>
                     {errors.email && touched.email ? (
                       <div className="text-red-400">{errors.email}</div>
                     ) : null}
-                    <p className="pt-8 pb-2 text-lg font-semibold leading-snug">
+                    <p className="pt-6 pb-2 text-lg font-semibold leading-snug">
                       What do you want to take to the next level?
                     </p>
                     <label className="pb-1">
@@ -103,7 +107,7 @@ const EmailSubscribeWidget = (props: any) => {
                       <Field type="checkbox" name="fullStack2023" />
                       <span className="pl-2">Full-Stack in 2023</span>
                     </label>
-                    <label className="pb-4">
+                    <label className="pb-6">
                       <Field type="checkbox" name="typescript" />
                       <span className="pl-2">TypeScript</span>
                     </label>
