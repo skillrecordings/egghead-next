@@ -34,8 +34,8 @@ const EmailSubscribeWidget = (props: any) => {
   })
 
   return (
-    <div className="grid sm:grid-cols-2 border-2 border-gray-300 dark:border-none rounded-md">
-      <div className="flex flex-col prose prose-dark bg-gray-800 w-full p-6 rounded-l-md">
+    <div className="grid sm:grid-cols-2  rounded-md">
+      <div className="flex flex-col bg-gray-800 dark:bg-white dark:text-gray-800 text-white w-full p-6 rounded-l-md ">
         <Formik
           initialValues={{
             email: '',
@@ -74,7 +74,7 @@ const EmailSubscribeWidget = (props: any) => {
                     Ready to pick up the pace?
                   </h2>
                   <p className="py-2">
-                    enter your email and receive regular updates on our latest
+                    Enter your email and receive regular updates on our latest
                     articles and courses
                   </p>
 
@@ -112,7 +112,7 @@ const EmailSubscribeWidget = (props: any) => {
                       <span className="pl-2">TypeScript</span>
                     </label>
                     <button
-                      className={`bg-blue-600 rounded-md font-semibold p-1 ${
+                      className={`bg-blue-600 text-white rounded-md font-semibold p-1 ${
                         errors.email &&
                         touched.email &&
                         'opacity-50 cursor-not-allowed'
@@ -143,9 +143,9 @@ const EmailSubscribeWidget = (props: any) => {
         </Formik>
       </div>
 
-      <div className="hidden sm:flex sm:flex-col p-6 rounded-r-md text-gray-800 bg-white">
+      <div className="hidden sm:flex sm:flex-col p-6 rounded-r-md text-gray-800 bg-white dark:bg-gray-800 dark:text-white border-y-2 border-r-2 border-gray-300 dark:border-none">
         <h2 className="text-3xl leading-tight font-bold">Your time matters.</h2>
-        <p className="py-2">
+        <p className="pt-2">
           Our tutorials will respect it and keep you up to date.
         </p>
         <div className="flex flex-col h-full w-full justify-center">
