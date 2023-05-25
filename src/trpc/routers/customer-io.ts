@@ -33,11 +33,13 @@ export const customerIORouter = router({
           ...selectedInterests,
           pro: false,
           created_at: Math.floor(Date.now() * 0.001), // Customer.io uses seconds with their UNIX epoch timestamps
+          ...(selectedInterests.typescript && {typescript_score: 10}),
         })
       } else {
         await cio.identify(id, {
           email,
           ...selectedInterests,
+          created_at: Math.floor(Date.now() * 0.001),
         })
       }
     }),
