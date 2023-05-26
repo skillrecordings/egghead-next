@@ -23,6 +23,7 @@ function urlFor(source: any): any {
 }
 
 const Tag = (props: any) => {
+  const [hiddenCTA, setHiddenCTA] = React.useState(false)
   const {
     title = 'Missing title',
     categories,
@@ -126,7 +127,10 @@ const Tag = (props: any) => {
                 EmailSubscribeWidget: ({...props}: any) => {
                   return (
                     <div className="not-prose my-8">
-                      <EmailSubscribeWidget {...props} />
+                      <EmailSubscribeWidget
+                        {...props}
+                        hideCTAState={[hiddenCTA, setHiddenCTA]}
+                      />
                     </div>
                   )
                 },

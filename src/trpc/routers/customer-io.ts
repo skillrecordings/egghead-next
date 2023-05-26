@@ -1,6 +1,8 @@
 import {router, baseProcedure} from '../trpc.server'
 import {z} from 'zod'
 import emailIsValid from 'utils/email-is-valid'
+import cookieUtil from 'utils/cookies'
+import {CIO_IDENTIFIER_KEY} from 'config'
 
 const {
   TrackClient,
@@ -55,7 +57,6 @@ export const customerIORouter = router({
       } catch (e) {
         console.log(`customer '${email}' doesn't exist yet`)
 
-        // Customer doesn't exist yet
         const customer = await cio.identify(email, {
           email,
           ...selectedInterests,
@@ -66,8 +67,18 @@ export const customerIORouter = router({
           }),
         })
 
+        // Set cookie for 1 year
+
         console.log(`customer '${email}' created`)
         return customer
+      }
+
+      try {
+        const {customer} = await api.getAttributes(email, IdentifierType.Email)
+
+        cookieUtil.set(CIO_IDENTIFIER_KEY, `cio_${customer.identifiers.cio_id}`)
+      } catch (e) {
+        console.log(`could not set cookie for ${email}`)
       }
     }),
 })

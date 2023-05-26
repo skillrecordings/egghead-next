@@ -6,6 +6,8 @@ import {trpc} from 'trpc/trpc.client'
 import {format} from 'date-fns'
 import emailIsValid from 'utils/email-is-valid'
 import {set} from 'lodash'
+import {useCookie} from 'react-use'
+import {CIO_IDENTIFIER_KEY} from 'config'
 
 const validateEmail = (value: string) => {
   let error
@@ -20,7 +22,9 @@ const validateEmail = (value: string) => {
 
 const EmailSubscribeWidget = (props: any) => {
   const {subscriber} = useCio()
-  const [isSubmitted, setIsSubmitted] = React.useState(false)
+  const [hidden, setHidden] = props.hideCTAState
+  const [cookie, updateCookie, deleteCookie] = useCookie(CIO_IDENTIFIER_KEY)
+
   const identify = trpc.customerIO.identify.useMutation({
     onSuccess: (data) => {
       console.log(
@@ -33,8 +37,17 @@ const EmailSubscribeWidget = (props: any) => {
     },
   })
 
-  console.log('subscriber', subscriber, !subscriber)
-  if (!subscriber) {
+  React.useEffect(() => {
+    deleteCookie()
+  }, [deleteCookie])
+
+  React.useEffect(() => {
+    if (subscriber) {
+      setHidden(true)
+    }
+  }, [setHidden, subscriber])
+
+  if (!hidden) {
     return (
       <div className="grid sm:grid-cols-2  rounded-md">
         <div className="flex flex-col bg-gray-800 dark:bg-white dark:text-gray-800 text-white w-full p-6 rounded-l-md ">
@@ -58,18 +71,16 @@ const EmailSubscribeWidget = (props: any) => {
                 ...(typescript && {article_cta_typescript: currentDateTime}),
               }
 
-              const customer = await identify.mutateAsync({
+              await identify.mutateAsync({
                 email,
                 selectedInterests,
               })
 
-              console.log('CUSTOMER', customer)
-
-              setIsSubmitted(true)
+              setHidden(true)
             }}
           >
             {({values, errors, touched, isSubmitting}) => {
-              if (!isSubmitted) {
+              if (!hidden) {
                 return (
                   <div>
                     <h2 className="text-3xl leading-tight font-bold">
