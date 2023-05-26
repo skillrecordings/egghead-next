@@ -2,11 +2,18 @@ import {router, baseProcedure} from '../trpc.server'
 import {z} from 'zod'
 import emailIsValid from 'utils/email-is-valid'
 
-const {TrackClient, RegionUS} = require('customerio-node')
+const {
+  TrackClient,
+  RegionUS,
+  IdentifierType,
+  APIClient,
+} = require('customerio-node')
 const siteId = process.env.CUSTOMER_IO_SITE_ID
 const apiKey = process.env.CUSTOMER_IO_TRACK_API_BASIC
+const appApiKey = process.env.CUSTOMER_IO_APPLICATION_API_KEY
 
 const cio = new TrackClient(siteId, apiKey, {region: RegionUS})
+const api = new APIClient(appApiKey, {region: RegionUS})
 
 export const customerIORouter = router({
   identify: baseProcedure
@@ -22,13 +29,34 @@ export const customerIORouter = router({
       }),
     )
     .mutation(async ({input, ctx}) => {
-      const {email, id, selectedInterests} = input
+      const {email, selectedInterests} = input
 
-      if (!email && !id) return null
-      if (email && !emailIsValid(email)) return null
+      if (!email || (email && !emailIsValid(email))) return null
 
-      if (!id) {
-        await cio.identify(email, {
+      try {
+        const {customer} = await api.getAttributes(email, IdentifierType.Email)
+        console.log(`customer '${email}' exists - updating`)
+
+        if (customer) {
+          await cio.identify(`cio_${customer.identifiers.cio_id}`, {
+            ...(!customer?.attributes.article_cta_fullStack2023 && {
+              article_cta_fullStack2023:
+                selectedInterests.article_cta_fullStack2023,
+            }),
+            ...(!customer?.attributes.article_cta_portfolio && {
+              article_cta_portfolio: selectedInterests.article_cta_portfolio,
+            }),
+            ...(!customer?.attributes.article_cta_typescript && {
+              article_cta_typescript: selectedInterests.article_cta_typescript,
+            }),
+          })
+          return customer
+        }
+      } catch (e) {
+        console.log(`customer '${email}' doesn't exist yet`)
+
+        // Customer doesn't exist yet
+        const customer = await cio.identify(email, {
           email,
           ...selectedInterests,
           pro: false,
@@ -37,12 +65,9 @@ export const customerIORouter = router({
             typescript_score: 10,
           }),
         })
-      } else {
-        await cio.identify(id, {
-          email,
-          ...selectedInterests,
-          created_at: Math.floor(Date.now() * 0.001),
-        })
+
+        console.log(`customer '${email}' created`)
+        return customer
       }
     }),
 })
