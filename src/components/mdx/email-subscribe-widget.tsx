@@ -49,9 +49,11 @@ const EmailSubscribeWidget = (props: any) => {
             const currentDateTime = Math.floor(Date.now() * 0.001) // Customer.io uses seconds with their UNIX epoch timestamps
 
             const selectedInterests = {
-              ...(portfolio && {portfolio: currentDateTime}),
-              ...(fullStack2023 && {fullStack2023: currentDateTime}),
-              ...(typescript && {typescript: currentDateTime}),
+              ...(portfolio && {article_cta_portfolio: currentDateTime}),
+              ...(fullStack2023 && {
+                article_cta_fullStack2023: currentDateTime,
+              }),
+              ...(typescript && {article_cta_typescript: currentDateTime}),
             }
 
             let id = subscriber?.id
@@ -144,30 +146,17 @@ const EmailSubscribeWidget = (props: any) => {
       </div>
 
       <div className="hidden sm:flex sm:flex-col p-6 rounded-r-md text-gray-800 bg-white dark:bg-gray-800 dark:text-white border-y-2 border-r-2 border-gray-300 dark:border-none">
-        {/* Shown in dark mode */}
-        <div className="hidden dark:flex flex-col pb-4">
+        <div className="flex flex-row items-center pb-4 dark:text-white">
           <Image
-            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637569318/share-learner-review/egghead-logo_2x.png"
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1569690305/transcript-images/eggo_new.png"
             alt=""
             title=""
-            width="90%"
-            height={24}
-            layout="responsive"
-            objectFit="contain"
+            width={58}
+            height={58}
           />
-        </div>
-
-        {/* Shown in light mode */}
-        <div className="dark:hidden pb-4">
-          <Image
-            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1605643202/og-images/egghead-logo.svg"
-            alt=""
-            title=""
-            width="90%"
-            height={24}
-            layout="responsive"
-            objectFit="contain"
-          />
+          <span className="pl-1 dark:pl-2 text-3xl font-semibold">
+            egghead.io
+          </span>
         </div>
 
         <h2 className="text-lg font-semibold leading-snug">
