@@ -3,11 +3,7 @@ import Image from 'next/image'
 import {Formik, Field, Form} from 'formik'
 import useCio from 'hooks/use-cio'
 import {trpc} from 'trpc/trpc.client'
-import {format} from 'date-fns'
 import emailIsValid from 'utils/email-is-valid'
-import {set} from 'lodash'
-import {useCookie} from 'react-use'
-import {CIO_IDENTIFIER_KEY} from 'config'
 
 const validateEmail = (value: string) => {
   let error
@@ -23,7 +19,6 @@ const validateEmail = (value: string) => {
 const EmailSubscribeWidget = (props: any) => {
   const {subscriber} = useCio()
   const [hidden, setHidden] = props.hideCTAState
-  const [cookie, updateCookie, deleteCookie] = useCookie(CIO_IDENTIFIER_KEY)
 
   const identify = trpc.customerIO.identify.useMutation({
     onSuccess: (data) => {
@@ -36,10 +31,6 @@ const EmailSubscribeWidget = (props: any) => {
       console.log('ERROR: Customer.io failure in EmailSubscribeWidget', error)
     },
   })
-
-  React.useEffect(() => {
-    deleteCookie()
-  }, [deleteCookie])
 
   React.useEffect(() => {
     if (subscriber) {
