@@ -103,18 +103,19 @@ const EmailSubscribeWidget = (props: any) => {
                       <p className="pt-6 pb-2 text-lg font-semibold leading-snug">
                         What do you want to take to the next level?
                       </p>
-                      <label className="pb-1">
+                      <label className="pb-6">
                         <Field type="checkbox" name="portfolio" />
                         <span className="pl-2">Portfolio Building</span>
                       </label>
-                      <label className="pb-1">
+                      {/* TODO: Make these campaigns in CIO */}
+                      {/* <label className="pb-1">
                         <Field type="checkbox" name="fullStack2023" />
                         <span className="pl-2">Full-Stack in 2023</span>
                       </label>
                       <label className="pb-6">
                         <Field type="checkbox" name="typescript" />
                         <span className="pl-2">TypeScript</span>
-                      </label>
+                      </label> */}
                       <button
                         className={`bg-blue-600 text-white rounded-md font-semibold p-1 ${
                           errors.email &&
@@ -164,22 +165,26 @@ const EmailSubscribeWidget = (props: any) => {
           <h2 className="text-lg font-semibold leading-snug">
             We're here to help.
           </h2>
-          <p className="pt-2">
+          {/* <p className="pt-2">
             Sign up for one or more of our <b>FREE</b> email courses
+          </p> */}
+          <p className="pt-2">
+            Sign up for our <b>FREE</b> email course
           </p>
           <ul className="pt-4">
             <li className="pb-2">
               ⭐️ <b>Portfolio Building:</b> Learn how to build a badass
               developer portfolio so you can land that next job
             </li>
-            <li className="pb-2">
+            {/* TODO: Make these campaigns in CIO */}
+            {/* <li className="pb-2">
               ⭐️ <b>Full-Stack in 2023:</b> Build several full-stack apps using
               the latest tools and trends (Open AI, Next.js, Remix, and more)
             </li>
             <li>
               ⭐️ <b>TypeScript:</b> Build a solid foundation in TypeScript and
               learn some advanced techniques along the way
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>
