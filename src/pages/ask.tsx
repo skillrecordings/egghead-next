@@ -13,13 +13,26 @@ export const testSurveyInitialState: SurveyState = {
 }
 
 const Ask: React.FunctionComponent = () => {
-  const {data} = trpc.user.contactIdForEmail.useQuery({
-    email: 'joel@egghead.io',
-  })
+  const {mutate} = trpc.user.contactIdForEmail.useMutation()
 
-  console.log(data)
   return (
     <div>
+      <button
+        onClick={() => {
+          mutate(
+            {
+              email: 'joel@egghead.io',
+            },
+            {
+              onSuccess: (data) => {
+                console.log(data)
+              },
+            },
+          )
+        }}
+      >
+        Get The Id
+      </button>
       <Survey initialSurveyState={testSurveyInitialState} />
     </div>
   )
