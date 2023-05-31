@@ -5,7 +5,7 @@
 import {router, baseProcedure} from '../trpc.server'
 import {z} from 'zod'
 import {ACCESS_TOKEN_KEY} from '../../utils/auth'
-import {loadCurrentUser, loadUserAccounts} from '../../lib/users'
+import {getContactId, loadCurrentUser, loadUserAccounts} from '../../lib/users'
 import {getGraphQLClient} from 'utils/configured-graphql-client'
 import {gql} from 'graphql-request'
 
@@ -28,6 +28,24 @@ export const userRouter = router({
 
     return await loadCurrentUser(token)
   }),
+  contactIdForEmail: baseProcedure
+    .input(
+      z.object({
+        email: z.string(),
+      }),
+    )
+    .query(async ({input, ctx}) => {
+      // we want to load the token from cookie
+      // could also pass in here, but cookie
+      // is secure HTTP only so let's use it
+      const token =
+        ctx.req?.cookies[ACCESS_TOKEN_KEY] ||
+        process.env.EGGHEAD_SUPPORT_BOT_TOKEN
+
+      if (!token) return null
+
+      return await getContactId({token, email: input.email})
+    }),
   transactionsForCurrent: baseProcedure.query(async ({input, ctx}) => {
     const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
 
