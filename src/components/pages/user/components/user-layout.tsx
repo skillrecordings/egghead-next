@@ -12,12 +12,19 @@ import {useRouter} from 'next/router'
 import {useViewer} from 'context/viewer-context'
 import LoginRequired from 'components/login-required'
 import {useAccount} from 'hooks/use-account'
+import {useFlag} from '@upstash/edge-flags'
 
 export default function UserLayout({children}: any) {
   const {isTeamAccountOwner, isInstructor} = useAccount()
   const {viewer} = useViewer()
   const router = useRouter()
   const currentPath = router.asPath
+
+  const {isEnabled, error} = useFlag('beta-users', {
+    // optional custom attributes
+    userId: 'chronark',
+    company: 'Upstash',
+  })
 
   const userPagesMap = [
     ...(isInstructor

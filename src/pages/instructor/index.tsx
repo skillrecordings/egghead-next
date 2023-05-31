@@ -4,6 +4,7 @@ import {InstructorTabContent} from 'components/pages/user'
 import {GetServerSideProps} from 'next/types'
 import {getAbilityFromToken} from 'server/ability'
 import {ACCESS_TOKEN_KEY} from 'utils/auth'
+import {useFlag} from '@upstash/edge-flags'
 
 const Instructor = () => {
   return (
