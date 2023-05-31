@@ -246,3 +246,34 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
     }
   }
 }
+
+export const findOrCreateUser = async (email: string) => {
+  try {
+    console.log(`finding / creating user in Rails`)
+    let res = await fetch(
+      `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/find_or_create_user`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.CUSTOMER_IO_ROUTER_BOT_TOKEN}`,
+          'Content-Type': 'application/json',
+          'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID as string,
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      },
+    )
+
+    const body = await res.json()
+
+    console.log(
+      `user retreived from Rails in customer.io router`,
+      await res.json(),
+    )
+
+    return body.user_guid
+  } catch (e) {
+    console.log(`could not get user from Rails in customer.io router`, e)
+  }
+}

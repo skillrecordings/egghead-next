@@ -4,6 +4,7 @@ import {Formik, Field, Form} from 'formik'
 import useCio from 'hooks/use-cio'
 import {trpc} from 'trpc/trpc.client'
 import emailIsValid from 'utils/email-is-valid'
+import toast from 'react-hot-toast'
 
 const validateEmail = (value: string) => {
   let error
@@ -50,16 +51,12 @@ const EmailSubscribeWidget = (props: any) => {
               typescript: false,
             }}
             onSubmit={async (values) => {
-              const {email, portfolio, fullStack2023, typescript} = values
+              const {email, portfolio} = values
 
               const currentDateTime = Math.floor(Date.now() * 0.001) // Customer.io uses seconds with their UNIX epoch timestamps
 
               const selectedInterests = {
                 ...(portfolio && {article_cta_portfolio: currentDateTime}),
-                ...(fullStack2023 && {
-                  article_cta_fullStack2023: currentDateTime,
-                }),
-                ...(typescript && {article_cta_typescript: currentDateTime}),
               }
 
               await identify.mutateAsync({
@@ -68,6 +65,7 @@ const EmailSubscribeWidget = (props: any) => {
               })
 
               setHidden(true)
+              toast.success('Thanks for subscribing! 🎉', {duration: 5000})
             }}
           >
             {({values, errors, touched, isSubmitting}) => {

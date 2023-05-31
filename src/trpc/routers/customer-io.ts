@@ -3,6 +3,7 @@ import {z} from 'zod'
 import emailIsValid from 'utils/email-is-valid'
 import cookieUtil from 'utils/cookies'
 import {CIO_IDENTIFIER_KEY} from 'config'
+import {findOrCreateUser} from 'lib/users'
 
 const {
   TrackClient,
@@ -16,6 +17,7 @@ const appApiKey = process.env.CUSTOMER_IO_APPLICATION_API_KEY
 
 const cio = new TrackClient(siteId, apiKey, {region: RegionUS})
 const api = new APIClient(appApiKey, {region: RegionUS})
+const date = Math.floor(Date.now() * 0.001)
 
 export const customerIORouter = router({
   identify: baseProcedure
@@ -25,15 +27,14 @@ export const customerIORouter = router({
         id: z.string().optional(),
         selectedInterests: z.object({
           article_cta_portfolio: z.number().optional(),
-          article_cta_fullStack2023: z.number().optional(),
-          article_cta_typescript: z.number().optional(),
         }),
       }),
     )
     .mutation(async ({input, ctx}) => {
       const {email, selectedInterests} = input
-
       if (!email || (email && !emailIsValid(email))) return null
+
+      const user_guid = findOrCreateUser(email)
 
       try {
         const {customer} = await api.getAttributes(email, IdentifierType.Email)
@@ -41,15 +42,9 @@ export const customerIORouter = router({
 
         if (customer) {
           await cio.identify(`cio_${customer.identifiers.cio_id}`, {
-            ...(!customer?.attributes.article_cta_fullStack2023 && {
-              article_cta_fullStack2023:
-                selectedInterests.article_cta_fullStack2023,
-            }),
+            signed_up_for_newsletter: date,
             ...(!customer?.attributes.article_cta_portfolio && {
               article_cta_portfolio: selectedInterests.article_cta_portfolio,
-            }),
-            ...(!customer?.attributes.article_cta_typescript && {
-              article_cta_typescript: selectedInterests.article_cta_typescript,
             }),
           })
           return customer
@@ -57,28 +52,30 @@ export const customerIORouter = router({
       } catch (e) {
         console.log(`customer '${email}' doesn't exist yet`)
 
-        const customer = await cio.identify(email, {
+        await cio.identify(email, {
           email,
+          id: user_guid,
           ...selectedInterests,
           pro: false,
-          created_at: Math.floor(Date.now() * 0.001), // Customer.io uses seconds with their UNIX epoch timestamps
-          ...(selectedInterests.article_cta_typescript && {
-            typescript_score: 10,
-          }),
+          created_at: date, // Customer.io uses seconds with their UNIX epoch timestamps
+          signed_up_for_newsletter: date,
         })
 
-        // Set cookie for 1 year
-
         console.log(`customer '${email}' created`)
-        return customer
-      }
+        try {
+          const {customer} = await api.getAttributes(
+            email,
+            IdentifierType.Email,
+          )
 
-      try {
-        const {customer} = await api.getAttributes(email, IdentifierType.Email)
-
-        cookieUtil.set(CIO_IDENTIFIER_KEY, `cio_${customer.identifiers.cio_id}`)
-      } catch (e) {
-        console.log(`could not set cookie for ${email}`)
+          cookieUtil.set(
+            CIO_IDENTIFIER_KEY,
+            `cio_${customer.identifiers.cio_id}`,
+          )
+          console.log(`cookie set for ${email}`)
+        } catch (e) {
+          console.log(`could not set cookie for ${email}`)
+        }
       }
     }),
 })
