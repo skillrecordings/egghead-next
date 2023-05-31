@@ -261,7 +261,6 @@ export async function getContactId({
       }
     }
   `
-  token = token || getAccessTokenFromCookie()
   const graphQLClient = getGraphQLClient(token)
 
   const {user_for_email} = await graphQLClient.request(query, {email})
