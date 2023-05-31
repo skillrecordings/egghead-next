@@ -34,7 +34,7 @@ export const userRouter = router({
         email: z.string(),
       }),
     )
-    .query(async ({input, ctx}) => {
+    .mutation(async ({input, ctx}) => {
       const token =
         ctx.req?.cookies[ACCESS_TOKEN_KEY] ||
         process.env.EGGHEAD_SUPPORT_BOT_TOKEN
