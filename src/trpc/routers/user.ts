@@ -35,9 +35,6 @@ export const userRouter = router({
       }),
     )
     .query(async ({input, ctx}) => {
-      // we want to load the token from cookie
-      // could also pass in here, but cookie
-      // is secure HTTP only so let's use it
       const token =
         ctx.req?.cookies[ACCESS_TOKEN_KEY] ||
         process.env.EGGHEAD_SUPPORT_BOT_TOKEN
