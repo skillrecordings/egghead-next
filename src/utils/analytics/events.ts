@@ -139,7 +139,7 @@ export const activityInternalLinkClick = (
   resourceType: string,
   currentLocation: string,
   topic: string,
-  redirectTo: string,
+  redirectTo?: string,
   instructor?: string,
 ) =>
   track('clicked internal link', {
@@ -174,9 +174,9 @@ export const activityExternalLinkClick = (
 export const activityCtaClick = (
   resourceType: string,
   currentLocation: string,
+  redirectTo?: string,
   instructor?: string,
   topic?: string,
-  redirectTo?: string,
 ) =>
   track('clicked CTA', {
     eventGroup: 'activity',
