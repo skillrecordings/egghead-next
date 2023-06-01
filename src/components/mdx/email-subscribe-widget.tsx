@@ -22,17 +22,7 @@ const EmailSubscribeWidget = (props: any) => {
   const signedUpForNewsletter = cookieUtil.get(ARTICLE_NEWSLETTER_INTEREST_KEY)
   const [hidden, setHidden] = props.hideCTAState
 
-  const identify = trpc.customerIO.identify.useMutation({
-    onSuccess: (data) => {
-      console.log(
-        'SUCCESS: Customer.io identification in EmailSubscribeWidget',
-        data,
-      )
-    },
-    onError: (error) => {
-      console.log('ERROR: Customer.io failure in EmailSubscribeWidget', error)
-    },
-  })
+  const identify = trpc.customerIO.identify.useMutation()
 
   React.useEffect(() => {
     if (signedUpForNewsletter) {

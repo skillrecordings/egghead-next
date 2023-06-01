@@ -26,15 +26,12 @@ export const customerIORouter = router({
       const {email, selectedInterests} = input
       if (!email || (email && !emailIsValid(email))) return null
 
-      console.log('email', email)
       const token =
         ctx.req?.cookies[ACCESS_TOKEN_KEY] ||
         process.env.EGGHEAD_SUPPORT_BOT_TOKEN
-      console.log('token', token)
       if (!token) return null
 
       const user_contact = await getContactId({token, email})
-      console.log('user_contact', user_contact)
 
       const customer = await getAttributes(user_contact)
 
@@ -49,8 +46,6 @@ export const customerIORouter = router({
         })
         return customer
       } else {
-        console.log(`customer '${email}' doesn't exist yet`)
-
         await cio.identify(user_contact, {
           email,
           id: user_contact,
@@ -59,8 +54,6 @@ export const customerIORouter = router({
           created_at: date, // Customer.io uses seconds with their UNIX epoch timestamps
           signed_up_for_newsletter: date,
         })
-
-        console.log(`customer '${email}' created`)
       }
     }),
 })
