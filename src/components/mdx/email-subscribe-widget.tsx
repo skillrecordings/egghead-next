@@ -1,10 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
 import {Formik, Field, Form} from 'formik'
-import useCio from 'hooks/use-cio'
 import {trpc} from 'trpc/trpc.client'
 import emailIsValid from 'utils/email-is-valid'
 import toast from 'react-hot-toast'
+import cookieUtil from 'utils/cookies'
+import {ARTICLE_NEWSLETTER_INTEREST_KEY} from 'config'
 
 const validateEmail = (value: string) => {
   let error
@@ -18,7 +19,7 @@ const validateEmail = (value: string) => {
 }
 
 const EmailSubscribeWidget = (props: any) => {
-  const {subscriber} = useCio()
+  const signedUpForNewsletter = cookieUtil.get(ARTICLE_NEWSLETTER_INTEREST_KEY)
   const [hidden, setHidden] = props.hideCTAState
 
   const identify = trpc.customerIO.identify.useMutation({
@@ -34,10 +35,10 @@ const EmailSubscribeWidget = (props: any) => {
   })
 
   React.useEffect(() => {
-    if (subscriber) {
+    if (signedUpForNewsletter) {
       setHidden(true)
     }
-  }, [setHidden, subscriber])
+  }, [setHidden, signedUpForNewsletter])
 
   if (!hidden) {
     return (
@@ -63,6 +64,11 @@ const EmailSubscribeWidget = (props: any) => {
                 email,
                 selectedInterests,
               })
+
+              cookieUtil.set(
+                ARTICLE_NEWSLETTER_INTEREST_KEY,
+                `cio_newsletter_${currentDateTime}`,
+              )
 
               setHidden(true)
               toast.success('Thanks for subscribing! 🎉', {duration: 5000})

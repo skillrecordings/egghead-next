@@ -1,6 +1,6 @@
 import emailIsValid from 'utils/email-is-valid'
 import cookieUtil from 'utils/cookies'
-import {CIO_IDENTIFIER_KEY} from 'config'
+import {ARTICLE_NEWSLETTER_INTEREST_KEY} from 'config'
 import {getContactId} from 'lib/users'
 import {ACCESS_TOKEN_KEY} from 'utils/auth'
 
@@ -19,16 +19,6 @@ export const getAttributes = async (user_contact: string) => {
     return customer
   } catch {
     return null
-  }
-}
-
-export const setCookie = async (userContact: any) => {
-  try {
-    cookieUtil.set(CIO_IDENTIFIER_KEY, userContact)
-
-    console.log(`cookie set for ${userContact}`)
-  } catch {
-    console.log(`could not set cookie for ${userContact}`)
   }
 }
 
@@ -70,6 +60,5 @@ export async function identifyMutation({input, ctx}: {input: any; ctx: any}) {
     })
 
     console.log(`customer '${email}' created`)
-    setCookie(user_contact)
   }
 }
