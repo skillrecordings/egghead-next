@@ -81,7 +81,7 @@ const ResourceWidget: React.FC<{
           )
         })}
       {articles && (
-        <div className="bg-gray-100 dark:bg-gray-800 p-8">
+        <div className="bg-gray-100 dark:bg-gray-800 p-8 rounded-md">
           <h3 className="prose dark:prose-dark sm:prose-xl lg:prose-2xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 font-bold mb-4">
             {resource.title}
           </h3>
@@ -96,7 +96,7 @@ const ResourceWidget: React.FC<{
                   return (
                     <HorizontalResourceCard
                       location={location}
-                      className="col-span-3 md:col-span-4 dark:bg-gray-600"
+                      className="col-span-3 md:col-span-4 dark:bg-gray-600 rounded-md"
                       key={article.slug}
                       resource={article}
                     />
@@ -106,7 +106,7 @@ const ResourceWidget: React.FC<{
                   return i === 0 ? (
                     <HorizontalResourceCard
                       location={location}
-                      className="col-span-2 dark:bg-gray-600"
+                      className="col-span-2 dark:bg-gray-600 rounded-md"
                       key={article.slug}
                       resource={article}
                     />
@@ -115,7 +115,7 @@ const ResourceWidget: React.FC<{
                       location={location}
                       key={article.slug}
                       resource={article}
-                      className="dark:bg-gray-600"
+                      className="dark:bg-gray-600 rounded-md"
                     />
                   )
                 }
@@ -125,7 +125,7 @@ const ResourceWidget: React.FC<{
                       location={location}
                       key={article.slug}
                       resource={article}
-                      className="dark:bg-gray-600"
+                      className="dark:bg-gray-600 rounded-md"
                     />
                   )
               }
