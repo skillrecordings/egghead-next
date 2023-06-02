@@ -11,6 +11,9 @@ const ResourceWidget: React.FC<{
   const {podcasts, talks, collections, articles} = resource
   return (
     <>
+      <h3 className="prose dark:prose-dark sm:prose-xl lg:prose-2xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 font-bold mb-4">
+        {resource.title}
+      </h3>
       {collections &&
         collections.map((collection: any) => {
           return (
