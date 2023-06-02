@@ -12,19 +12,12 @@ import {useRouter} from 'next/router'
 import {useViewer} from 'context/viewer-context'
 import LoginRequired from 'components/login-required'
 import {useAccount} from 'hooks/use-account'
-import {useFlag} from '@upstash/edge-flags'
 
 export default function UserLayout({children}: any) {
   const {isTeamAccountOwner, isInstructor} = useAccount()
   const {viewer} = useViewer()
   const router = useRouter()
   const currentPath = router.asPath
-
-  const {isEnabled, error} = useFlag('beta-users', {
-    // optional custom attributes
-    userId: 'chronark',
-    company: 'Upstash',
-  })
 
   const userPagesMap = [
     ...(isInstructor
@@ -70,14 +63,14 @@ export default function UserLayout({children}: any) {
   return (
     <LoginRequired>
       <main>
-        <div className="max-w-screen-xl mx-auto px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
-          <div className="sm:px-6 md:px-0 pt-10 pb-4">
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <div className="max-w-screen-xl px-4 pb-6 mx-auto sm:px-6 lg:px-8 lg:pb-16">
+          <div className="pt-10 pb-4 sm:px-6 md:px-0">
+            <h1 className="text-xl font-bold tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
               Hello, {viewer?.full_name || viewer?.username}!
             </h1>
           </div>
-          <div className="overflow-hidden rounded-lg bg-gray-50 dark:bg-gray-800 shadow">
-            <div className="divide-y dark:divide-gray-700 divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
+          <div className="overflow-hidden rounded-lg shadow bg-gray-50 dark:bg-gray-800">
+            <div className="divide-y divide-gray-200 dark:divide-gray-700 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
               <aside className="py-6 lg:col-span-3">
                 <nav className="space-y-1">
                   {userPagesMap.map((page) => {
@@ -107,7 +100,7 @@ export default function UserLayout({children}: any) {
                   })}
                 </nav>
               </aside>
-              <section className="divide-y divide-gray-200 lg:col-span-9 flex">
+              <section className="flex divide-y divide-gray-200 lg:col-span-9">
                 <div
                   className={`py-6 px-4 sm:p-6 lg:pb-8 w-full flex justify-center items-center`}
                 >

@@ -6498,6 +6498,18 @@
   dependencies:
     "@ucast/core" "^1.4.1"
 
+"@vercel/edge-config-fs@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@vercel/edge-config-fs/-/edge-config-fs-0.1.0.tgz#cda8327f611418c1d1cbb28c6bed02d782be928b"
+  integrity sha512-NRIBwfcS0bUoUbRWlNGetqjvLSwgYH/BqKqDN7vK1g32p7dN96k0712COgaz6VFizAm9b0g6IG6hR6+hc0KCPg==
+
+"@vercel/edge-config@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@vercel/edge-config/-/edge-config-0.2.1.tgz#d7f16510026fbbebfa5380566e786e9bd3ac297a"
+  integrity sha512-847kYqJEbga4PGgNrctQ9XsD+2Kw/S+UjzZnIFpebQ9VbdtB0MX4anq33WetcYZYPfhZd2L0uXVnY/BcjI5dOw==
+  dependencies:
+    "@vercel/edge-config-fs" "0.1.0"
+
 "@videojs/http-streaming@2.14.2", "@videojs/http-streaming@^2.9.3":
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/@videojs/http-streaming/-/http-streaming-2.14.2.tgz#c083c106b13c7cc59ee441fdb46a94169e19a50b"
