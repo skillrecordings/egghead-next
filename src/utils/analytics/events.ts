@@ -186,3 +186,17 @@ export const activityCtaClick = (
     topic,
     redirectTo,
   })
+
+// User clicked a Newsletter Subscribe CTA
+/* We implemented a CTA where a user can select various interests and subscribe to our newsletter */
+export const activityClickedNewsletterSubscribe = (
+  currentLocation: string,
+  instructor: string,
+  interersts: string[] | [],
+) =>
+  track('clicked newsletter subscribe', {
+    eventGroup: 'activity',
+    currentLocation,
+    instructor,
+    interersts,
+  })
