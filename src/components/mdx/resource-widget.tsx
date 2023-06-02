@@ -80,7 +80,7 @@ const ResourceWidget: React.FC<{
             </div>
           )
         })}
-      {articles && (
+      {articles.length > 0 && (
         <div className="bg-gray-100 dark:bg-gray-800 p-8 rounded-md">
           <h3 className="prose dark:prose-dark sm:prose-xl lg:prose-2xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 font-bold mb-4">
             {resource.title}
