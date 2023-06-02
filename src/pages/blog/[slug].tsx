@@ -33,6 +33,7 @@ const Tag = (props: any) => {
     source,
     articleResources,
     resources,
+    slug,
   } = props
 
   const router = useRouter()
@@ -124,11 +125,12 @@ const Tag = (props: any) => {
                     </div>
                   ) : null
                 },
-                EmailSubscribeWidget: ({...props}: any) => {
+                EmailSubscribeWidget: (props: any) => {
                   return (
                     <div className="not-prose my-8">
                       <EmailSubscribeWidget
-                        {...props}
+                        slug={slug}
+                        author={author}
                         hideCTAState={[hiddenCTA, setHiddenCTA]}
                       />
                     </div>
@@ -190,6 +192,7 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
   seo,
   coverImage,
   body,
+  "slug": slug.current,
   "articleResources": resources[type == "collection"]{
     "location": content[0].text,
     title,
@@ -264,8 +267,10 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
 }`
 
 export async function getStaticProps(context: any) {
+  const slug: string = context.params.slug
+
   const {body, ...post} = await sanityClient.fetch(query, {
-    slug: context.params.slug,
+    slug,
   })
 
   const mdxSource = await serialize(body, {
@@ -288,7 +293,7 @@ export async function getStaticProps(context: any) {
     },
   })
   return {
-    props: {...post, source: mdxSource},
+    props: {...post, slug, source: mdxSource},
     revalidate: 1,
   }
 }

@@ -6,6 +6,7 @@ import emailIsValid from 'utils/email-is-valid'
 import toast from 'react-hot-toast'
 import cookieUtil from 'utils/cookies'
 import {ARTICLE_NEWSLETTER_INTEREST_KEY} from 'config'
+import analytics from 'utils/analytics'
 
 const validateEmail = (value: string) => {
   let error
@@ -21,6 +22,8 @@ const validateEmail = (value: string) => {
 const EmailSubscribeWidget = (props: any) => {
   const signedUpForNewsletter = cookieUtil.get(ARTICLE_NEWSLETTER_INTEREST_KEY)
   const [hidden, setHidden] = props.hideCTAState
+
+  const {slug, author} = props
 
   const identify = trpc.customerIO.identify.useMutation()
 
@@ -38,8 +41,6 @@ const EmailSubscribeWidget = (props: any) => {
             initialValues={{
               email: '',
               portfolio: true,
-              fullStack2023: false,
-              typescript: false,
             }}
             onSubmit={async (values) => {
               const {email, portfolio} = values
@@ -55,6 +56,8 @@ const EmailSubscribeWidget = (props: any) => {
                 selectedInterests,
               })
 
+              const interestsArray = Object.keys(selectedInterests)
+
               cookieUtil.set(
                 ARTICLE_NEWSLETTER_INTEREST_KEY,
                 `cio_newsletter_${currentDateTime}`,
@@ -62,6 +65,12 @@ const EmailSubscribeWidget = (props: any) => {
 
               setHidden(true)
               toast.success('Thanks for subscribing! 🎉', {duration: 5000})
+
+              analytics.events.activityClickedNewsletterSubscribe(
+                slug,
+                author.name,
+                interestsArray,
+              )
             }}
           >
             {({values, errors, touched, isSubmitting}) => {
