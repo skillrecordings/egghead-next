@@ -13,7 +13,7 @@ const Browse: React.FC<{topic?: string}> = ({topic}) => {
           }}
           className="flex items-center justify-center px-8 py-4 transition-all duration-200 ease-in-out dark:bg-blue-50 bg-gray-900 dark:text-black text-white rounded-md dark:hover:bg-white font-medium group"
         >
-          Explore the Most Free Popular Courses on egghead
+          Explore Popular Free Courses on egghead
           <i
             className="transition-all duration-200 ease-in-out scale-75 gg-arrow-right group-hover:translate-x-1"
             aria-hidden

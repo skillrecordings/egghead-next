@@ -25,7 +25,7 @@ const HorizontalResourceCard: React.FC<{
   location?: string
   describe?: boolean
   className?: string
-  completedCoursesIds?: string[]
+  completedCoursesIds?: number[]
 }> = ({
   children,
   resource,
@@ -40,7 +40,7 @@ const HorizontalResourceCard: React.FC<{
   const isCourseCompleted =
     !isEmpty(completedCoursesIds) &&
     externalId &&
-    completedCoursesIds?.some((courseId: string) => courseId === externalId)
+    completedCoursesIds?.some((courseId: number) => courseId === externalId)
 
   const defaultClassName =
     'rounded-md aspect-w-4 aspect-h-2 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50'
@@ -49,7 +49,7 @@ const HorizontalResourceCard: React.FC<{
       path={(resource.path || resource.url) as string}
       location={location as string}
       className={className}
-      resource_type={resource.name}
+      resource_type={resource.name || ''}
       instructor={resource.instructor?.name}
       tag={resource.tag?.name}
     >
@@ -61,9 +61,9 @@ const HorizontalResourceCard: React.FC<{
             })}`}
           >
             <PreviewImage
-              name={resource.name}
+              name={resource.name || ''}
               image={resource.image}
-              title={resource.title}
+              title={resource.title || ''}
             />
           </CardHeader>
           <CardBody className="col-span-5">

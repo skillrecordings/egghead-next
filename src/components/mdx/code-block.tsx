@@ -69,7 +69,7 @@ const CodeBlock: FunctionComponent<CodeBlockProps> = ({
   }
 
   return (
-    <div className="relative bg-gray-800 sm:mx-0 -mx-2 sm:rounded-md rounded-none mb-5 overflow-hidden">
+    <div className="relative bg-gray-800 sm:mx-0 -mx-4 sm:rounded-md rounded-none mb-5 overflow-hidden">
       {labeled && (
         <>
           <div className="sm:pb-3 pb-0 px-5 pt-5 text-white text-xs font-bold select-none pointer-events-none">

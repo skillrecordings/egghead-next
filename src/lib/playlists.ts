@@ -223,6 +223,9 @@ export async function loadPlaylist(slug: string, token?: string) {
             created_at
             updated_at
             published_at
+            primary_tag {
+              name
+            }
           }
           ... on File {
             slug

@@ -26,7 +26,7 @@ const DynamicCardGrid = ({
   className,
 }: {
   section: any
-  completedCoursesIds: string[]
+  completedCoursesIds: number[]
   location: string
   className?: string
 }) => {
