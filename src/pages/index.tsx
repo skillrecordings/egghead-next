@@ -45,6 +45,7 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
       title,
       'slug': slug.current,
       image,
+      displayComponent,
       path,
       description,
       'topics': resources[]{

@@ -885,6 +885,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <div>
                 <ul>
                   {lessons.map((lesson: LessonResource, index: number) => {
+                    const tagImageUrl = `https://res.cloudinary.com/dg3gyk0gu/image/upload/w_72,h_72/v1683914713/tags/${lesson?.primary_tag?.name}.png`
+
                     const isComplete = completedLessonSlugs?.includes(
                       lesson.slug,
                     )
@@ -905,10 +907,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                 index + 1
                               )}
                             </div>
-                            {lesson.icon_url && (
+                            {lesson.primary_tag && (
                               <div className="flex items-center flex-shrink-0 w-8">
                                 <Image
-                                  src={lesson.icon_url}
+                                  src={tagImageUrl}
                                   width={24}
                                   height={24}
                                 />

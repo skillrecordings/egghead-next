@@ -246,3 +246,24 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
     }
   }
 }
+
+export async function getContactId({
+  token,
+  email,
+}: {
+  token: string
+  email: string
+}): Promise<any> {
+  const query = gql`
+    query getContactIdForEmail($email: String!) {
+      user_for_email(email: $email) {
+        contact_id
+      }
+    }
+  `
+  const graphQLClient = getGraphQLClient(token)
+
+  const {user_for_email} = await graphQLClient.request(query, {email})
+
+  return user_for_email?.contact_id || null
+}

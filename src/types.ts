@@ -10,7 +10,7 @@ export type Resource = {
 
 export type CardResource = Resource & {
   id?: string
-  externalId?: string
+  externalId?: number
   image: string | {src: string; alt: string}
   name: string
   tag?: any
@@ -30,6 +30,7 @@ export type LessonResource = Resource & {
   id: string | number
   tags: any[]
   lessons: any[]
+  primary_tag: any
   completed: boolean
   duration: number
   instructor: any

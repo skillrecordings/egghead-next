@@ -139,7 +139,7 @@ export const activityInternalLinkClick = (
   resourceType: string,
   currentLocation: string,
   topic: string,
-  redirectTo: string,
+  redirectTo?: string,
   instructor?: string,
 ) =>
   track('clicked internal link', {
@@ -174,9 +174,9 @@ export const activityExternalLinkClick = (
 export const activityCtaClick = (
   resourceType: string,
   currentLocation: string,
+  redirectTo?: string,
   instructor?: string,
   topic?: string,
-  redirectTo?: string,
 ) =>
   track('clicked CTA', {
     eventGroup: 'activity',
@@ -185,4 +185,18 @@ export const activityCtaClick = (
     currentLocation,
     topic,
     redirectTo,
+  })
+
+// User clicked a Newsletter Subscribe CTA
+/* We implemented a CTA where a user can select various interests and subscribe to our newsletter */
+export const activityClickedNewsletterSubscribe = (
+  currentLocation: string,
+  instructor: string,
+  interersts: string[] | [],
+) =>
+  track('clicked newsletter subscribe', {
+    eventGroup: 'activity',
+    currentLocation,
+    instructor,
+    interersts,
   })

@@ -28,7 +28,7 @@ const VerticalResourceCard: React.FC<{
   className?: string
   small?: boolean
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
-  completedCoursesIds?: string[]
+  completedCoursesIds?: number[]
 }> = ({
   children,
   resource,
@@ -45,14 +45,14 @@ const VerticalResourceCard: React.FC<{
   const isCourseCompleted =
     !isEmpty(completedCoursesIds) &&
     externalId &&
-    completedCoursesIds?.some((courseId: string) => courseId === externalId)
+    completedCoursesIds?.some((courseId: number) => courseId === externalId)
 
   return (
     <ResourceLink
       path={(resource.path || resource.url) as string}
       location={location as string}
       target={resource.url ? '_blank' : undefined}
-      resource_type={resource.name}
+      resource_type={resource.name || ''}
       instructor={resource?.instructor?.name}
       tag={resource.tag?.name}
       className={className}
@@ -84,8 +84,8 @@ const VerticalResourceCard: React.FC<{
             <PreviewImage
               small={small}
               image={resource.image}
-              title={resource.title}
-              resourceType={resource.name}
+              title={resource.title || ''}
+              resourceType={resource.name || ''}
             />
           </CardHeader>
           <CardMeta

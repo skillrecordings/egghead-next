@@ -16,12 +16,14 @@ import ResourceWidget from 'components/mdx/resource-widget'
 import find from 'lodash/find'
 import {useScrollTracker} from 'react-scroll-tracker'
 import analytics from 'utils/analytics'
+import EmailSubscribeWidget from 'components/mdx/email-subscribe-widget'
 
 function urlFor(source: any): any {
   return imageUrlBuilder(sanityClient).image(source)
 }
 
 const Tag = (props: any) => {
+  const [hiddenCTA, setHiddenCTA] = React.useState(false)
   const {
     title = 'Missing title',
     categories,
@@ -31,6 +33,7 @@ const Tag = (props: any) => {
     source,
     articleResources,
     resources,
+    slug,
   } = props
 
   const router = useRouter()
@@ -122,6 +125,17 @@ const Tag = (props: any) => {
                     </div>
                   ) : null
                 },
+                EmailSubscribeWidget: (props: any) => {
+                  return (
+                    <div className="not-prose my-8">
+                      <EmailSubscribeWidget
+                        slug={slug}
+                        author={author}
+                        hideCTAState={[hiddenCTA, setHiddenCTA]}
+                      />
+                    </div>
+                  )
+                },
               }}
             />
           </main>
@@ -178,9 +192,11 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
   seo,
   coverImage,
   body,
+  "slug": slug.current,
   "articleResources": resources[type == "collection"]{
     "location": content[0].text,
     title,
+    description,
     "slug": slug.current,
     "podcasts": resources[type == "podcast"]{
       title,
@@ -189,17 +205,35 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
       "description": byline,
       "slug": slug.current,
       "name": type,
-  },
-   "collections": resources[type == "collection"]{
+    },
+    "collections": resources[type == "collection"]{
      title,
      'courses': resources[]->{
-       type,
-       title,
-       image,
-       path,
-       "description": summary,
-       byline,
-       'instructor': collaborators[]->[role == 'instructor'][0]{
+        type,
+        title,
+        image,
+        path,
+        "description": summary,
+        byline,
+        'instructor': collaborators[]->[role == 'instructor'][0]{
+          title,
+          'slug': person->slug.current,
+          'name': person->name,
+          'path': person->website,
+          'twitter': person->twitter,
+          'image': person->image.url
+        },
+      },
+    },
+    "articles": resources[type == "article"]{
+      title,
+      image,
+      path,
+      "byline": "",
+      description,
+      "name": type,
+      "slug": slug.current,
+      'instructor': collaborators[][0]->{
         title,
         'slug': person->slug.current,
         'name': person->name,
@@ -207,35 +241,36 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
         'twitter': person->twitter,
         'image': person->image.url
       },
-     }
-   },
-   "talks": resources[_type == "reference"]->{
-     title,
-     image,
-     "description": byline,
-     byline,
-     path,
-     "name": type,
-   }
+    },
+    "talks": resources[_type == "reference"]->{
+      title,
+      image,
+      "description": byline,
+      byline,
+      path,
+      "name": type,
+    }
   },
   "resources": resources[]-> {
     title,
     'instructor': collaborators[]->[role == 'instructor'][0]{
        'full_name': person->.name
      },
-     path,
-     "slug": slug.current,
+    path,
+    "slug": slug.current,
     "image_thumb_url": image,
     "lessons": resources[] {
-        title,
-        path
+      title,
+      path
     }
   }
 }`
 
 export async function getStaticProps(context: any) {
+  const slug: string = context.params.slug
+
   const {body, ...post} = await sanityClient.fetch(query, {
-    slug: context.params.slug,
+    slug,
   })
 
   const mdxSource = await serialize(body, {
@@ -258,7 +293,7 @@ export async function getStaticProps(context: any) {
     },
   })
   return {
-    props: {...post, source: mdxSource},
+    props: {...post, slug, source: mdxSource},
     revalidate: 1,
   }
 }

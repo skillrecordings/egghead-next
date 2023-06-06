@@ -6,6 +6,8 @@ import {NextSeo} from 'next-seo'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import groq from 'groq'
+import {z} from 'zod'
+import {result} from 'lodash'
 
 const LearnPage: FunctionComponent<any> = ({data, holidayCourses}) => {
   const location = 'curated home landing'
@@ -49,6 +51,7 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
       'id': _id,
       title,
       'slug': slug.current,
+      displayComponent,
       image,
       path,
       description,
@@ -65,8 +68,13 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
         'name': type,
         'description': summary,
         path,
+        'slug': slug.current,
+        byline,
         image,
-        images,
+        images {
+          label,
+          url,
+        },
         'tag': softwareLibraries[][0] {
           'name': library->name,
          },
@@ -78,6 +86,57 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
         }
     }
   }`
+
+const Resource = z.object({
+  id: z.string(),
+  externalId: z.number(),
+  title: z.string(),
+  name: z.string(),
+  description: z.string(),
+  path: z.string(),
+  slug: z.string(),
+  byline: z.string(),
+  image: z.union([z.string(), z.object({src: z.string(), alt: z.string()})]),
+  images: z.object({
+    label: z.string(),
+    url: z.string(),
+  }),
+  tag: z.object({
+    name: z.string(),
+  }),
+  ogImage: z.string(),
+  instructor: z.object({
+    name: z.string(),
+    image: z.string(),
+  }),
+})
+export type SanityResourceType = z.infer<typeof Resource>
+
+const Topic = z.object({
+  id: z.string().optional(),
+  title: z.string().optional(),
+  path: z.string().optional(),
+  image: z.string().optional(),
+})
+
+const SanitySection = z.object({
+  id: z.string().optional(),
+  title: z.string(),
+  slug: z.string().optional(),
+  displayComponent: z.string().optional(),
+  image: z.string().optional(),
+  path: z.string().optional(),
+  description: z.string().optional(),
+  topics: z.array(Topic).optional(),
+  resources: z.array(Resource).nullish(),
+})
+export type SanitySectionType = z.infer<typeof SanitySection>
+
+const CuratedHomePageData = z.object({
+  title: z.string(),
+  sections: z.array(SanitySection).nonempty(),
+})
+export type CuratedHomePageDataType = z.infer<typeof CuratedHomePageData>
 
 export async function getStaticProps() {
   const data = await sanityClient.fetch(homepageQuery)
