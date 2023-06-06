@@ -6,7 +6,7 @@ import {getContactId} from 'lib/users'
 import {ACCESS_TOKEN_KEY} from 'utils/auth'
 
 const {TrackClient, RegionUS} = require('customerio-node')
-const siteId = process.env.CUSTOMER_IO_SITE_ID
+const siteId = process.env.NEXT_PUBLIC_CUSTOMER_IO_SITE_ID
 const apiKey = process.env.CUSTOMER_IO_TRACK_API_BASIC
 const cio = new TrackClient(siteId, apiKey, {region: RegionUS})
 const date = Math.floor(Date.now() * 0.001)
