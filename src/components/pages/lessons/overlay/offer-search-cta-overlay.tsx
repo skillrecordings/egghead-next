@@ -158,14 +158,24 @@ const ContinueCourseCard: React.FC<any> = ({
   )
 }
 
-const SearchCard = ({tagLabel}: {tagLabel: string}) => {
-  const className = `bg-white dark:bg-gray-800 dark:bg-opacity-60 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden p-5 flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center`
+const SearchCard = ({
+  tagLabel,
+  className,
+}: {
+  tagLabel: string
+  className?: string
+}) => {
   return (
-    <Card className={className}>
-      <CardContent className="grid grid-rows-2 gap-2 w-full justify-center items-center">
+    <Card
+      className={twMerge(
+        `bg-white dark:bg-gray-800 dark:bg-opacity-60 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden p-5 flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center max-h-1/3`,
+        className,
+      )}
+    >
+      <CardContent className="grid grid-rows-2 w-full justify-center items-center">
         <CardHeader>
-          <p className="tracking-tight text-gray-700 dark:text-white">
-            <h3 className="text-xl font-semibold leading-tighter">
+          <p className="tracking-tight text-gray-700 dark:text-white text-center">
+            <h3 className="text-md font-medium leading-tighter">
               Search for more {tagLabel}:
             </h3>
           </p>
@@ -260,9 +270,9 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
   console.log(hits)
 
   return (
-    <OverlayWrapper className="absolute top-0 z-10 h-full max-w-full bg-opacity-100 dark">
-      <div className="hidden xl:grid grid-cols-2 gap-4 mx-8 p-24">
-        <div className="grid grid-rows-3 gap-4">
+    <OverlayWrapper className="absolute top-0 z-10 h-full max-w-full bg-opacity-100 dark max-h-full">
+      <div className="hidden 2xl:grid grid-cols-2 gap-4 m-8 h-full">
+        <div className="flex flex-col">
           <ContinueCourseCard
             resource={
               {
@@ -274,12 +284,12 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
                 byline: ``,
               } as any
             }
-            className="row-span-2"
+            className="row-span-2 mb-4 h-3/4"
           />
-          <SearchCard tagLabel={tag.label as string} />
+          <SearchCard tagLabel={tag.label as string} className="h-1/4" />
         </div>
         {hits.length > 0 ? (
-          <div className="xl:grid grid-rows-2 gap-4">
+          <div className="flex flex-col">
             <HorizontalResourceCard
               resource={
                 {
@@ -291,6 +301,7 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
                   byline: ``,
                 } as any
               }
+              className="mb-4"
             />
             <div className="grid grid-cols-2 gap-x-4">
               <VerticalResourceCard resource={hits[0] as any} />
@@ -313,7 +324,7 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
           />
         )}
       </div>
-      <div className="grid sm:grid-cols-2 xl:hidden w-full mx-8 justify-center">
+      <div className="grid sm:grid-cols-2 2xl:hidden w-full mx-8 justify-center">
         <SearchVideoControls
           router={router}
           nextLesson={nextLesson}
