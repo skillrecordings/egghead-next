@@ -1,7 +1,6 @@
 import Grid from 'components/grid'
 import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
-import analytics from 'utils/analytics'
 
 const ResourceWidget: React.FC<{
   resource: any
@@ -11,13 +10,15 @@ const ResourceWidget: React.FC<{
   const {podcasts, talks, collections, articles} = resource
   return (
     <>
-      <h3 className="prose dark:prose-dark sm:prose-xl lg:prose-2xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 font-bold mb-4">
-        {resource.title}
-      </h3>
+      {articles.length > 0 ? null : (
+        <h3 className="prose dark:prose-dark sm:prose-xl lg:prose-2xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 font-bold mb-4">
+          {resource.title}
+        </h3>
+      )}
       {collections &&
         collections.map((collection: any) => {
           return (
-            <div>
+            <div key={collection.slug}>
               <h4 className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 font-bold">
                 {collection.title}
               </h4>
