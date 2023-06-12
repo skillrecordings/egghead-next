@@ -21,11 +21,11 @@ const HorizontalCourseCard: React.FC<{
     <Link href={course.path}>
       <div
         className={twMerge(
-          'flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center px-5 py-8 group dark:bg-gray-800 bg-gray-50 dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 rounded sm:h-64 sm:w-[500px] cursor-pointer',
+          'flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center px-5 py-8 group dark:bg-gray-800 bg-gray-100 dark:bg-opacity-60 hover:shadow-none transition-all shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 rounded sm:h-64 sm:w-[500px] cursor-pointer',
           className,
         )}
       >
-        <div className="w-fit shrink-0">
+        <div className="w-fit shrink-0 hover:scale-105 transition-all">
           <Image
             src={course.image}
             height={150}
@@ -48,25 +48,55 @@ const HorizontalCourseCard: React.FC<{
   )
 }
 
-const CssChallengeCard = () => {
+const CssChallengeCard = ({challenge}: {challenge: any}) => {
+  const isExternal = !!challenge?.externalPath
+
+  if (isExternal) {
+    return (
+      <a
+        href={challenge.externalPath}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div className="flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center p-8 group bg-blue-500 hover:shadow-none transition-all shadow-smooth hover:bg-blue-600 w-fit rounded h-fit mb-4 cursor-pointer">
+          <div className="text-center sm:text-left">
+            <div className="flex gap-2">
+              <SparklesIcon className="h-10 w-10 text-amber-300" />
+              <h3 className="text-xl font-semibold leading-tight self-center text-white">
+                {challenge.title}
+              </h3>
+            </div>
+
+            <p className="w-[35ch] leading-relaxed mt-4  text-white">
+              {challenge.description}
+            </p>
+
+            <button className="bg-white p-4 rounded text-blue-500 font-medium mt-14 transition-all hover:scale-105">
+              {challenge.ctaText}
+            </button>
+          </div>
+        </div>
+      </a>
+    )
+  }
+
   return (
-    <Link href="/projects/build-modern-layouts-with-css-grid">
-      <div className="flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center p-8 group bg-blue-500 shadow-smooth dark:hover:bg-blue-600 w-fit rounded h-fit mb-4 cursor-pointer">
+    <Link href={challenge.eggheadPath}>
+      <div className="flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center p-8 group bg-blue-500 hover:shadow-none transition-all shadow-smooth hover:bg-blue-600 w-fit rounded h-fit mb-4 cursor-pointer">
         <div className="text-center sm:text-left">
           <div className="flex gap-2">
             <SparklesIcon className="h-10 w-10 text-amber-300" />
-            <h3 className="text-xl font-semibold leading-tight self-center">
-              Ready for a CSS Layout Challenge?
+            <h3 className="text-xl font-semibold leading-tight self-center text-white">
+              {challenge.title}
             </h3>
           </div>
 
-          <p className="w-[35ch] leading-relaxed mt-4">
-            Apply what you know to this Portfolio Challenge that will test your
-            ability to create a responsive design with two different layouts.
+          <p className="w-[35ch] leading-relaxed mt-4  text-white">
+            {challenge.description}
           </p>
 
-          <button className="bg-white p-4 rounded text-blue-500 font-medium mt-14">
-            Take this CSS Challenge
+          <button className="bg-white p-4 rounded text-blue-500 font-medium mt-14 transition-all hover:scale-105">
+            {challenge.ctaText}
           </button>
         </div>
       </div>
@@ -74,31 +104,64 @@ const CssChallengeCard = () => {
   )
 }
 
-const CssChallengeCardFull = () => {
-  return (
-    <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mt-4">
-      <div className="px-5 py-8 group bg-blue-500 shadow-smooth dark:hover:bg-blue-600 w-full rounded h-fit mb-4">
-        <div className="flex flex-row justify-center sm:justify-between text-center flex-wrap sm:text-left lg:mx-20 gap-4">
-          <div className="flex flex-wrap justify-center gap-4">
-            <LightningBoltIcon className="h-10 w-10 text-amber-300" />
-            <div className="flex flex-col gap-2">
-              <h3 className="text-xl font-semibold leading-tight self-center">
-                Ready for a TailwindCSS Challenge?
-              </h3>
-              <p className="w-[35ch] leading-relaxed self-center sm:self-auto ">
-                Apply what you know to this Portfolio Challenge that will test
-                your ability to create a responsive design with two different
-                layouts.
-              </p>
+const CssChallengeCardFull = ({challenge}: {challenge: any}) => {
+  const isExternal = !!challenge?.externalPath
+
+  if (isExternal) {
+    return (
+      <a
+        href={challenge.externalPath}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mt-4">
+          <div className="px-5 py-8 group bg-blue-500 shadow-smooth dark:hover:bg-blue-600 w-full rounded h-fit mb-4 hover:bg-blue-600 hover:shadow-none transition-all">
+            <div className="flex flex-row justify-center sm:justify-between text-center flex-wrap sm:text-left lg:mx-20 gap-4">
+              <div className="flex flex-wrap justify-center gap-4">
+                <LightningBoltIcon className="h-10 w-10 text-amber-300" />
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-xl font-semibold leading-tight self-center  text-white">
+                    {challenge.title}
+                  </h3>
+                  <p className="w-[35ch] leading-relaxed self-center sm:self-auto  text-white">
+                    {challenge.description}
+                  </p>
+                </div>
+              </div>
+
+              <button className="bg-white p-4 rounded text-blue-500 font-medium self-center hover:scale-105 transition-all">
+                {challenge.ctaText}
+              </button>
             </div>
           </div>
+        </div>
+      </a>
+    )
+  }
 
-          <button className="bg-white p-4 rounded text-blue-500 font-medium self-center">
-            Take this CSS Challenge
-          </button>
+  return (
+    <Link href={challenge.eggheadPath}>
+      <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mt-4">
+        <div className="px-5 py-8 group bg-blue-500 shadow-smooth dark:hover:bg-blue-600 w-full rounded h-fit mb-4 hover:bg-blue-600 hover:shadow-none transition-all">
+          <div className="flex flex-row justify-center sm:justify-between text-center flex-wrap sm:text-left lg:mx-20 gap-4">
+            <div className="flex flex-wrap justify-center gap-4">
+              <LightningBoltIcon className="h-10 w-10 text-amber-300" />
+              <div className="flex flex-col gap-2">
+                <h3 className="text-xl font-semibold leading-tight self-center  text-white">
+                  {challenge.title}
+                </h3>
+                <p className="w-[35ch] leading-relaxed self-center sm:self-auto  text-white">
+                  {challenge.description}
+                </p>
+              </div>
+            </div>
+            <button className="bg-white p-4 rounded text-blue-500 font-medium self-center hover:scale-105 transition-all">
+              {challenge.ctaText}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
@@ -153,12 +216,7 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
             </div>
             <div>
               <h1 className="self-center mb-2 text-xl font-medium sm:text-2xl h-fit w-96">
-                <Textfit>
-                  Just enough <strong>CSS</strong> to build{' '}
-                  <span className="border-b-4 border-b-[#2eb9e3] ">
-                    Modern UI
-                  </span>
-                </Textfit>
+                Just enough <strong>CSS</strong> to build Modern UI
               </h1>
               <p className="whitespace-pre-wrap w-[40ch] mt-4">
                 {cssGuide.description}
@@ -197,7 +255,7 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
           </div>
         </section>
 
-        <section className="w-full dark:bg-gray-800 pb-20">
+        <section className="w-full dark:bg-gray-800 bg-gray-50 pb-20">
           <div className="max-w-screen-lg mx-auto">
             <div className="flex flex-col-reverse lg:flex-row lg:justify-between mt-20 mb-8 relative">
               <h2 className="lg:mt-20 lg:mb-8 font-medium text-2xl text-center lg:text-left">
@@ -219,7 +277,7 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
               <p className="w-[40ch] mb-8 whitespace-pre-wrap mx-auto sm:mx-0">
                 {layoutSection.description}
               </p>
-              <CssChallengeCard />
+              <CssChallengeCard challenge={layoutSection.challenge} />
             </div>
             <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
               <HorizontalCourseCard
@@ -265,7 +323,7 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
                 className=" col-span-4"
               />
             </div>
-            <CssChallengeCardFull />
+            <CssChallengeCardFull challenge={modernSection.challenge} />
           </div>
         </section>
       </div>
@@ -284,6 +342,13 @@ const query = groq`*[_type == 'resource' && type == 'landing-page' && slug.curre
   'sections': resources[] {
     title,
     description,
+    'challenge': resources[type == 'project'][0] {
+      title,
+      description,
+      'eggheadPath': path,
+      'externalPath': url,
+      'ctaText': content[label == "CTA"][0].text,
+     },
     'courses': resources[]->{
       title,
       'description': summary,
