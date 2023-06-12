@@ -12,6 +12,7 @@ import {Textfit} from 'react-textfit'
 import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 import Link from 'next/link'
 import {twMerge} from 'tailwind-merge'
+import React from 'react'
 
 const HorizontalCourseCard: React.FC<{
   course: any
@@ -168,6 +169,8 @@ const CssChallengeCardFull = ({challenge}: {challenge: any}) => {
 const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
   cssGuide,
 }) => {
+  const scrollRef = React.useRef<null | HTMLHeadingElement>(null)
+
   const {sections} = cssGuide
   const [fundamentalSection, layoutSection, modernSection] = sections
 
@@ -223,14 +226,24 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
               </p>
             </div>
           </div>
-          <div className="p-2 mx-auto mt-20 sm:mt-32 rounded-full  w-fit bg-gray-50 dark:bg-opacity-20 dark:text-gray-200 relative z-10">
-            <ArrowDownIcon className="w-5 h-5 text-gray-900 dark:text-white" />
+
+          <div className="p-2 mx-auto mt-20 sm:mt-32 rounded-full  w-fit bg-gray-50 dark:bg-opacity-20 dark:text-gray-200 hover:bg-gray-100 relative z-10 cursor-pointer transition-all hover:scale-110">
+            <ArrowDownIcon
+              className="w-5 h-5 text-gray-900 dark:text-white "
+              onClick={() =>
+                scrollRef?.current &&
+                scrollRef?.current.scrollIntoView({behavior: 'smooth'})
+              }
+            />
           </div>
         </header>
         <section className="w-full pb-20">
           <div className="max-w-screen-lg mx-auto">
             <div className="flex flex-col-reverse lg:flex-row lg:justify-between mt-20 mb-8 relative">
-              <h2 className="lg:mt-20 lg:mb-8 font-medium text-2xl text-center lg:text-left">
+              <h2
+                className="lg:mt-20 lg:mb-8 font-medium text-2xl text-center lg:text-left"
+                ref={scrollRef}
+              >
                 {fundamentalSection.title}
               </h2>
               <div
