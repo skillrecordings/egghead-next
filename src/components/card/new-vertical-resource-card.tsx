@@ -11,14 +11,12 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import Markdown from '../markdown'
-import {track} from 'utils/analytics'
 import {get, isEmpty} from 'lodash'
 import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
 import analytics from 'utils/analytics'
 import Heading from './heading'
 import CheckIcon from 'components/icons/check'
-import {twMerge} from 'tailwind-merge'
 import cx from 'classnames'
 
 const VerticalResourceCard: React.FC<{
@@ -29,6 +27,7 @@ const VerticalResourceCard: React.FC<{
   small?: boolean
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
   completedCoursesIds?: number[]
+  feature?: string
 }> = ({
   children,
   resource,
@@ -38,6 +37,7 @@ const VerticalResourceCard: React.FC<{
   small = false,
   as,
   completedCoursesIds,
+  feature,
   ...props
 }) => {
   if (isEmpty(resource)) return null
@@ -56,6 +56,7 @@ const VerticalResourceCard: React.FC<{
       instructor={resource?.instructor?.name}
       tag={resource.tag?.name}
       className={className}
+      feature={feature}
     >
       <Card
         {...props}
@@ -138,6 +139,7 @@ export const ResourceLink: React.FC<{
   instructor?: string
   linkType?: string
   target?: '_blank' | '_self'
+  feature?: string
 }> = ({
   children,
   path,
@@ -148,19 +150,31 @@ export const ResourceLink: React.FC<{
   className,
   linkType = 'text',
   target,
+  feature,
   ...props
 }) => (
   <Link href={path}>
     <a
       className={className}
       onClick={() => {
-        analytics.events.activityInternalLinkClick(
-          resource_type,
-          location,
-          tag,
-          path,
-          instructor,
-        )
+        if (feature) {
+          analytics.events.activityInternalLinkClick(
+            resource_type,
+            location,
+            tag,
+            path,
+            instructor,
+            feature,
+          )
+        } else {
+          analytics.events.activityInternalLinkClick(
+            resource_type,
+            location,
+            tag,
+            path,
+            instructor,
+          )
+        }
       }}
       target={target || '_self'}
       {...props}

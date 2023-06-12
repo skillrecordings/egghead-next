@@ -20,7 +20,6 @@ import {
   CardBody,
   CardMeta,
 } from 'components/card/index'
-import Markdown from 'components/markdown'
 import {get} from 'lodash'
 import {PlayIcon} from '@heroicons/react/solid'
 import {AcademicCapIcon} from '@heroicons/react/solid'
@@ -40,6 +39,8 @@ const shapeHit = (hit: any) => {
     byline: '',
   }
 }
+
+const FEATURE = 'anon-user-overlay'
 
 const transformHits = (hits: any, amount: integer) => {
   if (!hits) return []
@@ -101,6 +102,7 @@ const ContinueCourseCard: React.FC<any> = ({
                     resource: resource.path,
                     linkType: 'text',
                     location,
+                    feature: FEATURE,
                   })
                 }}
                 className="inline-block hover:text-blue-600 dark:hover:text-blue-300 w-fit"
@@ -116,11 +118,13 @@ const ContinueCourseCard: React.FC<any> = ({
           </CardMeta>
         </div>
         <div className="flex flex-col items-center gap-y-2">
-          {/* bg-blue-600 rounded px-4 py-2 flex sm:w-full w-48 items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base */}
           <button
             className="bg-blue-600 rounded py-2 flex w-full items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
             onClick={() => {
-              analytics.events.engagementClickedWatchedLessonAgain(lesson.slug)
+              analytics.events.engagementClickedWatchedLessonAgain(
+                lesson.slug,
+                FEATURE,
+              )
               onClickRewatch()
             }}
           >
@@ -130,11 +134,11 @@ const ContinueCourseCard: React.FC<any> = ({
           <div className="flex flex-row space-x-2">
             <button
               onClick={() => {
+                analytics.events.engagementClickedPlayNextLesson(
+                  lesson.slug,
+                  FEATURE,
+                )
                 router.push(nextLesson.path || '#')
-                track('clicked play next', {
-                  lesson: lesson.slug,
-                  location: 'lesson overlay',
-                })
               }}
               className="border border-blue-600 rounded px-4 py-2 flex w-full sm:w-1/2 items-center justify-center hover:bg-gray-900 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
             >
@@ -185,6 +189,7 @@ const SearchCard = ({
           <SearchBar
             className="rounded-lg shadow-md transition duration-200 hover:shadow-lg focus-within:shadow-lg bg-gray-800 border-gray-700 focus-within:border-gray-500 hover:bg-gray-700"
             initialValue={tagLabel}
+            feature={FEATURE}
           />
         </CardBody>
       </CardContent>
@@ -192,7 +197,7 @@ const SearchCard = ({
   )
 }
 
-const OfferSearchCTAOverlay: React.FunctionComponent<{
+const AnonUserOverlay: React.FunctionComponent<{
   lesson: any
   nextLesson: any
   onClickRewatch?: () => void
@@ -205,8 +210,6 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
     trpc.topics.top.useQuery({topic: tag.name})?.data,
     2,
   )
-
-  console.log(hits)
 
   return (
     <OverlayWrapper className="absolute top-0 z-10 h-full max-w-full bg-opacity-100 dark max-h-full">
@@ -247,11 +250,18 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
                   byline: ``,
                 } as any
               }
+              feature={FEATURE}
               className="mb-4 h-1/2"
             />
             <div className="grid grid-cols-2 gap-x-4 h-1/2 overflow-hidden">
-              <VerticalResourceCard resource={hits[0] as any} />
-              <VerticalResourceCard resource={hits[1] as any} />
+              <VerticalResourceCard
+                feature={FEATURE}
+                resource={hits[0] as any}
+              />
+              <VerticalResourceCard
+                feature={FEATURE}
+                resource={hits[1] as any}
+              />
             </div>
           </div>
         ) : (
@@ -266,6 +276,7 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
                 byline: ``,
               } as any
             }
+            feature={FEATURE}
             className="p-8 min-w-0 3xl:w-[40rem] lg:w-[30rem] xl:ml-16 3xl:p-4"
           />
         )}
@@ -274,24 +285,7 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
   )
 }
 
-export default OfferSearchCTAOverlay
-
-const IconPlay: React.FunctionComponent<{className: string}> = ({
-  className = '',
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 20 20"
-    fill="currentColor"
-    className={className}
-  >
-    <path
-      fillRule="evenodd"
-      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-      clipRule="evenodd"
-    />
-  </svg>
-)
+export default AnonUserOverlay
 
 const IconRefresh: React.FunctionComponent<{className: string}> = ({
   className = '',

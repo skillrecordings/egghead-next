@@ -26,6 +26,7 @@ const HorizontalResourceCard: React.FC<{
   describe?: boolean
   className?: string
   completedCoursesIds?: number[]
+  feature?: string
 }> = ({
   children,
   resource,
@@ -33,6 +34,7 @@ const HorizontalResourceCard: React.FC<{
   className = '',
   describe = true,
   completedCoursesIds,
+  feature,
   ...props
 }) => {
   if (isEmpty(resource)) return null
@@ -52,6 +54,7 @@ const HorizontalResourceCard: React.FC<{
       resource_type={resource.name || ''}
       instructor={resource.instructor?.name}
       tag={resource.tag?.name}
+      feature={feature}
     >
       <Card {...props} resource={resource} className={defaultClassName}>
         <CardContent className="grid grid-cols-8 gap-5   items-center px-5 py-2">
@@ -113,6 +116,7 @@ export const ResourceLink: React.FC<{
   instructor?: string
   className?: string
   linkType?: string
+  feature?: string
 }> = ({
   children,
   path,
@@ -121,18 +125,30 @@ export const ResourceLink: React.FC<{
   instructor,
   location,
   linkType = 'text',
+  feature,
   ...props
 }) => (
   <Link href={path}>
     <a
       onClick={() => {
-        analytics.events.activityInternalLinkClick(
-          resource_type,
-          location,
-          tag,
-          path,
-          instructor,
-        )
+        if (feature) {
+          analytics.events.activityInternalLinkClick(
+            resource_type,
+            location,
+            tag,
+            path,
+            instructor,
+            feature,
+          )
+        } else {
+          analytics.events.activityInternalLinkClick(
+            resource_type,
+            location,
+            tag,
+            path,
+            instructor,
+          )
+        }
       }}
       {...props}
     >

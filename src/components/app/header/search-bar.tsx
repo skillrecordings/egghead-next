@@ -8,9 +8,11 @@ import {twMerge} from 'tailwind-merge'
 const SearchBar = ({
   initialValue = '',
   className = '',
+  feature,
 }: {
   initialValue?: string
   className?: string
+  feature?: string
 }) => {
   const router = useRouter()
   return (
@@ -26,10 +28,18 @@ const SearchBar = ({
           })
         } else {
           router.push(`/q?q=${values.query?.split(' ').join('+')}`)
-          analytics.events.engagementSearchedWithQuery(
-            'home page',
-            values.query,
-          )
+          if (feature) {
+            analytics.events.engagementSearchedWithQuery(
+              'home page',
+              values.query,
+              feature,
+            )
+          } else {
+            analytics.events.engagementSearchedWithQuery(
+              'home page',
+              values.query,
+            )
+          }
         }
       }}
     >
