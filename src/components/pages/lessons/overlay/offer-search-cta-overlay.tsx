@@ -195,9 +195,8 @@ const SearchCard = ({
 const OfferSearchCTAOverlay: React.FunctionComponent<{
   lesson: any
   nextLesson: any
-  ctaContent?: any
   onClickRewatch?: () => void
-}> = ({lesson, nextLesson, onClickRewatch = noop, ctaContent}) => {
+}> = ({lesson, nextLesson, onClickRewatch = noop}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
   const router = useRouter()
   const tag = lesson.tags[0]

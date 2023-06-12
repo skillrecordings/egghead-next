@@ -12,7 +12,7 @@ import GoProCtaOverlay from 'components/pages/lessons/overlay/go-pro-cta-overlay
 import WatchFullCourseCtaOverlay from 'components/pages/lessons/overlay/watch-full-course-cta-overlay'
 import WatchNextLessonCtaOverlay from 'components/pages/lessons/overlay/watch-next-lesson-cta-overlay'
 import EmailCaptureCtaOverlay from 'components/pages/lessons/overlay/email-capture-cta-overlay'
-import OfferSearchCTAOverlay from './overlay/offer-search-cta-overlay'
+import OfferSearchCTAOverlay from 'components/pages/lessons/overlay/offer-search-cta-overlay'
 
 type OverlaysProps = {
   lessonSend: Function
@@ -64,12 +64,11 @@ const Overlays: React.FC<OverlaysProps> = ({
         }}
       />
     )
-  } else if (true) {
+  } else if (lessonState.matches('offeringSearch')) {
     overlayToRender = (
       <OfferSearchCTAOverlay
         lesson={lesson}
         nextLesson={nextLesson}
-        ctaContent={specialLessons[lesson.slug]}
         onClickRewatch={() => {
           lessonSend('VIEW')
           videoService.send({type: 'PLAY'})
