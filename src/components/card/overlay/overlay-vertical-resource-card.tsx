@@ -36,9 +36,9 @@ const VerticalResourceCard: React.FC<{
       <Card
         {...props}
         resource={resource}
-        className="rounded-md aspect-w-3 aspect-h-4 w-full h-full transition-all ease-in-out duration-200  dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 overflow-hidden"
+        className="rounded-md aspect-w-3 aspect-h-4 w-full h-full transition-all ease-in-out duration-200  dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 overflow-hidden items-stretch"
       >
-        <CardContent className="flex flex-col items-center justify-center xl:p-5 p-2 pt-5">
+        <CardContent className="flex flex-col items-center justify-center xl:p-5 pt-5">
           <CardPreview className="flex flex-col items-center">
             <div className="relative">
               <Image

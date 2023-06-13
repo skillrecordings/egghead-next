@@ -62,12 +62,12 @@ const ContinueCourseCard: React.FC<any> = ({
     <Card
       {...props}
       className={twMerge(
-        'bg-gray-800 bg-opacity-60 text-gray-200 shadow-sm rounded-lg flex flex-col items-center justify-center sm:text-left text-center p-8',
+        'bg-gray-800 bg-opacity-60 text-gray-200 shadow-sm rounded-lg flex flex-col items-center justify-center sm:text-left text-center',
         className,
       )}
     >
       <CardContent className="flex flex-col justify-center items-center">
-        <div className="hidden md:flex md:flex-col justify-center items-center">
+        <div className="hidden md:flex md:flex-col justify-center items-center shrink">
           {resource.image && (
             <Link href={resource.path}>
               <a
@@ -107,7 +107,7 @@ const ContinueCourseCard: React.FC<any> = ({
                 }}
                 className="inline-block hover:text-blue-600 dark:hover:text-blue-300 w-fit"
               >
-                <h3 className="text-lg lg:text-xl font-bold leading-tighter dark:text-white dark:hover:text-blue-300 text-center">
+                <h3 className="text-lg 3xl:text-xl font-bold leading-tighter dark:text-white dark:hover:text-blue-300 text-center">
                   {resource.title}
                 </h3>
               </a>
@@ -117,7 +117,7 @@ const ContinueCourseCard: React.FC<any> = ({
             {resource.byline}
           </CardMeta>
         </div>
-        <div className="flex flex-col items-center gap-y-2">
+        <div className="flex flex-col items-center gap-y-2 3xl:mt-4">
           <button
             className="bg-blue-600 rounded py-2 flex w-full items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
             onClick={() => {
@@ -213,7 +213,7 @@ const AnonUserOverlay: React.FunctionComponent<{
 
   return (
     <OverlayWrapper className="absolute overflow-y-scroll top-0 z-10 h-full max-w-full bg-opacity-100 darks">
-      <div className="flex flex-row h-full w-3/4">
+      <div className="flex flex-row w-3/4 h-full items-stretch">
         <div className="flex flex-col 2xl:w-1/2 w-full">
           <ContinueCourseCard
             resource={
@@ -238,8 +238,8 @@ const AnonUserOverlay: React.FunctionComponent<{
           />
         </div>
         {hits.length > 0 ? (
-          <div className="hidden 2xl:flex 2xl:flex-col w-1/2 ml-4 h-full">
-            <div className="mb-4 grow">
+          <div className="hidden 2xl:flex 2xl:flex-col w-1/2 ml-4 h-full grow">
+            <div className="mb-4 grow h-full">
               <HorizontalResourceCard
                 resource={
                   {
@@ -254,7 +254,7 @@ const AnonUserOverlay: React.FunctionComponent<{
                 feature={FEATURE}
               />
             </div>
-            <div className="flex flex-row w-full">
+            <div className="flex flex-row w-full grow h-full items-stretch">
               <div className="w-1/2 grow">
                 <VerticalResourceCard
                   feature={FEATURE}
