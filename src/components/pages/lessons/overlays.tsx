@@ -9,7 +9,6 @@ import {CIOSubscriber} from 'hooks/use-cio'
 import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
 import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 import GoProCtaOverlay from 'components/pages/lessons/overlay/go-pro-cta-overlay'
-import WatchFullCourseCtaOverlay from 'components/pages/lessons/overlay/watch-full-course-cta-overlay'
 import WatchNextLessonCtaOverlay from 'components/pages/lessons/overlay/watch-next-lesson-cta-overlay'
 import EmailCaptureCtaOverlay from 'components/pages/lessons/overlay/email-capture-cta-overlay'
 import AnonUserOverlay from 'components/pages/lessons/overlay/anon-user-overlay'
@@ -64,7 +63,7 @@ const Overlays: React.FC<OverlaysProps> = ({
         }}
       />
     )
-  } else if (true || lessonState.matches('offeringSearch')) {
+  } else if (lessonState.matches('offeringSearch')) {
     overlayToRender = (
       <AnonUserOverlay
         lesson={lesson}
