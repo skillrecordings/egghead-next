@@ -260,7 +260,7 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
                 01
               </div>
               <img
-                className="absolute object-fill overflow-visible bg-no-repeat -top-20 right-[20%] sm:right-1/3 lg:-right-16 lg:-top-0 w-60 lg:w-64"
+                className="absolute object-fill overflow-visible bg-no-repeat -top-20 right-1/4 sm:right-1/3 lg:-right-16 lg:-top-0 w-60 lg:w-64"
                 src={cssGuide.backgroundGrid}
               />
             </div>
@@ -274,7 +274,7 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
           </div>
         </section>
 
-        <section className="w-full dark:bg-gray-800 bg-gray-50 pb-20">
+        <section className="w-full pt-2 dark:bg-gray-800 bg-gray-50 pb-20">
           <div className="max-w-screen-lg mx-auto">
             <div className="flex flex-col-reverse lg:flex-row lg:justify-between mt-20 mb-8 relative">
               <h2 className="lg:mt-20 lg:mb-8 font-medium text-2xl text-center lg:text-left">
@@ -288,7 +288,7 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
                 02-03
               </div>
               <img
-                className="absolute object-fill overflow-visible bg-no-repeat -top-16 right-[20%] sm:right-1/3 lg:-right-16 lg:-top-0 w-60 lg:w-64"
+                className="absolute object-fill overflow-visible bg-no-repeat -top-16 right-1/4 sm:right-1/3 lg:-right-16 lg:-top-0 w-60 lg:w-64"
                 src={cssGuide.backgroundGrid}
               />
             </div>
@@ -329,7 +329,7 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
                 04-05
               </div>
               <img
-                className="absolute object-fill overflow-visible bg-no-repeat -top-16 right-[20%] sm:right-1/3 lg:-right-16 lg:-top-0 w-60 lg:w-64"
+                className="absolute object-fill overflow-visible bg-no-repeat -top-16 right-1/4 sm:right-1/3 lg:-right-16 lg:-top-0 w-60 lg:w-64"
                 src={cssGuide.backgroundGrid}
               />
             </div>
