@@ -7,8 +7,8 @@ import {useRouter} from 'next/router'
 import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 import analytics from 'utils/analytics'
 import SearchBar from 'components/app/header/search-bar'
-import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
-import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
+import {HorizontalResourceCard} from 'components/card/overlay/overlay-horiztonal-resource-card'
+import {VerticalResourceCard} from 'components/card/overlay/overlay-vertical-resource-card'
 import {trpc} from 'trpc/trpc.client'
 import {integer} from 'aws-sdk/clients/cloudfront'
 import {twMerge} from 'tailwind-merge'
@@ -62,7 +62,7 @@ const ContinueCourseCard: React.FC<any> = ({
     <Card
       {...props}
       className={twMerge(
-        'bg-white dark:bg-gray-800 dark:bg-opacity-60 dark:text-gray-200 shadow-sm rounded-lg flex flex-col items-center justify-center sm:text-left text-center',
+        'bg-gray-800 bg-opacity-60 text-gray-200 shadow-sm rounded-lg flex flex-col items-center justify-center sm:text-left text-center p-8',
         className,
       )}
     >
@@ -173,7 +173,7 @@ const SearchCard = ({
   return (
     <Card
       className={twMerge(
-        `bg-gray-800 bg-opacity-60 text-gray-200 rounded-lg overflow-hidden`,
+        `bg-gray-800 bg-opacity-60 text-gray-200 rounded-lg p-8`,
         className,
       )}
     >
@@ -212,9 +212,9 @@ const AnonUserOverlay: React.FunctionComponent<{
   )
 
   return (
-    <OverlayWrapper className="absolute top-0 z-10 h-full max-w-full bg-opacity-100 dark max-h-full">
+    <OverlayWrapper className="absolute overflow-y-scroll top-0 z-10 h-full max-w-full bg-opacity-100 darks">
       <div className="flex flex-row h-full w-3/4">
-        <div className="flex flex-col max-h-full 2xl:w-1/2 w-full">
+        <div className="flex flex-col 2xl:w-1/2 w-full">
           <ContinueCourseCard
             resource={
               {
@@ -230,38 +230,43 @@ const AnonUserOverlay: React.FunctionComponent<{
             onClickRewatch={onClickRewatch}
             lesson={lesson}
             nextLesson={nextLesson}
-            className="row-span-2 2xl:mb-4 h-full 2xl:h-3/4"
+            className="row-span-2 2xl:mb-4 grow"
           />
           <SearchCard
             tagLabel={tag.label as string}
-            className="hidden 2xl:block 2xl:h-1/4"
+            className="hidden 2xl:block"
           />
         </div>
         {hits.length > 0 ? (
-          <div className="hidden 2xl:flex 2xl:flex-col h-full w-1/2 ml-4">
-            <HorizontalResourceCard
-              resource={
-                {
-                  title: `More Expert Curated ${tag.label} Courses`,
-                  slug: tag.name,
-                  image: tag.image_url,
-                  path: `/q/${tag.name}?access_state=free&type=playlist`,
-                  description: `A hand-curated collection of the best free ${tag.label} courses on egghead.io.`,
-                  byline: ``,
-                } as any
-              }
-              feature={FEATURE}
-              className="mb-4 h-1/2"
-            />
-            <div className="grid grid-cols-2 gap-x-4 h-1/2 overflow-hidden">
-              <VerticalResourceCard
+          <div className="hidden 2xl:flex 2xl:flex-col w-1/2 ml-4 h-full">
+            <div className="mb-4 grow">
+              <HorizontalResourceCard
+                resource={
+                  {
+                    title: `More Expert Curated ${tag.label} Courses`,
+                    slug: tag.name,
+                    image: tag.image_url,
+                    path: `/q/${tag.name}?access_state=free&type=playlist`,
+                    description: `A hand-curated collection of the best free ${tag.label} courses on egghead.io.`,
+                    byline: ``,
+                  } as any
+                }
                 feature={FEATURE}
-                resource={hits[0] as any}
               />
-              <VerticalResourceCard
-                feature={FEATURE}
-                resource={hits[1] as any}
-              />
+            </div>
+            <div className="flex flex-row w-full">
+              <div className="w-1/2 grow">
+                <VerticalResourceCard
+                  feature={FEATURE}
+                  resource={hits[0] as any}
+                />
+              </div>
+              <div className="w-1/2 ml-4 grow">
+                <VerticalResourceCard
+                  feature={FEATURE}
+                  resource={hits[1] as any}
+                />
+              </div>
             </div>
           </div>
         ) : (
