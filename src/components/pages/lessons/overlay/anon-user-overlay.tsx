@@ -185,13 +185,13 @@ const SearchCard = ({
     >
       <CardContent className="flex flex-col w-full h-full justify-center items-center">
         <CardHeader className="mb-4">
-          <p className="tracking-tight text-gray-700 dark:text-white text-center">
+          <p className="tracking-tight dark:text-white text-center">
             <h3 className="text-lg font-medium leading-tighter">
               Search for more {tagLabel}:
             </h3>
           </p>
         </CardHeader>
-        <CardBody className="prose dark:prose-dark dark:prose-dark-sm dark:prose-a:text-blue-300 prose-a:text-blue-500 prose-sm max-w-none">
+        <CardBody className="prose prose-dark prose-dark-sm prose-a:text-blue-300  max-w-none">
           <SearchBar
             className="rounded-lg shadow-md transition duration-200 hover:shadow-lg focus-within:shadow-lg bg-gray-800 border-gray-700 focus-within:border-gray-500 hover:bg-gray-700"
             initialValue={tagLabel}

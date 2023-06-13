@@ -36,7 +36,7 @@ const VerticalResourceCard: React.FC<{
       <Card
         {...props}
         resource={resource}
-        className="rounded-md aspect-w-3 aspect-h-4 w-full h-full transition-all ease-in-out duration-200  dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 overflow-hidden items-stretch"
+        className="rounded-md aspect-w-3 aspect-h-4 w-full h-full transition-all ease-in-out duration-200  bg-gray-800 bg-opacity-60 shadow-smoothhover:bg-gray-700 hover:bg-opacity-50 overflow-hidden"
       >
         <CardContent className="flex flex-col items-center justify-center xl:p-5 pt-5">
           <CardPreview className="flex flex-col items-center">
@@ -55,12 +55,12 @@ const VerticalResourceCard: React.FC<{
             className={`row-span-3 text-center flex flex-col items-center justify-center `}
           >
             <CardHeader className="mx-4 mt-4 mb-2">
-              <h3 className="text-lg lg:text-xl font-semi-bold leading-tighter dark:text-white dark:hover:text-blue-300 text-center">
+              <h3 className="text-lg lg:text-xl font-semi-bold leading-tighter text-white hover:text-blue-300 text-center">
                 {resource.title}
               </h3>
             </CardHeader>
             <CardFooter>
-              <CardAuthor />
+              <CardAuthor dark={true} />
             </CardFooter>
           </CardMeta>
         </CardContent>
