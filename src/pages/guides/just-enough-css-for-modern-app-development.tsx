@@ -3,16 +3,16 @@ import {NextSeo} from 'next-seo'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
 import {sanityClient} from 'utils/sanity-client'
+import removeMarkdown from 'remove-markdown'
 import {
   ArrowDownIcon,
   SparklesIcon,
   LightningBoltIcon,
 } from '@heroicons/react/solid'
-import {Textfit} from 'react-textfit'
-import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 import Link from 'next/link'
 import {twMerge} from 'tailwind-merge'
 import React from 'react'
+import {truncate} from 'lodash'
 
 const HorizontalCourseCard: React.FC<{
   course: any
@@ -171,7 +171,8 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
 }) => {
   const scrollRef = React.useRef<null | HTMLHeadingElement>(null)
 
-  const {sections} = cssGuide
+  const {sections, ogImage} = cssGuide
+
   const [fundamentalSection, layoutSection, modernSection] = sections
 
   const router = useRouter()
@@ -180,16 +181,21 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
   return (
     <>
       <NextSeo
-        title={cssGuide.title}
-        description={cssGuide.description}
+        title={truncate(cssGuide.title, {length: 65})}
+        description={truncate(removeMarkdown(cssGuide.description), {
+          length: 155,
+        })}
         openGraph={{
-          title: cssGuide.title,
-          description: cssGuide.description,
+          title: truncate(cssGuide.title, {length: 65}),
+          description: truncate(removeMarkdown(cssGuide.description), {
+            length: 155,
+          }),
           url,
+          site_name: 'egghead',
           images: [
             {
-              url: cssGuide.ogImage,
-              alt: cssGuide.title,
+              url: ogImage,
+              alt: truncate(cssGuide.title, {length: 65}),
             },
           ],
         }}
@@ -351,6 +357,7 @@ const query = groq`*[_type == 'resource' && type == 'landing-page' && slug.curre
   'featureImage': images[label == 'feature-image'][0].url,
   'backgroundGrid': images[label == 'background-grid'][0].url,
   'weekGrid': images[label == 'week-grid'][0].url,
+  'ogImage': images[label == 'og-image'][0].url,
   description,
   'sections': resources[] {
     title,
