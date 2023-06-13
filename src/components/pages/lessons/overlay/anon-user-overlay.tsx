@@ -118,19 +118,25 @@ const ContinueCourseCard: React.FC<any> = ({
           </CardMeta>
         </div>
         <div className="flex flex-col items-center gap-y-2 3xl:mt-4">
-          <button
-            className="bg-blue-600 rounded py-2 flex w-full items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
-            onClick={() => {
-              analytics.events.engagementClickedWatchedLessonAgain(
-                lesson.slug,
-                FEATURE,
-              )
-              onClickRewatch()
-            }}
-          >
-            <AcademicCapIcon className="w-6 mr-2" />
-            Watch Full Course
-          </button>
+          {lesson?.collection?.path && (
+            <Link href={lesson.collection.path}>
+              <a
+                onClick={() => {
+                  track('clicked view course', {
+                    lesson: lesson.slug,
+                    location: 'lesson overlay',
+                    feature: FEATURE,
+                  })
+                }}
+                className="w-full"
+              >
+                <button className="bg-blue-600 rounded py-2 flex w-full items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap">
+                  <AcademicCapIcon className="w-6 mr-2" />
+                  Watch Full Course
+                </button>
+              </a>
+            </Link>
+          )}
           <div className="flex flex-row space-x-2">
             <button
               onClick={() => {
@@ -146,11 +152,11 @@ const ContinueCourseCard: React.FC<any> = ({
             </button>
             <button
               onClick={() => {
-                router.push(nextLesson.path || '#')
-                track('clicked play next', {
-                  lesson: lesson.slug,
-                  location: 'lesson overlay',
-                })
+                analytics.events.engagementClickedWatchedLessonAgain(
+                  lesson.slug,
+                  FEATURE,
+                )
+                onClickRewatch()
               }}
               className="border border-blue-600 rounded px-4 py-2 flex sm:w-1/2 w-full items-center justify-center hover:bg-gray-900 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
             >
