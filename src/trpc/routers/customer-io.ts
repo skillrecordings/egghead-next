@@ -28,7 +28,7 @@ export const customerIORouter = router({
 
       const token =
         ctx.req?.cookies[ACCESS_TOKEN_KEY] ||
-        process.env.EGGHEAD_NEWSLETTER_BOT_TOKEN
+        process.env.EGGHEAD_SUPPORT_BOT_TOKEN
       if (!token) return null
 
       const user_contact = await getContactId({token, email})
