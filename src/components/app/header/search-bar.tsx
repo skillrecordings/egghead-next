@@ -3,13 +3,22 @@ import {useRouter} from 'next/router'
 import {Form, Formik} from 'formik'
 import {isEmpty} from 'lodash'
 import analytics from 'utils/analytics'
+import {twMerge} from 'tailwind-merge'
 
-const SearchBar = () => {
+const SearchBar = ({
+  initialValue = '',
+  className = '',
+  feature,
+}: {
+  initialValue?: string
+  className?: string
+  feature?: string
+}) => {
   const router = useRouter()
   return (
     <Formik
       initialValues={{
-        query: '',
+        query: initialValue,
       }}
       onSubmit={(values) => {
         if (isEmpty(values.query)) {
@@ -19,10 +28,18 @@ const SearchBar = () => {
           })
         } else {
           router.push(`/q?q=${values.query?.split(' ').join('+')}`)
-          analytics.events.engagementSearchedWithQuery(
-            'home page',
-            values.query,
-          )
+          if (feature) {
+            analytics.events.engagementSearchedWithQuery(
+              'home page',
+              values.query,
+              feature,
+            )
+          } else {
+            analytics.events.engagementSearchedWithQuery(
+              'home page',
+              values.query,
+            )
+          }
         }
       }}
     >
@@ -30,9 +47,12 @@ const SearchBar = () => {
         return (
           <Form
             role="search"
-            className="sm:border-r dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5 sm:w-auto w-full"
+            className={twMerge(
+              'sm:border-r dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5 sm:w-auto',
+              className,
+            )}
           >
-            <div className=" relative flex dark:hover:border-white dark:focus-within:border-white hover:border-gray-900 focus-within:border-gray-900 border-b border-transparent pl-2 hover:border-opacity-30 focus-within:border-opacity-30 dark:hover:border-opacity-30 dark:focus-within:border-opacity-30">
+            <div className="relative flex dark:hover:border-white dark:focus-within:border-white hover:border-gray-900 focus-within:border-gray-900 border-b border-transparent pl-2 hover:border-opacity-30 focus-within:border-opacity-30 dark:hover:border-opacity-30 dark:focus-within:border-opacity-30 justify-between">
               <input
                 name="query"
                 value={values.query}
@@ -41,7 +61,7 @@ const SearchBar = () => {
                 aria-label="Search"
                 placeholder="Search for Anything"
                 autoComplete="off"
-                className="dark:placeholder-opacity-60 placeholder-opacity-60 dark:placeholder-white placeholder-black bg-transparent sm:text-sm text-base sm:w-[230px] w-full h-12 focus:ring-0 border-none p-0"
+                className="dark:placeholder-opacity-60 placeholder-opacity-60 dark:placeholder-white placeholder-black bg-transparent sm:text-sm text-base sm:w-[230px] w-full h-12 focus:ring-0 border-none p-0 xl:text-md"
               />
               <button
                 type="submit"

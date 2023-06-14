@@ -127,13 +127,16 @@ const CardBody = React.forwardRef(function CardBody(
   )
 }) as Polymorphic.ForwardRefComponent<'div', CardBodyProps>
 
-type CardAuthorProps = {}
+type CardAuthorProps = {
+  dark?: boolean
+}
 
 const CardAuthor = React.forwardRef(function CardAuthor(
   {
     children,
     as: Comp = 'div',
     className = 'flex items-center justify-center pt-2',
+    dark = false,
     ...props
   },
   forwardRef,
@@ -161,10 +164,17 @@ const CardAuthor = React.forwardRef(function CardAuthor(
           />
         </div>
       )}
-      <span className="text-left pl-2 dark:text-indigo-100 text-gray-700 lg:text-sm text-[0.65rem] opacity-80 leading-none">
-        <span className="sr-only">{resource?.name} by </span>
-        {instructor.name}
-      </span>
+      {dark ? (
+        <span className="text-left pl-2 text-indigo-100 lg:text-sm text-[0.65rem] opacity-80 leading-none">
+          <span className="sr-only">{resource?.name} by </span>
+          {instructor.name}
+        </span>
+      ) : (
+        <span className="text-left pl-2 dark:text-indigo-100 text-gray-700 lg:text-sm text-[0.65rem] opacity-80 leading-none">
+          <span className="sr-only">{resource?.name} by </span>
+          {instructor.name}
+        </span>
+      )}
     </Comp>
   )
 }) as Polymorphic.ForwardRefComponent<'div', CardAuthorProps>

@@ -241,6 +241,7 @@ const Lesson: React.FC<LessonProps> = ({
         'completed',
         'addingNote',
         'showingNext',
+        'offeringSearch',
       ].includes(currentLessonState),
     )
   }, [currentLessonState])
@@ -257,8 +258,8 @@ const Lesson: React.FC<LessonProps> = ({
       })
       router.push(nextLesson.slug)
     } else if (lesson.collection && isIncomingAnonViewer) {
-      console.debug(`Showing Course Pitch Overlay`)
-      send(`COURSE_PITCH`)
+      console.debug(`Showing Offer Search Overlay`)
+      send(`OFFER_SEARCH`)
     } else if (nextLesson) {
       console.debug(`Showing Next Lesson Overlay`)
       send(`NEXT`)
@@ -383,8 +384,8 @@ const Lesson: React.FC<LessonProps> = ({
               setLessonView(lessonView)
               completeVideo(lessonView)
             } else if (lesson.collection && isIncomingAnonViewer) {
-              console.debug('COURSE_PITCH')
-              send(`COURSE_PITCH`)
+              console.debug('OFFER_SEARCH')
+              send(`OFFER_SEARCH`)
             } else if (nextLesson) {
               console.debug(`Showing Next Lesson Overlay`)
               checkAutoPlay()
@@ -397,8 +398,8 @@ const Lesson: React.FC<LessonProps> = ({
             if (lessonView) {
               completeVideo(lessonView)
             } else if (lesson.collection && isIncomingAnonViewer) {
-              console.debug('COURSE_PITCH')
-              send(`COURSE_PITCH`)
+              console.debug('OFFER_SEARCH')
+              send(`OFFER_SEARCH`)
             } else if (nextLesson) {
               console.debug(`Showing Next Lesson Overlay`)
               checkAutoPlay()

@@ -6,6 +6,7 @@ import {userRouter} from './user'
 import {subscriptionDetailsRouter} from './subscription-detail'
 import {stripeRouter} from './stripe'
 import {progressRouter} from './progress'
+import {topicRouter} from './topics'
 import {customerIORouter} from './customer-io'
 
 export const appRouter = router({
@@ -14,6 +15,7 @@ export const appRouter = router({
   subscriptionDetails: subscriptionDetailsRouter,
   stripe: stripeRouter,
   progress: progressRouter,
+  topics: topicRouter,
   customerIO: customerIORouter,
 })
 

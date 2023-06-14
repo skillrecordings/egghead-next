@@ -49,10 +49,24 @@ export const engagementCompletedLesson = (slug: string) =>
 /* user click the CTA watch lesson again */
 /* At the end of a lesson, a user could decide to rewatch the lesson. This will give us an insight or what topics are harder or need to be watched more than once to fully understand  */
 
-export const engagementClickedWatchedLessonAgain = (slug: string) =>
+export const engagementClickedWatchedLessonAgain = (
+  slug: string,
+  feature?: string,
+) =>
   track('clicked watched lesson again', {
     eventGroup: 'engagement',
     slug,
+    feature,
+  })
+
+export const engagementClickedPlayNextLesson = (
+  slug: string,
+  feature?: string,
+) =>
+  track('clicked play next lesson', {
+    eventGroup: 'engagement',
+    slug,
+    feature,
   })
 
 // clicked listen podcast
@@ -105,11 +119,13 @@ We want to track the different queries that are being sent and what learners are
 export const engagementSearchedWithQuery = (
   currentLocation: string,
   queryString: string,
+  feature?: string,
 ) =>
   track('searched with query', {
     eventGroup: 'engagement',
     currentLocation,
     queryString,
+    feature,
   })
 
 //! ACTIVITY EVENT GROUP
@@ -141,6 +157,7 @@ export const activityInternalLinkClick = (
   topic: string,
   redirectTo?: string,
   instructor?: string,
+  feature?: string,
 ) =>
   track('clicked internal link', {
     eventGroup: 'activity',
@@ -149,6 +166,7 @@ export const activityInternalLinkClick = (
     currentLocation,
     topic,
     redirectTo,
+    feature,
   })
 
 // User clicks a link that redirects to an external page
@@ -200,3 +218,20 @@ export const activityClickedNewsletterSubscribe = (
     instructor,
     interersts,
   })
+
+// User clicked on a UI element
+/* This event is for testing UI features that we have throughout the site. If you want to know how much a feature is used, use this event. */
+export const activityClickedUi = (
+  topic: string,
+  feature: string,
+  action: string,
+  currentLocation: string,
+) => {
+  track('clicked UI', {
+    eventGroup: 'activity',
+    currentLocation,
+    topic,
+    feature,
+    action,
+  })
+}
