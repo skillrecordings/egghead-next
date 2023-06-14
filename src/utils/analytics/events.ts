@@ -174,17 +174,17 @@ export const activityInternalLinkClick = (
 Throughout our content we include links to complement the user's learning. This event refers to those CTAs that redirect the learner to an external page.
 */
 export const activityExternalLinkClick = (
-  instructor: string,
   currentLocation: string,
   topic: string,
   redirectTo: string,
+  instructor?: string,
 ) =>
   track('clicked external link', {
     eventGroup: 'activity',
-    instructor,
     currentLocation,
     topic,
     redirectTo,
+    instructor,
   })
 
 // User clicked a CTA

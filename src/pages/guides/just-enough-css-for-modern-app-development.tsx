@@ -13,14 +13,20 @@ import Link from 'next/link'
 import {twMerge} from 'tailwind-merge'
 import React from 'react'
 import {truncate} from 'lodash'
+import analytics from 'utils/analytics'
 
 const HorizontalCourseCard: React.FC<{
   course: any
   className?: string
-}> = ({course, className = ''}) => {
+  location?: string
+}> = ({course, className = '', location = ''}) => {
   return (
     <Link href={course.path}>
       <div
+        onClick={() => {
+          console.log('track')
+          analytics.events.activityInternalLinkClick('course', location, 'CSS')
+        }}
         className={twMerge(
           'flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center px-5 py-8 group dark:bg-gray-800 bg-gray-100 dark:bg-opacity-60 hover:shadow-none transition-all shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 rounded sm:h-64 sm:w-[500px] cursor-pointer',
           className,
@@ -49,7 +55,13 @@ const HorizontalCourseCard: React.FC<{
   )
 }
 
-const CssChallengeCard = ({challenge}: {challenge: any}) => {
+const CssChallengeCard = ({
+  challenge,
+  location = '',
+}: {
+  challenge: any
+  location?: string
+}) => {
   const isExternal = !!challenge?.externalPath
 
   if (isExternal) {
@@ -59,7 +71,16 @@ const CssChallengeCard = ({challenge}: {challenge: any}) => {
         rel="noopener noreferrer"
         target="_blank"
       >
-        <div className="flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center p-8 group bg-blue-500 hover:shadow-none transition-all shadow-smooth hover:bg-blue-600 w-fit rounded h-fit mb-4 cursor-pointer">
+        <div
+          className="flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center p-8 group bg-blue-500 hover:shadow-none transition-all shadow-smooth hover:bg-blue-600 w-fit rounded h-fit mb-4 cursor-pointer"
+          onClick={() =>
+            analytics.events.activityExternalLinkClick(
+              location,
+              'CSS',
+              challenge.externalPath,
+            )
+          }
+        >
           <div className="text-center sm:text-left">
             <div className="flex gap-2">
               <SparklesIcon className="h-10 w-10 text-amber-300" />
@@ -83,7 +104,17 @@ const CssChallengeCard = ({challenge}: {challenge: any}) => {
 
   return (
     <Link href={challenge.eggheadPath}>
-      <div className="flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center p-8 group bg-blue-500 hover:shadow-none transition-all shadow-smooth hover:bg-blue-600 w-fit rounded h-fit mb-4 cursor-pointer">
+      <div
+        className="flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center p-8 group bg-blue-500 hover:shadow-none transition-all shadow-smooth hover:bg-blue-600 w-fit rounded h-fit mb-4 cursor-pointer"
+        onClick={() =>
+          analytics.events.activityInternalLinkClick(
+            'project',
+            location,
+            'CSS',
+            challenge.eggheadPath,
+          )
+        }
+      >
         <div className="text-center sm:text-left">
           <div className="flex gap-2">
             <SparklesIcon className="h-10 w-10 text-amber-300" />
@@ -105,7 +136,13 @@ const CssChallengeCard = ({challenge}: {challenge: any}) => {
   )
 }
 
-const CssChallengeCardFull = ({challenge}: {challenge: any}) => {
+const CssChallengeCardFull = ({
+  challenge,
+  location = '',
+}: {
+  challenge: any
+  location?: string
+}) => {
   const isExternal = !!challenge?.externalPath
 
   if (isExternal) {
@@ -115,7 +152,16 @@ const CssChallengeCardFull = ({challenge}: {challenge: any}) => {
         rel="noopener noreferrer"
         target="_blank"
       >
-        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mt-4">
+        <div
+          className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mt-4"
+          onClick={() =>
+            analytics.events.activityExternalLinkClick(
+              location,
+              'CSS',
+              challenge.externalPath,
+            )
+          }
+        >
           <div className="px-5 py-8 group bg-blue-500 shadow-smooth dark:hover:bg-blue-600 w-full rounded h-fit mb-4 hover:bg-blue-600 hover:shadow-none transition-all">
             <div className="flex flex-row justify-center sm:justify-between text-center flex-wrap sm:text-left lg:mx-20 gap-4">
               <div className="flex flex-wrap justify-center gap-4">
@@ -142,7 +188,17 @@ const CssChallengeCardFull = ({challenge}: {challenge: any}) => {
 
   return (
     <Link href={challenge.eggheadPath}>
-      <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mt-4">
+      <div
+        className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mt-4"
+        onClick={() =>
+          analytics.events.activityInternalLinkClick(
+            'project',
+            location,
+            'CSS',
+            challenge.eggheadPath,
+          )
+        }
+      >
         <div className="px-5 py-8 group bg-blue-500 shadow-smooth dark:hover:bg-blue-600 w-full rounded h-fit mb-4 hover:bg-blue-600 hover:shadow-none transition-all">
           <div className="flex flex-row justify-center sm:justify-between text-center flex-wrap sm:text-left lg:mx-20 gap-4">
             <div className="flex flex-wrap justify-center gap-4">
@@ -269,7 +325,10 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
                 {fundamentalSection.description}
               </div>
 
-              <HorizontalCourseCard course={fundamentalSection.courses[0]} />
+              <HorizontalCourseCard
+                course={fundamentalSection.courses[0]}
+                location={router.asPath}
+              />
             </div>
           </div>
         </section>
@@ -296,18 +355,24 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
               <p className="w-[40ch] mb-8 whitespace-pre-wrap mx-auto sm:mx-0">
                 {layoutSection.description}
               </p>
-              <CssChallengeCard challenge={layoutSection.challenge} />
+              <CssChallengeCard
+                challenge={layoutSection.challenge}
+                location={router.asPath}
+              />
             </div>
             <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
               <HorizontalCourseCard
+                location={router.asPath}
                 course={layoutSection.courses[0]}
                 className="dark:bg-gray-900 bg-gray-50 col-span-4"
               />
               <HorizontalCourseCard
+                location={router.asPath}
                 course={layoutSection.courses[1]}
                 className="dark:bg-gray-900 bg-gray-50 col-span-4"
               />
               <HorizontalCourseCard
+                location={router.asPath}
                 course={layoutSection.courses[2]}
                 className="dark:bg-gray-900 bg-gray-50 col-span-4"
               />
@@ -338,11 +403,15 @@ const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
                 {modernSection.description}
               </p>
               <HorizontalCourseCard
+                location={router.asPath}
                 course={modernSection.courses[0]}
                 className=" col-span-4"
               />
             </div>
-            <CssChallengeCardFull challenge={modernSection.challenge} />
+            <CssChallengeCardFull
+              challenge={modernSection.challenge}
+              location={router.asPath}
+            />
           </div>
         </section>
       </div>
