@@ -128,12 +128,10 @@ const ContinueCourseCard: React.FC<any> = ({
                     feature: FEATURE,
                   })
                 }}
-                className="w-full"
+                className="bg-blue-600 rounded py-2 flex w-full items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
               >
-                <button className="bg-blue-600 rounded py-2 flex w-full items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap">
-                  <AcademicCapIcon className="w-6 mr-2" />
-                  Watch Full Course
-                </button>
+                <AcademicCapIcon className="w-6 mr-2" />
+                View Course
               </a>
             </Link>
           )}
