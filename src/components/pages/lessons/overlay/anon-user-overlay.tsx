@@ -260,14 +260,14 @@ const AnonUserOverlay: React.FunctionComponent<{
                 feature={FEATURE}
               />
             </div>
-            <div className="flex flex-row w-full grow h-full items-stretch">
-              <div className="w-1/2 grow">
+            <div className="flex flex-row w-full">
+              <div className="w-1/2">
                 <VerticalResourceCard
                   feature={FEATURE}
                   resource={hits[0] as any}
                 />
               </div>
-              <div className="w-1/2 ml-4 grow">
+              <div className="w-1/2 ml-4">
                 <VerticalResourceCard
                   feature={FEATURE}
                   resource={hits[1] as any}
