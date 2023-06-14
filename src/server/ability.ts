@@ -25,10 +25,9 @@ function defineAbilityFor(viewerRoles: Roles[]) {
 
   // Not ready for this yet, but once the uploader is opened up to Instructors,
   // this is roughly what permissions will look like.
-  // if (includesRoles(viewerRoles, ['instructor'])) {
-  //   can('upload', 'Video')
-  //   cannot('upload', 'Video', ['instructor_id'])
-  // }
+  if (includesRoles(viewerRoles, ['instructor'])) {
+    can('upload', 'Video')
+  }
 
   if (includesRoles(viewerRoles, ['editor', 'publisher'])) {
     can('upload', 'Video', ['instructor_id'])

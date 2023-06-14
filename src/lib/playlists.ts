@@ -3,6 +3,8 @@ import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import config from './config'
 import {loadCourseMetadata} from './courses'
+import groq from 'groq'
+import {sanityClient} from 'utils/sanity-client'
 
 export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
   const query = /* GraphQL */ `
@@ -101,6 +103,8 @@ export async function loadAllPlaylists() {
 }
 
 export async function loadAuthedPlaylistForUser(slug: string) {
+  if (slug === 'undefined') return
+
   const query = /* GraphQL */ `
     query getPlaylist($slug: String!) {
       playlist(slug: $slug) {

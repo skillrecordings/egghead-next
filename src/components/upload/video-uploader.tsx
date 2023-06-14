@@ -7,14 +7,20 @@ import {DispatchFunction} from 'hooks/use-file-upload-reducer'
 
 const SIGNING_URL = `/api/aws/sign-s3`
 
-const VideoUploader = ({dispatch}: {dispatch: DispatchFunction}) => {
+const VideoUploader = ({
+  dispatch,
+  multiple,
+}: {
+  dispatch: DispatchFunction
+  multiple?: boolean
+}) => {
   const uploaderRef = React.useRef(null)
 
   return (
     <ReactS3Uploader
-      class="hidden"
+      className="hidden"
       ref={uploaderRef}
-      multiple
+      {...(multiple ? {multiple: true} : {})}
       //if we set this to `false` we can list all the files and
       //call `uploaderRef.current.uploadFile()` when we are ready
       autoUpload={true}
