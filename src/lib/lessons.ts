@@ -32,6 +32,7 @@ const lessonQuery = groq`
   'icon_url': coalesce(softwareLibraries[0].library->image.url, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
   'repo_url': repoUrl,
   'code_url': codeUrl,
+  'scrimba_url': scrimbaURL,
   'created_at': eggheadRailsCreatedAt,
   'updated_at': displayedUpdatedAt,
   'published_at': publishedAt,
@@ -84,6 +85,8 @@ async function loadLessonMetadataFromSanity(slug: string) {
 
   try {
     const baseValues = await sanityClient.fetch(lessonQuery, params)
+
+    console.log('ScrimbaURL:', baseValues.scrimba_url) //check if scrimba link
 
     const derivedValues = deriveDataFromBaseValues(baseValues)
 

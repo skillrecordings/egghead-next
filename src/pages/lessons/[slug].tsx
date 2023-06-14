@@ -200,6 +200,8 @@ const Lesson: React.FC<LessonProps> = ({
     comments,
   } = lesson
 
+  console.log(lesson)
+
   const instructorPagePath = `/q/resources-by-${get(instructor, 'slug', '#')}`
 
   const nextLesson = useNextForCollection(collection, lesson.slug)

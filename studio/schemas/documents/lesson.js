@@ -36,6 +36,11 @@ export default {
       type: 'url',
     },
     {
+      title: 'Scrimba (URL)',
+      name: 'scrimbaURL',
+      type: 'url',
+    },
+    {
       name: 'resource',
       description:
         'Attach a resource to this lesson (Video, Audio, Text, etc.)',
