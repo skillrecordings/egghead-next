@@ -172,7 +172,9 @@ export const instructorRouter = router({
           "icon_url": @-> softwareLibraries[0].library->image.url,
           "duration": @-> resource->duration,
           "path": "/lessons/" + @-> slug.current,
-          "videoResourceId": @->resource->muxAsset.muxPlaybackId
+          "scrimba": @->resources[_type == 'scrimbaResource'][0],
+          //TODO: Fix me
+          "videoResourceId": @->resource->muxAsset.muxPlaybackId,
         },
       }`
 
