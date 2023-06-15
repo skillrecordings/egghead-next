@@ -33,6 +33,7 @@ import bodyPortableText from './objects/body-portable-text'
 import mainImage from './objects/main-image'
 import seo from './objects/seo'
 import productionProcessState from './objects/production-process-state'
+import muxAsset from './objects/muxAsset'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -72,5 +73,6 @@ export default createSchema({
     bodyPortableText,
     mainImage,
     seo,
+    muxAsset,
   ]),
 })

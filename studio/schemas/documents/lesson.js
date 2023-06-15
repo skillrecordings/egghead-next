@@ -31,11 +31,6 @@ export default {
       },
     },
     {
-      title: 'AWS Filename (URL)',
-      name: 'awsFilename',
-      type: 'url',
-    },
-    {
       title: 'Scrimba (URL)',
       name: 'scrimbaURL',
       type: 'url',

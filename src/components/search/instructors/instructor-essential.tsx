@@ -87,7 +87,6 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
                       rel="noopener noreferrer"
                       onClick={() => {
                         analytics.events.activityExternalLinkClick(
-                          slug,
                           'Instructor Profile',
                           'social',
                           `http://twitter.com/${twitterHandle}`,
@@ -115,7 +114,6 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
                       rel="noopener noreferrer"
                       onClick={() => {
                         analytics.events.activityExternalLinkClick(
-                          slug,
                           'Instructor Profile',
                           'social',
                           socials.github.url,
@@ -144,7 +142,6 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
                       rel="noopener noreferrer"
                       onClick={() => {
                         analytics.events.activityExternalLinkClick(
-                          slug,
                           'Instructor Profile',
                           'social',
                           socials.linkedin.url,
@@ -172,7 +169,6 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
                       rel="noopener noreferrer"
                       onClick={() => {
                         analytics.events.activityExternalLinkClick(
-                          slug,
                           'Instructor Profile',
                           'social',
                           socials?.discord.url,
@@ -200,7 +196,6 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
                       rel="noopener noreferrer"
                       onClick={() => {
                         analytics.events.activityExternalLinkClick(
-                          slug,
                           'Instructor Profile',
                           'social',
                           socials?.youtube.url,
@@ -228,7 +223,6 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
                       rel="noopener noreferrer"
                       onClick={() => {
                         analytics.events.activityExternalLinkClick(
-                          slug,
                           'Instructor Profile',
                           'social',
                           websiteUrl,

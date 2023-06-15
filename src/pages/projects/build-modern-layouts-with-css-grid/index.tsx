@@ -166,7 +166,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
               <section className="relative mt-16 mb-16 ml-0 mr-0 dark:text-gray-200 md:-ml-28 md:-mr-28">
                 <div className="grid grid-cols-1 gap-5 mt-16 mb-16 lg:grid-cols-2">
                   <div className="relative mb-8 text-center md:mb-0">
-                    <div className="relative z-20 p-4 text-center bg-white shadow-lg dark:bg-gray-800 rounded-xl md:p-8">
+                    <div className="relative z-20 p-4 text-center bg-white shadow-lg dark:bg-gray-800 rounded-xl md:p-8 h-full">
                       <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-left text-gray-800 dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 sm:text-base dark:text-gray-200">
                         {pricingPageChallenge.text}
                       </Markdown>
