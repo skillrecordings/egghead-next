@@ -4,7 +4,7 @@ import {convertMintoHours} from 'utils/time-utils'
 import Spinner from 'components/spinner'
 
 type LearnerStatsData = {
-  completedCourseCount: number
+  completeCourseCount: number
   completedLessonCount: number
   minutesWatched: number
 }
