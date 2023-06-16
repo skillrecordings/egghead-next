@@ -32,7 +32,7 @@ const lessonQuery = groq`
   'icon_url': coalesce(softwareLibraries[0].library->image.url, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
   'repo_url': repoUrl,
   'code_url': codeUrl,
-  'scrimba_url': scrimbaURL,
+  'scrimba_url': resources[_type == 'scrimbaResource'][0].url,
   'created_at': eggheadRailsCreatedAt,
   'updated_at': displayedUpdatedAt,
   'published_at': publishedAt,
@@ -56,7 +56,7 @@ const lessonQuery = groq`
     title,
     'slug': slug.current,
     'type': 'playlist',
-    'square_cover_480_url': image,
+    'square_cover_480_url': coalesce(image, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
     'path': '/courses/' + slug.current,
     'lessons': lessons[]-> {
       'slug': slug.current,
@@ -85,6 +85,8 @@ async function loadLessonMetadataFromSanity(slug: string) {
 
   try {
     const baseValues = await sanityClient.fetch(lessonQuery, params)
+
+    console.log('data from danity', baseValues)
 
     console.log('ScrimbaURL:', baseValues.scrimba_url) //check if scrimba link
 
@@ -159,6 +161,10 @@ export async function loadLesson(
     throw new Error(`Unable to lookup lesson metadata (slug: ${slug})`)
   }
 
+  const final = {...lessonMetadata, comments}
+
+  console.log('final data', final)
+
   return {...lessonMetadata, comments} as LessonResource
 }
 
@@ -181,7 +187,6 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
       transcript
       transcript_url
       subtitles_url
-      hls_url
       dash_url
       http_url
       media_url
