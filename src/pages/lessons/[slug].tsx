@@ -561,34 +561,36 @@ const Lesson: React.FC<LessonProps> = ({
               },
             )}
           >
-            <div className={cx({hidden: !playerVisible})}>
-              {hasScrimbaUrl ? (
-                <div className="relative w-full">
-                  <div className="aspect-w-16 aspect-h-9">
-                    <div className="absolute inset-0">
-                      <div className="h-full max-h-[1055px] mx-auto">
-                        <iframe
-                          src={lesson.scrimba_url}
-                          title="Scrimba Embed"
-                          height="100%"
-                          sandbox="allow-scripts allow-same-origin"
-                          style={{
-                            overflow: 'hidden',
-                            height: '100%',
-                            width: '100%',
-                          }}
-                        ></iframe>
-                      </div>
+            {hasScrimbaUrl ? (
+              <div className="relative w-full">
+                <div className="aspect-w-16 aspect-h-9">
+                  <div className="absolute inset-0">
+                    <div className="h-full max-h-[1055px] mx-auto">
+                      <iframe
+                        src={lesson.scrimba_url}
+                        title="Scrimba Embed"
+                        height="100%"
+                        // sandbox="allow-same-origin allow-scripts"
+                        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-orientation-lock allow-pointer-lock allow-top-navigation"
+                        allowFullScreen
+                        style={{
+                          overflow: 'hidden',
+                          height: '100%',
+                          width: '100%',
+                        }}
+                      ></iframe>
                     </div>
                   </div>
                 </div>
-              ) : (
-                // <div className="flex items-center justify-center">
-                //   <div className="h-[1055px] w-full">
+              </div>
+            ) : (
+              // <div className="flex items-center justify-center">
+              //   <div className="h-[1055px] w-full">
 
-                //   </div>
-                // </div>
-                <>
+              //   </div>
+              // </div>
+              <>
+                <div className={cx({hidden: !playerVisible})}>
                   <Player
                     canAddNotes={
                       isEmpty(viewer) || !notesEnabled ? false : !isFullscreen
@@ -643,9 +645,9 @@ const Lesson: React.FC<LessonProps> = ({
                     subscriber={subscriber}
                     cioIdentify={cioIdentify}
                   />
-                </>
-              )}
-            </div>
+                </div>
+              </>
+            )}
             {/* <div
               className={cx('aspect-w-16 aspect-h-9', {
                 hidden: mounted,

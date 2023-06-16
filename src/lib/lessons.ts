@@ -187,6 +187,7 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
       transcript
       transcript_url
       subtitles_url
+      hls_url
       dash_url
       http_url
       media_url
