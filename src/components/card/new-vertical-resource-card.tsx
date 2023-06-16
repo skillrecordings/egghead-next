@@ -47,12 +47,15 @@ const VerticalResourceCard: React.FC<{
     externalId &&
     completedCoursesIds?.some((courseId: number) => courseId === externalId)
 
+  const resourceType =
+    resource.name === 'landing-page' ? 'guide' : resource.name
+
   return (
     <ResourceLink
       path={(resource.path || resource.url) as string}
       location={location as string}
       target={resource.url ? '_blank' : undefined}
-      resource_type={resource.name || ''}
+      resource_type={resourceType || ''}
       instructor={resource?.instructor?.name}
       tag={resource.tag?.name}
       className={className}
@@ -86,7 +89,7 @@ const VerticalResourceCard: React.FC<{
               small={small}
               image={resource.image}
               title={resource.title || ''}
-              resourceType={resource.name || ''}
+              resourceType={resourceType}
             />
           </CardHeader>
           <CardMeta
@@ -103,7 +106,7 @@ const VerticalResourceCard: React.FC<{
                   aria-hidden
                   className="uppercase font-medium lg:text-[0.65rem] text-[0.55rem] text-gray-700 dark:text-indigo-100 opacity-60"
                 >
-                  {resource.name}
+                  {resourceType}
                 </p>
               </div>
             )}

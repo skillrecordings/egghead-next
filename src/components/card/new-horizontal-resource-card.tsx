@@ -44,6 +44,9 @@ const HorizontalResourceCard: React.FC<{
     externalId &&
     completedCoursesIds?.some((courseId: number) => courseId === externalId)
 
+  const resourceType =
+    resource.name === 'landing-page' ? 'guide' : resource.name
+
   const defaultClassName =
     'rounded-md aspect-w-4 aspect-h-2 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50'
   return (
@@ -51,7 +54,7 @@ const HorizontalResourceCard: React.FC<{
       path={(resource.path || resource.url) as string}
       location={location as string}
       className={className}
-      resource_type={resource.name || ''}
+      resource_type={resourceType || ''}
       instructor={resource.instructor?.name}
       tag={resource.tag?.name}
       feature={feature}
@@ -64,7 +67,7 @@ const HorizontalResourceCard: React.FC<{
             })}`}
           >
             <PreviewImage
-              name={resource.name || ''}
+              name={resourceType || ''}
               image={resource.image}
               title={resource.title || ''}
             />
@@ -81,7 +84,7 @@ const HorizontalResourceCard: React.FC<{
                   aria-hidden
                   className="uppercase font-medium lg:text-[0.65rem] text-[0.55rem] text-gray-700 dark:text-indigo-100 opacity-60"
                 >
-                  {resource.name}
+                  {resourceType}
                 </p>
               </div>
             )}
