@@ -570,8 +570,7 @@ const Lesson: React.FC<LessonProps> = ({
                         src={lesson.scrimba_url}
                         title="Scrimba Embed"
                         height="100%"
-                        // sandbox="allow-same-origin allow-scripts"
-                        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-orientation-lock allow-pointer-lock allow-top-navigation"
+                        sandbox="allow-same-origin allow-scripts"
                         allowFullScreen
                         style={{
                           overflow: 'hidden',
