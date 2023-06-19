@@ -86,10 +86,6 @@ async function loadLessonMetadataFromSanity(slug: string) {
   try {
     const baseValues = await sanityClient.fetch(lessonQuery, params)
 
-    console.log('data from danity', baseValues)
-
-    console.log('ScrimbaURL:', baseValues.scrimba_url) //check if scrimba link
-
     const derivedValues = deriveDataFromBaseValues(baseValues)
 
     return compactedMerge(baseValues, derivedValues)
@@ -160,10 +156,6 @@ export async function loadLesson(
   if (isEmpty(lessonMetadata.slug)) {
     throw new Error(`Unable to lookup lesson metadata (slug: ${slug})`)
   }
-
-  const final = {...lessonMetadata, comments}
-
-  console.log('final data', final)
 
   return {...lessonMetadata, comments} as LessonResource
 }

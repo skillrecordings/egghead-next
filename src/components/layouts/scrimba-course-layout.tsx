@@ -56,7 +56,6 @@ const ScrimbaPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   course,
   ogImageUrl,
 }) => {
-  console.log('these are the lessons:', lessons)
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
   const [clickable, setIsClickable] = React.useState(true)
@@ -107,8 +106,6 @@ const ScrimbaPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
       resourceList: lessons.slice(4, 5),
     },
   ]
-
-  console.log('are the slices working?:', resourceCollection)
 
   const AccordionLessonList = () => {
     const [openLesson, setOpenLesson] = React.useState<string[]>(['resource_0'])
