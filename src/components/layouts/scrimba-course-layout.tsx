@@ -96,24 +96,24 @@ const ScrimbaPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const resourceCollection: ModuleResource[] = [
     {
       sectionTitle: 'Build a Movie Idea Generator With ChatGPT and Dall-E',
-      resourceList: lessons.slice(0, 2),
+      resourceList: lessons.slice(0, 3),
     },
     {
       sectionTitle: 'Build a GPT-4 Chatbot',
-      resourceList: lessons.slice(2, 3),
+      resourceList: lessons.slice(3, 4),
     },
     {
       sectionTitle: 'Build a Chatbot With a fine-tuned Model',
-      resourceList: lessons.slice(2, 3),
+      resourceList: lessons.slice(4, 5),
     },
   ]
 
   console.log('are the slices working?:', resourceCollection)
 
   const AccordionLessonList = () => {
-    const [openLesson, setOpenLesson] = React.useState<string[]>([])
+    const [openLesson, setOpenLesson] = React.useState<string[]>(['resource_0'])
 
-    const handleAccordionChange = (value: string[]) => {
+    const handleAccordionChange = (value: string[]): void => {
       setOpenLesson(value)
     }
 
@@ -155,68 +155,77 @@ const ScrimbaPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </Accordion.Header>
                   <Accordion.Content>
                     <ul>
-                      {lessons.map(
-                        (lesson: LessonResource, lessonIndex: number) => {
-                          const isComplete = completedLessonSlugs?.includes(
-                            lesson.slug,
-                          )
-                          return (
-                            <li key={lesson.slug}>
-                              <div className="flex py-2 font-semibold leading-tight">
-                                <div className="flex items-center mr-2 space-x-2">
-                                  <div
-                                    className={`${
-                                      isComplete
-                                        ? 'text-blue-600 dark:text-green-400'
-                                        : 'text-gray-500 dark:text-gray-400'
-                                    } pt-px font-xs scale-75 font-normal w-4`}
-                                  >
-                                    {isComplete ? (
-                                      <CheckIcon className="w-6 h-6 -translate-x-2" />
-                                    ) : (
-                                      lessonIndex + 1
+                      {resource.resourceList.map(
+                        (item: Resource, itemIndex: number) => {
+                          if ('sectionTitle' in item) {
+                            // Handle ModuleResource
+                            return null // Render nothing for ModuleResource
+                          } else {
+                            // Handle LessonResource
+                            const lessonResource = item as LessonResource
+                            const isComplete = lessonResource.completed
+
+                            return (
+                              <li key={lessonResource.slug}>
+                                <div className="flex py-2 font-semibold leading-tight">
+                                  <div className="flex items-center mr-2 space-x-2">
+                                    <div
+                                      className={`${
+                                        isComplete
+                                          ? 'text-blue-600 dark:text-green-400'
+                                          : 'text-gray-500 dark:text-gray-400'
+                                      } pt-px font-xs scale-75 font-normal w-4`}
+                                    >
+                                      {isComplete ? (
+                                        <CheckIcon className="w-6 h-6 -translate-x-2" />
+                                      ) : (
+                                        itemIndex + 1
+                                      )}
+                                    </div>
+                                    {lessonResource.icon_url && (
+                                      <div className="flex items-center flex-shrink-0 w-8">
+                                        <Image
+                                          src={lessonResource.icon_url}
+                                          width={24}
+                                          height={24}
+                                        />
+                                      </div>
                                     )}
                                   </div>
-                                  {lesson.icon_url && (
-                                    <div className="flex items-center flex-shrink-0 w-8">
-                                      <Image
-                                        src={lesson.icon_url}
-                                        width={24}
-                                        height={24}
-                                      />
+                                  {lessonResource.path && (
+                                    <div className="flex flex-col">
+                                      <div>
+                                        <Link href={lessonResource.path}>
+                                          <a
+                                            onClick={() => {
+                                              track(
+                                                `clicked video link on course page`,
+                                                {
+                                                  course: course.slug,
+                                                  video: lessonResource.slug,
+                                                },
+                                              )
+                                            }}
+                                            className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100"
+                                          >
+                                            {lessonResource.title}
+                                          </a>
+                                        </Link>
+                                      </div>
+                                      <div className="text-xs text-gray-700 dark:text-gray-500">
+                                        {convertTimeWithTitles(
+                                          lessonResource.duration,
+                                          {
+                                            showSeconds: true,
+                                          },
+                                        )}
+                                      </div>
                                     </div>
                                   )}
                                 </div>
-                                {lesson.path && (
-                                  <div className="flex flex-col">
-                                    <div>
-                                      <Link href={lesson.path}>
-                                        <a
-                                          onClick={() => {
-                                            track(
-                                              `clicked video link on course page`,
-                                              {
-                                                course: course.slug,
-                                                video: lesson.slug,
-                                              },
-                                            )
-                                          }}
-                                          className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100"
-                                        >
-                                          {lesson.title}
-                                        </a>
-                                      </Link>
-                                    </div>
-                                    <div className="text-xs text-gray-700 dark:text-gray-500">
-                                      {convertTimeWithTitles(lesson.duration, {
-                                        showSeconds: true,
-                                      })}
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            </li>
-                          )
+                              </li>
+                            )
+                          }
                         },
                       )}
                     </ul>
