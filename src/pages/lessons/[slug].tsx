@@ -198,7 +198,9 @@ const Lesson: React.FC<LessonProps> = ({
     free_forever,
     slug,
     comments,
+    scrimba_url,
   } = lesson
+
 
   const instructorPagePath = `/q/resources-by-${get(instructor, 'slug', '#')}`
 
@@ -506,6 +508,8 @@ const Lesson: React.FC<LessonProps> = ({
     setLessonCompleted(true)
   }
 
+  const hasScrimbaUrl = initialLesson?.scrimba_url
+
   return (
     <>
       <NextSeo
@@ -556,68 +560,97 @@ const Lesson: React.FC<LessonProps> = ({
               },
             )}
           >
-            <div className={cx({hidden: !playerVisible})}>
-              <Player
-                canAddNotes={
-                  isEmpty(viewer) || !notesEnabled ? false : !isFullscreen
-                }
-                className="font-sans"
-                container={fullscreenWrapperRef.current || undefined}
-                controls={
-                  <DownloadControl
-                    key={lesson.download_url}
-                    download_url={lesson.download_url}
-                    slug={lesson.slug}
-                    state={lesson.state}
+            {hasScrimbaUrl ? (
+              <div className="relative w-full">
+                <div className="aspect-w-16 aspect-h-9">
+                  <div className="absolute inset-0">
+                    <div className="h-full max-h-[1055px] mx-auto">
+                      <iframe
+                        src={lesson.scrimba_url}
+                        title="Scrimba Embed"
+                        height="100%"
+                        sandbox="allow-same-origin allow-scripts"
+                        allowFullScreen
+                        style={{
+                          overflow: 'hidden',
+                          height: '100%',
+                          width: '100%',
+                        }}
+                      ></iframe>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              // <div className="flex items-center justify-center">
+              //   <div className="h-[1055px] w-full">
+
+              //   </div>
+              // </div>
+              <>
+                <div className={cx({hidden: !playerVisible})}>
+                  <Player
+                    canAddNotes={
+                      isEmpty(viewer) || !notesEnabled ? false : !isFullscreen
+                    }
+                    className="font-sans"
+                    container={fullscreenWrapperRef.current || undefined}
+                    controls={
+                      <DownloadControl
+                        key={lesson.download_url}
+                        download_url={lesson.download_url}
+                        slug={lesson.slug}
+                        state={lesson.state}
+                      />
+                    }
+                    // poster={lesson.thumb_url}
+                  >
+                    <HLSSource key={lesson.hls_url} src={lesson.hls_url} />
+                    {lesson.subtitles_url && (
+                      <track
+                        key={lesson.subtitles_url}
+                        src={lesson.subtitles_url}
+                        kind="subtitles"
+                        srcLang="en"
+                        label="English"
+                        default={subtitle?.language === 'en'}
+                      />
+                    )}
+                    {notesEnabled && metadataTracks && (
+                      <track
+                        key={lesson.slug}
+                        id="notes"
+                        src={queryString.stringifyUrl({
+                          url: `/api/lessons/notes/${lesson?.slug}`,
+                          query: {
+                            staff_notes_url:
+                              lesson?.staff_notes_url || undefined,
+                          },
+                        })}
+                        kind="metadata"
+                        label="notes"
+                      />
+                    )}
+                  </Player>
+                  <Overlays
+                    lessonSend={send}
+                    lessonState={lessonState}
+                    lesson={lesson}
+                    nextLesson={nextLesson}
+                    viewer={viewer}
+                    videoService={videoService}
+                    lessonView={lessonView}
+                    subscriber={subscriber}
+                    cioIdentify={cioIdentify}
                   />
-                }
-                // poster={lesson.thumb_url}
-              >
-                {lesson.hls_url && (
-                  <HLSSource key={lesson.hls_url} src={lesson.hls_url} />
-                )}
-                {lesson.subtitles_url && lesson.hls_url && (
-                  <track
-                    key={lesson.subtitles_url}
-                    src={lesson.subtitles_url}
-                    kind="subtitles"
-                    srcLang="en"
-                    label="English"
-                    default={subtitle?.language === 'en'}
-                  />
-                )}
-                {notesEnabled && metadataTracks && (
-                  <track
-                    key={lesson.slug}
-                    id="notes"
-                    src={queryString.stringifyUrl({
-                      url: `/api/lessons/notes/${lesson?.slug}`,
-                      query: {
-                        staff_notes_url: lesson?.staff_notes_url || undefined,
-                      },
-                    })}
-                    kind="metadata"
-                    label="notes"
-                  />
-                )}
-              </Player>
-            </div>
+                </div>
+              </>
+            )}
             {/* <div
               className={cx('aspect-w-16 aspect-h-9', {
                 hidden: mounted,
               })}
             /> */}
-            <Overlays
-              lessonSend={send}
-              lessonState={lessonState}
-              lesson={lesson}
-              nextLesson={nextLesson}
-              viewer={viewer}
-              videoService={videoService}
-              lessonView={lessonView}
-              subscriber={subscriber}
-              cioIdentify={cioIdentify}
-            />
           </div>
           {withSidePanel && (
             <div className="flex flex-col col-span-3 dark:bg-gray-800 bg-gray-50">
@@ -784,6 +817,7 @@ const Lesson: React.FC<LessonProps> = ({
                 </div>
               )}
             </div>
+
             <Tabs
               index={defaultView === 'comments' ? 1 : 0}
               onChange={(index) => {

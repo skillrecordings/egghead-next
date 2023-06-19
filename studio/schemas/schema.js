@@ -34,6 +34,7 @@ import mainImage from './objects/main-image'
 import seo from './objects/seo'
 import productionProcessState from './objects/production-process-state'
 import muxAsset from './objects/muxAsset'
+import scrimbaResource from './objects/scrimba-resource'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -74,5 +75,6 @@ export default createSchema({
     mainImage,
     seo,
     muxAsset,
+    scrimbaResource,
   ]),
 })

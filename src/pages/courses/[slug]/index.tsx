@@ -6,6 +6,7 @@ import CollectionPageLayout from 'components/layouts/collection-page-layout'
 import DraftCourseLayout from 'components/layouts/draft-course-page-layout'
 import MultiModuleCollectionPageLayout from 'components/layouts/multi-module-collection-page-layout'
 import PhpCollectionPageLayout from 'components/layouts/php-collection-page-layout'
+import ScrimbaPageLayout from 'components/layouts/scrimba-course-layout'
 import filter from 'lodash/filter'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
@@ -56,6 +57,14 @@ const Course: React.FC<CourseProps> = (props) => {
     case slug === 'a-complete-introduction-to-php-33d9d04c':
       return (
         <PhpCollectionPageLayout
+          lessons={courseLessons}
+          course={course}
+          ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
+        />
+      )
+    case slug === 'build-ai-apps-with-chatgpt-dall-e-and-gpt-4-42d767cc':
+      return (
+        <ScrimbaPageLayout
           lessons={courseLessons}
           course={course}
           ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}

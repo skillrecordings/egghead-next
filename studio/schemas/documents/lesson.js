@@ -31,15 +31,20 @@ export default {
       },
     },
     {
-      name: 'resource',
+      name: 'resources',
       description:
         'Attach a resource to this lesson (Video, Audio, Text, etc.)',
-      title: 'Resource',
-      type: 'reference',
-      to: [
+      title: 'Resources',
+      type: 'array',
+      of: [
         {
-          type: 'videoResource',
-          title: 'Video',
+          title: 'Video Resource',
+          type: 'reference',
+          to: [{type: 'videoResource'}],
+        },
+        {
+          title: 'Scrimba Resource',
+          type: 'scrimbaResource',
         },
       ],
     },

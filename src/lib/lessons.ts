@@ -32,6 +32,7 @@ const lessonQuery = groq`
   'icon_url': coalesce(softwareLibraries[0].library->image.url, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
   'repo_url': repoUrl,
   'code_url': codeUrl,
+  'scrimba_url': resources[_type == 'scrimbaResource'][0].url,
   'created_at': eggheadRailsCreatedAt,
   'updated_at': displayedUpdatedAt,
   'published_at': publishedAt,
@@ -55,7 +56,7 @@ const lessonQuery = groq`
     title,
     'slug': slug.current,
     'type': 'playlist',
-    'square_cover_480_url': image,
+    'square_cover_480_url': coalesce(image, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
     'path': '/courses/' + slug.current,
     'lessons': lessons[]-> {
       'slug': slug.current,
