@@ -201,7 +201,6 @@ const Lesson: React.FC<LessonProps> = ({
     scrimba_url,
   } = lesson
 
-  console.log(lesson)
 
   const instructorPagePath = `/q/resources-by-${get(instructor, 'slug', '#')}`
 
