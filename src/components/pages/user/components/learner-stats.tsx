@@ -4,7 +4,7 @@ import {convertMintoHours} from 'utils/time-utils'
 import Spinner from 'components/spinner'
 
 type LearnerStatsData = {
-  completedCourseCount: number
+  completeCourseCount: number
   completedLessonCount: number
   minutesWatched: number
 }
@@ -38,7 +38,7 @@ const LearnerStats: React.FC<{
                   Courses completed
                 </dt>
                 <dd className="order-1 text-4xl lg:text-5xl font-bold tracking-tight text-blue-600 dark:text-white leading-none">
-                  {learnerStatsData.completedCourseCount}
+                  {learnerStatsData.completeCourseCount}
                 </dd>
               </div>
               <div className="flex flex-col text-center pt-5 sm:py-4">
