@@ -201,7 +201,6 @@ const Lesson: React.FC<LessonProps> = ({
     scrimba_url,
   } = lesson
 
-
   const instructorPagePath = `/q/resources-by-${get(instructor, 'slug', '#')}`
 
   const nextLesson = useNextForCollection(collection, lesson.slug)
@@ -510,6 +509,18 @@ const Lesson: React.FC<LessonProps> = ({
 
   const hasScrimbaUrl = initialLesson?.scrimba_url
 
+  const iframeRef = React.useRef<HTMLIFrameElement>(null)
+
+  const toggleFullscreen = () => {
+    const iframe = iframeRef.current
+
+    if (iframe) {
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen()
+      }
+    }
+  }
+
   return (
     <>
       <NextSeo
@@ -561,32 +572,57 @@ const Lesson: React.FC<LessonProps> = ({
             )}
           >
             {hasScrimbaUrl ? (
-              <div className="relative w-full">
-                <div className="aspect-w-16 aspect-h-9">
-                  <div className="absolute inset-0">
-                    <div className="h-full max-h-[1055px] mx-auto">
-                      <iframe
-                        src={lesson.scrimba_url}
-                        title="Scrimba Embed"
-                        height="100%"
-                        sandbox="allow-same-origin allow-scripts"
-                        allowFullScreen
-                        style={{
-                          overflow: 'hidden',
-                          height: '100%',
-                          width: '100%',
-                        }}
-                      ></iframe>
+              <>
+                <div className="relative w-full">
+                  <div className="aspect-w-16 aspect-h-11">
+                    <div className="absolute inset-0 flex flex-col">
+                      <div className="h-full w-full">
+                        <iframe
+                          ref={iframeRef}
+                          src={lesson.scrimba_url}
+                          title="Scrimba Embed"
+                          height="100%"
+                          sandbox="allow-same-origin allow-scripts"
+                          className="w-full"
+                        ></iframe>
+                        <button
+                          className="absolute top-2 right-2 px-4 py-2 bg-blue-500 text-white"
+                          onClick={toggleFullscreen}
+                        >
+                          Toggle Fullscreen
+                        </button>
+                      </div>
+                      <div className="bg-gray-50 dark:bg-gray-1000 w-full">
+                        <div className="container py-3 flex flex-col items-center md:flex-row md:justify-between">
+                          <div className="flex flex-col items-center md:flex-row md:mb-0">
+                            <p className="text-center md:text-left md:mr-4">
+                              Finished this lesson? Mark it as complete to track
+                              your progress.
+                            </p>
+                            <button className="mt-2 md:mt-0 md:ml-4 px-4 py-2 bg-blue-500 text-white">
+                              Mark as Complete
+                            </button>
+                          </div>
+                          {/* <div className="flex items-center mt-4 md:mt-0">
+                            <button className="px-4 py-2 bg-blue-500 text-white">
+                              Next Lesson
+                            </button>
+                          </div> */}
+                          <div className="flex items-center mt-4 md:mt-0">
+                            <button
+                              className="px-4 py-2 bg-blue-500 text-white"
+                              onClick={toggleFullscreen}
+                            >
+                              Toggle Fullscreen
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </>
             ) : (
-              // <div className="flex items-center justify-center">
-              //   <div className="h-[1055px] w-full">
-
-              //   </div>
-              // </div>
               <>
                 <div className={cx({hidden: !playerVisible})}>
                   <Player
@@ -658,7 +694,7 @@ const Lesson: React.FC<LessonProps> = ({
                 relatedResources={specialLessons[lesson.slug]}
                 videoResource={lesson}
               />
-              <AutoplayControl />
+              {hasScrimbaUrl ? null : <AutoplayControl />}
             </div>
           )}
         </div>
