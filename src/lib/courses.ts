@@ -5,7 +5,7 @@ import {z} from 'zod'
 
 const courseQuery = groq`
 *[
-  (_type == 'resource' || _type == 'course') && (externalId == '$courseId' || slug.current == $slug)
+  (_type == 'resource' || _type == 'course') && (externalId == $courseId || slug.current == $slug)
 ][0]{
   "id": _id,
   title,
@@ -80,7 +80,21 @@ const courseQuery = groq`
   projects[]{
     label,
     url
-  }
+  },
+  "pairWithResources": related[]->{
+    name,
+    title,
+    byline,
+    "description": summary,
+    path,
+    image,
+    'instructor': collaborators[]->[role == 'instructor']{
+    	'name': person->name,
+  	}
+	},
+	"customOgImage": images[label == 'og-image'][0]{
+    url
+  },
 }
 `
 
