@@ -744,18 +744,18 @@ const Lesson: React.FC<LessonProps> = ({
                       />
                     )}
                   </Player>
-                  <Overlays
-                    lessonSend={send}
-                    lessonState={lessonState}
-                    lesson={lesson}
-                    nextLesson={nextLesson}
-                    viewer={viewer}
-                    videoService={videoService}
-                    lessonView={lessonView}
-                    subscriber={subscriber}
-                    cioIdentify={cioIdentify}
-                  />
                 </div>
+                <Overlays
+                  lessonSend={send}
+                  lessonState={lessonState}
+                  lesson={lesson}
+                  nextLesson={nextLesson}
+                  viewer={viewer}
+                  videoService={videoService}
+                  lessonView={lessonView}
+                  subscriber={subscriber}
+                  cioIdentify={cioIdentify}
+                />
               </>
             )}
             {/* <div
