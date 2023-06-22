@@ -72,8 +72,6 @@ import {
 import {CheckCircleIcon, CheckIcon} from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
 import {LessonProgress} from 'lib/progress'
-import {Switch} from '@headlessui/react'
-import Spinner from 'components/spinner'
 
 const tracer = getTracer('lesson-page')
 
@@ -514,6 +512,7 @@ const Lesson: React.FC<LessonProps> = ({
   }
 
   const hasScrimbaUrl = initialLesson?.scrimba_url
+  const scrimbaTranscript = initialLesson?.scrimba_transcript
 
   const iframeRef = React.useRef<HTMLIFrameElement>(null)
 
@@ -525,12 +524,6 @@ const Lesson: React.FC<LessonProps> = ({
         iframe.requestFullscreen()
       }
     }
-  }
-
-  const [enabled, setEnabled] = React.useState(false)
-
-  const handleToggle = () => {
-    setEnabled(!enabled)
   }
 
   return (
@@ -586,7 +579,7 @@ const Lesson: React.FC<LessonProps> = ({
             {hasScrimbaUrl ? (
               <>
                 <div className="relative w-full">
-                  <div className="aspect-w-16 aspect-h-11">
+                  <div className="aspect-w-16 aspect-h-10">
                     <div className="absolute inset-0 flex flex-col">
                       <div className="h-full w-full">
                         <iframe
@@ -597,66 +590,6 @@ const Lesson: React.FC<LessonProps> = ({
                           sandbox="allow-same-origin allow-scripts"
                           className="w-full"
                         ></iframe>
-                      </div>
-                      <div className="bg-gray-50 dark:bg-gray-1000 w-full">
-                        <div className="container py-3 flex flex-col items-center md:flex-row md:justify-between">
-                          <div className="flex flex-col items-center md:flex-row md:mb-0">
-                            <p className="text-center md:text-left md:mr-4">
-                              Finished this lesson?
-                            </p>
-                            <Switch.Group>
-                              <div className="flex items-center">
-                                <Switch.Label
-                                  as="span"
-                                  className="mr-3 flex-shrink-0 cursor-pointer"
-                                >
-                                  <span className="text-white font-medium">
-                                    Mark as complete
-                                  </span>
-                                </Switch.Label>
-                                <Switch
-                                  checked={enabled}
-                                  onChange={handleToggle}
-                                  className={`${
-                                    enabled ? 'bg-blue-600' : 'bg-gray-200'
-                                  } relative inline-flex items-center h-6 rounded-full w-11`}
-                                >
-                                  <span
-                                    className={`${
-                                      enabled
-                                        ? 'translate-x-6'
-                                        : 'translate-x-1'
-                                    } inline-block w-4 h-4 transform bg-white rounded-full`}
-                                  >
-                                    {enabled && (
-                                      <CheckIcon
-                                        aria-hidden="true"
-                                        className="text-green-600 w-4"
-                                      />
-                                    )}
-                                  </span>
-                                </Switch>
-                              </div>
-                            </Switch.Group>
-                          </div>
-                          <div className="flex items-center mt-4 md:mt-0">
-                            {nextLesson && (
-                              <Link href={nextLesson.path}>
-                                <a className="px-4 py-2 bg-blue-500 text-white">
-                                  Next Lesson
-                                </a>
-                              </Link>
-                            )}
-                          </div>
-                          <div className="flex items-center mt-4 md:mt-0">
-                            <button
-                              className="px-4 py-2 bg-blue-500"
-                              onClick={toggleFullscreen}
-                            >
-                              <ArrowsExpandIcon className="h-5 w-5 text-white" />
-                            </button>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -734,7 +667,24 @@ const Lesson: React.FC<LessonProps> = ({
                 relatedResources={specialLessons[lesson.slug]}
                 videoResource={lesson}
               />
-              {hasScrimbaUrl ? null : <AutoplayControl />}
+              {hasScrimbaUrl ? (
+                <div className="bg-player-bg bg-opacity-80 px-3 py-2 flex items-center justify-between w-full group h-[54px]">
+                  <div className="flex md:mt-0">
+                    <button className="px-4 py-2" onClick={toggleFullscreen}>
+                      <ArrowsExpandIcon className="h-5 w-5 text-white" />
+                    </button>
+                  </div>
+                  {nextLesson && (
+                    <Link href={nextLesson.path}>
+                      <a className="bg-blue-600 text-white sm:px-2 sm:py-2 px-3 py-2 rounded-md tracking-tight hover:bg-blue-700 transition text-sm">
+                        Complete and Continue
+                      </a>
+                    </Link>
+                  )}
+                </div>
+              ) : (
+                <AutoplayControl />
+              )}
             </div>
           )}
         </div>
@@ -751,7 +701,7 @@ const Lesson: React.FC<LessonProps> = ({
             <div className="pb-2 space-y-4 sm:pb-8">
               {title && (
                 <div className="flex space-x-2 -ml-7">
-                  {lessonCompleted || enabled ? (
+                  {lessonCompleted ? (
                     <span className="self-center">
                       <CheckCircleIcon className="h-5 w-5 text-green-500  rounded-full" />
                     </span>
@@ -904,6 +854,7 @@ const Lesson: React.FC<LessonProps> = ({
               }}
             >
               <TabList>
+                {}
                 {transcriptAvailable && <Tab>Transcript</Tab>}
                 <Tab>
                   Comments <span className="text-sm">({numberOfComments})</span>

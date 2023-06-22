@@ -132,8 +132,8 @@ const ScrimbaPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             {resourceCollection.map(
               (resource: ModuleResource, index: number) => (
                 <Accordion.Item key={index} value={`resource_${index}`}>
-                  <Accordion.Header className="relative z-10 overflow-hidden rounded-lg bg-gray-900 pt-4">
-                    <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 px-3 py-2.5 text-left text-lg font-medium leading-tight shadow-lg transition hover:bg-gray-800/40">
+                  <Accordion.Header className="relative z-10 overflow-hidden rounded-lg  pt-4">
+                    <Accordion.Trigger className="bg-gray-100 group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 dark:bg-gray-800/20 px-3 py-2.5 text-left text-lg font-medium leading-tight shadow-lg transition dark:hover:bg-gray-800/40">
                       <Balancer>{resource.sectionTitle}</Balancer>
                       <div className="flex items-center">
                         {openLesson.includes(`resource_${index}`) ? (
@@ -564,65 +564,6 @@ const ScrimbaPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         </p>
                       </LoginForm>
                     </DialogButton>
-                  )}
-
-                  {/* Download button */}
-                  {download_url ? (
-                    <Link href={download_url}>
-                      <a
-                        onClick={() => {
-                          track(`clicked download course`, {
-                            course: course.slug,
-                          })
-                        }}
-                      >
-                        <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
-                          <FolderDownloadIcon className="w-4 h-4 mr-1" />{' '}
-                          Download
-                        </div>
-                      </a>
-                    </Link>
-                  ) : (
-                    <MembershipDialogButton
-                      buttonText="Download"
-                      title="Become a member to download this course"
-                    >
-                      As an egghead member you can download any of our courses
-                      and watch them offline.
-                    </MembershipDialogButton>
-                  )}
-
-                  {/* RSS button */}
-                  {rss_url ? (
-                    <Link href={rss_url}>
-                      <a
-                        onClick={() => {
-                          track(`clicked rss feed link`, {
-                            course: course.slug,
-                          })
-                        }}
-                      >
-                        <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
-                          <RSSIcon className="w-4 h-4 mr-1" /> RSS
-                        </div>
-                      </a>
-                    </Link>
-                  ) : (
-                    <a
-                      onClick={() => {
-                        track(`clicked disabled rss feed link`, {
-                          course: course.slug,
-                        })
-                      }}
-                    >
-                      <MembershipDialogButton
-                        buttonText="RSS"
-                        title="Become a member to access RSS feeds"
-                      >
-                        As an egghead member you can subscribe to any of our
-                        courses using an RSS feed.
-                      </MembershipDialogButton>
-                    </a>
                   )}
                 </div>
                 {/* End of action buttons block */}

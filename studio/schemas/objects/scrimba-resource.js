@@ -8,5 +8,11 @@ export default {
       name: 'url',
       type: 'url',
     },
+    {
+      name: 'transcript',
+      title: 'Transcript',
+      type: 'text',
+      rows: 10,
+    },
   ],
 }
