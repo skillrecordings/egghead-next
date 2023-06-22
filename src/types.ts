@@ -39,6 +39,10 @@ export type LessonResource = Resource & {
   download_url?: string
   scrimba_url?: string
   scrimba_transcript?: string
+  scrimba: {
+    url: string
+    transcript: string
+  }
 }
 
 export type VideoResource = LessonResource & {

@@ -72,6 +72,8 @@ import {
 import {CheckCircleIcon, CheckIcon} from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
 import {LessonProgress} from 'lib/progress'
+import ReactMarkdown from 'react-markdown'
+import CodeBlock from 'components/code-block'
 
 const tracer = getTracer('lesson-page')
 
@@ -511,8 +513,8 @@ const Lesson: React.FC<LessonProps> = ({
     setLessonCompleted(true)
   }
 
-  const hasScrimbaUrl = initialLesson?.scrimba_url
-  const scrimbaTranscript = initialLesson?.scrimba_transcript
+  const hasScrimbaUrl = initialLesson?.scrimba?.url
+  const scrimbaTranscript = initialLesson?.scrimba?.transcript
 
   const iframeRef = React.useRef<HTMLIFrameElement>(null)
 
@@ -584,7 +586,7 @@ const Lesson: React.FC<LessonProps> = ({
                       <div className="h-full w-full">
                         <iframe
                           ref={iframeRef}
-                          src={lesson.scrimba_url}
+                          src={lesson.scrimba?.url}
                           title="Scrimba Embed"
                           height="100%"
                           sandbox="allow-same-origin allow-scripts"
@@ -854,13 +856,50 @@ const Lesson: React.FC<LessonProps> = ({
               }}
             >
               <TabList>
-                {}
                 {transcriptAvailable && <Tab>Transcript</Tab>}
+                {scrimbaTranscript && <Tab>Transcript</Tab>}
                 <Tab>
                   Comments <span className="text-sm">({numberOfComments})</span>
                 </Tab>
               </TabList>
               <TabPanels className="p-5 rounded-lg rounded-tl-none bg-gray-50 dark:bg-gray-1000 sm:p-8">
+                {/* {scrimbaTranscript ? (
+                  <ReactMarkdown
+                    skipHtml={false}
+                    renderers={{
+                      code: (props) => {
+                        return <CodeBlock {...props} />
+                      },
+                    }}
+                    className="prose dark:prose-dark max-w-none text-gray-800 dark:text-gray-100 dark:prose-a:text-blue-300 prose-a:text-blue-500"
+                  >
+                    {lesson.scrimba.transcript}
+                  </ReactMarkdown>
+                ) : (
+                  transcriptAvailable && (
+                    <TabPanel>
+                      <Transcript
+                        initialTranscript={transcript}
+                        enhancedTranscript={enhancedTranscript}
+                      />
+                    </TabPanel>
+                  )
+                )} */}
+                {scrimbaTranscript && (
+                  <TabPanel>
+                    <ReactMarkdown
+                      skipHtml={false}
+                      renderers={{
+                        code: (props) => {
+                          return <CodeBlock {...props} />
+                        },
+                      }}
+                      className="prose dark:prose-dark max-w-none text-gray-800 dark:text-gray-100 dark:prose-a:text-blue-300 prose-a:text-blue-500"
+                    >
+                      {scrimbaTranscript}
+                    </ReactMarkdown>
+                  </TabPanel>
+                )}
                 {transcriptAvailable && (
                   <TabPanel>
                     <Transcript
@@ -869,6 +908,7 @@ const Lesson: React.FC<LessonProps> = ({
                     />
                   </TabPanel>
                 )}
+
                 <TabPanel>
                   <div className="space-y-6 sm:space-y-8 break-[break-word]">
                     <Comments
