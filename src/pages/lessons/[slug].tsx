@@ -66,7 +66,7 @@ import {
 import {useSelector} from '@xstate/react'
 import {addCueNote, deleteCueNote} from '../../lib/notes'
 import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outline'
-import {CheckCircleIcon} from '@heroicons/react/solid'
+import {CheckCircleIcon, ArrowsExpandIcon} from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
 import {LessonProgress} from 'lib/progress'
 
@@ -204,6 +204,8 @@ const Lesson: React.FC<LessonProps> = ({
   const instructorPagePath = `/q/resources-by-${get(instructor, 'slug', '#')}`
 
   const nextLesson = useNextForCollection(collection, lesson.slug)
+
+  console.log('this is the next lesson: ', nextLesson)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
   const {session_id} = router.query
@@ -585,12 +587,6 @@ const Lesson: React.FC<LessonProps> = ({
                           sandbox="allow-same-origin allow-scripts"
                           className="w-full"
                         ></iframe>
-                        <button
-                          className="absolute top-2 right-2 px-4 py-2 bg-blue-500 text-white"
-                          onClick={toggleFullscreen}
-                        >
-                          Toggle Fullscreen
-                        </button>
                       </div>
                       <div className="bg-gray-50 dark:bg-gray-1000 w-full">
                         <div className="container py-3 flex flex-col items-center md:flex-row md:justify-between">
@@ -603,17 +599,19 @@ const Lesson: React.FC<LessonProps> = ({
                               Mark as Complete
                             </button>
                           </div>
-                          {/* <div className="flex items-center mt-4 md:mt-0">
-                            <button className="px-4 py-2 bg-blue-500 text-white">
-                              Next Lesson
-                            </button>
-                          </div> */}
+                          <div className="flex items-center mt-4 md:mt-0">
+                            <Link href={nextLesson?.path}>
+                              <a className="px-4 py-2 bg-blue-500 text-white">
+                                Next Lesson
+                              </a>
+                            </Link>
+                          </div>
                           <div className="flex items-center mt-4 md:mt-0">
                             <button
-                              className="px-4 py-2 bg-blue-500 text-white"
+                              className="px-4 py-2 bg-blue-500"
                               onClick={toggleFullscreen}
                             >
-                              Toggle Fullscreen
+                              <ArrowsExpandIcon className="h-5 w-5 text-white" />
                             </button>
                           </div>
                         </div>
