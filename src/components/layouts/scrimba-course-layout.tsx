@@ -18,7 +18,7 @@ import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
 import friendlyTime from 'friendly-time'
 import LearnerRatings from '../pages/courses/learner-ratings'
-import CommunityResource from 'components/community-resource'
+import ScrimbaResource from 'components/scrimba-resource'
 import TagList from './tag-list'
 import DialogButton from '../pages/courses/dialog-button'
 import MembershipDialogButton from '../pages/courses/membership-dialog-button'
@@ -742,7 +742,7 @@ const ScrimbaPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <div className="block pt-5 md:hidden">
                   {get(course, 'access_state') === 'free' && (
                     <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
-                      <CommunityResource type="course" />
+                      <ScrimbaResource type="course" />
                     </div>
                   )}
                   <AccordionLessonList />
@@ -772,7 +772,7 @@ const ScrimbaPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </div>
                 {get(course, 'access_state') === 'free' && (
                   <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
-                    <CommunityResource type="course" />
+                    <ScrimbaResource type="course" />
                   </div>
                 )}
                 <AccordionLessonList />

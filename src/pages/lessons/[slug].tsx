@@ -125,41 +125,6 @@ const MAX_FREE_VIEWS = 4
 
 const notesEnabled = process.env.NEXT_PUBLIC_NOTES_ENABLED === 'true'
 
-// const ToggleButton: React.FC = () => {
-//   const [enabled, setEnabled] = React.useState(false)
-
-//   const handleToggle = () => {
-//     setEnabled(!enabled)
-//   }
-
-//   return (
-//     <Switch.Group>
-//       <div className="flex items-center">
-//         <Switch.Label as="span" className="mr-3 flex-shrink-0 cursor-pointer">
-//           <span className="text-white font-medium">Mark as complete</span>
-//         </Switch.Label>
-//         <Switch
-//           checked={enabled}
-//           onChange={handleToggle}
-//           className={`${
-//             enabled ? 'bg-blue-600' : 'bg-gray-200'
-//           } relative inline-flex items-center h-6 rounded-full w-11`}
-//         >
-//           <span
-//             className={`${
-//               enabled ? 'translate-x-6' : 'translate-x-1'
-//             } inline-block w-4 h-4 transform bg-white rounded-full`}
-//           >
-//             {enabled && (
-//               <CheckIcon aria-hidden="true" className="text-green-600 w-4" />
-//             )}
-//           </span>
-//         </Switch>
-//       </div>
-//     </Switch.Group>
-//   )
-// }
-
 const Lesson: React.FC<LessonProps> = ({
   initialLesson,
   state,
@@ -639,7 +604,6 @@ const Lesson: React.FC<LessonProps> = ({
                             <p className="text-center md:text-left md:mr-4">
                               Finished this lesson?
                             </p>
-                            {/* <ToggleButton /> */}
                             <Switch.Group>
                               <div className="flex items-center">
                                 <Switch.Label
@@ -787,7 +751,7 @@ const Lesson: React.FC<LessonProps> = ({
             <div className="pb-2 space-y-4 sm:pb-8">
               {title && (
                 <div className="flex space-x-2 -ml-7">
-                  {lessonCompleted ? (
+                  {lessonCompleted || enabled ? (
                     <span className="self-center">
                       <CheckCircleIcon className="h-5 w-5 text-green-500  rounded-full" />
                     </span>
@@ -801,6 +765,7 @@ const Lesson: React.FC<LessonProps> = ({
                   </h1>
                 </div>
               )}
+
               <div className="flex flex-col flex-wrap justify-between w-full pt-4 space-y-5 lg:flex-row lg:space-x-8 lg:space-y-0 lg:items-center">
                 <div className="flex items-center justify-between w-full space-x-5 md:w-auto">
                   {instructor && (
