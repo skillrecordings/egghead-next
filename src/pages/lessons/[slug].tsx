@@ -65,10 +65,15 @@ import {
 } from '@skillrecordings/player/dist/machines/video-machine'
 import {useSelector} from '@xstate/react'
 import {addCueNote, deleteCueNote} from '../../lib/notes'
-import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outline'
-import {CheckCircleIcon, ArrowsExpandIcon} from '@heroicons/react/solid'
+import {
+  CheckCircleIcon as CheckCircleIconOutline,
+  ArrowsExpandIcon,
+} from '@heroicons/react/outline'
+import {CheckCircleIcon, CheckIcon} from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
 import {LessonProgress} from 'lib/progress'
+import {Switch} from '@headlessui/react'
+import Spinner from 'components/spinner'
 
 const tracer = getTracer('lesson-page')
 
@@ -119,6 +124,41 @@ type LessonProps = {
 const MAX_FREE_VIEWS = 4
 
 const notesEnabled = process.env.NEXT_PUBLIC_NOTES_ENABLED === 'true'
+
+// const ToggleButton: React.FC = () => {
+//   const [enabled, setEnabled] = React.useState(false)
+
+//   const handleToggle = () => {
+//     setEnabled(!enabled)
+//   }
+
+//   return (
+//     <Switch.Group>
+//       <div className="flex items-center">
+//         <Switch.Label as="span" className="mr-3 flex-shrink-0 cursor-pointer">
+//           <span className="text-white font-medium">Mark as complete</span>
+//         </Switch.Label>
+//         <Switch
+//           checked={enabled}
+//           onChange={handleToggle}
+//           className={`${
+//             enabled ? 'bg-blue-600' : 'bg-gray-200'
+//           } relative inline-flex items-center h-6 rounded-full w-11`}
+//         >
+//           <span
+//             className={`${
+//               enabled ? 'translate-x-6' : 'translate-x-1'
+//             } inline-block w-4 h-4 transform bg-white rounded-full`}
+//           >
+//             {enabled && (
+//               <CheckIcon aria-hidden="true" className="text-green-600 w-4" />
+//             )}
+//           </span>
+//         </Switch>
+//       </div>
+//     </Switch.Group>
+//   )
+// }
 
 const Lesson: React.FC<LessonProps> = ({
   initialLesson,
@@ -198,7 +238,6 @@ const Lesson: React.FC<LessonProps> = ({
     free_forever,
     slug,
     comments,
-    scrimba_url,
   } = lesson
 
   const instructorPagePath = `/q/resources-by-${get(instructor, 'slug', '#')}`
@@ -523,6 +562,12 @@ const Lesson: React.FC<LessonProps> = ({
     }
   }
 
+  const [enabled, setEnabled] = React.useState(false)
+
+  const handleToggle = () => {
+    setEnabled(!enabled)
+  }
+
   return (
     <>
       <NextSeo
@@ -592,19 +637,52 @@ const Lesson: React.FC<LessonProps> = ({
                         <div className="container py-3 flex flex-col items-center md:flex-row md:justify-between">
                           <div className="flex flex-col items-center md:flex-row md:mb-0">
                             <p className="text-center md:text-left md:mr-4">
-                              Finished this lesson? Mark it as complete to track
-                              your progress.
+                              Finished this lesson?
                             </p>
-                            <button className="mt-2 md:mt-0 md:ml-4 px-4 py-2 bg-blue-500 text-white">
-                              Mark as Complete
-                            </button>
+                            {/* <ToggleButton /> */}
+                            <Switch.Group>
+                              <div className="flex items-center">
+                                <Switch.Label
+                                  as="span"
+                                  className="mr-3 flex-shrink-0 cursor-pointer"
+                                >
+                                  <span className="text-white font-medium">
+                                    Mark as complete
+                                  </span>
+                                </Switch.Label>
+                                <Switch
+                                  checked={enabled}
+                                  onChange={handleToggle}
+                                  className={`${
+                                    enabled ? 'bg-blue-600' : 'bg-gray-200'
+                                  } relative inline-flex items-center h-6 rounded-full w-11`}
+                                >
+                                  <span
+                                    className={`${
+                                      enabled
+                                        ? 'translate-x-6'
+                                        : 'translate-x-1'
+                                    } inline-block w-4 h-4 transform bg-white rounded-full`}
+                                  >
+                                    {enabled && (
+                                      <CheckIcon
+                                        aria-hidden="true"
+                                        className="text-green-600 w-4"
+                                      />
+                                    )}
+                                  </span>
+                                </Switch>
+                              </div>
+                            </Switch.Group>
                           </div>
                           <div className="flex items-center mt-4 md:mt-0">
-                            <Link href={nextLesson?.path}>
-                              <a className="px-4 py-2 bg-blue-500 text-white">
-                                Next Lesson
-                              </a>
-                            </Link>
+                            {nextLesson && (
+                              <Link href={nextLesson.path}>
+                                <a className="px-4 py-2 bg-blue-500 text-white">
+                                  Next Lesson
+                                </a>
+                              </Link>
+                            )}
                           </div>
                           <div className="flex items-center mt-4 md:mt-0">
                             <button
