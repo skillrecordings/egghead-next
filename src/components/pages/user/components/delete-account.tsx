@@ -5,6 +5,7 @@ import {Dialog, Transition} from '@headlessui/react'
 import {trpc} from 'trpc/trpc.client'
 import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'
+import analytics from 'utils/analytics'
 
 const DeleteAccount: React.FC<{}> = () => {
   const [dialogIsOpen, setDialogIsOpen] = React.useState(false)
@@ -47,6 +48,10 @@ const AccountDeletionDialog = ({
         duration: 6000,
         icon: '✅',
       })
+      analytics.events.activityCtaClick(
+        'account deletion',
+        String(data?.delete_user?.deleted_user_id),
+      )
       localStorage.clear()
       logout()
       router.push('/')
@@ -132,7 +137,7 @@ const AccountDeletionDialog = ({
                 <div className="flex flex-start w-full gap-4">
                   <button
                     type="submit"
-                    className="inline-block px-4 py-3 text-gray-900 hover:text-white dark:text-white border-red-600 border rounded focus:outline-none bg-red-700 hover:bg-red-500"
+                    className="inline-block px-4 py-3  text-white border-red-600 border rounded focus:outline-none bg-red-700 hover:bg-red-500"
                   >
                     Delete Account
                   </button>

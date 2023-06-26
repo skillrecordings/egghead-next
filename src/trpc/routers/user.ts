@@ -113,6 +113,7 @@ export const userRouter = router({
     const mutation = gql`
       mutation DeleteAccount {
         delete_user {
+          deleted_user_id
           errors {
             message
           }
