@@ -36,15 +36,15 @@ export default function SearchMatiasHernandez({
         }
       />
 
-      <section className="xl:px-0 px-5">
+      <section className="xl:px-0 px-5 mt-8">
         <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
           Courses
         </h2>
-        <div className="flex sm:flex-nowrap flex-wrap gap-4 mt-4">
+        <div className="flex sm:flex-nowrap flex-wrap justify-center gap-4 mt-4">
           {restCourses.map((course: CardResource) => {
             return (
               <VerticalResourceCard
-                className=" dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 rounded"
+                className=" dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 rounded w-4/5 sm:w-1/3"
                 resource={course}
                 location="Matias Hernandez instructor Landing page"
               />
