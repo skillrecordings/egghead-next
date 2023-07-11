@@ -4,10 +4,10 @@
  */
 import {router, baseProcedure} from '../trpc.server'
 import {z} from 'zod'
-import {ACCESS_TOKEN_KEY} from '../../utils/auth'
 import {getContactId, loadCurrentUser, loadUserAccounts} from '../../lib/users'
 import {getGraphQLClient} from 'utils/configured-graphql-client'
 import {gql} from 'graphql-request'
+import {ACCESS_TOKEN_KEY} from 'utils/auth'
 
 const transactionsSchema = z.array(
   z.object({
@@ -101,6 +101,35 @@ export const userRouter = router({
       .catch((err) => {
         console.error(err)
       })
+    return res
+  }),
+  deleteAccount: baseProcedure.mutation(async ({input, ctx}) => {
+    const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+
+    if (!token) return null
+
+    const graphQLClient = getGraphQLClient(token)
+
+    const mutation = gql`
+      mutation DeleteAccount {
+        delete_user {
+          deleted_user_id
+          errors {
+            message
+          }
+        }
+      }
+    `
+
+    let res = await graphQLClient
+      .request(mutation)
+      .then((data) => {
+        return data
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+
     return res
   }),
 })

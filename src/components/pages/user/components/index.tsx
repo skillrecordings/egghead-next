@@ -5,6 +5,7 @@ import AvatarForm from './avatar-form'
 import RequestEmailChangeForm from './request-email-change-form'
 import RequestNameChangeForm from './request-name-change-form'
 import BookmarksList from './bookmarks-list'
+import DeleteAccount from './delete-account'
 
 export {
   CompletedCourses,
@@ -14,4 +15,5 @@ export {
   RequestEmailChangeForm,
   RequestNameChangeForm,
   BookmarksList,
+  DeleteAccount,
 }
