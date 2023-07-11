@@ -106,7 +106,7 @@ const Membership = () => {
             <strong>
               <a
                 href={`mailto:${accountOwner.email}`}
-                className="text-white hover:underline"
+                className="dark:text-white hover:underline"
               >
                 {accountOwner.email}
               </a>
