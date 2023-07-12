@@ -184,7 +184,6 @@ const PreviewImage: React.FC<{title: string; image: any; name: string}> = ({
         'max-w-[40px]': name === 'lesson',
         'max-w-[80px]': name === 'talk',
         'xl:max-w-[200px] sm:max-w-[150px] max-w-[100px]': name === 'course',
-        'object-cover': name === 'article',
       })}`}
     >
       <Image
@@ -192,6 +191,7 @@ const PreviewImage: React.FC<{title: string; image: any; name: string}> = ({
         src={get(image, 'src', image)}
         width={getSize(name)}
         height={getSize(name)}
+        objectFit={name === 'article' ? 'cover' : 'contain'}
         quality={100}
         alt=""
       />
