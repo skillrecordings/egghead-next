@@ -2,11 +2,7 @@ import * as React from 'react'
 
 import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
 import {useViewer} from 'context/viewer-context'
-import {
-  AvatarForm,
-  RequestEmailChangeForm,
-  // RequestNameChangeForm,
-} from '../components'
+import {AvatarForm, RequestEmailChangeForm, DeleteAccount} from '../components'
 import {trpc} from 'trpc/trpc.client'
 import toast from 'react-hot-toast'
 
@@ -20,9 +16,6 @@ const ProfileTabContent: React.FC<any> = () => {
       <ItemWrapper title="Email address">
         <RequestEmailChangeForm originalEmail={currentEmail} />
       </ItemWrapper>
-      {/* <ItemWrapper title="Preferred Name">
-        <RequestNameChangeForm originalEmail={currentEmail} />
-      </ItemWrapper> */}
       <ItemWrapper title="Avatar">
         <AvatarForm avatarUrl={viewer.avatar_url} />
       </ItemWrapper>
@@ -30,6 +23,8 @@ const ProfileTabContent: React.FC<any> = () => {
         isConnectedToGithub={isConnectedToGithub}
         authToken={authToken}
       />
+
+      <DeleteAccount />
     </div>
   )
 }
