@@ -229,7 +229,7 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
       title,
       image,
       path,
-      "byline": "",
+      byline,
       description,
       "name": type,
       "slug": slug.current,
