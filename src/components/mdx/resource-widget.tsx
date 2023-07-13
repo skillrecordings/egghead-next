@@ -20,6 +20,7 @@ import {Textfit} from 'react-textfit'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
 import analytics from 'utils/analytics'
+import {twMerge} from 'tailwind-merge'
 
 const ResourceLink: React.FC<{
   path: string
@@ -206,6 +207,7 @@ const SquareResourceCard: React.FC<{
   )
 }
 
+
 const VerticalResourceCardForWidget: React.FC<{
   resource: any
   location?: string
@@ -275,7 +277,7 @@ const ResourceWidget: React.FC<{
                   switch (collection.courses.length) {
                     case 3:
                       return i === 0 ? (
-                        <HorizontalResourceCard
+                        <HorizontalResourceCardForWidget
                           location={location}
                           className="col-span-2"
                           key={resource.slug}
@@ -290,7 +292,7 @@ const ResourceWidget: React.FC<{
                       )
                     case 6:
                       return i === 0 || i === 1 ? (
-                        <HorizontalResourceCard
+                        <HorizontalResourceCardForWidget
                           location={location}
                           className="col-span-2"
                           key={resource.slug}
@@ -305,7 +307,7 @@ const ResourceWidget: React.FC<{
                       )
                     case 7:
                       return i === 0 ? (
-                        <HorizontalResourceCard
+                        <HorizontalResourceCardForWidget
                           location={location}
                           className="col-span-2"
                           key={resource.slug}
@@ -341,12 +343,12 @@ const ResourceWidget: React.FC<{
             {' '}
             {resource.description}{' '}
           </p>
-          <Grid className="hidden sm:grid sm:grid-cols-4 gap-4 ">
+          <Grid className="hidden sm:grid sm:grid-cols-4 gap-4">
             {articles?.map((article: any, i: number) => {
               switch (articles.length) {
                 case 1: {
                   return (
-                    <HorizontalResourceCard
+                    <HorizontalResourceCardForWidget
                       location={location}
                       className="col-span-3 md:col-span-4 dark:bg-gray-600 rounded-md"
                       key={article.slug}
