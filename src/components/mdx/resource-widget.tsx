@@ -1,7 +1,6 @@
 import Grid from 'components/grid'
 import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
 import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
-import {twMerge} from 'tailwind-merge'
 import cx from 'classnames'
 import Image from 'next/image'
 import {
@@ -206,7 +205,6 @@ const SquareResourceCard: React.FC<{
     </ResourceLink>
   )
 }
-
 
 const VerticalResourceCardForWidget: React.FC<{
   resource: any
