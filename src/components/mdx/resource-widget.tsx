@@ -346,7 +346,7 @@ const ResourceWidget: React.FC<{
               switch (articles.length) {
                 case 1: {
                   return (
-                    <HorizontalResourceCardForWidget
+                    <HorizontalResourceCard
                       location={location}
                       className="col-span-3 md:col-span-4 dark:bg-gray-600 rounded-md"
                       key={article.slug}
