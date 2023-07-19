@@ -13,6 +13,7 @@ import {useRouter} from 'next/router'
 import {withProse} from 'utils/remark/with-prose'
 import CourseWidget from 'components/mdx/course-widget'
 import ResourceWidget from 'components/mdx/resource-widget'
+import ArticleSeriesList from 'components/mdx/article-series-list'
 import find from 'lodash/find'
 import {useScrollTracker} from 'react-scroll-tracker'
 import analytics from 'utils/analytics'
@@ -118,6 +119,21 @@ const Tag = (props: any) => {
                   return resource ? (
                     <div className="not-prose my-8">
                       <ResourceWidget
+                        resource={resource}
+                        location={resource.location}
+                        {...props}
+                      />
+                    </div>
+                  ) : null
+                },
+                ArticleSeriesList: ({
+                  resource: resourceSlug,
+                  ...props
+                }: any) => {
+                  const resource = find(articleResources, {slug: resourceSlug})
+                  return resource ? (
+                    <div className="not-prose my-8">
+                      <ArticleSeriesList
                         resource={resource}
                         location={resource.location}
                         {...props}

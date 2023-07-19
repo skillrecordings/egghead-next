@@ -12,6 +12,7 @@ import CodeBlock from './code-block'
 import ArticleCourseCard from 'components/blog/article-course-card'
 import ArticleTalkCard from 'components/blog/article-talk-card'
 import TopicInterestEmailEntryForm from './topic-interest-form'
+import ArticleSeriesList from './article-series-list'
 // @ts-ignore
 import {TwitterTweetEmbed} from 'react-twitter-embed'
 
@@ -29,6 +30,7 @@ const mdxComponents = {
   DefaultLayout,
   ArticleCourseCard,
   ArticleTalkCard,
+  ArticleSeriesList,
   TopicInterestEmailEntryForm,
   pre: (props: any) => (
     <CodeBlock
