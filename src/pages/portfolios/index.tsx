@@ -7,7 +7,9 @@ import Link from 'next/link'
 import {sortBy} from 'lodash'
 import prettifyUrl from 'utils/prettify-url'
 
-const Portfolio: React.FC<{portfolios: any}> = (props) => {
+const Portfolio: React.FC<React.PropsWithChildren<{portfolios: any}>> = (
+  props,
+) => {
   const {portfolios} = props
   const router = useRouter()
   const path = router.asPath

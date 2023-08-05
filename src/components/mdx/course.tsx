@@ -9,7 +9,9 @@ type CourseWidgetProps = {
   slug: string
 }
 
-const CourseWidget: FunctionComponent<CourseWidgetProps> = ({slug}) => {
+const CourseWidget: FunctionComponent<
+  React.PropsWithChildren<CourseWidgetProps>
+> = ({slug}) => {
   const {data} = useSWR(slug, loadCourse)
 
   return data?.path ? (

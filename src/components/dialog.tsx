@@ -9,7 +9,7 @@ type DialogProps = {
   buttonText: string
   buttonStyles: string
 }
-const Dialog: FunctionComponent<DialogProps> = ({
+const Dialog: FunctionComponent<React.PropsWithChildren<DialogProps>> = ({
   children,
   ariaLabel,
   title,

@@ -8,7 +8,7 @@ type TopicProps = {
   className?: string
 }
 
-const Topic: FunctionComponent<TopicProps> = ({
+const Topic: FunctionComponent<React.PropsWithChildren<TopicProps>> = ({
   title,
   children,
   className,

@@ -4,7 +4,9 @@ import ConfirmMembership from 'components/pages/confirm/membership/index'
 
 import {trpc} from '../../trpc/trpc.client'
 
-const ConfirmMembershipPage: React.FC = () => {
+const ConfirmMembershipPage: React.FC<
+  React.PropsWithChildren<unknown>
+> = () => {
   const {query} = useRouter()
 
   const {session_id} = query

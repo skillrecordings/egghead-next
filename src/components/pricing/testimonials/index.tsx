@@ -13,9 +13,9 @@ type TestimonialsProps = {
   }[]
 }
 
-const Testimonials: React.FunctionComponent<TestimonialsProps> = ({
-  testimonials,
-}) => {
+const Testimonials: React.FunctionComponent<
+  React.PropsWithChildren<TestimonialsProps>
+> = ({testimonials}) => {
   return (
     <div className="max-w-screen-lg grid md:grid-cols-2 gap-10 py-24 border-t dark:border-gray-800 border-gray-100">
       {testimonials.map((testimonial: any) => {

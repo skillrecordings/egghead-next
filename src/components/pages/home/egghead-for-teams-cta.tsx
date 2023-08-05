@@ -4,9 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import analytics from 'utils/analytics'
 
-const EggheadForTeamsCta: FunctionComponent<{location: string}> = ({
-  location,
-}) => {
+const EggheadForTeamsCta: FunctionComponent<
+  React.PropsWithChildren<{location: string}>
+> = ({location}) => {
   return (
     <section className=" mb-16">
       <Link

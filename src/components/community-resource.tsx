@@ -1,9 +1,9 @@
 import * as React from 'react'
 import CommunityResourceIcon from './icons/community-resource-icon'
 
-const CommunityResource: React.FunctionComponent<{type?: string}> = ({
-  type = 'lesson',
-}) => {
+const CommunityResource: React.FunctionComponent<
+  React.PropsWithChildren<{type?: string}>
+> = ({type = 'lesson'}) => {
   return (
     <>
       <div className="flex items-baseline">

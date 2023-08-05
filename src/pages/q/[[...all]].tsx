@@ -21,6 +21,7 @@ import {topicExtractor} from '../../utils/search/topic-extractor'
 import useSelectedTopic from 'hooks/use-selected-topic'
 import useLoadTopicData, {topicQuery} from 'hooks/use-load-topic-data'
 import {sanityClient} from 'utils/sanity-client'
+import {InstantSearchProps} from 'react-instantsearch-dom'
 
 const tracer = getTracer('search-page')
 
@@ -169,10 +170,10 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const initialSearchState = parseUrl(query)
   const pageTitle = titleFromPath(all as string[])
   const resultsState = await findResultsState(Search, {
-    ...defaultProps,
+    searchClient,
     searchState: initialSearchState,
     indexName: ALGOLIA_INDEX_NAME,
-  })
+  } as InstantSearchProps)
 
   let initialInstructor = null
   let initialTopic = null

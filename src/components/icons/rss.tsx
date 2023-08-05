@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-const RSSIcon: React.FunctionComponent<{className?: string}> = ({
-  className,
-}) => {
+const RSSIcon: React.FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

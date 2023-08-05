@@ -2,9 +2,11 @@ import * as React from 'react'
 import {floor, map, times} from 'lodash'
 import Star from './icons/star'
 
-const FiveStars: React.FunctionComponent<{
-  rating: any
-}> = ({rating}) => {
+const FiveStars: React.FunctionComponent<
+  React.PropsWithChildren<{
+    rating: any
+  }>
+> = ({rating}) => {
   const remainder = parseFloat((rating % 1).toFixed(1))
   const roundedRemainder = Math.ceil(remainder)
   const showHalfStar = roundedRemainder === 1

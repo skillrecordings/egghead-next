@@ -14,9 +14,9 @@ import {
 } from 'hooks/use-share-course-review'
 import {useRouter} from 'next/router'
 
-const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
-  collection,
-}) => {
+const LearnerRatings: React.FunctionComponent<
+  React.PropsWithChildren<{collection: any}>
+> = ({collection}) => {
   const router = useRouter()
   const [ratings, setRatings] = React.useState(
     collection?.ratings_with_comment?.data || [],

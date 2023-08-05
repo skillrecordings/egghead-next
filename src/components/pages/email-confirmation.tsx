@@ -1,9 +1,13 @@
 import * as React from 'react'
 
-const EmailConfirmation: React.FunctionComponent<{
-  className?: string
-  Background?: React.FunctionComponent<{className?: string}>
-}> = ({
+const EmailConfirmation: React.FunctionComponent<
+  React.PropsWithChildren<{
+    className?: string
+    Background?: React.FunctionComponent<
+      React.PropsWithChildren<{className?: string}>
+    >
+  }>
+> = ({
   children,
   Background,
   className = 'flex flex-col items-center justify-center max-w-screen-md min-h-screen py-32 mx-auto sm:py-40',

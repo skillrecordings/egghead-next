@@ -25,7 +25,9 @@ const hmsToSeconds = (str: string) => {
 const regex =
   /[0-9]:[0-9][0-9]|[0-9]{2}:[0-9][0-9]|[[0-9]{2}:[0-9][0-9]]|[[0-9]{3}:[0-9][0-9]]/g
 
-const Transcript: FunctionComponent<TranscriptProps> = ({
+const Transcript: FunctionComponent<
+  React.PropsWithChildren<TranscriptProps>
+> = ({
   className,
   initialTranscript = '',
   enhancedTranscript,

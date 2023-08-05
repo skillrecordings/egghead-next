@@ -12,7 +12,7 @@ export const testSurveyInitialState: SurveyState = {
   surveyTitle: 'test survey',
 }
 
-const Ask: React.FunctionComponent = () => {
+const Ask: React.FunctionComponent<React.PropsWithChildren<unknown>> = () => {
   const {mutate} = trpc.user.contactIdForEmail.useMutation()
 
   return (

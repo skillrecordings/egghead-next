@@ -19,11 +19,9 @@ type DownloadControlProps = {
   state?: string
 }
 
-const DownloadButton: FunctionComponent<DownloadButtonProps> = ({
-  slug,
-  download_url,
-  state,
-}) => {
+const DownloadButton: FunctionComponent<
+  React.PropsWithChildren<DownloadButtonProps>
+> = ({slug, download_url, state}) => {
   return download_url ? (
     <button
       onClick={(e) => {
@@ -53,11 +51,9 @@ const DownloadButton: FunctionComponent<DownloadButtonProps> = ({
   )
 }
 
-const DownloadControl: FunctionComponent<DownloadControlProps> = ({
-  slug,
-  download_url,
-  state,
-}) => {
+const DownloadControl: FunctionComponent<
+  React.PropsWithChildren<DownloadControlProps>
+> = ({slug, download_url, state}) => {
   return (
     <Tippy
       offset={[0, -2]}
@@ -76,9 +72,9 @@ const DownloadControl: FunctionComponent<DownloadControlProps> = ({
   )
 }
 
-const IconDownload: FunctionComponent<{className?: string}> = ({
-  className = '',
-}) => (
+const IconDownload: FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className = ''}) => (
   <svg
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"

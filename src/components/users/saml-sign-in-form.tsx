@@ -10,9 +10,9 @@ type SamlSignInFormProps = {
   switchToStandardAuth: Function
 }
 
-const SamlSignInForm: FunctionComponent<SamlSignInFormProps> = ({
-  switchToStandardAuth,
-}) => {
+const SamlSignInForm: FunctionComponent<
+  React.PropsWithChildren<SamlSignInFormProps>
+> = ({switchToStandardAuth}) => {
   return (
     <div className="mt-4 sm:mt-6 md:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
       <Formik

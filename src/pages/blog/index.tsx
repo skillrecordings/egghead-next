@@ -7,10 +7,10 @@ import {allArticlesQuery} from 'lib/articles'
 import {useRouter} from 'next/router'
 import {NextSeo} from 'next-seo'
 
-const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
-  <div>{date}</div>
-)
-const Blog: React.FC = (allArticles: any) => {
+const UpdatedAt: React.FunctionComponent<
+  React.PropsWithChildren<{date: string}>
+> = ({date}) => <div>{date}</div>
+const Blog: React.FC<React.PropsWithChildren<unknown>> = (allArticles: any) => {
   const router = useRouter()
 
   return (

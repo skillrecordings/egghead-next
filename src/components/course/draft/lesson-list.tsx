@@ -44,11 +44,9 @@ const SanityLessonSchema = z.object({
 })
 type SanityLessonType = z.infer<typeof SanityLessonSchema>
 
-const VideoResourceUpdateForm: React.FunctionComponent<any> = ({
-  setIsOpen,
-  lessonId,
-  lessonTitle,
-}) => {
+const VideoResourceUpdateForm: React.FunctionComponent<
+  React.PropsWithChildren<any>
+> = ({setIsOpen, lessonId, lessonTitle}) => {
   const [fileUploadState, dispatch] = useFileUploadReducer([])
 
   const isUploaded = fileUploadState.files[0]?.percent === 100
@@ -485,11 +483,13 @@ const SortableLessonListItem = ({
   )
 }
 
-const SortableLessonList: React.FunctionComponent<{
-  lessons: SanityLessonType[]
-  handle: boolean
-  courseId: string
-}> = ({lessons, handle, courseId}) => {
+const SortableLessonList: React.FunctionComponent<
+  React.PropsWithChildren<{
+    lessons: SanityLessonType[]
+    handle: boolean
+    courseId: string
+  }>
+> = ({lessons, handle, courseId}) => {
   const [sortedLessons, setSortedLessons] = React.useState(lessons)
   const sensors = useSensors(
     useSensor(PointerSensor),

@@ -18,14 +18,16 @@ import ReactMarkdown from 'react-markdown'
 import useFitText from 'use-fit-text'
 import CheckIcon from 'components/icons/check'
 
-const SearchHitResourceCard: React.FC<{
-  resource: CardResource
-  location?: string
-  describe?: boolean
-  className?: string
-  small?: boolean
-  completedCoursesIds: string[]
-}> = ({
+const SearchHitResourceCard: React.FC<
+  React.PropsWithChildren<{
+    resource: CardResource
+    location?: string
+    describe?: boolean
+    className?: string
+    small?: boolean
+    completedCoursesIds: string[]
+  }>
+> = ({
   children,
   resource,
   location,
@@ -44,7 +46,9 @@ const SearchHitResourceCard: React.FC<{
   const defaultClassName =
     'rounded-md sm:aspect-w-4 sm:aspect-h-2 aspect-w-3 aspect-h-1 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50'
 
-  small = get(resource.image, 'src', resource.image)?.includes('/tags') ?? true
+  small =
+    (get(resource.image, 'src', resource.image) as string)?.includes('/tags') ??
+    true
   return (
     <ResourceLink
       path={resource.path.replace(/playlists/, 'courses')}
@@ -111,12 +115,14 @@ const SearchHitResourceCard: React.FC<{
   )
 }
 
-export const ResourceLink: React.FC<{
-  path: string
-  location?: string
-  className?: string
-  linkType?: string
-}> = ({children, path, location, linkType = 'text', ...props}) => (
+export const ResourceLink: React.FC<
+  React.PropsWithChildren<{
+    path: string
+    location?: string
+    className?: string
+    linkType?: string
+  }>
+> = ({children, path, location, linkType = 'text', ...props}) => (
   <Link href={path}>
     <a
       onClick={() => {
@@ -133,12 +139,14 @@ export const ResourceLink: React.FC<{
   </Link>
 )
 
-const PreviewImage: React.FC<{
-  title: string
-  image: any
-  name: string
-  small: boolean
-}> = ({image, name, small}) => {
+const PreviewImage: React.FC<
+  React.PropsWithChildren<{
+    title: string
+    image: any
+    name: string
+    small: boolean
+  }>
+> = ({image, name, small}) => {
   if (!image) return null
 
   const size = small ? 40 : 85

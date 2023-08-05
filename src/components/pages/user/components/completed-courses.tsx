@@ -21,11 +21,13 @@ type CourseData = {
   lesson_count: number
 }
 
-const CompletedCourses: React.FC<{
-  completeCourseData: CourseData[]
-  completedCourseStatus: 'loading' | 'success' | 'error'
-  completedCourseCount: number
-}> = ({
+const CompletedCourses: React.FC<
+  React.PropsWithChildren<{
+    completeCourseData: CourseData[]
+    completedCourseStatus: 'loading' | 'success' | 'error'
+    completedCourseCount: number
+  }>
+> = ({
   completeCourseData = [],
   completedCourseStatus,
   completedCourseCount,

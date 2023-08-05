@@ -6,10 +6,9 @@ type HitComponentProps = {
   completedCoursesIds: string[]
 }
 
-const HitComponent: FunctionComponent<HitComponentProps> = ({
-  hit,
-  completedCoursesIds,
-}) => {
+const HitComponent: FunctionComponent<
+  React.PropsWithChildren<HitComponentProps>
+> = ({hit, completedCoursesIds}) => {
   const {image, type, instructor_url, instructor_name, instructor} = hit
 
   const hasImage = image !== 'https://d2eip9sf3oo6c2.cloudfront.net/logo.svg'

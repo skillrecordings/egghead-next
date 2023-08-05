@@ -14,10 +14,9 @@ type LayoutProps = {
   }
 }
 
-const FancyGuideLayout: FunctionComponent<LayoutProps> = ({
-  children,
-  meta = {},
-}) => {
+const FancyGuideLayout: FunctionComponent<
+  React.PropsWithChildren<LayoutProps>
+> = ({children, meta = {}}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL + router.asPath
 

@@ -6,7 +6,7 @@ import {AvatarForm, RequestEmailChangeForm, DeleteAccount} from '../components'
 import {trpc} from 'trpc/trpc.client'
 import toast from 'react-hot-toast'
 
-const ProfileTabContent: React.FC<any> = () => {
+const ProfileTabContent: React.FC<React.PropsWithChildren<any>> = () => {
   const {viewer, authToken} = useViewer()
   const {email: currentEmail, providers} = viewer || {}
   const isConnectedToGithub = providers?.includes('github')
@@ -31,9 +31,11 @@ const ProfileTabContent: React.FC<any> = () => {
 
 export default ProfileTabContent
 
-const GithubDisConnectButton: React.FunctionComponent<{
-  setIsConnected: Function
-}> = ({setIsConnected}) => {
+const GithubDisConnectButton: React.FunctionComponent<
+  React.PropsWithChildren<{
+    setIsConnected: Function
+  }>
+> = ({setIsConnected}) => {
   let removeLink = trpc.user.removeGithubLink.useMutation({
     onSuccess: (data) => {
       toast.success('Github account disconnected', {duration: 3000, icon: '✅'})
@@ -62,9 +64,11 @@ const GithubDisConnectButton: React.FunctionComponent<{
   )
 }
 
-const GithubConnectButton: React.FunctionComponent<{
-  authToken: string
-}> = ({authToken}) => {
+const GithubConnectButton: React.FunctionComponent<
+  React.PropsWithChildren<{
+    authToken: string
+  }>
+> = ({authToken}) => {
   return (
     <a
       href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&auth_token=${authToken}`}
@@ -75,10 +79,12 @@ const GithubConnectButton: React.FunctionComponent<{
   )
 }
 
-const ConnectGithub: React.FunctionComponent<{
-  isConnectedToGithub: boolean
-  authToken: string
-}> = ({isConnectedToGithub, authToken}) => {
+const ConnectGithub: React.FunctionComponent<
+  React.PropsWithChildren<{
+    isConnectedToGithub: boolean
+    authToken: string
+  }>
+> = ({isConnectedToGithub, authToken}) => {
   let [isConnected, setIsConnected] = React.useState(isConnectedToGithub)
 
   return (

@@ -9,9 +9,9 @@ type EOYSale2021PageProps = {
   data: CardResource
 }
 
-const EOYSale2021Page: React.FC<EOYSale2021PageProps> & {getLayout?: any} = ({
-  data,
-}) => {
+const EOYSale2021Page: React.FC<
+  React.PropsWithChildren<EOYSale2021PageProps>
+> & {getLayout?: any} = ({data}) => {
   const title = '20 days of egghead'
   const description =
     "We'll be releasing 20 badass courses during the holiday season, that will help you jumpstart your career in 2022."

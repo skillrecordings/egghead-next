@@ -14,10 +14,12 @@ const rangeArrMobile = [
   'Entirely likely',
 ]
 
-const RateCourseOverlay: React.FunctionComponent<{
-  course: any
-  onRated: (values: any) => void
-}> = ({course, onRated}) => {
+const RateCourseOverlay: React.FunctionComponent<
+  React.PropsWithChildren<{
+    course: any
+    onRated: (values: any) => void
+  }>
+> = ({course, onRated}) => {
   const [rating, setRating] = React.useState(false)
   const [complete, setComplete] = React.useState(false)
   const {title, square_cover_480_url, slug} = course
@@ -58,10 +60,12 @@ const RateCourseOverlay: React.FunctionComponent<{
   )
 }
 
-const TextComment: React.FunctionComponent<{
-  onAnswer: any
-  rating: number | boolean
-}> = ({onAnswer, rating}) => {
+const TextComment: React.FunctionComponent<
+  React.PropsWithChildren<{
+    onAnswer: any
+    rating: number | boolean
+  }>
+> = ({onAnswer, rating}) => {
   const MESSAGES: any = {
     7: {
       subtitle: "We're so glad you enjoyed it! 🤗",
@@ -156,10 +160,9 @@ const TextComment: React.FunctionComponent<{
   )
 }
 
-const NumericRating: React.FunctionComponent<{course: any; onRated: any}> = ({
-  course,
-  onRated,
-}) => {
+const NumericRating: React.FunctionComponent<
+  React.PropsWithChildren<{course: any; onRated: any}>
+> = ({course, onRated}) => {
   const {title, square_cover_480_url} = course
   return (
     <>
@@ -236,9 +239,9 @@ const NumericRating: React.FunctionComponent<{course: any; onRated: any}> = ({
 
 export default RateCourseOverlay
 
-const IconThumbDown: React.FunctionComponent<{className?: string}> = ({
-  className = '',
-}) => (
+const IconThumbDown: React.FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className = ''}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -255,9 +258,9 @@ const IconThumbDown: React.FunctionComponent<{className?: string}> = ({
   </svg>
 )
 
-const IconThumbUp: React.FunctionComponent<{className?: string}> = ({
-  className = '',
-}) => (
+const IconThumbUp: React.FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className = ''}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"

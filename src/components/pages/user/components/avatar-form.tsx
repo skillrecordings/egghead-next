@@ -1,7 +1,9 @@
 import * as React from 'react'
 import ImageWithPlaceholder from 'components/image-with-placeholder'
 
-const AvatarForm: React.FC<{avatarUrl: string}> = ({avatarUrl}) => {
+const AvatarForm: React.FC<React.PropsWithChildren<{avatarUrl: string}>> = ({
+  avatarUrl,
+}) => {
   return (
     <div className="flex">
       <div className="flex flex-col items-center">

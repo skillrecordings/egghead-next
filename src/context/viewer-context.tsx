@@ -217,7 +217,9 @@ function useAuthedViewer() {
   return values
 }
 
-export const ViewerProvider: FunctionComponent = ({children}) => {
+export const ViewerProvider: FunctionComponent<
+  React.PropsWithChildren<unknown>
+> = ({children}) => {
   const values = useAuthedViewer()
 
   return (

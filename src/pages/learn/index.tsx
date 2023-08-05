@@ -9,7 +9,10 @@ import groq from 'groq'
 import {z} from 'zod'
 import {result} from 'lodash'
 
-const LearnPage: FunctionComponent<any> = ({data, holidayCourses}) => {
+const LearnPage: FunctionComponent<React.PropsWithChildren<any>> = ({
+  data,
+  holidayCourses,
+}) => {
   const location = 'curated home landing'
   const jumbotron = find(data.sections, {slug: 'jumbotron'})
   const ogImage = get(

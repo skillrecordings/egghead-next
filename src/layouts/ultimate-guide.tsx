@@ -19,10 +19,9 @@ type LayoutProps = {
   }
 }
 
-const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
-  children,
-  meta = {},
-}) => {
+const UltimateGuideLayout: FunctionComponent<
+  React.PropsWithChildren<LayoutProps>
+> = ({children, meta = {}}) => {
   const {
     title,
     description,
@@ -44,7 +43,9 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
   const router = useRouter()
 
   const editUrl = `https://github.com/eggheadio/egghead-next/edit/main/src/pages${router.pathname}/index.mdx`
-  const EditLink: FunctionComponent<{className: string}> = ({className}) => (
+  const EditLink: FunctionComponent<
+    React.PropsWithChildren<{className: string}>
+  > = ({className}) => (
     <div>
       <a
         href={editUrl}
@@ -113,7 +114,9 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
   )
 }
 
-const State: FunctionComponent<{state: string}> = ({state}) => {
+const State: FunctionComponent<React.PropsWithChildren<{state: string}>> = ({
+  state,
+}) => {
   switch (state) {
     case 'draft':
       return (
@@ -132,13 +135,15 @@ const State: FunctionComponent<{state: string}> = ({state}) => {
   }
 }
 
-const Author: FunctionComponent<{
-  author: {
-    name: string
-    image?: string
-    path?: string
-  }
-}> = ({author}) => {
+const Author: FunctionComponent<
+  React.PropsWithChildren<{
+    author: {
+      name: string
+      image?: string
+      path?: string
+    }
+  }>
+> = ({author}) => {
   const {name, image, path} = author
   const Profile = () => (
     <>

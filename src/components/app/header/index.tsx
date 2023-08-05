@@ -29,7 +29,7 @@ import {MazePattern} from './images'
 import {isMember} from 'utils/is-member'
 import analytics from 'utils/analytics'
 
-const Header: FunctionComponent = () => {
+const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
   const [isMounted, setIsMounted] = React.useState<boolean>(false)
   const router = useRouter()
   const {viewer, loading} = useViewer()
@@ -272,7 +272,7 @@ const Header: FunctionComponent = () => {
 
 export default Header
 
-const Browse: React.FC<any> = ({viewer}) => {
+const Browse: React.FC<React.PropsWithChildren<any>> = ({viewer}) => {
   const {subscriber} = useCio()
   const browse = [
     {

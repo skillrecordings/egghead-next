@@ -8,11 +8,13 @@ import Image from 'next/image'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import {useRouter} from 'next/router'
 
-const VideoCard: React.FC<{
-  resource: any
-  className?: string
-  location?: any
-}> = ({resource, className, location}) => {
+const VideoCard: React.FC<
+  React.PropsWithChildren<{
+    resource: any
+    className?: string
+    location?: any
+  }>
+> = ({resource, className, location}) => {
   const router = useRouter()
   const {setPlayerPrefs} = useEggheadPlayerPrefs()
   const {

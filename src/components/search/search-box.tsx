@@ -10,11 +10,9 @@ type CustomSearchBoxProps = {
   placeholder?: string | undefined
 }
 
-const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
-  currentRefinement,
-  refine,
-  placeholder = 'Search for Anything',
-}) => {
+const CustomSearchBox: FunctionComponent<
+  React.PropsWithChildren<CustomSearchBoxProps>
+> = ({currentRefinement, refine, placeholder = 'Search for Anything'}) => {
   const [timerId, setTimerId] = React.useState<any>()
   const [trackTimerId, setTrackTimerId] = React.useState<any>()
   const [value, setValue] = React.useState<any>(currentRefinement)

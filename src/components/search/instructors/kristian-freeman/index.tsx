@@ -60,10 +60,9 @@ export const kristianFreemanQuery = groq`*[_type == 'resource' && slug.current =
   },
 }`
 
-const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
-  location,
-  resource,
-}) => {
+const FeaturedCourse: React.FC<
+  React.PropsWithChildren<{location: string; resource: any}>
+> = ({location, resource}) => {
   const {path, title, byline, description, image} = resource
   return (
     <ExternalTrackedLink

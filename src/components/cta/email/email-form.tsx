@@ -8,7 +8,7 @@ const loginSchema = yup.object().shape({
 })
 
 type LoginFormProps = {
-  HeaderImageComponent?: React.FC
+  HeaderImageComponent?: React.FC<React.PropsWithChildren<unknown>>
   className?: string
   button?: string
   label?: string
@@ -16,7 +16,7 @@ type LoginFormProps = {
   onSubmit: (value: any, setIsError: any) => void
 }
 
-const EmailForm: FunctionComponent<LoginFormProps> = ({
+const EmailForm: FunctionComponent<React.PropsWithChildren<LoginFormProps>> = ({
   HeaderImageComponent,
   className,
   children,

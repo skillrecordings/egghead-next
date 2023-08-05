@@ -47,11 +47,9 @@ const TeamName = ({teamName}: {teamName: string | undefined}) => {
 
 const TOKEN_NOT_RECOGNIZED = 'TOKEN_NOT_RECOGNIZED'
 
-const TeamInvite: React.FunctionComponent<TeamInviteProps> = ({
-  inviteToken,
-  teamName,
-  teamOwnerEmail,
-}) => {
+const TeamInvite: React.FunctionComponent<
+  React.PropsWithChildren<TeamInviteProps>
+> = ({inviteToken, teamName, teamOwnerEmail}) => {
   const {authToken, loading} = useViewer()
   const router = useRouter()
 

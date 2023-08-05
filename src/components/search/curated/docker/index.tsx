@@ -23,7 +23,9 @@ const SearchDocker = () => {
   )
 }
 
-const DockerCourse: React.FC<{location: string}> = ({location}) => {
+const DockerCourse: React.FC<React.PropsWithChildren<{location: string}>> = ({
+  location,
+}) => {
   const resource: any = find(dockerPageData, {id: 'jumbotron'})
   const {path, image, title, byline, instructor} = resource
   return (

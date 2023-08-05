@@ -7,7 +7,7 @@ import Markdown from 'react-markdown'
 import {track} from 'utils/analytics'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 
-const DigitalGardening: React.FC<any> = ({data}) => {
+const DigitalGardening: React.FC<React.PropsWithChildren<any>> = ({data}) => {
   return (
     <div className="py-5 dark:bg-gray-900 bg-gray-50">
       <div className="container">

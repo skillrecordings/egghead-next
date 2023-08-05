@@ -220,7 +220,9 @@ const PricingCta = () => {
   )
 }
 
-const ProvideEmail: React.FC<{topic?: string}> = ({topic}) => (
+const ProvideEmail: React.FC<React.PropsWithChildren<{topic?: string}>> = ({
+  topic,
+}) => (
   <div>
     <h2 className="text-xl py-12">Get Notified of New egghead Courses</h2>
     <CreateAccount location="homepage header" />
@@ -232,7 +234,9 @@ const ProvideEmail: React.FC<{topic?: string}> = ({topic}) => (
   </div>
 )
 
-const Footer: React.FC<{topic?: string}> = ({topic}) => {
+const Footer: React.FC<React.PropsWithChildren<{topic?: string}>> = ({
+  topic,
+}) => {
   const {viewer} = useViewer()
   const userPresent = Boolean(viewer)
   const userIsNonMember = userPresent && !isMember(viewer)

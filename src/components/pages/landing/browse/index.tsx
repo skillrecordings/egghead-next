@@ -3,7 +3,9 @@ import Link from 'next/link'
 import {track} from 'utils/analytics'
 import title from 'title'
 
-const Browse: React.FC<{topic?: string}> = ({topic}) => {
+const Browse: React.FC<React.PropsWithChildren<{topic?: string}>> = ({
+  topic,
+}) => {
   return (
     <div className="flex flex-col items-center justify-center">
       <Link href="/q?access_state=free" passHref>

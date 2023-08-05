@@ -48,7 +48,7 @@ const transformHits = (hits: any, amount: integer) => {
   return slicedHits.map((hit: any) => shapeHit(hit as any))
 }
 
-const ContinueCourseCard: React.FC<any> = ({
+const ContinueCourseCard: React.FC<React.PropsWithChildren<any>> = ({
   resource,
   location,
   className = 'border-none',
@@ -201,11 +201,13 @@ const SearchCard = ({
   )
 }
 
-const AnonUserOverlay: React.FunctionComponent<{
-  lesson: any
-  nextLesson: any
-  onClickRewatch?: () => void
-}> = ({lesson, nextLesson, onClickRewatch = noop}) => {
+const AnonUserOverlay: React.FunctionComponent<
+  React.PropsWithChildren<{
+    lesson: any
+    nextLesson: any
+    onClickRewatch?: () => void
+  }>
+> = ({lesson, nextLesson, onClickRewatch = noop}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
   const router = useRouter()
   const tag = lesson.tags[0]
@@ -296,9 +298,9 @@ const AnonUserOverlay: React.FunctionComponent<{
 
 export default AnonUserOverlay
 
-const IconRefresh: React.FunctionComponent<{className: string}> = ({
-  className = '',
-}) => (
+const IconRefresh: React.FunctionComponent<
+  React.PropsWithChildren<{className: string}>
+> = ({className = ''}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"

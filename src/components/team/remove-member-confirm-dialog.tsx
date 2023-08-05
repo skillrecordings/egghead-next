@@ -18,12 +18,9 @@ type DialogProps = {
   onConfirm: () => void
 }
 
-const RemoveMemberConfirmDialog: FunctionComponent<DialogProps> = ({
-  state,
-  onClose,
-  member,
-  onConfirm,
-}) => {
+const RemoveMemberConfirmDialog: FunctionComponent<
+  React.PropsWithChildren<DialogProps>
+> = ({state, onClose, member, onConfirm}) => {
   const isOpen = state !== 'closed'
   const loading = isObject(state) && state?.open === 'executingAction'
   const {name, email} = member || {}

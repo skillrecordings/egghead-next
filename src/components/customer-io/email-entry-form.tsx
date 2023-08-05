@@ -5,7 +5,7 @@ import useCio from 'hooks/use-cio'
 import {useViewer} from 'context/viewer-context'
 import {requestContactGuid} from 'utils/request-contact-guid'
 
-const EmailEntryForm: React.FC<any> = ({
+const EmailEntryForm: React.FC<React.PropsWithChildren<any>> = ({
   campaignAttribute,
   siteLocation,
   title,

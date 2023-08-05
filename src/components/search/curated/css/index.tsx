@@ -50,7 +50,9 @@ const SearchCSS = () => {
   )
 }
 
-const CssFormStyling: React.FC<{location: string}> = ({location}) => {
+const CssFormStyling: React.FC<React.PropsWithChildren<{location: string}>> = ({
+  location,
+}) => {
   const {path, title, byline, name, description, image, background, slug} = {
     title: 'Just Enough CSS to Build Modern UI',
     byline: 'Guide • 5 Courses • 2 Projects',

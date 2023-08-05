@@ -1,9 +1,9 @@
 import * as React from 'react'
 import {useNProgress} from '@tanem/react-nprogress'
 
-const RouteLoadingIndicator: React.FC<{isRouteChanging: boolean}> = ({
-  isRouteChanging,
-}) => {
+const RouteLoadingIndicator: React.FC<
+  React.PropsWithChildren<{isRouteChanging: boolean}>
+> = ({isRouteChanging}) => {
   const {animationDuration, isFinished, progress} = useNProgress({
     isAnimating: isRouteChanging,
   })

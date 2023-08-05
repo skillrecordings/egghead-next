@@ -7,7 +7,10 @@ import {serialize} from 'next-mdx-remote/serialize'
 import {MDXRemote} from 'next-mdx-remote'
 import {withProse} from '../../utils/remark/with-prose'
 
-const PortfolioFoundationsArticle: React.FC<any> = ({source, title}) => {
+const PortfolioFoundationsArticle: React.FC<React.PropsWithChildren<any>> = ({
+  source,
+  title,
+}) => {
   return (
     <article className="max-w-screen-md mx-auto mt-3 lg:mt-14 md:mt-8">
       <header>

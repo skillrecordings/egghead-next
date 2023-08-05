@@ -2,12 +2,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {track} from 'utils/analytics/track'
 
-export const CourseArtwork: React.FunctionComponent<{
-  course: any
-  path?: string
-  size: number
-  trackText: string
-}> = ({course, path, size, trackText}) => {
+export const CourseArtwork: React.FunctionComponent<
+  React.PropsWithChildren<{
+    course: any
+    path?: string
+    size: number
+    trackText: string
+  }>
+> = ({course, path, size, trackText}) => {
   return path ? (
     <Link href={path}>
       <a

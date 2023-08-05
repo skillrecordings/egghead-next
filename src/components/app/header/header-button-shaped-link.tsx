@@ -8,11 +8,9 @@ type HeaderButtonShapedLinkProps = {
   onClick?: () => void
 }
 
-export const HeaderButtonShapedLink: React.FC<HeaderButtonShapedLinkProps> = ({
-  url,
-  label,
-  onClick = noop,
-}) => {
+export const HeaderButtonShapedLink: React.FC<
+  React.PropsWithChildren<HeaderButtonShapedLinkProps>
+> = ({url, label, onClick = noop}) => {
   return (
     <div className="flex items-center pl-1">
       <Link href={url}>

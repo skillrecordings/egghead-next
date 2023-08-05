@@ -29,9 +29,9 @@ const byTitle = (a: CourseData, b: CourseData) => {
   return a?.collection?.title > b?.collection?.title ? 1 : -1
 }
 
-const CompletedCourses: React.FC<{completeCourseData: CourseData[]}> = ({
-  completeCourseData = [],
-}) => {
+const CompletedCourses: React.FC<
+  React.PropsWithChildren<{completeCourseData: CourseData[]}>
+> = ({completeCourseData = []}) => {
   const [courseData, setCourseData] = React.useState<CourseData[] | []>(
     completeCourseData,
   )

@@ -65,11 +65,13 @@ export async function getServerSideProps(context: any) {
   }
 }
 
-const EmailChangeRequest: React.FunctionComponent<{
-  validToken: boolean
-  newEmail: string
-  currentEmail: string
-}> = ({validToken, newEmail, currentEmail}) => {
+const EmailChangeRequest: React.FunctionComponent<
+  React.PropsWithChildren<{
+    validToken: boolean
+    newEmail: string
+    currentEmail: string
+  }>
+> = ({validToken, newEmail, currentEmail}) => {
   const router = useRouter()
   const {token} = router.query
   const {setViewerEmail} = useViewer()

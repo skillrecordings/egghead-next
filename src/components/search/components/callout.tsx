@@ -8,7 +8,7 @@ type CalloutProps = {
   className?: string
 }
 
-const Callout: FunctionComponent<CalloutProps> = ({
+const Callout: FunctionComponent<React.PropsWithChildren<CalloutProps>> = ({
   title,
   children,
   className,

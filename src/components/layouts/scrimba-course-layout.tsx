@@ -51,11 +51,9 @@ type ModuleResource = {
 
 type Resource = ModuleResource | LessonResource
 
-const ScrimbaPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
-  lessons = [],
-  course,
-  ogImageUrl,
-}) => {
+const ScrimbaPageLayout: React.FunctionComponent<
+  React.PropsWithChildren<CoursePageLayoutProps>
+> = ({lessons = [], course, ogImageUrl}) => {
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
   const [clickable, setIsClickable] = React.useState(true)
@@ -319,9 +317,9 @@ const ScrimbaPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
         ),
       )
 
-  const PlayButton: React.FunctionComponent<{lesson: LessonResource}> = ({
-    lesson,
-  }) => {
+  const PlayButton: React.FunctionComponent<
+    React.PropsWithChildren<{lesson: LessonResource}>
+  > = ({lesson}) => {
     const isContinuing =
       lesson && lesson !== first(lessons) && lesson !== first(playlistLessons)
     return lesson ? (
@@ -344,11 +342,13 @@ const ScrimbaPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     ) : null
   }
 
-  const CourseArtwork: React.FunctionComponent<{
-    path: string
-    size: number
-    trackText: string
-  }> = ({path, size, trackText}) => {
+  const CourseArtwork: React.FunctionComponent<
+    React.PropsWithChildren<{
+      path: string
+      size: number
+      trackText: string
+    }>
+  > = ({path, size, trackText}) => {
     return path ? (
       <Link href={path}>
         <a

@@ -83,7 +83,10 @@ export const stephanieEcklesQuery = groq`*[_type == 'resource' && slug.current =
   },
 }`
 
-const ProjectStack: FunctionComponent<any> = ({data, className}) => {
+const ProjectStack: FunctionComponent<React.PropsWithChildren<any>> = ({
+  data,
+  className,
+}) => {
   return (
     <Card className={className}>
       <>
@@ -142,10 +145,9 @@ const ProjectStack: FunctionComponent<any> = ({data, className}) => {
   )
 }
 
-const CssFormStyling: React.FC<{location: string; resource: any}> = ({
-  location,
-  resource,
-}) => {
+const CssFormStyling: React.FC<
+  React.PropsWithChildren<{location: string; resource: any}>
+> = ({location, resource}) => {
   const {path, title, byline, description, image, background} = resource
   return (
     <ExternalTrackedLink

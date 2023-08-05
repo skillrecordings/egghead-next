@@ -5,7 +5,7 @@ import useCio from 'hooks/use-cio'
 import {useViewer} from 'context/viewer-context'
 import {requestSignInEmail} from 'utils/request-signin-email'
 
-const EmailEntryForm: React.FC = () => {
+const EmailEntryForm: React.FC<React.PropsWithChildren<unknown>> = () => {
   const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
 

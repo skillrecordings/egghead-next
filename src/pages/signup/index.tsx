@@ -6,7 +6,7 @@ import Footer from 'components/pages/landing/footer'
 import Browse from '../../components/pages/landing/browse'
 import SearchBar from '../../components/app/header/search-bar'
 
-const SignupPage: React.FC = () => {
+const SignupPage: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
     <>
       <Header />

@@ -22,10 +22,7 @@ const MemberTable = ({
     setMembers,
     memberToRemove: undefined,
   }
-  const [current, send] = useMachine<
-    ConfirmationDialogMachineContext,
-    ConfirmationDialogMachineEvent
-  >(confirmationDialogMachine, {
+  const [current, send] = useMachine(confirmationDialogMachine, {
     context: initialContext,
   })
 

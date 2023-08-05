@@ -25,7 +25,7 @@ type CourseProps = {
   draftCourse: any
 }
 
-const Course: React.FC<CourseProps> = (props) => {
+const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
   const {data} = useSWR(`${props?.course?.slug}`, loadAuthedPlaylistForUser)
   const router = useRouter()
   const {viewer, loading} = useViewer()

@@ -50,7 +50,9 @@ export type VideoResourcePlayerProps = {
   volume?: number
 }
 
-const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
+const VideoResourcePlayer: React.FC<
+  React.PropsWithChildren<VideoResourcePlayerProps>
+> = ({
   videoResource,
   containerRef,
   actualPlayerRef,
@@ -256,11 +258,9 @@ type AutoplayControlProps = {
   order?: number
 }
 
-const AutoplayControl: React.FC<AutoplayControlProps> = ({
-  enabled,
-  onDark = false,
-  actions,
-}) => {
+const AutoplayControl: React.FC<
+  React.PropsWithChildren<AutoplayControlProps>
+> = ({enabled, onDark = false, actions}) => {
   const {getPlayerPrefs, setPlayerPrefs} = useEggheadPlayerPrefs()
   const {autoplay} = getPlayerPrefs()
 

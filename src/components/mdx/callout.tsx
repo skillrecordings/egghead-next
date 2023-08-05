@@ -6,11 +6,9 @@ type CalloutProps = {
   className?: string
 }
 
-const Callout: React.FC<React.PropsWithChildren<CalloutProps>> = ({
-  text,
-  className,
-  children,
-}) => {
+const Callout: React.FC<
+  React.PropsWithChildren<React.PropsWithChildren<CalloutProps>>
+> = ({text, className, children}) => {
   return (
     <div className="sm:mx-auto -mx-4">
       <div

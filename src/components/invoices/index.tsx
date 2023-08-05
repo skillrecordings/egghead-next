@@ -7,7 +7,9 @@ type HeadingProps = React.ComponentPropsWithoutRef<any> & {
   headingAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
 }
 
-const Invoices: React.FunctionComponent<HeadingProps> = ({headingAs}) => {
+const Invoices: React.FunctionComponent<
+  React.PropsWithChildren<HeadingProps>
+> = ({headingAs}) => {
   const [transactions, setTransactions] = React.useState([])
   const [transactionsLoading, setTransactionsLoading] = React.useState(true)
 

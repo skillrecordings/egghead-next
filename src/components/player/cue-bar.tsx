@@ -9,7 +9,7 @@ import {track} from 'utils/analytics'
 import {useNotesCues} from './index'
 import CodeBlock from 'components/code-block'
 
-const CueBar: React.FC<any> = ({
+const CueBar: React.FC<React.PropsWithChildren<any>> = ({
   className,
   disableCompletely,
   player,
@@ -40,7 +40,7 @@ export default CueBar
 
 const useCue = (cue: VTTCue, actions: any) => {
   const setActive = React.useCallback(
-    function setActive(active) {
+    function setActive(active: any) {
       if (active) {
         actions.activateMetadataTrackCue(cue)
       } else {
@@ -73,7 +73,7 @@ const useCue = (cue: VTTCue, actions: any) => {
   return setActive
 }
 
-const MutePopupButton: React.FC<any> = () => {
+const MutePopupButton: React.FC<React.PropsWithChildren<any>> = () => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {muteNotes} = getPlayerPrefs()
   return (
@@ -99,7 +99,7 @@ const MutePopupButton: React.FC<any> = () => {
   )
 }
 
-const NoteCue: React.FC<any> = ({
+const NoteCue: React.FC<React.PropsWithChildren<any>> = ({
   cue,
   duration,
   className,
@@ -231,7 +231,7 @@ const NoteCue: React.FC<any> = ({
   )
 }
 
-const IconVolumeOff: React.FC<any> = ({className}) => {
+const IconVolumeOff: React.FC<React.PropsWithChildren<any>> = ({className}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -257,7 +257,7 @@ const IconVolumeOff: React.FC<any> = ({className}) => {
   )
 }
 
-const IconVolumeOn: React.FC<any> = ({className}) => {
+const IconVolumeOn: React.FC<React.PropsWithChildren<any>> = ({className}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -276,7 +276,7 @@ const IconVolumeOn: React.FC<any> = ({className}) => {
   )
 }
 
-const IconX: React.FC<any> = ({className}) => (
+const IconX: React.FC<React.PropsWithChildren<any>> = ({className}) => (
   <svg
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"

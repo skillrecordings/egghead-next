@@ -115,7 +115,10 @@ const DynamicCardGrid = ({
   )
 }
 
-const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
+const CuratedTopic: React.FC<React.PropsWithChildren<CuratedTopicProps>> = ({
+  topic,
+  topicData,
+}) => {
   const {title, description, image, ogImage, sections, levels, jumbotron} =
     topicData
   const location = `${topic.name} landing`

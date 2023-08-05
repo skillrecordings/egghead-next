@@ -6,7 +6,7 @@ import Link from 'next/link'
 import {track} from 'utils/analytics'
 import Markdown from 'react-markdown'
 
-const DeveloperPortfolio: React.FC<any> = ({data}) => {
+const DeveloperPortfolio: React.FC<React.PropsWithChildren<any>> = ({data}) => {
   return (
     <div className="dark:bg-gray-900 bg-gray-50">
       <div className="container mt-5">

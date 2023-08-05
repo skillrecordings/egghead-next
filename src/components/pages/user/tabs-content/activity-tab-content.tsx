@@ -27,7 +27,7 @@ const useProgressForUser = (viewerId: number) => {
   })
 }
 
-const ActivityTabContent: React.FC<any> = () => {
+const ActivityTabContent: React.FC<React.PropsWithChildren<any>> = () => {
   const {viewer, authToken} = useViewer()
   const viewerId = viewer?.id
   const {status: progressStatus, data: progressData} =

@@ -12,7 +12,7 @@ type LinkProps = {
   partialMatch?: boolean
 }
 
-const Link: FunctionComponent<LinkProps> = ({
+const Link: FunctionComponent<React.PropsWithChildren<LinkProps>> = ({
   href,
   children,
   activeClassName,

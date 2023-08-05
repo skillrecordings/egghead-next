@@ -8,7 +8,9 @@ import {useRouter} from 'next/router'
 
 export const HIDDEN_CASE_STUDIES = ['cloudflare'] // these exist on their own respective routes (not under /case-studies)
 
-const CaseStudies: React.FC = (allCaseStudies: any) => {
+const CaseStudies: React.FC<React.PropsWithChildren<unknown>> = (
+  allCaseStudies: any,
+) => {
   const router = useRouter()
 
   return (

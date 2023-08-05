@@ -12,7 +12,7 @@ type TopicProps = {
   description?: string
 }
 
-const GenericTopic: FunctionComponent<TopicProps> = ({
+const GenericTopic: FunctionComponent<React.PropsWithChildren<TopicProps>> = ({
   title,
   children,
   className,

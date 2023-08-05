@@ -3,15 +3,17 @@ import Link from 'next/link'
 import {track} from 'utils/analytics'
 import Image from 'next/image'
 
-const Course: React.FC<{
-  course: {
-    title: string
-    square_cover_480_url: string
-    slug: string
-    path: string
-  }
-  currentLessonSlug: string
-}> = ({course, currentLessonSlug}) => {
+const Course: React.FC<
+  React.PropsWithChildren<{
+    course: {
+      title: string
+      square_cover_480_url: string
+      slug: string
+      path: string
+    }
+    currentLessonSlug: string
+  }>
+> = ({course, currentLessonSlug}) => {
   return course ? (
     <div>
       <div className="flex items-center">
