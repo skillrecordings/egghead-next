@@ -37,3 +37,4 @@ yarn-error.log*
 .idea
 .env
 prisma/generated.schema.prisma
+/tsconfig.tsbuildinfo
