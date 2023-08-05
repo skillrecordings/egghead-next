@@ -9,6 +9,7 @@ import {progressRouter} from './progress'
 import {instructorRouter} from './instructor'
 import {topicRouter} from './topics'
 import {customerIORouter} from './customer-io'
+import {tipsRouter} from './tips'
 
 export const appRouter = router({
   healthcheck: baseProcedure.query(() => 'yay!'),
@@ -19,6 +20,7 @@ export const appRouter = router({
   progress: progressRouter,
   topics: topicRouter,
   customerIO: customerIORouter,
+  tips: tipsRouter
 })
 
 export type AppRouter = typeof appRouter
