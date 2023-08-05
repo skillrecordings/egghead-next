@@ -18,10 +18,10 @@ Disallow: /redirect
 Disallow: /sale
 
 # Host
-Host: http://next.egghead.af:3000
+Host: http://egghead.af:3000
 
 # Sitemaps
-Sitemap: http://next.egghead.af:3000/sitemap.xml
+Sitemap: http://egghead.af:3000/sitemap.xml
 Sitemap: http://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz
 Sitemap: https://egghead.io/tags-sitemap-0.xml
 Sitemap: https://egghead.io/tags-sitemap-1.xml
@@ -38,3 +38,4 @@ Sitemap: https://egghead.io/tags-sitemap-11.xml
 Sitemap: https://egghead.io/tags-sitemap-12.xml
 Sitemap: https://egghead.io/tags-sitemap-13.xml
 Sitemap: https://egghead.io/tags-sitemap-14.xml
+Sitemap: https://egghead.io/tags-sitemap-15.xml
