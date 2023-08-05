@@ -44,10 +44,9 @@ export const kamranAhmedQuery = groq`*[_type == 'resource' && slug.current == "k
   },
 }`
 
-const FeaturedTypescriptCourse: React.FC<{location: string; resource: any}> = ({
-  location,
-  resource,
-}) => {
+const FeaturedTypescriptCourse: React.FC<
+  React.PropsWithChildren<{location: string; resource: any}>
+> = ({location, resource}) => {
   const {path, title, byline, description, image, background} = resource
   return (
     <ExternalTrackedLink

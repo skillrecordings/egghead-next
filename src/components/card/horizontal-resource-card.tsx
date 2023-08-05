@@ -13,7 +13,7 @@ import Markdown from '../markdown'
 import {track} from 'utils/analytics'
 import {get} from 'lodash'
 
-const HorizontalResourceCard: React.FC<any> = ({
+const HorizontalResourceCard: React.FC<React.PropsWithChildren<any>> = ({
   resource,
   location,
   className = 'border-none my-4',

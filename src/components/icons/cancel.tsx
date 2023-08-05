@@ -1,9 +1,11 @@
 import React, {FunctionComponent} from 'react'
 
-const CancelIcon: FunctionComponent<{
-  className?: string
-  strokeWidth: number
-}> = ({className = '', strokeWidth = 2}) => (
+const CancelIcon: FunctionComponent<
+  React.PropsWithChildren<{
+    className?: string
+    strokeWidth: number
+  }>
+> = ({className = '', strokeWidth = 2}) => (
   <svg
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"

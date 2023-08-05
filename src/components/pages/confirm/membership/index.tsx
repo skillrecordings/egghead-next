@@ -20,9 +20,9 @@ type ConfirmMembershipProps = {
   session_id: string
 }
 
-const ExistingMemberConfirmation: React.FC<{session_id: string}> = ({
-  session_id,
-}) => {
+const ExistingMemberConfirmation: React.FC<
+  React.PropsWithChildren<{session_id: string}>
+> = ({session_id}) => {
   const {data} = trpc.stripe.checkoutSessionById.useQuery({
     checkoutSessionId: session_id as string,
   })
@@ -112,7 +112,7 @@ const Illustration = () => (
   </div>
 )
 
-const Heading: React.FC = ({children}) => {
+const Heading: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   return (
     <h1 className="text-xl font-bold leading-tight text-center sm:leading-tighter sm:text-2xl">
       {children}
@@ -120,13 +120,18 @@ const Heading: React.FC = ({children}) => {
   )
 }
 
-const PrimaryMessage: React.FC = ({children}) => {
+const PrimaryMessage: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   return <div className="text-gray-800 dark:text-gray-200">{children}</div>
 }
 
 const tweet = `https://twitter.com/intent/tweet/?text=Just joined @eggheadio to level up my development skills.`
 
-const Header: React.FC<HeaderProps> = ({heading, primaryMessage}) => {
+const Header: React.FC<React.PropsWithChildren<HeaderProps>> = ({
+  heading,
+  primaryMessage,
+}) => {
   return (
     <header className="flex flex-col items-start justify-center w-full h-full">
       <div className="flex flex-col items-center justify-center space-y-6">
@@ -138,7 +143,7 @@ const Header: React.FC<HeaderProps> = ({heading, primaryMessage}) => {
   )
 }
 
-const Support: React.FC = () => {
+const Support: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
     <div className="grid-cols-2 gap-5 py-16 border-y border-gray-100 dark:border-gray-800 sm:grid mt-16">
       <div className="">
@@ -173,7 +178,7 @@ const Support: React.FC = () => {
   )
 }
 
-const PopularTopics: React.FC = () => {
+const PopularTopics: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
     <div>
       <h4 className="pb-4 text-lg font-semibold text-center">
@@ -200,7 +205,9 @@ const PopularTopics: React.FC = () => {
   )
 }
 
-const IconMail: React.FC<{className: string}> = ({className}) => {
+const IconMail: React.FC<React.PropsWithChildren<{className: string}>> = ({
+  className,
+}) => {
   return (
     <div className={className}>
       <svg
@@ -241,7 +248,7 @@ const LastResource = () => {
   ) : null
 }
 
-const Callout: React.FC = ({children}) => {
+const Callout: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   return (
     <div className="inline-flex items-center w-full p-5 mb-5 space-x-3 border border-gray-200 rounded-lg sm:p-6">
       {children}
@@ -249,7 +256,7 @@ const Callout: React.FC = ({children}) => {
   )
 }
 
-const StartLearning: React.FC = () => {
+const StartLearning: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
     <Link href="/q">
       <a className="px-5 py-3 text-white bg-blue-500 border-0 rounded-md hover:bg-blue-600">
@@ -259,57 +266,58 @@ const StartLearning: React.FC = () => {
   )
 }
 
-const NewMemberConfirmation: React.FC<{session_id: string; currentState: any}> =
-  ({session_id, currentState}) => {
-    const {data} = trpc.stripe.checkoutSessionById.useQuery({
-      checkoutSessionId: session_id as string,
-    })
+const NewMemberConfirmation: React.FC<
+  React.PropsWithChildren<{session_id: string; currentState: any}>
+> = ({session_id, currentState}) => {
+  const {data} = trpc.stripe.checkoutSessionById.useQuery({
+    checkoutSessionId: session_id as string,
+  })
 
-    return data ? (
-      <>
-        <Header
-          heading={<>Thank you so much for joining egghead! </>}
-          primaryMessage={
-            <>
-              {currentState.matches('pending') && (
+  return data ? (
+    <>
+      <Header
+        heading={<>Thank you so much for joining egghead! </>}
+        primaryMessage={
+          <>
+            {currentState.matches('pending') && (
+              <Callout>
+                <Spinner color="gray-700" />
+                <p className="text-lg">Setting up your account...</p>
+              </Callout>
+            )}
+            {currentState.matches('pollingExpired') && (
+              <>
                 <Callout>
-                  <Spinner color="gray-700" />
-                  <p className="text-lg">Setting up your account...</p>
-                </Callout>
-              )}
-              {currentState.matches('pollingExpired') && (
-                <>
-                  <Callout>
-                    <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
-                    <p className="text-lg">
-                      Please check your inbox ({data.customer.email}) to{' '}
-                      <strong>confirm your email address</strong> and{' '}
-                      <strong>access your membership</strong>.
-                    </p>
-                  </Callout>
+                  <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
                   <p className="text-lg">
-                    We've charged your credit card{' '}
-                    <strong>
-                      ${(data.session.amount_subtotal || 0) / 100} for an
-                      egghead membership
-                    </strong>{' '}
-                    and sent an email along with a receipt to{' '}
-                    <strong>{data.customer.email}</strong> so you can log in and
-                    access your membership.
+                    Please check your inbox ({data.customer.email}) to{' '}
+                    <strong>confirm your email address</strong> and{' '}
+                    <strong>access your membership</strong>.
                   </p>
-                </>
-              )}
-            </>
-          }
-        />
-        <Support />
-      </>
-    ) : null
-  }
+                </Callout>
+                <p className="text-lg">
+                  We've charged your credit card{' '}
+                  <strong>
+                    ${(data.session.amount_subtotal || 0) / 100} for an egghead
+                    membership
+                  </strong>{' '}
+                  and sent an email along with a receipt to{' '}
+                  <strong>{data.customer.email}</strong> so you can log in and
+                  access your membership.
+                </p>
+              </>
+            )}
+          </>
+        }
+      />
+      <Support />
+    </>
+  ) : null
+}
 
-export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
-  session_id,
-}) => {
+export const ConfirmMembership: React.FC<
+  React.PropsWithChildren<ConfirmMembershipProps>
+> = ({session_id}) => {
   const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
 
   return (

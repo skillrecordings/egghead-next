@@ -2,14 +2,16 @@ import Link from 'next/link'
 import * as React from 'react'
 import Markdown from 'react-markdown'
 
-const InstructorProfile: React.FunctionComponent<{
-  name: string
-  avatar_url: string
-  url: string
-  bio_short?: string
-  twitter?: string
-  className?: string
-}> = ({className, url, name, avatar_url, bio_short, twitter}) => (
+const InstructorProfile: React.FunctionComponent<
+  React.PropsWithChildren<{
+    name: string
+    avatar_url: string
+    url: string
+    bio_short?: string
+    twitter?: string
+    className?: string
+  }>
+> = ({className, url, name, avatar_url, bio_short, twitter}) => (
   <div className={className ? className : ''}>
     <div className="flex flex-shrink-0 items-center">
       <div

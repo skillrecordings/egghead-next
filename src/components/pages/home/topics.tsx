@@ -4,7 +4,7 @@ import axios from 'utils/configured-axios'
 import Image from 'next/image'
 import analytics from 'utils/analytics'
 
-const Topics: React.FC<{data: any}> = ({data}) => {
+const Topics: React.FC<React.PropsWithChildren<{data: any}>> = ({data}) => {
   const {topics} = data
   return (
     <div className="sm:pt-10 sm:pb-32 pt-0 pb-16">

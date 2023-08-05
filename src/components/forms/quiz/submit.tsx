@@ -1,10 +1,12 @@
 import Spinner from 'components/forms/quiz/spinner'
 import React from 'react'
 
-const SubmitButton: React.FC<{
-  isAnswered: boolean
-  isSubmitting: boolean
-}> = ({isAnswered, isSubmitting}) => {
+const SubmitButton: React.FC<
+  React.PropsWithChildren<{
+    isAnswered: boolean
+    isSubmitting: boolean
+  }>
+> = ({isAnswered, isSubmitting}) => {
   return (
     <button
       type="submit"

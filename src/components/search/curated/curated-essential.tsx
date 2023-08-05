@@ -22,13 +22,15 @@ export type Topic = {
 type CuratedEssentialProps = {
   topic: Topic
   pageData?: any
-  CTAComponent?: React.FC<any>
+  CTAComponent?: React.FC<React.PropsWithChildren<any>>
   ogImage?: string
   verticalImage?: string
   cardType?: CARD_TYPES
 }
 
-const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
+const SearchCuratedEssential: React.FC<
+  React.PropsWithChildren<CuratedEssentialProps>
+> = ({
   topic,
   pageData,
   children,
@@ -99,12 +101,14 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
 
 export default SearchCuratedEssential
 
-export const ThreeLevels: React.FC<{
-  beginner: CardResource
-  intermediate: CardResource
-  advanced: CardResource
-  location?: string
-}> = ({beginner, intermediate, advanced, location}) => {
+export const ThreeLevels: React.FC<
+  React.PropsWithChildren<{
+    beginner: CardResource
+    intermediate: CardResource
+    advanced: CardResource
+    location?: string
+  }>
+> = ({beginner, intermediate, advanced, location}) => {
   return (
     <>
       {beginner && intermediate && advanced && (

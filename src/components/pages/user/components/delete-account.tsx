@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import analytics from 'utils/analytics'
 
-const DeleteAccount: React.FC<{}> = () => {
+const DeleteAccount: React.FC<React.PropsWithChildren<{}>> = () => {
   const [dialogIsOpen, setDialogIsOpen] = React.useState(false)
 
   return (

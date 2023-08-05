@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-const ClosedCaptionIcon: React.FunctionComponent<{className?: string}> = ({
-  className,
-}) => {
+const ClosedCaptionIcon: React.FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className}) => {
   return (
     <svg
       aria-labelledby="ccTitle"

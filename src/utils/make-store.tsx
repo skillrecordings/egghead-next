@@ -8,7 +8,11 @@ export default function makeStore(
   userReducer: (state: any, action: any) => any,
   initialState: any,
   key: string,
-): [React.FunctionComponent<any>, () => React.Dispatch<any>, () => any] {
+): [
+  React.FunctionComponent<React.PropsWithChildren<any>>,
+  () => React.Dispatch<any>,
+  () => any,
+] {
   const dispatchContext = React.createContext(dispatchNoop)
   const storeContext = React.createContext(initialState)
 
@@ -17,9 +21,9 @@ export default function makeStore(
     return newState
   }
 
-  const StoreProvider: React.FunctionComponent<any> = ({
-    children,
-  }): JSX.Element => {
+  const StoreProvider: React.FunctionComponent<
+    React.PropsWithChildren<any>
+  > = ({children}): JSX.Element => {
     const [store, dispatch] = React.useReducer(reducer, initialState)
     return (
       <>

@@ -15,7 +15,7 @@ type ButtonProps = {
   onClick?: () => void
 }
 
-export const PrimaryButton: React.FC<ButtonProps> = ({
+export const PrimaryButton: React.FC<React.PropsWithChildren<ButtonProps>> = ({
   url,
   className,
   label,
@@ -33,13 +33,9 @@ export const PrimaryButton: React.FC<ButtonProps> = ({
   )
 }
 
-export const SecondaryButton: React.FC<ButtonProps> = ({
-  url,
-  className,
-  label,
-  quiet,
-  onClick = noop,
-}) => {
+export const SecondaryButton: React.FC<
+  React.PropsWithChildren<ButtonProps>
+> = ({url, className, label, quiet, onClick = noop}) => {
   return (
     <Link href={url}>
       <a

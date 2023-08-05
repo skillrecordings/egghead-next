@@ -6,10 +6,12 @@ type MultilineInitialValues = {
   answered?: boolean
 }
 
-const MultiLine: React.FunctionComponent<{
-  onAnswer: (answer: string) => void
-  question: any
-}> = ({onAnswer, question}) => {
+const MultiLine: React.FunctionComponent<
+  React.PropsWithChildren<{
+    onAnswer: (answer: string) => void
+    question: any
+  }>
+> = ({onAnswer, question}) => {
   const initialValues: MultilineInitialValues = {comment: ``, answered: false}
   return (
     <div>

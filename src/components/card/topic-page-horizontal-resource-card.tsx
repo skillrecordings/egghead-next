@@ -23,10 +23,12 @@ type CardPageCardResource = CardResource & {
   meta?: string
 }
 
-const Button: React.FC<{
-  path: string
-  cta?: string
-}> = ({path, cta}) => {
+const Button: React.FC<
+  React.PropsWithChildren<{
+    path: string
+    cta?: string
+  }>
+> = ({path, cta}) => {
   return (
     <Link href={path}>
       <a className="text-center justify-center items-center mt-4 px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 sm:block hidden">
@@ -36,13 +38,15 @@ const Button: React.FC<{
   )
 }
 
-const HorizontalResourceCard: React.FC<{
-  resource: CardPageCardResource
-  location?: string
-  describe?: boolean
-  className?: string
-  left?: boolean
-}> = ({
+const HorizontalResourceCard: React.FC<
+  React.PropsWithChildren<{
+    resource: CardPageCardResource
+    location?: string
+    describe?: boolean
+    className?: string
+    left?: boolean
+  }>
+> = ({
   children,
   resource,
   location,
@@ -138,12 +142,14 @@ const HorizontalResourceCard: React.FC<{
   )
 }
 
-export const ResourceLink: React.FC<{
-  path: string
-  location?: string
-  className?: string
-  linkType?: string
-}> = ({children, path, location, linkType = 'text', ...props}) => (
+export const ResourceLink: React.FC<
+  React.PropsWithChildren<{
+    path: string
+    location?: string
+    className?: string
+    linkType?: string
+  }>
+> = ({children, path, location, linkType = 'text', ...props}) => (
   <Link href={path}>
     <a
       onClick={() => {
@@ -160,10 +166,9 @@ export const ResourceLink: React.FC<{
   </Link>
 )
 
-const PreviewImage: React.FC<{title: string; image: any; name: string}> = ({
-  image,
-  name,
-}) => {
+const PreviewImage: React.FC<
+  React.PropsWithChildren<{title: string; image: any; name: string}>
+> = ({image, name}) => {
   if (!image) return null
 
   const getSize = (name: string) => {

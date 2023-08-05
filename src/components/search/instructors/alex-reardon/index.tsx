@@ -45,10 +45,9 @@ export const alexReardonQuery = groq`*[_type == 'resource' && slug.current == "a
   },
 }`
 
-const FeaturedDomEventsCourse: React.FC<{location: string; resource: any}> = ({
-  location,
-  resource,
-}) => {
+const FeaturedDomEventsCourse: React.FC<
+  React.PropsWithChildren<{location: string; resource: any}>
+> = ({location, resource}) => {
   const {path, title, byline, description, image, background} = resource
   return (
     <ExternalTrackedLink

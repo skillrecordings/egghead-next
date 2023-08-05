@@ -28,7 +28,9 @@ export const LogRocketContext = React.createContext<LogRocket>({
   setEnabled: (enabled: boolean) => {},
 })
 
-export const LogRocketProvider: React.FunctionComponent = ({children}) => {
+export const LogRocketProvider: React.FunctionComponent<
+  React.PropsWithChildren<unknown>
+> = ({children}) => {
   const [identified, setIdentified] = React.useState<Viewer | boolean>(false)
   const [initialized, setInitialized] = React.useState(false)
   const [enabled, setEnabled] = React.useState(false)

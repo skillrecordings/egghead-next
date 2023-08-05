@@ -17,7 +17,9 @@ export async function getStaticProps() {
   }
 }
 
-const CourseIndex: React.FC<{courses: any}> = ({courses = []}) => {
+const CourseIndex: React.FC<React.PropsWithChildren<{courses: any}>> = ({
+  courses = [],
+}) => {
   const isDevelopment: boolean = process.env.NODE_ENV === 'development'
   const router = useRouter()
 

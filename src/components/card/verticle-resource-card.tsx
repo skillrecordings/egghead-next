@@ -15,13 +15,15 @@ import {get} from 'lodash'
 import {CardResource} from 'types'
 import Heading from './heading'
 
-const VerticalResourceCard: React.FC<{
-  resource: CardResource
-  location?: string
-  describe?: boolean
-  className?: string
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
-}> = ({
+const VerticalResourceCard: React.FC<
+  React.PropsWithChildren<{
+    resource: CardResource
+    location?: string
+    describe?: boolean
+    className?: string
+    as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
+  }>
+> = ({
   children,
   resource,
   location,
@@ -67,12 +69,14 @@ const VerticalResourceCard: React.FC<{
   )
 }
 
-const ResourceLink: React.FC<{
-  path: string
-  location?: string
-  className?: string
-  linkType?: string
-}> = ({children, path, location, linkType = 'text', ...props}) => (
+const ResourceLink: React.FC<
+  React.PropsWithChildren<{
+    path: string
+    location?: string
+    className?: string
+    linkType?: string
+  }>
+> = ({children, path, location, linkType = 'text', ...props}) => (
   <Link href={path}>
     <a
       onClick={() => {
@@ -89,10 +93,9 @@ const ResourceLink: React.FC<{
   </Link>
 )
 
-const PreviewImage: React.FC<{title: string; image: any}> = ({
-  title,
-  image,
-}) => (
+const PreviewImage: React.FC<
+  React.PropsWithChildren<{title: string; image: any}>
+> = ({title, image}) => (
   <CardPreview>
     <Image
       src={get(image, 'src', image)}

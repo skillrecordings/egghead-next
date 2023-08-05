@@ -19,7 +19,9 @@ type PricingProps = {
   redirectURL?: string
 }
 
-const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
+const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
+  getLayout: any
+} = () => {
   const router = useRouter()
 
   React.useEffect(() => {

@@ -8,9 +8,9 @@ import useCio from 'hooks/use-cio'
 import {surveyReducer, SurveyQuestion, SurveyState} from './survey-reducer'
 import {Card} from 'components/card'
 
-const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
-  question,
-}) => {
+const QuestionHeading: React.FunctionComponent<
+  React.PropsWithChildren<{question: SurveyQuestion}>
+> = ({question}) => {
   return (
     <>
       <h2 className="text-xl mb-3 font-bold dark:text-gray-100 text-gray-700">
@@ -23,11 +23,13 @@ const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
   )
 }
 
-const Survey: React.FunctionComponent<{
-  className?: any
-  alternative?: JSX.Element
-  initialSurveyState: SurveyState
-}> = ({className, alternative, initialSurveyState}) => {
+const Survey: React.FunctionComponent<
+  React.PropsWithChildren<{
+    className?: any
+    alternative?: JSX.Element
+    initialSurveyState: SurveyState
+  }>
+> = ({className, alternative, initialSurveyState}) => {
   const [state, dispatch] = React.useReducer(surveyReducer, initialSurveyState)
   const {subscriber, loadingSubscriber} = useCio()
 

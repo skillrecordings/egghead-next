@@ -1,9 +1,11 @@
 import * as React from 'react'
 
-const BookmarkIcon: React.FunctionComponent<{
-  className?: string
-  fill?: boolean
-}> = ({className, fill = false}) => {
+const BookmarkIcon: React.FunctionComponent<
+  React.PropsWithChildren<{
+    className?: string
+    fill?: boolean
+  }>
+> = ({className, fill = false}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

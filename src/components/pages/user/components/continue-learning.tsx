@@ -4,10 +4,12 @@ import {isEmpty} from 'lodash'
 import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
 import Spinner from 'components/spinner'
 
-const ContinueLearning: React.FC<{
-  continueLearningData: any
-  continueLearningStatus: 'loading' | 'success' | 'error'
-}> = ({continueLearningData = [], continueLearningStatus}) => {
+const ContinueLearning: React.FC<
+  React.PropsWithChildren<{
+    continueLearningData: any
+    continueLearningStatus: 'loading' | 'success' | 'error'
+  }>
+> = ({continueLearningData = [], continueLearningStatus}) => {
   return (
     <>
       {continueLearningStatus === 'loading' ? (

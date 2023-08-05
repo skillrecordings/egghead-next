@@ -6,7 +6,9 @@ type MorePodcastProps = {
   podcasts: Array<PodcastResource>
 }
 
-const MorePodcasts: FunctionComponent<MorePodcastProps> = ({podcasts}) => (
+const MorePodcasts: FunctionComponent<
+  React.PropsWithChildren<MorePodcastProps>
+> = ({podcasts}) => (
   <div className="w-full bg-gray-100 dark:bg-gray-800 -ml-3 sm:-ml-4 lg:-ml-8 sm:p-8 p-3">
     <div className="max-w-4xl mx-auto text-center">
       <h3 className="text-gray-700 dark:text-white mb-10 text-center font-light text-3xl">

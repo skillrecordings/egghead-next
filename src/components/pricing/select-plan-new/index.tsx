@@ -9,16 +9,20 @@ import Countdown from 'components/pricing/countdown'
 import {fromUnixTime} from 'date-fns'
 import {Coupon, PricingPlan} from 'types'
 
-const PlanTitle: React.FunctionComponent = ({children}) => (
+const PlanTitle: React.FunctionComponent<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => (
   <h2 className="text-xl font-bold text-gray-900 dark:text-white">
     {children}
   </h2>
 )
 
-export const PlanPrice: React.FunctionComponent<{
-  plan: any
-  pricesLoading: boolean
-}> = ({plan, pricesLoading}) => {
+export const PlanPrice: React.FunctionComponent<
+  React.PropsWithChildren<{
+    plan: any
+    pricesLoading: boolean
+  }>
+> = ({plan, pricesLoading}) => {
   const {price, price_discounted} = plan
   const priceToDisplay = price_discounted || price
   const discount_percentage = price_discounted
@@ -61,12 +65,14 @@ export const PlanPrice: React.FunctionComponent<{
   )
 }
 
-const PlanQuantitySelect: React.FunctionComponent<{
-  quantity: number
-  onQuantityChanged: any
-  plan: any
-  pricesLoading: boolean
-}> = ({quantity, onQuantityChanged}) => {
+const PlanQuantitySelect: React.FunctionComponent<
+  React.PropsWithChildren<{
+    quantity: number
+    onQuantityChanged: any
+    plan: any
+    pricesLoading: boolean
+  }>
+> = ({quantity, onQuantityChanged}) => {
   return (
     <div className="flex flex-col items-center space-y-2">
       <label className="flex items-center">
@@ -84,12 +90,14 @@ const PlanQuantitySelect: React.FunctionComponent<{
   )
 }
 
-const PlanIntervalsSwitch: React.FunctionComponent<{
-  planTypes: any[]
-  disabled: boolean
-  currentPlan: any
-  setCurrentPlan: (plan: any) => void
-}> = ({planTypes, currentPlan, setCurrentPlan, disabled}) => {
+const PlanIntervalsSwitch: React.FunctionComponent<
+  React.PropsWithChildren<{
+    planTypes: any[]
+    disabled: boolean
+    currentPlan: any
+    setCurrentPlan: (plan: any) => void
+  }>
+> = ({planTypes, currentPlan, setCurrentPlan, disabled}) => {
   const plansToRender = disabled ? [currentPlan] : planTypes
   return (
     <ul className="flex">
@@ -135,9 +143,11 @@ const DEFAULT_FEATURES = [
   'RSS course feeds',
 ]
 
-const PlanFeatures: React.FunctionComponent<{
-  planFeatures?: string[]
-}> = ({planFeatures = DEFAULT_FEATURES}) => {
+const PlanFeatures: React.FunctionComponent<
+  React.PropsWithChildren<{
+    planFeatures?: string[]
+  }>
+> = ({planFeatures = DEFAULT_FEATURES}) => {
   const CheckIcon = () => (
     <svg
       className="flex-shrink-0 inline-block mt-1 text-blue-500"
@@ -167,12 +177,14 @@ const PlanFeatures: React.FunctionComponent<{
   )
 }
 
-const GetAccessButton: React.FunctionComponent<{
-  label: string
-  handleClick: () => void
-  loaderOn: boolean
-  pricesLoading: boolean
-}> = ({label, handleClick, loaderOn, pricesLoading}) => {
+const GetAccessButton: React.FunctionComponent<
+  React.PropsWithChildren<{
+    label: string
+    handleClick: () => void
+    loaderOn: boolean
+    pricesLoading: boolean
+  }>
+> = ({label, handleClick, loaderOn, pricesLoading}) => {
   return (
     <button
       disabled={pricesLoading}
@@ -212,7 +224,9 @@ type SelectPlanProps = {
   isPPP: boolean
 }
 
-const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
+const SelectPlanNew: React.FunctionComponent<
+  React.PropsWithChildren<SelectPlanProps>
+> = ({
   quantityAvailable = true,
   handleClickGetAccess,
   pricesLoading,

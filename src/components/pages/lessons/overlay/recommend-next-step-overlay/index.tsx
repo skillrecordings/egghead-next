@@ -5,9 +5,11 @@ import {track} from 'utils/analytics'
 import Share from 'components/share'
 import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 
-const RecommendNextStepOverlay: React.FunctionComponent<{
-  lesson: any
-}> = ({lesson}) => {
+const RecommendNextStepOverlay: React.FunctionComponent<
+  React.PropsWithChildren<{
+    lesson: any
+  }>
+> = ({lesson}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
 
   return (

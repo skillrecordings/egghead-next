@@ -15,7 +15,7 @@ import isEmpty from 'lodash/isEmpty'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
-const PricingWidget: FunctionComponent<{}> = () => {
+const PricingWidget: FunctionComponent<React.PropsWithChildren<{}>> = () => {
   const {viewer, authToken} = useViewer()
   const router = useRouter()
   const [loaderOn, setLoaderOn] = React.useState<boolean>(false)

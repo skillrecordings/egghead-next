@@ -1,11 +1,13 @@
 import * as React from 'react'
 import {twMerge} from 'tailwind-merge'
 
-const Spinner: React.FunctionComponent<{
-  className?: string
-  size?: number
-  color?: string
-}> = ({className = '', size = 6, color = 'white'}) => (
+const Spinner: React.FunctionComponent<
+  React.PropsWithChildren<{
+    className?: string
+    size?: number
+    color?: string
+  }>
+> = ({className = '', size = 6, color = 'white'}) => (
   <svg
     className={twMerge(
       `animate-spin h-${size} w-${size} text-${color}`,

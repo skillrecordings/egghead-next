@@ -64,7 +64,7 @@ const LINKS = [
 
 const IMAGE_SIZE = 320
 
-const Podcast: FunctionComponent<PodcastProps> = ({
+const Podcast: FunctionComponent<React.PropsWithChildren<PodcastProps>> = ({
   podcast: {
     description,
     contributors,

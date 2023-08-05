@@ -6,17 +6,14 @@ import useQuestion from 'hooks/use-question'
 import SubmitButton from './submit'
 import CompletedMessage from 'components/forms/quiz/completed-message'
 
-const EssayQuestion: FunctionComponent<{
-  question: Question
-  questions: Questions
-}> = ({question, questions}) => {
-  const {
-    formik,
-    onAnswer,
-    isAnswered,
-    answeredCorrectly,
-    isSubmitting,
-  } = useQuestion(question)
+const EssayQuestion: FunctionComponent<
+  React.PropsWithChildren<{
+    question: Question
+    questions: Questions
+  }>
+> = ({question, questions}) => {
+  const {formik, onAnswer, isAnswered, answeredCorrectly, isSubmitting} =
+    useQuestion(question)
 
   return (
     <form onSubmit={onAnswer} className="w-full">

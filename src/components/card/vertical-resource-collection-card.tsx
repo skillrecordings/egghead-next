@@ -15,13 +15,15 @@ import {get} from 'lodash'
 import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
 
-const VerticalResourceCollectionCard: React.FC<{
-  resource: CardResource
-  location?: string
-  describe?: boolean
-  className?: string
-  titleColor?: string
-}> = ({resource, location, className = '', titleColor, ...props}) => {
+const VerticalResourceCollectionCard: React.FC<
+  React.PropsWithChildren<{
+    resource: CardResource
+    location?: string
+    describe?: boolean
+    className?: string
+    titleColor?: string
+  }>
+> = ({resource, location, className = '', titleColor, ...props}) => {
   className = `${className} border-none flex flex-col py-5`
 
   return (
@@ -41,7 +43,7 @@ const VerticalResourceCollectionCard: React.FC<{
           >
             <CardPreview>
               <Image
-                src={get(resource.image, 'src', resource.image)}
+                src={get(resource.image, 'src', resource.image) as string}
                 width={220}
                 height={220}
                 layout="fixed"
@@ -115,12 +117,22 @@ const VerticalResourceCollectionCard: React.FC<{
                     >
                       <CardPreview>
                         <Image
-                          src={get(resource.image, 'src', resource.image)}
+                          src={
+                            get(resource.image, 'src', resource.image) as string
+                          }
                           width={getImageSize(
-                            get(resource.image, 'src', resource.image),
+                            get(
+                              resource.image,
+                              'src',
+                              resource.image,
+                            ) as string,
                           )}
                           height={getImageSize(
-                            get(resource.image, 'src', resource.image),
+                            get(
+                              resource.image,
+                              'src',
+                              resource.image,
+                            ) as string,
                           )}
                           alt={`illustration for ${resource.title}`}
                         />

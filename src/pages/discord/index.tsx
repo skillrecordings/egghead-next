@@ -9,7 +9,9 @@ import Eggo from 'components/icons/eggo'
 import Image from 'next/image'
 import {Viewer} from 'types'
 
-const DiscordPage: React.FC<LoginRequiredParams> = ({loginRequired}) => {
+const DiscordPage: React.FC<React.PropsWithChildren<LoginRequiredParams>> = ({
+  loginRequired,
+}) => {
   const {viewer} = useViewer()
   const name = get(viewer, 'name', '')
 
@@ -54,7 +56,9 @@ const DiscordPage: React.FC<LoginRequiredParams> = ({loginRequired}) => {
   )
 }
 
-const HeaderImage: React.FC<{viewer: Viewer}> = ({viewer}) => {
+const HeaderImage: React.FC<React.PropsWithChildren<{viewer: Viewer}>> = ({
+  viewer,
+}) => {
   const avatar = viewer.avatar_url.includes('gravatar')
     ? null
     : viewer.avatar_url
@@ -82,7 +86,9 @@ const HeaderImage: React.FC<{viewer: Viewer}> = ({viewer}) => {
   )
 }
 
-const DiscordLogo: React.FC<{className?: string}> = ({className = 'w-5'}) => (
+const DiscordLogo: React.FC<React.PropsWithChildren<{className?: string}>> = ({
+  className = 'w-5',
+}) => (
   <svg
     className={className}
     viewBox="0 0 71 55"

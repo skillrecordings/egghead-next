@@ -5,10 +5,12 @@ import {track} from 'utils/analytics'
 import noop from 'utils/noop'
 import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 
-const WatchFullCourseCtaOverlay: React.FunctionComponent<{
-  lesson: any
-  onClickRewatch?: () => void
-}> = ({lesson, onClickRewatch = noop}) => {
+const WatchFullCourseCtaOverlay: React.FunctionComponent<
+  React.PropsWithChildren<{
+    lesson: any
+    onClickRewatch?: () => void
+  }>
+> = ({lesson, onClickRewatch = noop}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
 
   return (
@@ -61,9 +63,9 @@ const WatchFullCourseCtaOverlay: React.FunctionComponent<{
 
 export default WatchFullCourseCtaOverlay
 
-const IconPlay: React.FunctionComponent<{className: string}> = ({
-  className = '',
-}) => (
+const IconPlay: React.FunctionComponent<
+  React.PropsWithChildren<{className: string}>
+> = ({className = ''}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
@@ -78,9 +80,9 @@ const IconPlay: React.FunctionComponent<{className: string}> = ({
   </svg>
 )
 
-const IconRefresh: React.FunctionComponent<{className: string}> = ({
-  className = '',
-}) => (
+const IconRefresh: React.FunctionComponent<
+  React.PropsWithChildren<{className: string}>
+> = ({className = ''}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"

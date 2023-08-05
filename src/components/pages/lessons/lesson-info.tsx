@@ -24,7 +24,9 @@ type LessonInfoProps = {
   autoplay: {enabled: boolean}
 }
 
-const LessonInfo: FunctionComponent<LessonInfoProps> = ({
+const LessonInfo: FunctionComponent<
+  React.PropsWithChildren<LessonInfoProps>
+> = ({
   title,
   instructor,
   tags,
@@ -58,11 +60,13 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
 
 export default LessonInfo
 
-const CodeLink: FunctionComponent<{
-  url: string
-  icon?: React.ReactElement
-  onClick?: () => void
-}> = ({url, icon, onClick = () => {}, children}) => {
+const CodeLink: FunctionComponent<
+  React.PropsWithChildren<{
+    url: string
+    icon?: React.ReactElement
+    onClick?: () => void
+  }>
+> = ({url, icon, onClick = () => {}, children}) => {
   return (
     <div className="flex items-center">
       <a
@@ -79,9 +83,9 @@ const CodeLink: FunctionComponent<{
   )
 }
 
-const IconCode: FunctionComponent<{className?: string}> = ({
-  className = 'w-5 mr-2 text-blue-700',
-}) => (
+const IconCode: FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className = 'w-5 mr-2 text-blue-700'}) => (
   <svg
     className={className}
     xmlns="http://www.w3.org/2000/svg"
@@ -101,9 +105,9 @@ const IconCode: FunctionComponent<{className?: string}> = ({
   </svg>
 )
 
-const IconGithub: FunctionComponent<{className?: string}> = ({
-  className = 'w-5 mr-2 text-blue-700',
-}) => (
+const IconGithub: FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className = 'w-5 mr-2 text-blue-700'}) => (
   <svg
     className={className}
     xmlns="http://www.w3.org/2000/svg"

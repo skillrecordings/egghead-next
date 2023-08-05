@@ -1,11 +1,13 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 
-const CodeLink: FunctionComponent<{
-  url: string
-  icon?: React.ReactElement
-  onClick?: () => void
-}> = ({url, icon, onClick = () => {}, children}) => {
+const CodeLink: FunctionComponent<
+  React.PropsWithChildren<{
+    url: string
+    icon?: React.ReactElement
+    onClick?: () => void
+  }>
+> = ({url, icon, onClick = () => {}, children}) => {
   return (
     <div className="flex items-center">
       <a
@@ -22,9 +24,9 @@ const CodeLink: FunctionComponent<{
   )
 }
 
-export const IconCode: FunctionComponent<{className?: string}> = ({
-  className = 'w-5 mr-2',
-}) => (
+export const IconCode: FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className = 'w-5 mr-2'}) => (
   <svg
     className={className}
     xmlns="http://www.w3.org/2000/svg"
@@ -44,9 +46,9 @@ export const IconCode: FunctionComponent<{className?: string}> = ({
   </svg>
 )
 
-export const IconGithub: FunctionComponent<{className?: string}> = ({
-  className = 'w-5 mr-2',
-}) => (
+export const IconGithub: FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className = 'w-5 mr-2'}) => (
   <svg
     className={className}
     xmlns="http://www.w3.org/2000/svg"

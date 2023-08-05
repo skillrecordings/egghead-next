@@ -6,7 +6,10 @@ type MainProps = {
   className?: string
 }
 
-const Main: FunctionComponent<MainProps> = ({children, className = ''}) => {
+const Main: FunctionComponent<React.PropsWithChildren<MainProps>> = ({
+  children,
+  className = '',
+}) => {
   return (
     <div
       className={`w-full flex flex-col flex-grow dark:bg-gray-900 dark:text-gray-100 ${className}`}

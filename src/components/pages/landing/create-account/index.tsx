@@ -10,7 +10,9 @@ type FormikValues = {
   email: string
 }
 
-const CreateAccount: React.FC<{actionLabel?: string; location: string}> = ({
+const CreateAccount: React.FC<
+  React.PropsWithChildren<{actionLabel?: string; location: string}>
+> = ({
   actionLabel = (
     <>
       Start learning{' '}

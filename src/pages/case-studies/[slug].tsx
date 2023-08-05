@@ -29,10 +29,12 @@ export type CaseStudyResource = {
   resources?: any[]
 }
 
-const PortraitWithPattern: React.FC<{
-  coverImage: any
-  title: string
-}> = ({coverImage, title}) => {
+const PortraitWithPattern: React.FC<
+  React.PropsWithChildren<{
+    coverImage: any
+    title: string
+  }>
+> = ({coverImage, title}) => {
   return coverImage?.url ? (
     <div className="relative">
       <svg

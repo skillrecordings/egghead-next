@@ -1,7 +1,9 @@
 import * as React from 'react'
 import FeaturesList from '../../pro-member-features'
 
-const SelectPlan: React.FunctionComponent = ({children}) => {
+const SelectPlan: React.FunctionComponent<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   return (
     <div className="mt-8 dark:bg-gray-900 bg-white pb-16 sm:mt-12 sm:pb-20 lg:pb-28 dark:text-gray-100">
       <div className="relative">

@@ -20,7 +20,9 @@ const PlayIcon = () => (
   </svg>
 )
 
-const CourseWidget: React.FC<{course: any; cta?: string}> = ({course, cta}) => {
+const CourseWidget: React.FC<
+  React.PropsWithChildren<{course: any; cta?: string}>
+> = ({course, cta}) => {
   const {title, path, lessons, instructor, duration, image_thumb_url} = course
   return (
     <div className="sm:grid grid-cols-2 dark:bg-gray-1000 bg-gray-100 bg-opacity-80 dark:bg-opacity-100 rounded-lg overflow-hidden">

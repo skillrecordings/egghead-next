@@ -12,10 +12,9 @@ type CommentsProps = {
   commentingAllowed: boolean
 }
 
-const Comments: React.FunctionComponent<CommentsProps> = ({
-  lesson,
-  commentingAllowed,
-}: CommentsProps) => {
+const Comments: React.FunctionComponent<
+  React.PropsWithChildren<CommentsProps>
+> = ({lesson, commentingAllowed}: CommentsProps) => {
   const {viewer} = useViewer()
   const [comments, setComments] = React.useState(lesson.comments)
   const {slug} = lesson

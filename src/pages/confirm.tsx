@@ -1,7 +1,9 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
 
-const Confirm: React.FunctionComponent = () => {
+const Confirm: React.FunctionComponent<
+  React.PropsWithChildren<unknown>
+> = () => {
   const router = useRouter()
   const email = router.query.email
 

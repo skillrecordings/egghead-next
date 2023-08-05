@@ -11,7 +11,7 @@ import {get} from 'lodash'
 import VideoCard from 'components/pages/home/video-card'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 
-const StateManagement: React.FC<any> = ({data}) => {
+const StateManagement: React.FC<React.PropsWithChildren<any>> = ({data}) => {
   return (
     <>
       <div className="py-5 dark:bg-gray-900 bg-gray-50">
@@ -137,7 +137,9 @@ type JumbotronProps = {
   resource: CardResource
 }
 
-const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
+const Jumbotron: FunctionComponent<React.PropsWithChildren<JumbotronProps>> = ({
+  resource,
+}) => {
   const {image, title, background, description, name} = resource
 
   return (
@@ -148,7 +150,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
             <div className="flex-shrink-0">
               <Image
                 quality={100}
-                src={get(image, 'src', image)}
+                src={get(image, 'src', image) as string}
                 width={340}
                 height={340}
                 priority={true}

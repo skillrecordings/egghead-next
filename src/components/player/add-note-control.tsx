@@ -19,10 +19,9 @@ type AddNoteControlProps = {
 
 const notesCreationAvailable = process.env.NEXT_PUBLIC_NOTES_ENABLED === 'true'
 
-const NewNoteButton: FunctionComponent<AddNoteButtonProps> = ({
-  lesson,
-  onAddNote,
-}) => {
+const NewNoteButton: FunctionComponent<
+  React.PropsWithChildren<AddNoteButtonProps>
+> = ({lesson, onAddNote}) => {
   const {viewer} = useViewer()
   const canCreateNote = viewer?.can_comment && notesCreationAvailable
   return (
@@ -45,11 +44,9 @@ const NewNoteButton: FunctionComponent<AddNoteButtonProps> = ({
   )
 }
 
-const AddNoteControl: FunctionComponent<AddNoteControlProps> = ({
-  lesson,
-  actions,
-  onAddNote,
-}) => {
+const AddNoteControl: FunctionComponent<
+  React.PropsWithChildren<AddNoteControlProps>
+> = ({lesson, actions, onAddNote}) => {
   const {viewer} = useViewer()
   const canCreateNote = viewer?.can_comment && notesCreationAvailable
 

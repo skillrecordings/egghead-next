@@ -4,10 +4,12 @@ import Link from 'next/link'
 import * as React from 'react'
 import {track} from 'utils/analytics'
 
-const LastResource: React.FunctionComponent<{
-  className?: string
-  location?: string
-}> = ({children, className, location}) => {
+const LastResource: React.FunctionComponent<
+  React.PropsWithChildren<{
+    className?: string
+    location?: string
+  }>
+> = ({children, className, location}) => {
   const {lastResource, clearResource} = useLastResource()
 
   const trackAndClearResource = (event: string) => {

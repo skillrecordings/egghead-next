@@ -8,7 +8,9 @@ type ContributorsProps = {
     path: string
   }[]
 }
-const Contributors: FunctionComponent<ContributorsProps> = ({contributors}) => {
+const Contributors: FunctionComponent<
+  React.PropsWithChildren<ContributorsProps>
+> = ({contributors}) => {
   return contributors && contributors[0].name ? (
     <div>
       <h5 className="text-xs text-gray-500 uppercase tracking-wider font-semibold">

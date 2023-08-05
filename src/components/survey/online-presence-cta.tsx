@@ -13,11 +13,13 @@ const question = {
   },
 }
 
-const OnlinePresenceCTA: React.FunctionComponent<{
-  className?: any
-  alternative?: JSX.Element
-  variant?: string
-}> = (props) => {
+const OnlinePresenceCTA: React.FunctionComponent<
+  React.PropsWithChildren<{
+    className?: any
+    alternative?: JSX.Element
+    variant?: string
+  }>
+> = (props) => {
   return (
     <HeaderButtonCTA
       initialState={{

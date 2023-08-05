@@ -16,7 +16,7 @@ type CourseProps = {
   dependencies: any
 }
 
-const Course: FunctionComponent<CourseProps> = () => {
+const Course: FunctionComponent<React.PropsWithChildren<CourseProps>> = () => {
   const course = {
     title: `Create an eCommerce Store with Next.js and Stripe Checkout`,
     slug: `create-an-ecommerce-store-with-next-js-and-stripe-checkout`,
@@ -385,7 +385,7 @@ In this talk, we’ll explore the challenges of ecommerce in a static world. We�
 
 // ——— COMPONENTS
 
-const Join: FunctionComponent = () => {
+const Join: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
   const {viewer} = useViewer()
   return (
     <div className="py-24 text-center text-white bg-gray-100 dark:bg-gray-800">
@@ -437,15 +437,17 @@ const Join: FunctionComponent = () => {
   )
 }
 
-const Instructor: FunctionComponent<{
-  instructor: {
-    name: string
-    bio: string
-    path: string
-    image: string
-    slug: string
-  }
-}> = ({instructor: {name, bio, path, image, slug}}) => {
+const Instructor: FunctionComponent<
+  React.PropsWithChildren<{
+    instructor: {
+      name: string
+      bio: string
+      path: string
+      image: string
+      slug: string
+    }
+  }>
+> = ({instructor: {name, bio, path, image, slug}}) => {
   return (
     <div className="py-20 text-white bg-gray-100 dark:bg-gray-800">
       <div className="container">
@@ -488,9 +490,11 @@ const Instructor: FunctionComponent<{
   )
 }
 
-const Tags: FunctionComponent<{
-  tags: {title: string; image: React.ReactElement}[]
-}> = ({tags}) => {
+const Tags: FunctionComponent<
+  React.PropsWithChildren<{
+    tags: {title: string; image: React.ReactElement}[]
+  }>
+> = ({tags}) => {
   return (
     <div className="flex items-center justify-center space-x-6 md:justify-start">
       {tags.map((tag) => (
@@ -503,16 +507,18 @@ const Tags: FunctionComponent<{
   )
 }
 
-const Part: FunctionComponent<{
-  part: {
-    title: string
-    body?: string
-    image: string
-    lessons?: {title: string; path: string; slug: string}[]
-  }
-  idx: number
-  isLast: boolean
-}> = ({part: {title, body, image, lessons}, idx, isLast = false}) => {
+const Part: FunctionComponent<
+  React.PropsWithChildren<{
+    part: {
+      title: string
+      body?: string
+      image: string
+      lessons?: {title: string; path: string; slug: string}[]
+    }
+    idx: number
+    isLast: boolean
+  }>
+> = ({part: {title, body, image, lessons}, idx, isLast = false}) => {
   const index = idx + 1
   const gap = isLast ? 'md:pb-24 pb-10' : 'pb-10'
 
@@ -603,7 +609,10 @@ const Part: FunctionComponent<{
   )
 }
 
-const Articles: React.FC<{articles: any}> = ({articles, children}) => {
+const Articles: React.FC<React.PropsWithChildren<{articles: any}>> = ({
+  articles,
+  children,
+}) => {
   return (
     <div className="pt-24 pb-40 text-white bg-gray-50 dark:bg-gray-900">
       <div className="container">

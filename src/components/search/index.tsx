@@ -44,7 +44,7 @@ type SearchProps = {
 
 const queryClient = new QueryClient()
 
-const Search: FunctionComponent<SearchProps> = ({
+const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
   children = [],
   searchClient,
   searchState,

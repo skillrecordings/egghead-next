@@ -149,10 +149,9 @@ export const MatiasHernandezQuery = groq`*[_type == 'resource' && slug.current =
   }
 }`
 
-const FeaturedPrimaryCourse: React.FC<{location: string; resource: any}> = ({
-  location,
-  resource,
-}) => {
+const FeaturedPrimaryCourse: React.FC<
+  React.PropsWithChildren<{location: string; resource: any}>
+> = ({location, resource}) => {
   const {path, title, byline, description, image, background} = resource
   return (
     <ExternalTrackedLink

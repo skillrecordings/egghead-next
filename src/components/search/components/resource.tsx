@@ -8,7 +8,7 @@ type ResourceProps = {
   imageUrl: string
 }
 
-const Resource: FunctionComponent<ResourceProps> = ({
+const Resource: FunctionComponent<React.PropsWithChildren<ResourceProps>> = ({
   title,
   path,
   imageUrl,

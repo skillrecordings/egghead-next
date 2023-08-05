@@ -2,11 +2,13 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Tippy from '@tippyjs/react'
 
-const TheaterModeToggle: FunctionComponent<{
-  toggleTheaterMode: () => void
-  theaterMode: boolean
-  className?: string
-}> = ({toggleTheaterMode, theaterMode, className}) => {
+const TheaterModeToggle: FunctionComponent<
+  React.PropsWithChildren<{
+    toggleTheaterMode: () => void
+    theaterMode: boolean
+    className?: string
+  }>
+> = ({toggleTheaterMode, theaterMode, className}) => {
   return (
     <Tippy
       content={theaterMode ? 'Disable theater mode' : 'Activate theater mode'}
@@ -22,9 +24,9 @@ const TheaterModeToggle: FunctionComponent<{
   )
 }
 
-const IconTheaterModeOn: FunctionComponent<{className?: string}> = ({
-  className = '',
-}) => (
+const IconTheaterModeOn: FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className = ''}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="14"
@@ -37,9 +39,9 @@ const IconTheaterModeOn: FunctionComponent<{className?: string}> = ({
   </svg>
 )
 
-const IconTheaterModeOff: FunctionComponent<{className?: string}> = ({
-  className = '',
-}) => (
+const IconTheaterModeOff: FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className = ''}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="14"

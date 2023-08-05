@@ -161,13 +161,15 @@ const Tag = (props: any) => {
   )
 }
 
-const Author: FunctionComponent<{
-  author: {
-    name: string
-    image?: any
-    path?: string
-  }
-}> = ({author}) => {
+const Author: FunctionComponent<
+  React.PropsWithChildren<{
+    author: {
+      name: string
+      image?: any
+      path?: string
+    }
+  }>
+> = ({author}) => {
   const {name, image, path} = author
   const Profile = () => (
     <>

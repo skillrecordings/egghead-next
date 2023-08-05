@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {FunctionComponent} from 'react'
+import {FunctionComponent, ReactNode} from 'react'
 import {Element, scroller} from 'react-scroll'
 import SimpleBar from 'simplebar-react'
 import {LessonResource} from 'types'
@@ -16,12 +16,9 @@ type NextUpListProps = {
   onActiveTab: boolean
 }
 
-const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
-  course,
-  currentLessonSlug,
-  progress,
-  onActiveTab,
-}) => {
+const CollectionLessonsList: FunctionComponent<
+  React.PropsWithChildren<NextUpListProps>
+> = ({course, currentLessonSlug, progress, onActiveTab}) => {
   const {lessons} = course
   const [activeElement, setActiveElement] = React.useState(currentLessonSlug)
   const scrollableNodeRef: any = React.createRef()
@@ -55,9 +52,11 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
               ).map((lesson: LessonResource) => lesson.slug)
               const completed =
                 lesson.completed || completedLessons.includes(lesson.slug)
+
               return (
                 <li key={lesson.slug}>
                   {lesson.slug === currentLessonSlug && (
+                    // @ts-ignore
                     <Element name={lesson.slug} />
                   )}
                   <div>
@@ -79,13 +78,15 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
   ) : null
 }
 
-const Item: FunctionComponent<{
-  lesson: any
-  active: boolean
-  className?: string
-  index: number
-  completed: boolean
-}> = ({lesson, className, index, completed, active = false, ...props}) => {
+const Item: FunctionComponent<
+  React.PropsWithChildren<{
+    lesson: any
+    active: boolean
+    className?: string
+    index: number
+    completed: boolean
+  }>
+> = ({lesson, className, index, completed, active = false, ...props}) => {
   const Item = () => (
     <div
       className={`group flex p-3 ${

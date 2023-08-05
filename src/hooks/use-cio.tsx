@@ -23,7 +23,9 @@ export const CioContext = React.createContext<{
   cioIdentify: (id: string, options?: any) => void
 }>({loadingSubscriber: true, cioIdentify})
 
-export const CioProvider: React.FunctionComponent = ({children}) => {
+export const CioProvider: React.FunctionComponent<
+  React.PropsWithChildren<unknown>
+> = ({children}) => {
   const [subscriber, setSubscriber] = React.useState<CIOSubscriber>()
   const [loadingSubscriber, setLoadingSubscriber] = React.useState(true)
   React.useEffect(() => {

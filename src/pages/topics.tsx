@@ -13,7 +13,9 @@ type TagsProps = {
   tags: any[]
 }
 
-const Tags: FunctionComponent<TagsProps> = ({tags}) => {
+const Tags: FunctionComponent<React.PropsWithChildren<TagsProps>> = ({
+  tags,
+}) => {
   const router = useRouter()
 
   return (

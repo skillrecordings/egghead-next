@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-const LockIcon: React.FunctionComponent<{className?: string}> = ({
-  className,
-}) => {
+const LockIcon: React.FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

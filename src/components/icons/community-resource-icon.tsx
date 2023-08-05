@@ -1,8 +1,8 @@
 import React, {FunctionComponent} from 'react'
 
-const CommunityResourceIcon: FunctionComponent<{className?: string}> = ({
-  className = '',
-}) => (
+const CommunityResourceIcon: FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className = ''}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 150 135"

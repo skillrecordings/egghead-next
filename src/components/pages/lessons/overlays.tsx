@@ -25,7 +25,7 @@ type OverlaysProps = {
   cioIdentify: Function
 }
 
-const Overlays: React.FC<OverlaysProps> = ({
+const Overlays: React.FC<React.PropsWithChildren<OverlaysProps>> = ({
   lessonSend,
   lessonState,
   lesson,

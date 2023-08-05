@@ -25,7 +25,9 @@ type LessonProps = {
 const OFFSET_Y = 80
 const VIDEO_MIN_HEIGHT = 480
 
-const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
+const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
+  initialLesson,
+}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {viewer} = useViewer()

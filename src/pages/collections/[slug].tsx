@@ -12,7 +12,9 @@ type CollectionProps = {
   collection: any
 }
 
-const Collection: FunctionComponent<CollectionProps> = ({collection}) => {
+const Collection: FunctionComponent<
+  React.PropsWithChildren<CollectionProps>
+> = ({collection}) => {
   const initialData = collection
   const {data} = useSWR(collection.url, fetcher, {initialData})
   const {title, description, owner, items} = data

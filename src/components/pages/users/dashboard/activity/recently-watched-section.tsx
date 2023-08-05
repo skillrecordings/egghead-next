@@ -8,9 +8,9 @@ type RecentlyWatchedProps = {
   resources: [Resource]
 }
 
-const RecentlyWatched: FunctionComponent<RecentlyWatchedProps> = ({
-  resources,
-}) => {
+const RecentlyWatched: FunctionComponent<
+  React.PropsWithChildren<RecentlyWatchedProps>
+> = ({resources}) => {
   const lessonsCompleted = uniq(
     filter(resources, {
       type: 'lesson',

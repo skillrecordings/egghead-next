@@ -8,7 +8,7 @@ type TagProps = {
   tag: any
 }
 
-const Tag: FunctionComponent<TagProps> = ({tag}) => {
+const Tag: FunctionComponent<React.PropsWithChildren<TagProps>> = ({tag}) => {
   return (
     <div>
       <img alt="" src={tag.image_480_url} />

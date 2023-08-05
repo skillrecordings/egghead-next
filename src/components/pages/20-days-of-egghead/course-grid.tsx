@@ -12,7 +12,9 @@ type CourseGridProps = {
   data: CardResource
 }
 
-const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
+const CourseGrid: React.FC<React.PropsWithChildren<CourseGridProps>> = ({
+  data,
+}) => {
   const startDate = new Date('11/28/2021')
   const numberOfDays = 20
   const today = new Date()
@@ -32,7 +34,11 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
           if (!resource.title) return null
 
           const published = calendar[i].isPublished
-          const LinkOrDiv: React.FC<any> = ({className, children, ...props}) =>
+          const LinkOrDiv: React.FC<React.PropsWithChildren<any>> = ({
+            className,
+            children,
+            ...props
+          }) =>
             published && resource.path ? (
               <Link href={resource.path}>
                 <a className={className}>{children}</a>
@@ -49,12 +55,12 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
             <LinkOrDiv
               key={resource.id}
               className={`rounded-md aspect-w-3 aspect-h-4 h-full w-full transition-all ease-in-out duration-200 relative overflow-hidden 
-            ${classNames({
-              'group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50':
-                published,
-              'dark:bg-gray-1000 bg-gray-50 dark:bg-opacity-50 border-2 border-dotted border-collapse dark:border-gray-800 border-gray-200':
-                !published,
-            })}`}
+          ${classNames({
+            'group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50':
+              published,
+            'dark:bg-gray-1000 bg-gray-50 dark:bg-opacity-50 border-2 border-dotted border-collapse dark:border-gray-800 border-gray-200':
+              !published,
+          })}`}
             >
               <div className="grid grid-rows-7">
                 <div className="flex items-center justify-center row-span-4">

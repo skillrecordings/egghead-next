@@ -15,12 +15,14 @@ import {CardResource} from 'types'
 import analytics from 'utils/analytics'
 import {twMerge} from 'tailwind-merge'
 
-const VerticalResourceCard: React.FC<{
-  resource: CardResource
-  location?: string
-  className?: string
-  feature?: string
-}> = ({children, resource, location, className, feature, ...props}) => {
+const VerticalResourceCard: React.FC<
+  React.PropsWithChildren<{
+    resource: CardResource
+    location?: string
+    className?: string
+    feature?: string
+  }>
+> = ({children, resource, location, className, feature, ...props}) => {
   if (isEmpty(resource)) return null
 
   return (
@@ -42,7 +44,7 @@ const VerticalResourceCard: React.FC<{
           <CardPreview className="flex flex-col items-center">
             <div className="relative">
               <Image
-                src={get(resource.image, 'src', resource.image)}
+                src={get(resource.image, 'src', resource.image) as string}
                 width={120}
                 height={120}
                 layout="fixed"
@@ -69,17 +71,19 @@ const VerticalResourceCard: React.FC<{
   )
 }
 
-export const ResourceLink: React.FC<{
-  path: string
-  resource_type: string
-  location: string
-  tag?: any
-  className?: string
-  instructor?: string
-  linkType?: string
-  target?: '_blank' | '_self'
-  feature?: string
-}> = ({
+export const ResourceLink: React.FC<
+  React.PropsWithChildren<{
+    path: string
+    resource_type: string
+    location: string
+    tag?: any
+    className?: string
+    instructor?: string
+    linkType?: string
+    target?: '_blank' | '_self'
+    feature?: string
+  }>
+> = ({
   children,
   path,
   tag,

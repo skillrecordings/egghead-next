@@ -57,7 +57,7 @@ const usePurchaseAndPlay = (): [boolean, any] => {
   // Memoize the function so that it doesn't re-trigger the useEffect over and
   // over.
   const handleAccessTokenAuthentication = React.useCallback(
-    (authToken, expiration) => {
+    (authToken: any, expiration: any) => {
       _handleAccessTokenAuthentication(authToken, expiration)
     },
     [],

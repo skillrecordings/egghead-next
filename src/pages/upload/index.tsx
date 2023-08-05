@@ -134,11 +134,13 @@ const UploadWrapper = ({
 }
 
 const Upload: React.FC<
-  FormikProps<FormProps> & {
-    instructors: Instructor[]
-    topics: Topic[]
-    submitResponse: SubmitResponse
-  }
+  React.PropsWithChildren<
+    FormikProps<FormProps> & {
+      instructors: Instructor[]
+      topics: Topic[]
+      submitResponse: SubmitResponse
+    }
+  >
 > = (props) => {
   const {instructors, topics, submitResponse, ...formikProps} = props
 

@@ -12,10 +12,9 @@ import {CIO_IDENTIFIER_KEY} from 'config'
 
 const tracer = getTracer('signup-topic-page')
 
-const SignupPage: React.FC<{topic?: string; customer?: any}> = ({
-  topic,
-  customer,
-}) => {
+const SignupPage: React.FC<
+  React.PropsWithChildren<{topic?: string; customer?: any}>
+> = ({topic, customer}) => {
   return (
     <>
       <Header topic={topic} customer={customer} />

@@ -21,7 +21,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
 }
 
-const Confirmed: React.FunctionComponent<{to: string}> = ({to}) => {
+const Confirmed: React.FunctionComponent<
+  React.PropsWithChildren<{to: string}>
+> = ({to}) => {
   const {subscriber, cioIdentify} = useCio()
 
   React.useEffect(() => {

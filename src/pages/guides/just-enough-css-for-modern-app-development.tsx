@@ -15,11 +15,13 @@ import React from 'react'
 import {truncate} from 'lodash'
 import analytics from 'utils/analytics'
 
-const HorizontalCourseCard: React.FC<{
-  course: any
-  className?: string
-  location?: string
-}> = ({course, className = '', location = ''}) => {
+const HorizontalCourseCard: React.FC<
+  React.PropsWithChildren<{
+    course: any
+    className?: string
+    location?: string
+  }>
+> = ({course, className = '', location = ''}) => {
   return (
     <Link href={course.path}>
       <div
@@ -222,9 +224,9 @@ const CssChallengeCardFull = ({
   )
 }
 
-const JustEnoughCssForModernAppDevelopment: React.FC<{cssGuide: any}> = ({
-  cssGuide,
-}) => {
+const JustEnoughCssForModernAppDevelopment: React.FC<
+  React.PropsWithChildren<{cssGuide: any}>
+> = ({cssGuide}) => {
   const scrollRef = React.useRef<null | HTMLHeadingElement>(null)
 
   const {sections, ogImage} = cssGuide

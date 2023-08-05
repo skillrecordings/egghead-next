@@ -7,7 +7,7 @@ import get from 'lodash/get'
 import groq from 'groq'
 import {trpc} from '../trpc/trpc.client'
 
-const HomePage: FunctionComponent<any> = ({data}) => {
+const HomePage: FunctionComponent<React.PropsWithChildren<any>> = ({data}) => {
   const location = 'curated home landing'
   const jumbotron = find(data.sections, {slug: 'jumbotron'})
   const ogImage = get(

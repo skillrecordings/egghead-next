@@ -11,7 +11,9 @@ type AnswerProps = {
   questions: Questions
 }
 
-const OnlinePresenceAnswer: React.FC<AnswerProps> = ({questions}) => {
+const OnlinePresenceAnswer: React.FC<React.PropsWithChildren<AnswerProps>> = ({
+  questions,
+}) => {
   const router = useRouter()
   const [currentQuestion, setCurrentQuestion] = React.useState<Question>()
 
@@ -160,7 +162,9 @@ export const questions: Questions = {
   },
 }
 
-const DevTools: React.FC<{questions: Questions}> = ({questions}) => {
+const DevTools: React.FC<React.PropsWithChildren<{questions: Questions}>> = ({
+  questions,
+}) => {
   const [hidden, setHidden] = React.useState(false)
   const router = useRouter()
   if (process.env.NODE_ENV !== 'development' || hidden) {

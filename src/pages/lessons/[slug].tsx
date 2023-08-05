@@ -120,7 +120,7 @@ const MAX_FREE_VIEWS = 4
 
 const notesEnabled = process.env.NEXT_PUBLIC_NOTES_ENABLED === 'true'
 
-const Lesson: React.FC<LessonProps> = ({
+const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
   initialLesson,
   state,
   watchCount,
@@ -857,10 +857,9 @@ const Lesson: React.FC<LessonProps> = ({
   )
 }
 
-const LessonPage: React.FC<{initialLesson: VideoResource}> = ({
-  initialLesson,
-  ...props
-}) => {
+const LessonPage: React.FC<
+  React.PropsWithChildren<{initialLesson: VideoResource}>
+> = ({initialLesson, ...props}) => {
   const {viewer} = useViewer()
   const [watchCount, setWatchCount] = React.useState<number>(0)
   const [lessonState, send] = useMachine(lessonMachine, {
@@ -904,7 +903,7 @@ const LessonPage: React.FC<{initialLesson: VideoResource}> = ({
           },
         loadResource:
           (_context: VideoStateContext, event: VideoEvent) => async () => {
-            const loadedLesson = get(event, 'resource')
+            const loadedLesson = get(event, 'resource') as any
             return {
               ...initialLesson,
               ...loadedLesson,

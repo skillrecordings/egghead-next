@@ -2,12 +2,14 @@ import React from 'react'
 import {Question, Questions} from 'types'
 import last from 'lodash/last'
 
-const CompletedMessage: React.FC<{
-  answeredCorrectly?: boolean
-  neutral?: boolean
-  question: Question
-  questions: Questions
-}> = ({answeredCorrectly, neutral = false, question, questions}) => {
+const CompletedMessage: React.FC<
+  React.PropsWithChildren<{
+    answeredCorrectly?: boolean
+    neutral?: boolean
+    question: Question
+    questions: Questions
+  }>
+> = ({answeredCorrectly, neutral = false, question, questions}) => {
   const questionsKeys: string[] = Object.keys(questions)
   const lastQuestionKey: string = last(questionsKeys) || ''
   const isLast: boolean = questions[lastQuestionKey].tagId === question.tagId

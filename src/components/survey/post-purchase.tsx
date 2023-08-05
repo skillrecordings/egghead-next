@@ -9,9 +9,9 @@ import {surveyReducer, SurveyQuestion, SurveyState} from './survey-reducer'
 import {Card} from 'components/card'
 import {postPurchaseSurvey} from './data/post-purchase-survey-data'
 
-const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
-  question,
-}) => {
+const QuestionHeading: React.FunctionComponent<
+  React.PropsWithChildren<{question: SurveyQuestion}>
+> = ({question}) => {
   return (
     <>
       <h2 className="text-xl mb-3 font-bold dark:text-gray-100 text-gray-700">
@@ -32,11 +32,13 @@ export const postPurchaseSurveyInitialState: SurveyState = {
   surveyTitle: 'post-purchase survey',
 }
 
-const PostPurchaseSurvey: React.FunctionComponent<{
-  className?: any
-  alternative?: JSX.Element
-  initialSurveyState?: SurveyState
-}> = ({
+const PostPurchaseSurvey: React.FunctionComponent<
+  React.PropsWithChildren<{
+    className?: any
+    alternative?: JSX.Element
+    initialSurveyState?: SurveyState
+  }>
+> = ({
   className,
   alternative,
   initialSurveyState = postPurchaseSurveyInitialState,

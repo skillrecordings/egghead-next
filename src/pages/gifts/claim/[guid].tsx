@@ -48,7 +48,10 @@ export const getServerSideProps: GetServerSideProps = async function ({
 type Gift = {claim_url: string; claimed: boolean; duration_months: number}
 type GiftClaimProps = {error?: {type: string; message: string}; gift?: Gift}
 
-const GiftClaim: React.FC<GiftClaimProps> = ({error, gift}) => {
+const GiftClaim: React.FC<React.PropsWithChildren<GiftClaimProps>> = ({
+  error,
+  gift,
+}) => {
   const router = useRouter()
   const {viewer, refreshUser} = useViewer()
 

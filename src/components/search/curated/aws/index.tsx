@@ -97,7 +97,9 @@ AWS provides services for data, presentation, authentication, security, video en
   )
 }
 
-const AWSCourse: React.FC<{location: string}> = ({location}) => {
+const AWSCourse: React.FC<React.PropsWithChildren<{location: string}>> = ({
+  location,
+}) => {
   const {path, title, byline, name, description, image, background, slug} = {
     title: 'Deploy Ghost to AWS using RDS and EC2',
     byline: 'Sam Julien',
