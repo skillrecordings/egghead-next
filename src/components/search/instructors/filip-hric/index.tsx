@@ -138,7 +138,9 @@ export const filipHricQuery = groq`*[_type == 'resource' && slug.current == "fil
 const isModifiedEvent = (event: any) =>
   !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
 
-const NewExternalTrackedLink: React.FunctionComponent<any> = ({
+const NewExternalTrackedLink: React.FunctionComponent<
+  React.PropsWithChildren<any>
+> = ({
   currentLocation,
   instructor,
   topic,
@@ -193,14 +195,16 @@ const NewExternalTrackedLink: React.FunctionComponent<any> = ({
   )
 }
 
-const CypressCourseCTA: React.FC<{
-  instructor: string
-  currentLocation: string
-  topic: string
-  redirectTo: string
-  image: string
-  url: string
-}> = ({instructor, currentLocation, topic, redirectTo, image, url}) => {
+const CypressCourseCTA: React.FC<
+  React.PropsWithChildren<{
+    instructor: string
+    currentLocation: string
+    topic: string
+    redirectTo: string
+    image: string
+    url: string
+  }>
+> = ({instructor, currentLocation, topic, redirectTo, image, url}) => {
   return (
     <NewExternalTrackedLink
       eventName="clicked epic react banner"

@@ -12,7 +12,9 @@ type DialogProps = {
   handleInputChange: (value: string) => void
 }
 
-const TransferOwnershipConfirmDialog: React.FunctionComponent<DialogProps> = ({
+const TransferOwnershipConfirmDialog: React.FunctionComponent<
+  React.PropsWithChildren<DialogProps>
+> = ({
   current,
   inviteeEmail,
   inviteeEmailConfirmation,

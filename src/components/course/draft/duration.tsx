@@ -1,9 +1,9 @@
 import {ClockIcon} from '@heroicons/react/solid'
 import ClosedCaptionIcon from 'components/icons/closed-captioning'
 
-export const Duration: React.FunctionComponent<{duration: string}> = ({
-  duration,
-}) => (
+export const Duration: React.FunctionComponent<
+  React.PropsWithChildren<{duration: string}>
+> = ({duration}) => (
   <div className="flex flex-row items-center">
     <ClockIcon className="w-4 h-4 mr-1 opacity-60" />
     <span>{duration}</span>{' '}

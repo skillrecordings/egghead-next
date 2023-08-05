@@ -8,9 +8,9 @@ type ContinueWatchingProps = {
   resources: [Resource]
 }
 
-const ContinueWatching: FunctionComponent<ContinueWatchingProps> = ({
-  resources,
-}) => {
+const ContinueWatching: FunctionComponent<
+  React.PropsWithChildren<ContinueWatchingProps>
+> = ({resources}) => {
   const coursesInProgress = orderBy(
     uniq(
       filter(resources, {

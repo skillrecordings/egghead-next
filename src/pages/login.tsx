@@ -26,7 +26,7 @@ type LoginFormProps = {
 const STANDARD_AUTH_MODE = 'STANDARD_AUTH_MODE'
 const SSO_AUTH_MODE = 'SSO_AUTH_MODE'
 
-const LoginForm: FunctionComponent<LoginFormProps> = ({
+const LoginForm: FunctionComponent<React.PropsWithChildren<LoginFormProps>> = ({
   image = (
     <Image
       className="mx-auto"

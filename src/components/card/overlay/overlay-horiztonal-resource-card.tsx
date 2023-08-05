@@ -18,14 +18,16 @@ import truncate from 'lodash/truncate'
 import analytics from 'utils/analytics'
 import CheckIcon from 'components/icons/check'
 
-const HorizontalResourceCard: React.FC<{
-  resource: CardResource
-  location?: string
-  describe?: boolean
-  className?: string
-  completedCoursesIds?: number[]
-  feature?: string
-}> = ({
+const HorizontalResourceCard: React.FC<
+  React.PropsWithChildren<{
+    resource: CardResource
+    location?: string
+    describe?: boolean
+    className?: string
+    completedCoursesIds?: number[]
+    feature?: string
+  }>
+> = ({
   children,
   resource,
   location,
@@ -59,7 +61,7 @@ const HorizontalResourceCard: React.FC<{
           <CardPreview>
             <div className="block shrink-0 mr-4 shrink-1">
               <Image
-                src={get(resource.image, 'src', resource.image)}
+                src={get(resource.image, 'src', resource.image) as string}
                 width={160}
                 height={160}
                 layout="fixed"
@@ -105,16 +107,18 @@ const HorizontalResourceCard: React.FC<{
   )
 }
 
-export const ResourceLink: React.FC<{
-  path: string
-  resource_type: string
-  location: string
-  tag?: any
-  instructor?: string
-  className?: string
-  linkType?: string
-  feature?: string
-}> = ({
+export const ResourceLink: React.FC<
+  React.PropsWithChildren<{
+    path: string
+    resource_type: string
+    location: string
+    tag?: any
+    instructor?: string
+    className?: string
+    linkType?: string
+    feature?: string
+  }>
+> = ({
   children,
   path,
   tag,
@@ -154,10 +158,9 @@ export const ResourceLink: React.FC<{
   </Link>
 )
 
-const PreviewImage: React.FC<{title: string; image: any; name: string}> = ({
-  image,
-  name,
-}) => {
+const PreviewImage: React.FC<
+  React.PropsWithChildren<{title: string; image: any; name: string}>
+> = ({image, name}) => {
   if (!image) return null
 
   const getSize = (name: string) => {

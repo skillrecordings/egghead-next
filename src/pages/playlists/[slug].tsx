@@ -2,7 +2,7 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 
-const Playlist: FunctionComponent = () => null
+const Playlist: FunctionComponent<React.PropsWithChildren<unknown>> = () => null
 
 export default Playlist
 

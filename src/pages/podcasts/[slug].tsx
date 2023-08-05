@@ -12,7 +12,10 @@ type PodcastProps = {
   podcasts: Array<PodcastResource>
 }
 
-const Podcast: FunctionComponent<PodcastProps> = ({podcasts, podcast}) => {
+const Podcast: FunctionComponent<React.PropsWithChildren<PodcastProps>> = ({
+  podcasts,
+  podcast,
+}) => {
   return (
     <>
       <NextSeo

@@ -7,9 +7,9 @@ type CommentFieldProps = {
   onSubmit?: any
 }
 
-const CommentField: FunctionComponent<CommentFieldProps> = ({
-  onSubmit = () => {},
-}) => {
+const CommentField: FunctionComponent<
+  React.PropsWithChildren<CommentFieldProps>
+> = ({onSubmit = () => {}}) => {
   const [isSubmitted, setIsSubmitted] = React.useState(false)
   const [isError, setIsError] = React.useState(false)
   const videoService = useVideo()

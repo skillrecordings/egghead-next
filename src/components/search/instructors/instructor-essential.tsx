@@ -10,16 +10,12 @@ type InstructorProps = {
   className?: string
   instructor: any
   socials?: any
-  CTAComponent?: React.ReactElement | React.FC
+  CTAComponent?: React.ReactElement
 }
 
-const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
-  children,
-  className,
-  CTAComponent,
-  instructor,
-  socials,
-}) => {
+const SearchInstructorEssential: FunctionComponent<
+  React.PropsWithChildren<InstructorProps>
+> = ({children, className, CTAComponent, instructor, socials}) => {
   const {
     avatar_url: imageUrl,
     slug,

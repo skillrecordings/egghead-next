@@ -3,10 +3,12 @@ import {Formik, Form, Field} from 'formik'
 import {shuffle, find, reject} from 'lodash'
 import {MultipleChoiceAnswer, SurveyQuestion} from '../survey-reducer'
 
-const MultipleChoiceQuestion: React.FunctionComponent<{
-  onAnswer: (answer: string) => void
-  question: SurveyQuestion
-}> = ({onAnswer, question}) => {
+const MultipleChoiceQuestion: React.FunctionComponent<
+  React.PropsWithChildren<{
+    onAnswer: (answer: string) => void
+    question: SurveyQuestion
+  }>
+> = ({onAnswer, question}) => {
   const [choices, setChoices] = React.useState<MultipleChoiceAnswer[]>([])
 
   React.useEffect(() => {

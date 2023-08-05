@@ -6,12 +6,14 @@ import {bpMinMD} from 'utils/breakpoints'
 import {track} from 'utils/analytics'
 import ExternalTrackedLink from 'components/external-tracked-link'
 
-const CtaCard: React.FC<{
-  location: string
-  trackTitle: string
-  resource: any
-  textLight?: any
-}> = ({location, trackTitle, textLight, resource}) => {
+const CtaCard: React.FC<
+  React.PropsWithChildren<{
+    location: string
+    trackTitle: string
+    resource: any
+    textLight?: any
+  }>
+> = ({location, trackTitle, textLight, resource}) => {
   const {path, title, byline, description, image, background} = resource
 
   return (

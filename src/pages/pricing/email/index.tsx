@@ -23,11 +23,9 @@ type EmailFormProps = {
   coupon: string | undefined
 }
 
-const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
-  priceId,
-  quantity = 1,
-  coupon,
-}) => {
+const Email: React.FunctionComponent<
+  React.PropsWithChildren<EmailFormProps>
+> & {getLayout: any} = ({priceId, quantity = 1, coupon}) => {
   const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
   const [isError, setIsError] = React.useState<boolean | string>(false)
   const router = useRouter()

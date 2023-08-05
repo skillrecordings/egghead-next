@@ -61,11 +61,13 @@ const about = [
   },
 ]
 
-const Item: FunctionComponent<{
-  children: React.ReactNode
-  path: string
-  onClick: any
-}> = ({children, path, onClick}) => (
+const Item: FunctionComponent<
+  React.PropsWithChildren<{
+    children: React.ReactNode
+    path: string
+    onClick: any
+  }>
+> = ({children, path, onClick}) => (
   <li className="py-1 text-base leading-relaxed md:text-sm">
     <Link href={path} activeClassName="underline">
       <a
@@ -78,7 +80,9 @@ const Item: FunctionComponent<{
   </li>
 )
 
-const FooterNavigation: FunctionComponent = () => {
+const FooterNavigation: FunctionComponent<
+  React.PropsWithChildren<unknown>
+> = () => {
   const {viewer} = useViewer()
   const filterViewerRequired = (items: any[]) => {
     return reject(items, (item) => {
@@ -137,7 +141,7 @@ const FooterNavigation: FunctionComponent = () => {
   )
 }
 
-const Footer: FunctionComponent = () => {
+const Footer: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
   const [isMounted, setIsMounted] = React.useState<boolean>(false)
   React.useEffect(() => setIsMounted(true), [])
   return (

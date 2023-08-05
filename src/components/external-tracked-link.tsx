@@ -5,14 +5,9 @@ import {track} from 'utils/analytics/track'
 const isModifiedEvent = (event: any) =>
   !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
 
-const ExternalTrackedLink: React.FunctionComponent<any> = ({
-  eventName,
-  params,
-  label,
-  children,
-  onClick = () => {},
-  ...props
-}) => {
+const ExternalTrackedLink: React.FunctionComponent<
+  React.PropsWithChildren<any>
+> = ({eventName, params, label, children, onClick = () => {}, ...props}) => {
   const handleClick = (event: any) => {
     const {href} = props
 

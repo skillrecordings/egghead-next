@@ -9,10 +9,9 @@ import cx from 'classnames'
 import Spinner from 'components/spinner'
 import {twMerge} from 'tailwind-merge'
 
-const LessonCreationForm: React.FunctionComponent<any> = ({
-  setIsOpen,
-  sanityCourseId,
-}) => {
+const LessonCreationForm: React.FunctionComponent<
+  React.PropsWithChildren<any>
+> = ({setIsOpen, sanityCourseId}) => {
   const [fileUploadState, dispatch] = useFileUploadReducer([])
   const trpcUtils = trpc.useContext()
 

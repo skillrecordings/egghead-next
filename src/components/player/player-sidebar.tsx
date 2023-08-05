@@ -31,12 +31,14 @@ import {
 
 const notesEnabled = process.env.NEXT_PUBLIC_NOTES_ENABLED === 'true'
 
-const PlayerSidebar: React.FC<{
-  videoResource: VideoResource
-  lessonView?: any
-  onAddNote?: any
-  relatedResources?: any
-}> = ({videoResource, lessonView, onAddNote, relatedResources}) => {
+const PlayerSidebar: React.FC<
+  React.PropsWithChildren<{
+    videoResource: VideoResource
+    lessonView?: any
+    onAddNote?: any
+    relatedResources?: any
+  }>
+> = ({videoResource, lessonView, onAddNote, relatedResources}) => {
   const {viewer} = useViewer()
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
@@ -121,11 +123,13 @@ const PlayerSidebar: React.FC<{
   )
 }
 
-const LessonListTab: React.FC<{
-  videoResource: VideoResource
-  lessonView?: any
-  onActiveTab: boolean
-}> = ({videoResource, lessonView, onActiveTab}) => {
+const LessonListTab: React.FC<
+  React.PropsWithChildren<{
+    videoResource: VideoResource
+    lessonView?: any
+    onActiveTab: boolean
+  }>
+> = ({videoResource, lessonView, onActiveTab}) => {
   const hidden: boolean = isEmpty(videoResource.collection)
 
   return hidden ? null : (
@@ -150,7 +154,9 @@ const LessonListTab: React.FC<{
   )
 }
 
-const NotesTab: React.FC<any> = ({videoResourceHasNotes}) => {
+const NotesTab: React.FC<React.PropsWithChildren<any>> = ({
+  videoResourceHasNotes,
+}) => {
   const cues = useMetadataCues()
   const hidden: boolean = !videoResourceHasNotes
   const scrollableNodeRef: any = React.createRef()
@@ -194,6 +200,7 @@ const NotesTab: React.FC<any> = ({videoResourceHasNotes}) => {
 
                 return (
                   <div key={cue.text}>
+                    {/* @ts-ignore */}
                     {active && <Element name="active-note" />}
                     <div
                       className={classNames(
@@ -245,7 +252,7 @@ const NotesTab: React.FC<any> = ({videoResourceHasNotes}) => {
   )
 }
 
-const DeleteCue: React.FC<{cue: VTTCue}> = ({cue}) => {
+const DeleteCue: React.FC<React.PropsWithChildren<{cue: VTTCue}>> = ({cue}) => {
   const videoService = useVideo()
   const [showDialog, setShowDialog] = React.useState(false)
   const cancelRef: any = React.useRef()
@@ -318,15 +325,17 @@ const DeleteCue: React.FC<{cue: VTTCue}> = ({cue}) => {
   )
 }
 
-const CourseHeader: React.FunctionComponent<{
-  course: {
-    title: string
-    square_cover_480_url: string
-    slug: string
-    path: string
-  }
-  currentLessonSlug: string
-}> = ({course, currentLessonSlug}) => {
+const CourseHeader: React.FunctionComponent<
+  React.PropsWithChildren<{
+    course: {
+      title: string
+      square_cover_480_url: string
+      slug: string
+      path: string
+    }
+    currentLessonSlug: string
+  }>
+> = ({course, currentLessonSlug}) => {
   return course ? (
     <div className="flex items-center">
       <div className="relative flex-shrink-0 block w-12 h-12 lg:w-16 lg:h-16 xl:w-20 xl:h-20">

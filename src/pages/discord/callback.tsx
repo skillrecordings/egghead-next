@@ -17,9 +17,9 @@ type CombinedEggheadDiscordUserData = {
   }
 }
 
-const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
-  loginRequired,
-}) => {
+const CallbackPage: FunctionComponent<
+  React.PropsWithChildren<LoginRequiredParams>
+> = ({loginRequired}) => {
   const [syncingAccount, setSyncingAccount] = React.useState(true)
   const [userData, setUserData] =
     React.useState<CombinedEggheadDiscordUserData>({})

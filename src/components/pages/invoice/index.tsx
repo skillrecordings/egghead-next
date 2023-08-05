@@ -9,10 +9,9 @@ type InvoiceProps = {
   transaction: any
 }
 
-const Invoice: React.FunctionComponent<InvoiceProps> = ({
-  viewer,
-  transaction,
-}) => {
+const Invoice: React.FunctionComponent<
+  React.PropsWithChildren<InvoiceProps>
+> = ({viewer, transaction}) => {
   const [invoiceInfo, setInvoiceInfo] = useLocalStorage('invoice-info', '')
   return (
     <div className="max-w-screen-md mx-auto pb-16">

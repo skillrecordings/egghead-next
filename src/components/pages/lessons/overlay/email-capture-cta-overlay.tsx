@@ -9,10 +9,9 @@ type CreateAccountCTAProps = {
   technology: string
 }
 
-const EmailCaptureCtaOverlay: FunctionComponent<CreateAccountCTAProps> = ({
-  lesson,
-  technology,
-}) => {
+const EmailCaptureCtaOverlay: FunctionComponent<
+  React.PropsWithChildren<CreateAccountCTAProps>
+> = ({lesson, technology}) => {
   const {collection} = lesson
 
   return (

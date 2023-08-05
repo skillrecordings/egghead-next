@@ -8,7 +8,9 @@ type AchievementsProps = {
   }
 }
 
-const Achievements: FunctionComponent<AchievementsProps> = ({viewer}) => {
+const Achievements: FunctionComponent<
+  React.PropsWithChildren<AchievementsProps>
+> = ({viewer}) => {
   return (
     <div className="sm:p-5 p-4 bg-white rounded-lg overflow-hidden text-center flex md:flex-row flex-col items-center md:space-x-5 md:space-y-0 space-y-5">
       <div>

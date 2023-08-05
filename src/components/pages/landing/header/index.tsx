@@ -11,10 +11,9 @@ import TechLogos from '../tech-logos'
 import title from 'title'
 import {isMember} from 'utils/is-member'
 
-const Header: React.FC<{topic?: string; customer?: any}> = ({
-  topic,
-  customer,
-}) => {
+const Header: React.FC<
+  React.PropsWithChildren<{topic?: string; customer?: any}>
+> = ({topic, customer}) => {
   const {viewer} = useViewer()
   const {resolvedTheme} = useTheme()
   const [isMounted, setIsMounted] = React.useState(false)

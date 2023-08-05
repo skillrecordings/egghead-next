@@ -7,7 +7,7 @@ type CountdownProps = {
   className?: string
 }
 
-const Countdown: React.FC<CountdownProps> = ({
+const Countdown: React.FC<React.PropsWithChildren<CountdownProps>> = ({
   date,
   className = 'p-5 mt-5 dark:bg-white dark:bg-opacity-5 bg-gray-400 bg-opacity-5 w-full rounded-md relative overflow-hidden after:absolute after:w-full after:h-1 dark:after:bg-yellow-400 after:bg-blue-500 after:left-0 after:bottom-0',
   children,

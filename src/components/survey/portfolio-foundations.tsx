@@ -14,11 +14,13 @@ const question = {
   },
 }
 
-const PortfolioFoundationsCTA: React.FunctionComponent<{
-  className?: any
-  alternative?: JSX.Element
-  variant?: string
-}> = (props) => {
+const PortfolioFoundationsCTA: React.FunctionComponent<
+  React.PropsWithChildren<{
+    className?: any
+    alternative?: JSX.Element
+    variant?: string
+  }>
+> = (props) => {
   return (
     <HeaderButtonCTA
       initialState={{

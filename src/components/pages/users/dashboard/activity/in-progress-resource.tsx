@@ -14,11 +14,9 @@ type InProgressResourceProps = {
   className?: string
 }
 
-const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
-  resource,
-  small = false,
-  className = '',
-}) => {
+const InProgressResource: FunctionComponent<
+  React.PropsWithChildren<InProgressResourceProps>
+> = ({resource, small = false, className = ''}) => {
   if (isEmpty(resource)) {
     return null
   }

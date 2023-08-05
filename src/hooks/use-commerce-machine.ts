@@ -46,7 +46,9 @@ export const useCommerceMachine = (
   const placeholderAnnualPlan = {
     name: 'Yearly',
     interval: 'year',
-    stripe_price_id: null,
+    stripe_price_id: 'NO_PRICE_ID',
+    interval_count: 1,
+    price: 0,
   }
 
   // derived values

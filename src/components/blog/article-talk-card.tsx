@@ -2,7 +2,9 @@ import useSwr from 'swr'
 import {loadLesson} from '../../lib/lessons'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 
-const ArticleTalkCard: React.FC<{talk: any}> = ({talk}) => {
+const ArticleTalkCard: React.FC<React.PropsWithChildren<{talk: any}>> = ({
+  talk,
+}) => {
   const {data} = useSwr(talk, loadLesson)
 
   return data ? (

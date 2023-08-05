@@ -2,10 +2,13 @@ import React from 'react'
 import Link from 'next/link'
 import {connectStats} from 'react-instantsearch-dom'
 
-const NoSearchResultsPlaceholder: React.FC<{
+const NoSearchResultsPlaceholder = ({
+  searchQuery,
+  nbHits,
+}: {
   searchQuery: string
   nbHits: number
-}> = ({searchQuery, nbHits}) => {
+}) => {
   return nbHits ? null : (
     <div className="px-4 w-full flex bg-white border border-gray-300 border-dashed dark:border-gray-600 dark:bg-gray-900 rounded justify-center">
       <div className="py-10 sm:py-20 self-center text-center flex flex-col items-center">

@@ -24,7 +24,7 @@ type Topic = {
   id: string
 }
 
-const InstructorTabContent: React.FC<any> = ({
+const InstructorTabContent: React.FC<React.PropsWithChildren<any>> = ({
   instructors,
   topics,
 }: {

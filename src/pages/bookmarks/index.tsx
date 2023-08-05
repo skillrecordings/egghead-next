@@ -29,9 +29,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
 }
 
-const Bookmarks: React.FunctionComponent<LoginRequiredParams> = ({
-  loginRequired,
-}) => {
+const Bookmarks: React.FunctionComponent<
+  React.PropsWithChildren<LoginRequiredParams>
+> = ({loginRequired}) => {
   const {viewer} = useViewer()
   const [bookmarks, setBookmarks] = React.useState([])
   const [loadingBookmarks, setLoadingBookmarks] = React.useState(true)

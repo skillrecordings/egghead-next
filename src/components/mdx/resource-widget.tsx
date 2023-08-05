@@ -21,16 +21,18 @@ import Link from 'next/link'
 import analytics from 'utils/analytics'
 import {twMerge} from 'tailwind-merge'
 
-const ResourceLink: React.FC<{
-  path: string
-  resource_type: string
-  location: string
-  tag?: any
-  instructor?: string
-  className?: string
-  linkType?: string
-  feature?: string
-}> = ({
+const ResourceLink: React.FC<
+  React.PropsWithChildren<{
+    path: string
+    resource_type: string
+    location: string
+    tag?: any
+    instructor?: string
+    className?: string
+    linkType?: string
+    feature?: string
+  }>
+> = ({
   children,
   path,
   tag,
@@ -70,55 +72,55 @@ const ResourceLink: React.FC<{
   </Link>
 )
 
-export const PreviewImage: React.FC<{title: string; image: any; name: string}> =
-  ({image, name}) => {
-    if (!image) return null
+export const PreviewImage: React.FC<
+  React.PropsWithChildren<{title: string; image: any; name: string}>
+> = ({image, name}) => {
+  if (!image) return null
 
-    const getSize = (name: string) => {
-      switch (name) {
-        case 'lesson':
-          return 40
-        case 'talk':
-          return 80
-        case 'article':
-          return 500
-        default:
-          return 200
-      }
+  const getSize = (name: string) => {
+    switch (name) {
+      case 'lesson':
+        return 40
+      case 'talk':
+        return 80
+      case 'article':
+        return 500
+      default:
+        return 200
     }
-
-    return (
-      <CardPreview
-        className={`relative flex items-center justify-center w-full top-28 ${cx(
-          {
-            'max-w-[40px]': name === 'lesson',
-            'max-w-[80px]': name === 'talk',
-            'xl:max-w-[200px] sm:max-w-[150px] max-w-[100px]':
-              name === 'course',
-          },
-        )}`}
-      >
-        <Image
-          aria-hidden
-          src={get(image, 'src', image)}
-          width={getSize(name)}
-          height={getSize(name)}
-          objectFit={name === 'article' ? 'cover' : 'contain'}
-          quality={100}
-          alt=""
-        />
-      </CardPreview>
-    )
   }
 
-const SquareResourceCard: React.FC<{
-  resource: CardResource
-  location?: string
-  describe?: boolean
-  className?: string
-  completedCoursesIds?: number[]
-  feature?: string
-}> = ({
+  return (
+    <CardPreview
+      className={`relative flex items-center justify-center w-full top-28 ${cx({
+        'max-w-[40px]': name === 'lesson',
+        'max-w-[80px]': name === 'talk',
+        'xl:max-w-[200px] sm:max-w-[150px] max-w-[100px]': name === 'course',
+      })}`}
+    >
+      <Image
+        aria-hidden
+        src={get(image, 'src', image)}
+        width={getSize(name)}
+        height={getSize(name)}
+        objectFit={name === 'article' ? 'cover' : 'contain'}
+        quality={100}
+        alt=""
+      />
+    </CardPreview>
+  )
+}
+
+const SquareResourceCard: React.FC<
+  React.PropsWithChildren<{
+    resource: CardResource
+    location?: string
+    describe?: boolean
+    className?: string
+    completedCoursesIds?: number[]
+    feature?: string
+  }>
+> = ({
   children,
   resource,
   location,
@@ -206,11 +208,13 @@ const SquareResourceCard: React.FC<{
   )
 }
 
-const VerticalResourceCardForWidget: React.FC<{
-  resource: any
-  location?: string
-  className?: string
-}> = ({resource, location, className}: any) => {
+const VerticalResourceCardForWidget: React.FC<
+  React.PropsWithChildren<{
+    resource: any
+    location?: string
+    className?: string
+  }>
+> = ({resource, location, className}: any) => {
   return (
     <div className={twMerge('relative group', className)}>
       {resource?.byline && (
@@ -228,11 +232,13 @@ const VerticalResourceCardForWidget: React.FC<{
   )
 }
 
-const HorizontalResourceCardForWidget: React.FC<{
-  resource: any
-  location?: string
-  className?: string
-}> = ({resource, location, className}: any) => {
+const HorizontalResourceCardForWidget: React.FC<
+  React.PropsWithChildren<{
+    resource: any
+    location?: string
+    className?: string
+  }>
+> = ({resource, location, className}: any) => {
   return (
     <div className={twMerge('relative group', className)}>
       {resource?.byline && (
@@ -250,11 +256,13 @@ const HorizontalResourceCardForWidget: React.FC<{
   )
 }
 
-const ResourceWidget: React.FC<{
-  resource: any
-  cta?: string
-  location?: string
-}> = ({resource, location}: any) => {
+const ResourceWidget: React.FC<
+  React.PropsWithChildren<{
+    resource: any
+    cta?: string
+    location?: string
+  }>
+> = ({resource, location}: any) => {
   const {podcasts, talks, collections, articles} = resource
   return (
     <>

@@ -44,11 +44,13 @@ const features = [
   },
 ]
 
-const FeatureBox: React.FC<{
-  title: React.ReactElement | string
-  description: string
-  topic?: string
-}> = ({title, description, topic}) => {
+const FeatureBox: React.FC<
+  React.PropsWithChildren<{
+    title: React.ReactElement | string
+    description: string
+    topic?: string
+  }>
+> = ({title, description, topic}) => {
   return (
     <div className="dark:bg-gray-800 dark:bg-opacity-70 bg-white shadow-smooth lg:p-10 sm:p-8 p-5 rounded-md flex flex-col items-center justify-center">
       <div className="text-2xl font-bold">{title}</div>
@@ -59,10 +61,9 @@ const FeatureBox: React.FC<{
   )
 }
 
-const Column: React.FC<{features: any; className?: string}> = ({
-  features,
-  className,
-}) => {
+const Column: React.FC<
+  React.PropsWithChildren<{features: any; className?: string}>
+> = ({features, className}) => {
   return (
     <div className={className}>
       {features.map((feature: any) => {
@@ -87,7 +88,9 @@ const Column: React.FC<{features: any; className?: string}> = ({
   )
 }
 
-const MembershipBenefits: React.FC<{topic?: string}> = ({topic}) => {
+const MembershipBenefits: React.FC<
+  React.PropsWithChildren<{topic?: string}>
+> = ({topic}) => {
   return (
     <section
       id="benefits"

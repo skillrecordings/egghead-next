@@ -18,13 +18,9 @@ type RefinementListProps = {
   expand?: boolean
 }
 
-const TagItem: FunctionComponent<RefinementListProps> = ({
-  item,
-  isFromSearch,
-  refine,
-  createURL,
-  tabIndex,
-}) => {
+const TagItem: FunctionComponent<
+  React.PropsWithChildren<RefinementListProps>
+> = ({item, isFromSearch, refine, createURL, tabIndex}) => {
   return (
     <li key={item.label}>
       <a
@@ -62,13 +58,9 @@ const TagItem: FunctionComponent<RefinementListProps> = ({
   )
 }
 
-const InstructorItem: FunctionComponent<RefinementListProps> = ({
-  item,
-  isFromSearch,
-  refine,
-  createURL,
-  tabIndex,
-}) => {
+const InstructorItem: FunctionComponent<
+  React.PropsWithChildren<RefinementListProps>
+> = ({item, isFromSearch, refine, createURL, tabIndex}) => {
   return (
     <li key={item.label}>
       <a
@@ -107,13 +99,14 @@ const InstructorItem: FunctionComponent<RefinementListProps> = ({
   )
 }
 
-const Item: FunctionComponent<RefinementListProps> = ({
+const Item: FunctionComponent<React.PropsWithChildren<RefinementListProps>> = ({
   item,
   isFromSearch,
   refine,
   createURL,
   tabIndex,
 }) => {
+  // @ts-ignore
   return (
     <li key={item.label}>
       <a
@@ -147,6 +140,7 @@ const Item: FunctionComponent<RefinementListProps> = ({
 
           <span className="pl-2">
             {isFromSearch ? (
+              // @ts-ignore
               <Highlight attribute="label" hit={item} />
             ) : (
               item.label
@@ -158,7 +152,7 @@ const Item: FunctionComponent<RefinementListProps> = ({
   )
 }
 
-const RefinementList: FunctionComponent<RefinementListProps> = ({
+const RefinementList = ({
   items,
   isFromSearch,
   refine,
@@ -166,7 +160,7 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
   createURL,
   attribute,
   isShown,
-}) => {
+}: RefinementListProps) => {
   function label(attribute: any) {
     switch (attribute) {
       case '_tags':

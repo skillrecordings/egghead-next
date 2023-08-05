@@ -7,7 +7,10 @@ import {serialize} from 'next-mdx-remote/serialize'
 import {MDXRemote} from 'next-mdx-remote'
 import {withProse} from '../../utils/remark/with-prose'
 
-const OnlinePresenceArticle: React.FC<any> = ({source, title}) => {
+const OnlinePresenceArticle: React.FC<React.PropsWithChildren<any>> = ({
+  source,
+  title,
+}) => {
   return (
     <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3">
       <header>

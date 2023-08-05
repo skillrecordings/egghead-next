@@ -21,11 +21,13 @@ type TagWithVersion = {
   version?: string
 } & Tag
 
-const Tags: React.FC<{
-  tags: Tag[]
-  lessonSlug: string
-  collectionSlug: string
-}> = ({tags, lessonSlug, collectionSlug}) => {
+const Tags: React.FC<
+  React.PropsWithChildren<{
+    tags: Tag[]
+    lessonSlug: string
+    collectionSlug: string
+  }>
+> = ({tags, lessonSlug, collectionSlug}) => {
   const courseDependencies = getDependencies(collectionSlug)
   const dependencies = courseDependencies?.dependencies || {}
 

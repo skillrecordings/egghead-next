@@ -9,7 +9,9 @@ type LandingProps = {
   course: any
 }
 
-const landingPage: FunctionComponent<LandingProps> = () => {
+const landingPage: FunctionComponent<
+  React.PropsWithChildren<LandingProps>
+> = () => {
   const course = {
     id: '418892',
     title: 'Build a Developer Blog with Gatsby',
@@ -289,13 +291,13 @@ type ProjectBriefProps = {
   topic: Topic
   className: any
   pageData?: any
-  CTAComponent?: React.FC
+  CTAComponent?: React.FC<React.PropsWithChildren<unknown>>
   ogImage?: string
   verticalImage?: string
   cardType?: CARD_TYPES
 }
 
-const ProjectBrief: React.FC<ProjectBriefProps> = ({
+const ProjectBrief: React.FC<React.PropsWithChildren<ProjectBriefProps>> = ({
   topic,
   children,
   ogImage,

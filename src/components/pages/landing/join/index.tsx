@@ -4,7 +4,7 @@ import {track} from 'utils/analytics'
 import CreateAccount from '../create-account'
 import title from 'title'
 
-const Join: React.FC<{topic?: string}> = ({topic}) => {
+const Join: React.FC<React.PropsWithChildren<{topic?: string}>> = ({topic}) => {
   return (
     <div className="flex flex-col items-center justify-center">
       {/* <h3 className="text-xl font-medium text-center">Become a member</h3>

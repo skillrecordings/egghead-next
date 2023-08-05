@@ -19,16 +19,18 @@ import Heading from './heading'
 import CheckIcon from 'components/icons/check'
 import cx from 'classnames'
 
-const VerticalResourceCard: React.FC<{
-  resource: CardResource
-  location?: string
-  describe?: boolean
-  className?: string
-  small?: boolean
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
-  completedCoursesIds?: number[]
-  feature?: string
-}> = ({
+const VerticalResourceCard: React.FC<
+  React.PropsWithChildren<{
+    resource: CardResource
+    location?: string
+    describe?: boolean
+    className?: string
+    small?: boolean
+    as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
+    completedCoursesIds?: number[]
+    feature?: string
+  }>
+> = ({
   children,
   resource,
   location,
@@ -133,17 +135,19 @@ const VerticalResourceCard: React.FC<{
   )
 }
 
-export const ResourceLink: React.FC<{
-  path: string
-  resource_type: string
-  location: string
-  tag?: any
-  className?: string
-  instructor?: string
-  linkType?: string
-  target?: '_blank' | '_self'
-  feature?: string
-}> = ({
+export const ResourceLink: React.FC<
+  React.PropsWithChildren<{
+    path: string
+    resource_type: string
+    location: string
+    tag?: any
+    className?: string
+    instructor?: string
+    linkType?: string
+    target?: '_blank' | '_self'
+    feature?: string
+  }>
+> = ({
   children,
   path,
   tag,
@@ -187,12 +191,14 @@ export const ResourceLink: React.FC<{
   </Link>
 )
 
-const PreviewImage: React.FC<{
-  title: string
-  image: any
-  small?: boolean
-  resourceType: string
-}> = ({title, image, small, resourceType}) => {
+const PreviewImage: React.FC<
+  React.PropsWithChildren<{
+    title: string
+    image: any
+    small?: boolean
+    resourceType: string
+  }>
+> = ({title, image, small, resourceType}) => {
   if (!image) return null
 
   return (

@@ -6,11 +6,9 @@ type LayoutProps = {
   noIndex?: boolean
 }
 
-const DefaultLayout: FunctionComponent<LayoutProps> = ({
-  children,
-  meta,
-  noIndex = false,
-}) => {
+const DefaultLayout: FunctionComponent<
+  React.PropsWithChildren<LayoutProps>
+> = ({children, meta, noIndex = false}) => {
   const {
     title,
     description,

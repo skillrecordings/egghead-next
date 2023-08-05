@@ -7,7 +7,7 @@ import toast, {Toaster} from 'react-hot-toast'
 import {trpc} from 'trpc/trpc.client'
 import {SanitySectionType, CuratedHomePageDataType} from 'pages/learn'
 
-const Home: React.FC<any> = ({
+const Home: React.FC<React.PropsWithChildren<any>> = ({
   data,
   jumbotron,
   location,

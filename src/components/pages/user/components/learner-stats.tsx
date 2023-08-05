@@ -9,10 +9,12 @@ type LearnerStatsData = {
   minutesWatched: number
 }
 
-const LearnerStats: React.FC<{
-  learnerStatsData: LearnerStatsData
-  learnerStatsStatus: 'loading' | 'success' | 'error'
-}> = ({learnerStatsData, learnerStatsStatus}) => {
+const LearnerStats: React.FC<
+  React.PropsWithChildren<{
+    learnerStatsData: LearnerStatsData
+    learnerStatsStatus: 'loading' | 'success' | 'error'
+  }>
+> = ({learnerStatsData, learnerStatsStatus}) => {
   return (
     <>
       {learnerStatsStatus === 'loading' ? (

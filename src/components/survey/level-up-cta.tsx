@@ -14,11 +14,13 @@ const question = {
   },
 }
 
-const LevelUpCTA: React.FunctionComponent<{
-  className?: any
-  alternative?: JSX.Element
-  variant?: string
-}> = (props) => {
+const LevelUpCTA: React.FunctionComponent<
+  React.PropsWithChildren<{
+    className?: any
+    alternative?: JSX.Element
+    variant?: string
+  }>
+> = (props) => {
   return (
     <HeaderButtonCTA
       initialState={{

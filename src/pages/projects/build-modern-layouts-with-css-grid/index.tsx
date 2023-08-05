@@ -10,7 +10,9 @@ type LandingProps = {
   course: any
 }
 
-const landingPage: FunctionComponent<LandingProps> = (props) => {
+const landingPage: FunctionComponent<React.PropsWithChildren<LandingProps>> = (
+  props,
+) => {
   const {course} = props
 
   const {

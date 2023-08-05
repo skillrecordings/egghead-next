@@ -1,6 +1,8 @@
 import React, {FunctionComponent} from 'react'
 
-const IconX: FunctionComponent<{className?: string}> = ({className = ''}) => (
+const IconX: FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className = ''}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"

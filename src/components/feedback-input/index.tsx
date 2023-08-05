@@ -21,7 +21,7 @@ type FeedbackCategory = {
   category: string
   label: string
   placeholderText: string
-  supportingInformation: React.ReactFragment | string
+  supportingInformation: React.ReactElement | string
   buttonText: string
 }
 
@@ -181,7 +181,7 @@ type FeedbackProps = {
   user: any
 }
 
-const Feedback: FunctionComponent<FeedbackProps> = ({
+const Feedback: FunctionComponent<React.PropsWithChildren<FeedbackProps>> = ({
   className,
   children,
   user,
@@ -267,7 +267,9 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
     return EMOJI_CODES.get(code)
   }
 
-  const Emoji: FunctionComponent<{code: any}> = ({code}) => getEmoji(code)
+  const Emoji: FunctionComponent<React.PropsWithChildren<{code: any}>> = ({
+    code,
+  }) => getEmoji(code)
 
   return (
     <>
@@ -413,7 +415,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                         </div>
                         <ErrorMessage
                           name="feedback"
-                          render={(msg) => (
+                          render={(msg: any) => (
                             <div className="mt-4 flex items-start bg-orange-100 dark:bg-gray-800 rounded">
                               <div className="py-4 px-6 flex items-center text-black dark:text-gray-200">
                                 {msg}

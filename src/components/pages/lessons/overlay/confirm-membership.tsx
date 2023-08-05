@@ -33,7 +33,7 @@ const Illustration = () => (
   </div>
 )
 
-const Heading: React.FC = ({children}) => {
+const Heading: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   return (
     <h1 className="text-xl font-medium leading-tight text-center sm:leading-tighter sm:text-2xl">
       {children}
@@ -41,11 +41,16 @@ const Heading: React.FC = ({children}) => {
   )
 }
 
-const PrimaryMessage: React.FC = ({children}) => {
+const PrimaryMessage: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   return <div className="max-w-md">{children}</div>
 }
 
-const Header: React.FC<HeaderProps> = ({heading, primaryMessage}) => {
+const Header: React.FC<React.PropsWithChildren<HeaderProps>> = ({
+  heading,
+  primaryMessage,
+}) => {
   return (
     <header className="flex flex-col items-center justify-center w-full h-full p-5">
       <div className="flex flex-col items-center justify-center space-y-6">
@@ -57,7 +62,9 @@ const Header: React.FC<HeaderProps> = ({heading, primaryMessage}) => {
   )
 }
 
-const IconMail: React.FC<{className: string}> = ({className}) => {
+const IconMail: React.FC<React.PropsWithChildren<{className: string}>> = ({
+  className,
+}) => {
   return (
     <div className={className}>
       <svg
@@ -82,7 +89,7 @@ const IconMail: React.FC<{className: string}> = ({className}) => {
   )
 }
 
-const Callout: React.FC = ({children}) => {
+const Callout: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   return (
     <div className="inline-flex items-center w-full p-4 mb-5 space-x-3 border border-gray-200 rounded-lg sm:p-5">
       {children}
@@ -90,11 +97,13 @@ const Callout: React.FC = ({children}) => {
   )
 }
 
-const ExistingMemberConfirmation: React.FC<{
-  session: any
-  viewLesson: Function
-  lesson: LessonResource
-}> = ({session, viewLesson, lesson}) => {
+const ExistingMemberConfirmation: React.FC<
+  React.PropsWithChildren<{
+    session: any
+    viewLesson: Function
+    lesson: LessonResource
+  }>
+> = ({session, viewLesson, lesson}) => {
   return (
     <>
       <Header
@@ -129,12 +138,14 @@ const ExistingMemberConfirmation: React.FC<{
   )
 }
 
-const NewMemberConfirmation: React.FC<{
-  session: any
-  currentState: any
-  viewLesson: Function
-  lesson: LessonResource
-}> = ({session, currentState, viewLesson, lesson}) => {
+const NewMemberConfirmation: React.FC<
+  React.PropsWithChildren<{
+    session: any
+    currentState: any
+    viewLesson: Function
+    lesson: LessonResource
+  }>
+> = ({session, currentState, viewLesson, lesson}) => {
   return (
     <Header
       heading={<>Thank you so much for joining egghead! </>}
@@ -165,7 +176,7 @@ const NewMemberConfirmation: React.FC<{
   )
 }
 
-const LoadingSession: React.FC<{}> = () => {
+const LoadingSession: React.FC<React.PropsWithChildren<{}>> = () => {
   return (
     <Header
       heading={<>Thank you so much for joining egghead! </>}
@@ -209,11 +220,9 @@ const NoSessionFound = () => {
   )
 }
 
-const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
-  lesson,
-  sessionId,
-  viewLesson,
-}) => {
+const ConfirmMembership: React.FC<
+  React.PropsWithChildren<ConfirmMembershipProps>
+> = ({lesson, sessionId, viewLesson}) => {
   const router = useRouter()
   const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
   const [session, setSession] = React.useState<any>()

@@ -6,10 +6,9 @@ export type LoginRequiredParams = {
   loginRequired?: boolean
 }
 
-const LoginRequired: FunctionComponent<LoginRequiredParams> = ({
-  children,
-  loginRequired = false,
-}) => {
+const LoginRequired: FunctionComponent<
+  React.PropsWithChildren<LoginRequiredParams>
+> = ({children, loginRequired = false}) => {
   const [mounted, setMounted] = React.useState<boolean>(false)
   const token = getAccessTokenFromCookie()
   loginRequired = loginRequired || !token

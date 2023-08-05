@@ -11,7 +11,7 @@ const loginSchema = yup.object().shape({
 })
 
 type LoginFormProps = {
-  HeaderImageComponent?: React.FC
+  HeaderImageComponent?: React.FC<React.PropsWithChildren<unknown>>
   className?: string
   button?: string
   label?: string
@@ -20,7 +20,7 @@ type LoginFormProps = {
   onSubmit: (value: any, setIsError: any) => void
 }
 
-const EmailForm: FunctionComponent<LoginFormProps> = ({
+const EmailForm: FunctionComponent<React.PropsWithChildren<LoginFormProps>> = ({
   HeaderImageComponent,
   className,
   children,
@@ -171,7 +171,9 @@ const EmailForm: FunctionComponent<LoginFormProps> = ({
   )
 }
 
-const TopicInterestEmailEntryForm: React.FC<{topic: string}> = ({topic}) => {
+const TopicInterestEmailEntryForm: React.FC<
+  React.PropsWithChildren<{topic: string}>
+> = ({topic}) => {
   const router = useRouter()
   const slug = router.query.slug as string
   const {subscriber, cioIdentify} = useCio()

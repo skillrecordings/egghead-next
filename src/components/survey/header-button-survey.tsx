@@ -6,9 +6,9 @@ import Markdown from 'react-markdown'
 import {SurveyQuestion, surveyReducer, SurveyState} from './survey-reducer'
 import {HeaderButtonShapedLink} from 'components/app/header/header-button-shaped-link'
 
-const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
-  question,
-}) => {
+const QuestionHeading: React.FunctionComponent<
+  React.PropsWithChildren<{question: SurveyQuestion}>
+> = ({question}) => {
   return (
     <>
       <h2 className="text-xl mb-3 font-bold dark:text-gray-100 text-gray-700">
@@ -29,7 +29,7 @@ type HeaderButtonProps = {
   variant?: string
 }
 
-const HeaderButtonCTA: React.FC<HeaderButtonProps> = ({
+const HeaderButtonCTA: React.FC<React.PropsWithChildren<HeaderButtonProps>> = ({
   subscriberRequired = false,
   initialState,
   className,

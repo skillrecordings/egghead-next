@@ -6,10 +6,9 @@ type CustomStatsProps = {
   searchQuery: string
 }
 
-const CustomStats: React.FunctionComponent<CustomStatsProps> = ({
-  nbHits,
-  searchQuery,
-}) => {
+const CustomStats: React.FunctionComponent<
+  React.PropsWithChildren<CustomStatsProps>
+> = ({nbHits, searchQuery}) => {
   return !searchQuery || /^\s*$/.test(searchQuery) ? (
     <div />
   ) : (

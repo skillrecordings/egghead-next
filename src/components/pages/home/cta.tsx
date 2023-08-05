@@ -16,7 +16,7 @@ type HeaderProps = {
   }
 }
 
-const CTA: FunctionComponent<HeaderProps> = ({
+const CTA: FunctionComponent<React.PropsWithChildren<HeaderProps>> = ({
   heading = `Expert Led Courses for Professional Front-End Web Developers`,
   subheading = `learn modern frameworks, libraries, and tools to build real-world projects and improve your public body of work to shine as a professional web developer`,
   primaryCta = {label: 'Create an account', url: '/login'},

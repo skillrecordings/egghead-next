@@ -3,7 +3,7 @@ import {ResourceLink} from 'components/card/new-vertical-resource-card'
 import Image from 'next/image'
 import PlayIcon from 'components/pages/courses/play-icon'
 
-const Jumbotron: React.FC<any> = ({data}) => {
+const Jumbotron: React.FC<React.PropsWithChildren<any>> = ({data}) => {
   const resource = data.resources[0]
   return (
     <div>

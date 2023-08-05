@@ -14,7 +14,7 @@ export default function SearchDanAbramov({instructor}: {instructor: any}) {
 
   const featureCourses: any = find(DanAbramovPageData, {id: 'feature-courses'})
 
-  const JustJavaScriptCTA: React.FC = () => (
+  const JustJavaScriptCTA: React.FC<React.PropsWithChildren<unknown>> = () => (
     <ExternalTrackedLink
       params={{
         location: instructorData.location,

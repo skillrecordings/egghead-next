@@ -10,7 +10,7 @@ type CodeBlockProps = {
   metastring: string
 }
 
-const CodeBlock: FunctionComponent<CodeBlockProps> = ({
+const CodeBlock: FunctionComponent<React.PropsWithChildren<CodeBlockProps>> = ({
   language,
   metastring,
   children,
@@ -110,18 +110,23 @@ const CodeBlock: FunctionComponent<CodeBlockProps> = ({
 
 export default CodeBlock
 
-const Line: FunctionComponent<{highlight?: boolean}> = ({
-  highlight,
-  children,
-}) => <div className={highlight ? 'bg-gray-700' : ''}>{children}</div>
+const Line: FunctionComponent<
+  React.PropsWithChildren<{highlight?: boolean}>
+> = ({highlight, children}) => (
+  <div className={highlight ? 'bg-gray-700' : ''}>{children}</div>
+)
 
-const Number: FunctionComponent = ({children}) => (
+const Number: FunctionComponent<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => (
   <span className="line-number opacity-50 text-xs w-7 inline-block select-none pointer-events-none">
     {children}
   </span>
 )
 
-const CopyToClipboard: FunctionComponent<{code: string}> = ({code}) => {
+const CopyToClipboard: FunctionComponent<
+  React.PropsWithChildren<{code: string}>
+> = ({code}) => {
   const [isCopied, setCopied] = useClipboard(code, {successDuration: 1000})
   return (
     <button

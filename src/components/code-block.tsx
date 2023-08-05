@@ -9,7 +9,10 @@ type CodeBlockProps = {
   value: string
 }
 
-const CodeBlock: FunctionComponent<CodeBlockProps> = ({language, value}) => {
+const CodeBlock: FunctionComponent<React.PropsWithChildren<CodeBlockProps>> = ({
+  language,
+  value,
+}) => {
   return value ? (
     <Highlight {...defaultProps} code={value} language={language} theme={theme}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (

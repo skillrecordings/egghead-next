@@ -10,7 +10,7 @@ type CardProps = {
   byline?: string
 }
 
-const Card: FunctionComponent<CardProps> = ({
+const Card: FunctionComponent<React.PropsWithChildren<CardProps>> = ({
   children,
   title,
   description,

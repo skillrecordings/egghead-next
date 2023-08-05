@@ -25,7 +25,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
 }
 
-const InvoicePage: React.FunctionComponent<any> = ({transactionId}) => {
+const InvoicePage: React.FunctionComponent<React.PropsWithChildren<any>> = ({
+  transactionId,
+}) => {
   const all = useRouter()
   console.debug(all)
   const [transaction, setTransaction] = React.useState()

@@ -2,9 +2,9 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import useClipboard from 'react-use-clipboard'
 
-const IconLink: FunctionComponent<{className?: string}> = ({
-  className = '',
-}) => (
+const IconLink: FunctionComponent<
+  React.PropsWithChildren<{className?: string}>
+> = ({className = ''}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -21,11 +21,13 @@ const IconLink: FunctionComponent<{className?: string}> = ({
   </svg>
 )
 
-const CopyToClipboard: FunctionComponent<{
-  stringToCopy: string
-  className?: string
-  label?: boolean
-}> = ({stringToCopy = '', className = '', label = false}) => {
+const CopyToClipboard: FunctionComponent<
+  React.PropsWithChildren<{
+    stringToCopy: string
+    className?: string
+    label?: boolean
+  }>
+> = ({stringToCopy = '', className = '', label = false}) => {
   const [isCopied, setCopied] = useClipboard(stringToCopy, {
     successDuration: 1000,
   })

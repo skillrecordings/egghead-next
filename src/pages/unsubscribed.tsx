@@ -22,7 +22,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
 }
 
-const Unsubscribed: React.FunctionComponent<{from: string}> = ({from}) => {
+const Unsubscribed: React.FunctionComponent<
+  React.PropsWithChildren<{from: string}>
+> = ({from}) => {
   const {subscriber, cioIdentify} = useCio()
   const subscriberId = subscriber?.id
 

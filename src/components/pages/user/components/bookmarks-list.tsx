@@ -14,7 +14,7 @@ import Eggo from 'components/icons/eggo'
 import Spinner from 'components/spinner'
 import {trpc} from 'trpc/trpc.client'
 
-const Bookmark: React.FunctionComponent<any> = ({
+const Bookmark: React.FunctionComponent<React.PropsWithChildren<any>> = ({
   bookmark,
   bookmarks,
   setBookmarks,
@@ -104,7 +104,9 @@ const Bookmark: React.FunctionComponent<any> = ({
   )
 }
 
-const BookmarksList: React.FunctionComponent<LoginRequiredParams> = () => {
+const BookmarksList: React.FunctionComponent<
+  React.PropsWithChildren<LoginRequiredParams>
+> = () => {
   const {viewer} = useViewer()
   const [bookmarks, setBookmarks] = React.useState([])
   const [loadingBookmarks, setLoadingBookmarks] = React.useState(true)

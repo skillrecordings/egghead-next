@@ -83,7 +83,9 @@ const SearchNext = ({topic}: any) => {
   )
 }
 
-const EcommerceCTA: React.FC<{location: string}> = ({location}) => {
+const EcommerceCTA: React.FC<React.PropsWithChildren<{location: string}>> = ({
+  location,
+}) => {
   const resource: CardResource = {
     slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
     id: 'portfolioProject',

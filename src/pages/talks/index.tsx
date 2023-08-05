@@ -6,7 +6,7 @@ import {sanityClient} from 'utils/sanity-client'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
 
-const Talks: React.FC = ({allTalks}: any) => {
+const Talks: React.FC<React.PropsWithChildren<unknown>> = ({allTalks}: any) => {
   const router = useRouter()
 
   return (

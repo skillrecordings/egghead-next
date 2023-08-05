@@ -5,11 +5,13 @@ import {track} from '../../utils/analytics'
 import Image from 'next/image'
 import * as React from 'react'
 
-const TagList: FunctionComponent<{
-  tags: any
-  courseSlug: string
-  className?: string
-}> = ({
+const TagList: FunctionComponent<
+  React.PropsWithChildren<{
+    tags: any
+    courseSlug: string
+    className?: string
+  }>
+> = ({
   tags,
   courseSlug,
   className = 'flex justify-center md:justify-start flex-wrap items-center',

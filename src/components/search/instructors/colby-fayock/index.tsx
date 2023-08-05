@@ -12,7 +12,7 @@ export default function SearchColbyFayock({instructor}: {instructor: any}) {
 
   const featureCourses: any = find(pageData, {id: 'feature-courses'})
 
-  const EcommerceCTA: React.FC = () => {
+  const EcommerceCTA: React.FC<React.PropsWithChildren<unknown>> = () => {
     const resource = {
       slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
       id: 'portfolioProject',

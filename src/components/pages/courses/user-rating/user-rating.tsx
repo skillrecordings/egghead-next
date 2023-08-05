@@ -1,10 +1,12 @@
 import * as React from 'react'
 
-const UserRating: React.FunctionComponent<{
-  className?: string
-  rating: number
-  count: number
-}> = ({className, rating, count, children}) => {
+const UserRating: React.FunctionComponent<
+  React.PropsWithChildren<{
+    className?: string
+    rating: number
+    count: number
+  }>
+> = ({className, rating, count, children}) => {
   return (
     <div className={`${className ? className : ''}`}>
       {/* TODO: Stars

@@ -32,7 +32,9 @@ type FormikValues = {
   email: string
 }
 
-const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
+const GoProCtaOverlay: FunctionComponent<
+  React.PropsWithChildren<JoinCTAProps>
+> = ({lesson}) => {
   // useRouter's `asPath` can include query params, so using
   // `window.location.pathname` instead.
   const cleanPath = window?.location?.pathname
@@ -287,10 +289,9 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   )
 }
 
-const OverlayParent: FunctionComponent<JoinCTAProps> = ({
-  viewLesson = noop,
-  lesson,
-}) => {
+const OverlayParent: FunctionComponent<
+  React.PropsWithChildren<JoinCTAProps>
+> = ({viewLesson = noop, lesson}) => {
   const {query} = useRouter()
 
   const {session_id} = query

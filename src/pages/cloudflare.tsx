@@ -15,10 +15,9 @@ import {useRouter} from 'next/router'
 
 const CASE_STUDY_SLUG = 'cloudflare'
 
-const CloudflarePage: React.FC<{caseStudy: CaseStudyResource; source: any}> = ({
-  caseStudy,
-  source,
-}) => {
+const CloudflarePage: React.FC<
+  React.PropsWithChildren<{caseStudy: CaseStudyResource; source: any}>
+> = ({caseStudy, source}) => {
   const {title, subTitle, publishedAt, resources, seo} = caseStudy
   const router = useRouter()
 
@@ -112,7 +111,7 @@ const CloudflarePage: React.FC<{caseStudy: CaseStudyResource; source: any}> = ({
   )
 }
 
-const Blockquote: React.FC = ({children}) => {
+const Blockquote: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   return (
     <blockquote className="not-prose p-5 dark:border-gray-700 border-gray-300 border-l-[3px] dark:bg-gray-800 bg-gray-100 dark:text-gray-200 text-gray-800 relative not-italic font-normal">
       <div className="absolute -right-3 -top-3 w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center">
@@ -132,7 +131,9 @@ const Blockquote: React.FC = ({children}) => {
   )
 }
 
-const CourseWidget: React.FC<{course: any; cta?: string}> = ({course, cta}) => {
+const CourseWidget: React.FC<
+  React.PropsWithChildren<{course: any; cta?: string}>
+> = ({course, cta}) => {
   const {title, path, lessons, instructor, duration, image_thumb_url} = course
   return (
     <div className="sm:grid grid-cols-2 dark:bg-gray-1000 bg-gray-100 bg-opacity-80 dark:bg-opacity-100 rounded-lg overflow-hidden">

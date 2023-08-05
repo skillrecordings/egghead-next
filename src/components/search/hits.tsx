@@ -19,7 +19,7 @@ type CustomHitsProps = {
   hits: any[]
 }
 
-const CustomHits: FunctionComponent<CustomHitsProps> = ({hits}) => {
+const CustomHits = ({hits}: CustomHitsProps) => {
   const {viewer} = useViewer()
   const viewerId = viewer?.id
   const {data: completeCourseData} = useUserCompletedCourses(viewerId)

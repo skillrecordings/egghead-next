@@ -17,13 +17,9 @@ type CommentProps = {
   }
 }
 
-const Comment: React.FunctionComponent<CommentProps> = ({
-  comment,
-  state,
-  createdAt,
-  isCommentableOwner,
-  user,
-}: CommentProps) => {
+const Comment: React.FunctionComponent<
+  React.PropsWithChildren<CommentProps>
+> = ({comment, state, createdAt, isCommentableOwner, user}: CommentProps) => {
   if (state === 'hidden') {
     return null
   }

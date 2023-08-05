@@ -1,10 +1,12 @@
 import * as React from 'react'
 import cx from 'classnames'
 
-const OverlayWrapper: React.FC<{
-  children: React.ReactNode
-  className?: string
-}> = ({children, className}) => {
+const OverlayWrapper: React.FC<
+  React.PropsWithChildren<{
+    children: React.ReactNode
+    className?: string
+  }>
+> = ({children, className}) => {
   return (
     <div
       className={cx(

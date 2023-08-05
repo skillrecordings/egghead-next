@@ -7,12 +7,14 @@ import {useRouter} from 'next/router'
 import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 import analytics from 'utils/analytics'
 
-const WatchNextLessonCtaOverlay: React.FunctionComponent<{
-  lesson: any
-  nextLesson: any
-  ctaContent?: any
-  onClickRewatch?: () => void
-}> = ({lesson, nextLesson, onClickRewatch = noop, ctaContent}) => {
+const WatchNextLessonCtaOverlay: React.FunctionComponent<
+  React.PropsWithChildren<{
+    lesson: any
+    nextLesson: any
+    ctaContent?: any
+    onClickRewatch?: () => void
+  }>
+> = ({lesson, nextLesson, onClickRewatch = noop, ctaContent}) => {
   const [collapsed, setCollapsed] = React.useState<boolean>(false)
   const courseImage = lesson?.collection?.square_cover_480_url
 
@@ -119,9 +121,9 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
 
 export default WatchNextLessonCtaOverlay
 
-const IconPlay: React.FunctionComponent<{className: string}> = ({
-  className = '',
-}) => (
+const IconPlay: React.FunctionComponent<
+  React.PropsWithChildren<{className: string}>
+> = ({className = ''}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
@@ -136,9 +138,9 @@ const IconPlay: React.FunctionComponent<{className: string}> = ({
   </svg>
 )
 
-const IconRefresh: React.FunctionComponent<{className: string}> = ({
-  className = '',
-}) => (
+const IconRefresh: React.FunctionComponent<
+  React.PropsWithChildren<{className: string}>
+> = ({className = ''}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
