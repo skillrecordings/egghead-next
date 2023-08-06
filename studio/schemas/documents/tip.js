@@ -31,6 +31,22 @@ export default {
       },
     },
     {
+      title: 'Status',
+      name: 'state',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'new',
+      options: {
+        list: [
+          {title: 'new', value: 'new'},
+          {title: 'processing', value: 'processing'},
+          {title: 'reviewing', value: 'reviewing'},
+          {title: 'published', value: 'published'},
+          {title: 'retired', value: 'retired'},
+        ],
+      },
+    },
+    {
       name: 'resources',
       description:
         'Attach a resource to this lesson (Video, Audio, Text, etc.)',
@@ -45,11 +61,22 @@ export default {
       ],
     },
     {
-      name: 'description',
+      name: 'body',
       type: 'markdown',
+      title: 'Body',
+      description: 'Full markdown text version of Tip',
+    },
+    {
+      name: 'description',
+      type: 'text',
       title: 'Description',
       description:
-        'This can be used to provide a short description of the lesson.',
+        'This can be used to provide a short description of the lesson. SEO, etc',
+    },
+    {
+      name: 'summary',
+      type: 'markdown',
+      title: 'Summary',
     },
     {
       name: 'repoUrl',

@@ -15,16 +15,6 @@ export const TipSchema = z.object({
   summary: z.string().optional().nullable(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   state: z.enum(['new', 'processing', 'reviewing', 'published', 'retired']),
-  sandpack: z
-    .array(
-      z.object({
-        file: z.string(),
-        code: z.string(),
-        active: z.boolean(),
-      }),
-    )
-    .optional()
-    .nullable(),
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
