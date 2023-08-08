@@ -57,12 +57,7 @@ const serializeMDX = async (
       mdxOptions: {
         useDynamicImport: true,
         rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}]],
-        remarkPlugins: [
-          [
-            shikiRemotePlugin,
-            syntaxHighlighterOptions satisfies ShikiRemotePluginOptions,
-          ],
-        ],
+        remarkPlugins: [[shikiRemotePlugin, syntaxHighlighterOptions]],
       },
     })
     return mdxContent

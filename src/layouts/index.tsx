@@ -4,11 +4,10 @@ import {NextSeo} from 'next-seo'
 type LayoutProps = {
   meta: any
   noIndex?: boolean
+  children?: React.ReactNode
 }
 
-const DefaultLayout: FunctionComponent<
-  React.PropsWithChildren<LayoutProps>
-> = ({children, meta, noIndex = false}) => {
+const DefaultLayout = ({children, meta, noIndex = false}: LayoutProps) => {
   const {
     title,
     description,

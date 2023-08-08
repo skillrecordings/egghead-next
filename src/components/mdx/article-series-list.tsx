@@ -2,13 +2,7 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import cx from 'classnames'
 
-const ArticleSeriesList: React.FC<
-  React.PropsWithChildren<{
-    resource: any
-    cta?: string
-    location?: string
-  }>
-> = ({resource, location}: any) => {
+const ArticleSeriesList = ({resource, location}: any) => {
   const {articles} = resource
   const router = useRouter()
 

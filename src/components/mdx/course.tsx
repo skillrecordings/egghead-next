@@ -1,7 +1,6 @@
 import * as React from 'react'
 import useSWR from 'swr'
 import Link from 'next/link'
-import {FunctionComponent} from 'react'
 import {track} from 'utils/analytics'
 import {loadCourse} from 'lib/courses'
 
@@ -9,9 +8,7 @@ type CourseWidgetProps = {
   slug: string
 }
 
-const CourseWidget: FunctionComponent<
-  React.PropsWithChildren<CourseWidgetProps>
-> = ({slug}) => {
+const CourseWidget = ({slug}: CourseWidgetProps): React.ReactElement => {
   const {data} = useSWR(slug, loadCourse)
 
   return data?.path ? (
@@ -48,7 +45,9 @@ const CourseWidget: FunctionComponent<
         </a>
       </Link>{' '}
     </section>
-  ) : null
+  ) : (
+    <div></div>
+  )
 }
 
 export default CourseWidget

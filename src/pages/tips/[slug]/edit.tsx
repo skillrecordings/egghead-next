@@ -7,8 +7,25 @@ import {useRouter} from 'next/router'
 import {trpc} from 'trpc/trpc.client'
 import Layout from 'components/app/layout'
 import cn from 'classnames'
-import {type Tip} from 'lib/tips'
+import {getTip, type Tip} from 'lib/tips'
 import {RxPlus, RxPencil1, RxEyeOpen} from 'react-icons/rx'
+import {GetServerSideProps} from 'next'
+
+export const getServerSideProps: GetServerSideProps = async function ({query}) {
+  const tip = await getTip(query?.tip as string)
+
+  if (!tip) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      tip,
+    },
+  }
+}
 
 const EditTip = ({slug}: {slug?: string}) => {
   const router = useRouter()
