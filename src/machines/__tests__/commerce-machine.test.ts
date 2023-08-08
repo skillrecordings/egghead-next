@@ -148,7 +148,6 @@ test('it transitions to pricesLoaded after fetching pricing data', (done) => {
   const commerceService = interpret(mockedCommerceMachine).onTransition(
     (state) => {
       if (state.matches('pricesLoaded')) {
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(mockedFunc).toHaveBeenCalled()
         done()
       }
@@ -217,7 +216,6 @@ test('it recognizes an applied default coupon', (done) => {
   const commerceService = interpret(mockedCommerceMachine).onTransition(
     (state) => {
       if (state.matches({pricesLoaded: 'withDefaultCoupon'})) {
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(state.context.couponToApply?.couponCode).toEqual('QJVIXHB6')
         done()
       }
@@ -243,7 +241,6 @@ test('it switches price', (done) => {
       if (state.matches({pricesLoaded: 'withoutCoupon'})) {
         if (!sendOnce) {
           // the priceId has to be manually set, so it will start as undefined
-          // eslint-disable-next-line jest/no-conditional-expect
           expect(state.context.priceId).toEqual(undefined)
 
           // switch the price to monthly
@@ -254,7 +251,6 @@ test('it switches price', (done) => {
 
           sendOnce = true
         } else {
-          // eslint-disable-next-line jest/no-conditional-expect
           expect(state.context.priceId).toEqual('price_monthly_id')
           done()
         }
@@ -288,9 +284,7 @@ test('it refetches prices when quantity changes', (done) => {
           sendOnce = true
         } else {
           // first called with 1, then called with 10
-          // eslint-disable-next-line jest/no-conditional-expect
           expect(mockedFunc).toHaveBeenNthCalledWith(1, 1)
-          // eslint-disable-next-line jest/no-conditional-expect
           expect(mockedFunc).toHaveBeenNthCalledWith(2, 10)
 
           done()
