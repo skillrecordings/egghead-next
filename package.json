@@ -54,7 +54,10 @@
     "@sanity/client": "^2.15.0",
     "@sanity/image-url": "^0.140.22",
     "@sanity/webhook": "^2.0.0",
+    "@skillrecordings/commerce-server": "^1.0.0",
+    "@skillrecordings/database": "^1.0.1",
     "@skillrecordings/player": "^1.1.0",
+    "@skillrecordings/stripe-sdk": "^1.0.1",
     "@stripe/react-stripe-js": "^1.4.1",
     "@stripe/stripe-js": "^1.17.1",
     "@supabase/supabase-js": "^1.21.0",
@@ -286,5 +289,9 @@
     "exclude": [
       "pages/api/__coverage__.js"
     ]
+  },
+  "resolutions": {
+    "@skillrecordings/database": "^1.0.1",
+    "@skillrecordings/stripe-sdk": "^1.0.1"
   }
 }
