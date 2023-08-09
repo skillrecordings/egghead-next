@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {sanityClient} from 'utils/sanity-client'
 import friendlyTime from 'friendly-time'
 import {allArticlesQuery} from 'lib/articles'

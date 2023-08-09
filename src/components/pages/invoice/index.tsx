@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Eggo from '../../images/eggo.svg'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {useLocalStorage} from 'react-use'
 import {format} from 'date-fns'
 

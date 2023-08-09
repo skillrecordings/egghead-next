@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import axios from 'utils/configured-axios'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import analytics from 'utils/analytics'
 
 const Topics: React.FC<React.PropsWithChildren<{data: any}>> = ({data}) => {

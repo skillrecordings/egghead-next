@@ -1,6 +1,6 @@
 import * as React from 'react'
 import MultipleChoiceQuestion from './questions/multiple-choice-question'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import MultiLine from './questions/multi-line'
 import Markdown from 'react-markdown'

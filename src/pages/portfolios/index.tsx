@@ -1,7 +1,7 @@
 import * as React from 'react'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {sortBy} from 'lodash'

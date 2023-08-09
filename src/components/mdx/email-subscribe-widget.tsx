@@ -1,5 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {Formik, Field, Form} from 'formik'
 import {trpc} from 'trpc/trpc.client'
 import emailIsValid from 'utils/email-is-valid'

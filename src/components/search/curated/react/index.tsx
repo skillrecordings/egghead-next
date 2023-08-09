@@ -1,7 +1,7 @@
 import React from 'react'
 import {NextSeo} from 'next-seo'
 import {find, get} from 'lodash'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import groq from 'groq'
 import Topic from '../../components/topic'
 import reactPageData from './react-page-data'

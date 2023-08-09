@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {ResourceLink} from 'components/card/new-vertical-resource-card'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import PlayIcon from 'components/pages/courses/play-icon'
 
 const Jumbotron: React.FC<React.PropsWithChildren<any>> = ({data}) => {

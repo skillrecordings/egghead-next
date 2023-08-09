@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Markdown from 'react-markdown'
 import toast from 'react-hot-toast'
 import InstructorProfile from 'components/pages/courses/instructor-profile'

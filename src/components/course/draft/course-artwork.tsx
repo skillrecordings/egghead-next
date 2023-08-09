@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {track} from 'utils/analytics/track'
 
 export const CourseArtwork: React.FunctionComponent<

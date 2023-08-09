@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Markdown from 'react-markdown'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 type TestimonialsProps = {
   testimonials: {

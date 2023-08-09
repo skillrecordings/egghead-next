@@ -2,7 +2,7 @@ import {FunctionComponent} from 'react'
 import {isEmpty} from 'lodash'
 import Link from 'next/link'
 import {track} from '../../utils/analytics'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import * as React from 'react'
 
 const TagList: FunctionComponent<

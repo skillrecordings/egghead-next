@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 const Course: React.FC<
   React.PropsWithChildren<{

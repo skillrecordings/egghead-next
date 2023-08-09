@@ -1,5 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import typescriptPageData from './typescript-page-data'
 import SearchCuratedEssential from '../curated-essential'

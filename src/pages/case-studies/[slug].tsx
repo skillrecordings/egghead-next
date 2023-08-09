@@ -1,7 +1,7 @@
 import * as React from 'react'
 import groq from 'groq'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
 import {MDXRemote} from 'next-mdx-remote'

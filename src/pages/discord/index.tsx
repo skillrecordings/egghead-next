@@ -6,7 +6,7 @@ import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import {useViewer} from 'context/viewer-context'
 import get from 'lodash/get'
 import Eggo from 'components/icons/eggo'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {Viewer} from 'types'
 
 const DiscordPage: React.FC<React.PropsWithChildren<LoginRequiredParams>> = ({

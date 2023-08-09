@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Markdown from 'react-markdown'
 import Eggo from '../../../components/images/eggo.svg'
 import removeMarkdown from 'remove-markdown'

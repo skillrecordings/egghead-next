@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {createNamedContext} from '@reach/utils/context'
 import {useId} from '@reach/auto-id'
 import type * as Polymorphic from '@reach/utils/polymorphic'
