@@ -70,15 +70,17 @@ const CaseStudy = (props: CaseStudyResource) => {
   const {
     title = 'Missing title',
     author = {name: 'Unknown Author'},
-    seo = {},
+    seo: originalSEO = {},
     coverImage,
     source,
   } = props
 
+  const seo = originalSEO ? originalSEO : {}
+
   const router = useRouter()
 
   const url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL + router.asPath
-  const canonicalUrl = seo.canonicalUrl ? seo.canonicalUrl : url
+  const canonicalUrl = seo?.canonicalUrl ? seo.canonicalUrl : url
 
   return (
     <>
