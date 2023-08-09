@@ -23,7 +23,7 @@ const HorizontalCourseCard: React.FC<
   }>
 > = ({course, className = '', location = ''}) => {
   return (
-    <Link href={course.path}>
+    <Link href={course.path} legacyBehavior>
       <div
         onClick={() => {
           console.log('track')
@@ -105,7 +105,7 @@ const CssChallengeCard = ({
   }
 
   return (
-    <Link href={challenge.eggheadPath}>
+    <Link href={challenge.eggheadPath} legacyBehavior>
       <div
         className="flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center p-8 group bg-blue-500 hover:shadow-none transition-all shadow-smooth hover:bg-blue-600 w-fit rounded h-fit mb-4 cursor-pointer"
         onClick={() =>
@@ -189,7 +189,7 @@ const CssChallengeCardFull = ({
   }
 
   return (
-    <Link href={challenge.eggheadPath}>
+    <Link href={challenge.eggheadPath} legacyBehavior>
       <div
         className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mt-4"
         onClick={() =>

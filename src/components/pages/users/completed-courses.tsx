@@ -110,29 +110,31 @@ const CompletedCourses: React.FC<
                 key={collection.slug}
                 className="flex border-b border-gray-200 dark:border-gray-800 py-3 items-center space-x-2 pr-3"
               >
-                <Link href={collection?.path || '/'}>
-                  <a className="blok shrink-0 w-8 h-8 relative">
-                    {collection?.image ? (
-                      <Image
-                        src={collection.image}
-                        alt=""
-                        objectFit="contain"
-                        layout="fill"
-                      />
-                    ) : (
-                      <Eggo className="w-8" />
-                    )}
-                  </a>
+                <Link
+                  href={collection?.path || '/'}
+                  className="blok shrink-0 w-8 h-8 relative"
+                >
+                  {collection?.image ? (
+                    <Image
+                      src={collection.image}
+                      alt=""
+                      objectFit="contain"
+                      layout="fill"
+                    />
+                  ) : (
+                    <Eggo className="w-8" />
+                  )}
                 </Link>
                 <div className="grow">
-                  <Link href={collection?.path || '/'}>
-                    <a className="blok shrink-0 w-8 h-8 relative dark:hover:text-blue-300 hover:text-blue-700 duration-100">
-                      {collection?.title && (
-                        <h3 className="text-base font-bold leading-snug md:leading-tighter">
-                          {collection.title}
-                        </h3>
-                      )}
-                    </a>
+                  <Link
+                    href={collection?.path || '/'}
+                    className="blok shrink-0 w-8 h-8 relative dark:hover:text-blue-300 hover:text-blue-700 duration-100"
+                  >
+                    {collection?.title && (
+                      <h3 className="text-base font-bold leading-snug md:leading-tighter">
+                        {collection.title}
+                      </h3>
+                    )}
                   </Link>
                 </div>
                 <div className="text-xs text-gray-600 self-start md:self-center dark:text-gray-400">

@@ -40,13 +40,13 @@ const DownloadButton: FunctionComponent<
       <IconDownload className="w-6" />
     </button>
   ) : state === 'RETIRED' ? null : (
-    <Link href="/pricing" passHref>
-      <a
-        aria-label="become a member to download this lesson"
-        className="flex items-center justify-center w-10 h-10 opacity-50"
-      >
-        <IconDownload className="w-6" />
-      </a>
+    <Link
+      href="/pricing"
+      passHref
+      aria-label="become a member to download this lesson"
+      className="flex items-center justify-center w-10 h-10 opacity-50"
+    >
+      <IconDownload className="w-6" />
     </Link>
   )
 }

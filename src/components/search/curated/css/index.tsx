@@ -66,47 +66,46 @@ const CssFormStyling: React.FC<React.PropsWithChildren<{location: string}>> = ({
     slug: 'just-enough-css-for-modern-app-development',
   }
   return (
-    <Link href={path}>
-      <a
-        className="md:min-h-[477px] block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
-        onClick={() =>
-          analytics.events.activityInternalLinkClick('guide', path, 'CSS')
-        }
-      >
-        <div className="md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-900 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm">
-          <div className="relative z-10 px-5 py-10 text-center sm:py-16 sm:text-left">
-            <div className="flex items-center justify-center max-w-screen-xl mx-auto space-y-5">
-              <div className="flex flex-col items-center justify-center space-y-5 sm:space-x-5 sm:space-y-0">
-                <div className="flex-shrink-0">
-                  <Image
-                    quality={100}
-                    src={get(image, 'src', image)}
-                    width={250}
-                    height={250}
-                    alt={get(image, 'alt', `illustration for ${title}`)}
-                    className="hover:scale-105 transition-all"
-                  />
-                </div>
-                <div className="flex flex-col items-center sm:items-start">
-                  <p className="mb-2 text-xs font-semibold text-white uppercase">
-                    {byline}
-                  </p>
-                  <h2 className="text-xl font-extrabold leading-tighter hover:text-[#2faeff]">
-                    {title}
-                  </h2>
-                  <p className="mt-4">{description}</p>
-                </div>
+    <Link
+      href={path}
+      className="md:min-h-[477px] block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
+      onClick={() =>
+        analytics.events.activityInternalLinkClick('guide', path, 'CSS')
+      }
+    >
+      <div className="md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-900 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm">
+        <div className="relative z-10 px-5 py-10 text-center sm:py-16 sm:text-left">
+          <div className="flex items-center justify-center max-w-screen-xl mx-auto space-y-5">
+            <div className="flex flex-col items-center justify-center space-y-5 sm:space-x-5 sm:space-y-0">
+              <div className="flex-shrink-0">
+                <Image
+                  quality={100}
+                  src={get(image, 'src', image)}
+                  width={250}
+                  height={250}
+                  alt={get(image, 'alt', `illustration for ${title}`)}
+                  className="hover:scale-105 transition-all"
+                />
+              </div>
+              <div className="flex flex-col items-center sm:items-start">
+                <p className="mb-2 text-xs font-semibold text-white uppercase">
+                  {byline}
+                </p>
+                <h2 className="text-xl font-extrabold leading-tighter hover:text-[#2faeff]">
+                  {title}
+                </h2>
+                <p className="mt-4">{description}</p>
               </div>
             </div>
           </div>
-          <Image
-            className="absolute top-0 left-0 z-0 w-full h-full"
-            src={background}
-            alt=""
-            layout="fill"
-          />
         </div>
-      </a>
+        <Image
+          className="absolute top-0 left-0 z-0 w-full h-full"
+          src={background}
+          alt=""
+          layout="fill"
+        />
+      </div>
     </Link>
   )
 }

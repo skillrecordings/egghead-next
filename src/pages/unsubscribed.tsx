@@ -50,10 +50,7 @@ const Unsubscribed: React.FunctionComponent<
       <h1>You've been unsubscribed from {from} emails.</h1>
       <p>
         If this was a mistake{' '}
-        <Link href={`/confirmed?to=${from}`}>
-          <a>click here</a>
-        </Link>
-        .
+        <Link href={`/confirmed?to=${from}`}>click here</Link>.
       </p>
       <p>
         If you need additional support, please email{' '}

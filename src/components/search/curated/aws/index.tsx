@@ -124,42 +124,40 @@ const AWSCourse: React.FC<React.PropsWithChildren<{location: string}>> = ({
           <div className="flex items-center justify-center max-w-screen-xl mx-auto space-y-5">
             <div className="flex flex-col items-center justify-center space-y-5 sm:space-x-5 sm:space-y-0">
               <div className="flex-shrink-0">
-                <Link href={path}>
-                  <a
-                    tabIndex={-1}
-                    onClick={() =>
-                      track('clicked jumbotron resource', {
-                        resource: path,
-                        linkType: 'image',
-                      })
-                    }
-                  >
-                    <Image
-                      quality={100}
-                      src={get(image, 'src', image)}
-                      width={250}
-                      height={250}
-                      alt={get(image, 'alt', `illustration for ${title}`)}
-                    />
-                  </a>
+                <Link
+                  href={path}
+                  tabIndex={-1}
+                  onClick={() =>
+                    track('clicked jumbotron resource', {
+                      resource: path,
+                      linkType: 'image',
+                    })
+                  }
+                >
+                  <Image
+                    quality={100}
+                    src={get(image, 'src', image)}
+                    width={250}
+                    height={250}
+                    alt={get(image, 'alt', `illustration for ${title}`)}
+                  />
                 </Link>
               </div>
               <div className="flex flex-col items-center sm:items-start">
                 <p className="mb-2 text-xs font-semibold text-white uppercase">
                   {byline}
                 </p>
-                <Link href={path}>
-                  <a
-                    className="text-xl font-extrabold leading-tighter hover:text-blue-300"
-                    onClick={() =>
-                      track('clicked jumbotron resource', {
-                        resource: path,
-                        linkType: 'text',
-                      })
-                    }
-                  >
-                    <h2>{title}</h2>
-                  </a>
+                <Link
+                  href={path}
+                  className="text-xl font-extrabold leading-tighter hover:text-blue-300"
+                  onClick={() =>
+                    track('clicked jumbotron resource', {
+                      resource: path,
+                      linkType: 'text',
+                    })
+                  }
+                >
+                  <h2>{title}</h2>
                 </Link>
                 <p className="mt-4">{description}</p>
               </div>

@@ -187,10 +187,9 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
             )
           }}
           href="/pricing"
+          className="bg-gradient-to-b from-amber-300 to-amber-400 text-black rounded-md px-4 py-2 font-medium text-sm dark:border border-amber-500/50 hover:brightness-110 transition shadow-2xl shadow-amber-300/20"
         >
-          <a className="bg-gradient-to-b from-amber-300 to-amber-400 text-black rounded-md px-4 py-2 font-medium text-sm dark:border border-amber-500/50 hover:brightness-110 transition shadow-2xl shadow-amber-300/20">
-            Level Up Your Team
-          </a>
+          Level Up Your Team
         </Link>
       </section>
     )

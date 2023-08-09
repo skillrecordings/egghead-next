@@ -15,13 +15,14 @@ const Resource: FunctionComponent<React.PropsWithChildren<ResourceProps>> = ({
 }) => {
   return (
     <li>
-      <Link href={path}>
-        <a className="flex items-center font-semibold py-2 hover:underline cursor-pointer leading-tight">
-          <div className="flex-shrink-0 flex items-center">
-            <Image src={imageUrl} width={24} height={24} alt={title} />
-          </div>
-          <span className="ml-2">{title}</span>
-        </a>
+      <Link
+        href={path}
+        className="flex items-center font-semibold py-2 hover:underline cursor-pointer leading-tight"
+      >
+        <div className="flex-shrink-0 flex items-center">
+          <Image src={imageUrl} width={24} height={24} alt={title} />
+        </div>
+        <span className="ml-2">{title}</span>
       </Link>
     </li>
   )

@@ -83,15 +83,14 @@ const AtCapacityNotice = ({
             through the Stripe Billing Portal.
           </span>
           {billingPortalUrl && (
-            <Link href={billingPortalUrl}>
-              <a
-                onClick={() => {
-                  track(`clicked manage membership`)
-                }}
-                className="transition-all duration-150 ease-in-out font-semibold rounded-md dark:text-yellow-400 dark:hover:text-yellow-300"
-              >
-                Visit Stripe Billing Portal
-              </a>
+            <Link
+              href={billingPortalUrl}
+              onClick={() => {
+                track(`clicked manage membership`)
+              }}
+              className="transition-all duration-150 ease-in-out font-semibold rounded-md dark:text-yellow-400 dark:hover:text-yellow-300"
+            >
+              Visit Stripe Billing Portal
             </Link>
           )}
         </div>
@@ -102,15 +101,14 @@ const AtCapacityNotice = ({
             Your team account is full. Our support team can help you add more
             seats to your account.
           </span>
-          <Link href="mailto:support@egghead.io">
-            <a
-              onClick={() => {
-                track(`clicked contact us for account at capacity`)
-              }}
-              className="transition-all duration-150 ease-in-out font-semibold rounded-md dark:text-yellow-400 dark:hover:text-yellow-300"
-            >
-              Contact Us
-            </a>
+          <Link
+            href="mailto:support@egghead.io"
+            onClick={() => {
+              track(`clicked contact us for account at capacity`)
+            }}
+            className="transition-all duration-150 ease-in-out font-semibold rounded-md dark:text-yellow-400 dark:hover:text-yellow-300"
+          >
+            Contact Us
           </Link>
         </div>
       )}

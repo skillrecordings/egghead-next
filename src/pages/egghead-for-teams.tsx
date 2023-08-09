@@ -116,10 +116,9 @@ const EggheadForTeams = () => {
               )
             }}
             href="/pricing"
+            className="bg-gradient-to-b from-amber-300 to-amber-400 text-black rounded-md px-8 py-3 font-medium text-lg dark:border border-amber-500/50 hover:brightness-110 transition shadow-2xl shadow-amber-300/20"
           >
-            <a className="bg-gradient-to-b from-amber-300 to-amber-400 text-black rounded-md px-8 py-3 font-medium text-lg dark:border border-amber-500/50 hover:brightness-110 transition shadow-2xl shadow-amber-300/20">
-              Join Today
-            </a>
+            Join Today
           </Link>
         </section>
       </main>

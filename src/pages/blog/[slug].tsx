@@ -190,10 +190,8 @@ const Author: FunctionComponent<
   )
   return name ? (
     path ? (
-      <Link href={path}>
-        <a className="inline-flex items-center space-x-2">
-          <Profile />
-        </a>
+      <Link href={path} className="inline-flex items-center space-x-2">
+        <Profile />
       </Link>
     ) : (
       <div className="inline-flex items-center space-x-2">

@@ -43,32 +43,31 @@ const ResourceLink: React.FC<
   feature,
   ...props
 }) => (
-  <Link href={path}>
-    <a
-      onClick={() => {
-        if (feature) {
-          analytics.events.activityInternalLinkClick(
-            resource_type,
-            location,
-            tag,
-            path,
-            instructor,
-            feature,
-          )
-        } else {
-          analytics.events.activityInternalLinkClick(
-            resource_type,
-            location,
-            tag,
-            path,
-            instructor,
-          )
-        }
-      }}
-      {...props}
-    >
-      {children}
-    </a>
+  <Link
+    href={path}
+    onClick={() => {
+      if (feature) {
+        analytics.events.activityInternalLinkClick(
+          resource_type,
+          location,
+          tag,
+          path,
+          instructor,
+          feature,
+        )
+      } else {
+        analytics.events.activityInternalLinkClick(
+          resource_type,
+          location,
+          tag,
+          path,
+          instructor,
+        )
+      }
+    }}
+    {...props}
+  >
+    {children}
   </Link>
 )
 

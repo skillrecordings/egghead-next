@@ -101,14 +101,13 @@ const Survey: React.FunctionComponent<
           <div>
             <QuestionHeading question={state.question} />
             {state.question.url && (
-              <Link href={state.question.url}>
-                <a
-                  onClick={() => onAnswer()}
-                  target="_blank"
-                  className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
-                >
-                  {state.question.button_label}
-                </a>
+              <Link
+                href={state.question.url}
+                onClick={() => onAnswer()}
+                target="_blank"
+                className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+              >
+                {state.question.button_label}
               </Link>
             )}
           </div>

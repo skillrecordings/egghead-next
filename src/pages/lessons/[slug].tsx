@@ -646,10 +646,10 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
               </>
             )}
             {/* <div
-              className={cx('aspect-w-16 aspect-h-9', {
-                hidden: mounted,
-              })}
-            /> */}
+            className={cx('aspect-w-16 aspect-h-9', {
+              hidden: mounted,
+            })}
+          /> */}
           </div>
           {withSidePanel && (
             <div className="flex flex-col col-span-3 dark:bg-gray-800 bg-gray-50">
@@ -692,44 +692,42 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                 <div className="flex items-center justify-between w-full space-x-5 md:w-auto">
                   {instructor && (
                     <div className="flex items-center flex-shrink-0">
-                      <Link href={instructorPagePath}>
-                        <a
-                          onClick={() => {
-                            track(`clicked view instructor`, {
-                              lesson: lesson.slug,
-                              location: 'avatar',
-                            })
-                          }}
-                          className="flex mr-2 itemes-center"
-                        >
-                          {get(instructor, 'avatar_64_url') ? (
-                            <Image
-                              width={48}
-                              height={48}
-                              src={instructor.avatar_64_url}
-                              alt={instructor.full_name}
-                              className="m-0 rounded-full"
-                            />
-                          ) : (
-                            <Eggo className="w-8 rounded-full" />
-                          )}
-                        </a>
+                      <Link
+                        href={instructorPagePath}
+                        onClick={() => {
+                          track(`clicked view instructor`, {
+                            lesson: lesson.slug,
+                            location: 'avatar',
+                          })
+                        }}
+                        className="flex mr-2 itemes-center"
+                      >
+                        {get(instructor, 'avatar_64_url') ? (
+                          <Image
+                            width={48}
+                            height={48}
+                            src={instructor.avatar_64_url}
+                            alt={instructor.full_name}
+                            className="m-0 rounded-full"
+                          />
+                        ) : (
+                          <Eggo className="w-8 rounded-full" />
+                        )}
                       </Link>
                       <div className="flex flex-col">
                         <span className="text-xs">Instructor</span>
                         {get(instructor, 'full_name') && (
-                          <Link href={instructorPagePath}>
-                            <a
-                              onClick={() => {
-                                track(`clicked view instructor`, {
-                                  lesson: lesson.slug,
-                                  location: 'text link',
-                                })
-                              }}
-                              className="font-semibold leading-tighter hover:underline"
-                            >
-                              {instructor.full_name}
-                            </a>
+                          <Link
+                            href={instructorPagePath}
+                            onClick={() => {
+                              track(`clicked view instructor`, {
+                                lesson: lesson.slug,
+                                location: 'text link',
+                              })
+                            }}
+                            className="font-semibold leading-tighter hover:underline"
+                          >
+                            {instructor.full_name}
                           </Link>
                         )}
                       </div>
