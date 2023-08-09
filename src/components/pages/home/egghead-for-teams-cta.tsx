@@ -18,6 +18,7 @@ const EggheadForTeamsCta: FunctionComponent<
             '/egghead-for-teams',
           )
         }
+        legacyBehavior
       >
         <div className="min-w-[24em] w-fit mx-auto cursor-pointer">
           <div className="dark:bg-gray-500 bg-slate-200 rounded p-[1px] transition-all hover:animate-gradient-xy hover:bg-gradient-to-br hover:from-amber-400 hover:via-amber-200 hover:to-yellow-400 ">

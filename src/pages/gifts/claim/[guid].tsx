@@ -73,11 +73,8 @@ const GiftClaim: React.FC<React.PropsWithChildren<GiftClaimProps>> = ({
             <h1>{error.message}</h1>
             {error.type === 'login' ? (
               <p>
-                <Link href="/login">
-                  <a>Click here</a>
-                </Link>{' '}
-                to sign in. Once you are signed in you will need to click your
-                gift claim link again.
+                <Link href="/login">Click here</Link> to sign in. Once you are
+                signed in you will need to click your gift claim link again.
               </p>
             ) : null}
           </>

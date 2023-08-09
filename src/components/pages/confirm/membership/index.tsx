@@ -83,10 +83,11 @@ const LinkToLatestInvoice = () => {
     <div className="mt-5">
       {charge?.balance_transaction ? (
         <p className="text-center">
-          <Link href={`/invoices/${charge?.balance_transaction}`}>
-            <a className="px-5 py-3 text-white bg-blue-500 border-0 rounded-md hover:bg-blue-600 inline-block">
-              Get Your Invoice
-            </a>
+          <Link
+            href={`/invoices/${charge?.balance_transaction}`}
+            className="px-5 py-3 text-white bg-blue-500 border-0 rounded-md hover:bg-blue-600 inline-block"
+          >
+            Get Your Invoice
           </Link>
         </p>
       ) : dataLoading ? (
@@ -187,16 +188,17 @@ const PopularTopics: React.FC<React.PropsWithChildren<unknown>> = () => {
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {topics.map((topic) => (
           <li key={topic.path}>
-            <Link href={topic.path}>
-              <a className="flex flex-col items-center justify-center px-6 pt-6 pb-5 bg-white border border-gray-200 border-opacity-50 rounded-lg dark:bg-gray-800 dark:hover:bg-gray-700 hover:shadow-lg dark:border-transparent">
-                <Image
-                  src={topic.image}
-                  alt={topic.title}
-                  width={40}
-                  height={40}
-                />
-                <div className="pt-3">{topic.title}</div>
-              </a>
+            <Link
+              href={topic.path}
+              className="flex flex-col items-center justify-center px-6 pt-6 pb-5 bg-white border border-gray-200 border-opacity-50 rounded-lg dark:bg-gray-800 dark:hover:bg-gray-700 hover:shadow-lg dark:border-transparent"
+            >
+              <Image
+                src={topic.image}
+                alt={topic.title}
+                width={40}
+                height={40}
+              />
+              <div className="pt-3">{topic.title}</div>
             </Link>
           </li>
         ))}
@@ -238,11 +240,12 @@ const LastResource = () => {
   return !isEmpty(lastResource) ? (
     <div>
       <h4 className="pb-2 text-lg font-bold">Continue where you left off</h4>
-      <Link href={lastResource.path}>
-        <a className="inline-flex items-center p-5 space-x-3 font-semibold bg-white border border-gray-200 border-opacity-50 rounded-lg sm:p-8 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-transparent hover:shadow-lg">
-          <Image src={lastResource.image_url} width={32} height={32} alt="" />
-          <span>{lastResource.title}</span>
-        </a>
+      <Link
+        href={lastResource.path}
+        className="inline-flex items-center p-5 space-x-3 font-semibold bg-white border border-gray-200 border-opacity-50 rounded-lg sm:p-8 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-transparent hover:shadow-lg"
+      >
+        <Image src={lastResource.image_url} width={32} height={32} alt="" />
+        <span>{lastResource.title}</span>
       </Link>
     </div>
   ) : null
@@ -258,10 +261,11 @@ const Callout: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
 
 const StartLearning: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
-    <Link href="/q">
-      <a className="px-5 py-3 text-white bg-blue-500 border-0 rounded-md hover:bg-blue-600">
-        Browse All Courses
-      </a>
+    <Link
+      href="/q"
+      className="px-5 py-3 text-white bg-blue-500 border-0 rounded-md hover:bg-blue-600"
+    >
+      Browse All Courses
     </Link>
   )
 }

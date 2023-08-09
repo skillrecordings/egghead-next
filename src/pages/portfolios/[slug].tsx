@@ -46,35 +46,35 @@ const Portfolio = (props: any) => {
       <div className="container mt-5">
         <article className="max-w-screen-lg pt-4 pb-16 mx-auto">
           <header>
-            <Link href="/portfolios">
-              <a className="inline-flex items-center px-3 py-2 text-sm text-gray-600 transition-all duration-200 ease-in-out border border-gray-200 rounded-md dark:border-gray-700 dark:text-gray-300 hover:border-blue-400 hover:text-blue-600 dark:hover:bg-gray-700">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-3 h-3 mr-1"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span>All Portfolios</span>
-              </a>
+            <Link
+              href="/portfolios"
+              className="inline-flex items-center px-3 py-2 text-sm text-gray-600 transition-all duration-200 ease-in-out border border-gray-200 rounded-md dark:border-gray-700 dark:text-gray-300 hover:border-blue-400 hover:text-blue-600 dark:hover:bg-gray-700"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-3 h-3 mr-1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span>All Portfolios</span>
             </Link>
             <div className="flex flex-col items-center justify-between w-full py-8 space-y-5 text-center sm:flex-row sm:text-left sm:space-y-0 sm:items-baseline">
               <h1 className="max-w-screen-md text-3xl font-bold lg:text-6xl md:text-5xl sm:text-4xl leading-tighter">
                 {title}
               </h1>
-              <Link href={url}>
-                <a
-                  target="_blank"
-                  className="flex items-center space-x-1 text-lg transition-colors duration-200 ease-in-out hover:text-blue-500 dark:hover:text-blue-300"
-                >
-                  <span>{prettifyUrl(url)}</span>
-                  <ExternalLinkIcon />
-                </a>
+              <Link
+                href={url}
+                target="_blank"
+                className="flex items-center space-x-1 text-lg transition-colors duration-200 ease-in-out hover:text-blue-500 dark:hover:text-blue-300"
+              >
+                <span>{prettifyUrl(url)}</span>
+                <ExternalLinkIcon />
               </Link>
             </div>
 

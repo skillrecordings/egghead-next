@@ -46,14 +46,12 @@ const InvoicePage: React.FunctionComponent<React.PropsWithChildren<any>> = ({
   return (
     <LoginRequired>
       <main className="container py-5 mb-16 max-w-screen-md">
-        <Link href="/user/membership">
-          <a className="print:hidden">
-            <div className="flex ">
-              {' '}
-              <ArrowNarrowLeftIcon className="flex-shrink-0 mr-2 h-6 w-6" />{' '}
-              Back to Membership page
-            </div>
-          </a>
+        <Link href="/user/membership" className="print:hidden">
+          <div className="flex ">
+            {' '}
+            <ArrowNarrowLeftIcon className="flex-shrink-0 mr-2 h-6 w-6" /> Back
+            to Membership page
+          </div>
         </Link>
         {transaction && viewer && (
           <Invoice transaction={transaction} viewer={viewer}></Invoice>

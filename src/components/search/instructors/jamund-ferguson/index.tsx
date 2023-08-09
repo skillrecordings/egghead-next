@@ -86,26 +86,25 @@ const FeatureSection = ({resource, location}: FeatureSectionType) => {
               <div className="grid sm:grid-cols-3 grid-cols-1 gap-5 mb-5">
                 <div className="sm:col-span-1 flex-shrink-0 text-center mb-4">
                   {resource.path ? (
-                    <Link href={resource.path}>
-                      <a
-                        tabIndex={-1}
-                        onClick={() => {
-                          track('clicked resource', {
-                            resource: resource.path,
-                            location,
-                          })
-                        }}
-                      >
-                        <Image
-                          quality={100}
-                          src={
-                            'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
-                          }
-                          width={250}
-                          height={305}
-                          alt={resource.title}
-                        />
-                      </a>
+                    <Link
+                      href={resource.path}
+                      tabIndex={-1}
+                      onClick={() => {
+                        track('clicked resource', {
+                          resource: resource.path,
+                          location,
+                        })
+                      }}
+                    >
+                      <Image
+                        quality={100}
+                        src={
+                          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
+                        }
+                        width={250}
+                        height={305}
+                        alt={resource.title}
+                      />
                     </Link>
                   ) : (
                     <Image
@@ -124,20 +123,19 @@ const FeatureSection = ({resource, location}: FeatureSectionType) => {
                     </h3>
                   )}
                   {resource.path ? (
-                    <Link href={resource.path}>
-                      <a
-                        className="font-bold hover:text-blue-300 dark:hover:text-blue-300 transition ease-in-out"
-                        onClick={() => {
-                          track('clicked resource', {
-                            resource: resource.path,
-                            location,
-                          })
-                        }}
-                      >
-                        <h2 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
-                          {resource.title}
-                        </h2>
-                      </a>
+                    <Link
+                      href={resource.path}
+                      className="font-bold hover:text-blue-300 dark:hover:text-blue-300 transition ease-in-out"
+                      onClick={() => {
+                        track('clicked resource', {
+                          resource: resource.path,
+                          location,
+                        })
+                      }}
+                    >
+                      <h2 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
+                        {resource.title}
+                      </h2>
                     </Link>
                   ) : (
                     <h2 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">

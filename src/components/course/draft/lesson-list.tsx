@@ -318,10 +318,11 @@ const LessonListItem = ({
                 {lesson.path && (
                   <div className="flex flex-col ">
                     <div>
-                      <Link href={lesson.path}>
-                        <a className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100 px-2 max-w-[40ch]">
-                          {displayTitle}
-                        </a>
+                      <Link
+                        href={lesson.path}
+                        className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100 px-2 max-w-[40ch]"
+                      >
+                        {displayTitle}
                       </Link>
                     </div>
                     {/* <div className="text-xs text-gray-700 dark:text-gray-500">

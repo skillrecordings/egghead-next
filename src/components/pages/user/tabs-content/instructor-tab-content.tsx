@@ -46,10 +46,11 @@ const InstructorTabContent: React.FC<React.PropsWithChildren<any>> = ({
           <ul className="space-y-2">
             {data?.draftCourses?.map((course: any) => (
               <li key={course.slug}>
-                <Link href={`/courses/${course.slug}`}>
-                  <a className="flex items-center justify-between w-full px-4 py-3 text-base font-medium text-slate-900 bg-white  dark:bg-gray-800 rounded dark:text-gray-100 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700">
-                    <span>{course.title}</span>
-                  </a>
+                <Link
+                  href={`/courses/${course.slug}`}
+                  className="flex items-center justify-between w-full px-4 py-3 text-base font-medium text-slate-900 bg-white  dark:bg-gray-800 rounded dark:text-gray-100 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700"
+                >
+                  <span>{course.title}</span>
                 </Link>
               </li>
             ))}

@@ -31,28 +31,29 @@ const Portfolio: React.FC<React.PropsWithChildren<{portfolios: any}>> = (
                 <header>
                   {portfolio.image && (
                     <Link href={`${path}/${portfolio.slug}`}>
-                      <a>
-                        <Image
-                          src={portfolio.image}
-                          alt={portfolio.title}
-                          width={1280}
-                          height={810}
-                          quality={100}
-                          className="transition-transform duration-700 ease-in-out rounded-t-md hover:scale-105"
-                        />
-                      </a>
+                      <Image
+                        src={portfolio.image}
+                        alt={portfolio.title}
+                        width={1280}
+                        height={810}
+                        quality={100}
+                        className="transition-transform duration-700 ease-in-out rounded-t-md hover:scale-105"
+                      />
                     </Link>
                   )}
                 </header>
                 <main className="flex flex-col pb-5 pl-5 mt-3">
                   <h2 className="w-full max-w-screen-md text-lg font-semibold lg:text-xl md:text-xl sm:text-lg leading-tighter">
-                    <Link href={`${path}/${portfolio.slug}`}>
-                      <a className="hover:text-blue-500">{portfolio.title}</a>
+                    <Link
+                      href={`${path}/${portfolio.slug}`}
+                      className="hover:text-blue-500"
+                    >
+                      {portfolio.title}
                     </Link>
                   </h2>
                   <p className="mt-2 text-xs text-gray-500 transition hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400">
                     <Link href={portfolio.url}>
-                      <a>{prettifyUrl(portfolio.url)}</a>
+                      {prettifyUrl(portfolio.url)}
                     </Link>
                   </p>
                   <div className="flex flex-wrap mt-2">

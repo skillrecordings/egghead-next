@@ -39,15 +39,13 @@ const CourseWidget: React.FC<
             course
           </p>
           <h2 className="text-xl font-medium leading-tight dark:text-white text-black">
-            <Link href={path}>
-              <a className="group">
-                <span className="group-hover:underline">{title}</span>{' '}
-                {instructor?.full_name && (
-                  <span className="text-lg dark:text-gray-400 text-gray-500 font-normal">
-                    – by {instructor.full_name}
-                  </span>
-                )}
-              </a>
+            <Link href={path} className="group">
+              <span className="group-hover:underline">{title}</span>{' '}
+              {instructor?.full_name && (
+                <span className="text-lg dark:text-gray-400 text-gray-500 font-normal">
+                  – by {instructor.full_name}
+                </span>
+              )}
             </Link>
           </h2>
         </div>

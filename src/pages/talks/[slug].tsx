@@ -152,7 +152,10 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
                   {get(lesson, 'title')}
                 </h1>
                 <div className="flex items-center mt-2">
-                  <Link href={`/q/resources-by-${get(instructor, 'slug')}`}>
+                  <Link
+                    href={`/q/resources-by-${get(instructor, 'slug')}`}
+                    legacyBehavior
+                  >
                     <a className="flex items-center text-base text-gray-800 transition-colors duration-300 ease-in-out dark:text-gray-400 hover:text-blue-600">
                       {instructor.avatar_url && (
                         <Image

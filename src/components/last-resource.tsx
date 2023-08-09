@@ -25,15 +25,14 @@ const LastResource: React.FunctionComponent<
   return !isEmpty(lastResource) ? (
     <div>
       {children}{' '}
-      <Link href={lastResource.path}>
-        <a
-          onClick={() => {
-            trackAndClearResource('clicked show last resource')
-          }}
-          className={className}
-        >
-          {lastResource.title}
-        </a>
+      <Link
+        href={lastResource.path}
+        onClick={() => {
+          trackAndClearResource('clicked show last resource')
+        }}
+        className={className}
+      >
+        {lastResource.title}
       </Link>
       <div className="w-100 flex items-center justify-end">
         <button
