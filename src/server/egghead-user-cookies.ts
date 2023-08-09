@@ -28,7 +28,5 @@ export function setUserCookie(res: NextResponse, user: any) {
 }
 
 export function clearUserCookie(res: NextResponse) {
-  res.cookies.delete(EGGHEAD_USER_COOKIE_KEY, {
-    domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
-  })
+  res.cookies.delete(EGGHEAD_USER_COOKIE_KEY)
 }
