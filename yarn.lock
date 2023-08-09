@@ -3164,14 +3164,14 @@
   dependencies:
     "@skillrecordings/config" "0.0.1"
 
-"@skillrecordings/commerce-server@1.0.0", "@skillrecordings/commerce-server@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@skillrecordings/commerce-server/-/commerce-server-1.0.0.tgz#73e29f88d2352b682ccab7cac114ae614e71bdd1"
-  integrity sha512-0QjZ+c0zIvkRMuC8BjTemHfMMED4164Q3nFhUKU2cuX4KnN767SoqHvtEU8JeoQpC63+cEfqJXopE8BKuOx3ng==
+"@skillrecordings/commerce-server@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@skillrecordings/commerce-server/-/commerce-server-1.0.1.tgz#a43ee4d985f96071d48d0be5b67a308f94e0c993"
+  integrity sha512-GWlauz1VpCGt1BKc5dO8AlaP3Fb87erJKOtESb7r0WG+GnjawwbPapm4GlDW4T2Y2kSJ6EEe3n8PY9btCCQZ1Q==
   dependencies:
     "@casl/ability" "^6.0.0"
-    "@skillrecordings/database" "1.0.0"
-    "@skillrecordings/stripe-sdk" "1.0.0"
+    "@skillrecordings/database" "1.0.1"
+    "@skillrecordings/stripe-sdk" "1.0.2"
     date-fns "^2.28.0"
     lodash "^4.17.21"
     stripe "^8.186.1"
@@ -3192,7 +3192,7 @@
   resolved "https://registry.yarnpkg.com/@skillrecordings/cookies/-/cookies-0.0.1.tgz#e8a82597e9d7a988293e9e20f94c6c5a70d3b12b"
   integrity sha512-gSJujtLx4v8kC94IzBM36Npp/xpqTmgt/Z0ZbwiSJ95oOeqSGxP+MJIe8R/PFLt8e0q8Gkxx8dhJXrQoXA6wlw==
 
-"@skillrecordings/database@1.0.0", "@skillrecordings/database@1.0.1", "@skillrecordings/database@^1.0.1":
+"@skillrecordings/database@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@skillrecordings/database/-/database-1.0.1.tgz#faa6c95da154dd8ce910c47d621dee4234e0cfd5"
   integrity sha512-x70ZWjB7L8kKa3e8sC3IJn2n/J2p2Iyzbz4Ay3bdykzb8tGXyeslJGMDXSIYPCZYxJ+bcAcFcfVBtVYdU65gIQ==
@@ -3205,18 +3205,18 @@
   resolved "https://registry.yarnpkg.com/@skillrecordings/next-seo/-/next-seo-1.0.1.tgz#dd96b02e69b894c85ea809eb73cf640803db026e"
   integrity sha512-QddL8x7xWe3FrjtA0ZozSF64PPKZSZeIAPWxZ+ZhQb9zBBdea9KxGj+WitHs8jWgseq7Z+xThOZQ7t4o0WcIHQ==
 
-"@skillrecordings/player@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@skillrecordings/player/-/player-1.1.0.tgz#c9c286c8abd1f7d6c9d18f827e82b71bab320c0d"
-  integrity sha512-K49se6XGalXiw0uNHyMNen/BVE/deaOqdm5ngHPhH7IVwo+ViV7l8i5978Z3I+CQGFSdur0gYpq554wsXn7+rQ==
+"@skillrecordings/player@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@skillrecordings/player/-/player-1.1.4.tgz#b3b5cd69d9428eb876cfc98d2fe8679ee6d9e58e"
+  integrity sha512-K7Q7r1bbnMRCZeAZ3gLyvWF4Ps2DQbBo1Ybc1A48Sb6g09HlVou1NO/55MHVoBbzVsU+qICcbk3OuTfiRADP2w==
   dependencies:
     "@babel/core" "^7.16.5"
     "@emotion/react" "^11.5.0"
     "@radix-ui/react-dropdown-menu" "^1.0.0"
     "@reach/slider" "^0.17.0"
     "@reach/tabs" "^0.17.0"
-    "@skillrecordings/react" "0.0.2"
-    "@skillrecordings/time" "0.0.12"
+    "@skillrecordings/react" "^1.0.0"
+    "@skillrecordings/time" "^0.0.12"
     "@tippyjs/react" "^4.2.6"
     classnames "^2.3.1"
     hls.js "1.1.5"
@@ -3225,16 +3225,16 @@
     react-markdown "^5.0.3"
     screenfull "5.2.0"
 
-"@skillrecordings/react@0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@skillrecordings/react/-/react-0.0.2.tgz#6c9ab08815bd694ecc359086c80c9a86e7784337"
-  integrity sha512-VNFTbDSKtVuXbqmJW7UIvztVh1qApOXd3S29mAoc69VrAnEq738C+Q/yz8AKaeCApWt4OcxLUnjEDV0+I1bmCw==
+"@skillrecordings/react@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@skillrecordings/react/-/react-1.0.0.tgz#4354da60ba1abe3e6b615790f27259f5dd10196c"
+  integrity sha512-rBbbi2r/O/DZtZdGAsOnonk6kCAn7INFYuFqBWaVyLWS1HA0k9dyTfwswnPfF9Kiulep2Lfq5coO11ozlzocCw==
   dependencies:
     "@skillrecordings/ability" "1.0.0"
     "@skillrecordings/analytics" "1.0.0"
     "@skillrecordings/auth" "=0.0.6"
     "@skillrecordings/axios" "=0.0.2"
-    "@skillrecordings/commerce-server" "1.0.0"
+    "@skillrecordings/commerce-server" "1.0.1"
     "@skillrecordings/config" "0.0.2"
     "@skillrecordings/database" "1.0.1"
     "@skillrecordings/next-seo" "1.0.1"
@@ -3250,7 +3250,7 @@
     react-use-clipboard "^1.0.7"
     yup "^0.32.11"
 
-"@skillrecordings/stripe-sdk@1.0.0", "@skillrecordings/stripe-sdk@^1.0.2":
+"@skillrecordings/stripe-sdk@1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@skillrecordings/stripe-sdk/-/stripe-sdk-1.0.2.tgz#1acaa9fee617a58eaff283e674b5ae077c21f478"
   integrity sha512-nTL50uolJaqtVX0cSzIif+XFNBWpSfA2/a5Kp6ogjK9qFUdfi1WclUBw/SVUZcEXllvXj4OXwc98yeECZR2iCw==
@@ -3262,7 +3262,7 @@
     node-fetch "^2.6.7"
     stripe "^8.186.1"
 
-"@skillrecordings/time@0.0.12":
+"@skillrecordings/time@^0.0.12":
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/@skillrecordings/time/-/time-0.0.12.tgz#b87d3f7a8fdc6c5f11bc9a5883562b9c1f38ce0c"
   integrity sha512-pfzligALVLPuq6Gwa98vqwSKaDluhig27JAssr9NNmwjYF/AP4D2PtF+ZicswpaD5t8KVYNb/uGajbuiy1pRjw==
