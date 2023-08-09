@@ -3,7 +3,7 @@ import {track} from 'utils/analytics'
 import {useRouter} from 'next/router'
 import isEmpty from 'lodash/isEmpty'
 import {Form, Formik} from 'formik'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 const Search = () => {
   const router = useRouter()

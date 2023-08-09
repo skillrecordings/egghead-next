@@ -7,7 +7,7 @@ import {
   CardBody,
   CardMeta,
 } from './index'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from '../markdown'
 import {track} from 'utils/analytics'

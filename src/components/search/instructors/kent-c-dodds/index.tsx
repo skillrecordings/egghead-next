@@ -1,5 +1,5 @@
 import groq from 'groq'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {get} from 'lodash'
 import ExternalTrackedLink from 'components/external-tracked-link'
 

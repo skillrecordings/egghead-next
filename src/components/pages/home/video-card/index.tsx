@@ -4,7 +4,7 @@ import PlayIcon from '../../courses/play-icon'
 import Link from 'next/link'
 import {Card} from 'components/card'
 import Markdown from 'react-markdown'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import {useRouter} from 'next/router'
 

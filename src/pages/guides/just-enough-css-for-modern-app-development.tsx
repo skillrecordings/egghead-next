@@ -1,6 +1,6 @@
 import groq from 'groq'
 import {NextSeo} from 'next-seo'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
 import {sanityClient} from 'utils/sanity-client'
 import removeMarkdown from 'remove-markdown'

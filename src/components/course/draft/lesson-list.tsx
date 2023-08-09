@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import toast from 'react-hot-toast'
 import cx from 'classnames'
 import MuxPlayer from '@mux/mux-player-react'

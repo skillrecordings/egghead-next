@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Image, {ImageProps} from 'next/image'
+import Image, {ImageProps} from 'next/legacy/image'
 
 const BLUR_DATA_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mO8//B+PQAIZgMgYk3sYgAAAABJRU5ErkJggg=='

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {useTheme} from 'next-themes'
 import {useViewer} from 'context/viewer-context'

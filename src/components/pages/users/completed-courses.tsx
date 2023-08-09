@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {format} from 'date-fns'
 import cx from 'classnames'
 import {isEmpty} from 'lodash'

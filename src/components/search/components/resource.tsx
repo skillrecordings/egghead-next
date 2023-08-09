@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 type ResourceProps = {
   title: string

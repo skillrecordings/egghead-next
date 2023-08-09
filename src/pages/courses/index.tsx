@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {loadAllPlaylistsByPage} from 'lib/playlists'
 import Markdown from 'react-markdown'
 import TagList from '../../components/layouts/tag-list'

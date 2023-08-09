@@ -1,6 +1,6 @@
 import React from 'react'
 import {NextSeo} from 'next-seo'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import groq from 'groq'
 import {CardResource} from 'types'
 import {HorizontalResourceCard} from 'components/card/topic-page-horizontal-resource-card'

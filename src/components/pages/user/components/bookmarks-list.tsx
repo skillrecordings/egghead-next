@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {reject, isEmpty} from 'lodash'
 import {XIcon} from '@heroicons/react/solid'
 import CheckIcon from 'components/icons/check'

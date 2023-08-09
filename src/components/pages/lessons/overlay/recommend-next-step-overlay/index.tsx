@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import * as React from 'react'
 import {track} from 'utils/analytics'
 import Share from 'components/share'

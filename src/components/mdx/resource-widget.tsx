@@ -2,7 +2,7 @@ import Grid from 'components/grid'
 import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
 import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 import cx from 'classnames'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {
   Card,
   CardPreview,

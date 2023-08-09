@@ -8,7 +8,7 @@ import {
   CardAuthor,
   CardFooter,
 } from './index'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
 import {get, isEmpty} from 'lodash'

@@ -1,6 +1,6 @@
 import React from 'react'
 import SearchInstructorEssential from '../instructor-essential'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {get} from 'lodash'
 import Link from 'next/link'
 import groq from 'groq'
