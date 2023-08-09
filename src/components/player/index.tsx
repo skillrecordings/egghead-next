@@ -141,9 +141,6 @@ const VideoResourcePlayer: React.FC<
             label="notes"
           />
         )}
-        {hasNotes(videoResource) && (
-          <CueBar key={videoResource.slug} order={6.0} />
-        )}
         <ProgressControl key="progress-control" order={7.0} />
         <ControlBar
           disableDefaultControls
