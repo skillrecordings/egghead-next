@@ -3250,10 +3250,10 @@
     react-use-clipboard "^1.0.7"
     yup "^0.32.11"
 
-"@skillrecordings/stripe-sdk@1.0.0", "@skillrecordings/stripe-sdk@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@skillrecordings/stripe-sdk/-/stripe-sdk-1.0.1.tgz#5ed3f30c62c281956f1a1d60e8e57cefa236208d"
-  integrity sha512-wU0be2N8GXwbYoWWhqEk1daBjJrYqLDAvJxMSrO2/HTR+Dix23dGc5Xsc6actB3CHPj7YhzYOBSrqNkaPk25SQ==
+"@skillrecordings/stripe-sdk@1.0.0", "@skillrecordings/stripe-sdk@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@skillrecordings/stripe-sdk/-/stripe-sdk-1.0.2.tgz#1acaa9fee617a58eaff283e674b5ae077c21f478"
+  integrity sha512-nTL50uolJaqtVX0cSzIif+XFNBWpSfA2/a5Kp6ogjK9qFUdfi1WclUBw/SVUZcEXllvXj4OXwc98yeECZR2iCw==
   dependencies:
     cookie "^0.5.0"
     date-fns "^2.28.0"
