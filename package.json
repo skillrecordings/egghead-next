@@ -57,7 +57,7 @@
     "@skillrecordings/commerce-server": "^1.0.0",
     "@skillrecordings/database": "^1.0.1",
     "@skillrecordings/player": "^1.1.0",
-    "@skillrecordings/stripe-sdk": "^1.0.1",
+    "@skillrecordings/stripe-sdk": "^1.0.2",
     "@stripe/react-stripe-js": "^1.4.1",
     "@stripe/stripe-js": "^1.17.1",
     "@supabase/supabase-js": "^1.21.0",
@@ -292,6 +292,6 @@
   },
   "resolutions": {
     "@skillrecordings/database": "^1.0.1",
-    "@skillrecordings/stripe-sdk": "^1.0.1"
+    "@skillrecordings/stripe-sdk": "^1.0.2"
   }
 }
