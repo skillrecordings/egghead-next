@@ -29,7 +29,7 @@ const Tag = (props: any) => {
     title = 'Missing title',
     categories,
     author = {name: 'Unknown Author'},
-    seo = {},
+    seo: originalSEO = {},
     coverImage,
     source,
     articleResources,
@@ -37,10 +37,12 @@ const Tag = (props: any) => {
     slug,
   } = props
 
+  const seo = originalSEO ? originalSEO : {}
+
   const router = useRouter()
 
   const url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL + router.asPath
-  const canonicalUrl = seo.canonicalUrl ? seo.canonicalUrl : url
+  const canonicalUrl = seo?.canonicalUrl ? seo.canonicalUrl : url
 
   const defaultOgImage: string | undefined = title
     ? `https://og-image-react-egghead.now.sh/article/${encodeURIComponent(
