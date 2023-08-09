@@ -3164,7 +3164,7 @@
   dependencies:
     "@skillrecordings/config" "0.0.1"
 
-"@skillrecordings/commerce-server@1.0.0":
+"@skillrecordings/commerce-server@1.0.0", "@skillrecordings/commerce-server@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@skillrecordings/commerce-server/-/commerce-server-1.0.0.tgz#73e29f88d2352b682ccab7cac114ae614e71bdd1"
   integrity sha512-0QjZ+c0zIvkRMuC8BjTemHfMMED4164Q3nFhUKU2cuX4KnN767SoqHvtEU8JeoQpC63+cEfqJXopE8BKuOx3ng==
@@ -3192,7 +3192,7 @@
   resolved "https://registry.yarnpkg.com/@skillrecordings/cookies/-/cookies-0.0.1.tgz#e8a82597e9d7a988293e9e20f94c6c5a70d3b12b"
   integrity sha512-gSJujtLx4v8kC94IzBM36Npp/xpqTmgt/Z0ZbwiSJ95oOeqSGxP+MJIe8R/PFLt8e0q8Gkxx8dhJXrQoXA6wlw==
 
-"@skillrecordings/database@1.0.0", "@skillrecordings/database@1.0.1":
+"@skillrecordings/database@1.0.0", "@skillrecordings/database@1.0.1", "@skillrecordings/database@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@skillrecordings/database/-/database-1.0.1.tgz#faa6c95da154dd8ce910c47d621dee4234e0cfd5"
   integrity sha512-x70ZWjB7L8kKa3e8sC3IJn2n/J2p2Iyzbz4Ay3bdykzb8tGXyeslJGMDXSIYPCZYxJ+bcAcFcfVBtVYdU65gIQ==
@@ -3250,7 +3250,7 @@
     react-use-clipboard "^1.0.7"
     yup "^0.32.11"
 
-"@skillrecordings/stripe-sdk@1.0.0":
+"@skillrecordings/stripe-sdk@1.0.0", "@skillrecordings/stripe-sdk@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@skillrecordings/stripe-sdk/-/stripe-sdk-1.0.1.tgz#5ed3f30c62c281956f1a1d60e8e57cefa236208d"
   integrity sha512-wU0be2N8GXwbYoWWhqEk1daBjJrYqLDAvJxMSrO2/HTR+Dix23dGc5Xsc6actB3CHPj7YhzYOBSrqNkaPk25SQ==
