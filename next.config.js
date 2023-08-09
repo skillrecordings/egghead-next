@@ -1,3 +1,4 @@
+/** @type {import('next').NextConfig} */
 const withSvgr = require(`next-svgr`)
 const withBundleAnalyzer = require(`@next/bundle-analyzer`)
 const withPlugins = require(`next-compose-plugins`)
@@ -20,10 +21,6 @@ const withMDX = require(`@next/mdx`)({
 })
 const compact = require('lodash/compact')
 
-const withTM = require('next-transpile-modules')(['unist-util-visit'], {
-  debug: true,
-})
-
 const searchUrlRoot = `/q`
 
 checkEnv({
@@ -43,6 +40,7 @@ const IMAGE_HOST_DOMAINS = compact([
 ])
 
 const nextConfig = {
+  transpilePackages: ['unist-util-visit'],
   reactStrictMode: true,
   images: {
     domains: IMAGE_HOST_DOMAINS,
@@ -385,7 +383,6 @@ module.exports = withPlugins(
       enabled: process.env.ANALYZE === `true`,
     }),
     withSvgr,
-    withTM,
     withImages(),
     withMDX({
       pageExtensions: [`ts`, `tsx`, `mdx`],
