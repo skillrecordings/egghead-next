@@ -3205,17 +3205,17 @@
   resolved "https://registry.yarnpkg.com/@skillrecordings/next-seo/-/next-seo-1.0.1.tgz#dd96b02e69b894c85ea809eb73cf640803db026e"
   integrity sha512-QddL8x7xWe3FrjtA0ZozSF64PPKZSZeIAPWxZ+ZhQb9zBBdea9KxGj+WitHs8jWgseq7Z+xThOZQ7t4o0WcIHQ==
 
-"@skillrecordings/player@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@skillrecordings/player/-/player-1.1.4.tgz#b3b5cd69d9428eb876cfc98d2fe8679ee6d9e58e"
-  integrity sha512-K7Q7r1bbnMRCZeAZ3gLyvWF4Ps2DQbBo1Ybc1A48Sb6g09HlVou1NO/55MHVoBbzVsU+qICcbk3OuTfiRADP2w==
+"@skillrecordings/player@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@skillrecordings/player/-/player-1.1.5.tgz#41d6160308f12049ca6f8bb8cb4f1f2e7a0f01f2"
+  integrity sha512-WnAVbsICOKczyQZCw7GM1grUSFNvkowpUl0gADP5bZEAD/t8HXtACTOB7mtXYPhTr3Xj7MAkWqZQ2bLxBKP9fg==
   dependencies:
     "@babel/core" "^7.16.5"
     "@emotion/react" "^11.5.0"
     "@radix-ui/react-dropdown-menu" "^1.0.0"
     "@reach/slider" "^0.17.0"
     "@reach/tabs" "^0.17.0"
-    "@skillrecordings/react" "^1.0.0"
+    "@skillrecordings/react" "^1.0.1"
     "@skillrecordings/time" "^0.0.12"
     "@tippyjs/react" "^4.2.6"
     classnames "^2.3.1"
@@ -3225,10 +3225,10 @@
     react-markdown "^5.0.3"
     screenfull "5.2.0"
 
-"@skillrecordings/react@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@skillrecordings/react/-/react-1.0.0.tgz#4354da60ba1abe3e6b615790f27259f5dd10196c"
-  integrity sha512-rBbbi2r/O/DZtZdGAsOnonk6kCAn7INFYuFqBWaVyLWS1HA0k9dyTfwswnPfF9Kiulep2Lfq5coO11ozlzocCw==
+"@skillrecordings/react@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@skillrecordings/react/-/react-1.0.1.tgz#3a23c6ca7282631f7a766299849248a00ec6fee8"
+  integrity sha512-oZnsPM7pYZdDvc62FLXyDBsrK7mPYCI8hT65fY/zy+nygZMX7Y4RWtiHhiR+cEHi3b0pbn6xmeFdVMDiP4nOVA==
   dependencies:
     "@skillrecordings/ability" "1.0.0"
     "@skillrecordings/analytics" "1.0.0"
