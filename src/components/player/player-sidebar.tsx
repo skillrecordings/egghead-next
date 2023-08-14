@@ -3,7 +3,6 @@ import {useEggheadPlayerPrefs} from '../EggheadPlayer/use-egghead-player'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import {isEmpty} from 'lodash'
 import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
-import {hasNotes} from './index'
 import {VideoResource} from 'types'
 import SimpleBar from 'simplebar-react'
 import {Element} from 'react-scroll'
@@ -14,7 +13,6 @@ import {track} from 'utils/analytics'
 import Link from 'components/link'
 import Image from 'next/legacy/image'
 import CodeBlock from 'components/code-block'
-import {useViewer} from '../../context/viewer-context'
 import Tippy from '@tippyjs/react'
 import {
   useVideo,
@@ -38,17 +36,15 @@ const PlayerSidebar: React.FC<
     onAddNote?: any
     relatedResources?: any
   }>
-> = ({videoResource, lessonView, onAddNote, relatedResources}) => {
-  const {viewer} = useViewer()
+> = ({videoResource, lessonView, relatedResources}) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
-  const videoResourceHasNotes = viewer?.can_comment ?? hasNotes(videoResource)
   const videoResourceHasCollection = !isEmpty(videoResource.collection)
   const hasRelatedResources = !isEmpty(relatedResources)
   return (
     <div className="relative h-full">
       <Tabs
-        index={(notesEnabled && videoResourceHasNotes && activeSidebarTab) || 0}
+        index={activeSidebarTab || 0}
         onChange={(tabIndex) => setPlayerPrefs({activeSidebarTab: tabIndex})}
         className="top-0 left-0 flex flex-col w-full h-full text-gray-900 bg-gray-100 shadow-sm lg:absolute dark:bg-gray-1000 dark:text-white"
       >
@@ -56,9 +52,6 @@ const PlayerSidebar: React.FC<
           <TabList className="relative z-[1] flex-shrink-0">
             {videoResourceHasCollection && (
               <Tab onClick={(e) => console.log('e')}>Lessons</Tab>
-            )}
-            {videoResourceHasNotes && (
-              <Tab onClick={(e) => console.log('e')}>Notes</Tab>
             )}
           </TabList>
         )}
@@ -70,53 +63,44 @@ const PlayerSidebar: React.FC<
               onActiveTab={activeSidebarTab === 0}
             />
           </TabPanel>
-          {notesEnabled && videoResourceHasNotes && (
-            <TabPanel className="inset-0 lg:absolute">
-              <NotesTab videoResourceHasNotes={videoResourceHasNotes} />
-            </TabPanel>
-          )}
-          {hasRelatedResources &&
-            !videoResourceHasCollection &&
-            !videoResourceHasNotes && (
-              <div className="flex flex-col w-full space-y-3">
-                <h3 className="mt-4 font-semibold text-center text-md md:text-lg">
-                  {relatedResources.headline}
-                </h3>
-                {relatedResources.linksTo.map((content: any) => {
-                  return (
-                    <Link
-                      href={
-                        content.slug ? `/${content.type}s/${content.slug}` : '#'
-                      }
+          {hasRelatedResources && !videoResourceHasCollection && (
+            <div className="flex flex-col w-full space-y-3">
+              <h3 className="mt-4 font-semibold text-center text-md md:text-lg">
+                {relatedResources.headline}
+              </h3>
+              {relatedResources.linksTo.map((content: any) => {
+                return (
+                  <Link
+                    href={
+                      content.slug ? `/${content.type}s/${content.slug}` : '#'
+                    }
+                  >
+                    <a
+                      onClick={() => {
+                        track('clicked cta content', {
+                          from: videoResource.slug,
+                          [content.type]: content.slug,
+                          location: 'sidebar',
+                        })
+                      }}
+                      className="flex items-center px-3 py-2 ml-4 space-x-2 transition-colors duration-200 ease-in-out hover:underline"
                     >
-                      <a
-                        onClick={() => {
-                          track('clicked cta content', {
-                            from: videoResource.slug,
-                            [content.type]: content.slug,
-                            location: 'sidebar',
-                          })
-                        }}
-                        className="flex items-center px-3 py-2 ml-4 space-x-2 transition-colors duration-200 ease-in-out hover:underline"
-                      >
-                        <div className="relative flex-shrink-0 w-12 h-12 ">
-                          <Image
-                            src={content.imageUrl}
-                            alt={`illustration of ${content.title} course`}
-                            width="64"
-                            height="64"
-                            layout="fill"
-                          />
-                        </div>
-                        <div className="relative font-bold">
-                          {content.title}
-                        </div>
-                      </a>
-                    </Link>
-                  )
-                })}
-              </div>
-            )}
+                      <div className="relative flex-shrink-0 w-12 h-12 ">
+                        <Image
+                          src={content.imageUrl}
+                          alt={`illustration of ${content.title} course`}
+                          width="64"
+                          height="64"
+                          layout="fill"
+                        />
+                      </div>
+                      <div className="relative font-bold">{content.title}</div>
+                    </a>
+                  </Link>
+                )
+              })}
+            </div>
+          )}
         </TabPanels>
       </Tabs>
     </div>
