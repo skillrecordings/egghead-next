@@ -51,24 +51,58 @@ const DownloadButton: FunctionComponent<
   )
 }
 
+class DownloadControlErrorBoundary extends React.Component {
+  constructor(props: any) {
+    super(props)
+    this.state = {hasError: false}
+  }
+
+  static getDerivedStateFromError(error: any) {
+    // Update state so the next render will show the fallback UI.
+    return {hasError: true}
+  }
+
+  componentDidCatch(error: any, info: any) {
+    console.error(error, info.componentStack)
+  }
+
+  render() {
+    // @ts-ignore
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      // @ts-ignore
+      return <div></div>
+    }
+
+    // @ts-ignore
+    return this.props.children
+  }
+}
+
 const DownloadControl: FunctionComponent<
   React.PropsWithChildren<DownloadControlProps>
 > = ({slug, download_url, state}) => {
   return (
-    <Tippy
-      offset={[0, -2]}
-      content={
-        <div className="px-2 py-1 text-sm bg-gray-900 rounded-sm">
-          {download_url
-            ? 'Download video'
-            : 'Become a member to download this lesson'}
+    <DownloadControlErrorBoundary>
+      <Tippy
+        offset={[0, -2]}
+        content={
+          <div className="px-2 py-1 text-sm bg-gray-900 rounded-sm">
+            {download_url
+              ? 'Download video'
+              : 'Become a member to download this lesson'}
+          </div>
+        }
+      >
+        <div>
+          <DownloadButton
+            slug={slug}
+            download_url={download_url}
+            state={state}
+          />
         </div>
-      }
-    >
-      <div>
-        <DownloadButton slug={slug} download_url={download_url} state={state} />
-      </div>
-    </Tippy>
+      </Tippy>
+    </DownloadControlErrorBoundary>
   )
 }
 
