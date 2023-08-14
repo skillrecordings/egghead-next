@@ -55,7 +55,6 @@ import {
   selectHasEnded,
   selectIsFullscreen,
   selectViewer,
-  selectResource,
 } from '@skillrecordings/player'
 import cx from 'classnames'
 import {
@@ -69,6 +68,7 @@ import {CheckCircleIcon} from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
 import {LessonProgress} from 'lib/progress'
 import PlayerSidebar from '../../components/player/player-sidebar'
+import {GenericErrorBoundary} from '../../components/generic-error-boundary'
 
 const tracer = getTracer('lesson-page')
 
@@ -909,13 +909,15 @@ const LessonPage: React.FC<
           },
       }}
     >
-      <Lesson
-        state={[lessonState, send]}
-        initialLesson={initialLesson}
-        watchCount={watchCount}
-        setWatchCount={setWatchCount}
-        {...props}
-      />
+      <GenericErrorBoundary>
+        <Lesson
+          state={[lessonState, send]}
+          initialLesson={initialLesson}
+          watchCount={watchCount}
+          setWatchCount={setWatchCount}
+          {...props}
+        />
+      </GenericErrorBoundary>
     </VideoProvider>
   )
 }
