@@ -37,11 +37,10 @@ import CodeLink, {
 import DownloadControl from 'components/player/download-control'
 import useCio from 'hooks/use-cio'
 import Comments from 'components/pages/lessons/comments/comments'
-import PlayerSidebar from 'components/player/player-sidebar'
 import friendlyTime from 'friendly-time'
 import {PublishedAt, UpdatedAt} from 'components/layouts/collection-page-layout'
 import cookies from 'utils/cookies'
-import AutoplayControl from '../../components/player/autoplay-control'
+import AutoplayControl from 'components/player/autoplay-control'
 import {
   Player,
   usePlayerPrefs,
@@ -69,6 +68,7 @@ import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outlin
 import {CheckCircleIcon} from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
 import {LessonProgress} from 'lib/progress'
+import PlayerSidebar from '../../components/player/player-sidebar'
 
 const tracer = getTracer('lesson-page')
 
