@@ -43,6 +43,7 @@
     "@mux/mux-player-react": "^1.11.0",
     "@prisma/client": "4.7.0",
     "@radix-ui/react-accordion": "^1.1.2",
+    "@radix-ui/react-tooltip": "^1.0.6",
     "@reach/alert-dialog": "^0.16.2",
     "@reach/dialog": "^0.16.0",
     "@reach/listbox": "^0.16.1",
