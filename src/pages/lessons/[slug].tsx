@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
-import {filter, get, isEmpty, compact} from 'lodash'
+import {get} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {lessonMachine} from 'machines/lesson-machine'
 import {loadLesson} from 'lib/lessons'
@@ -17,7 +17,9 @@ import {
 import {addCueNote, deleteCueNote} from '../../lib/notes'
 import {GenericErrorBoundary} from '../../components/generic-error-boundary'
 import dynamic from 'next/dynamic'
-const Lesson = dynamic(() => import('./components/lesson'), {ssr: false})
+const Lesson = dynamic(() => import('./components/lesson'), {
+  ssr: false,
+})
 
 const tracer = getTracer('lesson-page')
 
