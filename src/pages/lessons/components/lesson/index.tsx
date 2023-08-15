@@ -2,22 +2,16 @@ import React from 'react'
 import {useRouter} from 'next/router'
 import {filter, get, isEmpty, compact} from 'lodash'
 import queryString from 'query-string'
-import {useMachine} from '@xstate/react'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
-import {lessonMachine} from 'machines/lesson-machine'
 import {useEggheadPlayer} from 'components/EggheadPlayer'
 import Course from 'components/pages/lessons/course'
 import Overlays from 'components/pages/lessons/overlays'
 import specialLessons from 'components/pages/lessons/special-lessons'
 import Tags from 'components/pages/lessons/tags'
 import Transcript from 'components/pages/lessons/transcript'
-import {loadLesson} from 'lib/lessons'
-import {useViewer} from 'context/viewer-context'
-import {LessonResource, VideoResource} from 'types'
+import {VideoResource} from 'types'
 import {NextSeo, VideoJsonLd} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
-import getTracer from 'utils/honeycomb-tracer'
-import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
 import Markdown from 'react-markdown'
@@ -42,7 +36,6 @@ import AutoplayControl from 'components/player/autoplay-control'
 import {
   Player,
   usePlayerPrefs,
-  VideoProvider,
   HLSSource,
   useVideo,
   selectWithSidePanel,
@@ -55,10 +48,6 @@ import {
   selectViewer,
 } from '@skillrecordings/player'
 import cx from 'classnames'
-import {
-  VideoEvent,
-  VideoStateContext,
-} from '@skillrecordings/player/dist/machines/video-machine'
 import {useSelector} from '@xstate/react'
 import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outline'
 import {CheckCircleIcon} from '@heroicons/react/solid'
