@@ -86,7 +86,7 @@ async function loadLessonMetadataFromSanity(slug: string) {
   try {
     const baseValues = await sanityClient.fetch(lessonQuery, params)
 
-    const derivedValues = deriveDataFromBaseValues(baseValues)
+    const derivedValues = baseValues ? deriveDataFromBaseValues(baseValues) : {}
 
     return compactedMerge(baseValues, derivedValues)
   } catch (e) {
