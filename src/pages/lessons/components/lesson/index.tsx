@@ -7,7 +7,6 @@ import {useEggheadPlayer} from 'components/EggheadPlayer'
 import Course from 'components/pages/lessons/course'
 import Overlays from 'components/pages/lessons/overlays'
 import specialLessons from 'components/pages/lessons/special-lessons'
-import Tags from 'components/pages/lessons/tags'
 import Transcript from 'components/pages/lessons/transcript'
 import {VideoResource} from 'types'
 import {NextSeo, VideoJsonLd} from 'next-seo'
@@ -55,6 +54,10 @@ import {trpc} from 'trpc/trpc.client'
 import {LessonProgress} from 'lib/progress'
 import PlayerSidebar from 'components/player/player-sidebar'
 import Comments from 'components/pages/lessons/comments/comments'
+import dynamic from 'next/dynamic'
+const Tags = dynamic(() => import('components/pages/lessons/tags'), {
+  ssr: false,
+})
 
 type LessonProps = {
   state: any
