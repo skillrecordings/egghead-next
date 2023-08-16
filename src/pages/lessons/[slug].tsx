@@ -16,7 +16,7 @@ import {
 } from '@skillrecordings/player/dist/machines/video-machine'
 import {addCueNote, deleteCueNote} from '../../lib/notes'
 import {GenericErrorBoundary} from '../../components/generic-error-boundary'
-import Lesson from './components/lesson'
+const Lesson = dynamic(() => import('./components/lesson'), {ssr: false})
 const VideoProvider = dynamic(
   () => import('@skillrecordings/player').then((mod) => mod.VideoProvider),
   {ssr: false},
