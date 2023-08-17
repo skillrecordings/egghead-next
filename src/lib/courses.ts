@@ -88,7 +88,7 @@ const courseQuery = groq`
     "description": summary,
     path,
     image,
-    'instructor': collaborators[]->[@->role == 'instructor']{
+    'instructor': collaborators[@->.role == "instructor"][0][]->{
     	'name': person->name,
   	}
 	},
