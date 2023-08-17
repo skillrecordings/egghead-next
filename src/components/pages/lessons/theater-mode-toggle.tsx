@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import Tippy from '@tippyjs/react'
+import * as Tooltip from '@radix-ui/react-tooltip'
 
 class TheaterModeErrorBoundary extends React.Component {
   constructor(props: any) {
@@ -39,17 +39,25 @@ const TheaterModeToggle: FunctionComponent<
 > = ({toggleTheaterMode, theaterMode, className}) => {
   return (
     <TheaterModeErrorBoundary>
-      <Tippy
-        content={theaterMode ? 'Disable theater mode' : 'Activate theater mode'}
-      >
-        <button onClick={toggleTheaterMode} className="p-2">
-          {theaterMode ? (
-            <IconTheaterModeOff className={className} />
-          ) : (
-            <IconTheaterModeOn className={className} />
-          )}
-        </button>
-      </Tippy>
+      <Tooltip.Provider>
+        <Tooltip.Root>
+          <Tooltip.Trigger asChild>
+            <button onClick={toggleTheaterMode} className="p-2">
+              {theaterMode ? (
+                <IconTheaterModeOff className={className} />
+              ) : (
+                <IconTheaterModeOn className={className} />
+              )}
+            </button>
+          </Tooltip.Trigger>
+          <Tooltip.Portal>
+            <Tooltip.Content className="TooltipContent" sideOffset={5}>
+              {theaterMode ? 'Disable theater mode' : 'Activate theater mode'}
+              <Tooltip.Arrow className="TooltipArrow" />
+            </Tooltip.Content>
+          </Tooltip.Portal>
+        </Tooltip.Root>
+      </Tooltip.Provider>
     </TheaterModeErrorBoundary>
   )
 }
