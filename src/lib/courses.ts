@@ -43,11 +43,11 @@ const courseQuery = groq`
   "illustration": images[label == 'illustration'][0]{
     url
   },
-  'illustrator': collaborators[]->[role == 'illustrator'][0]{
+  'illustrator': collaborators[@->.role == 'illustrator'][0]->{
     'name': person->name,
     'image': person->image.url
   },
-  'instructor': collaborators[]->[role == 'instructor'][0]{
+  'instructor': collaborators[@->.role == "instructor"][0]->{
     'full_name': person->name,
     'avatar_url': person->image.url,
     'slug': person->slug.current
@@ -88,7 +88,7 @@ const courseQuery = groq`
     "description": summary,
     path,
     image,
-    'instructor': collaborators[]->[role == 'instructor']{
+    'instructor': collaborators[]->[@->role == 'instructor']{
     	'name': person->name,
   	}
 	},
