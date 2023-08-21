@@ -3,15 +3,18 @@ import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {format} from 'date-fns'
 import {isEmpty} from 'lodash'
+import {convertTimeWithTitles} from 'utils/time-utils'
 
 import Eggo from 'components/icons/eggo'
 import Spinner from 'components/spinner'
+import {ClockIcon} from '@heroicons/react/solid'
 
 type Collection = {
   image: string
   path: string
   slug: string
   title: string
+  duration: number
 }
 
 type CourseData = {
@@ -20,6 +23,15 @@ type CourseData = {
   is_complete: boolean
   lesson_count: number
 }
+
+const Duration: React.FunctionComponent<
+  React.PropsWithChildren<{duration: string}>
+> = ({duration}) => (
+  <div className="flex flex-row items-center">
+    <ClockIcon className="w-4 h-4 mr-1" />
+    <span>{duration}</span>{' '}
+  </div>
+)
 
 const CompletedCourses: React.FC<
   React.PropsWithChildren<{
@@ -91,9 +103,12 @@ const CompletedCourses: React.FC<
                       )}
                     </Link>
                   </div>
-                  <div className="text-xs text-gray-600 self-start md:self-center dark:text-gray-400">
+                  <div className="flex gap-2 text-xs text-gray-600 self-start md:self-center dark:text-gray-400">
                     <span className="hidden sm:inline">Completed on</span>{' '}
                     {format(new Date(completed_at), 'yyyy/MM/dd')}
+                    <Duration
+                      duration={convertTimeWithTitles(collection.duration)}
+                    />
                   </div>
                 </li>
               )
