@@ -115,8 +115,8 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   try {
     const course = params && (await loadPlaylist(params.slug as string))
-
-    if (course && course?.slug !== params?.slug) {
+    console.log({req})
+    if (course && course?.path !== req.url) {
       return {
         redirect: {
           destination: course.path,
