@@ -42,7 +42,8 @@ const Course: React.FC<CourseProps> = (props) => {
 
   const course = {...props.course, ...data}
 
-  const {slug, lessons}: {slug: string; lessons: any} = course
+  const {slug, sections, lessons}: {slug: string; sections: any; lessons: any} =
+    course
   const items = get(course, 'items', [])
 
   const courseLessons = isEmpty(lessons)
@@ -65,6 +66,7 @@ const Course: React.FC<CourseProps> = (props) => {
     case slug === 'build-ai-apps-with-chatgpt-dall-e-and-gpt-4-42d767cc':
       return (
         <ScrimbaPageLayout
+          sections={sections}
           lessons={courseLessons}
           course={course}
           ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}

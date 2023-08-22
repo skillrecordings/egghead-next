@@ -8,6 +8,14 @@ export type Resource = {
   type?: string
 }
 
+export type SectionResource = LessonResource & {
+  id?: string
+  title: string
+  slug?: string
+  description?: string
+  type?: string
+}
+
 export type CardResource = Resource & {
   id?: string
   externalId?: number

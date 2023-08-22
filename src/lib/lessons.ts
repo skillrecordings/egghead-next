@@ -33,7 +33,6 @@ const lessonQuery = groq`
   'repo_url': repoUrl,
   'code_url': codeUrl,
   'scrimba': resources[_type == 'scrimbaResource'][0],
-  // 'scrimba_url': resources[_type == 'scrimbaResource'][0].url,
   'created_at': eggheadRailsCreatedAt,
   'updated_at': displayedUpdatedAt,
   'published_at': publishedAt,

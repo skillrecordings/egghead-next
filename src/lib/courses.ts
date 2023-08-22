@@ -95,6 +95,20 @@ const courseQuery = groq`
 	"customOgImage": images[label == 'og-image'][0]{
     url
   },
+  "sections": resources[]->{
+      // Section fields
+      _type,
+      _id,
+      title,
+      slug,
+      "lessons": resources[]->{
+        title,
+        "type": _type,
+        "icon_url": softwareLibraries[0].library->image.url,
+        "duration": resource->duration,
+        "path": "/lessons/" + slug.current
+      },
+    }
 }
 `
 

@@ -209,7 +209,6 @@ const Lesson: React.FC<LessonProps> = ({
 
   const nextLesson = useNextForCollection(collection, lesson.slug)
 
-  console.log('this is the next lesson: ', nextLesson)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
   const {session_id} = router.query
@@ -673,7 +672,7 @@ const Lesson: React.FC<LessonProps> = ({
                 <div className="bg-player-bg bg-opacity-80 px-3 py-2 flex items-center justify-between w-full group h-[54px]">
                   <div className="flex md:mt-0">
                     <button className="px-4 py-2" onClick={toggleFullscreen}>
-                      <ArrowsExpandIcon className="h-5 w-5 text-white" />
+                      <ArrowsExpandIcon className="h-5 w-5 text-gray-800  dark:text-white" />
                     </button>
                   </div>
                   {nextLesson && (
@@ -863,28 +862,6 @@ const Lesson: React.FC<LessonProps> = ({
                 </Tab>
               </TabList>
               <TabPanels className="p-5 rounded-lg rounded-tl-none bg-gray-50 dark:bg-gray-1000 sm:p-8">
-                {/* {scrimbaTranscript ? (
-                  <ReactMarkdown
-                    skipHtml={false}
-                    renderers={{
-                      code: (props) => {
-                        return <CodeBlock {...props} />
-                      },
-                    }}
-                    className="prose dark:prose-dark max-w-none text-gray-800 dark:text-gray-100 dark:prose-a:text-blue-300 prose-a:text-blue-500"
-                  >
-                    {lesson.scrimba.transcript}
-                  </ReactMarkdown>
-                ) : (
-                  transcriptAvailable && (
-                    <TabPanel>
-                      <Transcript
-                        initialTranscript={transcript}
-                        enhancedTranscript={enhancedTranscript}
-                      />
-                    </TabPanel>
-                  )
-                )} */}
                 {scrimbaTranscript && (
                   <TabPanel>
                     <ReactMarkdown

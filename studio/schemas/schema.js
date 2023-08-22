@@ -23,6 +23,7 @@ import videoResource from './documents/videoResource'
 import post from './documents/post'
 import course from './documents/course'
 import lesson from './documents/lesson'
+import section from './documents/section'
 import podcastEpisode from './documents/podcastEpisode'
 import podcastSeason from './documents/podcastSeason'
 import caseStudy from './documents/caseStudy'
@@ -76,5 +77,6 @@ export default createSchema({
     seo,
     muxAsset,
     scrimbaResource,
+    section,
   ]),
 })
