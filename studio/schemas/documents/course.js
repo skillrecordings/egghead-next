@@ -1,6 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
 import {nanoid} from 'nanoid'
-
 export default {
   name: 'course',
   type: 'document',
@@ -115,17 +114,23 @@ export default {
       to: [{type: 'collaborator'}],
     },
     {
-      name: 'lessons',
-      description: 'the individual lessons that make up this course',
-      title: 'Lessons',
+      name: 'resources',
+      description:
+        'Sections or the individual lessons that make up this course',
+      title: 'Resources',
       type: 'array',
       of: [
         {
+          title: 'Sections and Lessons',
           type: 'reference',
-          to: [{type: 'lesson'}],
+          to: [
+            {title: 'Section', type: 'section'},
+            {title: 'Lesson', type: 'lesson'},
+          ],
         },
       ],
     },
+
     {
       title: 'Access Level',
       description:
