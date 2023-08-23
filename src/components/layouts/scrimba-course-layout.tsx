@@ -10,18 +10,15 @@ import {get, first, filter, isEmpty} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
-import FolderDownloadIcon from '../icons/folder-download'
-import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
-import {LessonResource} from 'types'
+import {LessonResource, SectionResource} from 'types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
 import friendlyTime from 'friendly-time'
 import LearnerRatings from '../pages/courses/learner-ratings'
-import CommunityResource from 'components/community-resource'
+import ScrimbaResource from 'components/scrimba-resource'
 import TagList from './tag-list'
 import DialogButton from '../pages/courses/dialog-button'
-import MembershipDialogButton from '../pages/courses/membership-dialog-button'
 import * as Accordion from '@radix-ui/react-accordion'
 import ClockIcon from '../icons/clock'
 import Balancer from 'react-wrap-balancer'
@@ -42,6 +39,7 @@ type CoursePageLayoutProps = {
   lessons: LessonResource[]
   course: any
   ogImageUrl: string
+  sections: SectionResource[]
 }
 
 type ModuleResource = {
@@ -53,7 +51,7 @@ type Resource = ModuleResource | LessonResource
 
 const ScrimbaPageLayout: React.FunctionComponent<
   React.PropsWithChildren<CoursePageLayoutProps>
-> = ({lessons = [], course, ogImageUrl}) => {
+> = ({lessons = [], course, ogImageUrl, sections = []}) => {
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
   const [clickable, setIsClickable] = React.useState(true)
@@ -90,20 +88,10 @@ const ScrimbaPageLayout: React.FunctionComponent<
     )
   }
 
-  const resourceCollection: ModuleResource[] = [
-    {
-      sectionTitle: 'Build a Movie Idea Generator With ChatGPT and Dall-E',
-      resourceList: lessons.slice(0, 3),
-    },
-    {
-      sectionTitle: 'Build a GPT-4 Chatbot',
-      resourceList: lessons.slice(3, 4),
-    },
-    {
-      sectionTitle: 'Build a Chatbot With a fine-tuned Model',
-      resourceList: lessons.slice(4, 5),
-    },
-  ]
+  const totalLessons = sections.reduce(
+    (count, section) => count + section.lessons.length,
+    0,
+  )
 
   const AccordionLessonList = () => {
     const [openLesson, setOpenLesson] = React.useState<string[]>(['resource_0'])
@@ -119,7 +107,7 @@ const ScrimbaPageLayout: React.FunctionComponent<
             <h2 className="text-xl font-bold">Course Content</h2>
             <div className="text-sm font-normal text-gray-600 dark:text-gray-300">
               {durationCourse && `${durationCourse} • `}
-              {lessons.length + playlistLessons.length} lessons
+              {totalLessons} lessons
             </div>
           </div>
           <Accordion.Root
@@ -127,106 +115,104 @@ const ScrimbaPageLayout: React.FunctionComponent<
             value={openLesson}
             onValueChange={handleAccordionChange}
           >
-            {resourceCollection.map(
-              (resource: ModuleResource, index: number) => (
-                <Accordion.Item key={index} value={`resource_${index}`}>
-                  <Accordion.Header className="relative z-10 overflow-hidden rounded-lg bg-gray-900 pt-4">
-                    <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 px-3 py-2.5 text-left text-lg font-medium leading-tight shadow-lg transition hover:bg-gray-800/40">
-                      <Balancer>{resource.sectionTitle}</Balancer>
-                      <div className="flex items-center">
-                        {openLesson.includes(`resource_${index}`) ? (
-                          <ChevronUpIcon
-                            className="relative h-3 w-3 opacity-70 transition group-radix-state-open:rotate-180"
-                            aria-hidden="true"
-                          />
-                        ) : (
-                          <ChevronDownIcon
-                            className="relative h-3 w-3 opacity-70 transition"
-                            aria-hidden="true"
-                          />
-                        )}
-                      </div>
-                    </Accordion.Trigger>
-                  </Accordion.Header>
-                  <Accordion.Content>
-                    <ul>
-                      {resource.resourceList.map(
-                        (item: Resource, itemIndex: number) => {
-                          if ('sectionTitle' in item) {
-                            // Handle ModuleResource
-                            return null // Render nothing for ModuleResource
-                          } else {
-                            // Handle LessonResource
-                            const lessonResource = item as LessonResource
-                            const isComplete = lessonResource.completed
+            {sections.map((section: SectionResource, index: number) => (
+              <Accordion.Item key={index} value={`resource_${index}`}>
+                <Accordion.Header className="relative z-10 overflow-hidden rounded-lg  pt-4">
+                  <Accordion.Trigger className="bg-gray-100 group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 dark:bg-gray-800/20 px-3 py-2.5 text-left text-lg font-medium leading-tight shadow-lg transition dark:hover:bg-gray-800/40">
+                    <Balancer>{section.title}</Balancer>
+                    <div className="flex items-center">
+                      {openLesson.includes(`resource_${index}`) ? (
+                        <ChevronUpIcon
+                          className="relative h-3 w-3 opacity-70 transition group-radix-state-open:rotate-180"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <ChevronDownIcon
+                          className="relative h-3 w-3 opacity-70 transition"
+                          aria-hidden="true"
+                        />
+                      )}
+                    </div>
+                  </Accordion.Trigger>
+                </Accordion.Header>
+                <Accordion.Content>
+                  <ul>
+                    {section.lessons.map(
+                      (item: LessonResource, itemIndex: number) => {
+                        if ('sectionTitle' in item) {
+                          // Handle ModuleResource
+                          return null // Render nothing for ModuleResource
+                        } else {
+                          // Handle LessonResource
+                          const lessonResource = item as LessonResource
+                          const isComplete = lessonResource.completed
 
-                            return (
-                              <li key={lessonResource.slug}>
-                                <div className="flex py-2 font-semibold leading-tight">
-                                  <div className="flex items-center mr-2 space-x-2">
-                                    <div
-                                      className={`${
-                                        isComplete
-                                          ? 'text-blue-600 dark:text-green-400'
-                                          : 'text-gray-500 dark:text-gray-400'
-                                      } pt-px font-xs scale-75 font-normal w-4`}
-                                    >
-                                      {isComplete ? (
-                                        <CheckIcon className="w-6 h-6 -translate-x-2" />
-                                      ) : (
-                                        itemIndex + 1
-                                      )}
-                                    </div>
-                                    {lessonResource.icon_url && (
-                                      <div className="flex items-center flex-shrink-0 w-8">
-                                        <Image
-                                          src={lessonResource.icon_url}
-                                          width={24}
-                                          height={24}
-                                        />
-                                      </div>
+                          return (
+                            <li key={lessonResource.slug}>
+                              <div className="flex py-2 font-semibold leading-tight">
+                                <div className="flex items-center mr-2 space-x-2">
+                                  <div
+                                    className={`${
+                                      isComplete
+                                        ? 'text-blue-600 dark:text-green-400'
+                                        : 'text-gray-500 dark:text-gray-400'
+                                    } pt-px font-xs scale-75 font-normal w-4`}
+                                  >
+                                    {isComplete ? (
+                                      <CheckIcon className="w-6 h-6 -translate-x-2" />
+                                    ) : (
+                                      itemIndex + 1
                                     )}
                                   </div>
-                                  {lessonResource.path && (
-                                    <div className="flex flex-col">
-                                      <div>
-                                        <Link
-                                          href={lessonResource.path}
-                                          onClick={() => {
-                                            track(
-                                              `clicked video link on course page`,
-                                              {
-                                                course: course.slug,
-                                                video: lessonResource.slug,
-                                              },
-                                            )
-                                          }}
-                                          className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100"
-                                        >
-                                          {lessonResource.title}
-                                        </Link>
-                                      </div>
-                                      <div className="text-xs text-gray-700 dark:text-gray-500">
-                                        {convertTimeWithTitles(
-                                          lessonResource.duration,
-                                          {
-                                            showSeconds: true,
-                                          },
-                                        )}
-                                      </div>
+                                  {lessonResource.icon_url && (
+                                    <div className="flex items-center flex-shrink-0 w-8">
+                                      <Image
+                                        src={lessonResource.icon_url}
+                                        width={24}
+                                        height={24}
+                                      />
                                     </div>
                                   )}
                                 </div>
-                              </li>
-                            )
-                          }
-                        },
-                      )}
-                    </ul>
-                  </Accordion.Content>
-                </Accordion.Item>
-              ),
-            )}
+                                {lessonResource.path && (
+                                  <div className="flex flex-col">
+                                    <div>
+                                      <Link
+                                        href={lessonResource.path}
+                                        onClick={() => {
+                                          track(
+                                            `clicked video link on course page`,
+                                            {
+                                              course: course.slug,
+                                              video: lessonResource.slug,
+                                            },
+                                          )
+                                        }}
+                                        className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100"
+                                      >
+                                        {lessonResource.title}
+                                      </Link>
+                                    </div>
+                                    <div className="text-xs text-gray-700 dark:text-gray-500">
+                                      {convertTimeWithTitles(
+                                        lessonResource.duration,
+                                        {
+                                          showSeconds: true,
+                                        },
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </li>
+                          )
+                        }
+                      },
+                    )}
+                  </ul>
+                </Accordion.Content>
+              </Accordion.Item>
+            ))}
           </Accordion.Root>
         </section>
       </>
@@ -421,11 +407,11 @@ const ScrimbaPageLayout: React.FunctionComponent<
               <header>
                 {image_url && (
                   <div className="flex items-center justify-center md:hidden">
-                    <CourseArtwork
+                    {/* <CourseArtwork
                       path={nextLesson.path}
                       trackText="clicked course image on mobile"
                       size={imageIsTag ? 100 : 200}
-                    />
+                    /> */}
                   </div>
                 )}
                 {access_state && (
@@ -465,9 +451,7 @@ const ScrimbaPageLayout: React.FunctionComponent<
                         </div>
                       )}
                       <span>&middot;</span>
-                      <div>
-                        {lessons.length + playlistLessons.length} lessons{' '}
-                      </div>
+                      <div>{totalLessons} lessons </div>
                     </div>
                   </div>
 
@@ -561,62 +545,6 @@ const ScrimbaPageLayout: React.FunctionComponent<
                         </p>
                       </LoginForm>
                     </DialogButton>
-                  )}
-
-                  {/* Download button */}
-                  {download_url ? (
-                    <Link
-                      href={download_url}
-                      onClick={() => {
-                        track(`clicked download course`, {
-                          course: course.slug,
-                        })
-                      }}
-                    >
-                      <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
-                        <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
-                      </div>
-                    </Link>
-                  ) : (
-                    <MembershipDialogButton
-                      buttonText="Download"
-                      title="Become a member to download this course"
-                    >
-                      As an egghead member you can download any of our courses
-                      and watch them offline.
-                    </MembershipDialogButton>
-                  )}
-
-                  {/* RSS button */}
-                  {rss_url ? (
-                    <Link
-                      href={rss_url}
-                      onClick={() => {
-                        track(`clicked rss feed link`, {
-                          course: course.slug,
-                        })
-                      }}
-                    >
-                      <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
-                        <RSSIcon className="w-4 h-4 mr-1" /> RSS
-                      </div>
-                    </Link>
-                  ) : (
-                    <a
-                      onClick={() => {
-                        track(`clicked disabled rss feed link`, {
-                          course: course.slug,
-                        })
-                      }}
-                    >
-                      <MembershipDialogButton
-                        buttonText="RSS"
-                        title="Become a member to access RSS feeds"
-                      >
-                        As an egghead member you can subscribe to any of our
-                        courses using an RSS feed.
-                      </MembershipDialogButton>
-                    </a>
                   )}
                 </div>
                 {/* End of action buttons block */}
@@ -736,7 +664,7 @@ const ScrimbaPageLayout: React.FunctionComponent<
                 <div className="block pt-5 md:hidden">
                   {get(course, 'access_state') === 'free' && (
                     <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
-                      <CommunityResource type="course" />
+                      <ScrimbaResource type="course" />
                     </div>
                   )}
                   <AccordionLessonList />
@@ -747,11 +675,11 @@ const ScrimbaPageLayout: React.FunctionComponent<
             <div className="flex flex-col items-center justify-start mb-4 md:col-span-2 md:mb-0">
               {image_url && (
                 <div className="hidden md:block">
-                  <CourseArtwork
+                  {/* <CourseArtwork
                     path={nextLesson.path}
                     size={imageIsTag ? 200 : 420}
                     trackText="clicked course image"
-                  />
+                  /> */}
                 </div>
               )}
               {courseIllustrator && (
@@ -766,7 +694,7 @@ const ScrimbaPageLayout: React.FunctionComponent<
                 </div>
                 {get(course, 'access_state') === 'free' && (
                   <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
-                    <CommunityResource type="course" />
+                    <ScrimbaResource type="course" />
                   </div>
                 )}
                 <AccordionLessonList />
