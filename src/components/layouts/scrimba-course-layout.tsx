@@ -139,7 +139,7 @@ const ScrimbaPageLayout: React.FunctionComponent<
                   <ul>
                     {section.lessons.map(
                       (item: LessonResource, itemIndex: number) => {
-                        if ('sectionTitle' in item) {
+                        if (item && 'sectionTitle' in item) {
                           // Handle ModuleResource
                           return null // Render nothing for ModuleResource
                         } else {
