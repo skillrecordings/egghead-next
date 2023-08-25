@@ -32,7 +32,7 @@ const lessonQuery = groq`
   'icon_url': coalesce(softwareLibraries[0].library->image.url, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
   'repo_url': repoUrl,
   'code_url': codeUrl,
-  'scrimba_url': resources[_type == 'scrimbaResource'][0],
+  'scrimba': resources[_type == 'scrimbaResource'][0],
   'created_at': eggheadRailsCreatedAt,
   'updated_at': displayedUpdatedAt,
   'published_at': publishedAt,
@@ -52,7 +52,14 @@ const lessonQuery = groq`
       'image_url': image.url
     }),
   },
-  'collection':*[_type == 'section' && references(^._id)][0] {
+   'collection':*[_type == 'section' && references(^._id)][0] {
+    "lessons": resources[]->{
+        title,
+        "type": _type,
+        "icon_url": softwareLibraries[0].library->image.url,
+        "duration": resource->duration,
+        "path": "/lessons/" + slug.current
+      },
     ...*[_type == 'course' && references(^._id)][0] {
     title,
     'slug': slug.current,
