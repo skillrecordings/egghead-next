@@ -75,26 +75,26 @@ export default function UserLayout({children}: any) {
                 <nav className="space-y-1">
                   {userPagesMap.map((page) => {
                     return (
-                      <Link key={page.path} href={page.path}>
-                        <a
+                      <Link
+                        key={page.path}
+                        href={page.path}
+                        className={cx(
+                          page.path === currentPath
+                            ? 'bg-blue-50 dark:bg-gray-900 border-blue-500 text-blue-700 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-700'
+                            : 'border-transparent text-gray-900 dark:hover:bg-gray-900 hover:bg-gray-50 hover:text-gray-900',
+                          'group border-l-4 px-3 py-2 flex items-center text-sm font-medium dark:text-gray-50',
+                        )}
+                      >
+                        <page.icon
                           className={cx(
                             page.path === currentPath
-                              ? 'bg-blue-50 dark:bg-gray-900 border-blue-500 text-blue-700 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-700'
-                              : 'border-transparent text-gray-900 dark:hover:bg-gray-900 hover:bg-gray-50 hover:text-gray-900',
-                            'group border-l-4 px-3 py-2 flex items-center text-sm font-medium dark:text-gray-50',
+                              ? 'text-blue-500 group-hover:text-blue-500 '
+                              : 'text-gray-400 group-hover:text-gray-500',
+                            'flex-shrink-0 -ml-1 mr-3 h-6 w-6',
                           )}
-                        >
-                          <page.icon
-                            className={cx(
-                              page.path === currentPath
-                                ? 'text-blue-500 group-hover:text-blue-500 '
-                                : 'text-gray-400 group-hover:text-gray-500',
-                              'flex-shrink-0 -ml-1 mr-3 h-6 w-6',
-                            )}
-                            aria-hidden="true"
-                          />
-                          <span className="truncate">{page.name}</span>
-                        </a>
+                          aria-hidden="true"
+                        />
+                        <span className="truncate">{page.name}</span>
                       </Link>
                     )
                   })}

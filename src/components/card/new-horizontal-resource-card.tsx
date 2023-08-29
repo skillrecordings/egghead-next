@@ -8,7 +8,7 @@ import {
   CardAuthor,
   CardFooter,
 } from './index'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
 import {get, isEmpty} from 'lodash'
@@ -135,32 +135,31 @@ export const ResourceLink: React.FC<
   feature,
   ...props
 }) => (
-  <Link href={path}>
-    <a
-      onClick={() => {
-        if (feature) {
-          analytics.events.activityInternalLinkClick(
-            resource_type,
-            location,
-            tag,
-            path,
-            instructor,
-            feature,
-          )
-        } else {
-          analytics.events.activityInternalLinkClick(
-            resource_type,
-            location,
-            tag,
-            path,
-            instructor,
-          )
-        }
-      }}
-      {...props}
-    >
-      {children}
-    </a>
+  <Link
+    href={path}
+    onClick={() => {
+      if (feature) {
+        analytics.events.activityInternalLinkClick(
+          resource_type,
+          location,
+          tag,
+          path,
+          instructor,
+          feature,
+        )
+      } else {
+        analytics.events.activityInternalLinkClick(
+          resource_type,
+          location,
+          tag,
+          path,
+          instructor,
+        )
+      }
+    }}
+    {...props}
+  >
+    {children}
   </Link>
 )
 

@@ -3,7 +3,7 @@ import {sortBy} from 'lodash'
 import Link from 'next/link'
 import {FunctionComponent} from 'react'
 import {GetStaticProps} from 'next'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
 import tags from 'pages/site-directory/tags.json'
@@ -31,27 +31,26 @@ const Tags: FunctionComponent<React.PropsWithChildren<TagsProps>> = ({
         {tags.map((tag) => {
           return (
             <div className="flex justify-center" key={tag.slug}>
-              <Link href={`/q/${tag.slug}`}>
-                <a
-                  onClick={() =>
-                    track(`clicked topic`, {
-                      location: 'topic page',
-                      topic: tag.slug,
-                    })
-                  }
-                  className="flex flex-row items-center justify-start w-full p-4 space-x-2 transition-all duration-150 ease-in-out border border-transparent rounded-lg hover:shadow-sm hover:border-gray-200 sm:p-5"
-                >
-                  {tag.image_64_url && (
-                    <Image
-                      quality={100}
-                      src={tag.image_64_url}
-                      alt={tag.label}
-                      width={64}
-                      height={64}
-                    />
-                  )}
-                  <span className="font-medium leading-tight">{tag.label}</span>
-                </a>
+              <Link
+                href={`/q/${tag.slug}`}
+                onClick={() =>
+                  track(`clicked topic`, {
+                    location: 'topic page',
+                    topic: tag.slug,
+                  })
+                }
+                className="flex flex-row items-center justify-start w-full p-4 space-x-2 transition-all duration-150 ease-in-out border border-transparent rounded-lg hover:shadow-sm hover:border-gray-200 sm:p-5"
+              >
+                {tag.image_64_url && (
+                  <Image
+                    quality={100}
+                    src={tag.image_64_url}
+                    alt={tag.label}
+                    width={64}
+                    height={64}
+                  />
+                )}
+                <span className="font-medium leading-tight">{tag.label}</span>
               </Link>
             </div>
           )

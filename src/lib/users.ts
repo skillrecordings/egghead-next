@@ -195,6 +195,7 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
         collection {
           ... on Playlist {
             slug
+            duration
             title
             image: image_thumb_url
             path
@@ -202,6 +203,7 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
           }
           ... on Course {
             title
+            duration
             lessons {
               title
               slug

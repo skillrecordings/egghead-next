@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {PodcastResource} from 'types'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 type PodcastCardProps = {
   podcast: PodcastResource

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import ExternalTrackedLink from '../../external-tracked-link'
 
 const DefaultCTA: React.FC<React.PropsWithChildren<{location: string}>> = ({

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 
 type HeaderProps = {
@@ -36,17 +36,19 @@ const CTA: FunctionComponent<React.PropsWithChildren<HeaderProps>> = ({
         {primaryCta || secondaryCta ? (
           <div className="pt-10 flex md:flex-row flex-col md:space-y-0 space-y-4 items-center justify-center space-x-2">
             {primaryCta.url && (
-              <Link href={primaryCta.url}>
-                <a className="md:w-auto w-full px-5 py-3 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 hover:scale-105 transition-all duration-150 ease-in-out">
-                  {primaryCta.label}
-                </a>
+              <Link
+                href={primaryCta.url}
+                className="md:w-auto w-full px-5 py-3 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 hover:scale-105 transition-all duration-150 ease-in-out"
+              >
+                {primaryCta.label}
               </Link>
             )}
             {secondaryCta.url && (
-              <Link href={secondaryCta.url}>
-                <a className="md:w-auto w-full px-5 py-3 text-center rounded-md bg-white text-black bg-opacity-100 hover:bg-opacity-100 font-semibold shadow-lg hover:bg-blue-50 hover:scale-105 transition-all duration-150 ease-in-out">
-                  {secondaryCta.label}
-                </a>
+              <Link
+                href={secondaryCta.url}
+                className="md:w-auto w-full px-5 py-3 text-center rounded-md bg-white text-black bg-opacity-100 hover:bg-opacity-100 font-semibold shadow-lg hover:bg-blue-50 hover:scale-105 transition-all duration-150 ease-in-out"
+              >
+                {secondaryCta.label}
               </Link>
             )}
           </div>

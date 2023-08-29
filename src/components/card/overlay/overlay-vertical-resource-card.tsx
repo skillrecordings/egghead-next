@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardPreview,
 } from '../index'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {get, isEmpty} from 'lodash'
 import {CardResource} from 'types'
@@ -99,33 +99,30 @@ export const ResourceLink: React.FC<
   <Link
     href={path}
     className={twMerge('flex flex-col justify-center items-center', className)}
+    onClick={() => {
+      if (feature) {
+        analytics.events.activityInternalLinkClick(
+          resource_type,
+          location,
+          tag,
+          path,
+          instructor,
+          feature,
+        )
+      } else {
+        analytics.events.activityInternalLinkClick(
+          resource_type,
+          location,
+          tag,
+          path,
+          instructor,
+        )
+      }
+    }}
+    target={target || '_self'}
+    {...props}
   >
-    <a
-      onClick={() => {
-        if (feature) {
-          analytics.events.activityInternalLinkClick(
-            resource_type,
-            location,
-            tag,
-            path,
-            instructor,
-            feature,
-          )
-        } else {
-          analytics.events.activityInternalLinkClick(
-            resource_type,
-            location,
-            tag,
-            path,
-            instructor,
-          )
-        }
-      }}
-      target={target || '_self'}
-      {...props}
-    >
-      {children}
-    </a>
+    {children}
   </Link>
 )
 

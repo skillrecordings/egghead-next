@@ -48,9 +48,7 @@ const Index = (props: any) => {
               {tagSlugs.map((path) => {
                 return (
                   <li key={path}>
-                    <Link href={`/site-directory/${path}`}>
-                      <a>{path}</a>
-                    </Link>
+                    <Link href={`/site-directory/${path}`}>{path}</Link>
                   </li>
                 )
               })}

@@ -1,6 +1,6 @@
 import DanAbramovPageData from './dan-abramov-page-data'
 import {find} from 'lodash'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import SearchInstructorEssential from '../instructor-essential'
 import ExternalTrackedLink from '../../../external-tracked-link'
 import {VerticalResourceCard} from '../../../card/verticle-resource-card'

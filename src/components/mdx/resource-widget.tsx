@@ -2,7 +2,7 @@ import Grid from 'components/grid'
 import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
 import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 import cx from 'classnames'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {
   Card,
   CardPreview,
@@ -43,32 +43,31 @@ const ResourceLink: React.FC<
   feature,
   ...props
 }) => (
-  <Link href={path}>
-    <a
-      onClick={() => {
-        if (feature) {
-          analytics.events.activityInternalLinkClick(
-            resource_type,
-            location,
-            tag,
-            path,
-            instructor,
-            feature,
-          )
-        } else {
-          analytics.events.activityInternalLinkClick(
-            resource_type,
-            location,
-            tag,
-            path,
-            instructor,
-          )
-        }
-      }}
-      {...props}
-    >
-      {children}
-    </a>
+  <Link
+    href={path}
+    onClick={() => {
+      if (feature) {
+        analytics.events.activityInternalLinkClick(
+          resource_type,
+          location,
+          tag,
+          path,
+          instructor,
+          feature,
+        )
+      } else {
+        analytics.events.activityInternalLinkClick(
+          resource_type,
+          location,
+          tag,
+          path,
+          instructor,
+        )
+      }
+    }}
+    {...props}
+  >
+    {children}
   </Link>
 )
 

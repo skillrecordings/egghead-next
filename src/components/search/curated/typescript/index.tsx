@@ -1,5 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import typescriptPageData from './typescript-page-data'
 import SearchCuratedEssential from '../curated-essential'
@@ -75,39 +75,38 @@ Love them or hate them, static types are here to stay, and at the very least an 
 
 const CourseFeatureCard = ({resource, className}: any) => {
   return (
-    <Link href="/courses/advanced-typescript-fundamentals-579c174f">
-      <a
-        className={`block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center ${
-          className ? className : ''
-        }`}
-      >
-        <div className="items-center h-full w-full block bg-white dark:bg-gray-800">
-          <div className="md:min-h-[477px] relative z-10 flex flex-col h-full justify-between  items-center sm:p-8 p-5">
-            <div className="flex flex-col items-center">
-              <Image
-                src="https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/433/579/full/typescript.png"
-                width={200}
-                height={200}
-                alt="Advanced TypeScript Fundamentals"
-              />
-              <h2 className="text-xl font-bold min-w-full mt-4 sm:mt-14 mb-2 leading-tighter group-hover:underline">
-                Advanced TypeScript Fundamentals
-              </h2>
-              <span className="text-sm opacity-80">Marius Schulz</span>
-              <p className="text-sm mt-4">
-                Learn the newest language features TypeScript has to offer.
-                Learn how to use optional chaining, const assertions,
-                conditional types, and more!
-              </p>
-            </div>
+    <Link
+      href="/courses/advanced-typescript-fundamentals-579c174f"
+      className={`block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center ${
+        className ? className : ''
+      }`}
+    >
+      <div className="items-center h-full w-full block bg-white dark:bg-gray-800">
+        <div className="md:min-h-[477px] relative z-10 flex flex-col h-full justify-between  items-center sm:p-8 p-5">
+          <div className="flex flex-col items-center">
+            <Image
+              src="https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/433/579/full/typescript.png"
+              width={200}
+              height={200}
+              alt="Advanced TypeScript Fundamentals"
+            />
+            <h2 className="text-xl font-bold min-w-full mt-4 sm:mt-14 mb-2 leading-tighter group-hover:underline">
+              Advanced TypeScript Fundamentals
+            </h2>
+            <span className="text-sm opacity-80">Marius Schulz</span>
+            <p className="text-sm mt-4">
+              Learn the newest language features TypeScript has to offer. Learn
+              how to use optional chaining, const assertions, conditional types,
+              and more!
+            </p>
           </div>
-          <img
-            className="absolute top-0 left-0 z-0 w-full object-fit"
-            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619808981/next.egghead.io/resources/advanced-typescript-fundamentals/background-feature-card-v2.svg"
-            alt=""
-          />
         </div>
-      </a>
+        <img
+          className="absolute top-0 left-0 z-0 w-full object-fit"
+          src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619808981/next.egghead.io/resources/advanced-typescript-fundamentals/background-feature-card-v2.svg"
+          alt=""
+        />
+      </div>
     </Link>
   )
 }

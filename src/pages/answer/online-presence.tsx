@@ -193,16 +193,15 @@ const DevTools: React.FC<React.PropsWithChildren<{questions: Questions}>> = ({
       <ol className="list-decimal list-inside" role="list">
         {keys(questions).map((q) => (
           <li className="pb-1" key={q} role="listitem">
-            <Link href={`/answer?question=${q}`}>
-              <a
-                className={
-                  get(router.query, 'question') === q
-                    ? 'underline'
-                    : 'hover:underline'
-                }
-              >
-                {q}
-              </a>
+            <Link
+              href={`/answer?question=${q}`}
+              className={
+                get(router.query, 'question') === q
+                  ? 'underline'
+                  : 'hover:underline'
+              }
+            >
+              {q}
             </Link>
           </li>
         ))}

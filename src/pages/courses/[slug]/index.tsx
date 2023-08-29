@@ -106,6 +106,10 @@ const loadDraftCourse = async (slug: string) => {
   }
 }
 
+const getSlugFromPath = (path: string) => {
+  return path.split('/').pop()
+}
+
 export const getServerSideProps: GetServerSideProps = async ({
   res,
   req,
@@ -115,8 +119,8 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   try {
     const course = params && (await loadPlaylist(params.slug as string))
-
-    if (course && course?.slug !== params?.slug) {
+    const courseSlug = getSlugFromPath(course?.path)
+    if (course && courseSlug !== params?.slug) {
       return {
         redirect: {
           destination: course.path,

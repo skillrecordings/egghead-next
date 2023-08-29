@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import getDependencies from 'data/courseDependencies'
 import {track} from 'utils/analytics'
 import {get, isEmpty} from 'lodash'
@@ -50,30 +50,29 @@ const Tags: React.FC<
 
               return (
                 <li key={index} className="inline-flex items-center">
-                  <Link href={`/q/${tag.name}`}>
-                    <a
-                      onClick={() => {
-                        track(`clicked view topic`, {
-                          lesson: lessonSlug,
-                          topic: tag.name,
-                        })
-                      }}
-                      className="inline-flex items-center hover:underline"
-                    >
-                      <Image
-                        src={tagImageUrl}
-                        alt={tag.name}
-                        width={20}
-                        height={20}
-                        className="flex-shrink-0"
-                      />
-                      <span className="ml-1">{tag.label}</span>
-                      {tag.version && (
-                        <span className="ml-2">
-                          <code>{tag.version}</code>
-                        </span>
-                      )}
-                    </a>
+                  <Link
+                    href={`/q/${tag.name}`}
+                    onClick={() => {
+                      track(`clicked view topic`, {
+                        lesson: lessonSlug,
+                        topic: tag.name,
+                      })
+                    }}
+                    className="inline-flex items-center hover:underline"
+                  >
+                    <Image
+                      src={tagImageUrl}
+                      alt={tag.name}
+                      width={20}
+                      height={20}
+                      className="flex-shrink-0"
+                    />
+                    <span className="ml-1">{tag.label}</span>
+                    {tag.version && (
+                      <span className="ml-2">
+                        <code>{tag.version}</code>
+                      </span>
+                    )}
                   </Link>
                 </li>
               )

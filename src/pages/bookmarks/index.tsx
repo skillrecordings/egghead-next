@@ -3,7 +3,7 @@ import {useViewer} from 'context/viewer-context'
 import axios from 'utils/configured-axios'
 import {Resource} from 'types'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {reject, isEmpty} from 'lodash'
 import {track} from 'utils/analytics'
 import {convertTimeWithTitles} from 'utils/time-utils'
@@ -90,12 +90,13 @@ const Bookmarks: React.FunctionComponent<
                     )}
                     <div className="flex flex-col">
                       <div className="flex space-x-2">
-                        <Link href={bookmark.path}>
-                          <a className="inline-flex items-center space-x-2 group">
-                            <div className="font-medium leading-tight group-hover:underline md:text-lg text-normal">
-                              {bookmark.title}
-                            </div>
-                          </a>
+                        <Link
+                          href={bookmark.path}
+                          className="inline-flex items-center space-x-2 group"
+                        >
+                          <div className="font-medium leading-tight group-hover:underline md:text-lg text-normal">
+                            {bookmark.title}
+                          </div>
                         </Link>
                         <button
                           aria-label="remove"

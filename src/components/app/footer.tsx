@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Link from '../link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Eggo from '../images/eggo.svg'
 import {track} from 'utils/analytics'
 import {useViewer} from 'context/viewer-context'

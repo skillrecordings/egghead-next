@@ -1,7 +1,7 @@
 import * as React from 'react'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import {track} from 'utils/analytics'
@@ -16,24 +16,23 @@ const DigitalGardening: React.FC<React.PropsWithChildren<any>> = ({data}) => {
             <div className="flex items-center justify-center w-full mx-auto space-y-5 lg:px-8">
               <div className="flex flex-col items-center justify-center w-full space-y-5 lg:flex-row sm:space-x-10 sm:space-y-0 0 xl:pr-16">
                 <div className="flex-shrink-0">
-                  <Link href={data.path}>
-                    <a
-                      tabIndex={-1}
-                      onClick={() =>
-                        track('clicked jumbotron resource', {
-                          resource: data.path,
-                          linkType: 'image',
-                        })
-                      }
-                    >
-                      <Image
-                        quality={100}
-                        src={data.illustration.url}
-                        width={222}
-                        height={273}
-                        alt={data.illustration.alt}
-                      />
-                    </a>
+                  <Link
+                    href={data.path}
+                    tabIndex={-1}
+                    onClick={() =>
+                      track('clicked jumbotron resource', {
+                        resource: data.path,
+                        linkType: 'image',
+                      })
+                    }
+                  >
+                    <Image
+                      quality={100}
+                      src={data.illustration.url}
+                      width={222}
+                      height={273}
+                      alt={data.illustration.alt}
+                    />
                   </Link>
                 </div>
                 <div className="flex flex-col items-center w-full sm:items-start">

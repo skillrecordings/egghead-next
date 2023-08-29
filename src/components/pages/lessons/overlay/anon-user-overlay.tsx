@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import * as React from 'react'
 import {track} from 'utils/analytics'
 import noop from 'utils/noop'
@@ -69,48 +69,46 @@ const ContinueCourseCard: React.FC<React.PropsWithChildren<any>> = ({
       <CardContent className="flex flex-col justify-center items-center">
         <div className="hidden md:flex md:flex-col justify-center items-center shrink">
           {resource.image && (
-            <Link href={resource.path}>
-              <a
-                onClick={() => {
-                  track('clicked resource', {
-                    resource: resource.path,
-                    linkType: 'image',
-                    location,
-                  })
-                }}
-                className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
-                tabIndex={-1}
-              >
-                <CardPreview>
-                  <Image
-                    src={get(resource.image, 'src', resource.image)}
-                    width={180}
-                    height={180}
-                    layout="fixed"
-                    className="transition ease-in-out hover:scale-110 duration-100 object-cover rounded-md"
-                    alt={`illustration for ${resource.title}`}
-                  />
-                </CardPreview>
-              </a>
+            <Link
+              href={resource.path}
+              onClick={() => {
+                track('clicked resource', {
+                  resource: resource.path,
+                  linkType: 'image',
+                  location,
+                })
+              }}
+              className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
+              tabIndex={-1}
+            >
+              <CardPreview>
+                <Image
+                  src={get(resource.image, 'src', resource.image)}
+                  width={180}
+                  height={180}
+                  layout="fixed"
+                  className="transition ease-in-out hover:scale-110 duration-100 object-cover rounded-md"
+                  alt={`illustration for ${resource.title}`}
+                />
+              </CardPreview>
             </Link>
           )}
           <CardHeader className="mx-16">
-            <Link href={resource.path}>
-              <a
-                onClick={() => {
-                  track('clicked resource', {
-                    resource: resource.path,
-                    linkType: 'text',
-                    location,
-                    feature: FEATURE,
-                  })
-                }}
-                className="inline-block hover:text-blue-600 dark:hover:text-blue-300 w-fit"
-              >
-                <h3 className="text-lg 3xl:text-xl font-bold leading-tighter dark:text-white dark:hover:text-blue-300 text-center">
-                  {resource.title}
-                </h3>
-              </a>
+            <Link
+              href={resource.path}
+              onClick={() => {
+                track('clicked resource', {
+                  resource: resource.path,
+                  linkType: 'text',
+                  location,
+                  feature: FEATURE,
+                })
+              }}
+              className="inline-block hover:text-blue-600 dark:hover:text-blue-300 w-fit"
+            >
+              <h3 className="text-lg 3xl:text-xl font-bold leading-tighter dark:text-white dark:hover:text-blue-300 text-center">
+                {resource.title}
+              </h3>
             </Link>
           </CardHeader>
           <CardMeta className="text-xs justify-center text-gray-600 dark:text-gray-300 pb-2 pt-1 text-center">
@@ -119,20 +117,19 @@ const ContinueCourseCard: React.FC<React.PropsWithChildren<any>> = ({
         </div>
         <div className="flex flex-col items-center gap-y-2 3xl:mt-4">
           {lesson?.collection?.path && (
-            <Link href={lesson.collection.path}>
-              <a
-                onClick={() => {
-                  track('clicked view course', {
-                    lesson: lesson.slug,
-                    location: 'lesson overlay',
-                    feature: FEATURE,
-                  })
-                }}
-                className="bg-blue-600 rounded py-2 flex w-full items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
-              >
-                <AcademicCapIcon className="w-6 mr-2" />
-                View Course
-              </a>
+            <Link
+              href={lesson.collection.path}
+              onClick={() => {
+                track('clicked view course', {
+                  lesson: lesson.slug,
+                  location: 'lesson overlay',
+                  feature: FEATURE,
+                })
+              }}
+              className="bg-blue-600 rounded py-2 flex w-full items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
+            >
+              <AcademicCapIcon className="w-6 mr-2" />
+              View Course
             </Link>
           )}
           <div className="flex flex-row space-x-2">

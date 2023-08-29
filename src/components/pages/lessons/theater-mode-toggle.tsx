@@ -1,6 +1,34 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import Tippy from '@tippyjs/react'
+import * as Tooltip from '@radix-ui/react-tooltip'
+
+class TheaterModeErrorBoundary extends React.Component {
+  constructor(props: any) {
+    super(props)
+    this.state = {hasError: false}
+  }
+
+  static getDerivedStateFromError(error: any) {
+    // Update state so the next render will show the fallback UI.
+    return {hasError: true}
+  }
+
+  componentDidCatch(error: any, info: any) {
+    console.error(error, info.componentStack)
+  }
+
+  render() {
+    // @ts-ignore
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      // @ts-ignore
+      return <div></div>
+    }
+
+    // @ts-ignore
+    return this.props.children
+  }
+}
 
 const TheaterModeToggle: FunctionComponent<
   React.PropsWithChildren<{
@@ -10,17 +38,27 @@ const TheaterModeToggle: FunctionComponent<
   }>
 > = ({toggleTheaterMode, theaterMode, className}) => {
   return (
-    <Tippy
-      content={theaterMode ? 'Disable theater mode' : 'Activate theater mode'}
-    >
-      <button onClick={toggleTheaterMode} className="p-2">
-        {theaterMode ? (
-          <IconTheaterModeOff className={className} />
-        ) : (
-          <IconTheaterModeOn className={className} />
-        )}
-      </button>
-    </Tippy>
+    <TheaterModeErrorBoundary>
+      <Tooltip.Provider>
+        <Tooltip.Root>
+          <Tooltip.Trigger asChild>
+            <button onClick={toggleTheaterMode} className="p-2">
+              {theaterMode ? (
+                <IconTheaterModeOff className={className} />
+              ) : (
+                <IconTheaterModeOn className={className} />
+              )}
+            </button>
+          </Tooltip.Trigger>
+          <Tooltip.Portal>
+            <Tooltip.Content className="TooltipContent" sideOffset={5}>
+              {theaterMode ? 'Disable theater mode' : 'Activate theater mode'}
+              <Tooltip.Arrow className="TooltipArrow" />
+            </Tooltip.Content>
+          </Tooltip.Portal>
+        </Tooltip.Root>
+      </Tooltip.Provider>
+    </TheaterModeErrorBoundary>
   )
 }
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import first from 'lodash/first'
 import {CardResource} from 'types'
 import classNames from 'classnames'
@@ -40,8 +40,8 @@ const CourseGrid: React.FC<React.PropsWithChildren<CourseGridProps>> = ({
             ...props
           }) =>
             published && resource.path ? (
-              <Link href={resource.path}>
-                <a className={className}>{children}</a>
+              <Link href={resource.path} className={className}>
+                {children}
               </Link>
             ) : (
               <div className={className}>{children}</div>
@@ -55,12 +55,12 @@ const CourseGrid: React.FC<React.PropsWithChildren<CourseGridProps>> = ({
             <LinkOrDiv
               key={resource.id}
               className={`rounded-md aspect-w-3 aspect-h-4 h-full w-full transition-all ease-in-out duration-200 relative overflow-hidden 
-          ${classNames({
-            'group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50':
-              published,
-            'dark:bg-gray-1000 bg-gray-50 dark:bg-opacity-50 border-2 border-dotted border-collapse dark:border-gray-800 border-gray-200':
-              !published,
-          })}`}
+        ${classNames({
+          'group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50':
+            published,
+          'dark:bg-gray-1000 bg-gray-50 dark:bg-opacity-50 border-2 border-dotted border-collapse dark:border-gray-800 border-gray-200':
+            !published,
+        })}`}
             >
               <div className="grid grid-rows-7">
                 <div className="flex items-center justify-center row-span-4">
@@ -169,10 +169,11 @@ export const Jumbotron = () => {
         We've released 20 badass courses during the holiday season, that'll help
         you jumpstart your career in 2022
       </p>
-      <Link href="/20-days">
-        <a className="relative z-10 mt-8 px-10 py-4 rounded-md bg-gradient-to-tr from-blue-700 to-blue-500 text-white font-medium text-center hover:from-blue-800 hover:to-blue-600">
-          Explore New Courses
-        </a>
+      <Link
+        href="/20-days"
+        className="relative z-10 mt-8 px-10 py-4 rounded-md bg-gradient-to-tr from-blue-700 to-blue-500 text-white font-medium text-center hover:from-blue-800 hover:to-blue-600"
+      >
+        Explore New Courses
       </Link>
       <Image
         src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637069708/egghead-next-pages/20-days-of-egghead/bg_2x.png"

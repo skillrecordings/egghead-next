@@ -171,7 +171,9 @@ const EmailForm: FunctionComponent<React.PropsWithChildren<LoginFormProps>> = ({
   )
 }
 
-const TopicInterestEmailEntryForm = ({topic}: {topic: string}) => {
+const TopicInterestEmailEntryForm: React.FC<
+  React.PropsWithChildren<{topic: string}>
+> = ({topic}) => {
   const router = useRouter()
   const slug = router.query.slug as string
   const {subscriber, cioIdentify} = useCio()

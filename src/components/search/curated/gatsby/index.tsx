@@ -1,6 +1,6 @@
 import React from 'react'
 import gatsbyPageData from './gatsby-page-data'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {get, find} from 'lodash'
 import Markdown from 'react-markdown'

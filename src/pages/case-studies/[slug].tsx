@@ -1,7 +1,7 @@
 import * as React from 'react'
 import groq from 'groq'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
 import {MDXRemote} from 'next-mdx-remote'
@@ -70,15 +70,17 @@ const CaseStudy = (props: CaseStudyResource) => {
   const {
     title = 'Missing title',
     author = {name: 'Unknown Author'},
-    seo = {},
+    seo: originalSEO = {},
     coverImage,
     source,
   } = props
 
+  const seo = originalSEO ? originalSEO : {}
+
   const router = useRouter()
 
   const url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL + router.asPath
-  const canonicalUrl = seo.canonicalUrl ? seo.canonicalUrl : url
+  const canonicalUrl = seo?.canonicalUrl ? seo.canonicalUrl : url
 
   return (
     <>
@@ -180,10 +182,8 @@ const Author = ({author}: any) => {
   )
   return name ? (
     path ? (
-      <Link href={path}>
-        <a className="inline-flex items-center space-x-2">
-          <Profile />
-        </a>
+      <Link href={path} className="inline-flex items-center space-x-2">
+        <Profile />
       </Link>
     ) : (
       <div className="inline-flex items-center space-x-2">

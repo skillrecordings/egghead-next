@@ -5,7 +5,7 @@ import {useMachine} from '@xstate/react'
 import EggheadPlayer from 'components/EggheadPlayer'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
@@ -152,7 +152,10 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
                   {get(lesson, 'title')}
                 </h1>
                 <div className="flex items-center mt-2">
-                  <Link href={`/q/resources-by-${get(instructor, 'slug')}`}>
+                  <Link
+                    href={`/q/resources-by-${get(instructor, 'slug')}`}
+                    legacyBehavior
+                  >
                     <a className="flex items-center text-base text-gray-800 transition-colors duration-300 ease-in-out dark:text-gray-400 hover:text-blue-600">
                       {instructor.avatar_url && (
                         <Image

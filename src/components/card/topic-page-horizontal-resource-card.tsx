@@ -8,7 +8,7 @@ import {
   CardAuthor,
   CardFooter,
 } from './index'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
 import {get, isEmpty} from 'lodash'
@@ -30,10 +30,11 @@ const Button: React.FC<
   }>
 > = ({path, cta}) => {
   return (
-    <Link href={path}>
-      <a className="text-center justify-center items-center mt-4 px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 sm:block hidden">
-        {cta}
-      </a>
+    <Link
+      href={path}
+      className="text-center justify-center items-center mt-4 px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 sm:block hidden"
+    >
+      {cta}
     </Link>
   )
 }
@@ -150,19 +151,18 @@ export const ResourceLink: React.FC<
     linkType?: string
   }>
 > = ({children, path, location, linkType = 'text', ...props}) => (
-  <Link href={path}>
-    <a
-      onClick={() => {
-        track('clicked resource', {
-          resource: path,
-          linkType,
-          location,
-        })
-      }}
-      {...props}
-    >
-      {children}
-    </a>
+  <Link
+    href={path}
+    onClick={() => {
+      track('clicked resource', {
+        resource: path,
+        linkType,
+        location,
+      })
+    }}
+    {...props}
+  >
+    {children}
   </Link>
 )
 

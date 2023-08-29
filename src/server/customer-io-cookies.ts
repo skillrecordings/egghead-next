@@ -5,12 +5,8 @@ import {
 } from '../config'
 
 export function clearCustomerCookie(res: NextResponse) {
-  res.cookies.delete(CIO_COOKIE_KEY, {
-    domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
-  })
-  res.cookies.delete(CIO_CUSTOMER_OBJECT_KEY, {
-    domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
-  })
+  res.cookies.delete(CIO_COOKIE_KEY)
+  res.cookies.delete(CIO_CUSTOMER_OBJECT_KEY)
 }
 
 export function setCustomerCookie(res: NextResponse, customer: any) {

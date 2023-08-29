@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import Markdown from 'react-markdown'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {NextSeo} from 'next-seo'
 import DefaultCTA from '../curated/default-cta'
 import analytics from 'utils/analytics'

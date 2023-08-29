@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Contributors from 'components/contributors'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 
@@ -164,10 +164,8 @@ const Author: FunctionComponent<
   )
   return name ? (
     path ? (
-      <Link href={path}>
-        <a className="inline-flex items-center space-x-2">
-          <Profile />
-        </a>
+      <Link href={path} className="inline-flex items-center space-x-2">
+        <Profile />
       </Link>
     ) : (
       <div className="inline-flex items-center space-x-2">

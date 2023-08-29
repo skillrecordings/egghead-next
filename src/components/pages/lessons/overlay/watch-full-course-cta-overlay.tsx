@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import * as React from 'react'
 import {track} from 'utils/analytics'
 import noop from 'utils/noop'
@@ -42,18 +42,18 @@ const WatchFullCourseCtaOverlay: React.FunctionComponent<
           >
             <IconRefresh className="w-6 mr-2" /> Watch again
           </button>
-          <Link href={lesson?.collection?.path || '#'}>
-            <a
-              onClick={() => {
-                track('clicked view course', {
-                  lesson: lesson.slug,
-                  location: 'lesson overlay',
-                })
-              }}
-              className="bg-blue-600 rounded px-3 py-2 flex items-center ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
-            >
-              <IconPlay className="w-6 mr-2" /> Explore the Whole Course
-            </a>
+          <Link
+            href={lesson?.collection?.path || '#'}
+            onClick={() => {
+              track('clicked view course', {
+                lesson: lesson.slug,
+                location: 'lesson overlay',
+              })
+            }}
+            className="bg-blue-600 rounded px-3 py-2 flex items-center ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
+          >
+            <IconPlay className="w-6 mr-2" />
+            Explore the Whole Course
           </Link>
         </div>
       </div>

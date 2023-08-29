@@ -7,7 +7,7 @@ import {
   CardBody,
   CardMeta,
 } from './index'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from '../markdown'
 import {track} from 'utils/analytics'
@@ -77,19 +77,18 @@ const ResourceLink: React.FC<
     linkType?: string
   }>
 > = ({children, path, location, linkType = 'text', ...props}) => (
-  <Link href={path}>
-    <a
-      onClick={() => {
-        track('clicked resource', {
-          resource: path,
-          linkType,
-          location,
-        })
-      }}
-      {...props}
-    >
-      {children}
-    </a>
+  <Link
+    href={path}
+    onClick={() => {
+      track('clicked resource', {
+        resource: path,
+        linkType,
+        location,
+      })
+    }}
+    {...props}
+  >
+    {children}
   </Link>
 )
 

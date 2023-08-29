@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Markdown from 'react-markdown'
 import Eggo from '../../../components/images/eggo.svg'
 import removeMarkdown from 'remove-markdown'
@@ -398,18 +398,17 @@ const Join: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
         </h2>
         {viewer?.is_pro ? (
           <>
-            <Link href="/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c">
-              <a
-                onClick={() =>
-                  track('clicked project', {
-                    project:
-                      'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-                  })
-                }
-                className="px-6 py-4 font-semibold text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-lg hover:scale-105 hover:bg-blue-500 hover:shadow-xl"
-              >
-                Build this E-Commerce Store
-              </a>
+            <Link
+              href="/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c"
+              onClick={() =>
+                track('clicked project', {
+                  project:
+                    'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+                })
+              }
+              className="px-6 py-4 font-semibold text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-lg hover:scale-105 hover:bg-blue-500 hover:shadow-xl"
+            >
+              Build this E-Commerce Store
             </Link>
           </>
         ) : (
@@ -417,18 +416,17 @@ const Join: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
             <div className="text-gray-900 dark:text-gray-100">
               from just <strong>$20/month</strong>
             </div>
-            <Link href="/pricing">
-              <a
-                onClick={() =>
-                  track('clicked join CTA', {
-                    project:
-                      'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-                  })
-                }
-                className="px-6 py-4 font-semibold text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-lg hover:scale-105 hover:bg-blue-500 hover:shadow-xl"
-              >
-                Build this E-Commerce Store
-              </a>
+            <Link
+              href="/pricing"
+              onClick={() =>
+                track('clicked join CTA', {
+                  project:
+                    'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+                })
+              }
+              className="px-6 py-4 font-semibold text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-lg hover:scale-105 hover:bg-blue-500 hover:shadow-xl"
+            >
+              Build this E-Commerce Store
             </Link>
           </>
         )}
@@ -465,19 +463,18 @@ const Instructor: FunctionComponent<
             <div className="text-xs text-gray-600 uppercase dark:text-gray-400">
               Meet Your Instructor
             </div>
-            <Link href={path}>
-              <a
-                onClick={() => {
-                  track(`clicked instructor profile link`, {
-                    project:
-                      'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-                    instructor: slug,
-                  })
-                }}
-                className="text-lg font-semibold text-gray-900 dark:text-gray-200"
-              >
-                {name}
-              </a>
+            <Link
+              href={path}
+              onClick={() => {
+                track(`clicked instructor profile link`, {
+                  project:
+                    'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+                  instructor: slug,
+                })
+              }}
+              className="text-lg font-semibold text-gray-900 dark:text-gray-200"
+            >
+              {name}
             </Link>
             <Markdown
               className="max-w-xl prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500"
@@ -543,18 +540,17 @@ const Part: FunctionComponent<
       >
         {/* <div className="text-sm font-semibold text-blue-500 uppercase">Part {index}</div> */}
         {lessons ? (
-          <Link href={get(first(lessons), 'path', '#')}>
-            <a
-              onClick={() => {
-                track(`clicked first lesson thumbnail`, {
-                  lesson: get(first(lessons), 'slug'),
-                  project:
-                    'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-                })
-              }}
-            >
-              <Thumbnail />
-            </a>
+          <Link
+            href={get(first(lessons), 'path', '#')}
+            onClick={() => {
+              track(`clicked first lesson thumbnail`, {
+                lesson: get(first(lessons), 'slug'),
+                project:
+                  'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+              })
+            }}
+          >
+            <Thumbnail />
           </Link>
         ) : (
           <Thumbnail />
@@ -581,21 +577,20 @@ const Part: FunctionComponent<
             {lessons.map((l) => (
               <li>
                 {l.path ? (
-                  <Link href={l.path}>
-                    <a
-                      onClick={() => {
-                        track(`clicked lesson in list`, {
-                          lesson: l.slug,
-                          project:
-                            'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-                        })
-                      }}
-                      className="flex items-center py-1 space-x-2 text-gray-700 dark:text-gray-100 hover:text-blue-600 group"
-                    >
-                      {/* prettier-ignore */}
-                      <div className="flex-shrink-0"><svg className="text-gray-400 dark:text-gray-400 group-hover:text-blue-600" width={18} height={18} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM9.555 7.168A1 1 0 0 0 8 8v4a1 1 0 0 0 1.555.832l3-2a1 1 0 0 0 0-1.664l-3-2z" fill="currentColor"/></g></svg></div>
-                      <div className="font-semibold">{l.title}</div>
-                    </a>
+                  <Link
+                    href={l.path}
+                    onClick={() => {
+                      track(`clicked lesson in list`, {
+                        lesson: l.slug,
+                        project:
+                          'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+                      })
+                    }}
+                    className="flex items-center py-1 space-x-2 text-gray-700 dark:text-gray-100 hover:text-blue-600 group"
+                  >
+                    {/* prettier-ignore */}
+                    <div className="flex-shrink-0"><svg className="text-gray-400 dark:text-gray-400 group-hover:text-blue-600" width={18} height={18} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM9.555 7.168A1 1 0 0 0 8 8v4a1 1 0 0 0 1.555.832l3-2a1 1 0 0 0 0-1.664l-3-2z" fill="currentColor"/></g></svg></div>
+                    <div className="font-semibold">{l.title}</div>
                   </Link>
                 ) : (
                   <div className="py-1 font-semibold">{l.title}</div>

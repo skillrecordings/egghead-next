@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import * as React from 'react'
 import {track} from 'utils/analytics'
 import Share from 'components/share'
@@ -46,20 +46,19 @@ const RecommendNextStepOverlay: React.FunctionComponent<
         </Share>
         <div className="mt-8 text-xs md:mt-10 lg:mt-6 xl:mt-16 text-center">
           Ready for something new?{' '}
-          <Link href="/">
-            <a
-              onClick={() => {
-                track('clicked ready for new', {
-                  ...(lesson?.collection && {
-                    collection: lesson?.collection.slug,
-                  }),
-                  video: lesson.slug,
-                })
-              }}
-              className="font-semibold"
-            >
-              Click here to start your next project.
-            </a>
+          <Link
+            href="/"
+            onClick={() => {
+              track('clicked ready for new', {
+                ...(lesson?.collection && {
+                  collection: lesson?.collection.slug,
+                }),
+                video: lesson.slug,
+              })
+            }}
+            className="font-semibold"
+          >
+            Click here to start your next project.
           </Link>
         </div>
       </div>

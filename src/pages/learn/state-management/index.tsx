@@ -2,7 +2,7 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import {track} from 'utils/analytics'
@@ -73,19 +73,18 @@ const RecoilSection = ({resource}: any) => {
 
   return (
     <div className="p-5 py-10 mt-5 rounded-lg md:bg-gray-100 dark:bg-gray-700">
-      <Link href={path}>
-        <a
-          className="font-bold transition ease-in-out hover:text-blue-600 dark:hover:text-blue-300"
-          onClick={() => {
-            track('clicked resource', {
-              resource: path,
-            })
-          }}
-        >
-          <h1 className="mb-4 text-xl font-extrabold text-center sm:text-2xl md:text-4xl leading-tighter">
-            {title}
-          </h1>
-        </a>
+      <Link
+        href={path}
+        className="font-bold transition ease-in-out hover:text-blue-600 dark:hover:text-blue-300"
+        onClick={() => {
+          track('clicked resource', {
+            resource: path,
+          })
+        }}
+      >
+        <h1 className="mb-4 text-xl font-extrabold text-center sm:text-2xl md:text-4xl leading-tighter">
+          {title}
+        </h1>
       </Link>
 
       <Markdown

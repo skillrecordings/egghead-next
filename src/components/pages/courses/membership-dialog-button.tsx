@@ -20,12 +20,13 @@ const MembershipDialogButton = ({title, children, buttonText}: any) => {
       <div className="mt-8 mx-4">
         <FeaturesList />
       </div>
-      <Link href="/pricing">
-        <a className="w-full inline-flex justify-center rounded-md text-blue-600 transition-all hover:text-blue-800 ease-in-out duration-200">
-          <button className="font-semibold w-full inline-flex justify-center py-4 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
-            Become a Member
-          </button>
-        </a>
+      <Link
+        href="/pricing"
+        className="w-full inline-flex justify-center rounded-md text-blue-600 transition-all hover:text-blue-800 ease-in-out duration-200"
+      >
+        <button className="font-semibold w-full inline-flex justify-center py-4 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
+          Become a Member
+        </button>
       </Link>
     </DialogButton>
   )

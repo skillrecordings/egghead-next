@@ -40,9 +40,7 @@ const Collection: FunctionComponent<
           {items.map((lesson: any) => {
             return (
               <li key={lesson.slug}>
-                <Link href={lesson.path}>
-                  <a>{lesson.title}</a>
-                </Link>
+                <Link href={lesson.path}>{lesson.title}</Link>
               </li>
             )
           })}

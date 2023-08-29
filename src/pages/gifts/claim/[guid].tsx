@@ -3,7 +3,7 @@ import {GetServerSideProps} from 'next'
 import {getTokenFromCookieHeaders} from '../../../utils/auth'
 import {getGift} from '../../../lib/gifts'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import axios from 'utils/configured-axios'
 import {useRouter} from 'next/router'
 import {useViewer} from '../../../context/viewer-context'
@@ -73,11 +73,8 @@ const GiftClaim: React.FC<React.PropsWithChildren<GiftClaimProps>> = ({
             <h1>{error.message}</h1>
             {error.type === 'login' ? (
               <p>
-                <Link href="/login">
-                  <a>Click here</a>
-                </Link>{' '}
-                to sign in. Once you are signed in you will need to click your
-                gift claim link again.
+                <Link href="/login">Click here</Link> to sign in. Once you are
+                signed in you will need to click your gift claim link again.
               </p>
             ) : null}
           </>

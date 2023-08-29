@@ -14,7 +14,9 @@ import {loadCio} from '../lib/customer'
 import {clearUserCookie, setUserCookie} from './egghead-user-cookies'
 
 export async function getCookiesForRequest(req: NextRequest) {
-  const eggheadAccessToken = req.cookies.get(ACCESS_TOKEN_KEY)
+  const eggheadAccessToken = req.cookies.get(
+    ACCESS_TOKEN_KEY,
+  ) as unknown as string
 
   const user =
     eggheadAccessToken &&

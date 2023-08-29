@@ -32,7 +32,7 @@ const Link: FunctionComponent<React.PropsWithChildren<LinkProps>> = ({
   }
 
   return (
-    <NextLink href={href} {...props}>
+    <NextLink href={href} {...props} legacyBehavior>
       {React.cloneElement(children, {className})}
     </NextLink>
   )

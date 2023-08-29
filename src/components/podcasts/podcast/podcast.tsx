@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import Markdown from 'react-markdown/with-html'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {PodcastResource} from 'types'
 
 type PodcastProps = {

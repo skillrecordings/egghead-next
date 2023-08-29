@@ -110,15 +110,14 @@ const SubscriptionDetails: React.FunctionComponent<
           {subscriptionData.portalUrl && (
             <div className="bg-primary-2 text-accents-3 rounded-b-md">
               <div className="flex flex-col justify-between items-center">
-                <Link href={subscriptionData.portalUrl}>
-                  <a
-                    onClick={() => {
-                      track(`clicked manage membership`)
-                    }}
-                    className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
-                  >
-                    Update Your Subscription or Payment Method
-                  </a>
+                <Link
+                  href={subscriptionData.portalUrl}
+                  onClick={() => {
+                    track(`clicked manage membership`)
+                  }}
+                  className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+                >
+                  Update Your Subscription or Payment Method
                 </Link>
               </div>
             </div>
@@ -163,24 +162,21 @@ const SubscriptionDetails: React.FunctionComponent<
           {subscriptionData.portalUrl && (
             <div className="bg-primary-2 text-accents-3 rounded-b-md mt-6">
               <div className="flex flex-col justify-between items-center">
-                <Link href={subscriptionData.portalUrl}>
-                  <a
-                    onClick={() => {
-                      track(`clicked manage membership`)
-                    }}
-                    className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
-                  >
-                    Update Your Subscription or Payment Method
-                  </a>
+                <Link
+                  href={subscriptionData.portalUrl}
+                  onClick={() => {
+                    track(`clicked manage membership`)
+                  }}
+                  className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+                >
+                  Update Your Subscription or Payment Method
                 </Link>
               </div>
             </div>
           )}
           <p className="mt-4 w-fit mx-auto">
-            <Link href="/team">
-              <a className="underline text-blue-600">
-                add/remove team members here
-              </a>
+            <Link href="/team" className="underline text-blue-600">
+              add/remove team members here
             </Link>
           </p>
         </div>
@@ -224,15 +220,14 @@ const SubscriptionDetails: React.FunctionComponent<
           {subscriptionData.portalUrl && (
             <div className="bg-primary-2 text-accents-3 rounded-b-md mt-6">
               <div className="flex flex-col justify-between items-center">
-                <Link href={subscriptionData.portalUrl}>
-                  <a
-                    onClick={() => {
-                      track(`clicked manage membership`)
-                    }}
-                    className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
-                  >
-                    Renew your Membership
-                  </a>
+                <Link
+                  href={subscriptionData.portalUrl}
+                  onClick={() => {
+                    track(`clicked manage membership`)
+                  }}
+                  className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+                >
+                  Renew your Membership
                 </Link>
               </div>
             </div>
@@ -289,15 +284,14 @@ const SubscriptionDetails: React.FunctionComponent<
       {subscriptionData.portalUrl && (
         <div className="bg-primary-2 text-accents-3 rounded-b-md mt-6">
           <div className="flex flex-col justify-between items-center">
-            <Link href={subscriptionData.portalUrl}>
-              <a
-                onClick={() => {
-                  track(`clicked manage membership`)
-                }}
-                className="w-2/3 px-5 py-3 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
-              >
-                Update Your Subscription or Payment Method
-              </a>
+            <Link
+              href={subscriptionData.portalUrl}
+              onClick={() => {
+                track(`clicked manage membership`)
+              }}
+              className="w-2/3 px-5 py-3 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+            >
+              Update Your Subscription or Payment Method
             </Link>
           </div>
         </div>

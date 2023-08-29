@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {loadAllPlaylistsByPage} from 'lib/playlists'
 import Markdown from 'react-markdown'
 import TagList from '../../components/layouts/tag-list'
@@ -81,31 +81,28 @@ const CourseIndex: React.FC<React.PropsWithChildren<{courses: any}>> = ({
                       <div className="flex flex-col">
                         <header className="flex flex-col items-center p-5 space-y-4 border-b md:flex-row md:space-x-5 md:space-y-0 border-gray-50 dark:border-gray-800">
                           <figure className="flex flex-col flex-shrink-0">
-                            <Link href={course.path}>
-                              <a tabIndex={-1}>
-                                <Image
-                                  src={course.image_thumb_url}
-                                  width={96}
-                                  height={96}
-                                  alt={course.title}
-                                />
-                              </a>
+                            <Link href={course.path} tabIndex={-1}>
+                              <Image
+                                src={course.image_thumb_url}
+                                width={96}
+                                height={96}
+                                alt={course.title}
+                              />
                             </Link>
                           </figure>
                           <div className="flex flex-col items-center md:items-start">
                             <Link href={course.path}>
-                              <a>
-                                <h1 className="text-lg font-bold leading-tight text-center sm:text-lg hover:underline md:text-left">
-                                  {course.title}
-                                </h1>
-                              </a>
+                              <h1 className="text-lg font-bold leading-tight text-center sm:text-lg hover:underline md:text-left">
+                                {course.title}
+                              </h1>
                             </Link>
                             <div className="flex items-center pt-2 text-sm">
                               {course?.instructor?.path && (
-                                <Link href={course.instructor.path}>
-                                  <a className="pr-3 font-semibold hover:underline">
-                                    {course.instructor.full_name}
-                                  </a>
+                                <Link
+                                  href={course.instructor.path}
+                                  className="pr-3 font-semibold hover:underline"
+                                >
+                                  {course.instructor.full_name}
                                 </Link>
                               )}
                               <span className="transition-opacity duration-300 ease-in-out opacity-70 group-hover:opacity-100">

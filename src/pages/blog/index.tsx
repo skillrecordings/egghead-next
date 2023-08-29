@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {sanityClient} from 'utils/sanity-client'
 import friendlyTime from 'friendly-time'
 import {allArticlesQuery} from 'lib/articles'
@@ -36,35 +36,29 @@ const Blog: React.FC<React.PropsWithChildren<unknown>> = (allArticles: any) => {
                   {article.coverImage?.url ? (
                     <div className="mb-2 md:mb-4">
                       <Link href={fullSlug}>
-                        <a>
-                          <Image
-                            src={article.coverImage.url}
-                            alt={article.coverImage.alt || article.title}
-                            width={1280}
-                            height={720}
-                            quality={100}
-                            className="rounded-lg"
-                          />
-                        </a>
+                        <Image
+                          src={article.coverImage.url}
+                          alt={article.coverImage.alt || article.title}
+                          width={1280}
+                          height={720}
+                          quality={100}
+                          className="rounded-lg"
+                        />
                       </Link>
                     </div>
                   ) : (
                     <div className="mb-2 aspect-w-16 aspect-h-9 md:mb-4">
                       <Link href={fullSlug}>
-                        <a>
-                          <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-400 bg-gray-200 rounded-lg dark:bg-gray-800 dark:text-gray-600">
-                            <IconPlaceholder />
-                          </div>
-                        </a>
+                        <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-400 bg-gray-200 rounded-lg dark:bg-gray-800 dark:text-gray-600">
+                          <IconPlaceholder />
+                        </div>
                       </Link>
                     </div>
                   )}
                   <Link href={fullSlug}>
-                    <a>
-                      <h2 className="text-xl font-bold md:text-2xl leading-tighter">
-                        {article.title}
-                      </h2>
-                    </a>
+                    <h2 className="text-xl font-bold md:text-2xl leading-tighter">
+                      {article.title}
+                    </h2>
                   </Link>
 
                   {article.author && (

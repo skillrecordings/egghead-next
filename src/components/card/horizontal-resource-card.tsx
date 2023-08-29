@@ -7,7 +7,7 @@ import {
   CardBody,
   CardMeta,
 } from './index'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from '../markdown'
 import {track} from 'utils/analytics'
@@ -24,29 +24,28 @@ const HorizontalResourceCard: React.FC<React.PropsWithChildren<any>> = ({
   return (
     <Card {...props} className={className}>
       {resource.image && (
-        <Link href={resource.path}>
-          <a
-            onClick={() => {
-              track('clicked resource', {
-                resource: resource.path,
-                linkType: 'image',
-                location,
-              })
-            }}
-            className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
-            tabIndex={-1}
-          >
-            <CardPreview>
-              <Image
-                src={get(resource.image, 'src', resource.image)}
-                width={160}
-                height={160}
-                layout="fixed"
-                className="object-cover rounded-md"
-                alt={`illustration for ${resource.title}`}
-              />
-            </CardPreview>
-          </a>
+        <Link
+          href={resource.path}
+          onClick={() => {
+            track('clicked resource', {
+              resource: resource.path,
+              linkType: 'image',
+              location,
+            })
+          }}
+          className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
+          tabIndex={-1}
+        >
+          <CardPreview>
+            <Image
+              src={get(resource.image, 'src', resource.image)}
+              width={160}
+              height={160}
+              layout="fixed"
+              className="object-cover rounded-md"
+              alt={`illustration for ${resource.title}`}
+            />
+          </CardPreview>
         </Link>
       )}
       <CardContent className="flex flex-col justify-center sm:items-start items-center">
@@ -54,21 +53,20 @@ const HorizontalResourceCard: React.FC<React.PropsWithChildren<any>> = ({
           <p className=" uppercase font-semibold text-xs tracking-tight text-gray-700 dark:text-gray-300 mb-1">
             {resource.name}
           </p>
-          <Link href={resource.path}>
-            <a
-              onClick={() => {
-                track('clicked resource', {
-                  resource: resource.path,
-                  linkType: 'text',
-                  location,
-                })
-              }}
-              className="hover:text-blue-600 dark:hover:text-blue-300"
-            >
-              <h3 className="text-lg font-bold leading-tighter pt-2">
-                {resource.title}
-              </h3>
-            </a>
+          <Link
+            href={resource.path}
+            onClick={() => {
+              track('clicked resource', {
+                resource: resource.path,
+                linkType: 'text',
+                location,
+              })
+            }}
+            className="hover:text-blue-600 dark:hover:text-blue-300"
+          >
+            <h3 className="text-lg font-bold leading-tighter pt-2">
+              {resource.title}
+            </h3>
           </Link>
         </CardHeader>
         <CardMeta className="text-xs text-gray-600 dark:text-gray-300 pb-2 pt-1">

@@ -70,16 +70,15 @@ const SubscriptionDetails: React.FunctionComponent<
                           )}
                         </div>
                       ) : (
-                        <Link href="/pricing">
-                          <a
-                            onClick={() => {
-                              track(`clicked pricing`, {
-                                location: 'accounts',
-                              })
-                            }}
-                          >
-                            Join today!
-                          </a>
+                        <Link
+                          href="/pricing"
+                          onClick={() => {
+                            track(`clicked pricing`, {
+                              location: 'accounts',
+                            })
+                          }}
+                        >
+                          Join today!
                         </Link>
                       )}
                     </div>
@@ -120,15 +119,14 @@ const SubscriptionDetails: React.FunctionComponent<
                         </p>
                       )}
                       {subscriptionData?.portalUrl && (
-                        <Link href={subscriptionData.portalUrl}>
-                          <a
-                            onClick={() => {
-                              track(`clicked manage membership`)
-                            }}
-                            className="w-full px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
-                          >
-                            Manage Your Membership
-                          </a>
+                        <Link
+                          href={subscriptionData.portalUrl}
+                          onClick={() => {
+                            track(`clicked manage membership`)
+                          }}
+                          className="w-full px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+                        >
+                          Manage Your Membership
                         </Link>
                       )}
                     </div>

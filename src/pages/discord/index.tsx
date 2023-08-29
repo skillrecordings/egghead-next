@@ -6,7 +6,7 @@ import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import {useViewer} from 'context/viewer-context'
 import get from 'lodash/get'
 import Eggo from 'components/icons/eggo'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {Viewer} from 'types'
 
 const DiscordPage: React.FC<React.PropsWithChildren<LoginRequiredParams>> = ({
@@ -40,15 +40,14 @@ const DiscordPage: React.FC<React.PropsWithChildren<LoginRequiredParams>> = ({
             aren't a PRO member, you will still be added to the server. */}
           </p>
 
-          <Link href={process.env.NEXT_PUBLIC_DISCORD_AUTHORIZE}>
-            <a
-              className={`flex gap-5 rounded-md text-white items-center bg-[#5865F2] justify-center pl-5 leading-3 overflow-hidden font-medium hover:bg-opacity-90 transition`}
-            >
-              <span className="py-1">Join egghead on Discord</span>
-              <span className="bg-black bg-opacity-10 px-5 py-5" aria-hidden>
-                <DiscordLogo />
-              </span>
-            </a>
+          <Link
+            href={process.env.NEXT_PUBLIC_DISCORD_AUTHORIZE}
+            className={`flex gap-5 rounded-md text-white items-center bg-[#5865F2] justify-center pl-5 leading-3 overflow-hidden font-medium hover:bg-opacity-90 transition`}
+          >
+            <span className="py-1">Join egghead on Discord</span>
+            <span className="bg-black bg-opacity-10 px-5 py-5" aria-hidden>
+              <DiscordLogo />
+            </span>
           </Link>
         </div>
       )}

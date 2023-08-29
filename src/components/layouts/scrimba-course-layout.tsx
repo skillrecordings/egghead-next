@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Markdown from 'react-markdown'
 import toast from 'react-hot-toast'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
@@ -190,21 +190,20 @@ const ScrimbaPageLayout: React.FunctionComponent<
                                   {lessonResource.path && (
                                     <div className="flex flex-col">
                                       <div>
-                                        <Link href={lessonResource.path}>
-                                          <a
-                                            onClick={() => {
-                                              track(
-                                                `clicked video link on course page`,
-                                                {
-                                                  course: course.slug,
-                                                  video: lessonResource.slug,
-                                                },
-                                              )
-                                            }}
-                                            className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100"
-                                          >
-                                            {lessonResource.title}
-                                          </a>
+                                        <Link
+                                          href={lessonResource.path}
+                                          onClick={() => {
+                                            track(
+                                              `clicked video link on course page`,
+                                              {
+                                                course: course.slug,
+                                                video: lessonResource.slug,
+                                              },
+                                            )
+                                          }}
+                                          className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100"
+                                        >
+                                          {lessonResource.title}
                                         </Link>
                                       </div>
                                       <div className="text-xs text-gray-700 dark:text-gray-500">
@@ -323,21 +322,20 @@ const ScrimbaPageLayout: React.FunctionComponent<
     const isContinuing =
       lesson && lesson !== first(lessons) && lesson !== first(playlistLessons)
     return lesson ? (
-      <Link href={lesson.path}>
-        <a
-          onClick={() => {
-            track(
-              `clicked ${isContinuing ? 'continue' : 'start'} watching course`,
-              {
-                course: course.slug,
-              },
-            )
-          }}
-          className="inline-flex items-center justify-center px-6 py-4 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700"
-        >
-          <PlayIcon className="mr-2 text-blue-100" />
-          {isContinuing ? 'Continue' : 'Start'} Watching
-        </a>
+      <Link
+        href={lesson.path}
+        onClick={() => {
+          track(
+            `clicked ${isContinuing ? 'continue' : 'start'} watching course`,
+            {
+              course: course.slug,
+            },
+          )
+        }}
+        className="inline-flex items-center justify-center px-6 py-4 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700"
+      >
+        <PlayIcon className="mr-2 text-blue-100" />
+        {isContinuing ? 'Continue' : 'Start'}Watching
       </Link>
     ) : null
   }
@@ -350,22 +348,21 @@ const ScrimbaPageLayout: React.FunctionComponent<
     }>
   > = ({path, size, trackText}) => {
     return path ? (
-      <Link href={path}>
-        <a
-          onClick={() =>
-            track(trackText, {
-              course: course.slug,
-            })
-          }
-        >
-          <Image
-            src={image_url}
-            alt={`illustration for ${title}`}
-            height={size}
-            width={size}
-            quality={100}
-          />
-        </a>
+      <Link
+        href={path}
+        onClick={() =>
+          track(trackText, {
+            course: course.slug,
+          })
+        }
+      >
+        <Image
+          src={image_url}
+          alt={`illustration for ${title}`}
+          height={size}
+          width={size}
+          quality={100}
+        />
       </Link>
     ) : (
       <Image
@@ -548,7 +545,7 @@ const ScrimbaPageLayout: React.FunctionComponent<
                       buttonText="Bookmark"
                       title="Sign in or create a free account to bookmark"
                       buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100
-                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
+                    dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                     >
                       <LoginForm
                         image={<></>}
@@ -568,19 +565,17 @@ const ScrimbaPageLayout: React.FunctionComponent<
 
                   {/* Download button */}
                   {download_url ? (
-                    <Link href={download_url}>
-                      <a
-                        onClick={() => {
-                          track(`clicked download course`, {
-                            course: course.slug,
-                          })
-                        }}
-                      >
-                        <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
-                          <FolderDownloadIcon className="w-4 h-4 mr-1" />{' '}
-                          Download
-                        </div>
-                      </a>
+                    <Link
+                      href={download_url}
+                      onClick={() => {
+                        track(`clicked download course`, {
+                          course: course.slug,
+                        })
+                      }}
+                    >
+                      <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
+                        <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
+                      </div>
                     </Link>
                   ) : (
                     <MembershipDialogButton
@@ -594,18 +589,17 @@ const ScrimbaPageLayout: React.FunctionComponent<
 
                   {/* RSS button */}
                   {rss_url ? (
-                    <Link href={rss_url}>
-                      <a
-                        onClick={() => {
-                          track(`clicked rss feed link`, {
-                            course: course.slug,
-                          })
-                        }}
-                      >
-                        <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
-                          <RSSIcon className="w-4 h-4 mr-1" /> RSS
-                        </div>
-                      </a>
+                    <Link
+                      href={rss_url}
+                      onClick={() => {
+                        track(`clicked rss feed link`, {
+                          course: course.slug,
+                        })
+                      }}
+                    >
+                      <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
+                        <RSSIcon className="w-4 h-4 mr-1" /> RSS
+                      </div>
                     </Link>
                   ) : (
                     <a

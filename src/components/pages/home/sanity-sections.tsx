@@ -5,7 +5,7 @@ import Topics from 'components/pages/home/topics'
 import ReactMarkdown from 'react-markdown'
 import {CardResource} from 'types'
 import Grid from 'components/grid'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import EggheadForTeamsCta from 'components/pages/home/egghead-for-teams-cta'
 import analytics from 'utils/analytics'
@@ -124,26 +124,26 @@ const DynamicGridComponent = ({
       </Grid>
       {section.path && (
         <div className="flex justify-end mt-3">
-          <Link href={section.path} passHref>
-            <a
-              onClick={() => {
-                analytics.events.activityInternalLinkClick(
-                  'curated topic page',
-                  'home page-curated section',
-                  section.title,
-                  section.path,
-                )
-              }}
-              className="flex items-center px-4 py-3 text-sm transition-all duration-200 ease-in-out bg-transparent border-b-2 border-gray-200 dark:border-gray-800 border-opacity-70 dark:hover:bg-gray-800 dark:hover:bg-opacity-50 opacity-80 hover:opacity-100 group"
+          <Link
+            href={section.path}
+            passHref
+            onClick={() => {
+              analytics.events.activityInternalLinkClick(
+                'curated topic page',
+                'home page-curated section',
+                section.title,
+                section.path,
+              )
+            }}
+            className="flex items-center px-4 py-3 text-sm transition-all duration-200 ease-in-out bg-transparent border-b-2 border-gray-200 dark:border-gray-800 border-opacity-70 dark:hover:bg-gray-800 dark:hover:bg-opacity-50 opacity-80 hover:opacity-100 group"
+          >
+            Browse all{' '}
+            <span
+              className="pl-1 transition-all duration-200 ease-in-out group-hover:translate-x-1"
+              aria-hidden
             >
-              Browse all{' '}
-              <span
-                className="pl-1 transition-all duration-200 ease-in-out group-hover:translate-x-1"
-                aria-hidden
-              >
-                →
-              </span>
-            </a>
+              →
+            </span>
           </Link>
         </div>
       )}

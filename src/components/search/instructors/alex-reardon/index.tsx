@@ -1,6 +1,6 @@
 import React from 'react'
 import SearchInstructorEssential from '../instructor-essential'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {get} from 'lodash'
 import Link from 'next/link'
 import groq from 'groq'
@@ -67,42 +67,40 @@ const FeaturedDomEventsCourse: React.FC<
           <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">
             <div className="flex flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5 gap-10 mt-10">
               <div className="flex-shrink-0">
-                <Link href={path}>
-                  <a
-                    tabIndex={-1}
-                    onClick={() =>
-                      track('clicked jumbotron resource', {
-                        resource: path,
-                        linkType: 'image',
-                      })
-                    }
-                  >
-                    <Image
-                      quality={100}
-                      src={get(image, 'src', image)}
-                      width={250}
-                      height={250}
-                      alt={get(image, 'alt', `illustration for ${title}`)}
-                    />
-                  </a>
+                <Link
+                  href={path}
+                  tabIndex={-1}
+                  onClick={() =>
+                    track('clicked jumbotron resource', {
+                      resource: path,
+                      linkType: 'image',
+                    })
+                  }
+                >
+                  <Image
+                    quality={100}
+                    src={get(image, 'src', image)}
+                    width={250}
+                    height={250}
+                    alt={get(image, 'alt', `illustration for ${title}`)}
+                  />
                 </Link>
               </div>
               <div className="flex flex-col sm:items-start items-center">
                 <p className="text-xs text-white text-opacity-80 uppercase font-semibold mb-2">
                   {byline}
                 </p>
-                <Link href={path}>
-                  <a
-                    className="text-xl font-extrabold leading-tighter text-white hover:text-blue-300"
-                    onClick={() =>
-                      track('clicked jumbotron resource', {
-                        resource: path,
-                        linkType: 'text',
-                      })
-                    }
-                  >
-                    <h2>{title}</h2>
-                  </a>
+                <Link
+                  href={path}
+                  className="text-xl font-extrabold leading-tighter text-white hover:text-blue-300"
+                  onClick={() =>
+                    track('clicked jumbotron resource', {
+                      resource: path,
+                      linkType: 'text',
+                    })
+                  }
+                >
+                  <h2>{title}</h2>
                 </Link>
                 <p className="mt-4 text-white">{description}</p>
               </div>

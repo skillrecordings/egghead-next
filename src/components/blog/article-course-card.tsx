@@ -3,7 +3,9 @@ import useSwr from 'swr'
 import {loadPlaylist} from '../../lib/playlists'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 
-const ArticleCourseCard = ({course}: any) => {
+const ArticleCourseCard: React.FC<React.PropsWithChildren<{course: any}>> = ({
+  course,
+}) => {
   const {data} = useSwr(course, loadPlaylist)
 
   return data ? (
@@ -19,9 +21,7 @@ const ArticleCourseCard = ({course}: any) => {
         }}
       />
     </div>
-  ) : (
-    <></>
-  )
+  ) : null
 }
 
 export default ArticleCourseCard
