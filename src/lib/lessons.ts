@@ -58,7 +58,9 @@ const lessonQuery = groq`
         "type": _type,
         "icon_url": softwareLibraries[0].library->image.url,
         "duration": resource->duration,
-        "path": "/lessons/" + slug.current
+        "path": "/lessons/" + slug.current,
+        'slug': slug.current,
+        'scrimba': resources[_type == 'scrimbaResource'][0],
       },
     ...*[_type == 'course' && references(^._id)][0] {
     title,
@@ -70,13 +72,15 @@ const lessonQuery = groq`
       _type,
       _id,
       title,
-      slug,
+      'slug': slug.current,
       "lessons": resources[]->{
         title,
         "type": _type,
         "icon_url": softwareLibraries[0].library->image.url,
         "duration": resource->duration,
-        "path": "/lessons/" + slug.current
+        "path": "/lessons/" + slug.current,
+        'slug': slug.current,
+        'scrimba': resources[_type == 'scrimbaResource'][0],
       },
     }
     }

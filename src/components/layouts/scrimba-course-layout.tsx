@@ -88,7 +88,7 @@ const ScrimbaPageLayout: React.FunctionComponent<
     )
   }
 
-  const totalLessons = sections.reduce(
+  const totalLessons = sections?.reduce(
     (count, section) => count + section.lessons.length,
     0,
   )
@@ -115,7 +115,7 @@ const ScrimbaPageLayout: React.FunctionComponent<
             value={openLesson}
             onValueChange={handleAccordionChange}
           >
-            {sections.map((section: SectionResource, index: number) => (
+            {sections?.map((section: SectionResource, index: number) => (
               <Accordion.Item key={index} value={`resource_${index}`}>
                 <Accordion.Header className="relative z-10 overflow-hidden rounded-lg  pt-4">
                   <Accordion.Trigger className="bg-gray-100 group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 dark:bg-gray-800/20 px-3 py-2.5 text-left text-lg font-medium leading-tight shadow-lg transition dark:hover:bg-gray-800/40">
