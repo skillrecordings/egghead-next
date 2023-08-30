@@ -158,6 +158,8 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
     comments,
   } = lesson
 
+  console.log('this is the collection: ', collection)
+
   const instructorPagePath = `/q/resources-by-${get(instructor, 'slug', '#')}`
 
   const nextLesson = useNextForCollection(collection, lesson.slug)
@@ -621,23 +623,27 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                 videoResource={lesson}
               />
               {hasScrimbaUrl ? (
-                <div className="bg-player-bg bg-opacity-80 px-3 py-2 flex items-center justify-between w-full group h-[54px]">
-                  <div className="flex md:mt-0">
-                    <button className="px-4 py-2" onClick={toggleFullscreen}>
-                      <ArrowsExpandIcon className="h-5 w-5 text-gray-800  dark:text-white" />
-                    </button>
+                <>
+                  <div className="bg-player-bg bg-opacity-80 px-3 py-2 flex items-center justify-between w-full group h-[54px]">
+                    <div className="flex md:mt-0">
+                      <button className="px-4 py-2" onClick={toggleFullscreen}>
+                        <ArrowsExpandIcon className="h-5 w-5 text-gray-800  dark:text-white" />
+                      </button>
+                    </div>
+                    {nextLesson && (
+                      <Link
+                        href={nextLesson.path}
+                        className="bg-blue-600 text-white sm:px-2 sm:py-2 px-3 py-2 rounded-md tracking-tight hover:bg-blue-700 transition text-sm"
+                      >
+                        Complete and Continue
+                      </Link>
+                    )}
                   </div>
-                  {nextLesson && (
-                    <Link
-                      href={nextLesson.path}
-                      className="bg-blue-600 text-white sm:px-2 sm:py-2 px-3 py-2 rounded-md tracking-tight hover:bg-blue-700 transition text-sm"
-                    >
-                      Complete and Continue
-                    </Link>
-                  )}
-                </div>
+                </>
               ) : (
-                <AutoplayControl />
+                <>
+                  <AutoplayControl />
+                </>
               )}
             </div>
           )}
