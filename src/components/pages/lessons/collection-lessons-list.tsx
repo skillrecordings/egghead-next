@@ -55,7 +55,7 @@ const CollectionLessonsList: FunctionComponent<
           {course.sections?.map((section: SectionResource, index: number) => (
             <Accordion.Item key={index} value={`resource_${index}`}>
               <Accordion.Header className="relative z-10 overflow-hidden ">
-                <Accordion.Trigger className="bg-gray-100 group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 dark:bg-gray-800/20 px-3 py-2.5 text-left shadow-lg transition dark:hover:bg-gray-800/40">
+                <Accordion.Trigger className="bg-gray-100 group relative z-10 flex w-full items-center justify-between  border border-white/5 dark:bg-gray-800/20 px-3 py-2.5 text-left shadow-lg transition dark:hover:bg-gray-800/40">
                   <Balancer>{section.title}</Balancer>
                   <div className="flex items-center">
                     {openLesson.includes(`resource_${index}`) ? (
