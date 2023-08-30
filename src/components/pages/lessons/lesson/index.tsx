@@ -22,6 +22,7 @@ import cookieUtil from 'utils/cookies'
 import useBreakpoint from 'utils/breakpoints'
 import Share from 'components/share'
 import {useNextForCollection} from 'hooks/use-next-up-data'
+import {useNextForCollectionSection} from 'hooks/next-data-sections'
 import CodeLink, {
   IconCode,
   IconGithub,
@@ -60,6 +61,7 @@ import Comments from 'components/pages/lessons/comments/comments'
 import dynamic from 'next/dynamic'
 import ReactMarkdown from 'react-markdown'
 import CodeBlock from 'components/code-block'
+import {LessonResource, SectionResource} from 'types'
 
 const Tags = dynamic(() => import('components/pages/lessons/tags'), {
   ssr: false,
@@ -70,6 +72,8 @@ type LessonProps = {
   initialLesson: VideoResource
   watchCount: number
   setWatchCount: (value: number) => void
+  lessons?: LessonResource[]
+  sections?: SectionResource[]
 }
 
 const MAX_FREE_VIEWS = 4
@@ -157,8 +161,6 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
     slug,
     comments,
   } = lesson
-
-  console.log('this is the collection: ', collection)
 
   const instructorPagePath = `/q/resources-by-${get(instructor, 'slug', '#')}`
 
@@ -481,6 +483,8 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
     }
   }
 
+  const nextLessonSection = useNextForCollectionSection(collection, lesson.slug)
+
   return (
     <>
       <NextSeo
@@ -630,9 +634,9 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                         <ArrowsExpandIcon className="h-5 w-5 text-gray-800  dark:text-white" />
                       </button>
                     </div>
-                    {nextLesson && (
+                    {nextLessonSection && (
                       <Link
-                        href={nextLesson.path}
+                        href={nextLessonSection.path}
                         className="bg-blue-600 text-white sm:px-2 sm:py-2 px-3 py-2 rounded-md tracking-tight hover:bg-blue-700 transition text-sm"
                       >
                         Complete and Continue
