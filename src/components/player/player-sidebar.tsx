@@ -102,8 +102,6 @@ const LessonListTab: React.FC<
 > = ({videoResource, lessonView, onActiveTab}) => {
   const hidden: boolean = isEmpty(videoResource.collection)
 
-  console.log('is this the list?', videoResource)
-
   return hidden ? null : (
     <div className="w-full h-full bg-gray-100 dark:bg-gray-1000">
       <div className="flex flex-col h-full">
