@@ -163,6 +163,12 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      title: 'Rails Course ID',
+      description: 'Rails course id',
+      name: 'railsCourseId',
+      type: 'number',
+    },
+    {
       title: 'Duration (minutes)',
       description: 'How many minutes does the course take to complete?',
       name: 'durationInMinutes',

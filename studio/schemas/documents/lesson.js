@@ -31,6 +31,12 @@ export default {
       },
     },
     {
+      title: 'Rails Lesson ID',
+      description: 'Rails lesson id',
+      name: 'railsLessonId',
+      type: 'number',
+    },
+    {
       name: 'resources',
       description:
         'Attach a resource to this lesson (Video, Audio, Text, etc.)',
