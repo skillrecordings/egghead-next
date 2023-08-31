@@ -92,8 +92,6 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
   const videoService = useVideo()
   const video = useSelector(videoService, selectVideo)
 
-  console.log('initial lesson data scrimba:', initialLesson)
-
   // see all state changes
   // @ts-ignore
   // videoService.onTransition((state) => {
@@ -467,11 +465,6 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
 
     setLessonCompleted(true)
   }
-
-  console.log('lesson data: ', lesson)
-
-  console.log('for complete data lesson: ', lesson.id)
-  console.log('for complete data collection: ', lesson.collection?.id)
 
   const hasScrimbaUrl = initialLesson?.scrimba?.url
   const scrimbaTranscript = initialLesson?.scrimba?.transcript

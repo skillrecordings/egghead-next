@@ -278,17 +278,17 @@ const ScrimbaPageLayout: React.FunctionComponent<
 
   const imageIsTag = image_url.includes('tags/image')
 
-  const playlists = filter(course.items, {type: 'playlist'}) || []
-
-  const playlistLessons = playlists.reduce((acc, playlist) => {
-    const lessons = playlist?.lessons ?? []
-    return [...acc, ...lessons]
-  }, [])
+  const courseListLessons: any[] = course.sections?.reduce(
+    (acc: any[], cur: any) => {
+      return [...acc, ...cur.lessons]
+    },
+    [],
+  )
 
   // this is a pretty sloppy approach to fetching the next lesson
   // via playlist lessons, but those are for nested playlists in
   // playlists
-  const nextLesson: any = isEmpty(playlistLessons)
+  const nextLesson: any = isEmpty(courseListLessons)
     ? first(
         lessons.filter(
           (lesson: LessonResource) =>
@@ -296,7 +296,7 @@ const ScrimbaPageLayout: React.FunctionComponent<
         ),
       )
     : first(
-        playlistLessons.filter(
+        courseListLessons.filter(
           (lesson: LessonResource) =>
             !completedLessonSlugs.includes(lesson.slug),
         ),
@@ -306,7 +306,7 @@ const ScrimbaPageLayout: React.FunctionComponent<
     React.PropsWithChildren<{lesson: LessonResource}>
   > = ({lesson}) => {
     const isContinuing =
-      lesson && lesson !== first(lessons) && lesson !== first(playlistLessons)
+      lesson && lesson !== first(lessons) && lesson !== first(courseListLessons)
     return lesson ? (
       <Link
         href={lesson.path}
@@ -321,7 +321,7 @@ const ScrimbaPageLayout: React.FunctionComponent<
         className="inline-flex items-center justify-center px-6 py-4 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700"
       >
         <PlayIcon className="mr-2 text-blue-100" />
-        {isContinuing ? 'Continue' : 'Start'}Watching
+        {isContinuing ? 'Continue' : 'Start'} Watching
       </Link>
     ) : null
   }
@@ -407,11 +407,11 @@ const ScrimbaPageLayout: React.FunctionComponent<
               <header>
                 {image_url && (
                   <div className="flex items-center justify-center md:hidden">
-                    {/* <CourseArtwork
+                    <CourseArtwork
                       path={nextLesson.path}
                       trackText="clicked course image on mobile"
                       size={imageIsTag ? 100 : 200}
-                    /> */}
+                    />
                   </div>
                 )}
                 {access_state && (
@@ -627,39 +627,6 @@ const ScrimbaPageLayout: React.FunctionComponent<
                       </p>
                     </div>
                   </div>
-                  <div>
-                    <h2>FAQ</h2>
-                    <h3>What is AI?</h3>
-                    <p>
-                      AI (artificial intelligence) is like having a super-smart
-                      computer buddy who can do things that humans normally do,
-                      like recognize pictures of cats or tell you what the
-                      weather is like outside. They're kind of like a cross
-                      between R2-D2 and Hermione Granger - nerdy, helpful, and
-                      always up for a challenge! Just don't expect them to have
-                      feelings or opinions on whether pineapple belongs on
-                      pizza.
-                    </p>
-                    <h3>There are two chatbots in this course?</h3>
-                    <p>
-                      Yes, this course contains two chatbots. From the outside
-                      they look similar but they are in fact completely
-                      different. The first (KnowItAll) uses the new GPT-4 model
-                      which is mind-blowing for general Q and A tasks and
-                      natural language generation. The second (We-Wingit) is
-                      fine-tuned to answer questions from our own dataset. This
-                      skill is useful for aspiring web developers who want their
-                      chatbot (or any other AI app) to have a specific focus.
-                    </p>
-                    <h3>What is the OpenAI API?</h3>
-                    <p>
-                      The OpenAI API gives us access to AI models in our apps.
-                      By interacting with the API, we can leverage the power of
-                      these AI models to perform a wide range of tasks, such as
-                      natural language understanding, text generation, image
-                      generation, and more.
-                    </p>
-                  </div>
                 </section>
                 <div className="block pt-5 md:hidden">
                   {get(course, 'access_state') === 'free' && (
@@ -675,11 +642,11 @@ const ScrimbaPageLayout: React.FunctionComponent<
             <div className="flex flex-col items-center justify-start mb-4 md:col-span-2 md:mb-0">
               {image_url && (
                 <div className="hidden md:block">
-                  {/* <CourseArtwork
+                  <CourseArtwork
                     path={nextLesson.path}
                     size={imageIsTag ? 200 : 420}
                     trackText="clicked course image"
-                  /> */}
+                  />
                 </div>
               )}
               {courseIllustrator && (
