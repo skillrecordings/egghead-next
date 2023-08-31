@@ -468,6 +468,11 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
     setLessonCompleted(true)
   }
 
+  console.log('lesson data: ', lesson)
+
+  console.log('for complete data lesson: ', lesson.id)
+  console.log('for complete data collection: ', lesson.collection?.id)
+
   const hasScrimbaUrl = initialLesson?.scrimba?.url
   const scrimbaTranscript = initialLesson?.scrimba?.transcript
 
@@ -637,6 +642,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                     {nextLessonSection && (
                       <Link
                         href={nextLessonSection.path}
+                        onClick={markLessonComplete}
                         className="bg-blue-600 text-white sm:px-2 sm:py-2 px-3 py-2 rounded-md tracking-tight hover:bg-blue-700 transition text-sm"
                       >
                         Complete and Continue

@@ -13,12 +13,12 @@ export const useNextForCollectionSection = (
     [],
   )
 
-  const lessonSlugs = lessonsList.map((lesson: any) => {
+  const lessonSlugs = lessonsList?.map((lesson: any) => {
     return lesson.slug
   })
-  const indexOfCurrent = lessonSlugs.indexOf(currentItemSlug)
+  const indexOfCurrent = lessonSlugs?.indexOf(currentItemSlug)
 
-  if (indexOfCurrent < lessonsList.length - 1) {
+  if (indexOfCurrent < lessonsList?.length - 1) {
     return lessonsList[indexOfCurrent + 1]
   } else {
     return false

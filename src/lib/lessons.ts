@@ -15,6 +15,7 @@ import compactedMerge from 'utils/compacted-merge'
 const lessonQuery = groq`
 *[_type == 'lesson' && slug.current == $slug][0]{
   title,
+   "id": railsLessonId,
   'slug': slug.current,
   description,
   resource->_type == 'videoResource' => {
@@ -64,6 +65,7 @@ const lessonQuery = groq`
       },
     ...*[_type == 'course' && references(^._id)][0] {
     title,
+    "id": railsCourseId,
     'slug': slug.current,
     'type': 'playlist',
     'square_cover_480_url': coalesce(image, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
