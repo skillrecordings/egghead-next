@@ -27,6 +27,7 @@ import podcastEpisode from './documents/podcastEpisode'
 import podcastSeason from './documents/podcastSeason'
 import caseStudy from './documents/caseStudy'
 import category from './documents/category'
+import tip from './documents/tip'
 import authorReference from './objects/author-reference'
 import excerptPortableText from './objects/excerpt-portable-text'
 import bodyPortableText from './objects/body-portable-text'
@@ -65,6 +66,7 @@ export default createSchema({
     post,
     course,
     lesson,
+    tip,
     podcastEpisode,
     podcastSeason,
     caseStudy,

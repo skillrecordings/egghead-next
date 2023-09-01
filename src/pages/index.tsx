@@ -39,40 +39,40 @@ const HomePage: FunctionComponent<React.PropsWithChildren<any>> = ({data}) => {
 export default HomePage
 
 const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-home-page"][0]{
+  title,
+  'sections': resources[]{
+    'id': _id,
     title,
-    'sections': resources[]{
+    'slug': slug.current,
+    image,
+    displayComponent,
+    path,
+    description,
+    'topics': resources[]{
       'id': _id,
       title,
-      'slug': slug.current,
-      image,
-      displayComponent,
       path,
-      description,
-      'topics': resources[]{
-        'id': _id,
-        title,
-        path,
-        image,
+      image,
+    },
+    resources[]->{
+      'id': _id,
+      title,
+      'tags': softwareLibraries[] {
+        'name': library->name,
+       },
+      'name': type,
+      'description': summary,
+      path,
+      image,
+      images,
+      'ogImage': images[label == 'main-og-image'][0].url,
+      'instructor': collaborators[@->.role == "instructor"][0]->{
+          'name': person->name,
+          'image': person->image.url
       },
-      resources[]->{
-        'id': _id,
-        title,
-        'tags': softwareLibraries[] {
-          'name': library->name,
-         },
-        'name': type,
-        'description': summary,
-        path,
-        image,
-        images,
-        'ogImage': images[label == 'main-og-image'][0].url,
-        'instructor': collaborators[]->[role == 'instructor'][0]{
-            'name': person->name,
-            'image': person->image.url
-            },
-       }, 
-      }
-    }`
+     }, 
+    }
+  }`
 
 export async function getStaticProps() {
   const data = await sanityClient.fetch(homepageQuery)
