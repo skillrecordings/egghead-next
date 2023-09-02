@@ -1,5 +1,3 @@
-import React from 'react'
-import {useRouter} from 'next/router'
 import axios from 'axios'
 import cookie from '../utils/cookies'
 import {AUTH_DOMAIN} from '../utils/auth'
@@ -9,16 +7,6 @@ export const AFFILIATE_TOKEN_KEY = 'af'
 export const SIGNED_AFFILIATE_TOKEN_KEY = 'signed_af'
 
 const http = axios.create()
-
-function getSingleQueryValue(
-  param: undefined | string | string[],
-): string | undefined {
-  if (Array.isArray(param)) {
-    return param[0]
-  } else {
-    return param
-  }
-}
 
 function createPermanentCookie(name: string, value: string) {
   // this is what permanent means for Rails cookies
@@ -81,50 +69,7 @@ async function requestSignedAffiliateToken(
 }
 
 function useTokenSigner() {
-  const router = useRouter()
-
-  const referralQueryParam: string | undefined = getSingleQueryValue(
-    router.query.rc,
-  )
-
-  const affiliateQueryParam: string | undefined = getSingleQueryValue(
-    router.query.af,
-  )
-
-  const removeQueryFromUrl = React.useCallback(
-    (paramName: string) => {
-      const {[paramName]: _paramToRemove, ...updatedQuery} = router.query
-      // This used to be a shallow render (`shallow: true`), but we noticed that
-      // even though the URL was getting rewritten, the underlying router state
-      // was not being affect. This meant that `af` and `rc`, though stripped out
-      // of the URL, were continuing to appear in the `router.query` object and
-      // cause an infinite loop with the useEffect.
-      router.push({pathname: router.pathname, query: updatedQuery}, undefined, {
-        shallow: false,
-      })
-    },
-    [router],
-  )
-
-  React.useEffect(() => {
-    if (!!referralQueryParam) {
-      requestSignedReferralToken(referralQueryParam).then((token) => {
-        if (token) {
-          removeQueryFromUrl('rc')
-        }
-      })
-    }
-  }, [referralQueryParam, removeQueryFromUrl])
-
-  React.useEffect(() => {
-    if (!!affiliateQueryParam) {
-      requestSignedAffiliateToken(affiliateQueryParam).then((token) => {
-        if (token) {
-          removeQueryFromUrl('af')
-        }
-      })
-    }
-  }, [affiliateQueryParam, removeQueryFromUrl])
+  // TODO add stripping `rc` and `af` search params out of URL
 }
 
 export default useTokenSigner

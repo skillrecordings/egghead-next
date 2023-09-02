@@ -4,6 +4,7 @@ import Header from 'components/app/app-header'
 import Main from 'components/app/app-main'
 import Footer from 'components/app/app-footer'
 import '../styles/index.css'
+import {Providers} from './providers'
 
 const Layout: FunctionComponent<React.PropsWithChildren<unknown>> = ({
   children,
@@ -12,9 +13,11 @@ const Layout: FunctionComponent<React.PropsWithChildren<unknown>> = ({
     <html>
       <body>
         <div className="flex flex-col min-h-screen">
-          <Header />
-          <Main>{children}</Main>
-          <Footer />
+          <Providers>
+            <Header />
+            <Main>{children}</Main>
+            <Footer />
+          </Providers>
         </div>
       </body>
     </html>
