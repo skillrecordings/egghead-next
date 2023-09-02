@@ -22,6 +22,7 @@ import cookieUtil from 'utils/cookies'
 import useBreakpoint from 'utils/breakpoints'
 import Share from 'components/share'
 import {useNextForCollection} from 'hooks/use-next-up-data'
+import {useNextForCollectionSection} from 'hooks/next-data-sections'
 import CodeLink, {
   IconCode,
   IconGithub,
@@ -48,13 +49,20 @@ import {
 } from '@skillrecordings/player'
 import cx from 'classnames'
 import {useSelector} from '@xstate/react'
-import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outline'
-import {CheckCircleIcon} from '@heroicons/react/solid'
+import {
+  CheckCircleIcon as CheckCircleIconOutline,
+  ArrowsExpandIcon,
+} from '@heroicons/react/outline'
+import {CheckCircleIcon, CheckIcon} from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
 import {LessonProgress} from 'lib/progress'
 import PlayerSidebar from 'components/player/player-sidebar'
 import Comments from 'components/pages/lessons/comments/comments'
 import dynamic from 'next/dynamic'
+import ReactMarkdown from 'react-markdown'
+import CodeBlock from 'components/code-block'
+import {LessonResource, SectionResource} from 'types'
+
 const Tags = dynamic(() => import('components/pages/lessons/tags'), {
   ssr: false,
 })
@@ -64,6 +72,8 @@ type LessonProps = {
   initialLesson: VideoResource
   watchCount: number
   setWatchCount: (value: number) => void
+  lessons?: LessonResource[]
+  sections?: SectionResource[]
 }
 
 const MAX_FREE_VIEWS = 4
@@ -148,7 +158,6 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
     free_forever,
     slug,
     comments,
-    scrimba_url,
   } = lesson
 
   const instructorPagePath = `/q/resources-by-${get(instructor, 'slug', '#')}`
@@ -457,7 +466,22 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
     setLessonCompleted(true)
   }
 
-  const hasScrimbaUrl = initialLesson?.scrimba_url
+  const hasScrimbaUrl = initialLesson?.scrimba?.url
+  const scrimbaTranscript = initialLesson?.scrimba?.transcript
+
+  const iframeRef = React.useRef<HTMLIFrameElement>(null)
+
+  const toggleFullscreen = () => {
+    const iframe = iframeRef.current
+
+    if (iframe) {
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen()
+      }
+    }
+  }
+
+  const nextLessonSection = useNextForCollectionSection(collection, lesson.slug)
 
   return (
     <>
@@ -510,32 +534,25 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
             )}
           >
             {hasScrimbaUrl ? (
-              <div className="relative w-full">
-                <div className="aspect-w-16 aspect-h-9">
-                  <div className="absolute inset-0">
-                    <div className="h-full max-h-[1055px] mx-auto">
-                      <iframe
-                        src={lesson.scrimba_url}
-                        title="Scrimba Embed"
-                        height="100%"
-                        sandbox="allow-same-origin allow-scripts"
-                        allowFullScreen
-                        style={{
-                          overflow: 'hidden',
-                          height: '100%',
-                          width: '100%',
-                        }}
-                      ></iframe>
+              <>
+                <div className="relative w-full">
+                  <div className="aspect-w-16 aspect-h-10">
+                    <div className="absolute inset-0 flex flex-col">
+                      <div className="h-full w-full">
+                        <iframe
+                          ref={iframeRef}
+                          src={lesson.scrimba?.url}
+                          title="Scrimba Embed"
+                          height="100%"
+                          sandbox="allow-same-origin allow-scripts"
+                          className="w-full"
+                        ></iframe>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </>
             ) : (
-              // <div className="flex items-center justify-center">
-              //   <div className="h-[1055px] w-full">
-
-              //   </div>
-              // </div>
               <>
                 <div className={cx({hidden: !playerVisible})}>
                   <Player
@@ -592,7 +609,30 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                 relatedResources={specialLessons[lesson.slug]}
                 videoResource={lesson}
               />
-              <AutoplayControl />
+              {hasScrimbaUrl ? (
+                <>
+                  <div className="bg-player-bg bg-opacity-80 px-3 py-2 flex items-center justify-between w-full group h-[54px]">
+                    <div className="flex md:mt-0">
+                      <button className="px-4 py-2" onClick={toggleFullscreen}>
+                        <ArrowsExpandIcon className="h-5 w-5 text-gray-800  dark:text-white" />
+                      </button>
+                    </div>
+                    {nextLessonSection && (
+                      <Link
+                        href={nextLessonSection.path}
+                        onClick={markLessonComplete}
+                        className="bg-blue-600 text-white sm:px-2 sm:py-2 px-3 py-2 rounded-md tracking-tight hover:bg-blue-700 transition text-sm"
+                      >
+                        Complete and Continue
+                      </Link>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <AutoplayControl />
+                </>
+              )}
             </div>
           )}
         </div>
@@ -760,11 +800,27 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
             >
               <TabList>
                 {transcriptAvailable && <Tab>Transcript</Tab>}
+                {scrimbaTranscript && <Tab>Transcript</Tab>}
                 <Tab>
                   Comments <span className="text-sm">({numberOfComments})</span>
                 </Tab>
               </TabList>
               <TabPanels className="p-5 rounded-lg rounded-tl-none bg-gray-50 dark:bg-gray-1000 sm:p-8">
+                {scrimbaTranscript && (
+                  <TabPanel>
+                    <ReactMarkdown
+                      skipHtml={false}
+                      renderers={{
+                        code: (props) => {
+                          return <CodeBlock {...props} />
+                        },
+                      }}
+                      className="prose dark:prose-dark max-w-none text-gray-800 dark:text-gray-100 dark:prose-a:text-blue-300 prose-a:text-blue-500"
+                    >
+                      {scrimbaTranscript}
+                    </ReactMarkdown>
+                  </TabPanel>
+                )}
                 {transcriptAvailable && (
                   <TabPanel>
                     <Transcript
