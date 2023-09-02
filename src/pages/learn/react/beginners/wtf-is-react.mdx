@@ -3,6 +3,8 @@ export const meta = {
   contributors: [{name: 'Hiro Nishimura'}],
 }
 
+import ProseSection from 'components/mdx/prose-section'
+import Callout from 'components/mdx/callout'
 import FancyGuideLayout from 'layouts/fancy-guide'
 export default ({children}) => (
   <FancyGuideLayout meta={meta}>{children}</FancyGuideLayout>
@@ -54,8 +56,6 @@ React will allow you to utilize pre-coded “components” so that you can spend
 
 You can do everything React does by writing your own code in “vanilla” JavaScript. However, the React team wrote a huge library of functions out for us to borrow and utilize, which makes our lives much easier.
 
-<!-- [insert imagery of starting from scratch building furniture vs ikea-y plan + pre-portioned materials] -->
-
 On one hand, we have a desire for a new dining table. We can create a plan for building a dining table, and with our shiny new plan, we can go into the woods, and find a tree to chop down and create all the parts of a dining table. Then, hopefully, you’ll be able to assemble it into a dining table without getting too many splinters… or splintered wood.
 
 On the other hand, we can go to IKEA and collect a kit filled with pre-cut, pre-painted, and pre-measured ingredients to create that picture-perfect dining table. And it even comes with instructions!
@@ -72,23 +72,15 @@ What’s more, 69% of those who use React say they love it, and 22% of those who
 
 One of the main features of React is that you utilize functions, called “components,” and save them as pre-built blocks of code to reuse over and over again within your application or website. With JavaScript, every time you wanted to reuse a specific function, you would need to rewrite the code from scratch. With React, you can create a “component” and toss it into your code to reuse whenever you want.
 
-<!-- [image of a flying meal-kit box and a completed meal?] -->
-
 If you’ve tried playing around with Cascading Style Sheets (CSS) to stylize your HTML pages, you might recognize that this concept is similar to utilizing “class.” In CSS, you can use “class” to create specific stylistic effects that you can apply in different parts of the web page without having to rewrite the code stored in the stylesheet.
 
 Long story short, you can think of React Components like “building blocks” that create the user interface for your website or application. Adding up the various “blocks” creates the full visitor experience we enjoy as users of the web application or site.
 
-<!-- lego blocks? -->
-
 To conceptualize what React Components may look like, let’s take a very basic webpage layout, with a Header, Navigation, Main Content Area, and Footer. Each section on the website can be a React Component.
-
-<!-- [Insert interactive (greensock?) diagram with a simple website with header, navigation, main area, and footer being split into different “components” with squares around them with labels] -->
 
 To drill down further, let’s think about a familiar Social Media frontpage.
 
 Here, we can see a lot of components. The navigation, the “Tweet” button, the search, the published tweets themselves, the input box… Can you identify some more potential “components” in a Twitter feed?
-
-<!-- [Wireframe version of Twitter to identify the components that reveal the “answer” to the question above once they scroll by separating out?] -->
 
 While you can do everything React can do using “vanilla” JavaScript, learning and utilizing React will allow you to create your web and mobile applications more efficiently. As one of the most popular frameworks utilized by large corporations, it is a skill that will likely benefit you in your developer career.
 

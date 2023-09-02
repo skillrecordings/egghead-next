@@ -2,8 +2,8 @@ import {AbilityBuilder, Ability, defineAbility} from '@casl/ability'
 import {intersection, isString} from 'lodash'
 import {loadCurrentViewerRoles} from '../lib/viewer'
 
-type Actions = 'manage' | 'upload'
-type Subjects = 'Video' | 'all'
+type Actions = 'manage' | 'upload' | 'create'
+type Subjects = 'Video' | 'Content' | 'all'
 export type Roles = 'admin' | 'editor' | 'publisher' | 'instructor'
 type AppAbility = Ability<[Actions, Subjects]>
 

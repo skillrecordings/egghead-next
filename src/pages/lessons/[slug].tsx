@@ -14,7 +14,6 @@ import type {
   VideoEvent,
   VideoStateContext,
 } from '@skillrecordings/player/dist/machines/video-machine'
-import {addCueNote, deleteCueNote} from 'lib/notes'
 import {GenericErrorBoundary} from 'components/generic-error-boundary'
 const Lesson = dynamic(() => import('components/pages/lessons/lesson'), {
   ssr: false,
@@ -100,8 +99,6 @@ const LessonPage: React.FC<
   return (
     <VideoProvider
       services={{
-        addCueNote,
-        deleteCueNote,
         loadViewer:
           (_context: VideoStateContext, _event: VideoEvent) => async () => {
             return await viewer

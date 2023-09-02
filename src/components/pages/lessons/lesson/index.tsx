@@ -582,21 +582,6 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                         default={subtitle?.language === 'en'}
                       />
                     )}
-                    {notesEnabled && metadataTracks && (
-                      <track
-                        key={lesson.slug}
-                        id="notes"
-                        src={queryString.stringifyUrl({
-                          url: `/api/lessons/notes/${lesson?.slug}`,
-                          query: {
-                            staff_notes_url:
-                              lesson?.staff_notes_url || undefined,
-                          },
-                        })}
-                        kind="metadata"
-                        label="notes"
-                      />
-                    )}
                   </Player>
                 </div>
                 <Overlays

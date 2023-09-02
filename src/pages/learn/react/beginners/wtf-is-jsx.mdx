@@ -3,6 +3,10 @@ export const meta = {
   contributors: [{name: 'Hiro Nishimura'}],
 }
 
+import ProseSection from 'components/mdx/prose-section'
+import Course from 'components/mdx/course'
+import Callout from 'components/mdx/callout'
+import QuestionReveal from 'components/mdx/question-reveal'
 import FancyGuideLayout from 'layouts/fancy-guide'
 export default ({children}) => (
   <FancyGuideLayout meta={meta}>{children}</FancyGuideLayout>
@@ -11,8 +15,6 @@ export default ({children}) => (
 <ProseSection>
 
 When you peer closely at some React code, you might begin to find some suspiciously-HTML-like code embedded inside the JavaScript.
-
-<!-- [Insert example of simple React code with some JSX] -->
 
 What is this suspiciously-HTML-like code, and how does it work within React?
 
@@ -31,8 +33,6 @@ ES6 (aka: ECMAScript 6, JavaScript 6, or ECMAScript 2015) is the “6th version�
 </Callout>
 
 Let’s take a look at an example of what happens when JSX is “translated” into React!
-
-<!--[insert example comparison code that compared JSX and JSX output (not this one; this one was yoinked from here)] -->
 
 Comparing the JSX code to the output, you might notice that when JSX is “translated” into React, it adds quite a bit of complexity to the code.
 
@@ -80,8 +80,6 @@ There are 3 parameters passed into
 `props` stands for “properties,” and they are arguments passed into React components
 
 `children` define the element’s child(ren) - if any
-
-<!--[insert example comparison code that compared JSX and JSX output (not this one; this one was yoinked from here) - this is same one from above!!] -->
 
 Looking back again at the JSX and output example from above, can you identify how the 3 parameters are being declared in JSX to be rendered into React?
 
