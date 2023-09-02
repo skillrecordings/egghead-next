@@ -18,7 +18,7 @@ import {TwitterTweetEmbed} from 'react-twitter-embed'
 
 const mdxComponents = {
   Course,
-  Link,
+  Link: (props: any) => <Link {...props} />,
   ResourceLink,
   Card,
   HeaderCard,
@@ -32,6 +32,8 @@ const mdxComponents = {
   ArticleTalkCard,
   ArticleSeriesList,
   TopicInterestEmailEntryForm,
+  ResponsiveEmbed: () => <></>,
+  LessonWidget: () => <></>,
   pre: (props: any) => (
     <CodeBlock
       language={props.children.props.className || ''}

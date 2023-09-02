@@ -17,6 +17,7 @@ module.exports = {
   },
   transformIgnorePatterns: [
     '/node_modules/',
+    'node_modules/(?!@mdx-js|(?!deck.gl)|ng-dynamic)',
     '^.+\\.module\\.(css|sass|scss)$',
   ],
   moduleNameMapper: {

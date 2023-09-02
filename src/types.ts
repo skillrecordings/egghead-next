@@ -8,6 +8,14 @@ export type Resource = {
   type?: string
 }
 
+export type SectionResource = LessonResource & {
+  id?: string
+  title: string
+  slug?: string
+  description?: string
+  type?: string
+}
+
 export type CardResource = Resource & {
   id?: string
   externalId?: number
@@ -37,7 +45,10 @@ export type LessonResource = Resource & {
   collection: Resource & {lessons: any[]}
   staff_notes_url?: string
   download_url?: string
-  scrimba_url?: string
+  scrimba: {
+    url: string
+    transcript: string
+  }
 }
 
 export type VideoResource = LessonResource & {

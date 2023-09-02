@@ -80,7 +80,7 @@ export const getTip = async (slug: string): Promise<Tip> => {
     }`,
     {slug},
   )
-
+  
   if (tip.legacyTranscript && !tip.transcriptBody) {
     tip.transcriptBody = tip.legacyTranscript
   }

@@ -7,7 +7,7 @@ module.exports = {
   },
   parserOptions: {ecmaVersion: 8},
   ignorePatterns: ['node_modules/*', '.next/*', '.out/*', '!.prettierrc.js'], // We don't want to lint generated files nor node_modules, but we want to lint .prettierrc.js (ignored by default by eslint)
-  extends: ['react-app', 'react-app/jest'],
+  extends: ['react-app'],
   plugins: ['jsx-a11y', '@asbjorn/groq'],
   rules: {
     'react-hooks/rules-of-hooks': 'error',
