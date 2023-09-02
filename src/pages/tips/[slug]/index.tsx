@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const tips = await getAllTips()
   const paths = tips.map((tip) => ({
-    params: {tip: tip.slug},
+    params: {slug: tip.slug},
   }))
   return {paths, fallback: 'blocking'}
 }
