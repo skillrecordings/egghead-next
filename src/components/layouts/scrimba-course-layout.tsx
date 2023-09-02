@@ -34,6 +34,7 @@ import {
 } from './collection-page-layout'
 
 import LoginForm from 'pages/login'
+import rehypeRaw from 'rehype-raw'
 
 type CoursePageLayoutProps = {
   lessons: LessonResource[]
@@ -553,7 +554,7 @@ const ScrimbaPageLayout: React.FunctionComponent<
                   <PlayButton lesson={nextLesson} />
                 </div>
                 <Markdown
-                  allowDangerousHtml
+                  rehypePlugins={[rehypeRaw]}
                   className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mt-14"
                 >
                   {description}

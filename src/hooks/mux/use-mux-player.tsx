@@ -5,7 +5,7 @@ import {useRouter, usePathname} from 'next/navigation'
 import {
   type MuxPlayerRefAttributes,
   type MuxPlayerProps,
-} from '@mux/mux-player-react/*'
+} from '@mux/mux-player-react'
 import {
   handleTextTrackChange,
   setPreferredPlaybackRate,

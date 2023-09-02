@@ -1,6 +1,6 @@
 import React from 'react'
-import {type MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
 import get from 'lodash/get'
+import {type MuxPlayerRefAttributes} from '@mux/mux-player-react'
 
 const ignoredInputs = ['input', 'select', 'button', 'textarea', 'mux-player']
 

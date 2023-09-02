@@ -42,7 +42,7 @@ const Transcript: FunctionComponent<
     <>
       <ReactMarkdown
         skipHtml={false}
-        renderers={{
+        components={{
           code: (props) => {
             return <CodeBlock {...props} />
           },

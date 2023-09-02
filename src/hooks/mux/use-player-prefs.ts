@@ -1,4 +1,4 @@
-import {type MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
+import {type MuxPlayerRefAttributes} from '@mux/mux-player-react'
 import * as React from 'react'
 import cookies from 'utils/cookies'
 

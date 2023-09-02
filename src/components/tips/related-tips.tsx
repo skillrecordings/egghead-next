@@ -10,7 +10,7 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   return (
     <section className="mx-auto h-full w-full md:pl-3">
       <h2 className="font-heading pt-2 text-2xl font-black">
-        <Link href="/tips">More Tips</Link>
+        <Link href="/src/pages/tipz">More Tips</Link>
       </h2>
       <div className="flex flex-col pt-4">
         {tips

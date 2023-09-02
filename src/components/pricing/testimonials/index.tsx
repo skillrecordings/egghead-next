@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Markdown from 'react-markdown'
 import Image from 'next/legacy/image'
+import rehypeRaw from 'rehype-raw'
 
 type TestimonialsProps = {
   testimonials: {
@@ -23,7 +24,7 @@ const Testimonials: React.FunctionComponent<
         return (
           <div className="flex flex-col items-center" key={author.name}>
             <div className="text-lg font-medium leading-tight text-center">
-              <Markdown allowDangerousHtml={true}>{praise}</Markdown>
+              <Markdown rehypePlugins={[rehypeRaw]}>{praise}</Markdown>
             </div>
             <div className="flex items-center space-x-2 pt-4">
               <Image
