@@ -20,7 +20,6 @@ import {LessonResource} from 'types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
 import friendlyTime from 'friendly-time'
-import LearnerRatings from '../pages/courses/learner-ratings'
 import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
 import TagList from './tag-list'
@@ -30,9 +29,22 @@ import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
 import DialogButton from '../pages/courses/dialog-button'
 import MembershipDialogButton from '../pages/courses/membership-dialog-button'
+import dynamic from 'next/dynamic'
 
 import LoginForm from 'pages/login'
 import {trpc} from 'trpc/trpc.client'
+const CoursePodcast = dynamic(
+  () => import('components/course/course-podcast'),
+  {
+    ssr: false,
+  },
+)
+const LearnerRatings = dynamic(
+  () => import('../pages/courses/learner-ratings'),
+  {
+    ssr: false,
+  },
+)
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -659,12 +671,14 @@ const CollectionPageLayout: React.FunctionComponent<
               <div className="flex items-center justify-center w-full mt-5 md:hidden">
                 <PlayButton lesson={nextLesson} />
               </div>
-              <Markdown
-                allowDangerousHtml
-                className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mt-14"
-              >
-                {description}
-              </Markdown>
+              {description && (
+                <Markdown
+                  allowDangerousHtml
+                  className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mt-14"
+                >
+                  {description}
+                </Markdown>
+              )}
               <div className="block pt-5 md:hidden">
                 <CourseProjectCard courseProject={courseProject} />
 
@@ -823,7 +837,7 @@ const CollectionPageLayout: React.FunctionComponent<
                               className="flex items-center w-full font-semibold hover:underline"
                             >
                               <Markdown className="mt-0 prose text-gray-900 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100">
-                                {playlist.title}
+                                {playlist?.title}
                               </Markdown>
                             </Link>
                           )}
@@ -859,7 +873,7 @@ const CollectionPageLayout: React.FunctionComponent<
                                           className="flex items-center w-full hover:underline"
                                         >
                                           <Markdown className="mt-0 prose text-gray-700 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100">
-                                            {lesson.title}
+                                            {lesson?.title}
                                           </Markdown>
                                         </Link>
                                       )}
@@ -988,7 +1002,7 @@ const CourseProjectCard = ({courseProject}: {courseProject: any}) => {
               )}
               {courseProject.text && (
                 <Markdown className="w-full prose dark:prose-dark">
-                  {courseProject.text}
+                  {courseProject?.text}
                 </Markdown>
               )}
             </Link>
@@ -997,49 +1011,6 @@ const CourseProjectCard = ({courseProject}: {courseProject: any}) => {
       )}
     </>
   )
-}
-
-const CoursePodcast = ({
-  podcast: {transcript, simplecast_uid: id},
-  instructorName,
-}: any) => {
-  const [isOpen, setOpen] = React.useState(false)
-  const {theme} = useTheme()
-
-  if (isEmpty(id)) {
-    return null
-  } else {
-    return (
-      <div className="w-full pt-2 pb-3">
-        <h3 className="my-2 text-xl font-semibold">
-          {`Listen to ${instructorName} tell you about this course:`}{' '}
-          {transcript && (
-            <span>
-              <button onClick={() => setOpen(!isOpen)}>
-                {isOpen ? 'Hide Transcript' : 'Show Transcript'}
-              </button>
-            </span>
-          )}
-        </h3>
-        <iframe
-          height="52px"
-          width="100%"
-          frameBorder="no"
-          scrolling="no"
-          title="Podcast Player"
-          seamless
-          src={`https://player.simplecast.com/${id}?dark=${
-            theme === 'dark'
-          }&color=${theme === 'dark' && '111827'}`}
-        />
-        {isOpen && transcript && (
-          <Markdown className="bb b--black-10 pb3 lh-copy">
-            {transcript}
-          </Markdown>
-        )}
-      </div>
-    )
-  }
 }
 
 const Prereqs = ({prerequisites}: any) => {
