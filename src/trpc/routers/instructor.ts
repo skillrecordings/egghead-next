@@ -20,6 +20,7 @@ const sanityClient = client({
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
   useCdn: false,
   token: process.env.SANITY_EDITOR_TOKEN,
+  apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
 })
 
 // migrate to zod
@@ -111,7 +112,6 @@ export const instructorRouter = router({
     )
     .query(async ({input, ctx}) => {
       const {instructorId} = input
-
       const query = groq`*[_type == 'course' && $eggheadInstructorId in collaborators[]->eggheadInstructorId][]{
         title,
         "slug": slug.current,
