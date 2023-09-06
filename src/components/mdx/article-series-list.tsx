@@ -21,7 +21,7 @@ const ArticleSeriesList: React.FC<
         {articles.map((article: any, i: number) => {
           return (
             <Link
-              key={i}
+              key={article.title}
               href={article.path}
               className={cx('flex gap-4 group hover:text-blue-500 w-fit', {
                 'font-bold underline': article.path === router.asPath,
