@@ -23,7 +23,7 @@ export default async function Tip({params}: {params: {tipId: string}}) {
             <div className="mx-auto w-full max-w-screen-lg pb-5 lg:px-5">
               <div className="flex w-full grid-cols-5 flex-col gap-0 sm:gap-10 xl:grid">
                 <div className="col-span-3">
-                  <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
+                  <h1 className="leading-tighter inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-3xl">
                     {tip.title}
                   </h1>
 
