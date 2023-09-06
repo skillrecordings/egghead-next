@@ -17,6 +17,7 @@ import find from 'lodash/find'
 import {useScrollTracker} from 'react-scroll-tracker'
 import analytics from 'utils/analytics'
 import EmailSubscribeWidget from 'components/mdx/email-subscribe-widget'
+import remarkGfm from 'remark-gfm'
 
 function urlFor(source: any): any {
   return imageUrlBuilder(sanityClient).image(source)
@@ -293,6 +294,7 @@ export async function getStaticProps(context: any) {
   const mdxSource = await serialize(body, {
     mdxOptions: {
       remarkPlugins: [
+        remarkGfm,
         require(`remark-slug`),
         require(`remark-footnotes`),
         require(`remark-code-titles`),
