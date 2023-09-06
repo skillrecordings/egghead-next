@@ -137,7 +137,7 @@
     "next": "^13.4.13",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.1",
-    "next-mdx-remote": "4.2.0",
+    "next-mdx-remote": "4.4.1",
     "next-seo": "^4.26.0",
     "next-svgr": "^0.0.2",
     "next-themes": "^0.2.1",
