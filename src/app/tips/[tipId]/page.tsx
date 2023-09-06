@@ -1,7 +1,7 @@
 import {getAllTips, getTip} from 'lib/tips'
 import TipPlayer from 'components/tips/tip-player'
 import {VideoTranscript} from 'components/video/video-transcript'
-import {ReactMarkdown} from 'react-markdown/lib/react-markdown'
+import MarkdownCodeblock from 'components/tips/ui/markdown-codeblock'
 import RelatedTips from 'components/tips/related-tips'
 
 export default async function Tip({params}: {params: {tipId: string}}) {
@@ -30,7 +30,7 @@ export default async function Tip({params}: {params: {tipId: string}}) {
                   {tip.body && (
                     <>
                       <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert lg:prose-lg">
-                        <ReactMarkdown children={tip.body} />
+                        <MarkdownCodeblock tip={tip.body} />
                       </div>
                       <hr className="bg-indigo-400" />
                     </>

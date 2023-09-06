@@ -25,7 +25,10 @@ export const VideoTranscript: React.FC<{
       <h2 data-title="">Transcript</h2>
       <div data-transcript="">
         {typeof transcript === 'string' ? (
-          <ReactMarkdown components={transcriptMarkdownComponent}>
+          <ReactMarkdown
+            className="prose dark:prose-dark"
+            components={transcriptMarkdownComponent}
+          >
             {transcript}
           </ReactMarkdown>
         ) : (
