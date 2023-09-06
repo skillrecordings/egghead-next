@@ -35,9 +35,9 @@ export default async function Tip({params}: {params: {tipId: string}}) {
                       <hr className="bg-indigo-400" />
                     </>
                   )}
-                  {tip.transcriptBody && tip.body && (
+                  {tip.transcript && tip.body && (
                     <div className="w-full max-w-2xl pt-5">
-                      <VideoTranscript transcript={tip.transcriptBody} />
+                      <VideoTranscript transcript={tip.transcript} />
                     </div>
                   )}
                 </div>
@@ -48,9 +48,9 @@ export default async function Tip({params}: {params: {tipId: string}}) {
               </div>
             </div>
             <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
-              {tip.transcriptBody && !tip.body && (
+              {tip.transcript && !tip.body && (
                 <div className="w-full max-w-2xl pt-5">
-                  <VideoTranscript transcript={tip.transcriptBody} />
+                  <VideoTranscript transcript={tip.transcript} />
                 </div>
               )}
               {!tip.body && <RelatedTips currentTip={tip} tips={tips} />}

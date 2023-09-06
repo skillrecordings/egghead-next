@@ -27,7 +27,7 @@ export const TipSchema = z.object({
     .nullable(),
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.string()).optional(),
-  transcriptBody: z.nullable(z.string()).optional(),
+  srt: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
 })
 
@@ -75,14 +75,14 @@ export const getTip = async (slug: string): Promise<Tip> => {
         "slug": slug.current,
         "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
-        "transcriptBody": resources[@->._type == 'videoResource'][0]-> transcriptBody,
+        "srt": resources[@->._type == 'videoResource'][0]-> transcript.srt,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId
     }`,
     {slug},
   )
-  
-  if (tip.legacyTranscript && !tip.transcriptBody) {
-    tip.transcriptBody = tip.legacyTranscript
+
+  if (tip?.legacyTranscript && !tip.transcript) {
+    tip.transcript = tip.legacyTranscript
   }
 
   return TipSchema.parse(pickBy(tip))

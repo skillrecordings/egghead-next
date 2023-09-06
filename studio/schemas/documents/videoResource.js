@@ -31,14 +31,17 @@ export default {
       type: 'muxAsset',
     },
     {
-      name: 'transcriptBody',
-      title: 'Transcript Body',
-      type: 'text',
-    },
-    {
       name: 'transcriptUrl',
       title: 'Transcript URL',
       type: 'url',
+    },
+    {
+      name: 'transcript',
+      type: 'object',
+      fields: [
+        {name: 'text', type: 'text'},
+        {name: 'srt', type: 'text'},
+      ],
     },
     {
       name: 'subtitlesUrl',
