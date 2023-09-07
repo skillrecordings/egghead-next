@@ -11,10 +11,6 @@ const features = [
     description: 'Priority customer support and assistance',
   },
   {
-    icon: 'offline',
-    description: 'Downloadable videos to watch offline',
-  },
-  {
     icon: 'code',
     description: 'Code examples for every lesson',
   },
