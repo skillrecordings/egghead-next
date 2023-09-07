@@ -5,6 +5,7 @@ import MuxPlayer, {
   MuxPlayerRefAttributes,
 } from '@mux/mux-player-react'
 import {useMuxPlayer} from 'hooks/mux/use-mux-player'
+import './styles.css'
 
 const TipPlayer: React.FC<{tip: any}> = ({tip}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
