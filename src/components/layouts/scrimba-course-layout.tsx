@@ -229,7 +229,6 @@ const ScrimbaPageLayout: React.FunctionComponent<
     watched_count,
     description,
     rss_url,
-    download_url,
     toggle_favorite_url,
     duration,
     collection_progress,

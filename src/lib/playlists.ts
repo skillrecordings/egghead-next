@@ -110,7 +110,6 @@ export async function loadAuthedPlaylistForUser(slug: string) {
       playlist(slug: $slug) {
         favorited
         toggle_favorite_url
-        download_url
         rss_url
       }
     }

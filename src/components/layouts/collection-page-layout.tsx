@@ -11,7 +11,6 @@ import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
 import analytics from 'utils/analytics'
-import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import ClockIcon from '../icons/clock'
@@ -216,7 +215,6 @@ const CollectionPageLayout: React.FunctionComponent<
     watched_count,
     description,
     rss_url,
-    download_url,
     toggle_favorite_url,
     duration,
     collection_progress,
@@ -606,32 +604,6 @@ const CollectionPageLayout: React.FunctionComponent<
                       </p>
                     </LoginForm>
                   </DialogButton>
-                )}
-
-                {/* Download button */}
-                {download_url ? (
-                  <Link
-                    href={download_url}
-                    onClick={() => {
-                      analytics.events.activityCtaClick(
-                        'course download',
-                        slug,
-                        name,
-                      )
-                    }}
-                  >
-                    <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
-                      <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
-                    </div>
-                  </Link>
-                ) : state === 'retired' ? null : (
-                  <MembershipDialogButton
-                    buttonText="Download"
-                    title="Become a member to download this course"
-                  >
-                    As an egghead member you can download any of our courses and
-                    watch them offline.
-                  </MembershipDialogButton>
                 )}
 
                 {/* RSS button */}

@@ -12,7 +12,6 @@ import removeMarkdown from 'remove-markdown'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
 import analytics from 'utils/analytics'
-import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import ClockIcon from '../icons/clock'
@@ -214,7 +213,6 @@ const MultiModuleCollectionPageLayout: React.FunctionComponent<
     watched_count,
     description,
     rss_url,
-    download_url,
     toggle_favorite_url,
     duration,
     collection_progress,
