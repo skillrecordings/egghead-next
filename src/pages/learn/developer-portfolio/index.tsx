@@ -43,10 +43,9 @@ const DeveloperPortfolio: React.FC<React.PropsWithChildren<any>> = ({data}) => {
                     {data.title}
                   </h1>
 
-                  <Markdown
-                    source={data.description}
-                    className="mt-4 prose dark:prose-dark dark:prose-md-dark prose-md"
-                  />
+                  <Markdown className="mt-4 prose dark:prose-dark dark:prose-md-dark prose-md">
+                    {data.description}
+                  </Markdown>
                 </div>
               </div>
             </div>

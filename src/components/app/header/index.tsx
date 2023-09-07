@@ -8,7 +8,7 @@ import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
 import FeedbackInput from 'components/feedback-input'
 import useBreakpoint from 'utils/breakpoints'
-import {useRouter} from 'next/router'
+import {useRouter, usePathname} from 'next/navigation'
 import useCio from 'hooks/use-cio'
 import PortfolioFoundationsCTA from 'components/survey/portfolio-foundations'
 import OnlinePresenceCTA from 'components/survey/online-presence-cta'
@@ -37,6 +37,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
   const {sm, md} = useBreakpoint()
   const [isOpen, setOpen] = React.useState<boolean>(false)
   const {is_instructor} = viewer || false
+  const pathname = usePathname() || ''
 
   React.useEffect(() => {
     setIsMounted(true)
@@ -46,8 +47,8 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
     !sm ? setOpen(sm) : setOpen(false)
   }, [sm, router])
 
-  const isSearch = router.pathname.includes('/q')
-  const isTopics = router.pathname.includes('/topics')
+  const isSearch = pathname.includes('/q')
+  const isTopics = pathname.includes('/topics')
 
   const showTeamNavLink =
     viewer?.accounts &&
@@ -219,9 +220,9 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 
   return (
     <>
-      {!viewer?.is_pro &&
-        !viewer?.is_instructor &&
-        router.pathname !== '/pricing' && <SaleHeaderBanner />}
+      {!viewer?.is_pro && !viewer?.is_instructor && pathname !== '/pricing' && (
+        <SaleHeaderBanner />
+      )}
       <nav
         aria-label="header"
         className="relative h-12 text-sm border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000"

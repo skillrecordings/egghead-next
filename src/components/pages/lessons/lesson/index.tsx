@@ -810,7 +810,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                   <TabPanel>
                     <ReactMarkdown
                       skipHtml={false}
-                      renderers={{
+                      components={{
                         code: (props) => {
                           return <CodeBlock {...props} />
                         },
