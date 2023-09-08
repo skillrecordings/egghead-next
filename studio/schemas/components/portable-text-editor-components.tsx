@@ -1,8 +1,7 @@
-import React from 'react'
-
+import * as React from 'react'
 export const mathInlineIcon = () => (
   <span>
-    <span style={{fontWeight: 'bold'}}>∑</span>b
+    <span style={{fontWeight: 'bold'}}>∑</span>
   </span>
 )
 export const mathIcon = () => <span style={{fontWeight: 'bold'}}>∑</span>

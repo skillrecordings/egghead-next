@@ -1,11 +1,12 @@
-import {MdGroup as icon} from 'react-icons/md'
-import React from 'react'
+import { SparkleIcon } from '@sanity/icons'
+import * as React from 'react'
+
 
 export default {
   name: 'collaborator',
   title: 'Collaborator',
   type: 'document',
-  icon: icon,
+  icon: SparkleIcon,
   fields: [
     {
       name: 'department',

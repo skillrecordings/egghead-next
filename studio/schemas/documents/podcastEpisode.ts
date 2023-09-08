@@ -37,26 +37,27 @@
  - should the `id` be included as a reference back to egghead-rails DB?
 
 */
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
-export default {
+
+export default defineType({
   name: 'podcastEpisode',
   title: 'Podcast Episode',
   description: 'Podcast Episodes on egghead',
   type: 'document',
   fields: [
-    {
+    defineField({
       name: 'title',
       type: 'string',
-      required: true,
       description: 'Title for the individual epsiode',
-    },
-    {
+    }),
+    defineField({
       name: 'byline',
       description: 'Subheading to the season',
       title: 'Byline',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'slug',
       title: 'episode slug',
       type: 'slug',
@@ -66,73 +67,70 @@ export default {
         slugify: (input) =>
           input.toLowerCase().replace(/\s+/g, '-').slice(0, 200),
       },
-    },
-    {
+    }),
+    defineField({
       name: 'summary',
       description: 'Short description, like for a tweet',
       title: 'Summary',
       type: 'text',
       rows: 3,
       validation: (Rule) => Rule.max(240),
-      options: {
-        maxLength: 240,
-      },
-    },
-    {
+    }),
+    defineField({
       name: 'description',
       description: 'Full description, no limits',
       title: 'Description',
       type: 'markdown',
-    },
-    {
+    }),
+    defineField({
       name: 'simplecastUid',
       description: 'UID for episode in simplecast',
       title: 'Simplecast UID',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'mediaUrl',
       description: 'Media URL for the audio for the episode',
       title: 'Media URL',
       type: 'url',
-    },
-    {
+    }),
+    defineField({
       name: 'imageUrl',
       description: 'Image URL for the cover art for this season',
       title: 'Image URL',
       type: 'url',
-    },
-    {
+    }),
+    defineField({
       name: 'duration',
       title: 'Duration',
       description: 'HH:MM:SS',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'explicit',
       type: 'boolean',
       description:
         'Do you need to warn parents about the content in this podcast? (You can set this for individual episodes to)',
-    },
-    {
+    }),
+    defineField({
       name: 'urls',
       description: 'Links to things.',
       title: 'External URLs',
       type: 'array',
       of: [{type: 'link'}],
-    },
-    {
+    }),
+    defineField({
       name: 'updatedAt',
       description: 'The last time this resource was meaningfully updated',
       title: 'Updated At',
       type: 'date',
-    },
-    {
+    }),
+    defineField({
       name: 'publishedAt',
       description: 'The date this podcast episode was published',
       title: 'Published At',
       type: 'date',
-    },
+    }),
   ],
   preview: {
     select: {
@@ -142,4 +140,4 @@ export default {
       media: 'coverArt',
     },
   },
-}
+})
