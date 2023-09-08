@@ -19,6 +19,7 @@
     "@sanity/code-input": "^4.1.1",
     "@sanity/icons": "^2.4.1",
     "@sanity/production-preview": "^2.15.0",
+    "@sanity/ui": "^1.8.2",
     "@sanity/vision": "^3.16.4",
     "add": "^2.0.6",
     "easymde": "2",
