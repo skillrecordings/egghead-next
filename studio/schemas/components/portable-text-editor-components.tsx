@@ -8,6 +8,6 @@ export const mathIcon = () => <span style={{fontWeight: 'bold'}}>∑</span>
 
 export const highlightIcon = () => <span style={{fontWeight: 'bold'}}>H</span>
 
-export const highlightRender = (props) => (
+export const highlightRender = (props: any) => (
   <span style={{backgroundColor: 'yellow'}}>{props.children}</span>
 )

@@ -127,7 +127,7 @@ export default defineType({
       title: 'Display Component',
       description:
         'What component should be used in egghead-next to display this feature?',
-      hidden: ({document}) => document.type !== 'feature',
+      hidden: ({document}) => document?.type !== 'feature',
       options: {
         list: [
           {
@@ -145,10 +145,10 @@ export default defineType({
       name: 'productionProcessState',
       title: 'Production Process State',
       type: 'productionProcessState',
-      hidden: ({document}) => document.type !== 'course',
+      hidden: ({document}) => document?.type !== 'course',
       validation: (Rule) =>
         Rule.custom((value, {document}) => {
-          if (document.type === 'course' && value === undefined) {
+          if (document?.type === 'course' && value === undefined) {
             return 'You must select a production process state'
           }
           return true

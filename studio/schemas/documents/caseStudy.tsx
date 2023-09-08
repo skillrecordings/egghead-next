@@ -167,7 +167,7 @@ export default defineType({
       slug: 'slug',
       image: 'coverImage.url',
     },
-    prepare({title = 'No title', publishedAt, slug = {}, image}) {
+    prepare({title = 'No title', publishedAt, slug = {}, image}: any) {
       const path = `/case-studies/${slug.current}`
       return {
         title,

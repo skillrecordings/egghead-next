@@ -14,9 +14,9 @@ export default defineType({
       description: 'Titles should be catchy, descriptive, and not too long',
       validation: (Rule) =>
         Rule.custom((field, context) =>
-          context.document.status &&
-          context.document.status === 'published' &&
-          (field === undefined || field.length < 1)
+          context?.document?.status &&
+          context?.document?.status === 'published' &&
+          (field === undefined || field?.length < 1)
             ? 'Must have a title to publish'
             : true,
         ),
