@@ -1,18 +1,20 @@
 import {MdLibraryBooks as icon} from 'react-icons/md'
-import React from 'react'
+import * as React from 'react'
+import {defineField, defineType} from 'sanity'
 
-export default {
+
+export default defineType({
   name: 'software-library',
   title: 'software library (dependency)',
   type: 'document',
   icon,
   fields: [
-    {
+    defineField({
       name: 'name',
       title: 'Name',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -20,32 +22,32 @@ export default {
         maxLength: 100,
         source: 'name',
       },
-    },
-    {
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'markdown',
       options: {
         maxLength: 180,
       },
-    },
-    {
+    }),
+    defineField({
       name: 'path',
       description: 'Path on egghead.io (if applicable)',
       title: 'egghead.io/ Path',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       title: 'Link to library',
       name: 'url',
       type: 'url',
-    },
-    {
+    }),
+    defineField({
       name: 'image',
       description: 'An associated image URL. Probably a logo.',
       title: 'Image URL',
       type: 'image-url',
-    },
+    }),
   ],
   preview: {
     select: {
@@ -60,4 +62,4 @@ export default {
       }
     },
   },
-}
+})
