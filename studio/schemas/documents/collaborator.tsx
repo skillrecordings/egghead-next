@@ -38,7 +38,7 @@ export default {
       name: 'eggheadInstructorId',
       title: 'egghead Instructor ID',
       type: 'string',
-      hidden: ({parent}) => parent?.role !== 'instructor',
+      hidden: ({parent}: {parent: {role: string}}) => parent?.role !== 'instructor',
     },
   ],
   preview: {
@@ -49,7 +49,7 @@ export default {
       department: 'department',
       media: 'person.image.url',
     },
-    prepare(selection) {
+    prepare(selection: any) {
       const {name, title, department, media, role} = selection
       return {
         title: `${name}${title ? ` • ${title}` : ''}`,

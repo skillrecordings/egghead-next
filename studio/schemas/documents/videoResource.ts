@@ -19,7 +19,7 @@ export default defineType({
       type: 'url',
       validation: (Rule) =>
         Rule.custom((originalVideoUrl, context) => {
-          if (_.isEmpty(originalVideoUrl) && _.isEmpty(context.document.hlsUrl)) {
+          if (_.isEmpty(originalVideoUrl) && _.isEmpty(context?.document?.hlsUrl)) {
             return 'Either "Original Video URL" or "HLS URL" must be set.'
           }
 
