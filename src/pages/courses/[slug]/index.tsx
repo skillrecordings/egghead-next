@@ -64,7 +64,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
           ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
         />
       )
-    case slug === 'build-ai-apps-with-chatgpt-dall-e-and-gpt-4-b707365e':
+    case slug === 'build-ai-apps-with-chatgpt-dall-e-and-gpt-4-9bc61e99':
       return (
         <ScrimbaPageLayout
           sections={sections}
