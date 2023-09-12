@@ -5,7 +5,6 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import {serialize} from 'next-mdx-remote/serialize'
 import {MDXRemote} from 'next-mdx-remote'
-import {withProse} from '../../utils/remark/with-prose'
 
 const PortfolioFoundationsArticle: React.FC<React.PropsWithChildren<any>> = ({
   source,
@@ -47,7 +46,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
       const source = await serialize(resource.article, {
         mdxOptions: {
           remarkPlugins: [
-            withProse,
             require(`remark-slug`),
             require(`remark-footnotes`),
             require(`remark-code-titles`),

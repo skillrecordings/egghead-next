@@ -9,7 +9,7 @@ type CodeBlockProps = {
   value: string
 }
 
-const CodeBlock: FunctionComponent<React.PropsWithChildren<CodeBlockProps>> = ({
+const CodeBlock: FunctionComponent<React.PropsWithChildren<any>> = ({
   language,
   value,
 }) => {

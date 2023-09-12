@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Markdown from 'react-markdown'
 import {track} from 'utils/analytics'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import rehypeRaw from 'rehype-raw'
 
 const DigitalGardening: React.FC<React.PropsWithChildren<any>> = ({data}) => {
   return (
@@ -45,15 +46,17 @@ const DigitalGardening: React.FC<React.PropsWithChildren<any>> = ({data}) => {
                   </h1>
 
                   <Markdown
-                    source={data.description}
-                    allowDangerousHtml={true}
+                    rehypePlugins={[rehypeRaw]}
                     className="max-w-screen-sm mt-4 text-base text-gray-700 dark:text-gray-50"
-                  />
+                  >
+                    {data.description}
+                  </Markdown>
                   <Markdown
-                    source={data.quote.description}
-                    allowDangerousHtml={true}
+                    rehypePlugins={[rehypeRaw]}
                     className="max-w-screen-sm mt-4 text-base text-gray-700 dark:text-gray-50"
-                  />
+                  >
+                    {data.quote.description}
+                  </Markdown>
                 </div>
               </div>
             </div>

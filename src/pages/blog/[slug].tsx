@@ -10,7 +10,6 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
-import {withProse} from 'utils/remark/with-prose'
 import CourseWidget from 'components/mdx/course-widget'
 import ResourceWidget from 'components/mdx/resource-widget'
 import ArticleSeriesList from 'components/mdx/article-series-list'
@@ -18,6 +17,7 @@ import find from 'lodash/find'
 import {useScrollTracker} from 'react-scroll-tracker'
 import analytics from 'utils/analytics'
 import EmailSubscribeWidget from 'components/mdx/email-subscribe-widget'
+import remarkGfm from 'remark-gfm'
 
 function urlFor(source: any): any {
   return imageUrlBuilder(sanityClient).image(source)
@@ -103,7 +103,7 @@ const Tag = (props: any) => {
               </div>
             )}
           </header>
-          <main>
+          <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500">
             <MDXRemote
               {...source}
               components={{
@@ -294,7 +294,7 @@ export async function getStaticProps(context: any) {
   const mdxSource = await serialize(body, {
     mdxOptions: {
       remarkPlugins: [
-        withProse,
+        remarkGfm,
         require(`remark-slug`),
         require(`remark-footnotes`),
         require(`remark-code-titles`),

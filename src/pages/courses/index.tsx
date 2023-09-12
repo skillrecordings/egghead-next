@@ -129,10 +129,9 @@ const CourseIndex: React.FC<React.PropsWithChildren<{courses: any}>> = ({
                               {course.summary}
                             </h3>
                           )}
-                          <Markdown
-                            source={course.description}
-                            className="prose-sm prose transition-opacity duration-300 ease-in-out dark:prose-dark opacity-80 group-hover:opacity-100"
-                          />
+                          <Markdown className="prose-sm prose transition-opacity duration-300 ease-in-out dark:prose-dark opacity-80 group-hover:opacity-100">
+                            {course.description}
+                          </Markdown>
                         </div>
                       </div>
                       {isDevelopment && (

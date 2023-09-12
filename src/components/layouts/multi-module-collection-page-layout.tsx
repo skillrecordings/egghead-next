@@ -12,7 +12,6 @@ import removeMarkdown from 'remove-markdown'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
 import analytics from 'utils/analytics'
-import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import ClockIcon from '../icons/clock'
@@ -35,6 +34,7 @@ import {loadUserCompletedCourses} from 'lib/users'
 
 import LoginForm from 'pages/login'
 import {trpc} from 'trpc/trpc.client'
+import rehypeRaw from 'rehype-raw'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -213,7 +213,6 @@ const MultiModuleCollectionPageLayout: React.FunctionComponent<
     watched_count,
     description,
     rss_url,
-    download_url,
     toggle_favorite_url,
     duration,
     collection_progress,
@@ -635,7 +634,7 @@ const MultiModuleCollectionPageLayout: React.FunctionComponent<
                 <PlayButton lesson={nextLesson} />
               </div>
               <Markdown
-                allowDangerousHtml
+                rehypePlugins={[rehypeRaw]}
                 className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mt-14"
               >
                 {description}

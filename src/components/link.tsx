@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import {useRouter} from 'next/router'
+import {usePathname} from 'next/navigation'
 import NextLink from 'next/link'
 import {UrlObject} from 'url'
 
@@ -19,14 +19,14 @@ const Link: FunctionComponent<React.PropsWithChildren<LinkProps>> = ({
   partialMatch = false,
   ...props
 }) => {
-  const router = useRouter()
+  const pathname = usePathname() || ''
   let className = children?.props?.className || ''
   if (partialMatch) {
-    if (router.asPath.includes(`${href}`)) {
+    if (pathname.includes(`${href}`)) {
       className = `${className} ${activeClassName}`
     }
   } else {
-    if (router.asPath === href) {
+    if (pathname === href) {
       className = `${className} ${activeClassName}`
     }
   }

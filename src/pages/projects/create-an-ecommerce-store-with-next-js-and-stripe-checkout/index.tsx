@@ -287,10 +287,9 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
           </header>
           <main>
             <div className="container">
-              <Markdown
-                className="max-w-screen-md mx-auto prose prose-lg md:prose-xl dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 dark:prose-lg-dark dark:md:prose-xl-dark"
-                source={course.summary}
-              />
+              <Markdown className="max-w-screen-md mx-auto prose prose-lg md:prose-xl dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 dark:prose-lg-dark dark:md:prose-xl-dark">
+                {course.summary}
+              </Markdown>
             </div>
             <div className="pt-24 mt-20 bg-gray-50 dark:bg-gray-800">
               <div className="container">
@@ -476,10 +475,9 @@ const Instructor: FunctionComponent<
             >
               {name}
             </Link>
-            <Markdown
-              className="max-w-xl prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500"
-              source={bio}
-            />
+            <Markdown className="max-w-xl prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
+              {bio}
+            </Markdown>
           </div>
         </div>
       </div>
@@ -571,7 +569,7 @@ const Part: FunctionComponent<
         <h3 className="relative pb-1 text-lg font-bold -translate-y-1">
           {title}
         </h3>
-        {body && <Markdown className="prose" source={body} />}
+        {body && <Markdown className="prose">{body}</Markdown>}
         {lessons && (
           <ul>
             {lessons.map((l) => (

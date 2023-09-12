@@ -10,7 +10,6 @@ import {get, first, filter, isEmpty} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
-import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import CheckIcon from '../icons/check'
@@ -34,6 +33,7 @@ import {
 } from './collection-page-layout'
 
 import LoginForm from 'pages/login'
+import rehypeRaw from 'rehype-raw'
 
 type CoursePageLayoutProps = {
   lessons: LessonResource[]
@@ -279,7 +279,6 @@ const PhpCollectionPageLayout: React.FunctionComponent<
     watched_count,
     description,
     rss_url,
-    download_url,
     toggle_favorite_url,
     duration,
     collection_progress,
@@ -595,30 +594,6 @@ const PhpCollectionPageLayout: React.FunctionComponent<
                     </DialogButton>
                   )}
 
-                  {/* Download button */}
-                  {download_url ? (
-                    <Link
-                      href={download_url}
-                      onClick={() => {
-                        track(`clicked download course`, {
-                          course: course.slug,
-                        })
-                      }}
-                    >
-                      <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
-                        <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
-                      </div>
-                    </Link>
-                  ) : (
-                    <MembershipDialogButton
-                      buttonText="Download"
-                      title="Become a member to download this course"
-                    >
-                      As an egghead member you can download any of our courses
-                      and watch them offline.
-                    </MembershipDialogButton>
-                  )}
-
                   {/* RSS button */}
                   {rss_url ? (
                     <Link
@@ -657,7 +632,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<
                   <PlayButton lesson={nextLesson} />
                 </div>
                 <Markdown
-                  allowDangerousHtml
+                  rehypePlugins={[rehypeRaw]}
                   className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mt-14"
                 >
                   {description}

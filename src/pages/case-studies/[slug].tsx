@@ -8,7 +8,6 @@ import {MDXRemote} from 'next-mdx-remote'
 import mdxComponents from 'components/mdx'
 import {sanityClient} from 'utils/sanity-client'
 import {serialize} from 'next-mdx-remote/serialize'
-import {withProse} from 'utils/remark/with-prose'
 import {HIDDEN_CASE_STUDIES} from './index'
 
 type AuthorResource = {
@@ -128,7 +127,7 @@ const CaseStudy = (props: CaseStudyResource) => {
           </div>
         </div>
         <article className="max-w-screen-md mx-auto mt-3 mb-16 lg:mt-14 md:mt-8">
-          <main>
+          <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500">
             <MDXRemote {...source} components={mdxComponents} />
           </main>
         </article>
@@ -209,7 +208,6 @@ export async function getStaticProps(context: any) {
   const mdxSource = await serialize(body, {
     mdxOptions: {
       remarkPlugins: [
-        withProse,
         require(`remark-slug`),
         require(`remark-footnotes`),
         require(`remark-code-titles`),

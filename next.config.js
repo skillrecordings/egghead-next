@@ -36,6 +36,7 @@ const IMAGE_HOST_DOMAINS = compact([
   `res.cloudinary.com`,
   `app.egghead.io`,
   `gravatar.com`,
+  `image.mux.com`,
   process.env.NODE_ENV !== 'production' && 'via.placeholder.com',
 ])
 

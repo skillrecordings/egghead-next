@@ -4,7 +4,6 @@ const FeaturesList = () => (
   <ul>
     {[
       'Full access to all the premium courses',
-      'Download courses for offline viewing',
       'Closed captions for every video',
       'Commenting and support',
       'Enhanced Transcripts',

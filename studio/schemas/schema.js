@@ -1,12 +1,6 @@
-// First, we must import the schema creator
-import createSchema from 'part:@sanity/base/schema-creator'
-// Then import schema types from any plugins that might expose them
-import schemaTypes from 'all:part:@sanity/base/schema-type'
-
-// We import object and document schemas
 import collaborator from './documents/collaborator'
 import resource from './documents/resource'
-import person from './documents/person'
+import person from './documents/person.tsx'
 import library from './documents/software-library'
 import bigIdea from './documents/bigIdea'
 import essentialQuestion from './documents/essentialQuestion'
@@ -39,46 +33,41 @@ import muxAsset from './objects/muxAsset'
 import scrimbaResource from './objects/scrimba-resource'
 
 // Then we give our schema to the builder and provide the result to Sanity
-export default createSchema({
-  // We name our schema
-  name: 'default',
-  // Then proceed to concatenate our document type
-  // to the ones provided by any plugins that are installed
-  types: schemaTypes.concat([
-    versionedLibrary,
-    markdownText,
-    blockContent,
-    blockText,
-    link,
-    cta,
-    ctaPlug,
-    productionProcessState,
-    // The following are document types which will appear
-    // in the studio.
-    resource,
-    imageUrl,
-    collaborator,
-    person,
-    library,
-    essentialQuestion,
-    bigIdea,
-    stringList,
-    videoResource,
-    post,
-    course,
-    lesson,
-    tip,
-    podcastEpisode,
-    podcastSeason,
-    caseStudy,
-    category,
-    authorReference,
-    excerptPortableText,
-    bodyPortableText,
-    mainImage,
-    seo,
-    muxAsset,
-    scrimbaResource,
-    section,
-  ]),
-})
+export default [
+  versionedLibrary,
+  markdownText,
+  blockContent,
+  blockText,
+  link,
+  cta,
+  ctaPlug,
+  productionProcessState,
+
+  stringList,
+  authorReference,
+  excerptPortableText,
+  bodyPortableText,
+  mainImage,
+  seo,
+  muxAsset,
+  scrimbaResource,
+  // The following are document types which will appear
+  // in the studio.
+  resource,
+  imageUrl,
+  course,
+  section,
+  lesson,
+  tip,
+  videoResource,
+  post,
+  library,
+  collaborator,
+  person,
+  podcastEpisode,
+  podcastSeason,
+  caseStudy,
+  category,
+  essentialQuestion,
+  bigIdea,
+]

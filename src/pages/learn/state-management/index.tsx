@@ -10,6 +10,7 @@ import {CardResource} from 'types'
 import {get} from 'lodash'
 import VideoCard from 'components/pages/home/video-card'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import rehypeRaw from 'rehype-raw'
 
 const StateManagement: React.FC<React.PropsWithChildren<any>> = ({data}) => {
   return (
@@ -88,10 +89,11 @@ const RecoilSection = ({resource}: any) => {
       </Link>
 
       <Markdown
-        source={description}
-        allowDangerousHtml={true}
+        rehypePlugins={[rehypeRaw]}
         className="max-w-screen-md mx-auto mt-4 prose text-center text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100"
-      />
+      >
+        {description}
+      </Markdown>
       <div className="grid grid-cols-1 gap-4 mt-10 lg:grid-cols-3">
         {resources.map((resource: any) => {
           return (
@@ -117,10 +119,11 @@ const BigIdeasSection = ({resource}: any) => {
             {title}
           </h1>
           <Markdown
-            source={description}
-            allowDangerousHtml={true}
+            rehypePlugins={[rehypeRaw]}
             className="max-w-screen-md mt-4 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100"
-          />
+          >
+            {description}
+          </Markdown>
         </div>
         <div className="col-span-3">
           {resources.map((resource: any) => {
@@ -164,10 +167,11 @@ const Jumbotron: FunctionComponent<React.PropsWithChildren<JumbotronProps>> = ({
                 {title}
               </h1>
               <Markdown
-                source={description}
-                allowDangerousHtml={true}
+                rehypePlugins={[rehypeRaw]}
                 className="max-w-screen-sm mt-4 text-base text-gray-700 dark:text-gray-200 opacity-80"
-              />
+              >
+                {description}
+              </Markdown>
             </div>
           </div>
         </div>

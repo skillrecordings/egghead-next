@@ -1,7 +1,7 @@
+import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 import {pickBy} from 'lodash'
-import {sanityClient} from '../utils/sanity-client'
 
 export const TipSchema = z.object({
   _id: z.string(),
@@ -15,8 +15,19 @@ export const TipSchema = z.object({
   summary: z.string().optional().nullable(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   state: z.enum(['new', 'processing', 'reviewing', 'published', 'retired']),
+  sandpack: z
+    .array(
+      z.object({
+        file: z.string(),
+        code: z.string(),
+        active: z.boolean(),
+      }),
+    )
+    .optional()
+    .nullable(),
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.string()).optional(),
+  srt: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
 })
 
@@ -64,12 +75,13 @@ export const getTip = async (slug: string): Promise<Tip> => {
         "slug": slug.current,
         "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
+        "srt": resources[@->._type == 'videoResource'][0]-> transcript.srt,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId
     }`,
     {slug},
   )
 
-  if (tip.legacyTranscript && !tip.transcript) {
+  if (tip?.legacyTranscript && !tip.transcript) {
     tip.transcript = tip.legacyTranscript
   }
 

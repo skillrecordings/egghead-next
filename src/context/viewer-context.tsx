@@ -1,3 +1,4 @@
+'use client'
 import React, {FunctionComponent} from 'react'
 import Auth from '../utils/auth'
 import queryString from 'query-string'
