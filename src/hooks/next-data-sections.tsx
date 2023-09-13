@@ -1,12 +1,12 @@
 import fetcher from 'utils/fetcher'
-import {get} from 'lodash'
+import get from 'lodash/get'
 import useSWR from 'swr'
 
 export const useNextForCollectionSection = (
   collection: any,
   currentItemSlug: string,
 ) => {
-  const lessonsList: any[] = collection.sections?.reduce(
+  const lessonsList: any[] = collection?.sections?.reduce(
     (acc: any[], cur: any) => {
       return [...acc, ...cur.lessons]
     },
