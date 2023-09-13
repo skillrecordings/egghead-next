@@ -180,6 +180,36 @@ export async function loadLesson(
 // - dash_url - not used
 // - staff_notes_url - not used
 
+export async function loadAssociatedLessonsByTag(tag: string, token?: string) {
+  const graphQLClient = getGraphQLClient(token)
+
+  try {
+    const {lessons} = await graphQLClient.request(
+      loadAssociatedLessonsByTagQuery,
+      {tag},
+    )
+
+    return lessons
+  } catch (e) {
+    throw e
+  }
+}
+
+const loadAssociatedLessonsByTagQuery = /* GraphQL */ `
+  query getAssociatedLessonsByTag($tag: String!) {
+    lessons(tag: $tag, per_page: 20) {
+      id
+      slug
+      completed
+      title
+      description
+      duration
+      free_forever
+      path
+    }
+  }
+`
+
 const loadLessonGraphQLQuery = /* GraphQL */ `
   query getLesson($slug: String!) {
     lesson(slug: $slug) {
@@ -206,6 +236,12 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
       state
       repo_url
       code_url
+      primary_tag {
+        name
+        label
+        http_url
+        image_url
+      }
       created_at
       updated_at
       published_at

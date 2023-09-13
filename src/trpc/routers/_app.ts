@@ -10,6 +10,7 @@ import {instructorRouter} from './instructor'
 import {topicRouter} from './topics'
 import {customerIORouter} from './customer-io'
 import {tipsRouter} from './tips'
+import {lessonRouter} from './lesson'
 
 export const appRouter = router({
   healthcheck: baseProcedure.query(() => 'yay!'),
@@ -20,7 +21,8 @@ export const appRouter = router({
   progress: progressRouter,
   topics: topicRouter,
   customerIO: customerIORouter,
-  tips: tipsRouter
+  tips: tipsRouter,
+  lesson: lessonRouter,
 })
 
 export type AppRouter = typeof appRouter
