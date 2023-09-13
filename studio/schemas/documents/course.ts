@@ -78,6 +78,13 @@ export default defineType({
       type: 'url',
     }),
     defineField({
+      name: 'images',
+      description: 'Links to image.',
+      title: 'Images (URLs)',
+      type: 'array',
+      of: [defineArrayMember({type: 'image-url'})],
+    }),
+    defineField({
       name: 'softwareLibraries',
       description: 'Versioned Software Libraries',
       title: 'NPM or other Dependencies',
