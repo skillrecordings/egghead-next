@@ -1,8 +1,7 @@
 import {MdKitchen as icon} from 'react-icons/md'
 import * as React from 'react'
 import PathInput from '../components/path-input'
-import {defineArrayMember, defineField, defineType, } from 'sanity'
-
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'resource',
@@ -387,7 +386,10 @@ export default defineType({
         defineArrayMember({
           type: 'reference',
           title: 'Resources Refs',
-          to: [{type: 'resource'}],
+          to: [
+            {title: 'Course', type: 'course'},
+            {title: 'Resource Ref', type: 'resource'},
+          ],
         }),
         defineArrayMember({
           type: 'post',

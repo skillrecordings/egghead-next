@@ -25,6 +25,12 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'path',
+      description: "Path on egghead.io. Don't forget the /",
+      title: 'egghead.io/ Path',
+      type: 'string',
+    }),
+    defineField({
       name: 'sharedId',
       type: 'string',
       title: 'Shared ID',
