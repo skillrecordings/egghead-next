@@ -22,16 +22,17 @@ type NextUpListProps = {
 
 const CollectionLessonsList: FunctionComponent<
   React.PropsWithChildren<NextUpListProps>
-> = ({course, currentLessonSlug, progress, onActiveTab}) => {
-  const {lessons} = course
+> = ({course, currentLessonSlug, progress, onActiveTab, lessons}) => {
   const [activeElement, setActiveElement] = React.useState(currentLessonSlug)
   const scrollableNodeRef: any = React.createRef()
+
+  const lessonList = course ? course.lessons : lessons
 
   const AccordionLessonList = () => {
     const [openLesson, setOpenLesson] = React.useState<string[]>([])
 
     React.useEffect(() => {
-      const currentLessonSectionIndex = course.sections?.findIndex(
+      const currentLessonSectionIndex = course?.sections?.findIndex(
         (section: SectionResource) =>
           section.lessons.some((lesson) => lesson.slug === currentLessonSlug),
       )
@@ -52,7 +53,7 @@ const CollectionLessonsList: FunctionComponent<
           value={openLesson}
           onValueChange={handleAccordionChange}
         >
-          {course.sections?.map((section: SectionResource, index: number) => (
+          {course?.sections?.map((section: SectionResource, index: number) => (
             <Accordion.Item key={index} value={`resource_${index}`}>
               <Accordion.Header className="relative z-10 overflow-hidden ">
                 <Accordion.Trigger className="bg-gray-100 group relative z-10 flex w-full items-center justify-between  border border-white/5 dark:bg-gray-800/20 px-3 py-2.5 text-left shadow-lg transition dark:hover:bg-gray-800/40">
@@ -120,7 +121,7 @@ const CollectionLessonsList: FunctionComponent<
     }
   }, [activeElement, setActiveElement, currentLessonSlug])
 
-  return lessons ? (
+  return lessonList ? (
     <div className="h-full overflow-hidden">
       <div className="overflow-hidden bg-gray-100 dark:bg-gray-1000 dark:border-gray-800 h-96 lg:h-full">
         <SimpleBar
@@ -129,10 +130,10 @@ const CollectionLessonsList: FunctionComponent<
           scrollableNodeProps={{ref: scrollableNodeRef}}
         >
           <ol className="h-full md:max-h-[350px] lg:max-h-full max-h-[300px]">
-            {course.sections ? (
+            {course?.sections ? (
               <AccordionLessonList />
             ) : (
-              lessons.map((lesson: LessonResource, index = 0) => {
+              lessonList.map((lesson: LessonResource, index = 0) => {
                 const completedLessons = get(
                   progress,
                   'completed_lessons',
