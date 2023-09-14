@@ -69,7 +69,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
         {/* <ShareTip lesson={tip} /> */}
         <div className="grid h-full grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {take(shuffle(tips), 9).map((tip) => (
-            <VideoOverlayTipCard suggestedTip={tip} />
+            <VideoOverlayTipCard suggestedTip={tip} key={tip.slug} />
           ))}
         </div>
       </div>
