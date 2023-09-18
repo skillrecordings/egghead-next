@@ -15,7 +15,7 @@ const Jumbotron: React.FC<React.PropsWithChildren<any>> = ({data}) => {
         className="group"
         tag={resource.tag?.name}
       >
-        <header className="md:aspect-w-16 md:aspect-h-6 relative h-full rounded-b-lg text-white ">
+        <header className="md:aspect-[16/6] flex justify-center relative h-full rounded-b-lg text-white ">
           <div className="flex items-center justify-center relative z-10 md:pb-16 pb-32 md:px-0 px-5 md:pt-0 pt-10">
             <div className="w-full lg:max-w-screen-lg md:max-w-screen-sm flex md:flex-row flex-col items-center justify-center md:text-left text-center md:pt-8 md:px-5 xl:px-0">
               <div

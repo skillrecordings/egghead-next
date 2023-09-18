@@ -54,7 +54,7 @@ const CourseGrid: React.FC<React.PropsWithChildren<CourseGridProps>> = ({
           return (
             <LinkOrDiv
               key={resource.id}
-              className={`rounded-md aspect-w-3 aspect-h-4 h-full w-full transition-all ease-in-out duration-200 relative overflow-hidden 
+              className={`rounded-md aspect-[3/4] flex h-full w-full transition-all ease-in-out duration-200 relative overflow-hidden 
         ${classNames({
           'group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50':
             published,
