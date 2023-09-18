@@ -45,7 +45,7 @@ const HorizontalResourceCard: React.FC<
     completedCoursesIds?.some((courseId: number) => courseId === externalId)
 
   const defaultClassName =
-    'rounded-md aspect-w-4 aspect-h-2 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group bg-gray-800  bg-opacity-60 shadow-smooth hover:bg-gray-700 hover:bg-opacity-50 overflow-hidden'
+    'rounded-md w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group bg-gray-800  bg-opacity-60 shadow-smooth hover:bg-gray-700 hover:bg-opacity-50 overflow-hidden aspect-[2/1] flex'
   return (
     <ResourceLink
       path={(resource.path || resource.url) as string}

@@ -51,7 +51,6 @@ const VerticalResourceCard: React.FC<
 
   const resourceType =
     resource.name === 'landing-page' ? 'guide' : resource.name
-
   return (
     <ResourceLink
       path={(resource.path || resource.url) as string}
@@ -66,7 +65,7 @@ const VerticalResourceCard: React.FC<
       <Card
         {...props}
         resource={resource}
-        className="rounded-md aspect-w-3 aspect-h-4 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50"
+        className="rounded-md aspect-[3/4] w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 flex"
       >
         {resource.background && (
           <Image

@@ -167,7 +167,6 @@ module.exports = {
     containerStylesPlugin,
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
     require('tailwindcss-autofill'),
     require('tailwindcss-text-fill'),
   ],
