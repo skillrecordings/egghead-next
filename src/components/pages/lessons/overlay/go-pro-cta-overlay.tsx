@@ -254,7 +254,7 @@ const GoProCtaOverlay: FunctionComponent<
               passHref
               className="flex items-center py-1 mt-4 text-xs transition-all duration-200 ease-in-out group opacity-80 hover:opacity-100"
             >
-              Pay yearly or quarterly{' '}
+              Pay yearly{' '}
               <i
                 className="transition-all duration-200 ease-in-out scale-75 gg-arrow-right group-hover:translate-x-1"
                 aria-hidden
