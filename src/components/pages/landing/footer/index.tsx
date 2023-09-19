@@ -29,7 +29,7 @@ type FormikValues = {
 const PricingCta = () => {
   const {viewer, authToken} = useViewer()
   const {state, send, priceId, quantity, availableCoupons, currentPlan} =
-    useCommerceMachine({initialPlan: 'monthlyPrice'})
+    useCommerceMachine({initialPlan: 'annualPrice'})
 
   const formik: FormikProps<FormikValues> = useFormik<FormikValues>({
     initialValues: {
