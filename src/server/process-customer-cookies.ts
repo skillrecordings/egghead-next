@@ -14,24 +14,23 @@ import {loadCio} from '../lib/customer'
 import {clearUserCookie, setUserCookie} from './egghead-user-cookies'
 
 export async function getCookiesForRequest(req: NextRequest) {
-  const eggheadAccessToken = req.cookies.get(
-    ACCESS_TOKEN_KEY,
-  ) as unknown as string
+  const eggheadAccessToken = req.cookies.get(ACCESS_TOKEN_KEY)
+    ?.value as unknown as string
 
   const user =
     eggheadAccessToken &&
     (await loadUser(
       eggheadAccessToken,
-      req.cookies.get(EGGHEAD_USER_COOKIE_KEY),
+      req.cookies.get(EGGHEAD_USER_COOKIE_KEY)?.value,
     ))
 
   const customerId = user?.contact_id
     ? user.contact_id
-    : req.cookies.get(CIO_COOKIE_KEY) ||
+    : req.cookies.get(CIO_COOKIE_KEY)?.value ||
       req.nextUrl.searchParams.get(CIO_COOKIE_KEY)
 
   let customer = customerId
-    ? await loadCio(customerId, req.cookies.get(CIO_CUSTOMER_OBJECT_KEY))
+    ? await loadCio(customerId, req.cookies.get(CIO_CUSTOMER_OBJECT_KEY)?.value)
     : null
 
   const isMember = cioCustomerIsMember(customer, user)
