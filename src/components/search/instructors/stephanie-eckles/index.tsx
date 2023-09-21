@@ -76,7 +76,7 @@ export const stephanieEcklesQuery = groq`*[_type == 'resource' && slug.current =
       byline,
     	image,
       'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[]->[role == 'instructor'][0]{
+      'instructor': collaborators[@->.role == 'instructor'][0]->{
       	'name': person->.name
     	},
     }

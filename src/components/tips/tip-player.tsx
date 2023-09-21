@@ -1,20 +1,134 @@
 'use client'
 import React from 'react'
-import MuxPlayer, {
-  MuxPlayerProps,
-  MuxPlayerRefAttributes,
-} from '@mux/mux-player-react'
+import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
+import Image from 'next/legacy/image'
+import {useRouter} from 'next/navigation'
+
+import {XIcon, PlayIcon} from '@heroicons/react/solid'
+import {shuffle, take} from 'lodash'
 import {useMuxPlayer} from 'hooks/mux/use-mux-player'
 import './styles.css'
+import {useVideoResource} from 'hooks/use-video-resource'
+import {Tip} from 'lib/tips'
+import cx from 'classnames'
 
-const TipPlayer: React.FC<{tip: any}> = ({tip}) => {
-  const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
-  const {muxPlayerProps, displayOverlay} = useMuxPlayer()
+const TipPlayer: React.FC<{tip: Tip; tips: Tip[]; ref: any}> = React.forwardRef(
+  ({tip, tips}, ref: any) => {
+    const {muxPlayerProps, displayOverlay} = useMuxPlayer()
+    const {videoResource} = useVideoResource()
+
+    return (
+      <div className="w-full min-h-[50vh] relative aspect-video">
+        {displayOverlay && <TipOverlay tips={tips} />}
+        <div
+          className={cx('', {
+            hidden: displayOverlay,
+          })}
+        >
+          <MuxPlayer
+            playbackId={tip.muxPlaybackId || videoResource?.muxPlaybackId}
+            ref={ref}
+            {...(muxPlayerProps as MuxPlayerProps)}
+          />
+        </div>
+      </div>
+    )
+  },
+)
+
+const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
+  const {setDisplayOverlay, handlePlay} = useMuxPlayer()
+
+  const buttonStyles =
+    'py-2 px-3 font-medium rounded flex items-center gap-1 hover:bg-gray-700/50 bg-black/80 transition text-gray-200'
+  return (
+    <div
+      id="video-overlay"
+      className="relative left-0 top-0 flex w-full items-center justify-center bg-[#070B16] lg:aspect-video"
+    >
+      <div className="absolute right-8 top-8 z-50 flex items-center justify-center gap-3">
+        <button className={buttonStyles} onClick={handlePlay}>
+          Replay <span aria-hidden="true">↺</span>
+        </button>
+        <button
+          className={buttonStyles}
+          onClick={() => {
+            // track('dismissed video overlay', {
+            //   lesson: lesson.slug,
+            //   module: module.slug.current,
+            //   moduleType: 'tip',
+            //   lessonType: lesson._type,
+            // })
+            setDisplayOverlay(false)
+          }}
+        >
+          Dismiss <XIcon className="h-4 w-4" aria-hidden="true" />
+        </button>
+      </div>
+      <div className="left-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-5 text-center text-lg leading-relaxed lg:absolute">
+        {/* <ShareTip lesson={tip} /> */}
+        <div className="grid h-full grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {take(shuffle(tips), 9).map((tip) => (
+            <VideoOverlayTipCard suggestedTip={tip} key={tip.slug} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
+  const router = useRouter()
+  // const {tipCompleted} = useTipComplete(suggestedTip.slug)
+
+  const thumbnail = `https://image.mux.com/${suggestedTip.muxPlaybackId}/thumbnail.png?width=288&height=162&fit_mode=preserve`
 
   return (
-    <div className="w-full min-h-[50vh]">
-      <MuxPlayer playbackId={tip.muxPlaybackId} />
-    </div>
+    <button
+      key={suggestedTip.slug}
+      onClick={() => {
+        // track('clicked suggested tip thumbnail', {
+        //   lesson: suggestedTip.slug,
+        // })
+        router.push(`/tips/${suggestedTip.slug}`)
+      }}
+      className="group relative z-0 flex aspect-video h-full w-full items-end justify-start rounded-lg bg-gray-900/60 p-8 text-left font-medium leading-tight text-gray-200"
+    >
+      <div className="relative z-10 flex flex-col">
+        <span className="pb-1 font-mono text-xs font-semibold uppercase text-gray-500">
+          Tip
+        </span>
+        <span className="font-medium">
+          {suggestedTip.title}{' '}
+          {/* {tipCompleted && <span className="sr-only">(watched)</span>} */}
+        </span>
+      </div>
+      <Image
+        src={thumbnail}
+        alt=""
+        aria-hidden="true"
+        layout="fill"
+        className="blur-xs z-0 object-cover opacity-30 transition group-hover:opacity-40 group-hover:brightness-150"
+        quality={100}
+      />
+      <div
+        className="absolute left-0 top-0 flex h-full w-full items-start justify-end p-5"
+        aria-hidden="true"
+      >
+        {/* {tipCompleted ? (
+          <>
+            <CheckCircleIcon
+              className="absolute h-10 w-10 text-teal-400 transition group-hover:opacity-0"
+              aria-hidden="true"
+            />
+            <PlayIcon className="h-10 w-10 flex-shrink-0 scale-50 text-teal-400 opacity-0 transition group-hover:scale-100 group-hover:opacity-100" />
+          </>
+        ) : (
+          <PlayIcon className="h-10 w-10 flex-shrink-0 scale-50 text-gray-300 opacity-0 transition group-hover:scale-100 group-hover:opacity-100" />
+        )} */}
+        <PlayIcon className="h-10 w-10 flex-shrink-0 scale-50 text-gray-300 opacity-0 transition group-hover:scale-100 group-hover:opacity-100" />
+      </div>
+    </button>
   )
 }
 

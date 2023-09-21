@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "next dev",
     "dev-build": "NODE_ENV=production yarn test:ci && next build",
+    "dev:sanity": "cd studio && sanity dev",
     "prebuild": "yarn make-tags-sitemap",
     "build": "yarn dev-build",
     "postbuild": "NODE_ENV=production next-sitemap",
@@ -79,7 +80,6 @@
     "@stripe/react-stripe-js": "^1.4.1",
     "@stripe/stripe-js": "^1.17.1",
     "@supabase/supabase-js": "^1.21.0",
-    "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/line-clamp": "^0.3.0",
     "@tailwindcss/typography": "^0.5.0",

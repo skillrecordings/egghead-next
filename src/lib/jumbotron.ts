@@ -8,7 +8,7 @@ export const jumbotronQuery = groq`
     image,
     'banner': images[label == 'banner-image-blank'][0].url,
     summary,
-    'instructor': collaborators[]->[role == 'instructor'][0]{
+    'instructor': collaborators[@->.role == 'instructor'][0]->{
       'name': person->name,
     	'image': person->image.url
     }

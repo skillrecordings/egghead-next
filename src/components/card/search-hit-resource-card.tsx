@@ -44,7 +44,7 @@ const SearchHitResourceCard: React.FC<
   const {fontSize, ref} = useFitText()
   if (isEmpty(resource)) return null
   const defaultClassName =
-    'rounded-md sm:aspect-w-4 sm:aspect-h-2 aspect-w-3 aspect-h-1 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50'
+    'rounded-md w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 aspect-[3/1] sm:aspect-[4/2] flex'
 
   small =
     (get(resource.image, 'src', resource.image) as string)?.includes('/tags') ??

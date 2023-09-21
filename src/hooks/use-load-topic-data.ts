@@ -43,7 +43,7 @@ export const topicQuery = groq`*[_type == 'resource' && type == 'landing-page' &
         image,
         description,
         'background': images[label == 'background'][0].url,
-        'instructor': collaborators[]->[role == 'instructor'][0]{
+        'instructor': collaborators[@->.role == 'instructor'][0]->{
               'name': person->name,
               'image': person->image.url
           }
@@ -64,7 +64,7 @@ export const topicQuery = groq`*[_type == 'resource' && type == 'landing-page' &
           'name': type,
           path,
           image,
-          'instructor': collaborators[]->[role == 'instructor'][0]{
+          'instructor': collaborators[@->.role == 'instructor'][0]->{
               'name': person->name,
               'image': person->image.url
           }
@@ -88,7 +88,7 @@ export const topicQuery = groq`*[_type == 'resource' && type == 'landing-page' &
           path,
           image,
           images,
-          'instructor': collaborators[]->[role == 'instructor'][0]{
+          'instructor': collaborators[@->.role == 'instructor'][0]->{
               'name': person->name,
               'image': person->image.url
           }
@@ -101,7 +101,7 @@ export const topicQuery = groq`*[_type == 'resource' && type == 'landing-page' &
           image,
           'name': type,
           'description': summary,
-          'instructor': collaborators[]->[role == 'instructor'][0]{
+          'instructor': collaborators[@->.role == 'instructor'][0]->{
               'name': person->name,
               'image': person->image.url
           },
@@ -112,7 +112,7 @@ export const topicQuery = groq`*[_type == 'resource' && type == 'landing-page' &
             'description': summary,
             path,
             image,
-            'instructor': collaborators[]->[role == 'instructor'][0]{
+            'instructor': collaborators[@->.role == 'instructor'][0]->{
               'name': person->name,
               'image': person->image.url
           },

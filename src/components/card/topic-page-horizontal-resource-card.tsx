@@ -58,7 +58,7 @@ const HorizontalResourceCard: React.FC<
 }) => {
   if (isEmpty(resource)) return null
   const defaultClassName =
-    'rounded-md aspect-w-4 aspect-h-2 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group shadow-smooth'
+    'rounded-md aspect-[2/1] flex  w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group shadow-smooth'
   return (
     <Card {...props} resource={resource} className={defaultClassName}>
       <CardContent className="grid grid-cols-8 gap-5 items-center px-8 py-2">

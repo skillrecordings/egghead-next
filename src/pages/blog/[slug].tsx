@@ -233,7 +233,7 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
         path,
         "description": summary,
         byline,
-        'instructor': collaborators[]->[role == 'instructor'][0]{
+        'instructor': collaborators[@->.role == 'instructor'][0]->{
           title,
           'slug': person->slug.current,
           'name': person->name,
@@ -271,7 +271,7 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
   },
   "resources": resources[]-> {
     title,
-    'instructor': collaborators[]->[role == 'instructor'][0]{
+    'instructor': collaborators[@->.role == 'instructor'][0]->{
        'full_name': person->.name
      },
     path,

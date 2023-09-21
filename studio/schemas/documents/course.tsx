@@ -1,5 +1,6 @@
 import {nanoid} from 'nanoid'
 import {defineField, defineType, defineArrayMember} from 'sanity'
+import * as React from 'react'
 
 export default defineType({
   name: 'course',
@@ -196,4 +197,27 @@ export default defineType({
       ],
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      name: 'name',
+      meta: 'meta',
+      media: 'previewImage',
+      image: 'image',
+      type: 'type',
+    },
+    prepare(selection) {
+      const {title, name, type, media, image} = selection
+
+      return {
+        title: name || title,
+        subtitle: type,
+        media: image ? (
+          <img src={image} alt={`${title} course image`} />
+        ) : (
+          media
+        ),
+      }
+    },
+  },
 })

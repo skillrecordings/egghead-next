@@ -47,7 +47,7 @@ const Blog: React.FC<React.PropsWithChildren<unknown>> = (allArticles: any) => {
                       </Link>
                     </div>
                   ) : (
-                    <div className="mb-2 aspect-w-16 aspect-h-9 md:mb-4">
+                    <div className="mb-2 md:mb-4 aspect-[16/9] flex">
                       <Link href={fullSlug}>
                         <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-400 bg-gray-200 rounded-lg dark:bg-gray-800 dark:text-gray-600">
                           <IconPlaceholder />

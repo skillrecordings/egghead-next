@@ -535,8 +535,8 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
           >
             {hasScrimbaUrl ? (
               <>
-                <div className="relative w-full">
-                  <div className="aspect-w-16 aspect-h-10">
+                <div className="w-full">
+                  <div className="aspect-[16/10] relative">
                     <div className="absolute inset-0 flex flex-col">
                       <div className="h-full w-full">
                         <iframe
