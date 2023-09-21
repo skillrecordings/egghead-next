@@ -37,7 +37,7 @@ export const kamranAhmedQuery = groq`*[_type == 'resource' && slug.current == "k
     	path,
       byline,
     	image,
-      'instructor': collaborators[]->[role == 'instructor'][0]{
+      'instructor': collaborators[@->.role == 'instructor'][0]->{
       	'name': person->.name
     	},
     }

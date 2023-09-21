@@ -20,7 +20,7 @@ async function loadHolidayCourses() {
                 'slug': slug.current,
                 image,
                 path,
-                'instructor': collaborators[]->[role == 'instructor'][0]{
+                'instructor': collaborators[@->.role == 'instructor'][0]->{
                   title,
                   'slug': person->slug.current,
                   'name': person->name,
