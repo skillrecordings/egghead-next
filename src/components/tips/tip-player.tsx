@@ -18,11 +18,12 @@ const TipPlayer: React.FC<{tip: Tip; tips: Tip[]; ref: any}> = React.forwardRef(
     const {videoResource} = useVideoResource()
 
     return (
-      <div className="w-full min-h-[50vh] relative aspect-video">
+      <div className="w-full relative aspect-video">
         {displayOverlay && <TipOverlay tips={tips} />}
         <div
           className={cx('', {
             hidden: displayOverlay,
+            flex: !displayOverlay,
           })}
         >
           <MuxPlayer
@@ -44,7 +45,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   return (
     <div
       id="video-overlay"
-      className="relative left-0 top-0 flex w-full items-center justify-center bg-[#070B16] lg:aspect-video"
+      className="relative left-0 top-0 flex w-full items-center justify-center bg-[#070B16] aspect-video"
     >
       <div className="absolute right-8 top-8 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
@@ -65,9 +66,15 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
           Dismiss <XIcon className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
-      <div className="left-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-5 text-center text-lg leading-relaxed lg:absolute">
+      <div className="left-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-3 text-center text-xs md:text-base lg:text-lg leading-relaxed lg:absolute">
         {/* <ShareTip lesson={tip} /> */}
-        <div className="grid h-full grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid h-full grid-cols-2 gap-3 grid-rows-2 sm:grid-rows-3 lg:grid-cols-3 lg:grid-rows-3 lg:[&>*:nth-child(n+10)]:hidden [&>*:nth-child(n+5)]:hidden sm:[&>*:nth-child(n+7)]:hidden sm:[&>*:nth-child(n+5)]:flex lg:[&>*:nth-child(n+7)]:flex">
+          {take(shuffle(tips), 9).map((tip) => (
+            <VideoOverlayTipCard suggestedTip={tip} key={tip.slug} />
+          ))}
+          {take(shuffle(tips), 9).map((tip) => (
+            <VideoOverlayTipCard suggestedTip={tip} key={tip.slug} />
+          ))}
           {take(shuffle(tips), 9).map((tip) => (
             <VideoOverlayTipCard suggestedTip={tip} key={tip.slug} />
           ))}
@@ -92,13 +99,13 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
         // })
         router.push(`/tips/${suggestedTip.slug}`)
       }}
-      className="group relative z-0 flex aspect-video h-full w-full items-end justify-start rounded-lg bg-gray-900/60 p-8 text-left font-medium leading-tight text-gray-200"
+      className="group relative z-0 flex h-full w-full items-end justify-start rounded-md overflow-hidden bg-gray-900/60 p-4 md:p-6 lg:p-8 text-left font-medium leading-tight text-gray-200"
     >
       <div className="relative z-10 flex flex-col">
         <span className="pb-1 font-mono text-xs font-semibold uppercase text-gray-500">
           Tip
         </span>
-        <span className="font-medium">
+        <span className="font-medium line-clamp-2 sm:line-clamp-3 md:line-clamp-4">
           {suggestedTip.title}{' '}
           {/* {tipCompleted && <span className="sr-only">(watched)</span>} */}
         </span>
