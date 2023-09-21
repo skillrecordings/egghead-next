@@ -129,7 +129,7 @@ export const MatiasHernandezQuery = groq`*[_type == 'resource' && slug.current =
     	path,
       byline,
     	image,
-      'instructor': collaborators[]->[role == 'instructor'][0]{
+      'instructor': collaborators[@->.role == 'instructor'][0]->{
       	'name': person->.name
     	},
     }

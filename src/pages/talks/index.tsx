@@ -101,7 +101,7 @@ const allTalksQuery = groq`
  image,
  description,
  summary,
- 'instructor': collaborators[]->[role == 'instructor'][0]{
+ 'instructor': collaborators[@->.role == 'instructor'][0]->{
    'name': person->.name
  },
 }

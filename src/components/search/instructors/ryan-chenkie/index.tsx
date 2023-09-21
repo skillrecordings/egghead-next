@@ -47,7 +47,7 @@ export const RyanChenkieQuery = groq`
        byline,
        image,
        'background': images[label == 'feature-card-background'][0].url,
-       'instructor': collaborators[]->[role == 'instructor'][0]{
+       'instructor': collaborators[@->.role == 'instructor'][0]->{
          'name': person->.name
        },
      }

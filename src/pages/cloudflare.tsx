@@ -232,7 +232,7 @@ const caseStudyQuery = groq`
   'slug': slug.current,
   "resources": resources[]-> {
       title,
-      'instructor': collaborators[]->[role == 'instructor'][0]{
+      'instructor': collaborators[@->.role == 'instructor'][0]->{
          'full_name': person->.name
        },
        path,

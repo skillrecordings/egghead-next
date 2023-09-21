@@ -448,7 +448,7 @@ const query = groq`*[_type == 'resource' && type == 'landing-page' && slug.curre
       path,
       image,
       'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[]->[role == 'instructor'][0]{
+      'instructor': collaborators[@->.role == 'instructor'][0]->{
         'name': person->.name
       },
     },

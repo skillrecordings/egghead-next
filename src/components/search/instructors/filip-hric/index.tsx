@@ -115,7 +115,7 @@ export const filipHricQuery = groq`*[_type == 'resource' && slug.current == "fil
       byline,
     	image,
       'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[]->[role == 'instructor'][0]{
+      'instructor': collaborators[@->.role == 'instructor'][0]->{
       	'name': person->.name
     	},
     }

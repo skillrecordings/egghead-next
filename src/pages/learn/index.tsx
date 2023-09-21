@@ -82,7 +82,7 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
           'name': library->name,
          },
         'ogImage': images[label == 'main-og-image'][0].url,
-        'instructor': collaborators[]->[role == 'instructor'][0]{
+        'instructor': collaborators[@->.role == 'instructor'][0]->{
             'name': person->name,
             'image': person->image.url
             },
