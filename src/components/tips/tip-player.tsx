@@ -72,12 +72,6 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
           {take(shuffle(tips), 9).map((tip) => (
             <VideoOverlayTipCard suggestedTip={tip} key={tip.slug} />
           ))}
-          {take(shuffle(tips), 9).map((tip) => (
-            <VideoOverlayTipCard suggestedTip={tip} key={tip.slug} />
-          ))}
-          {take(shuffle(tips), 9).map((tip) => (
-            <VideoOverlayTipCard suggestedTip={tip} key={tip.slug} />
-          ))}
         </div>
       </div>
     </div>
