@@ -9030,6 +9030,13 @@ cross-fetch@^3.0.6, cross-fetch@^3.1.0, cross-fetch@^3.1.5:
   dependencies:
     node-fetch "^2.6.12"
 
+cross-fetch@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-4.0.0.tgz#f037aef1580bb3a1a35164ea2a848ba81b445983"
+  integrity sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==
+  dependencies:
+    node-fetch "^2.6.12"
+
 cross-spawn@^5.0.1:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
@@ -12287,7 +12294,7 @@ gzip-size@^6.0.0:
   dependencies:
     duplexer "^0.1.2"
 
-h3@^1.0.2:
+h3@^1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/h3/-/h3-1.8.1.tgz#e36371407982b0a37475412d64697c521dd3ce43"
   integrity sha512-m5rFuu+5bpwBBHqqS0zexjK+Q8dhtFRvO9JXQG0RvSPL6QrIT6vv42vuBM22SLOgGMoZYsHk0y7VPidt9s+nkw==
@@ -13099,16 +13106,16 @@ inline-style-prefixer@^6.0.0:
     css-in-js-utils "^3.1.0"
     fast-loops "^1.1.3"
 
-inngest@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/inngest/-/inngest-2.6.0.tgz#389962d2a9458079e2e173b401d37e30181f2542"
-  integrity sha512-IXC6HZfdcV0G8+Hs1gdTIx0e+7xo8OLOf/urBSLNGgkqFX/1tNgzhShP75lxxmN7eV2FFVt4BTL0bbwbcaqBZw==
+inngest@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/inngest/-/inngest-2.7.0.tgz#c54202b7e604d4e51b6385e2768266ff7d5b6bd4"
+  integrity sha512-LAlgM9g9RMV0Cx2TXUdQiotaskHr25W22smABM0XblsaqJgLWtFEqE/8YNHVRkPgNdI73aIVCkAIQZB303VjVg==
   dependencies:
     buffer "^6.0.3"
     canonicalize "^1.0.8"
     chalk "^4.1.2"
-    cross-fetch "^3.1.5"
-    h3 "^1.0.2"
+    cross-fetch "^4.0.0"
+    h3 "^1.8.1"
     hash.js "^1.1.7"
     json-stringify-safe "^5.0.1"
     ms "^2.1.3"
