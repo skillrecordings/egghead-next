@@ -31,6 +31,10 @@ import seo from './objects/seo'
 import productionProcessState from './objects/production-process-state'
 import muxAsset from './objects/muxAsset'
 import scrimbaResource from './objects/scrimba-resource'
+import emailBroadcast from './documents/email-broadcast'
+import emailAddress from './documents/email-address'
+import emailTemplate from './documents/email-template'
+import emailSendAt from './objects/email-send-at'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default [
@@ -51,6 +55,10 @@ export default [
   seo,
   muxAsset,
   scrimbaResource,
+  emailBroadcast,
+  emailAddress,
+  emailTemplate,
+  emailSendAt,
   // The following are document types which will appear
   // in the studio.
   resource,
