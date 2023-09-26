@@ -1,7 +1,7 @@
 import {useDocumentOperation} from 'sanity'
 import {useEffect, useState} from 'react'
 
-export function HelloWorldAction(props) {
+export function HelloWorldAction(props:any) {
   const {patch, publish} = useDocumentOperation(props.id, props.type)
   const [isPublishing, setIsPublishing] = useState(false)
 
