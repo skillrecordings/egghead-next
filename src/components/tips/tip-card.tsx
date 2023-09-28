@@ -18,22 +18,26 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   return (
     <Card className="relative flex flex-col items-center overflow-hidden rounded-xl border border-transparent bg-white shadow-2xl shadow-gray-500/20 dark:border-gray-800 dark:bg-gray-400/5 dark:shadow-black/50">
       <CardHeader className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-transparent dark:border-gray-800">
-        <button
+        {/* <button
           onClick={() => {
-            // router
-            //   .push({
-            //     pathname: '/tips/[tip]',
-            //     query: {
-            //       tip: tip.slug,
-            //     },
-            //   })
-            //   .then(() => {
-            //     const videoElement = document.getElementById(
-            //       'mux-player',
-            //     ) as HTMLVideoElement
-            //     return videoElement?.play()
-            //   })
+            router
+              .push({
+                pathname: '/tips/[tip]',
+                query: {
+                  tip: tip.slug,
+                },
+              })
+              .then(() => {
+                const videoElement = document.getElementById(
+                  'mux-player',
+                ) as HTMLVideoElement
+                return videoElement?.play()
+              })
           }}
+          className="group  flex items-center justify-center"
+        > */}
+        <Link
+          href={`/tips/${tip.slug}`}
           className="group  flex items-center justify-center"
         >
           <span className="sr-only">
@@ -50,12 +54,13 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
             />
           </div>
           <div
-            className="absolute flex items-center justify-center rounded-full text-white opacity-100 drop-shadow-xl duration-500 ease-in-out group-hover:opacity-100"
+            className="absolute flex items-center justify-center rounded-full text-white opacity-100 drop-shadow-xl duration-500 ease-in-out group-hover:opacity-100 group-hover:scale-150"
             aria-hidden="true"
           >
             <Icon className="h-6 w-6" name="Playmark" />
           </div>
-        </button>
+        </Link>
+        {/* </button> */}
       </CardHeader>
       <CardContent className="flex h-full w-full flex-col items-start p-6">
         <div
