@@ -31,6 +31,23 @@ export const TipSchema = z.object({
   tweetId: z.nullable(z.string()).optional(),
 })
 
+export const CoursesFromTagSchema = z.object({
+  tag: z.string(),
+  moreCoursesFromTag: z
+    .array(
+      z.object({
+        image: z.string(),
+        paths: z.string(),
+        slug: z.string(),
+        title: z.string(),
+      }),
+    )
+    .optional()
+    .nullable(),
+})
+
+export type CoursesFromTag = z.infer<typeof CoursesFromTagSchema>
+
 export const TipsSchema = z.array(TipSchema)
 
 export type Tip = z.infer<typeof TipSchema>
@@ -86,4 +103,18 @@ export const getTip = async (slug: string): Promise<Tip> => {
   }
 
   return TipSchema.parse(pickBy(tip))
+}
+
+export const getCoursesRelatedToTip = async (
+  slug: string,
+): Promise<CoursesFromTag> => {
+  const coursesFromTag = await sanityClient.fetch(
+    groq`*[_type == "tip" && slug.current == $slug][0] {
+        "tag": softwareLibraries[0].library._ref,
+        "moreCoursesFromTag": *[_type == "resource" && type == "course" && ^.softwareLibraries[0].library._ref == softwareLibraries[0].library._ref][0..10] {title, "slug": slug.current, image, path},
+    }`,
+    {slug},
+  )
+
+  return coursesFromTag
 }

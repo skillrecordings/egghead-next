@@ -11,7 +11,15 @@ import {LessonProvider} from 'hooks/use-lesson'
 import {VideoResourceProvider} from 'hooks/use-video-resource'
 // import {trpc} from 'trpc/trpc.client'
 
-const TipTemplate = ({tip, tips}: {tip: Tip; tips: Tip[]}) => {
+const TipTemplate = ({
+  tip,
+  tips,
+  coursesFromTag,
+}: {
+  tip: Tip
+  tips: Tip[]
+  coursesFromTag: any
+}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const handleVideoEnded = async () => {
     // await localProgressDb.progress
@@ -33,6 +41,7 @@ const TipTemplate = ({tip, tips}: {tip: Tip; tips: Tip[]}) => {
     lessons: tips,
     resources: tips.filter((tipToCompare) => tipToCompare.slug !== tip.slug),
   }
+  const filteredTips = tips.filter((item) => item.slug !== tip.slug)
   return (
     <LessonProvider lesson={tip} module={module}>
       <VideoResourceProvider videoResourceId={tip?.videoResourceId || ''}>
@@ -46,7 +55,12 @@ const TipTemplate = ({tip, tips}: {tip: Tip; tips: Tip[]}) => {
             <div className="relative z-10 flex items-center justify-center">
               <div className="flex w-full max-w-screen-xl flex-col">
                 <div className="flex items-center justify-center overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b-md">
-                  <TipPlayer tip={tip} tips={tips} ref={muxPlayerRef} />
+                  <TipPlayer
+                    tip={tip}
+                    tips={filteredTips}
+                    coursesFromTag={coursesFromTag}
+                    ref={muxPlayerRef}
+                  />
                 </div>
               </div>
             </div>
