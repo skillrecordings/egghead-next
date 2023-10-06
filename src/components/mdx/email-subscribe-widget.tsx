@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/legacy/image'
 import {Formik, Field, Form} from 'formik'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 import emailIsValid from 'utils/email-is-valid'
 import toast from 'react-hot-toast'
 import cookieUtil from 'utils/cookies'

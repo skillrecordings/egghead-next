@@ -12,7 +12,7 @@ import {useViewer} from 'context/viewer-context'
 import {LoginRequiredParams} from 'components/login-required'
 import Eggo from 'components/icons/eggo'
 import Spinner from 'components/spinner'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 const Bookmark: React.FunctionComponent<React.PropsWithChildren<any>> = ({
   bookmark,

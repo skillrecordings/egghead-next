@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import {useViewer} from 'context/viewer-context'
 import {Dialog, Transition} from '@headlessui/react'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import analytics from 'utils/analytics'

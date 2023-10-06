@@ -31,7 +31,7 @@ import MembershipDialogButton from '../pages/courses/membership-dialog-button'
 import dynamic from 'next/dynamic'
 
 import LoginForm from 'pages/login'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 const CoursePodcast = dynamic(
   () => import('components/course/course-podcast'),
   {

@@ -20,7 +20,7 @@ import {ThemeProvider} from 'next-themes'
 import {Toaster} from 'react-hot-toast'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
-import {trpc} from 'trpc/trpc.client'
+import TrpcProvider from 'app/_trpc/Provider'
 
 declare global {
   interface Window {
@@ -112,14 +112,16 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
         <ViewerProvider>
           <LogRocketProvider>
             <CioProvider>
-              <QueryClientProvider client={queryClient}>
-                <MDXProvider components={mdxComponents}>
-                  {getLayout(Component, pageProps)}
-                </MDXProvider>
-                <div className="print:hidden">
-                  <ReactQueryDevtools />
-                </div>
-              </QueryClientProvider>
+              <TrpcProvider>
+                <QueryClientProvider client={queryClient}>
+                  <MDXProvider components={mdxComponents}>
+                    {getLayout(Component, pageProps)}
+                  </MDXProvider>
+                  <div className="print:hidden">
+                    <ReactQueryDevtools />
+                  </div>
+                </QueryClientProvider>
+              </TrpcProvider>
             </CioProvider>
           </LogRocketProvider>
         </ViewerProvider>
@@ -128,4 +130,4 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
   )
 }
 
-export default trpc.withTRPC(App)
+export default App

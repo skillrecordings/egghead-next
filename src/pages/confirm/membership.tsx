@@ -2,7 +2,7 @@ import * as React from 'react'
 import {useRouter} from 'next/router'
 import ConfirmMembership from 'components/pages/confirm/membership/index'
 
-import {trpc} from '../../trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 const ConfirmMembershipPage: React.FC<
   React.PropsWithChildren<unknown>

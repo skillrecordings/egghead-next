@@ -1,13 +1,8 @@
-/**
- *
- * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
- */
-import {router, baseProcedure} from '../trpc.server'
+import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {getContactId, loadCurrentUser, loadUserAccounts} from '../../lib/users'
 import {getGraphQLClient} from 'utils/configured-graphql-client'
 import {gql} from 'graphql-request'
-import {ACCESS_TOKEN_KEY} from 'utils/auth'
 
 const transactionsSchema = z.array(
   z.object({
@@ -22,7 +17,7 @@ export const userRouter = router({
     // we want to load the token from cookie
     // could also pass in here, but cookie
     // is secure HTTP only so let's use it
-    const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+    const token = ctx?.userToken
 
     if (!token) return null
 
@@ -35,16 +30,14 @@ export const userRouter = router({
       }),
     )
     .mutation(async ({input, ctx}) => {
-      const token =
-        ctx.req?.cookies[ACCESS_TOKEN_KEY] ||
-        process.env.EGGHEAD_SUPPORT_BOT_TOKEN
+      const token = ctx?.userToken || process.env.EGGHEAD_SUPPORT_BOT_TOKEN
 
       if (!token) return null
 
       return await getContactId({token, email: input.email})
     }),
   transactionsForCurrent: baseProcedure.query(async ({input, ctx}) => {
-    const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+    const token = ctx?.userToken
 
     if (!token) return []
 
@@ -65,7 +58,7 @@ export const userRouter = router({
     // we want to load the token from cookie
     // could also pass in here, but cookie
     // is secure HTTP only so let's use it
-    const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+    const token = ctx?.userToken
 
     if (!token) return null
 
@@ -74,7 +67,7 @@ export const userRouter = router({
     return await loadUserAccounts({token, user_id: user.id})
   }),
   removeGithubLink: baseProcedure.mutation(async ({input, ctx}) => {
-    const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+    const token = ctx?.userToken
 
     if (!token) return null
 
@@ -104,7 +97,7 @@ export const userRouter = router({
     return res
   }),
   deleteAccount: baseProcedure.mutation(async ({input, ctx}) => {
-    const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+    const token = ctx?.userToken
 
     if (!token) return null
 

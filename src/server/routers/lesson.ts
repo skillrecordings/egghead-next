@@ -1,4 +1,4 @@
-import {router, baseProcedure} from '../trpc.server'
+import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {loadAssociatedLessonsByTag} from 'lib/lessons'
 

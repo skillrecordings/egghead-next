@@ -12,7 +12,7 @@ import {useRouter} from 'next/router'
 import {useViewer} from 'context/viewer-context'
 import {loadUserCompletedCourses} from 'lib/users'
 import {twMerge} from 'tailwind-merge'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 type CuratedTopicProps = {
   topicData: any

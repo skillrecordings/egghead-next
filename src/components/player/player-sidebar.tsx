@@ -8,7 +8,7 @@ import {track} from 'utils/analytics'
 import Link from 'components/link'
 import Image from 'next/legacy/image'
 import {GenericErrorBoundary} from '../generic-error-boundary'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 const notesEnabled = process.env.NEXT_PUBLIC_NOTES_ENABLED === 'true'
 

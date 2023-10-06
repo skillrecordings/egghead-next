@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Redirect from './redirect'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 const Blank = () => {
   return <div>this page is intentionally blank</div>

@@ -2,7 +2,7 @@ import Survey from 'components/survey/survey'
 import * as React from 'react'
 import {SurveyState} from '../components/survey/survey-reducer'
 import {testSurvey} from '../data/test-survey'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 export const testSurveyInitialState: SurveyState = {
   currentQuestionKey: 'first_question',

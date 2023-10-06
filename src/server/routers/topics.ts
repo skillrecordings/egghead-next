@@ -1,4 +1,4 @@
-import {router, baseProcedure} from '../trpc.server'
+import {router, baseProcedure} from '../trpc'
 import algoliasearchLite from 'algoliasearch/lite'
 
 import {z} from 'zod'

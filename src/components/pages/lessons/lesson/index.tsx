@@ -54,7 +54,7 @@ import {
   ArrowsExpandIcon,
 } from '@heroicons/react/outline'
 import {CheckCircleIcon, CheckIcon} from '@heroicons/react/solid'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 import {LessonProgress} from 'lib/progress'
 import PlayerSidebar from 'components/player/player-sidebar'
 import Comments from 'components/pages/lessons/comments/comments'

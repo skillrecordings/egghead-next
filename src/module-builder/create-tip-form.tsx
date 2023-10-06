@@ -15,7 +15,7 @@ import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import {useFileChange} from './use-file-change'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 import {useRouter} from 'next/router'
 import {processFile} from 'module-builder/cloudinary-video-uploader'
 

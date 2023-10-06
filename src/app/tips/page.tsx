@@ -3,13 +3,16 @@ import TipCard from 'components/tips/tip-card'
 import Balancer from 'react-wrap-balancer'
 
 import {getAllTips} from 'lib/tips'
+import {serverClient} from 'app/_trpc/serverClient'
 
 type TipsIndex = {
   tips: Tip[]
 }
 
 const TipsIndex: React.FC<any> = async () => {
-  const tips = await getAllTips()
+  const allTips = await serverClient.tips.all()
+  const publishedTips = allTips.filter(({state}) => state === 'published').pop()
+  const tips = publishedTips?.tips ?? []
 
   return (
     <>
