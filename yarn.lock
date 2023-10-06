@@ -5350,13 +5350,6 @@
   resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.38.5.tgz#f689e76e20bd88ecd231b2fe36b65a022438bb3e"
   integrity sha512-tpGUsoAP+3CD/1KRqMdWZ+zebvB68/86SaVPAYHaEDozTFLQdNqTe98DS/T0S4hfh7WCKbMSObj40SCzE8amKQ==
 
-"@trpc/next@^10.38.5":
-  version "10.38.5"
-  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.38.5.tgz#bc60d67db9343f3b50a56d12532920c2980deb10"
-  integrity sha512-sSPEiaNtNIH3psU+RiGtfLWjLbHFaD66pqcPvUR3C686u7A3TDFXznez9K20Ii0LRwpyQOWCz2Doe51oj7TL6w==
-  dependencies:
-    react-ssr-prepass "^1.5.0"
-
 "@trpc/react-query@^10.38.5":
   version "10.38.5"
   resolved "https://registry.yarnpkg.com/@trpc/react-query/-/react-query-10.38.5.tgz#0a36138d2a2221cfb68339c172addbd57ec4914b"
@@ -19077,11 +19070,6 @@ react-shallow-renderer@^16.13.1:
   dependencies:
     object-assign "^4.1.1"
     react-is "^16.12.0 || ^17.0.0 || ^18.0.0"
-
-react-ssr-prepass@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/react-ssr-prepass/-/react-ssr-prepass-1.5.0.tgz#bc4ca7fcb52365e6aea11cc254a3d1bdcbd030c5"
-  integrity sha512-yFNHrlVEReVYKsLI5lF05tZoHveA5pGzjFbFJY/3pOqqjGOmMmqx83N4hIjN2n6E1AOa+eQEUxs3CgRnPmT0RQ==
 
 react-style-singleton@^2.2.1:
   version "2.2.1"
