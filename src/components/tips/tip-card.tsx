@@ -48,7 +48,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
             <Image
               src={thumbnail}
               alt=""
-              objectFit="cover"
+              className="object-cover"
               fill={true}
               aria-hidden="true"
             />

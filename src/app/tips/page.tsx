@@ -2,7 +2,6 @@ import {Tip} from 'lib/tips'
 import TipCard from 'components/tips/tip-card'
 import Balancer from 'react-wrap-balancer'
 
-import {getAllTips} from 'lib/tips'
 import {serverClient} from 'app/_trpc/serverClient'
 
 type TipsIndex = {
@@ -11,8 +10,8 @@ type TipsIndex = {
 
 const TipsIndex: React.FC<any> = async () => {
   const allTips = await serverClient.tips.all()
-  const publishedTips = allTips.filter(({state}) => state === 'published').pop()
-  const tips = publishedTips?.tips ?? []
+  const publishedTips =
+    allTips.find((tipGroup) => tipGroup.state === 'published')?.tips ?? []
 
   return (
     <>
@@ -24,7 +23,7 @@ const TipsIndex: React.FC<any> = async () => {
       </header>
       <main className="relative z-10 flex flex-col items-center justify-center pb-16">
         <div className="mx-auto grid w-full max-w-screen-xl grid-cols-1 gap-5 px-5 md:grid-cols-2 lg:grid-cols-3">
-          {tips
+          {publishedTips
             .filter(({state}) => state === 'published')
             .map((tip) => {
               return <TipCard tip={tip} key={tip.slug} />
