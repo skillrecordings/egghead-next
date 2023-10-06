@@ -88,7 +88,6 @@
     "@tanstack/react-query-devtools": "^4.3.5",
     "@testing-library/react-hooks": "^8.0.0",
     "@trpc/client": "^10.38.5",
-    "@trpc/next": "^10.38.5",
     "@trpc/react-query": "^10.38.5",
     "@trpc/server": "^10.38.5",
     "@typeform/embed-react": "^2.11.0",
