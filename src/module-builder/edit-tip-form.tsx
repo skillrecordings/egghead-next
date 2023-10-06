@@ -40,7 +40,7 @@ const EditTipForm: React.FC<{tip: Tip}> = ({tip}) => {
         },
         {
           onSuccess: (data) => {
-            router.push(`/creator/tips/${data.slug}`)
+            router.push(`/creator/tips/${data?.slug}`)
           },
         },
       )

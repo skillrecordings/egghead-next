@@ -112,16 +112,16 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
         <ViewerProvider>
           <LogRocketProvider>
             <CioProvider>
-              <TrpcProvider>
-                <QueryClientProvider client={queryClient}>
+              <QueryClientProvider client={queryClient}>
+                <TrpcProvider>
                   <MDXProvider components={mdxComponents}>
                     {getLayout(Component, pageProps)}
                   </MDXProvider>
                   <div className="print:hidden">
                     <ReactQueryDevtools />
                   </div>
-                </QueryClientProvider>
-              </TrpcProvider>
+                </TrpcProvider>
+              </QueryClientProvider>
             </CioProvider>
           </LogRocketProvider>
         </ViewerProvider>
