@@ -25,16 +25,6 @@ const handler = (req: NextRequest) =>
         req,
         userToken: req?.cookies?.get(ACCESS_TOKEN_KEY)?.value,
       }
-      //! need to add context here
-      // https://github.com/solaldunckel/next-13-app-router-with-trpc/blob/master/apps/nextjs/src/pages/api/trpc/%5Btrpc%5D.ts
-      // createContext() {
-      //   const auth = getAuth(req);
-
-      //   return createContextInner({
-      //     req,
-      //     auth,
-      //   });
-      // },
     },
     onError({error}) {
       if (error.code === 'INTERNAL_SERVER_ERROR') {
