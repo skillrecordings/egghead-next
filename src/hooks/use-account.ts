@@ -1,6 +1,6 @@
 import {isPast} from 'date-fns'
 import {useViewer} from '../context/viewer-context'
-import {trpc} from '../trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 export const useAccount = () => {
   const {viewer} = useViewer()

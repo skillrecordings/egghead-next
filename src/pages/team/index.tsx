@@ -12,7 +12,7 @@ import {isEmpty, find} from 'lodash'
 import BillingSection from 'components/team/billing-section'
 import MemberTable from 'components/team/member-table'
 import AccountOwnershipTransfer from 'components/team/account-ownership-transfer'
-import {trpc} from '../../trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 export type TeamData = {
   accountId: number

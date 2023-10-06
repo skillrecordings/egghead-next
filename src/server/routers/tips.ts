@@ -1,4 +1,3 @@
-
 import {z} from 'zod'
 import {getAllTips, getTip, TipSchema} from '../../lib/tips'
 import {groupBy} from 'lodash'
@@ -6,10 +5,9 @@ import {v4} from 'uuid'
 import {inngest} from 'utils/inngest.server'
 import slugify from '@sindresorhus/slugify'
 import {customAlphabet} from 'nanoid'
-import {baseProcedure, router} from '../trpc.server'
+import {baseProcedure, router} from '../trpc'
 import {sanityWriteClient} from '../../utils/sanity-server'
 import {getAbilityFromToken} from '../../server/ability'
-import {ACCESS_TOKEN_KEY} from '../../utils/auth'
 
 export const tipsRouter = router({
   create: baseProcedure
@@ -23,7 +21,7 @@ export const tipsRouter = router({
     .mutation(async ({ctx, input}) => {
       // create a video resource, which should trigger the process of uploading to
       // mux and ordering a transcript because of the active webhook
-      const ability = await getAbilityFromToken(ctx.req?.cookies[ACCESS_TOKEN_KEY])
+      const ability = await getAbilityFromToken(ctx?.userToken)
 
       // use CASL rbac to check if the user can create content
       if (ability.can('create', 'Content')) {
@@ -95,7 +93,7 @@ export const tipsRouter = router({
       }),
     )
     .mutation(async ({ctx, input}) => {
-      const ability = await getAbilityFromToken(ctx.req?.cookies[ACCESS_TOKEN_KEY])
+      const ability = await getAbilityFromToken(ctx?.userToken)
 
       if (ability.can('create', 'Content')) {
         const tip = await sanityWriteClient

@@ -1,7 +1,7 @@
 /**
  * This file contains the root router of your tRPC-backend
  */
-import {baseProcedure, router} from '../trpc.server'
+import {baseProcedure, router} from '../trpc'
 import {userRouter} from './user'
 import {subscriptionDetailsRouter} from './subscription-detail'
 import {stripeRouter} from './stripe'

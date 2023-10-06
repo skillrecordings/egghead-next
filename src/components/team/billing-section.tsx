@@ -5,7 +5,7 @@ import {track} from '../../utils/analytics'
 import isEmpty from 'lodash/isEmpty'
 import {recur} from 'utils/recur'
 import {Stripe} from 'stripe'
-import {trpc} from '../../trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 const formatAmountWithCurrency = (
   amountInCents: number,

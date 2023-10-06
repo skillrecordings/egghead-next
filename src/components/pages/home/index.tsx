@@ -4,7 +4,7 @@ import Search from 'components/pages/home/search'
 import Jumbotron from 'components/pages/home/jumbotron'
 import SanitySections from 'components/pages/home/sanity-sections'
 import toast, {Toaster} from 'react-hot-toast'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 import {SanitySectionType, CuratedHomePageDataType} from 'pages/learn'
 
 const Home: React.FC<React.PropsWithChildren<any>> = ({

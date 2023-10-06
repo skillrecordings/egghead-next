@@ -6,7 +6,7 @@ import {format} from 'date-fns'
 import {recur} from 'utils/recur'
 import PricingWidget from 'components/pricing/pricing-widget'
 import {useAccount} from 'hooks/use-account'
-import {trpc} from '../../../../trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 type SubscriptionDetailsProps = {
   stripeCustomerId: string

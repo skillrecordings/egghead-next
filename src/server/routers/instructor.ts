@@ -2,7 +2,7 @@
  *
  * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
  */
-import {router, baseProcedure} from '../trpc.server'
+import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {nanoid} from 'nanoid'
 import slugify from 'slugify'

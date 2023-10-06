@@ -9,7 +9,7 @@ import {
   LearnerStats,
 } from 'components/pages/user/components'
 import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 const useProgressForUser = (viewerId: number) => {
   return useQuery(['progress'], async () => {

@@ -1,4 +1,4 @@
-import {router, baseProcedure} from '../trpc.server'
+import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {getAttributes} from 'lib/customer-io'
 import emailIsValid from 'utils/email-is-valid'
@@ -26,9 +26,7 @@ export const customerIORouter = router({
       const {email, selectedInterests} = input
       if (!email || (email && !emailIsValid(email))) return null
 
-      const token =
-        ctx.req?.cookies[ACCESS_TOKEN_KEY] ||
-        process.env.EGGHEAD_SUPPORT_BOT_TOKEN
+      const token = ctx?.userToken || process.env.EGGHEAD_SUPPORT_BOT_TOKEN
       if (!token) return null
 
       const user_contact = await getContactId({token, email})

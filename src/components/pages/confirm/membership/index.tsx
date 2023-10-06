@@ -8,7 +8,7 @@ import {IconTwitter} from 'components/share'
 import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
 import {Topic} from 'types'
 import PostPurchase from 'components/survey/tally/post-purchase'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 import {useAccount} from 'hooks/use-account'
 
 type HeaderProps = {

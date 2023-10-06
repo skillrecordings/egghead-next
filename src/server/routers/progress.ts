@@ -1,4 +1,4 @@
-import {router, baseProcedure} from '../trpc.server'
+import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {ACCESS_TOKEN_KEY} from '../../utils/auth'
 import {loadLessonProgress, loadPlaylistProgress} from '../../lib/progress'
@@ -6,7 +6,7 @@ import {loadUserCompletedCourses} from 'lib/users'
 
 export const progressRouter = router({
   completedCourses: baseProcedure.query(async ({ctx}) => {
-    const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+    const token = ctx?.userToken
     if (!token) return []
 
     const {completeCourses} = await loadUserCompletedCourses(token)
@@ -19,7 +19,7 @@ export const progressRouter = router({
       }),
     )
     .query(async ({input, ctx}) => {
-      const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+      const token = ctx?.userToken
 
       if (!token) return null
 
@@ -32,7 +32,7 @@ export const progressRouter = router({
       }),
     )
     .query(async ({input, ctx}) => {
-      const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+      const token = ctx?.userToken
 
       if (!token) return null
 
@@ -46,7 +46,7 @@ export const progressRouter = router({
       }),
     )
     .mutation(async ({input, ctx}) => {
-      const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+      const token = ctx?.userToken
 
       if (!token) return null
       const {lessonId, collectionId} = input

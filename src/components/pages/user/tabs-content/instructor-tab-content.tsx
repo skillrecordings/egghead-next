@@ -7,7 +7,7 @@ import {ACCESS_TOKEN_KEY} from 'utils/auth'
 import {GetServerSideProps} from 'next/types'
 import {useAccount} from 'hooks/use-account'
 import Link from 'next/link'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 type Instructor = {
   _id: string

@@ -33,7 +33,7 @@ import MembershipDialogButton from '../pages/courses/membership-dialog-button'
 import {loadUserCompletedCourses} from 'lib/users'
 
 import LoginForm from 'pages/login'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 import rehypeRaw from 'rehype-raw'
 
 type CoursePageLayoutProps = {

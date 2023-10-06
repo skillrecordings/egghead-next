@@ -5248,10 +5248,10 @@
   dependencies:
     remove-accents "0.4.2"
 
-"@tanstack/query-core@4.19.0":
-  version "4.19.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.19.0.tgz#be1ad7bfbc4edb68e21ab2a86dd4c52233a40c87"
-  integrity sha512-q+4GvS05nG2UXDE4ng0NU5SQNhT+VqhRTLNVtgVw1tIKJfG3CyYQpP/JwAdzMB7NEqC8L5oo9NAaORxEQN53dg==
+"@tanstack/query-core@4.35.7":
+  version "4.35.7"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.35.7.tgz#31d6f520ab8abedb6024d2d870af8afca764d048"
+  integrity sha512-PgDJtX75ubFS0WCYFM7DqEoJ4QbxU3S5OH3gJSI40xr7UVVax3/J4CM3XUMOTs+EOT5YGEfssi3tfRVGte4DEw==
 
 "@tanstack/react-query-devtools@^4.3.5":
   version "4.33.0"
@@ -5262,12 +5262,12 @@
     superjson "^1.10.0"
     use-sync-external-store "^1.2.0"
 
-"@tanstack/react-query@4.19.0":
-  version "4.19.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.19.0.tgz#353169522ff2e6dcfcc36c95ba4c151974a7ec92"
-  integrity sha512-gP4kmfQ3BvCYxTxA/3Xf0P24iNgW539Thk89KzP7X+i+EvFiWhEUMl1NtuI87bFrVEBHs+1ColFNimDidBh/Ww==
+"@tanstack/react-query@^4.35.7":
+  version "4.35.7"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.35.7.tgz#35a1db50156411b2a9eb68a020bae416948939db"
+  integrity sha512-0MankquP/6EOM2ATfEov6ViiKemey5uTbjGlFMX1xGotwNaqC76YKDMJdHumZupPbZcZPWAeoPGEHQmVKIKoOQ==
   dependencies:
-    "@tanstack/query-core" "4.19.0"
+    "@tanstack/query-core" "4.35.7"
     use-sync-external-store "^1.2.0"
 
 "@tanstack/react-virtual@3.0.0-beta.54":
@@ -5345,27 +5345,27 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
-"@trpc/client@10.4.3":
-  version "10.4.3"
-  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.4.3.tgz#a0d9963481ac3ac6f3939f827654cdaa3a0c5fda"
-  integrity sha512-VMdyLHr6PG2FlMxnbPt/6jniDBxv3Ys1hFhk0AriFDD9h4Lg9fznwGn5RI1eV5RCOAoCQ/+ZwPMSKOMBhiycTw==
+"@trpc/client@^10.38.5":
+  version "10.38.5"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.38.5.tgz#f689e76e20bd88ecd231b2fe36b65a022438bb3e"
+  integrity sha512-tpGUsoAP+3CD/1KRqMdWZ+zebvB68/86SaVPAYHaEDozTFLQdNqTe98DS/T0S4hfh7WCKbMSObj40SCzE8amKQ==
 
-"@trpc/next@10.4.3":
-  version "10.4.3"
-  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.4.3.tgz#9ae8c50a79c90ea3e3b102c63f52b6f56b97bc35"
-  integrity sha512-H4sM3lrtA2seFFkgXcW3ZQLCqGS7YqJNYDQx8FOlvcoH+klmQ+UNNgurdP2R/i50nGFwc4aN9kENrsvq0xfH5A==
+"@trpc/next@^10.38.5":
+  version "10.38.5"
+  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.38.5.tgz#bc60d67db9343f3b50a56d12532920c2980deb10"
+  integrity sha512-sSPEiaNtNIH3psU+RiGtfLWjLbHFaD66pqcPvUR3C686u7A3TDFXznez9K20Ii0LRwpyQOWCz2Doe51oj7TL6w==
   dependencies:
     react-ssr-prepass "^1.5.0"
 
-"@trpc/react-query@10.4.3":
-  version "10.4.3"
-  resolved "https://registry.yarnpkg.com/@trpc/react-query/-/react-query-10.4.3.tgz#53aa3505f9ff5e2522c92b41f02f6288a1b4bea5"
-  integrity sha512-gm8hnV8Q7RPc0am0paSuu30+jk9cQoJhKByAdrTRoLUEkuDb7r78sebN6RM3OYMPfWfSBGutIoWHkjJzP2kdtw==
+"@trpc/react-query@^10.38.5":
+  version "10.38.5"
+  resolved "https://registry.yarnpkg.com/@trpc/react-query/-/react-query-10.38.5.tgz#0a36138d2a2221cfb68339c172addbd57ec4914b"
+  integrity sha512-cGpKfiQen3ba3lTII3+Y6Hm3KnC60AS9n2AYt07I7LZx/GknsGHq4h570imdIxr6Qb5LtYe3DFV13kzbm+yGeA==
 
-"@trpc/server@10.4.3":
-  version "10.4.3"
-  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.4.3.tgz#8db5dc9a5082feea593d58b845ceef6a1adaf3d9"
-  integrity sha512-U+TVFtMUnySUfKHXjdpdZdFS268naGafbjQiG/H7t0OKpiLnbJ4IhgyYzj82Hvghb6Ow9E+UTNt6ALP7KoN4/g==
+"@trpc/server@^10.38.5":
+  version "10.38.5"
+  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.38.5.tgz#bb42d43e5cc6eec33069dcfce1974872ab547734"
+  integrity sha512-J0d2Y3Gpt2bMohOshPBfuzDqVrPaE3OKEDtJYgTmLk5t1pZy3kXHQep4rP2LEIr+ELbmkelhcrSvvFLA+4/w/Q==
 
 "@trysound/sax@0.2.0":
   version "0.2.0"

@@ -9,7 +9,7 @@ import {
 } from 'machines/draft-course-machine'
 import toast from 'react-hot-toast'
 import cx from 'classnames'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 export const TitleChangeForm: React.FunctionComponent<
   React.PropsWithChildren<RequestDraftCourseFormProps>

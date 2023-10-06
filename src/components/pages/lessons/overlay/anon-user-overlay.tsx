@@ -9,7 +9,7 @@ import analytics from 'utils/analytics'
 import SearchBar from 'components/app/header/search-bar'
 import {HorizontalResourceCard} from 'components/card/overlay/overlay-horiztonal-resource-card'
 import {VerticalResourceCard} from 'components/card/overlay/overlay-vertical-resource-card'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 import {integer} from 'aws-sdk/clients/cloudfront'
 import {twMerge} from 'tailwind-merge'
 import {
