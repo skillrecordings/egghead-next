@@ -1,13 +1,13 @@
 import {z} from 'zod'
-import {getAllTips, getTip, TipSchema} from '../../lib/tips'
+import slugify from '@sindresorhus/slugify'
+import {customAlphabet} from 'nanoid'
 import {groupBy} from 'lodash'
 import {v4} from 'uuid'
 import {inngest} from 'utils/inngest.server'
-import slugify from '@sindresorhus/slugify'
-import {customAlphabet} from 'nanoid'
 import {baseProcedure, router} from '../trpc'
-import {sanityWriteClient} from '../../utils/sanity-server'
-import {getAbilityFromToken} from '../../server/ability'
+import {sanityWriteClient} from 'utils/sanity-server'
+import {getAllTips, getTip, getCoursesRelatedToTip, TipSchema} from 'lib/tips'
+import {getAbilityFromToken} from 'server/ability'
 
 export const tipsRouter = router({
   create: baseProcedure
@@ -137,6 +137,17 @@ export const tipsRouter = router({
     )
     .query(async ({ctx, input}) => {
       const lesson = await getTip(input.slug)
+
+      return lesson
+    }),
+  relatedContent: baseProcedure
+    .input(
+      z.object({
+        slug: z.string(),
+      }),
+    )
+    .query(async ({ctx, input}) => {
+      const lesson = await getCoursesRelatedToTip(input.slug)
 
       return lesson
     }),

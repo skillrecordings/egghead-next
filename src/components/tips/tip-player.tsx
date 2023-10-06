@@ -20,7 +20,6 @@ const TipPlayer: React.FC<{
 }> = React.forwardRef(({tip, tips, coursesFromTag}, ref: any) => {
   const {muxPlayerProps, displayOverlay} = useMuxPlayer()
   const {videoResource} = useVideoResource()
-  console.log({coursesFromTag})
 
   return (
     <div className="w-full relative aspect-video">
