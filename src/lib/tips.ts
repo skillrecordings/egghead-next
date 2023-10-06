@@ -2,6 +2,7 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 import {pickBy} from 'lodash'
+import {TRPCError} from '@trpc/server'
 
 export const TipSchema = z.object({
   _id: z.string(),
@@ -75,7 +76,11 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
   return TipsSchema.parse(tips)
 }
 
-export const getTip = async (slug: string): Promise<Tip> => {
+export const getTip = async (slug: string): Promise<Tip | null> => {
+  if (!slug) {
+    return null
+  }
+
   const tip = await sanityClient.fetch(
     groq`*[_type == "tip" && slug.current == $slug][0] {
         _id,

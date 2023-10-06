@@ -67,13 +67,15 @@ export const tipsRouter = router({
           // the data and that's what we expect client-side
           const tip = await getTip(tipResource.slug.current)
 
-          await inngest.send({
-            name: 'tip/video.uploaded',
-            data: {
-              tipId: tip._id,
-              videoResourceId: newVideoResource._id,
-            },
-          })
+          if (tip) {
+            await inngest.send({
+              name: 'tip/video.uploaded',
+              data: {
+                tipId: tip._id,
+                videoResourceId: newVideoResource._id,
+              },
+            })
+          }
 
           return tip
         } else {
@@ -137,6 +139,10 @@ export const tipsRouter = router({
     )
     .query(async ({ctx, input}) => {
       const lesson = await getTip(input.slug)
+
+      if (!lesson) {
+        throw new Error('Could not find lesson')
+      }
 
       return lesson
     }),
