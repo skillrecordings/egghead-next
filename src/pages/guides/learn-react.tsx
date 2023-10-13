@@ -16,9 +16,9 @@ import {truncate} from 'lodash'
 import Balancer from 'react-wrap-balancer'
 import analytics from 'utils/analytics'
 
-const JustEnoughCssForModernAppDevelopment: React.FC<
-  React.PropsWithChildren<{reactGuide: any}>
-> = ({reactGuide}) => {
+const LearnReact: React.FC<React.PropsWithChildren<{reactGuide: any}>> = ({
+  reactGuide,
+}) => {
   const scrollRef = React.useRef<null | HTMLHeadingElement>(null)
 
   const {sections, ogImage} = reactGuide
@@ -260,7 +260,7 @@ const JustEnoughCssForModernAppDevelopment: React.FC<
   )
 }
 
-export default JustEnoughCssForModernAppDevelopment
+export default LearnReact
 
 const HorizontalCourseCard: React.FC<
   React.PropsWithChildren<{
@@ -274,7 +274,11 @@ const HorizontalCourseCard: React.FC<
       <div
         onClick={() => {
           console.log('track')
-          analytics.events.activityInternalLinkClick('course', location, 'CSS')
+          analytics.events.activityInternalLinkClick(
+            'course',
+            location,
+            'React',
+          )
         }}
         className={twMerge(
           'flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center px-5 py-8 group dark:bg-gray-800 bg-gray-100 dark:bg-opacity-60 hover:shadow-none transition-all shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 rounded sm:h-64 sm:w-[500px] cursor-pointer',
@@ -325,7 +329,7 @@ const ChallengeCard = ({
           onClick={() =>
             analytics.events.activityExternalLinkClick(
               location,
-              'CSS',
+              'React',
               challenge.externalPath,
             )
           }
@@ -359,7 +363,7 @@ const ChallengeCard = ({
           analytics.events.activityInternalLinkClick(
             'project',
             location,
-            'CSS',
+            'React',
             challenge.eggheadPath,
           )
         }
@@ -406,7 +410,7 @@ const ChallengeCardFull = ({
           onClick={() =>
             analytics.events.activityExternalLinkClick(
               location,
-              'CSS',
+              'React',
               challenge.externalPath,
             )
           }
@@ -443,7 +447,7 @@ const ChallengeCardFull = ({
           analytics.events.activityInternalLinkClick(
             'project',
             location,
-            'CSS',
+            'React',
             challenge.eggheadPath,
           )
         }
