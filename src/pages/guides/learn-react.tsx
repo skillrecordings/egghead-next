@@ -13,7 +13,6 @@ import Link from 'next/link'
 import {twMerge} from 'tailwind-merge'
 import React from 'react'
 import {truncate} from 'lodash'
-import {ReactMarkdown} from 'react-markdown/lib/react-markdown'
 import Balancer from 'react-wrap-balancer'
 import analytics from 'utils/analytics'
 
@@ -62,23 +61,25 @@ const JustEnoughCssForModernAppDevelopment: React.FC<
         canonical={url}
       />
       <div className="w-full mt-8 md:mt-14 lg:mt-32 mb-20">
-        <header className="w-full mx-auto">
-          <div className="z-10 flex flex-wrap w-full justify-center sm:justify-evenly gap-4 mx-auto">
+        <header className="w-full mx-auto max-w-screen-lg">
+          <div className="z-10 flex flex-wrap w-full justify-center sm:justify-between gap-4 mx-auto">
             <Image
               src={reactGuide.featureImage}
               alt={reactGuide.title}
               objectFit="cover"
-              width={300}
-              height={300}
+              width={430}
+              height={400}
               objectPosition="center"
               className="shrink-0 clear-both "
             />
-            <div className="p-4 w-full">
-              <h1 className="self-center mb-2 text-xl font-medium sm:text-2xl h-fit sm:w-96">
+            <div className="p-4 w-fit">
+              <h1 className="text-center sm:text-left self-center mb-2 font-medium text-2xl h-fit sm:w-96">
                 <Balancer>{reactGuide.title}</Balancer>
               </h1>
               <p className="sm:w-[40ch] mt-4">
-                <Balancer>{reactGuide.description}</Balancer>
+                <Balancer className="whitespace-pre-line">
+                  {reactGuide.description}
+                </Balancer>
               </p>
             </div>
           </div>
