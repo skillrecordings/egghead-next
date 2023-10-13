@@ -1,4 +1,5 @@
-import type {NextApiRequest, NextApiResponse} from 'next'
+import {NextRequest, NextResponse} from 'next/server'
+import {headers} from 'next/headers'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import client from '@sanity/client'
 import axios from 'axios'
@@ -13,6 +14,7 @@ const sanityClient = client({
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
   useCdn: false,
   token: process.env.SANITY_EDITOR_TOKEN,
+  apiVersion: '2021-10-21',
 })
 
 const eggAxios = axios.create({
@@ -22,22 +24,18 @@ const eggAxios = axios.create({
   },
 })
 
-/**
- * link to webhook {@link} https://www.sanity.io/organizations/om9qNpcXE/project/z9io1e0u/api/webhooks/xV5ZY6656qclI76i
- *
- * @param req
- * @param res
- */
-const createSanityTipsWebhook = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-) => {
-  const signature = req.headers[SIGNATURE_HEADER_NAME] as string
-  const isValid = isValidSignature(JSON.stringify(req.body), signature, secret)
+export async function POST(req: NextRequest) {
+  const signature = headers().get(SIGNATURE_HEADER_NAME) as string
+  const sanityRequestBody = await req.json()
+  const isValid = isValidSignature(
+    JSON.stringify(sanityRequestBody),
+    signature,
+    secret,
+  )
 
   try {
     if (isValid) {
-      const {_id, title, slug, instructorId} = req.body.data
+      const {_id, title, slug, instructorId} = sanityRequestBody.data
       console.info('processing Sanity webhook: Lesson created', _id)
 
       // create a lesson in rails
@@ -58,24 +56,22 @@ const createSanityTipsWebhook = async (
           })
           .commit()
 
-        return res.status(200).json({success: true})
+        return NextResponse.json({success: true}, {status: 200})
       } catch (e) {
         console.error(e)
-        return res.status(500).json({success: false})
+        return NextResponse.json(
+          {error: 'Internal Server Error', success: false},
+          {status: 500},
+        )
       }
     } else {
-      return res.status(500).json({success: false})
+      return NextResponse.json(
+        {error: 'Internal Server Error', success: false},
+        {status: 500},
+      )
     }
   } catch (e) {
     // Sentry.captureException(e)
-    return res.status(200).json({success: true})
+    return NextResponse.json({success: true}, {status: 200})
   }
-}
-
-export default createSanityTipsWebhook
-
-export const config = {
-  api: {
-    externalResolver: true,
-  },
 }
