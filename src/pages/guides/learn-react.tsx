@@ -70,14 +70,14 @@ const JustEnoughCssForModernAppDevelopment: React.FC<
               width={430}
               height={400}
               objectPosition="center"
-              className="shrink-0 clear-both "
+              className="shrink-0"
             />
             <div className="p-4 w-fit">
               <h1 className="text-center sm:text-left self-center mb-2 font-medium text-2xl h-fit sm:w-96">
                 <Balancer>{reactGuide.title}</Balancer>
               </h1>
               <p className="sm:w-[40ch] mt-4">
-                <Balancer className="whitespace-pre-line">
+                <Balancer className="whitespace-pre-wrap">
                   {reactGuide.description}
                 </Balancer>
               </p>
@@ -141,9 +141,9 @@ const JustEnoughCssForModernAppDevelopment: React.FC<
                 </div>
               </div>
               <div className="flex flex-wrap justify-center lg:justify-between lg:flex-nowrap gap-4">
-                <p className="sm:w-[40ch] p-4 mb-8 whitespace-pre-wrap mx-auto sm:mx-0">
+                <div className="sm:w-[40ch] w-full p-4 mb-8 whitespace-pre-wrap mx-auto sm:mx-0">
                   <Balancer>{stateSection.description}</Balancer>
-                </p>
+                </div>
                 {stateSection?.challenge && (
                   <ChallengeCard
                     challenge={stateSection.challenge}
@@ -186,9 +186,9 @@ const JustEnoughCssForModernAppDevelopment: React.FC<
                 </div>
               </div>
               <div className="flex flex-wrap justify-center lg:justify-between lg:flex-nowrap gap-4">
-                <p className="sm:w-[40ch] p-4 mb-8 whitespace-pre-wrap mx-auto sm:mx-0">
+                <div className="sm:w-[40ch] p-4 mb-8 whitespace-pre-wrap mx-auto sm:mx-0">
                   <Balancer>{appDevSection.description}</Balancer>
-                </p>
+                </div>
                 <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
                   <HorizontalCourseCard
                     location={router.asPath}
@@ -231,9 +231,9 @@ const JustEnoughCssForModernAppDevelopment: React.FC<
                 </div>
               </div>
               <div className="flex flex-wrap justify-center lg:justify-between lg:flex-nowrap gap-4 mb-4">
-                <p className="sm:w-[40ch] p-4 mb-8 mx-auto sm:mx-0">
+                <div className="sm:w-[40ch] p-4 mb-8 mx-auto sm:mx-0 whitespace-pre-wrap">
                   <Balancer>{commonPatternSection.description}</Balancer>
-                </p>
+                </div>
                 <HorizontalCourseCard
                   location={router.asPath}
                   course={commonPatternSection.courses[0]}
