@@ -28,7 +28,6 @@ export async function POST(req: NextRequest) {
     signature,
     secret,
   )
-  console.log({isValid, muxRequestBody})
   try {
     if (isValid) {
       console.info(
