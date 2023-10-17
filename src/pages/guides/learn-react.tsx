@@ -114,7 +114,7 @@ const LearnReact: React.FC<React.PropsWithChildren<{reactGuide: any}>> = ({
                 </div>
               </div>
               <div className="flex flex-wrap justify-center lg:justify-between lg:flex-nowrap gap-4">
-                <div className="sm:w-[40ch] p-4 mb-8 whitespace-pre-wrap mx-auto sm:mx-0 self-center">
+                <div className="sm:w-[40ch] p-4 sm:p-0 mb-8 whitespace-pre-wrap mx-auto sm:mx-0 self-center">
                   <Balancer>{fundamentalSection.description}</Balancer>
                 </div>
 
@@ -141,7 +141,7 @@ const LearnReact: React.FC<React.PropsWithChildren<{reactGuide: any}>> = ({
                 </div>
               </div>
               <div className="flex flex-wrap justify-center lg:justify-between lg:flex-nowrap gap-4">
-                <div className="sm:w-[40ch] w-full p-4 mb-8 whitespace-pre-wrap mx-auto sm:mx-0">
+                <div className="sm:w-[40ch] p-4 sm:p-0 mb-8 whitespace-pre-wrap mx-auto sm:mx-0 self-start">
                   <Balancer>{stateSection.description}</Balancer>
                 </div>
                 {stateSection?.challenge && (
@@ -186,7 +186,7 @@ const LearnReact: React.FC<React.PropsWithChildren<{reactGuide: any}>> = ({
                 </div>
               </div>
               <div className="flex flex-wrap justify-center lg:justify-between lg:flex-nowrap gap-4">
-                <div className="sm:w-[40ch] p-4 mb-8 whitespace-pre-wrap mx-auto sm:mx-0">
+                <div className="sm:w-[40ch] p-4 sm:p-0 mb-8 whitespace-pre-wrap mx-auto sm:mx-0 self-start">
                   <Balancer>{appDevSection.description}</Balancer>
                 </div>
                 <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
@@ -231,7 +231,7 @@ const LearnReact: React.FC<React.PropsWithChildren<{reactGuide: any}>> = ({
                 </div>
               </div>
               <div className="flex flex-wrap justify-center lg:justify-between lg:flex-nowrap gap-4 mb-4">
-                <div className="sm:w-[40ch] p-4 mb-8 mx-auto sm:mx-0 whitespace-pre-wrap">
+                <div className="sm:w-[40ch] p-4 sm:p-0 mb-8 whitespace-pre-wrap mx-auto sm:mx-0 self-start">
                   <Balancer>{commonPatternSection.description}</Balancer>
                 </div>
                 <HorizontalCourseCard
@@ -325,7 +325,7 @@ const ChallengeCard = ({
         target="_blank"
       >
         <div
-          className="flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center p-8 group bg-blue-500 hover:shadow-none transition-all shadow-smooth hover:bg-blue-600 w-fit rounded h-fit mb-4 cursor-pointer"
+          className="flex justify-center flex-wrap sm:flex-nowrap  sm:flex-row gap-5 items-center p-8 group bg-blue-500 hover:shadow-none transition-all shadow-smooth hover:bg-blue-600 sm:min-w-[500px] w-full rounded h-fit mb-4 cursor-pointer"
           onClick={() =>
             analytics.events.activityExternalLinkClick(
               location,
