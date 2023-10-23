@@ -2,7 +2,6 @@ import {defineConfig} from 'sanity'
 import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
 import {markdownSchema} from 'sanity-plugin-markdown'
-import {HelloWorldAction} from './actions'
 import deskStructure from './deskStructure'
 import {schema} from './schemas/schema'
 import {Logo} from './src/components/logo'
@@ -13,9 +12,6 @@ export default defineConfig({
   projectId: 'sb1i5dlc',
   dataset: 'production',
   plugins: [deskTool({structure: deskStructure}), markdownSchema(), visionTool()],
-  document: {
-    actions: [HelloWorldAction],
-  },
   schema: {
     types: schema,
   },
