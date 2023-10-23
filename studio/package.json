@@ -16,6 +16,7 @@
     "sanity"
   ],
   "dependencies": {
+    "@sanity/cli": "^3.18.1",
     "@sanity/client": "^6.7.0",
     "@sanity/code-input": "^4.1.1",
     "@sanity/icons": "^2.6.0",
