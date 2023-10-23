@@ -16,30 +16,44 @@
     "sanity"
   ],
   "dependencies": {
+    "@sanity/client": "^6.7.0",
     "@sanity/code-input": "^4.1.1",
-    "@sanity/icons": "^2.4.1",
-    "@sanity/production-preview": "^2.15.0",
+    "@sanity/icons": "^2.6.0",
+    "@sanity/production-preview": "^2.35.3",
     "@sanity/ui": "^1.8.2",
-    "@sanity/vision": "^3.16.4",
+    "@sanity/vision": "^3.18.1",
     "add": "^2.0.6",
     "easymde": "2",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^3.11.0",
-    "sanity": "^3.16.4",
+    "react-icons": "^4.11.0",
+    "react-is": "^18.2.0",
+    "sanity": "^3.18.1",
     "sanity-plugin-cloudinary": "^1.1.1",
     "sanity-plugin-content-calendar": "^1.1.0",
     "sanity-plugin-graph-view": "^1.0.4",
     "sanity-plugin-json-to-docs": "^1.0.3",
     "sanity-plugin-markdown": "^4.1.0",
     "speakingurl": "^14.0.1",
-    "styled-components": "^5.2.0",
-    "yarn": "^1.22.19"
+    "styled-components": "^5.3.11"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^3.0.1",
+    "@types/react": "^18.0.25",
+    "@types/styled-components": "^5.1.26",
+    "eslint": "^8.6.0",
+    "prettier": "^3.0.3",
+    "typescript": "^4.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:eggheadio/egghead-next.git"
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 100,
+    "bracketSpacing": false,
+    "singleQuote": true
   }
 }

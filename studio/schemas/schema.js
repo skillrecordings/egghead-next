@@ -1,6 +1,6 @@
 import collaborator from './documents/collaborator'
 import resource from './documents/resource'
-import person from './documents/person.tsx'
+import person from './documents/person'
 import library from './documents/software-library'
 import bigIdea from './documents/bigIdea'
 import essentialQuestion from './documents/essentialQuestion'
@@ -23,6 +23,7 @@ import podcastSeason from './documents/podcastSeason'
 import caseStudy from './documents/caseStudy'
 import category from './documents/category'
 import section from './documents/section'
+import guide from './documents/guide'
 import authorReference from './objects/author-reference'
 import excerptPortableText from './objects/excerpt-portable-text'
 import bodyPortableText from './objects/body-portable-text'
@@ -36,8 +37,7 @@ import emailAddress from './documents/email-address'
 import emailTemplate from './documents/email-template'
 import emailSendAt from './objects/email-send-at'
 
-// Then we give our schema to the builder and provide the result to Sanity
-export default [
+export const schema = [
   versionedLibrary,
   markdownText,
   blockContent,
@@ -46,7 +46,6 @@ export default [
   cta,
   ctaPlug,
   productionProcessState,
-
   stringList,
   authorReference,
   excerptPortableText,
@@ -59,8 +58,6 @@ export default [
   emailAddress,
   emailTemplate,
   emailSendAt,
-  // The following are document types which will appear
-  // in the studio.
   resource,
   imageUrl,
   course,
@@ -78,4 +75,5 @@ export default [
   category,
   essentialQuestion,
   bigIdea,
+  guide,
 ]
