@@ -39,8 +39,7 @@ export default defineType({
     }),
     defineField({
       name: 'name',
-      description:
-        'Usually internal, but not always. Maybe for a collection or landing page.',
+      description: 'Usually internal, but not always. Maybe for a collection or landing page.',
       title: 'Code Name',
       type: 'string',
       validation: (Rule) => Rule.max(90),
@@ -124,8 +123,7 @@ export default defineType({
       name: 'displayComponent',
       type: 'string',
       title: 'Display Component',
-      description:
-        'What component should be used in egghead-next to display this feature?',
+      description: 'What component should be used in egghead-next to display this feature?',
       hidden: ({document}) => document?.type !== 'feature',
       options: {
         list: [
@@ -215,9 +213,6 @@ export default defineType({
       title: 'Challenge Description',
       type: 'markdown',
       validation: (Rule) => Rule.max(160),
-      options: {
-        maxLength: 160,
-      },
     }),
     defineField({
       name: 'externalId',
@@ -343,8 +338,7 @@ export default defineType({
     }),
     defineField({
       name: 'collaborators',
-      description:
-        'Humans that worked on this resource and get credit for the effort.',
+      description: 'Humans that worked on this resource and get credit for the effort.',
       title: 'Collaborators',
       type: 'array',
       of: [
@@ -499,11 +493,7 @@ export default defineType({
       return {
         title: name || title,
         subtitle: type,
-        media: image ? (
-          <img src={image} alt={`${title} movie poster`} />
-        ) : (
-          media
-        ),
+        media: image ? <img src={image} alt={`${title} movie poster`} /> : media,
       }
     },
   },

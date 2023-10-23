@@ -179,7 +179,6 @@
     "remark-gfm": "^3.0.1",
     "remark-slug": "^6.1.0",
     "remove-markdown": "^0.3.0",
-    "sanity": "^3.16.4",
     "sharp": "^0.32.4",
     "shiki": "^0.14.4",
     "shortid": "^2.2.16",

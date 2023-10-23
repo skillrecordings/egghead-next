@@ -1,6 +1,5 @@
-import { SparkleIcon } from '@sanity/icons'
+import {SparkleIcon} from '@sanity/icons'
 import * as React from 'react'
-
 
 export default {
   name: 'collaborator',
@@ -54,7 +53,7 @@ export default {
       return {
         title: `${name}${title ? ` • ${title}` : ''}`,
         subtitle: `${role}${department ? ` • ${department}` : ''}`,
-        media: <img src={media} alt={`${name}`} />,
+        media: media ? <img src={media} alt={`${name}`} /> : null,
       }
     },
   },

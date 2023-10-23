@@ -60,8 +60,7 @@ export default defineType({
     }),
     defineField({
       name: 'byline',
-      description:
-        'Metadata to display on cards (e.g. "Kent C. Dodds • 2h 29m • Course")',
+      description: 'Metadata to display on cards (e.g. "Kent C. Dodds • 2h 29m • Course")',
       title: 'Byline',
       type: 'string',
       validation: (Rule) => Rule.max(90),
@@ -104,8 +103,7 @@ export default defineType({
     }),
     defineField({
       name: 'collaborators',
-      description:
-        'Humans that worked on this resource and get credit for the effort.',
+      description: 'Humans that worked on this resource and get credit for the effort.',
       title: 'Collaborators',
       type: 'array',
       of: [
@@ -124,8 +122,7 @@ export default defineType({
     }),
     defineField({
       name: 'resources',
-      description:
-        'Sections or the individual lessons that make up this course',
+      description: 'Sections or the individual lessons that make up this course',
       title: 'Resources',
       type: 'array',
       of: [
@@ -141,8 +138,7 @@ export default defineType({
     }),
     defineField({
       title: 'Access Level',
-      description:
-        'Does this course require Pro access or is it a community resource?',
+      description: 'Does this course require Pro access or is it a community resource?',
       name: 'accessLevel',
       type: 'string',
       options: {
@@ -212,11 +208,7 @@ export default defineType({
       return {
         title: name || title,
         subtitle: type,
-        media: image ? (
-          <img src={image} alt={`${title} course image`} />
-        ) : (
-          media
-        ),
+        media: image ? <img src={image} alt={`${title} course image`} /> : media ? media : null,
       }
     },
   },
