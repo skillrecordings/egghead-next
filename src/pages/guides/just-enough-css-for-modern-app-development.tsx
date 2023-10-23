@@ -13,6 +13,7 @@ import Link from 'next/link'
 import {twMerge} from 'tailwind-merge'
 import React from 'react'
 import {truncate} from 'lodash'
+import Balancer from 'react-wrap-balancer'
 import analytics from 'utils/analytics'
 
 const HorizontalCourseCard: React.FC<
@@ -50,7 +51,9 @@ const HorizontalCourseCard: React.FC<
           <p className="mt-1 uppercase font-medium sm:text-[0.65rem] text-[0.55rem] text-gray-700 dark:text-indigo-100 opacity-60">
             {course.byline}
           </p>
-          <p className="w-[35ch] text-sm">{course.description}</p>
+          <p className="sm:w-[35ch] text-sm p-4">
+            <Balancer>{course.description}</Balancer>
+          </p>
         </div>
       </div>
     </Link>
@@ -91,8 +94,8 @@ const CssChallengeCard = ({
               </h3>
             </div>
 
-            <p className="w-[35ch] leading-relaxed mt-4  text-white">
-              {challenge.description}
+            <p className="sm:w-[35ch] leading-relaxed mt-4  text-white">
+              <Balancer>{challenge.description}</Balancer>
             </p>
 
             <button className="bg-white p-4 rounded text-blue-500 font-medium mt-14 transition-all hover:scale-105">
@@ -125,8 +128,8 @@ const CssChallengeCard = ({
             </h3>
           </div>
 
-          <p className="w-[35ch] leading-relaxed mt-4  text-white">
-            {challenge.description}
+          <p className="sm:w-[35ch] leading-relaxed mt-4  text-white">
+            <Balancer>{challenge.description}</Balancer>
           </p>
 
           <button className="bg-white p-4 rounded text-blue-500 font-medium mt-14 transition-all hover:scale-105">
@@ -172,8 +175,8 @@ const CssChallengeCardFull = ({
                   <h3 className="text-xl font-semibold leading-tight self-center  text-white">
                     {challenge.title}
                   </h3>
-                  <p className="w-[35ch] leading-relaxed self-center sm:self-auto  text-white">
-                    {challenge.description}
+                  <p className="sm:w-[35ch] leading-relaxed self-center sm:self-auto  text-white">
+                    <Balancer>{challenge.description}</Balancer>
                   </p>
                 </div>
               </div>
@@ -209,8 +212,8 @@ const CssChallengeCardFull = ({
                 <h3 className="text-xl font-semibold leading-tight self-center  text-white">
                   {challenge.title}
                 </h3>
-                <p className="w-[35ch] leading-relaxed self-center sm:self-auto  text-white">
-                  {challenge.description}
+                <p className="sm:w-[35ch] leading-relaxed self-center sm:self-auto  text-white">
+                  <Balancer>{challenge.description}</Balancer>
                 </p>
               </div>
             </div>
@@ -266,7 +269,7 @@ const JustEnoughCssForModernAppDevelopment: React.FC<
       <div className="w-full mt-8 md:mt-14 lg:mt-32 mb-20">
         <header className="relative w-full mx-auto">
           <img
-            className="absolute -top-[100px] object-fill overflow-visible bg-no-repeat left-[10px]"
+            className="absolute -top-[100px] object-fill overflow-visible w-80 sm:w-auto bg-no-repeat left-[10px]"
             src={cssGuide.backgroundGrid}
           />
           <div className="relative z-10 flex flex-wrap w-full justify-center sm:justify-evenly gap-4 mx-auto">
@@ -282,11 +285,11 @@ const JustEnoughCssForModernAppDevelopment: React.FC<
               />
             </div>
             <div>
-              <h1 className="self-center mb-2 text-xl font-medium sm:text-2xl h-fit w-96">
+              <h1 className="text-center sm:text-left self-center mb-2 text-xl font-medium sm:text-2xl h-fit sm:w-96 px-4">
                 Just enough <strong>CSS</strong> to build Modern UI
               </h1>
-              <p className="whitespace-pre-wrap w-[40ch] mt-4">
-                {cssGuide.description}
+              <p className="whitespace-pre-wrap sm:w-[40ch] mt-4 p-4">
+                <Balancer>{cssGuide.description}</Balancer>
               </p>
             </div>
           </div>
@@ -301,7 +304,7 @@ const JustEnoughCssForModernAppDevelopment: React.FC<
             />
           </div>
         </header>
-        <section className="w-full pb-20">
+        <section className="pb-20">
           <div className="max-w-screen-lg mx-auto">
             <div className="flex flex-col-reverse lg:flex-row lg:justify-between mt-20 mb-8 relative">
               <h2
@@ -318,13 +321,13 @@ const JustEnoughCssForModernAppDevelopment: React.FC<
                 01
               </div>
               <img
-                className="absolute object-fill overflow-visible bg-no-repeat -top-20 right-1/4 sm:right-1/3 lg:-right-16 lg:-top-0 w-60 lg:w-64"
+                className="absolute object-fill overflow-visible bg-no-repeat -top-20 right-1/4 sm:right-1/3 lg:-right-16 lg:-top-0 w-52 sm:w-60 lg:w-64"
                 src={cssGuide.backgroundGrid}
               />
             </div>
             <div className="flex flex-wrap justify-center lg:justify-between lg:flex-nowrap gap-4">
-              <div className="w-[40ch] mb-8 whitespace-pre-wrap mx-auto sm:mx-0 self-center">
-                {fundamentalSection.description}
+              <div className="sm:w-[40ch] mb-8 whitespace-pre-wrap mx-auto sm:mx-0 self-center p-4">
+                <Balancer>{fundamentalSection.description}</Balancer>
               </div>
 
               <HorizontalCourseCard
@@ -349,13 +352,13 @@ const JustEnoughCssForModernAppDevelopment: React.FC<
                 02-03
               </div>
               <img
-                className="absolute object-fill overflow-visible bg-no-repeat -top-16 right-1/4 sm:right-1/3 lg:-right-16 lg:-top-0 w-60 lg:w-64"
+                className="absolute object-fill overflow-visible bg-no-repeat -top-16 right-1/4 sm:right-1/3 lg:-right-16 lg:-top-0 w-52 sm:w-60 lg:w-64"
                 src={cssGuide.backgroundGrid}
               />
             </div>
             <div className="flex flex-wrap justify-center lg:justify-between lg:flex-nowrap gap-4">
-              <p className="w-[40ch] mb-8 whitespace-pre-wrap mx-auto sm:mx-0">
-                {layoutSection.description}
+              <p className="sm:w-[40ch] mb-8 whitespace-pre-wrap mx-auto sm:mx-0 p-4">
+                <Balancer>{layoutSection.description}</Balancer>
               </p>
               <CssChallengeCard
                 challenge={layoutSection.challenge}
@@ -396,13 +399,13 @@ const JustEnoughCssForModernAppDevelopment: React.FC<
                 04-05
               </div>
               <img
-                className="absolute object-fill overflow-visible bg-no-repeat -top-16 right-1/4 sm:right-1/3 lg:-right-16 lg:-top-0 w-60 lg:w-64"
+                className="absolute object-fill overflow-visible bg-no-repeat -top-16 right-1/4 sm:right-1/3 lg:-right-16 lg:-top-0 w-52 sm:w-60 lg:w-64"
                 src={cssGuide.backgroundGrid}
               />
             </div>
             <div className="flex flex-wrap justify-center lg:justify-between lg:flex-nowrap gap-4">
-              <p className="w-[40ch] mb-8 whitespace-pre-wrap mx-auto sm:mx-0">
-                {modernSection.description}
+              <p className="sm:w-[40ch] mb-8 whitespace-pre-wrap mx-auto sm:mx-0 p-4">
+                <Balancer>{modernSection.description}</Balancer>
               </p>
               <HorizontalCourseCard
                 location={router.asPath}
