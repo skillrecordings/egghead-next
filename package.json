@@ -71,6 +71,7 @@
     "@reach/utils": "^0.16.0",
     "@reach/visually-hidden": "^0.16.0",
     "@sanity/client": "^6.7.0",
+    "@sanity/image-url": "^1.0.2",
     "@sanity/webhook": "^2.0.0",
     "@sindresorhus/slugify": "^2.2.1",
     "@skillrecordings/player": "^1.1.6",
