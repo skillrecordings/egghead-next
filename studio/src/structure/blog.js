@@ -7,8 +7,6 @@ import {
   GoPerson as AuthorIcon,
 } from 'react-icons/go'
 
-// import PreviewIFrame from '../../src/components/previewIFrame'
-
 export const icons = {
   BlogIcon,
   ApprovedIcon,
@@ -35,10 +33,7 @@ const blog = (S) =>
                 .menuItems(S.documentTypeList('post').getMenuItems())
                 // Only show posts with publish date earlier than now and that is not drafts
                 .filter('_type == "post" && publishedAt < now() && !(_id in path("drafts.**"))')
-                .child(
-                  (documentId) => S.document().documentId(documentId).schemaType('post')
-                  // .views([S.view.form(), PreviewIFrame()]),
-                )
+                .child((documentId) => S.document().documentId(documentId).schemaType('post'))
             ),
           S.documentTypeListItem('post').title('All posts').icon(AllIcon),
           S.listItem()

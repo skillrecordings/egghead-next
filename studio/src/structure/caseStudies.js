@@ -6,8 +6,6 @@ import {
   GoDatabase as SuccessIcon,
 } from 'react-icons/go'
 
-// import PreviewIFrame from '../../src/components/previewIFrame'
-
 export const icons = {
   CaseStudyIcon,
   ApprovedIcon,
@@ -36,10 +34,7 @@ const caseStudies = (S) =>
                 .filter(
                   '_type == "caseStudy" && publishedAt < now() && !(_id in path("drafts.**"))'
                 )
-                .child(
-                  (documentId) => S.document().documentId(documentId).schemaType('caseStudy')
-                  // .views([S.view.form(), PreviewIFrame()]),
-                )
+                .child((documentId) => S.document().documentId(documentId).schemaType('caseStudy'))
             ),
           S.documentTypeListItem('caseStudy').title('All case studies').icon(SuccessIcon),
         ])
