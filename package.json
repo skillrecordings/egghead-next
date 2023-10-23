@@ -71,6 +71,7 @@
     "@reach/utils": "^0.16.0",
     "@reach/visually-hidden": "^0.16.0",
     "sanity": "^3.18.1",
+    "sanity-plugin-markdown": "^4.1.0",
     "@sanity/client": "^6.7.0",
     "@sanity/image-url": "^1.0.2",
     "@sanity/webhook": "^2.0.0",

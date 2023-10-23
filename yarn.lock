@@ -3864,6 +3864,11 @@
   resolved "https://registry.yarnpkg.com/@sanity/generate-help-url/-/generate-help-url-3.0.0.tgz#60e9cba61b82103ea3761730a53cd9310b98892d"
   integrity sha512-wtMYcV5GIDIhVyF/jjmdwq1GdlK07dRL40XMns73VbrFI7FteRltxv48bhYVZPcLkRXb0SHjpDS/icj9/yzbVA==
 
+"@sanity/icons@^1.3":
+  version "1.3.10"
+  resolved "https://registry.yarnpkg.com/@sanity/icons/-/icons-1.3.10.tgz#df934a94ae6669fe6b15515d800afb221cba0498"
+  integrity sha512-5wVG/vIiGuGrSmq+Bl3PY7XDgQrGv0fyHdJI64FSulnr2wH3NMqZ6C59UFxnrZ93sr7kOt0zQFoNv2lkPBi0Cg==
+
 "@sanity/icons@^2.4.0", "@sanity/icons@^2.4.1":
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/@sanity/icons/-/icons-2.6.0.tgz#48e0aa2bcc39c018911cdf7a3d66647b6f87675f"
@@ -3897,6 +3902,14 @@
     rimraf "^3.0.2"
     split2 "^3.2.2"
     tar-fs "^2.1.1"
+
+"@sanity/incompatible-plugin@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@sanity/incompatible-plugin/-/incompatible-plugin-1.0.4.tgz#c369af3b629de6c01e5843373fb3ede9972a53f4"
+  integrity sha512-2z39G9PTM8MXOF4fJNx3TG4tH0RrTjtH6dVLW93DSjCPbIS7FgCY5yWjZfQ+HVkwhLsF7ATDAGLA/jp65pFjAg==
+  dependencies:
+    "@sanity/icons" "^1.3"
+    react-copy-to-clipboard "^5.1.0"
 
 "@sanity/logos@^2.0.2":
   version "2.1.2"
@@ -3949,7 +3962,7 @@
     "@sanity/client" "^6.4.9"
     "@types/react" "^18.0.25"
 
-"@sanity/ui@^1.7.2":
+"@sanity/ui@^1.0.0", "@sanity/ui@^1.7.2":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@sanity/ui/-/ui-1.8.3.tgz#e527c2e9df0951f546c05cf015770be2b7e1927f"
   integrity sha512-LOYVLkpnGrWlCRTjluFn2wf7y4BzYhFBzdnBmNT0uRWH3pXN24xXH49e0HfbJ3tzRLOKwLo35IexvBKQwPgYZg==
@@ -5415,6 +5428,13 @@
     "@types/node" "*"
     "@types/responselike" "^1.0.0"
 
+"@types/codemirror@~5.60.5":
+  version "5.60.12"
+  resolved "https://registry.yarnpkg.com/@types/codemirror/-/codemirror-5.60.12.tgz#09daf6f2af381d1613a50b2b53ff2abf0232045b"
+  integrity sha512-SFSj5Tb/mtQoVgaltsipdRGG1PkcFu/L0OXPNBGCXYUQtwsNoAGRNNHOTl1jYcQUcEI77EiUfk94bgETTbSo/A==
+  dependencies:
+    "@types/tern" "*"
+
 "@types/cookie@^0.4.1":
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@types/cookie/-/cookie-0.4.1.tgz#bfd02c1f2224567676c1545199f87c3a861d878d"
@@ -5879,6 +5899,13 @@
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.10.tgz#5203aad08455c6988f7b2347715023e3935b1056"
   integrity sha512-q8F20SdXG5fdVJQ5yxsVlH+f+oekP42QeHv4s5KlrxTMT0eopXn7ol1rhxMcksf8ph7XNv811iVDE2hOpUvEPg==
+
+"@types/tern@*":
+  version "0.23.6"
+  resolved "https://registry.yarnpkg.com/@types/tern/-/tern-0.23.6.tgz#8927626347db76a998d27889c5c2dbf18cb42115"
+  integrity sha512-ntalN+F2msUwz7/OCCADN4FwxtIGqF4Hqwxd15yAn0VOUozj1VaIrH4Prh95N8y69K3bQpHFVGwTJDZC4oRtvA==
+  dependencies:
+    "@types/estree" "*"
 
 "@types/testing-library__jest-dom@^5.9.1":
   version "5.14.9"
@@ -18696,7 +18723,7 @@ react-clientside-effect@^1.2.6:
   dependencies:
     "@babel/runtime" "^7.12.13"
 
-react-copy-to-clipboard@^5.0.4:
+react-copy-to-clipboard@^5.0.4, react-copy-to-clipboard@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-5.1.0.tgz#09aae5ec4c62750ccb2e6421a58725eabc41255c"
   integrity sha512-k61RsNgAayIJNoy9yDsYzDe/yAZAzEbEgcz3DZMhF686LEyukcE1hzurxe85JandPUG+yTfGVFzuEw3xt8WP/A==
@@ -18995,6 +19022,13 @@ react-shallow-renderer@^16.13.1:
   dependencies:
     object-assign "^4.1.1"
     react-is "^16.12.0 || ^17.0.0 || ^18.0.0"
+
+react-simplemde-editor@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/react-simplemde-editor/-/react-simplemde-editor-5.2.0.tgz#7a4c8b97e4989cb129b45ba140145d71bdc0684e"
+  integrity sha512-GkTg1MlQHVK2Rks++7sjuQr/GVS/xm6y+HchZ4GPBWrhcgLieh4CjK04GTKbsfYorSRYKa0n37rtNSJmOzEDkQ==
+  dependencies:
+    "@types/codemirror" "~5.60.5"
 
 react-style-proptype@^3.2.2:
   version "3.2.2"
@@ -19911,6 +19945,15 @@ sanity-diff-patch@^3.0.2:
   integrity sha512-Vsx6IPuMepvfaX2/jOFuUrJaloHvSmXavS9SL3iJhhIPAu20VfumCtdH5kpKlXKL1pBgCAZhWHXfLC4Fyg7qFg==
   dependencies:
     "@sanity/diff-match-patch" "^3.0.0"
+
+sanity-plugin-markdown@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/sanity-plugin-markdown/-/sanity-plugin-markdown-4.1.0.tgz#fcb8b81dee9de84c78c17d84ef40b57647cb4fe5"
+  integrity sha512-GYJOeYbvjZ2BOCYrK3Dyp+zQ+5FIHsjrFYHw+aIZw7E47VyW6tfsmW5wOfTR+YG/Dv2n+5h5+sPIMUUNXSDTJA==
+  dependencies:
+    "@sanity/incompatible-plugin" "^1.0.4"
+    "@sanity/ui" "^1.0.0"
+    react-simplemde-editor "^5.2.0"
 
 sanity@^3.18.1:
   version "3.18.1"
