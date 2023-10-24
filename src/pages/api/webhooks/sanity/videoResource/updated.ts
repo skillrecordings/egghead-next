@@ -56,7 +56,7 @@ const sanityLessonUpdatedWebhook = async (
 
         // 1. Request the referencing objects via a Sanity GROQ query
         const query = groq`
-          *[references(${_id})]{
+          *[references('${_id}')]{
             _id,
             eggheadRailsLessonId
           }
