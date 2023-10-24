@@ -31,7 +31,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook --no-dll",
     "lint": "eslint --ext ts --ext tsx --fix src/",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@asbjorn/eslint-plugin-groq": "^1.0.0",
