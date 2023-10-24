@@ -12,7 +12,7 @@ const sanityClient = client({
   token: process.env.SANITY_EDITOR_TOKEN,
 })
 
-const secret = process.env.SANITY_WEBHOOK_CREATED_SECRET || ''
+const secret = process.env.SANITY_WEBHOOK_SIGNATURE_SECRET || ''
 
 const WebhookBodySchema = z.object({
   operation: z.enum(['created', 'updated', 'deleted']),
