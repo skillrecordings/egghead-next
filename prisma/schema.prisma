@@ -79,3 +79,10 @@ model AccountSubscription {
   @@index([account_id], map: "index_account_subscriptions_on_account_id")
   @@map("account_subscriptions")
 }
+
+model Lesson {
+  id BigInt @id @default(autoincrement())
+  slug String
+  duration Int?
+  @@map("lessons")
+}
