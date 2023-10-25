@@ -8,6 +8,9 @@ import {baseProcedure, router} from '../trpc'
 import {sanityWriteClient} from 'utils/sanity-server'
 import {getAllTips, getTip, getCoursesRelatedToTip, TipSchema} from 'lib/tips'
 import {getAbilityFromToken} from 'server/ability'
+import gql from 'graphql-tag'
+import graphqlConfig from 'lib/config'
+import {GraphQLClient} from 'graphql-request'
 
 export const tipsRouter = router({
   create: baseProcedure
@@ -200,5 +203,37 @@ export const tipsRouter = router({
       }
 
       return res
+    }),
+  loadTipProgress: baseProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      }),
+    )
+    .query(async ({input, ctx}) => {
+      const token = ctx?.userToken
+      if (!token) return null
+
+      const {id} = input
+
+      const query = gql`
+        query getTipCompletion($id: String!) {
+          lesson_by_id(id: $id) {
+            id
+            completed
+          }
+        }
+      `
+      const graphQLClient = new GraphQLClient(graphqlConfig.graphQLEndpoint, {
+        headers: graphqlConfig.headers,
+      })
+      graphQLClient.setHeader('Authorization', `Bearer ${token}`)
+
+      const variables = {
+        id: String(id),
+      }
+      const {lesson_by_id} = await graphQLClient.request(query, variables)
+
+      return {tipCompleted: lesson_by_id?.completed as boolean}
     }),
 })

@@ -2,11 +2,23 @@ import {useRouter} from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import Balancer from 'react-wrap-balancer'
+import {
+  CheckCircleIcon as CheckCircleIconOutline,
+  ArrowsExpandIcon,
+} from '@heroicons/react/outline'
+import {CheckCircleIcon, CheckIcon} from '@heroicons/react/solid'
+import {trpc} from 'app/_trpc/client'
 
 export const TipTeaser: React.FC<{tip: any}> = ({tip}) => {
   const {title, muxPlaybackId} = tip
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
   const router = useRouter()
+  const data = tip?.eggheadRailsLessonId
+    ? trpc.tips.loadTipProgress.useQuery({
+        id: tip?.eggheadRailsLessonId,
+      })
+    : {data: {tipCompleted: false}}
+  const tipCompleted = data.data?.tipCompleted
 
   return (
     <article className="flex items-center gap-4 py-3">
@@ -42,6 +54,15 @@ export const TipTeaser: React.FC<{tip: any}> = ({tip}) => {
           <Balancer>{title}</Balancer>{' '}
         </Link>
       </h2>
+      {tipCompleted ? (
+        <span className="self-center">
+          <CheckCircleIcon className="h-5 w-5 text-green-500  rounded-full" />
+        </span>
+      ) : (
+        <span className="self-center ">
+          <CheckCircleIconOutline className="h-5 w-5 text-gray-300 hover:text-green-500 hover:cursor-pointer " />
+        </span>
+      )}
     </article>
   )
 }

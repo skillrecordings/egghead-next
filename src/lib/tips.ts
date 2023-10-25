@@ -65,6 +65,7 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
         title,
         state,
         description,
+        eggheadRailsLessonId,
         summary,
         body,
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
