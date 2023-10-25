@@ -169,40 +169,35 @@ export const tipsRouter = router({
       if (!token) return null
       const {tipId} = input
 
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID as string,
+        'Content-Type': 'application/json',
+      }
+
       let res = await fetch(
         `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/watch/download`,
         {
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID as string,
-            'Content-Type': 'application/json',
-          },
-
+          headers,
           body: JSON.stringify({
             lesson_view: {
               lesson_id: tipId,
             },
           }),
         },
-      ).then(async (res) => {
-        let json = await res.json()
+      ).then((res) => res.json())
 
-        return await fetch(json.complete_url, {
+      if (res?.complete_url) {
+        const res2 = await fetch(res.complete_url, {
           method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID as string,
-            'Content-Type': 'application/json',
-          },
-
+          headers,
           body: JSON.stringify({
             id: tipId,
           }),
         }).then((res) => res.json())
-      })
-
-      console.log({res})
+        return res2
+      }
 
       return res
     }),
