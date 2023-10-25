@@ -41,7 +41,7 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
   console.debug(`web vitals`, metric)
 }
 
-PosthogClient.init()
+const posthog = PosthogClient.init()
 
 const App: React.FC<React.PropsWithChildren<AppProps>> = ({
   Component,
@@ -119,7 +119,7 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
             <CioProvider>
               <QueryClientProvider client={queryClient}>
                 <TrpcProvider>
-                  <PostHogProvider>
+                  <PostHogProvider client={posthog}>
                     <MDXProvider components={mdxComponents}>
                       {getLayout(Component, pageProps)}
                     </MDXProvider>
