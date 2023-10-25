@@ -60,7 +60,7 @@ export const TipTeaser: React.FC<{tip: any}> = ({tip}) => {
         </span>
       ) : (
         <span className="self-center ">
-          <CheckCircleIconOutline className="h-5 w-5 text-gray-300 hover:text-green-500 hover:cursor-pointer " />
+          <CheckCircleIconOutline className="h-5 w-5 text-gray-300" />
         </span>
       )}
     </article>

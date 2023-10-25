@@ -89,7 +89,7 @@ const TipTemplate = ({
                         </span>
                       ) : (
                         <span className="self-center ">
-                          <CheckCircleIconOutline className="h-5 w-5 text-gray-300 hover:text-green-500 hover:cursor-pointer " />
+                          <CheckCircleIconOutline className="h-5 w-5 text-gray-300" />
                         </span>
                       )}
                       <h1 className="leading-tighter inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-3xl">
