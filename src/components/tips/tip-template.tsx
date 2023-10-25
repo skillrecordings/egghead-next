@@ -9,7 +9,7 @@ import {VideoProvider} from 'hooks/mux/use-mux-player'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react/.'
 import {LessonProvider} from 'hooks/use-lesson'
 import {VideoResourceProvider} from 'hooks/use-video-resource'
-// import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
 
 const TipTemplate = ({
   tip,
@@ -20,8 +20,13 @@ const TipTemplate = ({
   tips: Tip[]
   coursesFromTag: any
 }) => {
+  const markComplete = trpc.tips.markTipComplete.useMutation()
+
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const handleVideoEnded = async () => {
+    if (tip?.eggheadRailsLessonId) {
+      await markComplete.mutateAsync({tipId: tip?.eggheadRailsLessonId})
+    }
     // await localProgressDb.progress
     //   .add({
     //     eventName: 'completed video',

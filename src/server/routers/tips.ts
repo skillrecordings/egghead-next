@@ -157,4 +157,53 @@ export const tipsRouter = router({
 
       return lesson
     }),
+  markTipComplete: baseProcedure
+    .input(
+      z.object({
+        tipId: z.number(),
+      }),
+    )
+    .mutation(async ({input, ctx}) => {
+      const token = ctx?.userToken
+
+      if (!token) return null
+      const {tipId} = input
+
+      let res = await fetch(
+        `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/watch/download`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID as string,
+            'Content-Type': 'application/json',
+          },
+
+          body: JSON.stringify({
+            lesson_view: {
+              lesson_id: tipId,
+            },
+          }),
+        },
+      ).then(async (res) => {
+        let json = await res.json()
+
+        return await fetch(json.complete_url, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID as string,
+            'Content-Type': 'application/json',
+          },
+
+          body: JSON.stringify({
+            id: tipId,
+          }),
+        }).then((res) => res.json())
+      })
+
+      console.log({res})
+
+      return res
+    }),
 })

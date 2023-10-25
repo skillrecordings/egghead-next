@@ -14,6 +14,7 @@ export const TipSchema = z.object({
   description: z.nullable(z.string()).optional(),
   body: z.string().optional().nullable(),
   summary: z.string().optional().nullable(),
+  eggheadRailsLessonId: z.nullable(z.number()).optional(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   state: z.enum(['new', 'processing', 'reviewing', 'published', 'retired']),
   sandpack: z
@@ -92,6 +93,7 @@ export const getTip = async (slug: string): Promise<Tip | null> => {
         description,
         summary,
         body,
+        eggheadRailsLessonId,
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
