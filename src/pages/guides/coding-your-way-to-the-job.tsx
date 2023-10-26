@@ -31,8 +31,6 @@ const CodeYourWay: React.FC<React.PropsWithChildren<{codeGuide: any}>> = ({
     studySection,
   ] = sections
 
-  console.log('second one', studySection)
-
   const router = useRouter()
 
   const url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL + router.asPath
@@ -132,7 +130,7 @@ const CodeYourWay: React.FC<React.PropsWithChildren<{codeGuide: any}>> = ({
             <div className="flex flex-col lg:flex-row lg:justify-between mb-8 relative">
               <div
                 aria-hidden
-                className="flex flex-col lg:mt-20 mb-8 font-mono text-2xl font-bold leading-[0.9] text-gray-400 dark:text-gray-700 self-center relative z-10 text-right"
+                className="flex flex-col lg:mt-20 mb-8 font-mono text-2xl font-bold leading-[0.9] text-gray-400 dark:text-gray-700 self-center relative z-10 text-left"
               >
                 <span className="text-xl">Week </span>
                 02
@@ -235,7 +233,7 @@ const CodeYourWay: React.FC<React.PropsWithChildren<{codeGuide: any}>> = ({
             <div className="flex flex-col lg:flex-row lg:justify-between mb-8 relative">
               <div
                 aria-hidden
-                className="flex flex-col lg:mt-20 mb-8 font-mono text-2xl font-bold leading-[0.9] text-gray-400 dark:text-gray-700 self-center relative z-10 text-right"
+                className="flex flex-col lg:mt-20 mb-8 font-mono text-2xl font-bold leading-[0.9] text-gray-400 dark:text-gray-700 self-center relative z-10 text-left"
               >
                 <span className="text-xl">Week </span>
                 04
