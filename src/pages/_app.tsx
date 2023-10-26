@@ -22,6 +22,9 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import TrpcProvider from 'app/_trpc/Provider'
 
+import {PostHogProvider} from 'posthog-js/react'
+import PosthogClient from 'lib/posthog-client'
+
 declare global {
   interface Window {
     _cio: any
@@ -37,6 +40,8 @@ const queryClient = new QueryClient()
 export function reportWebVitals(metric: NextWebVitalsMetric) {
   console.debug(`web vitals`, metric)
 }
+
+const posthog = PosthogClient.init()
 
 const App: React.FC<React.PropsWithChildren<AppProps>> = ({
   Component,
@@ -114,12 +119,14 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
             <CioProvider>
               <QueryClientProvider client={queryClient}>
                 <TrpcProvider>
-                  <MDXProvider components={mdxComponents}>
-                    {getLayout(Component, pageProps)}
-                  </MDXProvider>
-                  <div className="print:hidden">
-                    <ReactQueryDevtools />
-                  </div>
+                  <PostHogProvider client={posthog}>
+                    <MDXProvider components={mdxComponents}>
+                      {getLayout(Component, pageProps)}
+                    </MDXProvider>
+                    <div className="print:hidden">
+                      <ReactQueryDevtools />
+                    </div>
+                  </PostHogProvider>
                 </TrpcProvider>
               </QueryClientProvider>
             </CioProvider>
