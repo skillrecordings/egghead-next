@@ -15,6 +15,19 @@ export const TipSchema = z.object({
   body: z.string().optional().nullable(),
   summary: z.string().optional().nullable(),
   eggheadRailsLessonId: z.nullable(z.number()).optional(),
+  tags: z.nullable(
+    z
+      .array(
+        z.object({
+          name: z.string(),
+          label: z.string(),
+          image_url: z.string(),
+          http_url: z.string(),
+        }),
+      )
+      .optional(),
+  ),
+  duration: z.number().optional().nullable(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   state: z.enum(['new', 'processing', 'reviewing', 'published', 'retired']),
   sandpack: z
@@ -31,6 +44,18 @@ export const TipSchema = z.object({
   transcript: z.nullable(z.string()).optional(),
   srt: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
+  instructor: z
+    .nullable(
+      z.object({
+        title: z.string(),
+        slug: z.string(),
+        name: z.string(),
+        path: z.string(),
+        twitter: z.string(),
+        image: z.string(),
+      }),
+    )
+    .optional(),
 })
 
 export const CoursesFromTagSchema = z.object({
@@ -68,11 +93,28 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
         eggheadRailsLessonId,
         summary,
         body,
+        'tags': softwareLibraries[] {
+          ...(library-> {
+            name,
+            'label': slug.current,
+            'http_url': url,
+            'image_url': image.url
+          }),
+        },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "duration": resources[@->._type == 'videoResource'][0]->duration,
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-        "tweetId":  resources[@._type == 'tweet'][0].tweetId
+        "tweetId":  resources[@._type == 'tweet'][0].tweetId,
+        'instructor': collaborators[@->.role == 'instructor'][0]->{
+          title,
+          'slug': person->slug.current,
+          'name': person->name,
+          'path': person->website,
+          'twitter': person->twitter,
+          'image': person->image.url
+        },
   }`)
 
   return TipsSchema.parse(tips)
@@ -95,13 +137,30 @@ export const getTip = async (slug: string): Promise<Tip | null> => {
         summary,
         body,
         eggheadRailsLessonId,
+        "tags": softwareLibraries[] {
+          ...(library->{
+            name,
+            'label': slug.current,
+            'http_url': url,
+            'image_url': image.url
+          })
+        },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+        "duration": resources[@->._type == 'videoResource'][0]->duration,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
         "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
         "srt": resources[@->._type == 'videoResource'][0]-> transcript.srt,
-        "tweetId":  resources[@._type == 'tweet'][0].tweetId
+        "tweetId":  resources[@._type == 'tweet'][0].tweetId,
+        'instructor': collaborators[@->.role == 'instructor'][0]->{
+          title,
+          'slug': person->slug.current,
+          'name': person->name,
+          'path': person->website,
+          'twitter': person->twitter,
+          'image': person->image.url
+        },
     }`,
     {slug},
   )

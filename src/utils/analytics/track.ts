@@ -2,7 +2,9 @@ import {isFunction, isUndefined} from 'lodash'
 import {Viewer} from 'types'
 import Auth from '../auth'
 import mixpanel from 'mixpanel-browser'
+import posthog from 'posthog-js'
 import {identify} from './identify'
+import PosthogClient from 'lib/posthog-client'
 const DEBUG_ANALYTICS = true
 
 mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN || '')
@@ -61,6 +63,7 @@ export const track = (
       }
 
       mixpanel.track(event, params)
+      PosthogClient.capture(event, params)
 
       if (
         viewer &&

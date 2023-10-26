@@ -11254,6 +11254,11 @@ fetch-retry@^5.0.2:
   resolved "https://registry.yarnpkg.com/fetch-retry/-/fetch-retry-5.0.6.tgz#17d0bc90423405b7a88b74355bf364acd2a7fa56"
   integrity sha512-3yurQZ2hD9VISAhJJP9bpYFNQrHHBXE2JxxjY5aLEcDi46RmAzJE2OC9FAde0yis5ElW0jTTzs0zfg/Cca4XqQ==
 
+fflate@^0.4.1:
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/fflate/-/fflate-0.4.8.tgz#f90b82aefbd8ac174213abb338bd7ef848f0f5ae"
+  integrity sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==
+
 figgy-pudding@^3.5.1:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/figgy-pudding/-/figgy-pudding-3.5.2.tgz#b4eee8148abb01dcf1d1ac34367d59e12fa61d6e"
@@ -18277,6 +18282,13 @@ postcss@^8.2.15, postcss@^8.4.23, postcss@^8.4.27, postcss@^8.4.5:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+posthog-js@^1.85.2:
+  version "1.85.2"
+  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.85.2.tgz#d540a17baac2d67d631a4c83fb498b698f135fc4"
+  integrity sha512-xKteAKQhhNhOPWHUEso7Ajm7Qk+lJnDH4JVJ+r4kti62sXtVTSmayhDZoPgiCmQ3w1YtvL13wojb1IbpCpxScw==
+  dependencies:
+    fflate "^0.4.1"
 
 prebuild-install@^7.1.1:
   version "7.1.1"

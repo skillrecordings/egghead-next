@@ -196,11 +196,32 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
     )
   }
 
+  const Tips = () => {
+    return (
+      <Link href={`/tips`}>
+        <a
+          onClick={() =>
+            analytics.events.activityInternalLinkClick(
+              'tips',
+              'header',
+              'tips',
+              '/tips',
+            )
+          }
+          className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
+        >
+          Tips
+        </a>
+      </Link>
+    )
+  }
+
   const MobileNavigation = () => {
     return (
       <ul className="relative z-20 flex flex-col w-full px-3 pb-5 space-y-2 text-base dark:bg-gray-800 bg-gray-50 shadow-smooth">
         {[
           SearchBar,
+          !isEmpty(viewer) && Tips,
           !isEmpty(viewer) && Bookmarks,
           !isEmpty(viewer) && Feedback,
           showTeamNavLink && Team,
@@ -237,6 +258,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
               {!md && !isSearch && <SearchBar />}
               {!sm && (
                 <>
+                  {!isEmpty(viewer) && <Tips />}
                   {!isEmpty(viewer) && <Bookmarks />}
                   {!isEmpty(viewer) && <Feedback />}
                   {showTeamNavLink && <Team />}
