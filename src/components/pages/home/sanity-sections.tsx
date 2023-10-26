@@ -10,6 +10,7 @@ import Link from 'next/link'
 import EggheadForTeamsCta from 'components/pages/home/egghead-for-teams-cta'
 import analytics from 'utils/analytics'
 import {SanitySectionType} from 'pages/learn'
+import {trpc} from 'app/_trpc/client'
 
 const DynamicGridComponent = ({
   section,
@@ -151,6 +152,125 @@ const DynamicGridComponent = ({
   )
 }
 
+const DynamicGridComponentWithTips = ({
+  section,
+  location,
+  completedCoursesIds,
+}: {
+  section: SanitySectionType
+  location?: string
+  completedCoursesIds?: number[]
+}) => {
+  const {data} = trpc.tips.all.useQuery()
+  const publishedTips =
+    data?.find((tipGroup) => tipGroup.state === 'published')?.tips ?? []
+
+  const rowOneResources = section?.resources?.slice(0, 2)
+  const rowTwoResources = section?.resources?.slice(2, 8)
+
+  return (
+    <section className="pb-16" key={section.slug}>
+      {!section.image && !section.description ? (
+        // simple section
+        <div className="flex items-center justify-between w-full pb-6">
+          <h2 className="text-lg font-semibold leading-tight lg:text-2xl sm:text-xl dark:text-white">
+            {section.title}
+          </h2>
+        </div>
+      ) : (
+        // section with image and description
+        <div className="flex flex-col items-center justify-center w-full pb-8 mb-5 md:flex-row md:items-start">
+          {section.image && (
+            <div className="flex-shrink-0 md:max-w-none max-w-[200px]">
+              <Image
+                aria-hidden
+                src={section.image}
+                quality={100}
+                width={320}
+                height={320}
+                alt=""
+              />
+            </div>
+          )}
+          <div>
+            <h2 className="w-full pb-4 text-lg font-semibold leading-tight lg:text-2xl sm:text-xl dark:text-white">
+              {section.title}
+            </h2>
+            {section.description && (
+              <ReactMarkdown className="prose-sm prose text-gray-700 sm:prose dark:prose-dark dark:text-gray-300 dark:prose-a:text-blue-300 prose-a:text-blue-500">
+                {section.description}
+              </ReactMarkdown>
+            )}
+          </div>
+        </div>
+      )}
+      <Grid>
+        {rowOneResources?.map((resource: CardResource, i: number) => {
+          return (
+            <VerticalResourceCard
+              key={resource.id}
+              resource={resource}
+              location={location}
+              completedCoursesIds={completedCoursesIds}
+            />
+          )
+        })}
+        <div className="col-span-2 row-span-2 dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth  p-4">
+          <h3 className="text-lg font-semibold leading-tight lg:text-2xl sm:text-xl dark:text-white">
+            Latest Tips
+          </h3>
+          <div>
+            {publishedTips.map((tip) => (
+              <div key={tip.slug} className="mt-4">
+                <Link href={`/tips/${tip.slug}`}>
+                  <div className="text-white text-lg dark:text-blue-300 hover:underline">
+                    {tip.title}
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+        {rowTwoResources?.map((resource: CardResource, i: number) => {
+          return (
+            <VerticalResourceCard
+              key={resource.id}
+              resource={resource}
+              location={location}
+              completedCoursesIds={completedCoursesIds}
+            />
+          )
+        })}
+      </Grid>
+      {section.path && (
+        <div className="flex justify-end mt-3">
+          <Link
+            href={section.path}
+            passHref
+            onClick={() => {
+              analytics.events.activityInternalLinkClick(
+                'curated topic page',
+                'home page-curated section',
+                section.title,
+                section.path,
+              )
+            }}
+            className="flex items-center px-4 py-3 text-sm transition-all duration-200 ease-in-out bg-transparent border-b-2 border-gray-200 dark:border-gray-800 border-opacity-70 dark:hover:bg-gray-800 dark:hover:bg-opacity-50 opacity-80 hover:opacity-100 group"
+          >
+            Browse all{' '}
+            <span
+              className="pl-1 transition-all duration-200 ease-in-out group-hover:translate-x-1"
+              aria-hidden
+            >
+              →
+            </span>
+          </Link>
+        </div>
+      )}
+    </section>
+  )
+}
+
 const SanitySections = ({
   sections,
   location,
@@ -168,6 +288,15 @@ const SanitySections = ({
           switch (true) {
             case section.slug === 'topics':
               return <Topics data={section} key={i} />
+            case section.slug === 'new':
+              return (
+                <DynamicGridComponentWithTips
+                  section={section}
+                  key={i}
+                  location={location}
+                  completedCoursesIds={completedCoursesIds}
+                />
+              )
             case section.displayComponent === 'eggheadForTeamsCta':
               return <EggheadForTeamsCta location={location} />
           }

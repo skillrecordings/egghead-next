@@ -66,6 +66,14 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
         description,
         summary,
         body,
+        "tags": softwareLibraries[] {
+          ...(library->{
+            name,
+            'label': slug.current,
+            'http_url': url,
+            'image_url': image.url
+          })
+        },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
@@ -92,6 +100,14 @@ export const getTip = async (slug: string): Promise<Tip | null> => {
         description,
         summary,
         body,
+        "tags": softwareLibraries[] {
+          ...(library->{
+            name,
+            'label': slug.current,
+            'http_url': url,
+            'image_url': image.url
+          })
+        },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
