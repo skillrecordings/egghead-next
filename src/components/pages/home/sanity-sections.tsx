@@ -11,6 +11,9 @@ import EggheadForTeamsCta from 'components/pages/home/egghead-for-teams-cta'
 import analytics from 'utils/analytics'
 import {SanitySectionType} from 'pages/learn'
 import {trpc} from 'app/_trpc/client'
+import {convertTimeWithTitles} from 'utils/time-utils'
+import Spinner from 'components/spinner'
+import {Balancer} from 'react-wrap-balancer'
 
 const DynamicGridComponent = ({
   section,
@@ -161,9 +164,13 @@ const DynamicGridComponentWithTips = ({
   location?: string
   completedCoursesIds?: number[]
 }) => {
-  const {data} = trpc.tips.all.useQuery()
+  const {data, status: tipsStatus} = trpc.tips.all.useQuery()
   const publishedTips =
-    data?.find((tipGroup) => tipGroup.state === 'published')?.tips ?? []
+    data
+      ?.find((tipGroup) => tipGroup.state === 'published')
+      ?.tips.slice(0, 4) ?? []
+
+  console.log({publishedTips})
 
   const rowOneResources = section?.resources?.slice(0, 2)
   const rowTwoResources = section?.resources?.slice(2, 8)
@@ -215,20 +222,116 @@ const DynamicGridComponentWithTips = ({
             />
           )
         })}
-        <div className="col-span-2 row-span-2 dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth  p-4">
-          <h3 className="text-lg font-semibold leading-tight lg:text-2xl sm:text-xl dark:text-white">
-            Latest Tips
-          </h3>
-          <div>
-            {publishedTips.map((tip) => (
-              <div key={tip.slug} className="mt-4">
-                <Link href={`/tips/${tip.slug}`}>
-                  <div className="text-white text-lg dark:text-blue-300 hover:underline">
-                    {tip.title}
-                  </div>
-                </Link>
+        <div className="col-span-2 row-span-2 dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth p-4 flex flex-col">
+          <Link
+            href="/tips"
+            passHref
+            onClick={() => {
+              analytics.events.activityInternalLinkClick(
+                'tips page',
+                'home new section browse all',
+                section.title,
+                section.path,
+              )
+            }}
+          >
+            <h3 className="text-lg font-semibold leading-tight lg:text-2xl sm:text-xl dark:text-white hover:underline transition-all">
+              Latest Tips
+            </h3>
+          </Link>
+          <div className="h-full">
+            {tipsStatus === 'loading' ? (
+              <div className="flex h-full items-center justify-center ">
+                <Spinner size={10} className={`text-black dark:text-white`} />
               </div>
-            ))}
+            ) : (
+              publishedTips.map((tip) => (
+                <div
+                  key={tip.slug}
+                  className="mt-4 px-4 py-2 rounded shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50  transition-all"
+                >
+                  <Link href={`/tips/${tip.slug}`}>
+                    <div className="flex flex-shrink-0 gap-4">
+                      <div className="flex items-center flex-shrink-0 w-8">
+                        {tip?.tags ? (
+                          <Image
+                            src={tip?.tags[0].image_url}
+                            width={32}
+                            height={32}
+                            alt=""
+                          />
+                        ) : (
+                          <Image
+                            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1566948117/transcript-images/Eggo_Notext.png"
+                            width={32}
+                            height={32}
+                            layout="fixed"
+                            alt=""
+                            className=" "
+                          />
+                        )}
+                      </div>
+
+                      <div>
+                        <h4 className="dark:text-white text-lg  hover:underline">
+                          {tip.title}
+                        </h4>
+                        <div className="flex gap-2 items-center pt-2">
+                          <div className="flex items-center justify-center">
+                            {tip?.instructor && tip?.instructor.image && (
+                              <div className="w-5 h-5 overflow-hidden flex-shrink-0 rounded-full lg:w-7 lg:h-7">
+                                <Image
+                                  aria-hidden
+                                  src={tip.instructor.image}
+                                  alt={tip.instructor.name}
+                                  width={32}
+                                  height={32}
+                                  className="rounded-full"
+                                />
+                              </div>
+                            )}
+                            <span className="text-left pl-2 dark:text-indigo-100 text-gray-700 lg:text-sm text-[0.65rem] opacity-80 leading-none">
+                              <span className="sr-only">{tip.title} by </span>
+                              {tip?.instructor?.name}
+                            </span>
+                          </div>
+                          {tip?.duration && (
+                            <span className="text-xs dark:text-indigo-100 text-gray-700">
+                              {convertTimeWithTitles(tip.duration, {
+                                showSeconds: true,
+                              })}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))
+            )}
+          </div>
+          <div className="flex justify-end mt-3 self-end">
+            <Link
+              href="/tips"
+              passHref
+              onClick={() => {
+                analytics.events.activityInternalLinkClick(
+                  'tips page',
+                  'home new section browse all',
+                  section.title,
+                  section.path,
+                )
+              }}
+              className="flex items-center px-4 py-3 text-sm transition-all duration-200 ease-in-out bg-transparent border-b-2 border-gray-200 dark:border-gray-800 border-opacity-70 dark:hover:bg-gray-800 dark:hover:bg-opacity-50 opacity-80 hover:opacity-100 group"
+            >
+              Browse all tips{' '}
+              <span
+                className="pl-1 transition-all duration-200 ease-in-out group-hover:translate-x-1"
+                aria-hidden
+              >
+                →
+              </span>
+            </Link>
           </div>
         </div>
         {rowTwoResources?.map((resource: CardResource, i: number) => {
