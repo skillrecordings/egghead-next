@@ -14,6 +14,7 @@ export const TipSchema = z.object({
   description: z.nullable(z.string()).optional(),
   body: z.string().optional().nullable(),
   summary: z.string().optional().nullable(),
+  eggheadRailsLessonId: z.nullable(z.number()).optional(),
   tags: z.nullable(
     z
       .array(
@@ -89,6 +90,7 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
         title,
         state,
         description,
+        eggheadRailsLessonId,
         summary,
         body,
         'tags': softwareLibraries[] {
@@ -134,6 +136,7 @@ export const getTip = async (slug: string): Promise<Tip | null> => {
         description,
         summary,
         body,
+        eggheadRailsLessonId,
         "tags": softwareLibraries[] {
           ...(library->{
             name,

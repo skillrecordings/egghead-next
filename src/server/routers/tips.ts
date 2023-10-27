@@ -8,6 +8,9 @@ import {baseProcedure, router} from '../trpc'
 import {sanityWriteClient} from 'utils/sanity-server'
 import {getAllTips, getTip, getCoursesRelatedToTip, TipSchema} from 'lib/tips'
 import {getAbilityFromToken} from 'server/ability'
+import gql from 'graphql-tag'
+import graphqlConfig from 'lib/config'
+import {GraphQLClient} from 'graphql-request'
 
 export const tipsRouter = router({
   create: baseProcedure
@@ -156,5 +159,81 @@ export const tipsRouter = router({
       const lesson = await getCoursesRelatedToTip(input.slug)
 
       return lesson
+    }),
+  markTipComplete: baseProcedure
+    .input(
+      z.object({
+        tipId: z.number(),
+      }),
+    )
+    .mutation(async ({input, ctx}) => {
+      const token = ctx?.userToken
+
+      if (!token) return null
+      const {tipId} = input
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID as string,
+        'Content-Type': 'application/json',
+      }
+      // This is posting to /watch/download since it creates the proper amount of segments watched on the lesson view where /watch/manual_complete does not.
+      let res = await fetch(
+        `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/watch/download`,
+        {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            lesson_view: {
+              lesson_id: tipId,
+            },
+          }),
+        },
+      ).then((res) => res.json())
+
+      if (res?.complete_url) {
+        const res2 = await fetch(res.complete_url, {
+          method: 'PUT',
+          headers,
+          body: JSON.stringify({
+            id: tipId,
+          }),
+        }).then((res) => res.json())
+        return res2
+      }
+
+      return res
+    }),
+  loadTipProgress: baseProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      }),
+    )
+    .query(async ({input, ctx}) => {
+      const token = ctx?.userToken
+      if (!token) return null
+
+      const {id} = input
+
+      const query = gql`
+        query getTipCompletion($id: String!) {
+          lesson_by_id(id: $id) {
+            id
+            completed
+          }
+        }
+      `
+      const graphQLClient = new GraphQLClient(graphqlConfig.graphQLEndpoint, {
+        headers: graphqlConfig.headers,
+      })
+      graphQLClient.setHeader('Authorization', `Bearer ${token}`)
+
+      const variables = {
+        id: String(id),
+      }
+      const {lesson_by_id} = await graphQLClient.request(query, variables)
+
+      return {tipCompleted: lesson_by_id?.completed as boolean}
     }),
 })

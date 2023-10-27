@@ -9,7 +9,9 @@ import {VideoProvider} from 'hooks/mux/use-mux-player'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react/.'
 import {LessonProvider} from 'hooks/use-lesson'
 import {VideoResourceProvider} from 'hooks/use-video-resource'
-// import {trpc} from 'trpc/trpc.client'
+import {trpc} from 'app/_trpc/client'
+import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outline'
+import {CheckCircleIcon, CheckIcon} from '@heroicons/react/solid'
 
 const TipTemplate = ({
   tip,
@@ -20,8 +22,20 @@ const TipTemplate = ({
   tips: Tip[]
   coursesFromTag: any
 }) => {
+  const data = tip?.eggheadRailsLessonId
+    ? trpc.tips.loadTipProgress.useQuery({
+        id: tip?.eggheadRailsLessonId,
+      })
+    : {data: {tipCompleted: false}}
+  const tipCompleted = data.data?.tipCompleted
+
+  const markComplete = trpc.tips.markTipComplete.useMutation()
+
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const handleVideoEnded = async () => {
+    if (tip?.eggheadRailsLessonId) {
+      await markComplete.mutateAsync({tipId: tip?.eggheadRailsLessonId})
+    }
     // await localProgressDb.progress
     //   .add({
     //     eventName: 'completed video',
@@ -68,9 +82,20 @@ const TipTemplate = ({
               <div className="mx-auto w-full max-w-screen-lg pb-5 lg:px-5">
                 <div className="flex w-full grid-cols-5 flex-col gap-0 sm:gap-10 xl:grid">
                   <div className="col-span-3">
-                    <h1 className="leading-tighter inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-3xl">
-                      {tip.title}
-                    </h1>
+                    <div className="flex space-x-2 -ml-7">
+                      {tipCompleted ? (
+                        <span className="self-center">
+                          <CheckCircleIcon className="h-5 w-5 text-green-500  rounded-full" />
+                        </span>
+                      ) : (
+                        <span className="self-center ">
+                          <CheckCircleIconOutline className="h-5 w-5 text-gray-300" />
+                        </span>
+                      )}
+                      <h1 className="leading-tighter inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-3xl">
+                        {tip.title}
+                      </h1>
+                    </div>
                     {tip.body && (
                       <>
                         <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert lg:prose-lg">
