@@ -168,7 +168,7 @@ const DynamicGridComponentWithTips = ({
   const publishedTips =
     data
       ?.find((tipGroup) => tipGroup.state === 'published')
-      ?.tips.slice(0, 4) ?? []
+      ?.tips.slice(0, 5) ?? []
 
   console.log({publishedTips})
 
