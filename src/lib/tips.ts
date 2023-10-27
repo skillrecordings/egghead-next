@@ -82,7 +82,7 @@ export type Tip = z.infer<typeof TipSchema>
 export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
   const tips = await sanityClient.fetch(groq`*[_type == "tip" ${
     onlyPublished ? `&& state == "published"` : ''
-  }] | order(_createdAt asc) {
+  }] | order(_updatedAt asc) {
         _id,
         _type,
         _updatedAt,
