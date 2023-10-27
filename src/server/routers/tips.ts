@@ -177,7 +177,7 @@ export const tipsRouter = router({
         'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID as string,
         'Content-Type': 'application/json',
       }
-
+      // This is posting to /watch/download since it creates the proper amount of segments watched on the lesson view where /watch/manual_complete does not.
       let res = await fetch(
         `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/watch/download`,
         {
