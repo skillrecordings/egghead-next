@@ -2,7 +2,6 @@ import {MdLibraryBooks as icon} from 'react-icons/md'
 import * as React from 'react'
 import {defineField, defineType} from 'sanity'
 
-
 export default defineType({
   name: 'software-library',
   title: 'software library (dependency)',
@@ -27,9 +26,6 @@ export default defineType({
       name: 'description',
       title: 'Description',
       type: 'markdown',
-      options: {
-        maxLength: 180,
-      },
     }),
     defineField({
       name: 'path',

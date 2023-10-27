@@ -25,7 +25,7 @@ export default {
       return {
         title,
         subtitle: `author`,
-        media: <img src={media.url} alt={`${title}`} />,
+        media: media ? <img src={media.url} alt={`${title}`} /> : null,
       }
     },
   },

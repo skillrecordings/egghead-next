@@ -28,16 +28,16 @@ export default {
       ],
     },
   ],
-  preview: {
-    select: {
-      title: 'title',
-      subtitle: 'label',
-    },
-    prepare({title, subtitle}) {
-      return {
-        title: `Call to action: ${title || 'Title not set'}`,
-        subtitle,
-      }
-    },
-  },
+  // preview: {
+  //   select: {
+  //     title: 'title',
+  //     subtitle: 'label',
+  //   },
+  //   prepare({title, subtitle}) {
+  //     return {
+  //       title: `Call to action: ${title || 'Title not set'}`,
+  //       subtitle,
+  //     }
+  //   },
+  // },
 }
