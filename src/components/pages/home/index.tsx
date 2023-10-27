@@ -17,10 +17,7 @@ const Home: React.FC<React.PropsWithChildren<any>> = ({
   location: string
 }) => {
   const router = useRouter()
-  const {data: completeCourseData} = trpc.progress.completedCourses.useQuery()
-  const completedCoursesIds = completeCourseData?.map(
-    (course: any): number => course.collection.id,
-  )
+  const {data: completedCourseIds} = trpc.progress.completedCourseIds.useQuery()
 
   React.useEffect(() => {
     const {query} = router
@@ -49,7 +46,7 @@ const Home: React.FC<React.PropsWithChildren<any>> = ({
           <SanitySections
             sections={data.sections}
             location={location}
-            completedCoursesIds={completedCoursesIds}
+            completedCoursesIds={completedCourseIds}
           />
           <Search />
         </main>

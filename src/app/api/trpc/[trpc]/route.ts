@@ -6,10 +6,12 @@ import {getTokenFromCookieHeaders} from 'utils/auth'
 import {ACCESS_TOKEN_KEY} from 'utils/auth'
 import {TRPCContextProps} from '@trpc/react-query/dist/shared'
 
+type Prisma = typeof prisma
+
 export type TrpcContext = {
   links?: any
   transformer?: any
-  prisma: any
+  prisma: Prisma
   req?: NextRequest | null
   userToken?: string | undefined
 }

@@ -86,3 +86,21 @@ model Lesson {
   duration Int?
   @@map("lessons")
 }
+
+model Playlist {
+  id BigInt @id @default(autoincrement())
+  series_progresses SeriesProgress[]
+  @@map("playlists")
+}
+
+model SeriesProgress {
+  id BigInt @id @default(autoincrement())
+  user_id BigInt
+  progressable_id BigInt
+  progressable_type String
+  is_complete Boolean
+  last_lesson_watched_at DateTime? @db.Timestamp(6)
+  created_at             DateTime @db.Timestamp(6)
+  updated_at             DateTime @db.Timestamp(6)
+  playlist       Playlist     @relation(fields: [progressable_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
