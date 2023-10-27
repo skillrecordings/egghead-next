@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
-
 export default defineType({
   name: 'caseStudy',
   type: 'document',
@@ -45,8 +44,7 @@ export default defineType({
       type: 'slug',
       title: 'Slug',
       validation: (Rule) => Rule.required(),
-      description:
-        'Some frontends will require a slug to be set to be able to show the case study',
+      description: 'Some frontends will require a slug to be set to be able to show the case study',
       options: {
         source: 'title',
         maxLength: 96,
@@ -72,13 +70,12 @@ export default defineType({
     defineField({
       name: 'authors',
       title: 'Authors',
-      description:
-        'Humans that worked on the case study and get credit for the effort.',
+      description: 'Humans that worked on the case study and get credit for the effort.',
       type: 'array',
       of: [
         defineArrayMember({
           type: 'authorReference',
-        })
+        }),
       ],
     }),
     defineField({
@@ -172,7 +169,7 @@ export default defineType({
       return {
         title,
         subtitle: publishedAt ? path : 'Missing publishing date',
-        media: <img src={image} alt={`${title} preview`} />,
+        media: image ? <img src={image} alt={`${title} preview`} /> : null,
       }
     },
   },
