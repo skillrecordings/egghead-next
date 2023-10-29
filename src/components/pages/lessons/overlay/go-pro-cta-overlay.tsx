@@ -41,7 +41,7 @@ const GoProCtaOverlay: FunctionComponent<
 
   const {viewer, authToken} = useViewer()
   const {state, send, priceId, quantity, availableCoupons, currentPlan} =
-    useCommerceMachine({initialPlan: 'annualPrice'})
+    useCommerceMachine({initialPlan: 'monthlyPrice'})
 
   const [loaderOn, setLoaderOn] = React.useState<boolean>(false)
 
@@ -208,7 +208,7 @@ const GoProCtaOverlay: FunctionComponent<
           </h1>
           <div className="flex items-end justify-center w-full py-5">
             <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
-            {!pricesLoading && <span className="pl-1 sm:text-lg">/ year</span>}
+            {!pricesLoading && <span className="pl-1 sm:text-lg">/ month</span>}
           </div>
           {isEmpty(viewer) && (
             <div className="relative flex items-center w-full text-gray-400 dark:text-white">
@@ -248,6 +248,19 @@ const GoProCtaOverlay: FunctionComponent<
               'Access this Course'
             )}
           </button>
+          <div className="flex justify-center">
+            <Link
+              href="/pricing"
+              passHref
+              className="flex items-center py-1 mt-4 text-xs transition-all duration-200 ease-in-out group opacity-80 hover:opacity-100"
+            >
+              Pay yearly or quarterly{' '}
+              <i
+                className="transition-all duration-200 ease-in-out scale-75 gg-arrow-right group-hover:translate-x-1"
+                aria-hidden
+              />
+            </Link>
+          </div>
         </form>
         <div className="flex flex-col w-full h-full">
           <ProMemberFeatures />
