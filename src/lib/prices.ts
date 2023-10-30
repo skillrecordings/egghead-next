@@ -90,6 +90,5 @@ export async function loadPrices(
   if (!annualPrice?.stripe_price_id)
     throw new Error('no annual price to load 😭')
 
-  // return pickBy({annualPrice, quarterlyPrice, monthlyPrice})
-  return pickBy({annualPrice})
+  return pickBy({annualPrice, quarterlyPrice, monthlyPrice})
 }
