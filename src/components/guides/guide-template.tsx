@@ -250,7 +250,7 @@ const Header: React.FC<{guide: Guide}> = ({guide}) => {
         {router.pathname !== '/guides' && (
           <Link
             href="/guides"
-            className="flex md:static absolute top-3 left-2 z-10 items-center gap-0.5 group mb-10 opacity-75 text-sm hover:opacity-100 transition"
+            className="flex md:static absolute top-3 left-2 z-10 items-center gap-0.5 group mb-10 opacity-75 text-sm hover:opacity-100 transition md:dark:bg-transparent md:bg-transparent dark:bg-gray-900 bg-white md:px-0 md:py-0 px-2 pl-0.5 rounded py-1"
           >
             <ChevronRight className="rotate-180" /> Back to all Guides
           </Link>
