@@ -116,7 +116,13 @@ export const tipsRouter = router({
 
       throw new Error('Unauthorized')
     }),
+  published: baseProcedure
+    .input(z.object({limit: z.number().optional()}).optional())
+    .query(async ({input}) => {
+      const tips = await getAllTips({onlyPublished: true, limit: input?.limit})
 
+      return tips
+    }),
   all: baseProcedure
     .input(
       z
@@ -126,7 +132,7 @@ export const tipsRouter = router({
         .optional(),
     )
     .query(async ({input}) => {
-      const tips = await getAllTips(false)
+      const tips = await getAllTips({onlyPublished: false})
 
       const tipGroups = groupBy(tips, 'state')
       const tipGroupsArray = Object.entries(tipGroups).map(([key, value]) => {

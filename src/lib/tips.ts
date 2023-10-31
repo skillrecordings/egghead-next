@@ -2,7 +2,6 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 import {pickBy} from 'lodash'
-import {TRPCError} from '@trpc/server'
 
 export const TipSchema = z.object({
   _id: z.string(),
@@ -79,43 +78,65 @@ export const TipsSchema = z.array(TipSchema)
 
 export type Tip = z.infer<typeof TipSchema>
 
-export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
-  const tips = await sanityClient.fetch(groq`*[_type == "tip" ${
-    onlyPublished ? `&& state == "published"` : ''
-  }] | order(_updatedAt asc) {
-        _id,
-        _type,
-        _updatedAt,
-        _createdAt,
-        title,
-        state,
-        description,
-        eggheadRailsLessonId,
-        summary,
-        body,
-        'tags': softwareLibraries[] {
-          ...(library-> {
-            name,
-            'label': slug.current,
-            'http_url': url,
-            'image_url': image.url
-          }),
-        },
-        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
-        "duration": resources[@->._type == 'videoResource'][0]->duration,
-        "slug": slug.current,
-        "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-        "tweetId":  resources[@._type == 'tweet'][0].tweetId,
-        'instructor': collaborators[@->.role == 'instructor'][0]->{
-          title,
-          'slug': person->slug.current,
-          'name': person->name,
-          'path': person->website,
-          'twitter': person->twitter,
-          'image': person->image.url
-        },
-  }`)
+const GetAllTipsOptionsSchema = z.object({
+  onlyPublished: z.boolean(),
+  limit: z.number().optional(),
+})
+
+type GetAllTipsOptions = z.infer<typeof GetAllTipsOptionsSchema>
+
+export const getAllTips = async (
+  options: GetAllTipsOptions,
+): Promise<Tip[]> => {
+  const {onlyPublished, limit} = GetAllTipsOptionsSchema.parse(options)
+
+  // determine filtering conditions
+  const filterConditions = ['_type == "tip"']
+  if (onlyPublished) {
+    filterConditions.push('state == "published"')
+  }
+  const filter = filterConditions.join(' && ')
+
+  // determine slice clause limiting number of fetched results
+  const validLimit = limit && limit > 0
+  const sliceClause = validLimit ? `[0...${limit}]` : ''
+
+  const query = groq`*[${filter}]${sliceClause} | order(_updatedAt asc) {
+    _id,
+    _type,
+    _updatedAt,
+    _createdAt,
+    title,
+    state,
+    description,
+    eggheadRailsLessonId,
+    summary,
+    body,
+    'tags': softwareLibraries[] {
+      ...(library-> {
+        name,
+        'label': slug.current,
+        'http_url': url,
+        'image_url': image.url
+      }),
+    },
+    "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+    "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+    "duration": resources[@->._type == 'videoResource'][0]->duration,
+    "slug": slug.current,
+    "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+    "tweetId":  resources[@._type == 'tweet'][0].tweetId,
+    'instructor': collaborators[@->.role == 'instructor'][0]->{
+      title,
+      'slug': person->slug.current,
+      'name': person->name,
+      'path': person->website,
+      'twitter': person->twitter,
+      'image': person->image.url
+    },
+  }`
+
+  const tips = await sanityClient.fetch(query)
 
   return TipsSchema.parse(tips)
 }
