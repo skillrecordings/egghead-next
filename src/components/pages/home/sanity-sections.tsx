@@ -164,11 +164,9 @@ const DynamicGridComponentWithTips = ({
   location?: string
   completedCoursesIds?: number[]
 }) => {
-  const {data, status: tipsStatus} = trpc.tips.all.useQuery()
-  const publishedTips =
-    data
-      ?.find((tipGroup) => tipGroup.state === 'published')
-      ?.tips.slice(0, 5) ?? []
+  const {data, status: tipsStatus} = trpc.tips.published.useQuery({limit: 5})
+
+  const publishedTips = data || []
 
   console.log({publishedTips})
 
