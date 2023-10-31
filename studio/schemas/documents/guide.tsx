@@ -24,6 +24,36 @@ export default defineType({
       validation: (Rule) => Rule.max(120),
     }),
     defineField({
+      name: 'slug',
+      description: 'Can generate from title, not used as ID',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 100,
+      },
+    }),
+    defineField({
+      name: 'state',
+      description: 'Is this a draft, published, etc',
+      title: 'State',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Draft', value: 'draft'},
+          {title: 'Published', value: 'published'},
+          {title: 'Archived', value: 'archived'},
+        ],
+      },
+    }),
+    defineField({
+      name: 'path',
+      fieldset: 'source',
+      description: "Path on egghead.io. Don't forget the /",
+      title: 'egghead.io/ Path',
+      type: 'string',
+    }),
+    defineField({
       name: 'resources',
       description:
         'Arbitrary resources, maybe this is a collection? Internal to this resource (not shared at the top level)',
@@ -48,22 +78,7 @@ export default defineType({
         }),
       ],
     }),
-    defineField({
-      name: 'slug',
-      description: 'Can generate from title, not used as ID',
-      title: 'Slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-        maxLength: 100,
-      },
-    }),
-    defineField({
-      name: 'updatedAt',
-      description: 'The last time this resource was meaningfully updated',
-      title: 'Updated At',
-      type: 'date',
-    }),
+
     defineField({
       name: 'description',
       description: 'Full description, no limits',
@@ -79,17 +94,21 @@ export default defineType({
       validation: (Rule) => Rule.max(180),
     }),
     defineField({
+      name: 'updatedAt',
+      description: 'The last time this resource was meaningfully updated',
+      title: 'Updated At',
+      type: 'date',
+    }),
+    defineField({
       name: 'image',
       description: 'Links to a full-sized primary image',
       title: 'Image Url',
       type: 'url',
     }),
     defineField({
-      name: 'urls',
-      description: 'Links to things.',
-      title: 'External URLs',
-      type: 'array',
-      of: [defineArrayMember({type: 'link'})],
+      name: 'ogImage',
+      title: 'Share Card Url',
+      type: 'url',
     }),
     defineField({
       name: 'collaborators',
@@ -143,4 +162,19 @@ export default defineType({
       },
     },
   ],
+  preview: {
+    select: {
+      title: 'title',
+      subtitle: 'subTitle',
+      media: 'image',
+    },
+    prepare(selection: any) {
+      const {title, media, subTitle} = selection
+      return {
+        title,
+        subtitle: subTitle || 'guide',
+        media: <img src={media} alt="" aria-hidden width={100} height={100} />,
+      }
+    },
+  },
 })
