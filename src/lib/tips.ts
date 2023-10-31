@@ -101,7 +101,7 @@ export const getAllTips = async (
   const validLimit = limit && limit > 0
   const sliceClause = validLimit ? `[0...${limit}]` : ''
 
-  const query = groq`*[${filter}]${sliceClause} | order(_updatedAt asc) {
+  const query = groq`*[${filter}] | order(_updatedAt desc) {
     _id,
     _type,
     _updatedAt,
@@ -134,7 +134,7 @@ export const getAllTips = async (
       'twitter': person->twitter,
       'image': person->image.url
     },
-  }`
+  }${sliceClause}`
 
   const tips = await sanityClient.fetch(query)
 
