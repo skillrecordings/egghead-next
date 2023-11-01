@@ -15,10 +15,10 @@ import {LessonProvider} from 'hooks/use-lesson'
 import {VideoResourceProvider} from 'hooks/use-video-resource'
 import {VideoTranscript} from 'components/video/video-transcript'
 import Eggo from 'components/icons/eggo'
-import useBreakpoint from 'utils/breakpoints'
 import Tags from 'components/pages/lessons/tags'
 import {trpc} from 'app/_trpc/client'
 import {twMerge} from 'tailwind-merge'
+import analytics from 'utils/analytics'
 
 const TipTemplate = ({
   tip,
@@ -100,10 +100,11 @@ const TipTemplate = ({
                             <Link
                               href={`/q/resources-by-${instructor.slug}`}
                               onClick={() => {
-                                // track(`clicked view instructor`, {
-                                //   lesson: lesson.slug,
-                                //   location: 'avatar',
-                                // })
+                                analytics.events.activityInternalLinkClick(
+                                  'instructor',
+                                  tip.slug,
+                                  'instructor',
+                                )
                               }}
                               className="flex mr-2 itemes-center"
                             >
@@ -125,10 +126,11 @@ const TipTemplate = ({
                                 <Link
                                   href={`/q/resources-by-${instructor.slug}`}
                                   onClick={() => {
-                                    // track(`clicked view instructor`, {
-                                    //   lesson: lesson.slug,
-                                    //   location: 'text link',
-                                    // })
+                                    analytics.events.activityInternalLinkClick(
+                                      'instructor',
+                                      tip.slug,
+                                      'instructor',
+                                    )
                                   }}
                                   className="font-semibold leading-tighter hover:underline"
                                 >

@@ -9,7 +9,9 @@ import {
 import {CheckCircleIcon, CheckIcon} from '@heroicons/react/solid'
 import {trpc} from 'app/_trpc/client'
 
-export const TipTeaser: React.FC<{tip: any}> = ({tip}) => {
+export const TipTeaser: React.FC<{tip: any; onClick?: () => void}> = ({
+  tip,
+}) => {
   const {title, muxPlaybackId} = tip
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
   const router = useRouter()
