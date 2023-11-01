@@ -6,7 +6,7 @@ import Balancer from 'react-wrap-balancer'
 import {Card, CardContent, CardHeader} from 'ui'
 
 export async function getStaticProps() {
-  const tips = await getAllTips()
+  const tips = await getAllTips({onlyPublished: true})
   return {
     props: {tips},
     revalidate: 10,
@@ -30,11 +30,9 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
       </header>
       <main className="relative z-10 flex flex-col items-center justify-center pb-16">
         <div className="mx-auto grid w-full max-w-screen-xl grid-cols-1 gap-5 px-5 md:grid-cols-2 lg:grid-cols-3">
-          {tips
-            .filter(({state}) => state === 'published')
-            .map((tip) => {
-              return <TipCard tip={tip} key={tip.slug} />
-            })}
+          {tips.map((tip) => {
+            return <TipCard tip={tip} key={tip.slug} />
+          })}
         </div>
       </main>
     </>
