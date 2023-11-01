@@ -25,10 +25,12 @@ const Tags: React.FC<
   React.PropsWithChildren<{
     tags: Tag[]
     lessonSlug: string
-    collectionSlug: string
+    collectionSlug?: string
   }>
 > = ({tags, lessonSlug, collectionSlug}) => {
-  const courseDependencies = getDependencies(collectionSlug)
+  const courseDependencies = collectionSlug
+    ? getDependencies(collectionSlug)
+    : null
   const dependencies = courseDependencies?.dependencies || {}
 
   const collectionTags: TagWithVersion[] = tags.map((tag: any) => {
