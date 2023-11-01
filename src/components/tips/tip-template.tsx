@@ -80,7 +80,7 @@ const TipTemplate = ({
                       {tip?.eggheadRailsLessonId && (
                         <TipCompleted
                           id={tip.eggheadRailsLessonId}
-                          className="lg:hidden block"
+                          className="lg:hidden block mb-2"
                         />
                       )}
                       <div className="flex lg:space-x-2 lg:-ml-7">
@@ -90,7 +90,7 @@ const TipTemplate = ({
                             className="hidden lg:block "
                           />
                         )}
-                        <h1 className="leading-tighter inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-3xl">
+                        <h1 className="leading-tighter inline-flex w-full max-w-2xl items-baseline text-xl font-black lg:text-3xl">
                           {tip.title}
                         </h1>
                       </div>
