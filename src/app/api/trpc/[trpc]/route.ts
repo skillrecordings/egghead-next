@@ -13,6 +13,7 @@ export type TrpcContext = {
   transformer?: any
   prisma: Prisma
   req?: NextRequest | null
+  userId?: number | undefined
   userToken?: string | undefined
 }
 
@@ -25,6 +26,7 @@ const handler = (req: NextRequest) =>
       return {
         prisma,
         req,
+        userId: JSON.parse(req?.cookies?.get('eh_user')?.value || '{}').id,
         userToken: req?.cookies?.get(ACCESS_TOKEN_KEY)?.value,
       }
     },
