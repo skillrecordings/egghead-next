@@ -1,25 +1,22 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
-import {ACCESS_TOKEN_KEY} from '../../utils/auth'
 import {loadLessonProgress, loadPlaylistProgress} from '../../lib/progress'
 import {loadUserCompletedCourses} from 'lib/users'
 
 export const progressRouter = router({
   completedCourseIds: baseProcedure.query(async ({ctx}): Promise<number[]> => {
-    const cookieValue = ctx.req?.cookies?.get('eh_user')?.value
-    const userId = JSON.parse(cookieValue || '{}').id as number | undefined
+    const {userId, userToken} = ctx
+    if (!userToken || !userId) return []
 
-    console.log({cookieValue, userId})
-    const token = ctx?.userToken
-    if (!token || !userId) return []
-
-    // select count(*) from playlists join series_progresses on series_progresses.progressable_id = playlists.id where series_progresses.user_id = 71775 and series_progresses.last_lesson_watched_at is not null and series_progresses.is_complete = true;
+    // select id from playlists join series_progresses on series_progresses.progressable_id = playlists.id where series_progresses.user_id = 71775 and series_progresses.last_lesson_watched_at is not null and series_progresses.is_complete = true;
     const completedCourseIds = (
       await ctx.prisma.playlist.findMany({
         select: {
           id: true,
+        },
+        where: {
           series_progresses: {
-            where: {
+            some: {
               progressable_type: 'Playlist',
               user_id: userId,
               last_lesson_watched_at: {
@@ -30,8 +27,9 @@ export const progressRouter = router({
           },
         },
       })
-    ).map((progress) => progress.id as unknown as number)
-
+    ).map((progress) => {
+      return Number(progress.id)
+    })
     return completedCourseIds
   }),
   completedCourses: baseProcedure.query(async ({ctx}) => {

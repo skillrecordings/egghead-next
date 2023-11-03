@@ -89,6 +89,7 @@ model Lesson {
 
 model Playlist {
   id BigInt @id @default(autoincrement())
+  slug String
   series_progresses SeriesProgress[]
   @@map("playlists")
 }
@@ -103,4 +104,5 @@ model SeriesProgress {
   created_at             DateTime @db.Timestamp(6)
   updated_at             DateTime @db.Timestamp(6)
   playlist       Playlist     @relation(fields: [progressable_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@map("series_progresses")
 }
