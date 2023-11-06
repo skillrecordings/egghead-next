@@ -7,14 +7,19 @@ import Image from 'next/image'
 import Icon from 'components/icons/tip-icons'
 import Balancer from 'react-wrap-balancer'
 import {Card, CardContent, CardHeader} from './ui/card'
+import {trpc} from 'app/_trpc/client'
 
 const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {title} = tip
   const muxPlaybackId = tip?.muxPlaybackId
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
   const router = useRouter()
-  //const {tipCompleted} = useTipComplete(tip.slug)
-  const tipCompleted = false
+  const data = tip?.eggheadRailsLessonId
+    ? trpc.tips.loadTipProgress.useQuery({
+        id: tip?.eggheadRailsLessonId,
+      })
+    : {data: {tipCompleted: false}}
+  const tipCompleted = data.data?.tipCompleted
   return (
     <Card className="relative flex flex-col items-center overflow-hidden rounded-xl border border-transparent bg-white shadow-2xl shadow-gray-500/20 dark:border-gray-800 dark:bg-gray-400/5 dark:shadow-black/50">
       <CardHeader className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-transparent dark:border-gray-800">

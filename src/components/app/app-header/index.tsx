@@ -24,6 +24,7 @@ import {
   DocumentTextIcon,
   MenuIcon,
   XIcon,
+  MapIcon,
 } from '@heroicons/react/solid'
 import SaleHeaderBanner from 'components/cta/sale/header-banner'
 import {MazePattern} from './images'
@@ -395,6 +396,11 @@ const Browse: React.FC<React.PropsWithChildren<any>> = ({viewer}) => {
       name: 'Talks',
       href: '/talks',
       icon: PresentationChartBarIcon,
+    },
+    {
+      name: 'Guides',
+      href: '/guides',
+      icon: MapIcon,
     },
   ]
 
