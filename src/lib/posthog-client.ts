@@ -12,6 +12,7 @@ class PosthogClient {
         },
         capture_pageview: false, // Disable automatic pageview capture, as we capture manually
         autocapture: false, // Disable automatic default event capture, as we capture manually
+        disable_session_recording: true, // This disables session capture by default. We can still choose to capture sessions manually. See https://posthog.com/docs/session-replay/how-to-control-which-sessions-you-record
       })
     }
 
