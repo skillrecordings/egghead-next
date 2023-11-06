@@ -206,3 +206,49 @@ export const getCoursesRelatedToTip = async (
 
   return coursesFromTag
 }
+
+export const getAllTipsByInstructor = async (
+  id: string,
+): Promise<Tip[] | null> => {
+  const tips = await sanityClient.fetch(
+    groq`*[_type == "tip" && references(@.collaborators[@->.eggheadInstructorId == $id][0]._ref) ] {
+      _id,
+      _type,
+      _updatedAt,
+      _createdAt,
+      title,
+      state,
+      description,
+      summary,
+      body,
+      eggheadRailsLessonId,
+      "tags": softwareLibraries[] {
+        ...(library->{
+          name,
+          'label': slug.current,
+          'http_url': url,
+          'image_url': image.url
+        })
+      },
+      "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+      "duration": resources[@->._type == 'videoResource'][0]->duration,
+      "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+      "slug": slug.current,
+      "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
+      "srt": resources[@->._type == 'videoResource'][0]-> transcript.srt,
+      "tweetId":  resources[@._type == 'tweet'][0].tweetId,
+      'instructor': collaborators[@->.role == 'instructor'][0]->{
+        title,
+        'slug': person->slug.current,
+        'name': person->name,
+        'path': person->website,
+        'twitter': person->twitter,
+        'image': person->image.url
+        },
+    }`,
+    {id},
+  )
+
+  return tips
+}

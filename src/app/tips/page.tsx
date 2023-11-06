@@ -1,8 +1,11 @@
 import {Tip} from 'lib/tips'
 import TipCard from 'components/tips/tip-card'
 import Balancer from 'react-wrap-balancer'
+import {headers, cookies} from 'next/headers'
+import {redirect} from 'next/navigation'
 
 import {serverClient} from 'app/_trpc/serverClient'
+import {getAbilityFromToken} from 'server/ability'
 
 type TipsIndex = {
   tips: Tip[]
@@ -12,6 +15,13 @@ const TipsIndex: React.FC<any> = async () => {
   const allTips = await serverClient.tips.all()
   const publishedTips =
     allTips.find((tipGroup) => tipGroup.state === 'published')?.tips ?? []
+
+  const cookieStore = cookies()
+  const eghCookie = cookieStore.get('eh_user')?.value
+  const eghUserToken = cookieStore.get('eh_token_2020_11_22')?.value
+  const ability = await getAbilityFromToken(eghUserToken)
+
+  if (ability.can('upload', 'Video')) redirect('/creator/tips')
 
   return (
     <>
