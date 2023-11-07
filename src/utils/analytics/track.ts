@@ -2,7 +2,6 @@ import {isFunction, isUndefined} from 'lodash'
 import {Viewer} from 'types'
 import Auth from '../auth'
 import mixpanel from 'mixpanel-browser'
-import posthog from 'posthog-js'
 import {identify} from './identify'
 import PosthogClient from 'lib/posthog-client'
 const DEBUG_ANALYTICS = true
