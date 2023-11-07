@@ -31,7 +31,6 @@ const TipTemplate = ({
   tips: Tip[]
   coursesFromTag: any
 }) => {
-  // I'm calling the usePostHog hook and building the event capture here since our track method is not working in the client side app router.
   const markComplete = {mutateAsync: ({tipId}: {tipId: any}) => true} //trpc.tips.markTipComplete.useMutation()
 
   const {instructor, tags} = tip
