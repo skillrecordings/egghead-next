@@ -20,7 +20,7 @@ import {trpc} from 'app/_trpc/client'
 import {twMerge} from 'tailwind-merge'
 import analytics from 'utils/analytics'
 import {useScrollTracker} from 'react-scroll-tracker'
-import {usePostHog} from 'posthog-js/react'
+import PostHogClient from 'lib/posthog-client'
 
 const TipTemplate = ({
   tip,
@@ -32,7 +32,6 @@ const TipTemplate = ({
   coursesFromTag: any
 }) => {
   // I'm calling the usePostHog hook and building the event capture here since our track method is not working in the client side app router.
-  const posthog = usePostHog()
   const markComplete = {mutateAsync: ({tipId}: {tipId: any}) => true} //trpc.tips.markTipComplete.useMutation()
 
   const {instructor, tags} = tip
@@ -48,10 +47,14 @@ const TipTemplate = ({
   const {scrollY} = useScrollTracker([50])
 
   React.useEffect(() => {
+    PostHogClient?.capture('tip_page_viewed', {slug: tip.slug})
+  }, [tip.slug])
+
+  React.useEffect(() => {
     if (scrollY >= 50) {
-      posthog?.capture('written_tip_read', {slug: tip.slug})
+      PostHogClient?.capture('written_tip_read', {slug: tip.slug})
     }
-  }, [scrollY, posthog, tip.slug])
+  }, [scrollY, tip.slug])
 
   const module: any = {
     slug: {

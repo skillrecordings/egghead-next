@@ -4,11 +4,11 @@ import {ViewerProvider} from 'context/viewer-context'
 import {CioProvider} from 'hooks/use-cio'
 import {ThemeProvider} from 'next-themes'
 import TrpcProvider from 'app/_trpc/Provider'
-import PosthogClient from 'lib/posthog-client'
+import PostHogClient from 'lib/posthog-client'
 import {PostHogProvider} from 'posthog-js/react'
 
 export function Providers({children}: {children: React.ReactNode}) {
-  const posthog = PosthogClient.init()
+  const posthog = PostHogClient
 
   return (
     <ThemeProvider attribute="class">

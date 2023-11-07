@@ -3,10 +3,11 @@ import {Viewer} from 'types'
 import Auth from '../auth'
 import mixpanel from 'mixpanel-browser'
 import {identify} from './identify'
-import PosthogClient from 'lib/posthog-client'
+import PostHogClient from 'lib/posthog-client'
 const DEBUG_ANALYTICS = true
 
 mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN || '')
+const posthog = PostHogClient
 
 export const track = (
   event: string,
@@ -62,7 +63,7 @@ export const track = (
       }
 
       mixpanel.track(event, params)
-      PosthogClient.capture(event, params)
+      posthog.capture(event, params)
 
       if (
         viewer &&

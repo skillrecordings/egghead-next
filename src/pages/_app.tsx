@@ -23,7 +23,7 @@ import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import TrpcProvider from 'app/_trpc/Provider'
 
 import {PostHogProvider} from 'posthog-js/react'
-import PosthogClient from 'lib/posthog-client'
+import PostHogClient from 'lib/posthog-client'
 
 declare global {
   interface Window {
@@ -41,7 +41,7 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
   console.debug(`web vitals`, metric)
 }
 
-const posthog = PosthogClient.init()
+const posthog = PostHogClient
 
 const App: React.FC<React.PropsWithChildren<AppProps>> = ({
   Component,
