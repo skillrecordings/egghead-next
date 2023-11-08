@@ -6,11 +6,19 @@ import {v4} from 'uuid'
 import {inngest} from 'utils/inngest.server'
 import {baseProcedure, router} from '../trpc'
 import {sanityWriteClient} from 'utils/sanity-server'
-import {getAllTips, getTip, getCoursesRelatedToTip, TipSchema} from 'lib/tips'
+import {
+  getAllTips,
+  getTip,
+  getCoursesRelatedToTip,
+  TipSchema,
+  getAllTipsByInstructor,
+} from 'lib/tips'
 import {getAbilityFromToken} from 'server/ability'
 import gql from 'graphql-tag'
 import graphqlConfig from 'lib/config'
 import {GraphQLClient} from 'graphql-request'
+import groq from 'groq'
+import {sanityClient} from 'utils/sanity-client'
 
 export const tipsRouter = router({
   create: baseProcedure
@@ -155,6 +163,17 @@ export const tipsRouter = router({
 
       return lesson
     }),
+  byInstructor: baseProcedure
+    .input(z.object({id: z.string()}))
+    .query(async ({input, ctx}) => {
+      const {id} = input
+
+      if (!id) return new Response('no instructor id provided', {status: 404})
+
+      const tips = await getAllTipsByInstructor(id)
+
+      return tips
+    }),
   relatedContent: baseProcedure
     .input(
       z.object({
@@ -217,6 +236,7 @@ export const tipsRouter = router({
       }),
     )
     .query(async ({input, ctx}) => {
+      if (process.env.NODE_ENV === 'development') return null
       const token = ctx?.userToken
       if (!token) return null
 
