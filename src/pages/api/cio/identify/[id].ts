@@ -16,6 +16,7 @@ const cioAxios = axios.create({
 })
 
 const cioIdentify = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (process.env.NODE_ENV === 'development') return res.status(200).end()
   setupHttpTracing({name: cioIdentify.name, tracer, req, res})
 
   if (req.method === 'POST') {
