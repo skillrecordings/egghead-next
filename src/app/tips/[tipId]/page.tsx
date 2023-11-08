@@ -45,44 +45,31 @@ export async function generateMetadata(
   }
 }
 
-{
-  /* <NextSeo
-  title={truncate(tip.title, {length: 65})}
-  description={truncate(removeMarkdown(tip.description), {
-    length: 155,
-  })}
-  openGraph={{
-    title: truncate(tip.title, {length: 65}),
-    description: truncate(removeMarkdown(tip.description), {
-      length: 155,
-    }),
-    site_name: 'egghead',
-    images: [
-      {
-        url: "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632239045/og-image-assets/egghead-og-image.png",
-      },
-    ],
-  }}
-  twitter={{
-    cardType: 'summary_large_image',
-    site: 'eggheadio',
-  }}
-/> */
-}
-
 export default async function Tip({params}: {params: {tipId: string}}) {
   const tip = await serverClient.tips.bySlug({slug: params.tipId})
   const allTips = await serverClient.tips.all()
   const coursesFromTag = await serverClient.tips.relatedContent({
     slug: params.tipId,
   })
-
   const publishedTips =
     allTips.find((tipGroup) => tipGroup.state === 'published')?.tips ?? []
+  const muxPlaybackId = tip?.muxPlaybackId
+  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
+
+  const jsonLd = {
+    name: tip.title,
+    image: thumbnail,
+    uploadDate: tip?._createdAt,
+    description: removeMarkdown(tip.description),
+  }
 
   return (
     tip && (
       <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
+        />
         <TipTemplate
           tip={tip}
           tips={publishedTips}
