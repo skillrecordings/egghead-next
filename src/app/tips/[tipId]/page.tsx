@@ -30,14 +30,14 @@ export async function generateMetadata(
     }),
     openGraph: {
       images: [
-        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632239045/og-image-assets/egghead-og-image.png',
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1699475351/og-images/card-tips-index_2x.png',
         ...previousImages,
       ],
     },
     twitter: {
       title: truncate(tip.title, {length: 65}),
       images: [
-        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632239045/og-image-assets/egghead-og-image.png',
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1699475351/og-images/card-tips-index_2x.png',
         ...previousImages,
       ],
       site: 'eggheadio',
