@@ -19,6 +19,8 @@ import Tags from 'components/pages/lessons/tags'
 import {trpc} from 'app/_trpc/client'
 import {twMerge} from 'tailwind-merge'
 import analytics from 'utils/analytics'
+import {useScrollTracker} from 'react-scroll-tracker'
+import PostHogClient from 'lib/posthog-client'
 
 const TipTemplate = ({
   tip,
@@ -40,6 +42,18 @@ const TipTemplate = ({
     }
     console.log('video ended')
   }
+
+  const {scrollY} = useScrollTracker([50])
+
+  React.useEffect(() => {
+    PostHogClient?.capture('tip_page_viewed', {slug: tip.slug})
+  }, [tip.slug])
+
+  React.useEffect(() => {
+    if (scrollY >= 50) {
+      PostHogClient?.capture('written_tip_read', {slug: tip.slug})
+    }
+  }, [scrollY, tip.slug])
 
   const module: any = {
     slug: {
