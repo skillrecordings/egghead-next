@@ -4,6 +4,7 @@ import truncate from 'lodash/truncate'
 import removeMarkdown from 'remove-markdown'
 
 import type {Metadata, ResolvingMetadata} from 'next'
+import type {Tip} from 'lib/tips'
 
 type Props = {
   params: {tipId: string}
@@ -18,7 +19,7 @@ export async function generateMetadata(
   const tipId = params?.tipId
 
   // fetch data
-  const tip = await serverClient.tips.bySlug({slug: params.tipId})
+  const tip: Tip = await serverClient.tips.bySlug({slug: tipId})
 
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images || []
@@ -29,18 +30,21 @@ export async function generateMetadata(
       length: 155,
     }),
     openGraph: {
+      siteName: 'egghead',
       images: [
-        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1699475351/og-images/card-tips-index_2x.png',
+        `https://og-image-react-egghead.now.sh/lesson/${tip.eggheadRailsLessonId}?v=20201027`,
         ...previousImages,
       ],
     },
     twitter: {
       title: truncate(tip.title, {length: 65}),
       images: [
-        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1699475351/og-images/card-tips-index_2x.png',
+        `https://og-image-react-egghead.now.sh/lesson/${tip.eggheadRailsLessonId}?v=20201027`,
         ...previousImages,
       ],
-      site: 'eggheadio',
+      site: '@eggheadio',
+      card: 'summary_large_image',
+      creator: tip?.instructor?.twitter,
     },
   }
 }
