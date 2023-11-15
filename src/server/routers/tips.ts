@@ -1,92 +1,91 @@
 import {z} from 'zod'
-import slugify from '@sindresorhus/slugify'
+import slugify from 'slugify'
 import {customAlphabet} from 'nanoid'
 import {groupBy} from 'lodash'
 import {v4} from 'uuid'
-import {inngest} from 'utils/inngest.server'
 import {baseProcedure, router} from '../trpc'
-import {sanityWriteClient} from 'utils/sanity-server'
+import {sanityWriteClient, sanityQuery} from 'utils/sanity-server'
 import {getAllTips, getTip, getCoursesRelatedToTip, TipSchema} from 'lib/tips'
 import {getAbilityFromToken} from 'server/ability'
 import gql from 'graphql-tag'
 import graphqlConfig from 'lib/config'
 import {GraphQLClient} from 'graphql-request'
+import groq from 'groq'
+// import inngest from 'inngest/inngest.server'
+// import { VIDEO_UPLOADED_EVENT } from 'inngest/events/video-uploaded'
 
 export const tipsRouter = router({
   create: baseProcedure
     .input(
       z.object({
-        s3Url: z.string(),
-        fileName: z.string().nullable(),
         title: z.string(),
+        body: z.string().optional(),
+        slug: z.string().optional(),
+        awsFilename: z.string(),
       }),
     )
     .mutation(async ({ctx, input}) => {
-      // create a video resource, which should trigger the process of uploading to
-      // mux and ordering a transcript because of the active webhook
+      if (!ctx?.userToken) return new Response('Unauthorized', {status: 401})
       const ability = await getAbilityFromToken(ctx?.userToken)
 
-      // use CASL rbac to check if the user can create content
-      if (ability.can('create', 'Content')) {
-        // create the video resource object in Sanity
-        const newVideoResource = await sanityWriteClient.create({
-          _id: `videoResource-${v4()}`,
+      const {title, body, slug, awsFilename} = input
+
+      if (ability.can('upload', 'Video')) {
+        const videoResourceId = v4()
+
+        const videoResource = {
+          _id: videoResourceId,
           _type: 'videoResource',
-          state: 'new',
-          title: input.fileName,
-          originalMediaUrl: input.s3Url,
+          filename: `${slugify(title.toLowerCase())}-video-resource`,
+          originalVideoUrl: awsFilename,
+        }
+
+        const tipSlug = slugify(`${title}`.toLowerCase(), {
+          remove: /[*+~.()'"!:@]/g,
         })
 
-        if (newVideoResource._id) {
-          // control the id that is used so we can reference it immediately
-          const id = v4()
+        const {instructor_id: instructorId} = JSON.parse(
+          ctx.req?.cookies.get('eh_user')?.value ?? "{instructor_id: ''}",
+        )
 
-          const nanoid = customAlphabet(
-            '1234567890abcdefghijklmnopqrstuvwxyz',
-            5,
-          )
-
-          // create the Tip resource in sanity with the video resource attached
-          const tipResource = await sanityWriteClient.create({
-            _id: `tip-${id}`,
-            _type: 'tip',
-            state: 'new',
-            title: input.title,
-            slug: {
-              // since title is unique, we can use it as the slug with a random string
-              current: `${slugify(input.title)}~${nanoid()}`,
-            },
-            resources: [
-              {
-                _key: v4(),
-                _type: 'reference',
-                _ref: newVideoResource._id,
-              },
-            ],
-          })
-
-          // load the complete tip from sanity so we can return it
-          // we are reloading it because the query for `getTip` "normalizes"
-          // the data and that's what we expect client-side
-          const tip = await getTip(tipResource.slug.current)
-
-          if (tip) {
-            await inngest.send({
-              name: 'tip/video.uploaded',
-              data: {
-                tipId: tip._id,
-                videoResourceId: newVideoResource._id,
-              },
-            })
+        let sanityInstructorId = await sanityWriteClient.fetch(groq`
+          *[_type == 'collaborator' && eggheadInstructorId == '${instructorId}'][0] {
+            _id,
           }
+        `)
 
-          return tip
-        } else {
-          throw new Error('Could not create video resource')
+        const tip = {
+          _id: v4(),
+          _type: 'tip',
+          title,
+          body,
+          accessLevel: 'free',
+          slug: {current: tipSlug},
+          state: 'new',
+          collaborators: [
+            {
+              _key: v4(),
+              _type: 'reference',
+              _ref: sanityInstructorId._id,
+            },
+          ],
         }
-      } else {
-        throw new Error('Unauthorized')
+        await sanityWriteClient
+          .createOrReplace(tip)
+          .then((res) => console.log(res))
+
+        // await inngest.send({
+        //   name: VIDEO_UPLOADED_EVENT,
+        //   data: {
+        //     originalMediaUrl: awsFilename,
+        //     fileName: `${slugify(title.toLowerCase())}-video-resource`,
+        //     title: `${slugify(title.toLowerCase())}-video-resource`,
+        //     moduleSlug: tip._id,
+        //   },
+        // })
       }
+
+      return new Response('Unauthorized', {status: 401})
     }),
   update: baseProcedure
     .input(
