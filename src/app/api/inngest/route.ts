@@ -8,8 +8,6 @@ import {
   muxVideoAssetReady,
 } from 'inngest/functions/mux/mux-webhooks-handlers'
 
-export const runtime = 'edge'
-
 export const {GET, POST, PUT} = serve({
   client: inngest,
   functions: [
