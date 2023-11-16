@@ -1,10 +1,9 @@
-import {inngest} from '@/inngest/inngest.server'
-import {VIDEO_UPLOADED_EVENT} from '@/inngest/events/video-uploaded'
-import {sanityMutation, sanityQuery} from '@/server/sanity.server'
-import {env} from '@/env.mjs'
-import {getMuxOptions} from '@/lib/get-mux-options'
+import {inngest} from 'inngest/inngest.server'
+import {VIDEO_UPLOADED_EVENT} from 'inngest/events/video-uploaded'
+import {sanityMutation, sanityQuery} from 'utils/sanity.fetch.only.server'
+import {getMuxOptions} from 'lib/get-mux-options'
 import {v4} from 'uuid'
-import {orderDeepgramTranscript} from '@/lib/deepgram-order-transcript'
+import {orderDeepgramTranscript} from 'lib/deepgram-order-transcript'
 
 export const videoUploaded = inngest.createFunction(
   {id: `video-uploaded`, name: 'Video Uploaded'},
@@ -31,7 +30,7 @@ export const videoUploaded = inngest.createFunction(
       const response = await fetch(`${baseUrl}/video/v1/assets`, {
         headers: {
           Authorization: `Basic ${Buffer.from(
-            `${env.MUX_ACCESS_TOKEN_ID}:${env.MUX_SECRET_KEY}`,
+            `${process.env.MUX_ACCESS_TOKEN_ID}:${process.env.MUX_SECRET_KEY}`,
           ).toString('base64')}`,
           'Content-Type': 'application/json',
         },
@@ -90,7 +89,7 @@ export const videoUploaded = inngest.createFunction(
 
     await step.run('announce video resource created', async () => {
       await fetch(
-        `${env.NEXT_PUBLIC_PARTY_KIT_URL}/party/${env.NEXT_PUBLIC_PARTYKIT_ROOM_NAME}`,
+        `${process.env.NEXT_PUBLIC_PARTY_KIT_URL}/party/${process.env.NEXT_PUBLIC_PARTYKIT_ROOM_NAME}`,
         {
           method: 'POST',
           body: JSON.stringify({
