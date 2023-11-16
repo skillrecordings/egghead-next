@@ -17,71 +17,89 @@ export const tipsRouter = router({
   create: baseProcedure
     .input(
       z.object({
+        s3Url: z.string(),
+        fileName: z.string().nullable(),
         title: z.string(),
-        body: z.string().optional(),
-        slug: z.string().optional(),
-        awsFilename: z.string(),
       }),
     )
     .mutation(async ({ctx, input}) => {
       if (!ctx?.userToken) return new Response('Unauthorized', {status: 401})
       const ability = await getAbilityFromToken(ctx?.userToken)
 
-      const {title, body, slug, awsFilename} = input
-
       if (ability.can('upload', 'Video')) {
         const videoResourceId = v4()
 
-        const videoResource = {
-          _id: videoResourceId,
+        const newVideoResource = await sanityWriteClient.create({
+          _id: `videoResource-${v4()}`,
           _type: 'videoResource',
-          filename: `${slugify(title.toLowerCase())}-video-resource`,
-          originalVideoUrl: awsFilename,
-        }
-
-        const tipSlug = slugify(`${title}`.toLowerCase(), {
-          remove: /[*+~.()'"!:@]/g,
+          state: 'new',
+          title: input.fileName,
+          originalMediaUrl: input.s3Url,
         })
+        if (newVideoResource._id) {
+          // control the id that is used so we can reference it immediately
+          const id = v4()
 
-        const {instructor_id: instructorId} = JSON.parse(
-          ctx.req?.cookies.get('eh_user')?.value ?? "{instructor_id: ''}",
-        )
+          const nanoid = customAlphabet(
+            '1234567890abcdefghijklmnopqrstuvwxyz',
+            5,
+          )
 
-        let sanityInstructorId = await sanityWriteClient.fetch(groq`
+          const {instructor_id: instructorId} = JSON.parse(
+            ctx.req?.cookies.get('eh_user')?.value ?? "{instructor_id: ''}",
+          )
+
+          let sanityInstructor = await sanityWriteClient.fetch(groq`
           *[_type == 'collaborator' && eggheadInstructorId == '${instructorId}'][0] {
             _id,
           }
         `)
 
-        const tip = {
-          _id: v4(),
-          _type: 'tip',
-          title,
-          body,
-          accessLevel: 'free',
-          slug: {current: tipSlug},
-          state: 'new',
-          collaborators: [
-            {
-              _key: v4(),
-              _type: 'reference',
-              _ref: sanityInstructorId._id,
+          const tipResource = await sanityWriteClient.create({
+            _id: `tip-${id}`,
+            _type: 'tip',
+            title: input.title,
+            state: 'new',
+            accessLevel: 'free',
+            slug: {
+              // since title is unique, we can use it as the slug with a random string
+              current: `${slugify(input.title)}~${nanoid()}`,
             },
-          ],
-        }
-        await sanityWriteClient
-          .createOrReplace(tip)
-          .then((res) => console.log(res))
+            collaborators: [
+              {
+                _key: v4(),
+                _type: 'reference',
+                _ref: sanityInstructor._id,
+              },
+            ],
+            resources: [
+              {
+                _key: v4(),
+                _type: 'reference',
+                _ref: newVideoResource._id,
+              },
+            ],
+          })
 
-        // await inngest.send({
-        //   name: VIDEO_UPLOADED_EVENT,
-        //   data: {
-        //     originalMediaUrl: awsFilename,
-        //     fileName: `${slugify(title.toLowerCase())}-video-resource`,
-        //     title: `${slugify(title.toLowerCase())}-video-resource`,
-        //     moduleSlug: tip._id,
-        //   },
-        // })
+          // load the complete tip from sanity so we can return it
+          // we are reloading it because the query for `getTip` "normalizes"
+          // the data and that's what we expect client-side
+          const tip = await getTip(tipResource.slug.current)
+
+          if (tip) {
+            await inngest.send({
+              name: 'tip/video.uploaded',
+              data: {
+                tipId: tip._id,
+                videoResourceId: newVideoResource._id,
+              },
+            })
+          }
+
+          return tip
+        } else {
+          throw new Error('Could not create video resource')
+        }
       }
 
       return new Response('Unauthorized', {status: 401})
