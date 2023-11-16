@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {DialogOverlay, DialogContent} from '@reach/dialog'
-import IconX from 'components/icons/icon-x'
+import IconX from '@/components/icons/icon-x'
 import {State} from 'xstate'
 
 type DialogProps = {

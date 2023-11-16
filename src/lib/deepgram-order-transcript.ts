@@ -17,10 +17,7 @@ export async function orderDeepgramTranscript({
   })
 
   // just weird URL differences between dev and prod
-  const callbackBase =
-    process.env.NODE_ENV === 'production'
-      ? process.env.UPLOADTHING_URL
-      : process.env.NEXTAUTH_URL
+  const callbackBase = process.env.NEXT_PUBLIC_DEPLOYMENT_URL
 
   const deepgramParams = new URLSearchParams({
     model: 'whisper-large',

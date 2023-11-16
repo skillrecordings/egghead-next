@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import {NextApiRequest, NextApiResponse} from 'next'
-import emailIsValid from 'utils/email-is-valid'
+import emailIsValid from '@/utils/email-is-valid'
 import {isEmpty} from 'lodash'
 
 if (!process.env.EGGHEAD_SUPPORT_BOT_TOKEN) {

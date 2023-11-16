@@ -6,10 +6,10 @@ import {useRouter} from 'next/navigation'
 
 import {XIcon, PlayIcon} from '@heroicons/react/solid'
 import {shuffle, take} from 'lodash'
-import {useMuxPlayer} from 'hooks/mux/use-mux-player'
+import {useMuxPlayer} from '@/hooks/mux/use-mux-player'
 import './styles.css'
-import {useVideoResource} from 'hooks/use-video-resource'
-import {Tip} from 'lib/tips'
+import {useVideoResource} from '@/hooks/use-video-resource'
+import {Tip} from '@/lib/tips'
 import cx from 'classnames'
 
 const TipPlayer: React.FC<{

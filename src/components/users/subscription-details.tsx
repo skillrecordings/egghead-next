@@ -1,9 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
 import {track} from '../../utils/analytics'
-import {useViewer} from 'context/viewer-context'
-import {recur} from 'utils/recur'
-import {trpc} from 'app/_trpc/client'
+import {useViewer} from '@/context/viewer-context'
+import {recur} from '@/utils/recur'
+import {trpc} from '@/app/_trpc/client'
 
 type SubscriptionDetailsProps = {
   stripeCustomerId: string

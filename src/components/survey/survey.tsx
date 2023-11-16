@@ -4,9 +4,9 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import MultiLine from './questions/multi-line'
 import Markdown from 'react-markdown'
-import useCio from 'hooks/use-cio'
+import useCio from '@/hooks/use-cio'
 import {surveyReducer, SurveyQuestion, SurveyState} from './survey-reducer'
-import {Card} from 'components/card'
+import {Card} from '@/components/card'
 
 const QuestionHeading: React.FunctionComponent<
   React.PropsWithChildren<{question: SurveyQuestion}>

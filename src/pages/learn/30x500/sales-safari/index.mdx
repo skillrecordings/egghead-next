@@ -3,13 +3,13 @@ export const meta = {
   contributors: [{name: 'Lauro Silva'}, {name: 'Zac Jones'}],
 }
 
-import ProseSection from 'components/mdx/prose-section'
-import Course from 'components/mdx/course'
-import Callout from 'components/mdx/callout'
-import HeaderCard from 'components/mdx/header-card'
-import CheatSheet from 'components/mdx/cheat-sheet'
-import ResourceLink from 'components/mdx/resource-link'
-import FancyGuideLayout from 'layouts/fancy-guide'
+import ProseSection from '@/components/mdx/prose-section'
+import Course from '@/components/mdx/course'
+import Callout from '@/components/mdx/callout'
+import HeaderCard from '@/components/mdx/header-card'
+import CheatSheet from '@/components/mdx/cheat-sheet'
+import ResourceLink from '@/components/mdx/resource-link'
+import FancyGuideLayout from '@/layouts/fancy-guide'
 export default ({children}) => (
   <FancyGuideLayout meta={meta}>{children}</FancyGuideLayout>
 )

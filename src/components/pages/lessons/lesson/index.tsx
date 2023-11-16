@@ -3,36 +3,39 @@ import {useRouter} from 'next/router'
 import {filter, get, isEmpty, compact} from 'lodash'
 import queryString from 'query-string'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
-import {useEggheadPlayer} from 'components/EggheadPlayer'
-import Course from 'components/pages/lessons/course'
-import Overlays from 'components/pages/lessons/overlays'
-import specialLessons from 'components/pages/lessons/special-lessons'
-import Transcript from 'components/pages/lessons/transcript'
-import {VideoResource} from 'types'
+import {useEggheadPlayer} from '@/components/EggheadPlayer'
+import Course from '@/components/pages/lessons/course'
+import Overlays from '@/components/pages/lessons/overlays'
+import specialLessons from '@/components/pages/lessons/special-lessons'
+import Transcript from '@/components/pages/lessons/transcript'
+import {VideoResource} from '@/types'
 import {NextSeo, VideoJsonLd} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
-import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
-import useLastResource from 'hooks/use-last-resource'
+import {useEnhancedTranscript} from '@/hooks/use-enhanced-transcript'
+import useLastResource from '@/hooks/use-last-resource'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
-import Eggo from 'components/icons/eggo'
+import {track} from '@/utils/analytics'
+import Eggo from '@/components/icons/eggo'
 import Image from 'next/legacy/image'
-import cookieUtil from 'utils/cookies'
-import useBreakpoint from 'utils/breakpoints'
-import Share from 'components/share'
-import {useNextForCollection} from 'hooks/use-next-up-data'
-import {useNextForCollectionSection} from 'hooks/next-data-sections'
+import cookieUtil from '@/utils/cookies'
+import useBreakpoint from '@/utils/breakpoints'
+import Share from '@/components/share'
+import {useNextForCollection} from '@/hooks/use-next-up-data'
+import {useNextForCollectionSection} from '@/hooks/next-data-sections'
 import CodeLink, {
   IconCode,
   IconGithub,
-} from 'components/pages/lessons/code-link'
-import DownloadControl from 'components/player/download-control'
-import useCio from 'hooks/use-cio'
+} from '@/components/pages/lessons/code-link'
+import DownloadControl from '@/components/player/download-control'
+import useCio from '@/hooks/use-cio'
 import friendlyTime from 'friendly-time'
-import {PublishedAt, UpdatedAt} from 'components/layouts/collection-page-layout'
-import cookies from 'utils/cookies'
-import AutoplayControl from 'components/player/autoplay-control'
+import {
+  PublishedAt,
+  UpdatedAt,
+} from '@/components/layouts/collection-page-layout'
+import cookies from '@/utils/cookies'
+import AutoplayControl from '@/components/player/autoplay-control'
 import {
   Player,
   usePlayerPrefs,
@@ -54,16 +57,16 @@ import {
   ArrowsExpandIcon,
 } from '@heroicons/react/outline'
 import {CheckCircleIcon, CheckIcon} from '@heroicons/react/solid'
-import {trpc} from 'app/_trpc/client'
-import {LessonProgress} from 'lib/progress'
-import PlayerSidebar from 'components/player/player-sidebar'
-import Comments from 'components/pages/lessons/comments/comments'
+import {trpc} from '@/app/_trpc/client'
+import {LessonProgress} from '@/lib/progress'
+import PlayerSidebar from '@/components/player/player-sidebar'
+import Comments from '@/components/pages/lessons/comments/comments'
 import dynamic from 'next/dynamic'
 import ReactMarkdown from 'react-markdown'
-import CodeBlock from 'components/code-block'
-import {LessonResource, SectionResource} from 'types'
+import CodeBlock from '@/components/code-block'
+import {LessonResource, SectionResource} from '@/types'
 
-const Tags = dynamic(() => import('components/pages/lessons/tags'), {
+const Tags = dynamic(() => import('@/components/pages/lessons/tags'), {
   ssr: false,
 })
 

@@ -30,7 +30,7 @@ export default class MyDocument extends Document {
                       function gtag(){dataLayer.push(arguments)}
                       gtag('js', new Date());
                       
-                      gtag('config', 'UA-36512724-7', {
+                      gtag('@/config', 'UA-36512724-7', {
                         'link_attribution': true
                       });
 

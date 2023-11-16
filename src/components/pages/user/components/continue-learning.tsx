@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {isEmpty} from 'lodash'
 
-import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
-import Spinner from 'components/spinner'
+import InProgressResource from '@/components/pages/users/dashboard/activity/in-progress-resource'
+import Spinner from '@/components/spinner'
 
 const ContinueLearning: React.FC<
   React.PropsWithChildren<{

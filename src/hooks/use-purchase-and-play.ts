@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
 import axios from 'axios'
-import {useViewer} from 'context/viewer-context'
-import {AUTH_DOMAIN} from 'utils/auth'
+import {useViewer} from '@/context/viewer-context'
+import {AUTH_DOMAIN} from '@/utils/auth'
 import {useMachine} from '@xstate/react'
-import {authTokenPollingMachine} from 'machines/auth-token-polling-machine'
+import {authTokenPollingMachine} from '@/machines/auth-token-polling-machine'
 
 const TWENTY_FOUR_HOURS_IN_SECONDS = JSON.stringify(24 * 60 * 60)
 

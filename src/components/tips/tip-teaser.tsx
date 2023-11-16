@@ -7,7 +7,7 @@ import {
   ArrowsExpandIcon,
 } from '@heroicons/react/outline'
 import {CheckCircleIcon, CheckIcon} from '@heroicons/react/solid'
-import {trpc} from 'app/_trpc/client'
+import {trpc} from '@/app/_trpc/client'
 
 export const TipTeaser: React.FC<{tip: any; onClick?: () => void}> = ({
   tip,

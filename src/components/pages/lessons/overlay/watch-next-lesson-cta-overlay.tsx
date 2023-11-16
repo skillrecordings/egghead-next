@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import * as React from 'react'
-import {track} from 'utils/analytics'
-import noop from 'utils/noop'
+import {track} from '@/utils/analytics'
+import noop from '@/utils/noop'
 import {useRouter} from 'next/router'
-import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
-import analytics from 'utils/analytics'
+import OverlayWrapper from '@/components/pages/lessons/overlay/wrapper'
+import analytics from '@/utils/analytics'
 
 const WatchNextLessonCtaOverlay: React.FunctionComponent<
   React.PropsWithChildren<{

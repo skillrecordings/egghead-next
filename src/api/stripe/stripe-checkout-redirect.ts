@@ -1,5 +1,5 @@
 import {loadStripe} from '@stripe/stripe-js'
-import axios from 'utils/configured-axios'
+import axios from '@/utils/configured-axios'
 import cookie from '../../utils/cookies'
 
 if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {

@@ -1,9 +1,9 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
-import {getAttributes} from 'lib/customer-io'
-import emailIsValid from 'utils/email-is-valid'
-import {getContactId} from 'lib/users'
-import {ACCESS_TOKEN_KEY} from 'utils/auth'
+import {getAttributes} from '@/lib/customer-io'
+import emailIsValid from '@/utils/email-is-valid'
+import {getContactId} from '@/lib/users'
+import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 
 const {TrackClient, RegionUS} = require('customerio-node')
 const siteId = process.env.NEXT_PUBLIC_CUSTOMER_IO_SITE_ID

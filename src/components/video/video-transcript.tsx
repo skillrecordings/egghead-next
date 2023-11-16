@@ -4,8 +4,8 @@ import {PortableText} from '@portabletext/react'
 import {type PortableTextComponents as PortableTextComponentsType} from '@portabletext/react/src/types'
 import {hmsToSeconds} from '@skillrecordings/time'
 import ReactMarkdown from 'react-markdown'
-import {useMuxPlayer} from 'hooks/mux/use-mux-player'
-import {getTranscriptComponents} from 'components/markdown/transcript-components'
+import {useMuxPlayer} from '@/hooks/mux/use-mux-player'
+import {getTranscriptComponents} from '@/components/markdown/transcript-components'
 
 export const VideoTranscript: React.FC<{
   transcript: string | any[]

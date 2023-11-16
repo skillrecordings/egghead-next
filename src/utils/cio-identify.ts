@@ -1,4 +1,4 @@
-import {SurveyState} from 'components/survey/survey-reducer'
+import {SurveyState} from '@/components/survey/survey-reducer'
 
 export function cioIdentify(id: string, answers: any, state: SurveyState) {
   if (id) {

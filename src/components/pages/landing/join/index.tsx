@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import CreateAccount from '../create-account'
 import title from 'title'
 

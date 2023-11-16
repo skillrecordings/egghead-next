@@ -1,10 +1,10 @@
-import TipTemplate from 'components/tips/tip-template'
-import {serverClient} from 'app/_trpc/serverClient'
+import TipTemplate from '@/components/tips/tip-template'
+import {serverClient} from '@/app/_trpc/serverClient'
 import truncate from 'lodash/truncate'
 import removeMarkdown from 'remove-markdown'
 
 import type {Metadata, ResolvingMetadata} from 'next'
-import type {Tip} from 'lib/tips'
+import type {Tip} from '@/lib/tips'
 
 type Props = {
   params: {tipId: string}

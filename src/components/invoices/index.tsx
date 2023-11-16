@@ -1,5 +1,5 @@
 import * as React from 'react'
-import axios from 'utils/configured-axios'
+import axios from '@/utils/configured-axios'
 import {isEmpty} from 'lodash'
 import {format, parseISO} from 'date-fns'
 

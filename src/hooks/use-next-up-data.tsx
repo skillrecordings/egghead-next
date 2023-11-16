@@ -1,4 +1,4 @@
-import fetcher from 'utils/fetcher'
+import fetcher from '@/utils/fetcher'
 import {get} from 'lodash'
 import useSWR from 'swr'
 

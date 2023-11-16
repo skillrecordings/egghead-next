@@ -1,9 +1,9 @@
 import * as React from 'react'
 
-import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
-import {useViewer} from 'context/viewer-context'
+import {ItemWrapper} from '@/components/pages/user/components/widget-wrapper'
+import {useViewer} from '@/context/viewer-context'
 import {AvatarForm, RequestEmailChangeForm, DeleteAccount} from '../components'
-import {trpc} from 'app/_trpc/client'
+import {trpc} from '@/app/_trpc/client'
 import toast from 'react-hot-toast'
 
 const ProfileTabContent: React.FC<React.PropsWithChildren<any>> = () => {

@@ -2,20 +2,20 @@ import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import {get} from 'lodash'
 import {useMachine} from '@xstate/react'
-import {lessonMachine} from 'machines/lesson-machine'
-import {loadLesson} from 'lib/lessons'
-import {useViewer} from 'context/viewer-context'
-import {LessonResource, VideoResource} from 'types'
-import getTracer from 'utils/honeycomb-tracer'
-import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
-import cookieUtil from 'utils/cookies'
+import {lessonMachine} from '@/machines/lesson-machine'
+import {loadLesson} from '@/lib/lessons'
+import {useViewer} from '@/context/viewer-context'
+import {LessonResource, VideoResource} from '@/types'
+import getTracer from '@/utils/honeycomb-tracer'
+import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
+import cookieUtil from '@/utils/cookies'
 import dynamic from 'next/dynamic'
 import type {
   VideoEvent,
   VideoStateContext,
 } from '@skillrecordings/player/dist/machines/video-machine'
-import {GenericErrorBoundary} from 'components/generic-error-boundary'
-const Lesson = dynamic(() => import('components/pages/lessons/lesson'), {
+import {GenericErrorBoundary} from '@/components/generic-error-boundary'
+const Lesson = dynamic(() => import('@/components/pages/lessons/lesson'), {
   ssr: false,
 })
 const VideoProvider = dynamic(() =>

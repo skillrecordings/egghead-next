@@ -1,9 +1,9 @@
 import React, {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
-import {loadPodcast, loadPodcasts} from 'lib/podcasts'
-import {PodcastResource} from 'types'
-import MorePodcasts from 'components/podcasts/more/more'
-import PodcastUi from 'components/podcasts/podcast/podcast'
+import {loadPodcast, loadPodcasts} from '@/lib/podcasts'
+import {PodcastResource} from '@/types'
+import MorePodcasts from '@/components/podcasts/more/more'
+import PodcastUi from '@/components/podcasts/podcast/podcast'
 import removeMarkdown from 'remove-markdown'
 import {NextSeo} from 'next-seo'
 

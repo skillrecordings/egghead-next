@@ -1,10 +1,8 @@
 import {fetchRequestHandler} from '@trpc/server/adapters/fetch'
 import type {NextRequest} from 'next/server'
-import {appRouter} from 'server/routers/_app'
-import {prisma} from 'server/prisma'
-import {getTokenFromCookieHeaders} from 'utils/auth'
-import {ACCESS_TOKEN_KEY} from 'utils/auth'
-import {TRPCContextProps} from '@trpc/react-query/dist/shared'
+import {appRouter} from '@/server/routers/_app'
+import {prisma} from '@/server/prisma'
+import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 
 type Prisma = typeof prisma
 

@@ -1,7 +1,7 @@
-import {LessonResource} from 'types'
+import {LessonResource} from '@/types'
 import some from 'lodash/some'
 import isEmpty from 'lodash/isEmpty'
-import compactedMerge from 'utils/compacted-merge'
+import compactedMerge from '@/utils/compacted-merge'
 import invariant from 'tiny-invariant'
 
 export const mergeLessonMetadata = (

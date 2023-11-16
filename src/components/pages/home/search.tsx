@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import {useRouter} from 'next/router'
 import isEmpty from 'lodash/isEmpty'
 import {Form, Formik} from 'formik'

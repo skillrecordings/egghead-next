@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {get} from 'lodash'
-import {track} from 'utils/analytics'
-import CommunityResource from 'components/community-resource'
+import {track} from '@/utils/analytics'
+import CommunityResource from '@/components/community-resource'
 
 type LessonInfoProps = {
   title: string

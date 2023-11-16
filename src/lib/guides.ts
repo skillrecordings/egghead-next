@@ -1,6 +1,6 @@
 import groq from 'groq'
 import {pickBy} from 'lodash'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@/utils/sanity-client'
 import {z} from 'zod'
 
 export const GuideResourceSchema = z.object({

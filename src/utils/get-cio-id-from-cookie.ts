@@ -1,5 +1,5 @@
 import cookies from './cookies'
-import {CIO_IDENTIFIER_KEY} from 'config'
+import {CIO_IDENTIFIER_KEY} from '@/config'
 
 const getCioIdFromCookie = () => {
   if (!CIO_IDENTIFIER_KEY) return false

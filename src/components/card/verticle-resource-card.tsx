@@ -10,9 +10,9 @@ import {
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from '../markdown'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import {get} from 'lodash'
-import {CardResource} from 'types'
+import {CardResource} from '@/types'
 import Heading from './heading'
 
 const VerticalResourceCard: React.FC<

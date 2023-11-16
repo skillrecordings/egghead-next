@@ -1,8 +1,8 @@
 import z from 'zod'
-import {inngest} from 'inngest/inngest.server'
-import {TRANSCRIPT_READY_EVENT} from 'inngest/events/transcript-requested'
-import {MUX_SRT_READY_EVENT} from 'inngest/events/mux-add-srt-to-asset'
-import {sanityMutation, sanityQuery} from 'utils/sanity-server'
+import {inngest} from '@/inngest/inngest.server'
+import {TRANSCRIPT_READY_EVENT} from '@/inngest/events/transcript-requested'
+import {MUX_SRT_READY_EVENT} from '@/inngest/events/mux-add-srt-to-asset'
+import {sanityMutation, sanityQuery} from '@/utils/sanity.fetch.only.server'
 
 export const VideoResourceSchema = z.object({
   _id: z.string(),
@@ -38,11 +38,9 @@ export const transcriptReady = inngest.createFunction(
             patch: {
               id: videoResource._id,
               set: {
-                transcript: {
-                  srt: event.data.srt,
-                  text: event.data.transcript,
-                },
-                // "state": `ready`,
+                srt: event.data.srt,
+                transcript: event.data.transcript,
+                state: `ready`,
               },
             },
           },
@@ -59,21 +57,22 @@ export const transcriptReady = inngest.createFunction(
       })
     }
 
-    await step.run('send the transcript to the party', async () => {
-      await fetch(
-        `${process.env.NEXT_PUBLIC_PARTY_KIT_URL}/party/${process.env.NEXT_PUBLIC_PARTYKIT_ROOM_NAME}`,
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            body: event.data.transcript,
-            requestId: event.data.videoResourceId,
-            name: 'transcript.ready',
-          }),
-        },
-      ).catch((e) => {
-        console.error(e)
-      })
-    })
+    // TODO we can add partykit later
+    // await step.run('send the transcript to the party', async () => {
+    //   await fetch(
+    //     `${process.env.NEXT_PUBLIC_PARTY_KIT_URL}/party/${process.env.NEXT_PUBLIC_PARTYKIT_ROOM_NAME}`,
+    //     {
+    //       method: 'POST',
+    //       body: JSON.stringify({
+    //         body: event.data.transcript,
+    //         requestId: event.data.videoResourceId,
+    //         name: 'transcript.ready',
+    //       }),
+    //     },
+    //   ).catch((e) => {
+    //     console.error(e)
+    //   })
+    // })
 
     return event.data
   },

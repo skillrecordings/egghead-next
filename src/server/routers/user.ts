@@ -1,7 +1,7 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {getContactId, loadCurrentUser, loadUserAccounts} from '../../lib/users'
-import {getGraphQLClient} from 'utils/configured-graphql-client'
+import {getGraphQLClient} from '@/utils/configured-graphql-client'
 import {gql} from 'graphql-request'
 
 const transactionsSchema = z.array(

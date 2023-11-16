@@ -1,12 +1,12 @@
 import React from 'react'
 import Image from 'next/legacy/image'
 import {Formik, Field, Form} from 'formik'
-import {trpc} from 'app/_trpc/client'
-import emailIsValid from 'utils/email-is-valid'
+import {trpc} from '@/app/_trpc/client'
+import emailIsValid from '@/utils/email-is-valid'
 import toast from 'react-hot-toast'
-import cookieUtil from 'utils/cookies'
-import {ARTICLE_NEWSLETTER_INTEREST_KEY} from 'config'
-import analytics from 'utils/analytics'
+import cookieUtil from '@/utils/cookies'
+import {ARTICLE_NEWSLETTER_INTEREST_KEY} from '@/config'
+import analytics from '@/utils/analytics'
 
 const validateEmail = (value: string) => {
   let error

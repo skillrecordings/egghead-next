@@ -1,8 +1,8 @@
-import useLastResource from 'hooks/use-last-resource'
+import useLastResource from '@/hooks/use-last-resource'
 import {isEmpty} from 'lodash'
 import Link from 'next/link'
 import * as React from 'react'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 
 const LastResource: React.FunctionComponent<
   React.PropsWithChildren<{

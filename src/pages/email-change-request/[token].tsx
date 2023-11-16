@@ -1,7 +1,7 @@
 import * as React from 'react'
-import LoginRequired from 'components/login-required'
+import LoginRequired from '@/components/login-required'
 import {useRouter} from 'next/router'
-import {useViewer} from 'context/viewer-context'
+import {useViewer} from '@/context/viewer-context'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import isEmpty from 'lodash/isEmpty'
@@ -9,7 +9,7 @@ import {
   getAuthorizationHeader,
   getTokenFromCookieHeaders,
   AUTH_DOMAIN,
-} from 'utils/auth'
+} from '@/utils/auth'
 
 async function confirmEmailChangeRequest(token: any) {
   const {data} = await axios.patch(

@@ -1,8 +1,8 @@
 'use client'
-import {Tip} from 'lib/tips'
+import {Tip} from '@/lib/tips'
 import {TipTeaser} from './tip-teaser'
 import Link from 'next/link'
-import analytics from 'utils/analytics'
+import analytics from '@/utils/analytics'
 
 const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   currentTip,

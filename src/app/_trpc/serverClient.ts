@@ -1,8 +1,8 @@
 import {httpBatchLink} from '@trpc/client'
 
-import {appRouter} from 'server/routers/_app'
-import {transformer} from 'server/transformer'
-import {prisma} from 'server/prisma'
+import {appRouter} from '@/server/routers/_app'
+import {transformer} from '@/server/transformer'
+import {prisma} from '@/server/prisma'
 import 'server-only'
 
 function getBaseUrl() {

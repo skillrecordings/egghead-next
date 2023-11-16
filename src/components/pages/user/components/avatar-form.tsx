@@ -1,5 +1,5 @@
 import * as React from 'react'
-import ImageWithPlaceholder from 'components/image-with-placeholder'
+import ImageWithPlaceholder from '@/components/image-with-placeholder'
 
 const AvatarForm: React.FC<React.PropsWithChildren<{avatarUrl: string}>> = ({
   avatarUrl,

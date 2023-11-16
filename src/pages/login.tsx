@@ -2,12 +2,12 @@ import React, {FunctionComponent} from 'react'
 import * as yup from 'yup'
 import {Formik} from 'formik'
 import {isEmpty, isFunction} from 'lodash'
-import {useViewer} from 'context/viewer-context'
+import {useViewer} from '@/context/viewer-context'
 import Image from 'next/legacy/image'
-import {IconGithub} from 'components/pages/lessons/code-link'
+import {IconGithub} from '@/components/pages/lessons/code-link'
 import ExternalTrackedLink from '../components/external-tracked-link'
 import SamlSignInForm from '../components/users/saml-sign-in-form'
-import analytics from 'utils/analytics'
+import analytics from '@/utils/analytics'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),

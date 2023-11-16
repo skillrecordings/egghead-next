@@ -1,9 +1,9 @@
 import {Widget} from '@typeform/embed-react'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {NextSeo} from 'next-seo'
-import analytics from 'utils/analytics'
+import analytics from '@/utils/analytics'
 
 const EggheadForTeams = () => {
   return (

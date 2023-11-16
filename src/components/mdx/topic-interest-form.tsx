@@ -1,8 +1,8 @@
 import React, {FunctionComponent} from 'react'
 import * as yup from 'yup'
-import useCio from 'hooks/use-cio'
-import {useViewer} from 'context/viewer-context'
-import {requestSignInEmail} from 'utils/request-signin-email'
+import useCio from '@/hooks/use-cio'
+import {useViewer} from '@/context/viewer-context'
+import {requestSignInEmail} from '@/utils/request-signin-email'
 import {Formik} from 'formik'
 import {useRouter} from 'next/router'
 

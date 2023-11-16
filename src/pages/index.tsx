@@ -1,11 +1,11 @@
 import React, {FunctionComponent} from 'react'
-import {sanityClient} from 'utils/sanity-client'
-import Home from 'components/pages/home'
+import {sanityClient} from '@/utils/sanity-client'
+import Home from '@/components/pages/home'
 import {NextSeo} from 'next-seo'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import groq from 'groq'
-import {trpc} from 'app/_trpc/client'
+import {trpc} from '@/app/_trpc/client'
 
 const HomePage: FunctionComponent<React.PropsWithChildren<any>> = ({data}) => {
   const location = 'curated home landing'

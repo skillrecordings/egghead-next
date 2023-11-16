@@ -1,11 +1,11 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import {useRouter} from 'next/router'
-import Testimonials from 'components/pricing/testimonials'
-import testimonialsData from 'components/pricing/testimonials/data'
-import PricingWidget from 'components/pricing/pricing-widget'
-import Layout from 'components/app/layout'
+import Testimonials from '@/components/pricing/testimonials'
+import testimonialsData from '@/components/pricing/testimonials/data'
+import PricingWidget from '@/components/pricing/pricing-widget'
+import Layout from '@/components/app/layout'
 import {NextSeo} from 'next-seo'
 
 type PricingProps = {

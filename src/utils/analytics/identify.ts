@@ -1,5 +1,5 @@
 import {isFunction} from 'lodash'
-import {Viewer} from 'types'
+import {Viewer} from '@/types'
 import mixpanel from 'mixpanel-browser'
 
 export const identify = async (data: Viewer, properties?: any) => {

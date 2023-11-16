@@ -6,8 +6,8 @@ import {find} from 'lodash'
 import Image from 'next/legacy/image'
 import ExternalTrackedLink from '../../../external-tracked-link'
 import {ThreeLevels} from '../curated-essential'
-import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-collection-card'
-import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import {VerticalResourceCollectionCard} from '@/components/card/vertical-resource-collection-card'
+import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 
 const SearchJavaScript = () => {
   const location = 'javascript landing'

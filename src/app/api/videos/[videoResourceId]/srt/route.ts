@@ -1,5 +1,5 @@
 import {NextRequest} from 'next/server'
-import {sanityQuery} from 'utils/sanity-server'
+import {sanityQuery} from '@/utils/sanity.fetch.only.server'
 
 export async function GET(
   _: NextRequest,

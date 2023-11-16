@@ -6,8 +6,8 @@ import {
   type MuxPlayerRefAttributes,
   type MuxPlayerProps,
 } from '@mux/mux-player-react'
-import {useVideoResource} from 'hooks/use-video-resource'
-import {useLesson} from 'hooks/use-lesson'
+import {useVideoResource} from '@/hooks/use-video-resource'
+import {useLesson} from '@/hooks/use-lesson'
 import {useNextLesson} from './use-next-lesson'
 import {
   handleTextTrackChange,
@@ -19,13 +19,13 @@ import {getNextSection} from './get-next-section'
 // import {type AppAbility, createAppAbility} from '../utils/ability'
 // import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useGlobalPlayerShortcuts} from './use-global-player-shortcut'
-import {defaultHandleContinue} from 'utils/video/default-handle-continue'
-import {handlePlayFromBeginning as defaultHandlePlayFromBeginning} from 'utils/video/handle-play-from-beginning'
-import {type Module} from 'schemas/module'
-import {type Section} from 'schemas/section'
-import {type Lesson} from 'schemas/lesson'
+import {defaultHandleContinue} from '@/utils/video/default-handle-continue'
+import {handlePlayFromBeginning as defaultHandlePlayFromBeginning} from '@/utils/video/handle-play-from-beginning'
+import {type Module} from '@/schemas/module'
+import {type Section} from '@/schemas/section'
+import {type Lesson} from '@/schemas/lesson'
 import {type NextRouter} from 'next/router'
-import {useViewer} from 'context/viewer-context'
+import {useViewer} from '@/context/viewer-context'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any

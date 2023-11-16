@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
+import InProgressResource from '@/components/pages/users/dashboard/activity/in-progress-resource'
 import {isEmpty} from 'lodash'
-import Spinner from 'components/spinner'
+import Spinner from '@/components/spinner'
 
 type InProgressSectionProps = {
   viewer: any

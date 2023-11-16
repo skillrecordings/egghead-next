@@ -13208,10 +13208,10 @@ inline-style-prefixer@^6.0.0:
     css-in-js-utils "^3.1.0"
     fast-loops "^1.1.3"
 
-inngest@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/inngest/-/inngest-3.3.0.tgz#d6059467e082610253fa722720901840123d8a93"
-  integrity sha512-vY2QNynmlqUB6FkhbOgiY8gU8J9UpRhSJFGhr9oZcuNmINoPOHczzfvZKr+1jLAqsGMl1q83cokYWaJ9coYAnQ==
+inngest@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/inngest/-/inngest-3.6.0.tgz#fc24e34083a64105be8f9d1bc9515ddae21ccbdf"
+  integrity sha512-l6Vrs1mnj0U64iUpFwNn2CdcieMlNJZyv8ks6NbpQe+xnPJ9P2yoUB4n9NJ891Me2383ozm+PDWc4LcVTu0EAg==
   dependencies:
     buffer "^6.0.3"
     canonicalize "^1.0.8"
@@ -24005,7 +24005,7 @@ zod@3.19.1:
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.19.1.tgz#112f074a97b50bfc4772d4ad1576814bd8ac4473"
   integrity sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==
 
-zod@^3.20.6, zod@~3.22.3:
+zod@~3.22.3:
   version "3.22.4"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==

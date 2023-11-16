@@ -1,9 +1,9 @@
 import React from 'react'
-import {getAllTips, Tip} from 'lib/tips'
+import {getAllTips, Tip} from '@/lib/tips'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import Balancer from 'react-wrap-balancer'
-import {Card, CardContent, CardHeader} from 'ui'
+import {Card, CardContent, CardHeader} from '@/ui'
 
 export async function getStaticProps() {
   const tips = await getAllTips({onlyPublished: true})

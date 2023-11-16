@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import React from 'react'
 import {GetServerSideProps} from 'next'
-import {getTokenFromCookieHeaders} from 'utils/auth'
-import LoginRequired, {LoginRequiredParams} from 'components/login-required'
-import {useViewer} from 'context/viewer-context'
+import {getTokenFromCookieHeaders} from '@/utils/auth'
+import LoginRequired, {LoginRequiredParams} from '@/components/login-required'
+import {useViewer} from '@/context/viewer-context'
 import get from 'lodash/get'
-import Eggo from 'components/icons/eggo'
+import Eggo from '@/components/icons/eggo'
 import Image from 'next/legacy/image'
-import {Viewer} from 'types'
+import {Viewer} from '@/types'
 
 const DiscordPage: React.FC<React.PropsWithChildren<LoginRequiredParams>> = ({
   loginRequired,

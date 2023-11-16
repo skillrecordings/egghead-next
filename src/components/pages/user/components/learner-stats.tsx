@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import {convertMintoHours} from 'utils/time-utils'
-import Spinner from 'components/spinner'
+import {convertMintoHours} from '@/utils/time-utils'
+import Spinner from '@/components/spinner'
 
 type LearnerStatsData = {
   completeCourseCount: number

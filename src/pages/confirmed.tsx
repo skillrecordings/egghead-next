@@ -1,8 +1,8 @@
 import * as React from 'react'
-import EmailConfirmation from 'components/pages/email-confirmation'
+import EmailConfirmation from '@/components/pages/email-confirmation'
 import getTracer from '../utils/honeycomb-tracer'
 import {GetServerSideProps} from 'next'
-import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
+import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import useCio from '../hooks/use-cio'
 
 const tracer = getTracer('lesson-page')

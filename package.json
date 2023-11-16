@@ -126,7 +126,7 @@
     "hls.js": "^1.0.9",
     "honeycomb-beeline": "^2.7.4",
     "humanize-list": "^1.0.1",
-    "inngest": "^3.3.0",
+    "inngest": "^3.6.0",
     "isomorphic-fetch": "^3.0.0",
     "jotai": "^1.3.2",
     "js-cookie": "^3.0.0",

@@ -2,8 +2,8 @@ import React, {FunctionComponent} from 'react'
 import {isEmpty} from 'lodash'
 import {connectHits} from 'react-instantsearch-dom'
 import HitComponent from './components/hit'
-import {useViewer} from 'context/viewer-context'
-import {loadUserCompletedCourses} from 'lib/users'
+import {useViewer} from '@/context/viewer-context'
+import {loadUserCompletedCourses} from '@/lib/users'
 import {useQuery} from '@tanstack/react-query'
 
 const useUserCompletedCourses = (viewerId: number) => {

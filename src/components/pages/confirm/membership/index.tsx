@@ -1,15 +1,15 @@
 import * as React from 'react'
-import useLastResource from 'hooks/use-last-resource'
+import useLastResource from '@/hooks/use-last-resource'
 import {isEmpty} from 'lodash'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
-import Spinner from 'components/spinner'
-import {IconTwitter} from 'components/share'
-import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
-import {Topic} from 'types'
-import PostPurchase from 'components/survey/tally/post-purchase'
-import {trpc} from 'app/_trpc/client'
-import {useAccount} from 'hooks/use-account'
+import Spinner from '@/components/spinner'
+import {IconTwitter} from '@/components/share'
+import usePurchaseAndPlay from '@/hooks/use-purchase-and-play'
+import {Topic} from '@/types'
+import PostPurchase from '@/components/survey/tally/post-purchase'
+import {trpc} from '@/app/_trpc/client'
+import {useAccount} from '@/hooks/use-account'
 
 type HeaderProps = {
   heading: React.ReactElement
@@ -377,7 +377,7 @@ const topics: Topic[] = [
   {
     title: 'TypeScript',
     path: '/q/typescript',
-    slug: 'typescript',
+    slug: '@/typescript',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/thumb/typescriptlang.png',
   },

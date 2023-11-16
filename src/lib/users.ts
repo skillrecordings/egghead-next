@@ -1,6 +1,6 @@
 import axios from 'axios'
 import gql from 'graphql-tag'
-import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
+import getAccessTokenFromCookie from '@/utils/get-access-token-from-cookie'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 
 const eggAxios = axios.create({

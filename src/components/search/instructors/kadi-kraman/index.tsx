@@ -1,6 +1,6 @@
 import groq from 'groq'
 
-import CtaCard from 'components/search/components/cta-card'
+import CtaCard from '@/components/search/components/cta-card'
 import SearchInstructorEssential from '../instructor-essential'
 
 const SearchKadiKraman = ({instructor}: {instructor: any}) => {

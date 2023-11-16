@@ -1,5 +1,5 @@
 import * as React from 'react'
-import cookie from 'utils/cookies'
+import cookie from '@/utils/cookies'
 
 export const LAST_RESOURCE_COOKIE_NAME = 'last-resource'
 
