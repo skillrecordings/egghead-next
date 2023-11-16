@@ -1,7 +1,7 @@
-import {inngest} from 'inngest/inngest.server'
-import {MUX_WEBHOOK_EVENT} from 'inngest/events/mux-webhook'
-import {sanityMutation, sanityQuery} from 'utils/sanity.fetch.only.server'
-import {VideoResourceSchema} from 'inngest/functions/transcript-ready'
+import {inngest} from '@/inngest/inngest.server'
+import {MUX_WEBHOOK_EVENT} from '@/inngest/events/mux-webhook'
+import {sanityMutation, sanityQuery} from '@/utils/sanity.fetch.only.server'
+import {VideoResourceSchema} from '@/inngest/functions/transcript-ready'
 
 export const muxVideoAssetCreated = inngest.createFunction(
   {id: `mux-video-asset-created`, name: 'Mux Video Asset Created'},

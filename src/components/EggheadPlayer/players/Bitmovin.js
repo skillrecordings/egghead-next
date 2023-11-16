@@ -4,7 +4,7 @@ import {get, isEmpty} from 'lodash'
 
 import Base from './Base'
 
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import {savePlayerPrefs} from '../use-egghead-player'
 
 const SDK_URL = '//cdn.bitmovin.com/player/web/8/bitmovinplayer.js'

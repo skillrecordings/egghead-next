@@ -2,8 +2,8 @@ import * as React from 'react'
 import axios from 'axios'
 import queryString from 'query-string'
 import {get, isEmpty} from 'lodash'
-import cookie from 'utils/cookies'
-import {CIO_IDENTIFIER_KEY} from 'config'
+import cookie from '@/utils/cookies'
+import {CIO_IDENTIFIER_KEY} from '@/config'
 
 export const cioIdentify = async (id: string, options?: any) => {
   if (id) {

@@ -8,7 +8,7 @@ import isEmpty from 'lodash/isEmpty'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import useTokenSigner from '../hooks/use-token-signer'
 import useAffiliateAssigner from '../hooks/use-affiliate-assigner'
-import {getAbilityFromToken, canDoNothingAbility} from 'server/ability'
+import {getAbilityFromToken, canDoNothingAbility} from '@/server/ability'
 
 export const auth = new Auth()
 

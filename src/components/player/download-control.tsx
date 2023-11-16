@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import axios from 'utils/configured-axios'
-import analytics from 'utils/analytics'
+import axios from '@/utils/configured-axios'
+import analytics from '@/utils/analytics'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import Link from 'next/link'
 

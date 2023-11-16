@@ -2,7 +2,7 @@ import * as React from 'react'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {useTheme} from 'next-themes'
-import {useViewer} from 'context/viewer-context'
+import {useViewer} from '@/context/viewer-context'
 import {track} from '../../../../utils/analytics'
 import axios from '../../../../utils/configured-axios'
 import cookies from '../../../../utils/cookies'
@@ -28,7 +28,7 @@ const TechLogos = () => {
     'vue',
     'redux',
     'javascript',
-    'typescript',
+    '@/typescript',
     'angular',
     'a11y',
     'graphql',

@@ -1,7 +1,7 @@
-import {type Module} from 'schemas/module'
-import {type Section} from 'schemas/section'
-import {type Exercise} from 'schemas/exercise'
-import {type Lesson} from 'schemas/lesson'
+import {type Module} from '@/schemas/module'
+import {type Section} from '@/schemas/section'
+import {type Exercise} from '@/schemas/exercise'
+import {type Lesson} from '@/schemas/lesson'
 import {type NextRouter} from 'next/router'
 
 export const defaultHandleContinue = async ({

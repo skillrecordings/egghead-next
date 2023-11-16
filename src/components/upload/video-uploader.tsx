@@ -1,9 +1,9 @@
 import * as React from 'react'
 import ReactS3Uploader from 'react-s3-uploader'
-import {getAuthorizationHeader} from 'utils/auth'
+import {getAuthorizationHeader} from '@/utils/auth'
 import uuid from 'shortid'
 import fileExtension from 'file-extension'
-import {DispatchFunction} from 'hooks/use-file-upload-reducer'
+import {DispatchFunction} from '@/hooks/use-file-upload-reducer'
 
 const SIGNING_URL = `/api/aws/sign-s3`
 

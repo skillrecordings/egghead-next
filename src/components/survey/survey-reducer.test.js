@@ -2,15 +2,15 @@
  * @jest-environment jsdom
  */
 
-import {cioIdentify} from 'utils/cio-identify'
+import {cioIdentify} from '@/utils/cio-identify'
 import {surveyReducer, sortingHatInitialState} from './survey-reducer'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 
-jest.mock('utils/cio-identify', () => ({
+jest.mock('@/utils/cio-identify', () => ({
   cioIdentify: jest.fn(() => null),
 }))
 
-jest.mock('utils/analytics', () => ({
+jest.mock('@/utils/analytics', () => ({
   track: jest.fn(),
 }))
 

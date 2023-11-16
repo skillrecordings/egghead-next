@@ -1,11 +1,11 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Markdown from 'react-markdown'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@/utils/sanity-client'
 import groq from 'groq'
 import Image from 'next/legacy/image'
 import {find} from 'lodash'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 
 type LandingProps = {
   course: any

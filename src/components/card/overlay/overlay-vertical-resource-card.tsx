@@ -11,8 +11,8 @@ import {
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {get, isEmpty} from 'lodash'
-import {CardResource} from 'types'
-import analytics from 'utils/analytics'
+import {CardResource} from '@/types'
+import analytics from '@/utils/analytics'
 import {twMerge} from 'tailwind-merge'
 
 const VerticalResourceCard: React.FC<

@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {Element, scroller} from 'react-scroll'
-import {LessonResource} from 'types'
+import {LessonResource} from '@/types'
 import {get} from 'lodash'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 
 type NextUpListProps = {
   currentLessonSlug: string

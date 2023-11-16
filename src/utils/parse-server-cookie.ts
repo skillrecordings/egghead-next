@@ -1,6 +1,6 @@
 import {ACCESS_TOKEN_KEY} from './auth'
 import serverCookie from 'cookie'
-import {CIO_IDENTIFIER_KEY} from 'config'
+import {CIO_IDENTIFIER_KEY} from '@/config'
 
 export function getTokenFromCookieHeaders(serverCookies: string) {
   const parsedCookie = serverCookie.parse(serverCookies)

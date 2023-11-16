@@ -1,4 +1,4 @@
-import axios from 'utils/configured-axios'
+import axios from '@/utils/configured-axios'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 

@@ -3,7 +3,7 @@ import omit from 'lodash/omit'
 
 import {propTypes, defaultProps} from './props'
 import Bitmovin from './players/Bitmovin'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 
 import useEggheadPlayer, {
   getPlayerPrefs,

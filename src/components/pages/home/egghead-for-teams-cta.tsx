@@ -2,7 +2,7 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
-import analytics from 'utils/analytics'
+import analytics from '@/utils/analytics'
 
 const EggheadForTeamsCta: FunctionComponent<
   React.PropsWithChildren<{location: string}>

@@ -3,7 +3,7 @@ import Image from 'next/legacy/image'
 import {createNamedContext} from '@reach/utils/context'
 import {useId} from '@reach/auto-id'
 import type * as Polymorphic from '@reach/utils/polymorphic'
-import {CardResource} from 'types'
+import {CardResource} from '@/types'
 
 const CardContext = createNamedContext<InternalCardContextValue>(
   'CardContext',

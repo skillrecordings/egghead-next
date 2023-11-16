@@ -1,8 +1,8 @@
 import {useQuery} from '@tanstack/react-query'
-import {getVideoResource} from 'lib/video-resources'
+import {getVideoResource} from '@/lib/video-resources'
 import * as React from 'react'
-import {type VideoResource} from 'schemas/video-resource'
-import {trpc} from 'app/_trpc/client'
+import {type VideoResource} from '@/schemas/video-resource'
+import {trpc} from '@/app/_trpc/client'
 
 type VideoResourceContextType = {
   videoResource?: VideoResource

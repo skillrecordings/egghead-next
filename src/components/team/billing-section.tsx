@@ -3,9 +3,9 @@ import {format} from 'date-fns'
 import Link from 'next/link'
 import {track} from '../../utils/analytics'
 import isEmpty from 'lodash/isEmpty'
-import {recur} from 'utils/recur'
+import {recur} from '@/utils/recur'
 import {Stripe} from 'stripe'
-import {trpc} from 'app/_trpc/client'
+import {trpc} from '@/app/_trpc/client'
 
 const formatAmountWithCurrency = (
   amountInCents: number,

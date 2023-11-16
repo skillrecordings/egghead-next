@@ -1,6 +1,6 @@
 import React from 'react'
 import {Pagination as AlgoliaPagination} from 'react-instantsearch-dom'
-import useBreakpoint from 'utils/breakpoints'
+import useBreakpoint from '@/utils/breakpoints'
 
 const Pagination = () => {
   const {sm} = useBreakpoint()

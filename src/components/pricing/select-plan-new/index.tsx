@@ -1,13 +1,13 @@
 import {get, filter} from 'lodash'
 import * as React from 'react'
 import slugify from 'slugify'
-import BestValueStamp from 'components/pricing/select-plan-new/assets/best-value-stamp'
-import ColoredBackground from 'components/pricing/select-plan-new/assets/colored-background'
+import BestValueStamp from '@/components//pricing/select-plan-new/assets/best-value-stamp'
+import ColoredBackground from '@/components//pricing/select-plan-new/assets/colored-background'
 import {keys} from 'lodash'
-import Spinner from 'components/spinner'
-import Countdown from 'components/pricing/countdown'
+import Spinner from '@/components//spinner'
+import Countdown from '@/components//pricing/countdown'
 import {fromUnixTime} from 'date-fns'
-import {Coupon, PricingPlan} from 'types'
+import {Coupon, PricingPlan} from '@/types'
 
 const PlanTitle: React.FunctionComponent<React.PropsWithChildren<unknown>> = ({
   children,

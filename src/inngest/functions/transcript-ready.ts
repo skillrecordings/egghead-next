@@ -1,8 +1,8 @@
 import z from 'zod'
-import {inngest} from 'inngest/inngest.server'
-import {TRANSCRIPT_READY_EVENT} from 'inngest/events/transcript-requested'
-import {MUX_SRT_READY_EVENT} from 'inngest/events/mux-add-srt-to-asset'
-import {sanityMutation, sanityQuery} from 'utils/sanity.fetch.only.server'
+import {inngest} from '@/inngest/inngest.server'
+import {TRANSCRIPT_READY_EVENT} from '@/inngest/events/transcript-requested'
+import {MUX_SRT_READY_EVENT} from '@/inngest/events/mux-add-srt-to-asset'
+import {sanityMutation, sanityQuery} from '@/utils/sanity.fetch.only.server'
 
 export const VideoResourceSchema = z.object({
   _id: z.string(),

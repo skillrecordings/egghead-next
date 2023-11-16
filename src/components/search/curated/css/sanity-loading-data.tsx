@@ -1,6 +1,6 @@
 import * as React from 'react'
 import groq from 'groq'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@/utils/sanity-client'
 
 export default function LoadDataFromSanity() {
   const [data, setData] = React.useState<any>()

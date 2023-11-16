@@ -1,5 +1,5 @@
 import {v4} from 'uuid'
-import {getUniqueFilename} from 'module-builder/get-unique-filename'
+import {getUniqueFilename} from '@/module-builder/get-unique-filename'
 type CloudinarySignature = {
   apiKey: string
   signature: string

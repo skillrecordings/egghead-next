@@ -10,7 +10,7 @@ import {
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from '../markdown'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import {get} from 'lodash'
 
 const HorizontalResourceCard: React.FC<React.PropsWithChildren<any>> = ({

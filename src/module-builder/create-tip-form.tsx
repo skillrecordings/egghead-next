@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import {Button, Input, Progress} from 'ui'
+import {Button, Input, Progress} from '@/ui'
 import {
   Form,
   FormControl,
@@ -10,14 +10,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from 'ui/form'
+} from '@/ui/form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import {useFileChange} from './use-file-change'
-import {trpc} from 'app/_trpc/client'
+import {trpc} from '@/app/_trpc/client'
 import {useRouter} from 'next/router'
-import {processFile} from 'module-builder/cloudinary-video-uploader'
+import {processFile} from '@/module-builder/cloudinary-video-uploader'
 
 type CreateTipFormState = 'idle' | 'ready' | 'uploading' | 'success' | 'error'
 

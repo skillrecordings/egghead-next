@@ -1,15 +1,15 @@
 import * as React from 'react'
 import {useQuery} from '@tanstack/react-query'
 
-import {useViewer} from 'context/viewer-context'
-import {loadUserProgress, loadUserCompletedCourses} from 'lib/users'
+import {useViewer} from '@/context/viewer-context'
+import {loadUserProgress, loadUserCompletedCourses} from '@/lib/users'
 import {
   CompletedCourses,
   ContinueLearning,
   LearnerStats,
-} from 'components/pages/user/components'
-import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
-import {trpc} from 'app/_trpc/client'
+} from '@/components//pages/user/components'
+import {ItemWrapper} from '@/components//pages/user/components/widget-wrapper'
+import {trpc} from '@/app/_trpc/client'
 
 const useProgressForUser = (viewerId: number) => {
   return useQuery(['progress'], async () => {

@@ -1,7 +1,7 @@
 import TinCan from 'tincanjs'
 import {NextApiRequest, NextApiResponse} from 'next'
-import fetchEggheadUser from 'api/egghead/users/from-token'
-import {getTokenFromCookieHeaders} from 'utils/auth'
+import fetchEggheadUser from '@/api/egghead/users/from-token'
+import {getTokenFromCookieHeaders} from '@/utils/auth'
 
 const SCORM_CLOUD_ENDPOINT = `https://cloud.scorm.com/lrs/PZ9CYEKKV8/`
 

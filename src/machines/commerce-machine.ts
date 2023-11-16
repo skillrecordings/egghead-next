@@ -1,7 +1,7 @@
 import {createMachine, assign} from 'xstate'
-import {loadPricingData} from 'lib/prices'
+import {loadPricingData} from '@/lib/prices'
 import isEmpty from 'lodash/isEmpty'
-import {PricingData} from 'types'
+import {PricingData} from '@/types'
 
 type CouponToApply = {
   couponCode: string

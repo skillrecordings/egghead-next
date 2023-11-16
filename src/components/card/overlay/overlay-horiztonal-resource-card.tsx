@@ -11,12 +11,12 @@ import {
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {get, isEmpty} from 'lodash'
-import {CardResource} from 'types'
+import {CardResource} from '@/types'
 import ReactMarkdown from 'react-markdown'
 import cx from 'classnames'
 import truncate from 'lodash/truncate'
-import analytics from 'utils/analytics'
-import CheckIcon from 'components/icons/check'
+import analytics from '@/utils/analytics'
+import CheckIcon from '@/components//icons/check'
 
 const HorizontalResourceCard: React.FC<
   React.PropsWithChildren<{

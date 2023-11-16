@@ -1,9 +1,9 @@
-import {inngest} from 'inngest/inngest.server'
-import {VIDEO_UPLOADED_EVENT} from 'inngest/events/video-uploaded'
-import {sanityMutation, sanityQuery} from 'utils/sanity.fetch.only.server'
-import {getMuxOptions} from 'lib/get-mux-options'
+import {inngest} from '@/inngest/inngest.server'
+import {VIDEO_UPLOADED_EVENT} from '@/inngest/events/video-uploaded'
+import {sanityMutation, sanityQuery} from '@/utils/sanity.fetch.only.server'
+import {getMuxOptions} from '@/lib/get-mux-options'
 import {v4} from 'uuid'
-import {orderDeepgramTranscript} from 'lib/deepgram-order-transcript'
+import {orderDeepgramTranscript} from '@/lib/deepgram-order-transcript'
 import {createMuxAsset} from '../../lib/mux'
 
 export const videoUploaded = inngest.createFunction(

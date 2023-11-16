@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import Markdown from 'react-markdown'
 import Image from 'next/legacy/image'
-import {PodcastResource} from 'types'
+import {PodcastResource} from '@/types'
 import rehypeRaw from 'rehype-raw'
 
 type PodcastProps = {

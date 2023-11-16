@@ -1,7 +1,7 @@
-import Markdown from "components/markdown"
-import { isEmpty } from "lodash"
-import { useTheme } from "next-themes"
-import React from "react"
+import Markdown from '@/components/markdown'
+import {isEmpty} from 'lodash'
+import {useTheme} from 'next-themes'
+import React from 'react'
 
 const CoursePodcast = ({
   podcast: {transcript, simplecast_uid: id},

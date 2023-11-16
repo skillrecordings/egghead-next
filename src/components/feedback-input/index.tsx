@@ -1,20 +1,20 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import axios from 'utils/configured-axios'
+import axios from '@/utils/configured-axios'
 import * as Yup from 'yup'
 import isEmpty from 'lodash/isEmpty'
 import {motion} from 'framer-motion'
 import {useInterval} from 'react-use'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import {DialogOverlay, DialogContent} from '@reach/dialog'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import {Listbox, Transition} from '@headlessui/react'
 import {CheckIcon, SelectorIcon} from '@heroicons/react/solid'
 
 import Sob from './images/Sob'
 import Hearteyes from './images/Hearteyes'
 import NeutralFace from './images/NeutralFace'
-import useCio from 'hooks/use-cio'
+import useCio from '@/hooks/use-cio'
 
 type FeedbackCategory = {
   id: number

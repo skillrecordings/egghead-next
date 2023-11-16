@@ -1,7 +1,7 @@
 'use client'
 
-import {Tip, TipSchema} from 'lib/tips'
-import {Button, Input, Textarea} from 'ui'
+import {Tip, TipSchema} from '@/lib/tips'
+import {Button, Input, Textarea} from '@/ui'
 import {
   Form,
   FormControl,
@@ -10,12 +10,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from 'ui/form'
+} from '@/ui/form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import MuxPlayer from '@mux/mux-player-react'
-import {trpc} from 'app/_trpc/client'
+import {trpc} from '@/app/_trpc/client'
 import {useRouter} from 'next/router'
 
 const EditTipForm: React.FC<{tip: Tip}> = ({tip}) => {
