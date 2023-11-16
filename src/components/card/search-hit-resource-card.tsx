@@ -10,13 +10,13 @@ import {
 } from './index'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import {get, isEmpty} from 'lodash'
-import {CardResource} from 'types'
+import {CardResource} from '@/types'
 import {Textfit} from 'react-textfit'
 import ReactMarkdown from 'react-markdown'
 import useFitText from 'use-fit-text'
-import CheckIcon from 'components/icons/check'
+import CheckIcon from '@/components//icons/check'
 
 const SearchHitResourceCard: React.FC<
   React.PropsWithChildren<{

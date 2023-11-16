@@ -1,6 +1,6 @@
 import React from 'react'
-import {topicExtractor} from 'utils/search/topic-extractor'
-import {loadTag} from 'lib/tags'
+import {topicExtractor} from '@/utils/search/topic-extractor'
+import {loadTag} from '@/lib/tags'
 import {first} from 'lodash'
 
 const useSelectedTopic = (initialTopic: any, searchState: any) => {

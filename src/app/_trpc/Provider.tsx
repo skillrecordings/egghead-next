@@ -4,7 +4,7 @@ import {httpBatchLink} from '@trpc/client'
 import React, {useState} from 'react'
 
 import {trpc} from './client'
-import {transformer} from 'server/transformer'
+import {transformer} from '@/server/transformer'
 
 export function getBaseUrl() {
   if (typeof window !== 'undefined') {

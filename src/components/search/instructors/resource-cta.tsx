@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 
 const SimpleScriptsCTA = ({instructorData}: any) => {
   const {

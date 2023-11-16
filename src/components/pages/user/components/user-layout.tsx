@@ -9,9 +9,9 @@ import {
 import cx from 'classnames'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {useViewer} from 'context/viewer-context'
-import LoginRequired from 'components/login-required'
-import {useAccount} from 'hooks/use-account'
+import {useViewer} from '@/context/viewer-context'
+import LoginRequired from '@/components//login-required'
+import {useAccount} from '@/hooks/use-account'
 
 export default function UserLayout({children}: any) {
   const {isTeamAccountOwner, isInstructor} = useAccount()

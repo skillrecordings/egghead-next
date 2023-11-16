@@ -1,9 +1,9 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@/utils/sanity-client'
 import friendlyTime from 'friendly-time'
-import {allArticlesQuery} from 'lib/articles'
+import {allArticlesQuery} from '@/lib/articles'
 import {useRouter} from 'next/router'
 import {NextSeo} from 'next-seo'
 

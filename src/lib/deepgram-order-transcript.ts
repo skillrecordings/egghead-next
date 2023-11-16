@@ -1,5 +1,3 @@
-import {env} from '@/env.mjs'
-
 const deepgramUrl = `https://api.deepgram.com/v1/listen`
 
 export async function orderDeepgramTranscript({
@@ -19,8 +17,7 @@ export async function orderDeepgramTranscript({
   })
 
   // just weird URL differences between dev and prod
-  const callbackBase =
-    env.NODE_ENV === 'production' ? env.UPLOADTHING_URL : env.NEXTAUTH_URL
+  const callbackBase = process.env.NEXT_PUBLIC_DEPLOYMENT_URL
 
   const deepgramParams = new URLSearchParams({
     model: 'whisper-large',
@@ -37,7 +34,7 @@ export async function orderDeepgramTranscript({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Token ${env.DEEPGRAM_API_KEY}`,
+        Authorization: `Token ${process.env.DEEPGRAM_API_KEY}`,
       },
       body: JSON.stringify({
         url: mediaUrl,

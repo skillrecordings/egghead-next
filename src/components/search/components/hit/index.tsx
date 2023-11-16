@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import {SearchHitResourceCard} from 'components/card/search-hit-resource-card'
+import {SearchHitResourceCard} from '@/components//card/search-hit-resource-card'
 
 type HitComponentProps = {
   hit: any

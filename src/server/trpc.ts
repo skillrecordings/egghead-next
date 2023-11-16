@@ -1,5 +1,5 @@
 import {initTRPC} from '@trpc/server'
-import {TrpcContext} from 'app/api/trpc/[trpc]/route'
+import {TrpcContext} from '@/app/api/trpc/[trpc]/route'
 import {transformer} from './transformer'
 
 const t = initTRPC.context<TrpcContext>().create({

@@ -1,16 +1,16 @@
 import {CheckCircleIcon, XCircleIcon} from '@heroicons/react/solid'
 import {useMachine} from '@xstate/react'
-import {RequestDraftCourseFormProps} from 'components/layouts/draft-course-page-layout'
-import Spinner from 'components/spinner'
+import {RequestDraftCourseFormProps} from '@/components//layouts/draft-course-page-layout'
+import Spinner from '@/components//spinner'
 import {Formik} from 'formik'
 import {
   DoneEventObject,
   requestDraftCourseChangeMachine,
-} from 'machines/draft-course-machine'
+} from '@/machines/draft-course-machine'
 import toast from 'react-hot-toast'
 import cx from 'classnames'
-import {trpc} from 'app/_trpc/client'
-import Markdown from 'components/markdown'
+import {trpc} from '@/app/_trpc/client'
+import Markdown from '@/components//markdown'
 import rehypeRaw from 'rehype-raw'
 
 export const DescriptionChangeForm: React.FunctionComponent<

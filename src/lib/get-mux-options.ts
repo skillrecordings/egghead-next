@@ -1,8 +1,6 @@
-import {env} from '@/env.mjs'
-
 export const muxRequestHeaders = {
   Authorization: `Basic ${Buffer.from(
-    `${env.MUX_ACCESS_TOKEN_ID}:${env.MUX_SECRET_KEY}`,
+    `${process.env.MUX_ACCESS_TOKEN_ID}:${process.env.MUX_SECRET_KEY}`,
   ).toString('base64')}`,
   'Content-Type': 'application/json',
 }

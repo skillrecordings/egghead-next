@@ -1,9 +1,9 @@
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import {Machine, assign} from 'xstate'
 import axios from 'axios'
 import {LessonResource} from '../types'
 import {convertTimeWithTitles} from '../utils/time-utils'
-import analytics from 'utils/analytics'
+import analytics from '@/utils/analytics'
 
 interface LessonStateSchema {
   states: {

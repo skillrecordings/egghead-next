@@ -1,8 +1,8 @@
-import {LAST_RESOURCE_COOKIE_NAME} from 'hooks/use-last-resource'
+import {LAST_RESOURCE_COOKIE_NAME} from '@/hooks/use-last-resource'
 import {isEmpty} from 'lodash'
 import {useRouter} from 'next/router'
 import * as React from 'react'
-import cookieUtil from 'utils/cookies'
+import cookieUtil from '@/utils/cookies'
 
 const Redirect = () => {
   const router = useRouter()

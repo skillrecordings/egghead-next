@@ -1,6 +1,6 @@
 import React from 'react'
 import {useFormik} from 'formik'
-import {Question} from 'types'
+import {Question} from '@/types'
 import axios from 'axios'
 import {every, isArray} from 'lodash'
 import isEmpty from 'lodash/isEmpty'

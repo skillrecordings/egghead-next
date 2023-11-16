@@ -1,9 +1,9 @@
 import * as React from 'react'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import EmailForm from '../../cta/email/email-form'
-import useCio from 'hooks/use-cio'
-import {useViewer} from 'context/viewer-context'
-import {requestSignInEmail} from 'utils/request-signin-email'
+import useCio from '@/hooks/use-cio'
+import {useViewer} from '@/context/viewer-context'
+import {requestSignInEmail} from '@/utils/request-signin-email'
 
 const EmailEntryForm: React.FC<React.PropsWithChildren<unknown>> = () => {
   const {subscriber, cioIdentify} = useCio()

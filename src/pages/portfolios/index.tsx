@@ -1,11 +1,11 @@
 import * as React from 'react'
 import groq from 'groq'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@/utils/sanity-client'
 import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {sortBy} from 'lodash'
-import prettifyUrl from 'utils/prettify-url'
+import prettifyUrl from '@/utils/prettify-url'
 
 const Portfolio: React.FC<React.PropsWithChildren<{portfolios: any}>> = (
   props,

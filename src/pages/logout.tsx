@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {useViewer} from 'context/viewer-context'
+import {useViewer} from '@/context/viewer-context'
 import useLastResource from '../hooks/use-last-resource'
 
 function Logout() {

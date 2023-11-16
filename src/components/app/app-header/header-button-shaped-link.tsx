@@ -1,5 +1,5 @@
 import * as React from 'react'
-import noop from 'utils/noop'
+import noop from '@/utils/noop'
 import Link from 'next/link'
 
 type HeaderButtonShapedLinkProps = {

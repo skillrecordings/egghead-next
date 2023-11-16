@@ -1,8 +1,8 @@
-import {Tip} from 'lib/tips'
-import TipCard from 'components/tips/tip-card'
+import {Tip} from '@/lib/tips'
+import TipCard from '@/components//tips/tip-card'
 import Balancer from 'react-wrap-balancer'
 
-import {serverClient} from 'app/_trpc/serverClient'
+import {serverClient} from '@/app/_trpc/serverClient'
 
 type TipsIndex = {
   tips: Tip[]

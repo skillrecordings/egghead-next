@@ -1,8 +1,8 @@
 import React, {FunctionComponent} from 'react'
-import LoginForm from 'pages/login'
-import {track} from 'utils/analytics'
-import {LessonResource} from 'types'
-import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
+import LoginForm from '@/pages/login'
+import {track} from '@/utils/analytics'
+import {LessonResource} from '@/types'
+import OverlayWrapper from '@/components//pages/lessons/overlay/wrapper'
 
 type CreateAccountCTAProps = {
   lesson: LessonResource

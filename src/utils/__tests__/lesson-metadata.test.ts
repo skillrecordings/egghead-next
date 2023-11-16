@@ -1,4 +1,4 @@
-import {LessonResource} from 'types'
+import {LessonResource} from '@/types'
 import {mergeLessonMetadata, deriveDataFromBaseValues} from '../lesson-metadata'
 
 describe('mergeLessonMetadata()', () => {

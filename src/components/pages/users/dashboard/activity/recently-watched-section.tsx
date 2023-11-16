@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import InProgressResource from './in-progress-resource'
-import {Resource} from 'types'
+import {Resource} from '@/types'
 import {filter, uniq} from 'lodash'
 
 type RecentlyWatchedProps = {

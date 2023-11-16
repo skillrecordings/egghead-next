@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
-import {useCommerceMachine} from 'hooks/use-commerce-machine'
+import {track} from '@/utils/analytics'
+import {useCommerceMachine} from '@/hooks/use-commerce-machine'
 import get from 'lodash/get'
 
 const SaleHeaderBanner = () => {

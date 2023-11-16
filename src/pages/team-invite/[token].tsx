@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {useViewer} from '../../context/viewer-context'
 import {GetServerSideProps} from 'next'
-import {AUTH_DOMAIN, getAuthorizationHeader} from 'utils/auth'
+import {AUTH_DOMAIN, getAuthorizationHeader} from '@/utils/auth'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'

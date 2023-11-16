@@ -3,7 +3,7 @@ export const meta = {
   url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/privacy`,
 }
 
-import DefaultLayout from 'layouts'
+import DefaultLayout from '@/layouts'
 export default ({children}) => (
   <DefaultLayout meta={meta}>{children}</DefaultLayout>
 )

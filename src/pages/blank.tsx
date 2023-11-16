@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Redirect from './redirect'
-import {trpc} from 'app/_trpc/client'
+import {trpc} from '@/app/_trpc/client'
 
 const Blank = () => {
   const {data} = trpc.topics.top.useQuery({topic: 'react'})

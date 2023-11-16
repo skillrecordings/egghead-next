@@ -1,9 +1,9 @@
 import * as React from 'react'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import EmailForm from '../cta/email/email-form'
-import useCio from 'hooks/use-cio'
-import {useViewer} from 'context/viewer-context'
-import {requestContactGuid} from 'utils/request-contact-guid'
+import useCio from '@/hooks/use-cio'
+import {useViewer} from '@/context/viewer-context'
+import {requestContactGuid} from '@/utils/request-contact-guid'
 
 const EmailEntryForm: React.FC<React.PropsWithChildren<any>> = ({
   campaignAttribute,

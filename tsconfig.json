@@ -14,7 +14,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "baseUrl": "./src/",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "baseUrl": ".",
     "incremental": true,
     "plugins": [
       {

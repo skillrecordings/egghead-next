@@ -6,7 +6,7 @@ import {GetStaticProps} from 'next'
 import Image from 'next/legacy/image'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
-import tags from 'pages/site-directory/tags.json'
+import tags from '@/pages/site-directory/tags.json'
 import {track} from '../utils/analytics'
 
 type TagsProps = {

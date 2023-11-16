@@ -1,10 +1,10 @@
 import {NextRequest, NextResponse} from 'next/server'
-import {inngest} from 'inngest/inngest.server'
+import {inngest} from '@/inngest/inngest.server'
 import {
   srtFromTranscriptResult,
   transcriptAsParagraphsWithTimestamps,
-} from 'lib/deepgram-results-processor'
-import {TRANSCRIPT_READY_EVENT} from 'inngest/events/transcript-requested'
+} from '@/lib/deepgram-results-processor'
+import {TRANSCRIPT_READY_EVENT} from '@/inngest/events/transcript-requested'
 
 export async function POST(req: NextRequest, res: NextResponse) {
   // todo: check MUX_WEBHOOK_SIGNING_SECRET to verify the request

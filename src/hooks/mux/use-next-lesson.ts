@@ -1,10 +1,10 @@
 import {useRouter, useSearchParams} from 'next/navigation'
 
-import {type Lesson} from 'schemas/lesson'
+import {type Lesson} from '@/schemas/lesson'
 
-// import {trpcSkillLessons} from 'utils/trpc-skill-lessons'
-import {type Section} from 'schemas/section'
-import {type Module} from 'schemas/module'
+// import {trpcSkillLessons} from '@/utils/trpc-skill-lessons'
+import {type Section} from '@/schemas/section'
+import {type Module} from '@/schemas/module'
 
 export const useNextLesson = (
   lesson: Lesson,

@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Icon from 'components/icons/tip-icons'
+import Icon from '@/components//icons/tip-icons'
 import ReactMarkdown from 'react-markdown'
 import MuxPlayer from '@mux/mux-player-react'
 

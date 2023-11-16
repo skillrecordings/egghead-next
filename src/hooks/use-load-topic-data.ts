@@ -1,6 +1,6 @@
 import * as React from 'react'
 import groq from 'groq'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@/utils/sanity-client'
 
 function useLoadTopicData(topic: string, initialData: any) {
   const [topicData, setData] = React.useState<any>(initialData)

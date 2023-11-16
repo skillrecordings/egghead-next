@@ -1,5 +1,5 @@
 import OAuthClient from 'client-oauth2'
-import analytics from 'utils/analytics'
+import analytics from '@/utils/analytics'
 import axios from 'axios'
 import get from 'lodash/get'
 import cookie from './cookies'

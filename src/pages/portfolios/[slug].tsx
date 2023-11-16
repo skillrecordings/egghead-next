@@ -1,11 +1,11 @@
 import * as React from 'react'
 import groq from 'groq'
 import Markdown from 'react-markdown'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@/utils/sanity-client'
 import Image from 'next/legacy/image'
 import {NextSeo} from 'next-seo'
 import Link from 'next/link'
-import prettifyUrl from 'utils/prettify-url'
+import prettifyUrl from '@/utils/prettify-url'
 
 const Portfolio = (props: any) => {
   const {title, image, url, description = ''} = props

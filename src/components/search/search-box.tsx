@@ -1,8 +1,8 @@
 import React, {FunctionComponent} from 'react'
 import {connectSearchBox} from 'react-instantsearch-dom'
-import {track} from 'utils/analytics'
-import useBreakpoint from 'utils/breakpoints'
-import analytics from 'utils/analytics'
+import {track} from '@/utils/analytics'
+import useBreakpoint from '@/utils/breakpoints'
+import analytics from '@/utils/analytics'
 
 type CustomSearchBoxProps = {
   currentRefinement: any

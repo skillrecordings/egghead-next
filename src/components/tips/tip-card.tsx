@@ -1,13 +1,13 @@
 'use client'
-import {Tip} from 'lib/tips'
+import {Tip} from '@/lib/tips'
 import {useRouter} from 'next/navigation'
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import Icon from 'components/icons/tip-icons'
+import Icon from '@/components//icons/tip-icons'
 import Balancer from 'react-wrap-balancer'
 import {Card, CardContent, CardHeader} from './ui/card'
-import {trpc} from 'app/_trpc/client'
+import {trpc} from '@/app/_trpc/client'
 
 const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {title} = tip

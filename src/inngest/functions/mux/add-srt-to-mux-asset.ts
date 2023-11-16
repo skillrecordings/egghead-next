@@ -1,7 +1,7 @@
-import {inngest} from 'inngest/inngest.server'
-import {MUX_SRT_READY_EVENT} from 'inngest/events/mux-add-srt-to-asset'
-import {VideoResourceSchema} from 'inngest/functions/transcript-ready'
-import {sanityQuery} from 'utils/sanity.fetch.only.server'
+import {inngest} from '@/inngest/inngest.server'
+import {MUX_SRT_READY_EVENT} from '@/inngest/events/mux-add-srt-to-asset'
+import {VideoResourceSchema} from '@/inngest/functions/transcript-ready'
+import {sanityQuery} from '@/utils/sanity.fetch.only.server'
 import {
   addSrtTrackToAsset,
   deleteAssetTrack,

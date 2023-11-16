@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {useTheme} from 'next-themes'
-import {useViewer} from 'context/viewer-context'
+import {useViewer} from '@/context/viewer-context'
 import CreateAccount from '../create-account'
 import Join from '../join'
 import Browse from '../browse'
@@ -9,7 +9,7 @@ import HeroBgDark from './hero-bg-dark.png'
 import Image from 'next/legacy/image'
 import TechLogos from '../tech-logos'
 import title from 'title'
-import {isMember} from 'utils/is-member'
+import {isMember} from '@/utils/is-member'
 
 const Header: React.FC<
   React.PropsWithChildren<{topic?: string; customer?: any}>

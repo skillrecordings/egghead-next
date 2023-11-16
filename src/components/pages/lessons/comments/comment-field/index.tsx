@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {Formik} from 'formik'
-import Spinner from 'components/spinner'
+import Spinner from '@/components//spinner'
 import {useVideo} from '@skillrecordings/player'
 
 type CommentFieldProps = {

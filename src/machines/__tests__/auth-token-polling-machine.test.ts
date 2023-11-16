@@ -1,6 +1,6 @@
 import {authTokenPollingMachine} from '../auth-token-polling-machine'
 import {interpret} from 'xstate'
-import {SimulatedClock} from 'utils/test/simulated-clock'
+import {SimulatedClock} from '@/utils/test/simulated-clock'
 
 test('it starts polling immediately', () => {
   const pollingService = interpret(

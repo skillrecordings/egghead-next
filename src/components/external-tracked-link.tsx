@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {isFunction} from 'formik'
-import {track} from 'utils/analytics/track'
+import {track} from '@/utils/analytics/track'
 
 const isModifiedEvent = (event: any) =>
   !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
