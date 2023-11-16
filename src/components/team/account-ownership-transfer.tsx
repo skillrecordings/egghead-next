@@ -6,7 +6,7 @@ import {track} from '@/utils/analytics'
 import {useViewer} from '@/context/viewer-context'
 import {useMachine} from '@xstate/react'
 import strongConfirmationDialogMachine from '@/machines/strong-confirmation-dialog-machine'
-import TransferOwnershipConfirmDialog from '@/components//team/transfer-ownership-confirm-dialog'
+import TransferOwnershipConfirmDialog from '@/components/team/transfer-ownership-confirm-dialog'
 
 const sendOwnershipTransferInvite = async (
   inviteeEmail: string,

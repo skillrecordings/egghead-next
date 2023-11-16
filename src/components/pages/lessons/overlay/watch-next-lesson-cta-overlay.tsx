@@ -4,7 +4,7 @@ import * as React from 'react'
 import {track} from '@/utils/analytics'
 import noop from '@/utils/noop'
 import {useRouter} from 'next/router'
-import OverlayWrapper from '@/components//pages/lessons/overlay/wrapper'
+import OverlayWrapper from '@/components/pages/lessons/overlay/wrapper'
 import analytics from '@/utils/analytics'
 
 const WatchNextLessonCtaOverlay: React.FunctionComponent<

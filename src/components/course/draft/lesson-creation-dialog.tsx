@@ -1,12 +1,12 @@
 import {Dialog, Transition} from '@headlessui/react'
-import VideoUploader from '@/components//upload/video-uploader'
+import VideoUploader from '@/components/upload/video-uploader'
 import {Field, Form, Formik} from 'formik'
 import useFileUploadReducer from '@/hooks/use-file-upload-reducer'
 import React from 'react'
 import toast from 'react-hot-toast'
 import {trpc} from '@/app/_trpc/client'
 import cx from 'classnames'
-import Spinner from '@/components//spinner'
+import Spinner from '@/components/spinner'
 import {twMerge} from 'tailwind-merge'
 
 const LessonCreationForm: React.FunctionComponent<

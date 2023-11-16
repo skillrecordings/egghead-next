@@ -1,15 +1,15 @@
 import groq from 'groq'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
-import Markdown from '@/components//markdown'
+import Markdown from '@/components/markdown'
 
 import {track} from '@/utils/analytics'
 
 import SearchInstructorEssential from '../instructor-essential'
 import {CardResource} from '@/types'
-import CtaCard from '@/components//search/components/cta-card'
-import {VerticalResourceCard} from '@/components//card/verticle-resource-card'
-import {HorizontalResourceCard} from '@/components//card/horizontal-resource-card'
+import CtaCard from '@/components/search/components/cta-card'
+import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
+import {HorizontalResourceCard} from '@/components/card/horizontal-resource-card'
 
 export default function SearchJamundFerguson({instructor}: {instructor: any}) {
   let {reduxFeature, featuredCourses} = instructor

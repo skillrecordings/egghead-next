@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import {ItemWrapper} from '@/components//pages/user/components/widget-wrapper'
-import {BookmarksList} from '@/components//pages/user/components'
+import {ItemWrapper} from '@/components/pages/user/components/widget-wrapper'
+import {BookmarksList} from '@/components/pages/user/components'
 import {getAbilityFromToken} from '@/server/ability'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {GetServerSideProps} from 'next/types'

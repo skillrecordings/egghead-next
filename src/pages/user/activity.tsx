@@ -1,6 +1,6 @@
-import AppLayout from '@/components//app/layout'
-import UserLayout from '@/components//pages/user/components/user-layout'
-import {ActivityTabContent} from '@/components//pages/user'
+import AppLayout from '@/components/app/layout'
+import UserLayout from '@/components/pages/user/components/user-layout'
+import {ActivityTabContent} from '@/components/pages/user'
 
 const Activity = () => {
   return (

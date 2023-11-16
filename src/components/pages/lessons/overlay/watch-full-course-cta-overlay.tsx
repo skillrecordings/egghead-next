@@ -3,7 +3,7 @@ import Image from 'next/legacy/image'
 import * as React from 'react'
 import {track} from '@/utils/analytics'
 import noop from '@/utils/noop'
-import OverlayWrapper from '@/components//pages/lessons/overlay/wrapper'
+import OverlayWrapper from '@/components/pages/lessons/overlay/wrapper'
 
 const WatchFullCourseCtaOverlay: React.FunctionComponent<
   React.PropsWithChildren<{

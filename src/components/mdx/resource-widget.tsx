@@ -1,6 +1,6 @@
-import Grid from '@/components//grid'
-import {VerticalResourceCard} from '@/components//card/new-vertical-resource-card'
-import {HorizontalResourceCard} from '@/components//card/new-horizontal-resource-card'
+import Grid from '@/components/grid'
+import {VerticalResourceCard} from '@/components/card/new-vertical-resource-card'
+import {HorizontalResourceCard} from '@/components/card/new-horizontal-resource-card'
 import cx from 'classnames'
 import Image from 'next/legacy/image'
 import {
@@ -11,7 +11,7 @@ import {
   CardBody,
   CardAuthor,
   CardFooter,
-} from '@/components//card'
+} from '@/components/card'
 import {CardResource} from '@/types'
 import {get, isEmpty, truncate} from 'lodash'
 import {CheckIcon} from '@heroicons/react/solid'

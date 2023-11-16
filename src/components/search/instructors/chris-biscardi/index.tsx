@@ -1,9 +1,9 @@
 import groq from 'groq'
 import * as React from 'react'
 import SearchInstructorEssential from '../instructor-essential'
-import CtaCard from '@/components//search/components/cta-card'
-import {HorizontalResourceCard} from '@/components//card/horizontal-resource-card'
-import {VerticalResourceCollectionCard} from '@/components//card/vertical-resource-collection-card'
+import CtaCard from '@/components/search/components/cta-card'
+import {HorizontalResourceCard} from '@/components/card/horizontal-resource-card'
+import {VerticalResourceCollectionCard} from '@/components/card/vertical-resource-collection-card'
 
 export default function SearchChrisBiscardi({instructor}: {instructor: any}) {
   const {courses, jamstackCollection, databaseCollection} = instructor

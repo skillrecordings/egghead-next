@@ -16,7 +16,7 @@ import {CardResource} from '@/types'
 import {Textfit} from 'react-textfit'
 import ReactMarkdown from 'react-markdown'
 import useFitText from 'use-fit-text'
-import CheckIcon from '@/components//icons/check'
+import CheckIcon from '@/components/icons/check'
 
 const SearchHitResourceCard: React.FC<
   React.PropsWithChildren<{

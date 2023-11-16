@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
-import ConfirmMembership from '@/components//pages/confirm/membership/index'
+import ConfirmMembership from '@/components/pages/confirm/membership/index'
 
 import {trpc} from '@/app/_trpc/client'
 

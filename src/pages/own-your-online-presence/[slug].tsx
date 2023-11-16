@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
-import mdxComponents from '@/components//mdx'
+import mdxComponents from '@/components/mdx'
 import {sanityClient} from '@/utils/sanity-client'
 import groq from 'groq'
 import {serialize} from 'next-mdx-remote/serialize'

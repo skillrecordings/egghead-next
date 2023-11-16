@@ -6,7 +6,7 @@ import confirmationDialogMachine, {
   ConfirmationDialogMachineContext,
   ConfirmationDialogMachineEvent,
 } from '@/machines/confirmation-dialog-machine'
-import RemoveMemberConfirmDialog from '@/components//team/remove-member-confirm-dialog'
+import RemoveMemberConfirmDialog from '@/components/team/remove-member-confirm-dialog'
 
 const MemberTable = ({
   accountId,

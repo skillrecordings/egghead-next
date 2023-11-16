@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Image from 'next/legacy/image'
-import Spinner from '@/components//spinner'
+import Spinner from '@/components/spinner'
 import usePurchaseAndPlay from '@/hooks/use-purchase-and-play'
 import axios from 'axios'
 import {track} from '@/utils/analytics'

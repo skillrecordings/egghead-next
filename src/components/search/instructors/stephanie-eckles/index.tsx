@@ -5,13 +5,13 @@ import {get} from 'lodash'
 import Link from 'next/link'
 import groq from 'groq'
 
-import {Card} from '@/components//card'
+import {Card} from '@/components/card'
 
 import {bpMinMD} from '@/utils/breakpoints'
 import {track} from '@/utils/analytics'
-import ExternalTrackedLink from '@/components//external-tracked-link'
-import {HorizontalResourceCard} from '@/components//card/new-horizontal-resource-card'
-import {VerticalResourceCard} from '@/components//card/new-vertical-resource-card'
+import ExternalTrackedLink from '@/components/external-tracked-link'
+import {HorizontalResourceCard} from '@/components/card/new-horizontal-resource-card'
+import {VerticalResourceCard} from '@/components/card/new-vertical-resource-card'
 
 export default function SearchStephanieEckles({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}

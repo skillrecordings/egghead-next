@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {sanityClient} from '@/utils/sanity-client'
-import Home from '@/components//pages/home'
+import Home from '@/components/pages/home'
 import {NextSeo} from 'next-seo'
 import find from 'lodash/find'
 import get from 'lodash/get'

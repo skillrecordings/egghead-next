@@ -1,6 +1,6 @@
 import React from 'react'
 import CreateTipForm from '@/module-builder/create-tip-form'
-import Layout from '@/components//app/layout'
+import Layout from '@/components/app/layout'
 import {Alert, AlertDescription} from '@/ui'
 import {AlertTitle} from '@/ui'
 import {GrInfo} from 'react-icons/gr'

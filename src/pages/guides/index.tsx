@@ -1,5 +1,5 @@
 import React from 'react'
-import GuideTemplate from '@/components//guides/guide-template'
+import GuideTemplate from '@/components/guides/guide-template'
 import {getGuides} from '@/lib/guides'
 import {GetStaticProps} from 'next'
 
