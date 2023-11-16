@@ -1,9 +1,9 @@
-import {NextRequest, NextResponse} from 'next/server'
-import {inngest} from '@/inngest/inngest.server'
+import {type NextRequest} from 'next/server'
+import {inngest} from 'inngest/inngest.server'
 import {
   MUX_WEBHOOK_EVENT,
   MuxWebhookEventSchema,
-} from '@/inngest/events/mux-webhook'
+} from 'inngest/events/mux-webhook'
 
 export async function POST(req: NextRequest) {
   // todo: check MUX_WEBHOOK_SIGNING_SECRET to verify the request
