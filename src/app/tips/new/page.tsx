@@ -1,4 +1,4 @@
-import TipCreationForm from 'components/tips/tip-uploader'
+import TipCreationForm from '@/components/tips/tip-uploader'
 
 const NewTip = () => {
   return (
