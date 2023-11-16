@@ -7,7 +7,7 @@ import Markdown from 'react-markdown'
 import {bpMinMD} from '@/utils/breakpoints'
 import {track} from '@/utils/analytics'
 import SearchCuratedEssential from '../curated-essential'
-import ExternalTrackedLink from '@/components//external-tracked-link'
+import ExternalTrackedLink from '@/components/external-tracked-link'
 
 const SearchDocker = () => {
   return (

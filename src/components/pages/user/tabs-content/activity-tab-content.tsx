@@ -7,8 +7,8 @@ import {
   CompletedCourses,
   ContinueLearning,
   LearnerStats,
-} from '@/components//pages/user/components'
-import {ItemWrapper} from '@/components//pages/user/components/widget-wrapper'
+} from '@/components/pages/user/components'
+import {ItemWrapper} from '@/components/pages/user/components/widget-wrapper'
 import {trpc} from '@/app/_trpc/client'
 
 const useProgressForUser = (viewerId: number) => {

@@ -1,4 +1,4 @@
-import TipTemplate from '@/components//tips/tip-template'
+import TipTemplate from '@/components/tips/tip-template'
 import {serverClient} from '@/app/_trpc/serverClient'
 import truncate from 'lodash/truncate'
 import removeMarkdown from 'remove-markdown'

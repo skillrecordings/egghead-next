@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import {ItemWrapper} from '@/components//pages/user/components/widget-wrapper'
-import {BookmarksList} from '@/components//pages/user/components'
+import {ItemWrapper} from '@/components/pages/user/components/widget-wrapper'
+import {BookmarksList} from '@/components/pages/user/components'
 
 const BookmarksTabContent: React.FC<React.PropsWithChildren<any>> = () => {
   return (

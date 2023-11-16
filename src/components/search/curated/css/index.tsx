@@ -6,7 +6,7 @@ import {bpMinMD} from '@/utils/breakpoints'
 import analytics, {track} from '@/utils/analytics'
 import {get, find} from 'lodash'
 import data from './css-page-data'
-import ExternalTrackedLink from '@/components//external-tracked-link'
+import ExternalTrackedLink from '@/components/external-tracked-link'
 import {VerticalResourceCollectionCard} from '../../../card/vertical-resource-collection-card'
 
 const SearchCSS = () => {

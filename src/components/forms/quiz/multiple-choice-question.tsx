@@ -3,7 +3,7 @@ import {FunctionComponent} from 'react'
 import Markdown from 'react-markdown'
 import useQuestion from '@/hooks/use-question'
 import SubmitButton from './submit'
-import CompletedMessage from '@/components//forms/quiz/completed-message'
+import CompletedMessage from '@/components/forms/quiz/completed-message'
 import shuffle from 'lodash/shuffle'
 import {Question, Questions} from '@/types'
 

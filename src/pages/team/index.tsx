@@ -9,9 +9,9 @@ import {loadTeams} from '@/lib/teams'
 import TeamName from '../../components/team/team-name'
 import {getTokenFromCookieHeaders} from '@/utils/auth'
 import {isEmpty, find} from 'lodash'
-import BillingSection from '@/components//team/billing-section'
-import MemberTable from '@/components//team/member-table'
-import AccountOwnershipTransfer from '@/components//team/account-ownership-transfer'
+import BillingSection from '@/components/team/billing-section'
+import MemberTable from '@/components/team/member-table'
+import AccountOwnershipTransfer from '@/components/team/account-ownership-transfer'
 import {trpc} from '@/app/_trpc/client'
 
 export type TeamData = {

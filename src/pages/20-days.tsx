@@ -2,7 +2,7 @@ import * as React from 'react'
 import {NextSeo} from 'next-seo'
 import {CardResource} from '@/types'
 import {GetServerSideProps} from 'next'
-import CourseGrid from '@/components//pages/20-days-of-egghead/course-grid'
+import CourseGrid from '@/components/pages/20-days-of-egghead/course-grid'
 import {loadHolidayCourses} from '@/lib/sale'
 
 type EOYSale2021PageProps = {

@@ -18,7 +18,7 @@ import ReactMarkdown from 'react-markdown'
 import cx from 'classnames'
 import truncate from 'lodash/truncate'
 import analytics from '@/utils/analytics'
-import CheckIcon from '@/components//icons/check'
+import CheckIcon from '@/components/icons/check'
 
 const HorizontalResourceCard: React.FC<
   React.PropsWithChildren<{

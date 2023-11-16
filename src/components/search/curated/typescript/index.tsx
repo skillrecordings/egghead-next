@@ -5,7 +5,7 @@ import typescriptPageData from './typescript-page-data'
 import SearchCuratedEssential from '../curated-essential'
 import {bpMinMD} from '@/utils/breakpoints'
 import {find} from 'lodash'
-import {VerticalResourceCollectionCard} from '@/components//card/vertical-resource-collection-card'
+import {VerticalResourceCollectionCard} from '@/components/card/vertical-resource-collection-card'
 
 const SearchTypescript = () => {
   const location = '@/typescript landing'

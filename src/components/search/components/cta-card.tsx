@@ -4,7 +4,7 @@ import {get} from 'lodash'
 
 import {bpMinMD} from '@/utils/breakpoints'
 import {track} from '@/utils/analytics'
-import ExternalTrackedLink from '@/components//external-tracked-link'
+import ExternalTrackedLink from '@/components/external-tracked-link'
 
 const CtaCard: React.FC<
   React.PropsWithChildren<{

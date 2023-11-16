@@ -8,8 +8,8 @@ import Markdown from 'react-markdown'
 import {track} from '@/utils/analytics'
 import {CardResource} from '@/types'
 import {get} from 'lodash'
-import VideoCard from '@/components//pages/home/video-card'
-import {VerticalResourceCard} from '@/components//card/verticle-resource-card'
+import VideoCard from '@/components/pages/home/video-card'
+import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 import rehypeRaw from 'rehype-raw'
 
 const StateManagement: React.FC<React.PropsWithChildren<any>> = ({data}) => {

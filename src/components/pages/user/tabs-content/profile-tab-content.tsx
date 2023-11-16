@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import {ItemWrapper} from '@/components//pages/user/components/widget-wrapper'
+import {ItemWrapper} from '@/components/pages/user/components/widget-wrapper'
 import {useViewer} from '@/context/viewer-context'
 import {AvatarForm, RequestEmailChangeForm, DeleteAccount} from '../components'
 import {trpc} from '@/app/_trpc/client'

@@ -16,7 +16,7 @@ import {CardResource} from '@/types'
 import {Textfit} from 'react-textfit'
 import analytics from '@/utils/analytics'
 import Heading from './heading'
-import CheckIcon from '@/components//icons/check'
+import CheckIcon from '@/components/icons/check'
 import cx from 'classnames'
 
 const VerticalResourceCard: React.FC<

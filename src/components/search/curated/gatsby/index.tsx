@@ -7,9 +7,9 @@ import Markdown from 'react-markdown'
 import {bpMinMD} from '@/utils/breakpoints'
 import {track} from '@/utils/analytics'
 import SearchCuratedEssential from '../curated-essential'
-import ExternalTrackedLink from '@/components//external-tracked-link'
-import LaurieBarthPageData from '@/components//search/instructors/laurie-barth/laurie-barth-page-data'
-import ResourceCta from '@/components//search/instructors/resource-cta'
+import ExternalTrackedLink from '@/components/external-tracked-link'
+import LaurieBarthPageData from '@/components/search/instructors/laurie-barth/laurie-barth-page-data'
+import ResourceCta from '@/components/search/instructors/resource-cta'
 
 const SearchGatsby = () => {
   return (

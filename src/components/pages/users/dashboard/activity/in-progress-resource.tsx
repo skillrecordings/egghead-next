@@ -6,7 +6,7 @@ import {convertTimeWithTitles} from '@/utils/time-utils'
 import {track} from '@/utils/analytics'
 import {first, get, isEmpty} from 'lodash'
 import {LessonResource} from '@/types'
-import {Card} from '@/components//card'
+import {Card} from '@/components/card'
 
 type InProgressResourceProps = {
   resource: any

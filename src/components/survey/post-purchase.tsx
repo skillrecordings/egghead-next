@@ -6,7 +6,7 @@ import MultiLine from './questions/multi-line'
 import Markdown from 'react-markdown'
 import useCio from '@/hooks/use-cio'
 import {surveyReducer, SurveyQuestion, SurveyState} from './survey-reducer'
-import {Card} from '@/components//card'
+import {Card} from '@/components/card'
 import {postPurchaseSurvey} from './data/post-purchase-survey-data'
 
 const QuestionHeading: React.FunctionComponent<

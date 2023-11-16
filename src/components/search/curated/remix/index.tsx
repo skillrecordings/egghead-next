@@ -3,7 +3,7 @@ import {NextSeo} from 'next-seo'
 import Image from 'next/legacy/image'
 import groq from 'groq'
 import {CardResource} from '@/types'
-import {HorizontalResourceCard} from '@/components//card/topic-page-horizontal-resource-card'
+import {HorizontalResourceCard} from '@/components/card/topic-page-horizontal-resource-card'
 import {useRouter} from 'next/router'
 
 type TopicPage = {

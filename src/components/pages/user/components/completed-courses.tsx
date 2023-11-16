@@ -5,8 +5,8 @@ import {format} from 'date-fns'
 import {isEmpty} from 'lodash'
 import {convertTimeWithTitles} from '@/utils/time-utils'
 
-import Eggo from '@/components//icons/eggo'
-import Spinner from '@/components//spinner'
+import Eggo from '@/components/icons/eggo'
+import Spinner from '@/components/spinner'
 import {ClockIcon} from '@heroicons/react/solid'
 
 type Collection = {

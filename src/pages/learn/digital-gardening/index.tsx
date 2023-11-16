@@ -5,7 +5,7 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import {track} from '@/utils/analytics'
-import {VerticalResourceCard} from '@/components//card/verticle-resource-card'
+import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 import rehypeRaw from 'rehype-raw'
 
 const DigitalGardening: React.FC<React.PropsWithChildren<any>> = ({data}) => {

@@ -9,7 +9,7 @@ import {NextSeo} from 'next-seo'
 import {track} from '@/utils/analytics'
 import {first, get} from 'lodash'
 import {useViewer} from '../../../context/viewer-context'
-import VideoCard from '@/components//pages/home/video-card'
+import VideoCard from '@/components/pages/home/video-card'
 
 type CourseProps = {
   course: any

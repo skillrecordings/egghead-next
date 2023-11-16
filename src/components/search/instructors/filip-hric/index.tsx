@@ -7,11 +7,11 @@ import groq from 'groq'
 import {isFunction} from 'formik'
 import analytics from '@/utils/analytics'
 
-import {Card} from '@/components//card'
+import {Card} from '@/components/card'
 
 import {track} from '@/utils/analytics'
-import {HorizontalResourceCard} from '@/components//card/horizontal-resource-card'
-import {VerticalResourceCard} from '@/components//card/verticle-resource-card'
+import {HorizontalResourceCard} from '@/components/card/horizontal-resource-card'
+import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 
 export default function SearchFilipHric({
   instructor,

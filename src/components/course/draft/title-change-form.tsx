@@ -1,7 +1,7 @@
 import {CheckCircleIcon, XCircleIcon} from '@heroicons/react/solid'
 import {useMachine} from '@xstate/react'
-import {RequestDraftCourseFormProps} from '@/components//layouts/draft-course-page-layout'
-import Spinner from '@/components//spinner'
+import {RequestDraftCourseFormProps} from '@/components/layouts/draft-course-page-layout'
+import Spinner from '@/components/spinner'
 import {Formik} from 'formik'
 import {
   DoneEventObject,

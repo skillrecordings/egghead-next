@@ -1,4 +1,4 @@
-import GuideTemplate from '@/components//guides/guide-template'
+import GuideTemplate from '@/components/guides/guide-template'
 import {Guide, getGuide, getGuides} from '@/lib/guides'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {useRouter} from 'next/router'

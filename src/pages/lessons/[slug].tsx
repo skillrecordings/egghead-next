@@ -14,8 +14,8 @@ import type {
   VideoEvent,
   VideoStateContext,
 } from '@skillrecordings/player/dist/machines/video-machine'
-import {GenericErrorBoundary} from '@/components//generic-error-boundary'
-const Lesson = dynamic(() => import('@/components//pages/lessons/lesson'), {
+import {GenericErrorBoundary} from '@/components/generic-error-boundary'
+const Lesson = dynamic(() => import('@/components/pages/lessons/lesson'), {
   ssr: false,
 })
 const VideoProvider = dynamic(() =>
