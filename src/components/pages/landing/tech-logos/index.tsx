@@ -3,9 +3,9 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {useTheme} from 'next-themes'
 import {useViewer} from '@/context/viewer-context'
-import {track} from '../../../../utils/analytics'
-import axios from '../../../../utils/configured-axios'
-import cookies from '../../../../utils/cookies'
+import {track} from '@/utils/analytics'
+import axios from '@/utils/configured-axios'
+import cookies from '@/utils/cookies'
 
 const useCustomer = () => {
   const [customer, setCustomer] = React.useState()
@@ -28,7 +28,7 @@ const TechLogos = () => {
     'vue',
     'redux',
     'javascript',
-    '@/typescript',
+    'typescript',
     'angular',
     'a11y',
     'graphql',
