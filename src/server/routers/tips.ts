@@ -11,6 +11,7 @@ import gql from 'graphql-tag'
 import graphqlConfig from '@/lib/config'
 import {GraphQLClient} from 'graphql-request'
 import {inngest} from '@/inngest/inngest.server'
+import {TIP_VIDEO_UPLOADED_EVENT} from '@/inngest/events/tips'
 import groq from 'groq'
 
 export const tipsRouter = router({
@@ -20,6 +21,7 @@ export const tipsRouter = router({
         s3Url: z.string(),
         fileName: z.string().nullable(),
         title: z.string(),
+        description: z.string().nullable(),
       }),
     )
     .mutation(async ({ctx, input}) => {
@@ -27,14 +29,12 @@ export const tipsRouter = router({
       const ability = await getAbilityFromToken(ctx?.userToken)
 
       if (ability.can('upload', 'Video')) {
-        const videoResourceId = v4()
-
         const newVideoResource = await sanityWriteClient.create({
           _id: `videoResource-${v4()}`,
           _type: 'videoResource',
           state: 'new',
-          title: input.fileName,
-          originalMediaUrl: input.s3Url,
+          filename: input.fileName,
+          originalVideoUrl: input.s3Url,
         })
         if (newVideoResource._id) {
           // control the id that is used so we can reference it immediately
@@ -59,6 +59,7 @@ export const tipsRouter = router({
             _id: `tip-${id}`,
             _type: 'tip',
             title: input.title,
+            description: input?.description,
             state: 'new',
             accessLevel: 'free',
             slug: {
@@ -88,7 +89,7 @@ export const tipsRouter = router({
 
           if (tip) {
             await inngest.send({
-              name: 'tip/video.uploaded',
+              name: TIP_VIDEO_UPLOADED_EVENT,
               data: {
                 tipId: tip._id,
                 videoResourceId: newVideoResource._id,
