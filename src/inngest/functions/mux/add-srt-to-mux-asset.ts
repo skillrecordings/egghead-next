@@ -7,6 +7,7 @@ import {
   deleteAssetTrack,
   getMuxAsset,
 } from '../../../lib/mux'
+import {sanityWriteClient} from '@/utils/sanity-server'
 
 const COOLDOWN = 10000
 
@@ -21,7 +22,7 @@ export const addSrtToMuxAsset = inngest.createFunction(
       'get the video resource from Sanity',
       async () => {
         const resourceTemp = VideoResourceSchema.safeParse(
-          await sanityQuery(
+          await sanityWriteClient.fetch(
             `*[_type == "videoResource" && _id == "${event.data.videoResourceId}"][0]`,
           ),
         )
@@ -31,7 +32,7 @@ export const addSrtToMuxAsset = inngest.createFunction(
 
     if (videoResource) {
       const muxAsset = await step.run('get the mux asset', async () => {
-        const assetId = videoResource.muxAssetId
+        const assetId = videoResource.muxAsset.muxAssetId
 
         if (!assetId) throw new Error('No Mux Asset ID')
 

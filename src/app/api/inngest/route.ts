@@ -2,6 +2,7 @@ import {serve} from 'inngest/next'
 import {inngest} from '@/inngest/inngest.server'
 import {addSrtToMuxAsset} from '@/inngest/functions/mux/add-srt-to-mux-asset'
 import {videoUploaded} from '@/inngest/functions/video-uploaded'
+import {tipVideoUploaded} from '@/inngest/functions/tip-video-uploaded'
 import {transcriptReady} from '@/inngest/functions/transcript-ready'
 import {
   muxVideoAssetCreated,
@@ -15,6 +16,7 @@ export const {GET, POST, PUT} = serve({
     muxVideoAssetReady,
     transcriptReady,
     videoUploaded,
+    tipVideoUploaded,
     addSrtToMuxAsset,
   ],
 })

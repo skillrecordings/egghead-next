@@ -1,5 +1,5 @@
 import {z} from 'zod'
-import slugify from '@sindresorhus/slugify'
+import slugify from 'slugify'
 import {customAlphabet} from 'nanoid'
 import {groupBy} from 'lodash'
 import {v4} from 'uuid'
@@ -11,6 +11,8 @@ import gql from 'graphql-tag'
 import graphqlConfig from '@/lib/config'
 import {GraphQLClient} from 'graphql-request'
 import {inngest} from '@/inngest/inngest.server'
+import {TIP_VIDEO_UPLOADED_EVENT} from '@/inngest/events/tips'
+import groq from 'groq'
 
 export const tipsRouter = router({
   create: baseProcedure
@@ -19,24 +21,21 @@ export const tipsRouter = router({
         s3Url: z.string(),
         fileName: z.string().nullable(),
         title: z.string(),
+        description: z.string().optional().nullable(),
       }),
     )
     .mutation(async ({ctx, input}) => {
-      // create a video resource, which should trigger the process of uploading to
-      // mux and ordering a transcript because of the active webhook
+      if (!ctx?.userToken) return new Response('Unauthorized', {status: 401})
       const ability = await getAbilityFromToken(ctx?.userToken)
 
-      // use CASL rbac to check if the user can create content
-      if (ability.can('create', 'Content')) {
-        // create the video resource object in Sanity
+      if (ability.can('upload', 'Video')) {
         const newVideoResource = await sanityWriteClient.create({
           _id: `videoResource-${v4()}`,
           _type: 'videoResource',
           state: 'new',
-          title: input.fileName,
-          originalMediaUrl: input.s3Url,
+          filename: input.fileName,
+          originalVideoUrl: input.s3Url,
         })
-
         if (newVideoResource._id) {
           // control the id that is used so we can reference it immediately
           const id = v4()
@@ -46,16 +45,34 @@ export const tipsRouter = router({
             5,
           )
 
-          // create the Tip resource in sanity with the video resource attached
+          const {instructor_id: instructorId} = JSON.parse(
+            ctx.req?.cookies.get('eh_user')?.value ?? "{instructor_id: ''}",
+          )
+
+          let sanityInstructor = await sanityWriteClient.fetch(groq`
+          *[_type == 'collaborator' && eggheadInstructorId == '${instructorId}'][0] {
+            _id,
+          }
+        `)
+
           const tipResource = await sanityWriteClient.create({
             _id: `tip-${id}`,
             _type: 'tip',
-            state: 'new',
             title: input.title,
+            description: input?.description,
+            state: 'new',
+            accessLevel: 'free',
             slug: {
               // since title is unique, we can use it as the slug with a random string
               current: `${slugify(input.title)}~${nanoid()}`,
             },
+            collaborators: [
+              {
+                _key: v4(),
+                _type: 'reference',
+                _ref: sanityInstructor._id,
+              },
+            ],
             resources: [
               {
                 _key: v4(),
@@ -72,7 +89,7 @@ export const tipsRouter = router({
 
           if (tip) {
             await inngest.send({
-              name: 'tip/video.uploaded',
+              name: TIP_VIDEO_UPLOADED_EVENT,
               data: {
                 tipId: tip._id,
                 videoResourceId: newVideoResource._id,
@@ -84,9 +101,9 @@ export const tipsRouter = router({
         } else {
           throw new Error('Could not create video resource')
         }
-      } else {
-        throw new Error('Unauthorized')
       }
+
+      return new Response('Unauthorized', {status: 401})
     }),
   update: baseProcedure
     .input(
