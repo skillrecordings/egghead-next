@@ -71,7 +71,7 @@ const formatString = (str: string) => {
 }
 
 const NewTipFormSchema = z.object({
-  title: z.string().min(30).max(90),
+  title: z.string().min(10).max(90),
   description: z.string().min(2).max(240),
   s3Url: z.string().min(4),
 })
@@ -102,7 +102,7 @@ const TipCreationForm: React.FunctionComponent<
       form.setValue('s3Url', '')
 
       await trpcUtils.tips.invalidate()
-      // router.refresh()
+      router.refresh()
     },
     onError: (error) => {
       toast.error(

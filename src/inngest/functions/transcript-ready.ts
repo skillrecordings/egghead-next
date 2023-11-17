@@ -3,13 +3,20 @@ import {inngest} from '@/inngest/inngest.server'
 import {TRANSCRIPT_READY_EVENT} from '@/inngest/events/transcript-requested'
 import {MUX_SRT_READY_EVENT} from '@/inngest/events/mux-add-srt-to-asset'
 import {sanityMutation, sanityQuery} from '@/utils/sanity.fetch.only.server'
+import {sanityWriteClient} from '@/utils/sanity-server'
 
 export const VideoResourceSchema = z.object({
   _id: z.string(),
-  muxPlaybackId: z.string().optional(),
-  muxAssetId: z.string().optional(),
-  transcript: z.string().optional(),
-  srt: z.string().optional(),
+  muxAsset: z.object({
+    muxPlaybackId: z.string().optional(),
+    muxAssetId: z.string().optional(),
+  }),
+  transcript: z
+    .object({
+      text: z.string().optional(),
+      srt: z.string().optional(),
+    })
+    .optional(),
   state: z.enum(['new', 'processing', 'preparing', 'ready', 'errored']),
 })
 
@@ -23,7 +30,7 @@ export const transcriptReady = inngest.createFunction(
       'get the video resource from Sanity',
       async () => {
         const resourceTemp = VideoResourceSchema.safeParse(
-          await sanityQuery(
+          await sanityWriteClient.fetch(
             `*[_type == "videoResource" && _id == "${event.data.videoResourceId}"][0]`,
           ),
         )
@@ -33,18 +40,16 @@ export const transcriptReady = inngest.createFunction(
 
     if (videoResource) {
       await step.run('update the video resource in Sanity', async () => {
-        return await sanityMutation([
-          {
-            patch: {
-              id: videoResource._id,
-              set: {
-                srt: event.data.srt,
-                transcript: event.data.transcript,
-                state: `ready`,
-              },
+        return await sanityWriteClient
+          .patch(videoResource._id)
+          .set({
+            transcript: {
+              srt: event.data.srt,
+              text: event.data.transcript,
             },
-          },
-        ])
+            state: `preparing`,
+          })
+          .commit()
       })
 
       await step.sendEvent('announce that srt is ready', {

@@ -17,6 +17,7 @@ export async function orderDeepgramTranscript({
   })
 
   // just weird URL differences between dev and prod
+  // replace with ngrok tunnel in dev
   const callbackBase = process.env.NEXT_PUBLIC_DEPLOYMENT_URL
 
   const deepgramParams = new URLSearchParams({
