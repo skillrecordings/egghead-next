@@ -73,7 +73,7 @@ const formatString = (str: string) => {
 const NewTipFormSchema = z.object({
   title: z.string().min(10).max(90),
   description: z.string().min(2).max(240),
-  s3Url: z.string().min(4),
+  s3Url: z.string().trim().url({ message: 'Please Upload a Video' }),
 })
 
 const TipCreationForm: React.FunctionComponent<
