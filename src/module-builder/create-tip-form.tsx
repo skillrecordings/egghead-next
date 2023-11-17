@@ -61,12 +61,12 @@ const CreateTipForm: React.FC = () => {
             fileName,
             title: values.title,
           },
-          {
-            onSettled: (data) => {
-              console.log('tip creation settled', data)
-              router.push(`/creator/tips/${data?.slug}`)
-            },
-          },
+          // {
+          //   onSettled: (data) => {
+          //     console.log('tip creation settled', data)
+          //     router.push(`/creator/tips/${data?.slug}`)
+          //   },
+          // },
         )
       }
     } catch (err) {
@@ -139,7 +139,7 @@ const CreateTipForm: React.FC = () => {
                 <FormDescription>
                   {form.formState.isSubmitting || tipFormState === 'success' ? (
                     <div className="flex items-center justify-between gap-3">
-                      <div className="w-6 flex-shrink-0 text-xs">
+                      <div className="flex-shrink-0 w-6 text-xs">
                         {(progress * 100).toFixed(0)}%
                       </div>
                       <Progress

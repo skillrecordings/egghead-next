@@ -21,7 +21,7 @@ export const tipsRouter = router({
         s3Url: z.string(),
         fileName: z.string().nullable(),
         title: z.string(),
-        description: z.string().nullable(),
+        description: z.string().optional().nullable(),
       }),
     )
     .mutation(async ({ctx, input}) => {
