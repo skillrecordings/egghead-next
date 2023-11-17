@@ -12,7 +12,6 @@
     "dev": "next dev",
     "dev:concurrent": "concurrently \"npm:dev:*\"",
     "dev:inngest": "npx inngest-cli@latest dev",
-    "dev:party": "npx partykit dev",
     "dev-build": "NODE_ENV=production yarn test:ci && next build",
     "sanity": "cd studio && sanity dev",
     "prebuild": "yarn make-tags-sitemap",
