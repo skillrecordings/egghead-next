@@ -190,6 +190,9 @@ export const tipsRouter = router({
       }),
     )
     .mutation(async ({input, ctx}) => {
+      if (process.env.NODE_ENV === 'development') {
+        return true
+      }
       const token = ctx?.userToken
 
       if (!token) return null
