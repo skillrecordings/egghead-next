@@ -29,7 +29,7 @@ const TipTemplate = ({
   tips: Tip[]
   coursesFromTag: any
 }) => {
-  const markComplete = {mutateAsync: ({tipId}: {tipId: any}) => true} //trpc.tips.markTipComplete.useMutation()
+  const markComplete = trpc.tips.markTipComplete.useMutation()
 
   const {instructor, tags} = tip
 
@@ -59,9 +59,9 @@ const TipTemplate = ({
           exerciseSlug={tip.slug}
           path="/tips"
         >
-          <main className="mx-auto w-full" id="tip">
+          <main className="w-full mx-auto" id="tip">
             <div className="relative z-10 flex items-center justify-center">
-              <div className="flex w-full max-w-screen-xl flex-col">
+              <div className="flex flex-col w-full max-w-screen-xl">
                 <div className="flex items-center justify-center overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b-md">
                   <TipPlayer
                     tip={tip}
@@ -72,15 +72,15 @@ const TipTemplate = ({
                 </div>
               </div>
             </div>
-            <article className="relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 xl:border-gray-800 xl:pt-10">
-              <div className="mx-auto w-full max-w-screen-lg pb-5 lg:px-5">
-                <div className="flex w-full grid-cols-5 flex-col gap-0 sm:gap-10 xl:grid">
+            <article className="relative z-10 px-5 pt-8 pb-16 border-l border-transparent sm:pt-10 xl:border-gray-800 xl:pt-10">
+              <div className="w-full max-w-screen-lg pb-5 mx-auto lg:px-5">
+                <div className="flex flex-col w-full grid-cols-5 gap-0 sm:gap-10 xl:grid">
                   <div className="col-span-3">
                     <div className="flex flex-col">
                       {tip?.eggheadRailsLessonId && (
                         <TipCompleted
                           id={tip.eggheadRailsLessonId}
-                          className="lg:hidden block mb-2"
+                          className="block mb-2 lg:hidden"
                         />
                       )}
                       <div className="flex lg:space-x-2 lg:-ml-7">
@@ -90,11 +90,11 @@ const TipTemplate = ({
                             className="hidden lg:block "
                           />
                         )}
-                        <h1 className="leading-tighter inline-flex w-full max-w-2xl items-baseline text-xl font-black lg:text-3xl">
+                        <h1 className="inline-flex items-baseline w-full max-w-2xl text-xl font-black leading-tighter lg:text-3xl">
                           {tip.title}
                         </h1>
                       </div>
-                      <div className="flex justify-between items-center mt-4">
+                      <div className="flex items-center justify-between mt-4">
                         {instructor && (
                           <div className="flex items-center flex-shrink-0">
                             <Link
@@ -147,14 +147,14 @@ const TipTemplate = ({
                         )}
                       </div>
                       {tags && (
-                        <div className="mt-4 block lg:hidden">
+                        <div className="block mt-4 lg:hidden">
                           <Tags tags={tags} lessonSlug={tip.slug} />
                         </div>
                       )}
                     </div>
                     {tip.body && (
                       <>
-                        <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert lg:prose-lg">
+                        <div className="w-full pt-5 pb-5 prose max-w-none dark:prose-invert lg:prose-lg">
                           <MarkdownCodeblock tip={tip.body} />
                         </div>
                         <hr className="bg-indigo-400" />
@@ -172,7 +172,7 @@ const TipTemplate = ({
                   </div>
                 </div>
               </div>
-              <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
+              <div className="flex flex-col w-full max-w-screen-xl gap-10 mx-auto sm:pt-10 md:flex-row">
                 {tip.transcript && !tip.body && (
                   <div className="w-full max-w-2xl pt-5">
                     <VideoTranscript transcript={tip.transcript} />
@@ -200,11 +200,11 @@ const TipCompleted = ({id, className}: {id: number; className?: string}) => {
     <div className={twMerge('lg:mt-3', className)}>
       {tipCompleted ? (
         <span className="self-start">
-          <CheckCircleIcon className="h-5 w-5 text-green-500  rounded-full" />
+          <CheckCircleIcon className="w-5 h-5 text-green-500 rounded-full" />
         </span>
       ) : (
         <span className="self-start">
-          <CheckCircleIconOutline className="h-5 w-5 text-gray-300" />
+          <CheckCircleIconOutline className="w-5 h-5 text-gray-300" />
         </span>
       )}
     </div>
