@@ -13,6 +13,7 @@ import {GraphQLClient} from 'graphql-request'
 import {inngest} from '@/inngest/inngest.server'
 import {TIP_VIDEO_UPLOADED_EVENT} from '@/inngest/events/tips'
 import groq from 'groq'
+import {loadCurrentUser} from '@/lib/users'
 
 export const tipsRouter = router({
   create: baseProcedure
@@ -44,16 +45,17 @@ export const tipsRouter = router({
             '1234567890abcdefghijklmnopqrstuvwxyz',
             5,
           )
-
-          const {instructor_id: instructorId} = JSON.parse(
-            ctx.req?.cookies.get('eh_user')?.value ?? "{instructor_id: ''}",
+          const {instructor_id: instructorId} = await loadCurrentUser(
+            ctx?.userToken,
           )
+          if (!instructorId) throw new Error('Instructor ID not found')
 
           let sanityInstructor = await sanityWriteClient.fetch(groq`
           *[_type == 'collaborator' && eggheadInstructorId == '${instructorId}'][0] {
             _id,
-          }
-        `)
+          }`)
+          if (!sanityInstructor)
+            throw new Error('Sanity Instructor ID not found')
 
           const tipResource = await sanityWriteClient.create({
             _id: `tip-${id}`,
