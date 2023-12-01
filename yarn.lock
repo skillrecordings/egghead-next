@@ -2591,38 +2591,38 @@
     esdoc-ecmascript-proposal-plugin "^1.0.0"
     jsonwebtoken "^9.0.0"
 
-"@mux/mux-player-react@^1.14.1":
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/@mux/mux-player-react/-/mux-player-react-1.15.0.tgz#32e5b9b6bf274c9bb9d66c8e1c1fbe67b5a8fe02"
-  integrity sha512-U699OMiVgKCrhjnw6cGemtqRVuja5YDOVXSMMGGGEdWpoPArrDqYDAkwmfUpK9eRUPiPaBC9IjLpl/8SvCYpRw==
+"@mux/mux-player-react@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@mux/mux-player-react/-/mux-player-react-2.2.0.tgz#1f61701c3b570accf52c36a1e91b96ede1eb59c1"
+  integrity sha512-oPkYj4a8ls/3S4nqPmpIxu7hh99mDglOnClnsetZEaVOQd5aomFExRHoDapWOeuIwTPBtz16xaIbUe+k1B1HqA==
   dependencies:
-    "@mux/mux-player" "1.15.0"
-    "@mux/playback-core" "0.20.2"
+    "@mux/mux-player" "2.2.0"
+    "@mux/playback-core" "0.21.0"
     prop-types "^15.7.2"
 
-"@mux/mux-player@1.15.0":
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/@mux/mux-player/-/mux-player-1.15.0.tgz#660d8f3489fee40a200e011e8e9aa6e790abf970"
-  integrity sha512-b7U82PbsH6/lTSiHMSQyqnofuRoTqCgx6L5DvF81r/oicXLzwB6kaSmp14WX+KBEduzAVKEykGcQOZXcjYDFgg==
+"@mux/mux-player@2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@mux/mux-player/-/mux-player-2.2.0.tgz#6dffc1cce886fcc8f39d3b0c6789e56398d72d6e"
+  integrity sha512-Pju18K+z28ZJFXQevD0jU5SNaJjS6fluPAplhYDVqQ5U2FevZ8ig2PfFxbFqjQyVk1SJNwgKUNMFgfKVrnONsg==
   dependencies:
-    "@mux/mux-video" "0.16.5"
-    "@mux/playback-core" "0.20.2"
-    media-chrome "^1.4.3"
+    "@mux/mux-video" "0.17.0"
+    "@mux/playback-core" "0.21.0"
+    media-chrome "^1.5.0"
 
-"@mux/mux-video@0.16.5":
-  version "0.16.5"
-  resolved "https://registry.yarnpkg.com/@mux/mux-video/-/mux-video-0.16.5.tgz#f36557b3ce8212123bf6d0994cf1bbe15964e028"
-  integrity sha512-YtM8A+AcYRD8AhcaensueNcUABjBJcDCg34M0rxhRIOBLaAr6Gz9qo9dRGuI0n+Rm6xD0VCRlS41D3YbJ8NNHA==
+"@mux/mux-video@0.17.0":
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/@mux/mux-video/-/mux-video-0.17.0.tgz#236324c5a8825e6851d11029c7fcf3a1b8113006"
+  integrity sha512-cTi0N/aQtQ4KRvd/DLkaTsmOrCSLnfvvzfW7MNF2AIXeuuGTCkAv7wfV5RjY0VUgl3Y8NcJxMu6eCS0FRkvMyw==
   dependencies:
-    "@mux/playback-core" "0.20.2"
+    "@mux/playback-core" "0.21.0"
     castable-video "0.5.2"
     custom-media-element "0.2.0"
     media-tracks ">=0.2.3"
 
-"@mux/playback-core@0.20.2":
-  version "0.20.2"
-  resolved "https://registry.yarnpkg.com/@mux/playback-core/-/playback-core-0.20.2.tgz#44180c1c3f3eb1de271d215b2f2180b36ce021ee"
-  integrity sha512-0uRy+8Rv3PDV0f7Je/m+y56lw96iyv3baxQPDmW2JnihR60/wtIzNRJSLE5vrzsKMysWBrnJ6Mwu8WkEB1qjLQ==
+"@mux/playback-core@0.21.0":
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/@mux/playback-core/-/playback-core-0.21.0.tgz#946b2c92aeeec889975d47557d2b6f72bc63320d"
+  integrity sha512-AoswERCtLxW5fP2rkafMYjCYciBRi2TsIT48AuKvCQu4+LQ3xQEZX28MwqCNEx0VCU9yK+bSr5ngu7YBUN9HVQ==
   dependencies:
     hls.js "^1.4.10"
     media-tracks "0.2.3"
@@ -15816,10 +15816,10 @@ mdx-bundler@9.2.1:
     uuid "^8.3.2"
     vfile "^5.3.2"
 
-media-chrome@^1.4.3:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/media-chrome/-/media-chrome-1.4.4.tgz#3566ac99a6aeafd6fab6701f73fc701422c959d8"
-  integrity sha512-L3EImWE2ft3dEXnku7mwEl71L8GWFvsnqQQsmtlbuLqekCkIACjL1KjLErReALB9JmrY19ffB4GeGZjLZDwALg==
+media-chrome@^1.5.0:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/media-chrome/-/media-chrome-1.5.4.tgz#5f2d9de9e79d3611780181fbf8ae93962c5b9017"
+  integrity sha512-BKWxw21Y6WZX4WX5WfwtmyMlnCKf4IrVbG7n5dWbQQew1ZFtKEUjR0xYqKDqOi1fkZkP3T2j2+MCRNuRB5YT+A==
 
 media-tracks@0.2.3:
   version "0.2.3"
@@ -24005,7 +24005,7 @@ zod@3.19.1:
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.19.1.tgz#112f074a97b50bfc4772d4ad1576814bd8ac4473"
   integrity sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==
 
-zod@~3.22.3:
+zod@^3.20.6, zod@~3.22.3:
   version "3.22.4"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==

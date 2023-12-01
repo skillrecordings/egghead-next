@@ -47,7 +47,7 @@ const Tag = (props: any) => {
   const defaultOgImage: string | undefined = title
     ? `https://og-image-react-egghead.now.sh/article/${encodeURIComponent(
         title,
-      )}?author=${encodeURIComponent(author.name)}&theme=dark`
+      )}?author=${encodeURIComponent(author?.name ?? 'Instructor')}&theme=dark`
     : undefined
 
   const ogImage = seo.ogImage ? seo.ogImage : defaultOgImage

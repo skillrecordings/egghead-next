@@ -26,7 +26,7 @@ export const tipsRouter = router({
       }),
     )
     .mutation(async ({ctx, input}) => {
-      if (!ctx?.userToken) return new Response('Unauthorized', {status: 401})
+      if (!ctx?.userToken) throw new Error('Unauthorized')
       const ability = await getAbilityFromToken(ctx?.userToken)
 
       if (ability.can('upload', 'Video')) {
@@ -99,13 +99,19 @@ export const tipsRouter = router({
             })
           }
 
-          return tip
+          const parsedTip = TipSchema.safeParse(tip)
+
+          if (parsedTip.success) {
+            return parsedTip.data
+          } else {
+            throw new Error('Could not create tip')
+          }
         } else {
           throw new Error('Could not create video resource')
         }
       }
 
-      return new Response('Unauthorized', {status: 401})
+      throw new Error('Unauthorized')
     }),
   update: baseProcedure
     .input(

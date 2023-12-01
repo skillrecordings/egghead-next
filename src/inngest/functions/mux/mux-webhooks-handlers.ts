@@ -58,6 +58,10 @@ export const muxVideoAssetReady = inngest.createFunction(
           },
         ])
       })
+
+      await step.run('announce video processed', async () => {
+        return 'TODO: announce in slack'
+      })
     }
 
     // TODO Partykit

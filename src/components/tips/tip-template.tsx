@@ -22,14 +22,13 @@ import analytics from '@/utils/analytics'
 
 const TipTemplate = ({
   tip,
-  tips,
   coursesFromTag,
 }: {
   tip: Tip
-  tips: Tip[]
   coursesFromTag: any
 }) => {
   const markComplete = trpc.tips.markTipComplete.useMutation()
+  const {data: tips = []} = trpc.tips.published.useQuery()
 
   const {instructor, tags} = tip
 
@@ -38,7 +37,6 @@ const TipTemplate = ({
     if (tip?.eggheadRailsLessonId) {
       await markComplete.mutateAsync({tipId: tip?.eggheadRailsLessonId})
     }
-    console.log('video ended')
   }
 
   const module: any = {

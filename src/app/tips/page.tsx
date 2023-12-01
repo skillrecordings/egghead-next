@@ -1,17 +1,9 @@
-import {Tip} from '@/lib/tips'
+import {getAllTips, Tip} from '@/lib/tips'
 import TipCard from '@/components/tips/tip-card'
 import Balancer from 'react-wrap-balancer'
 
-import {serverClient} from '@/app/_trpc/serverClient'
-
-type TipsIndex = {
-  tips: Tip[]
-}
-
 const TipsIndex: React.FC<any> = async () => {
-  const allTips = await serverClient.tips.all()
-  const publishedTips =
-    allTips.find((tipGroup) => tipGroup.state === 'published')?.tips ?? []
+  const publishedTips = await getAllTips({onlyPublished: true})
 
   return (
     <>
