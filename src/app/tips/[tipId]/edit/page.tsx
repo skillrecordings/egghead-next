@@ -59,12 +59,9 @@ const TipActions: React.FC<{tip: Tip | undefined; className?: string}> = ({
       className={twMerge('flex flex-col items-center lg:flex-row', className)}
     >
       <Button variant="link" size="sm" asChild className="gap-1">
-        <Link
-          href={`${process.env.NEXT_PUBLIC_URL}/tips/${tip?.slug}`}
-          target="_blank"
-        >
+        <Link href={`/tips/${tip?.slug}`} target="_blank">
           <RxEyeOpen className="h-4 w-4" />
-          Preview
+          View Tip
         </Link>
       </Button>
       <Button asChild size="sm" className="ml-4 gap-1">
