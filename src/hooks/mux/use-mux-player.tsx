@@ -181,9 +181,16 @@ export const VideoProvider: React.FC<
 
   const isModuleComplete =
     nextExerciseStatus !== 'loading' && !nextExercise && !nextSection
+
+  console.log(module, lesson)
+
   const isFirstLessonInModule =
-    (module.lessons && module.lessons[0].slug === lesson.slug) ||
-    (section?.lessons && section?.lessons[0]?.slug === lesson.slug)
+    (module.lessons &&
+      Boolean(module.lessons?.length) &&
+      module.lessons[0].slug === lesson.slug) ||
+    (section?.lessons &&
+      Boolean(section.lessons?.length) &&
+      section?.lessons[0]?.slug === lesson.slug)
 
   const onEndedCallback = React.useCallback(async () => {
     exitFullscreen()
