@@ -9,29 +9,15 @@ import Layout from '@/components/app/layout'
 import cn from 'classnames'
 import {getTip, type Tip} from '@/lib/tips'
 import {RxPlus, RxPencil1, RxEyeOpen} from 'react-icons/rx'
-import {GetServerSideProps} from 'next'
+import {Suspense} from 'react'
+import {notFound} from 'next/navigation'
 
-export const getServerSideProps: GetServerSideProps = async function ({query}) {
-  const tip = await getTip(query?.tip as string)
+const EditTip = async ({params}: {params: {tipId: string}}) => {
+  const tip = await getTip(params.tipId as string)
 
   if (!tip) {
-    return {
-      notFound: true,
-    }
+    return notFound()
   }
-
-  return {
-    props: {
-      tip,
-    },
-  }
-}
-
-const EditTip = ({slug}: {slug?: string}) => {
-  const router = useRouter()
-  const {data: tip, status: tipStatus} = trpc.tips.bySlug.useQuery({
-    slug: (slug ?? router.query.slug) as string,
-  })
 
   return (
     <Layout>
@@ -42,20 +28,23 @@ const EditTip = ({slug}: {slug?: string}) => {
       <main className="mx-auto flex w-full max-w-screen-lg flex-col-reverse gap-8 pb-16 lg:flex-row">
         <TipsNavigationList />
         <article className="flex w-full flex-col space-y-6 px-5 pt-5 lg:px-0 lg:pt-0">
-          {tipStatus === 'success' ? (
-            <>
-              <Video playbackId={tip?.muxPlaybackId} />
-              <EditTipForm key={tip._id} tip={tip} />
-            </>
-          ) : (
-            <div className="flex flex-col space-y-4">
-              <Skeleton className="aspect-video" />
-              {new Array(6).fill(0).map((_, i) => (
-                <Skeleton key={i} className="h-16 w-full" />
-              ))}
-            </div>
-          )}
-          <TipActions className="flex flex-row flex-wrap lg:hidden" tip={tip} />
+          <Suspense
+            fallback={
+              <>
+                <Skeleton className="aspect-video" />
+                {new Array(6).fill(0).map((_, i) => (
+                  <Skeleton key={i} className="h-16 w-full" />
+                ))}
+              </>
+            }
+          >
+            <Video playbackId={tip?.muxPlaybackId} />
+            <EditTipForm key={tip._id} tip={tip} />
+            <TipActions
+              className="flex flex-row flex-wrap lg:hidden"
+              tip={tip}
+            />
+          </Suspense>
         </article>
       </main>
     </Layout>
@@ -72,16 +61,6 @@ const TipActions: React.FC<{tip: Tip | undefined; className?: string}> = ({
     <div
       className={twMerge('flex flex-col items-center lg:flex-row', className)}
     >
-      <Button variant="link" size="sm" asChild className="gap-2">
-        <Link
-          href={`https://epic-web.sanity.studio/desk/tips;${tip?._id}`}
-          target="_blank"
-          className="gap-0.5"
-        >
-          <RxPencil1 className="h-4 w-4" />
-          Open in Sanity
-        </Link>
-      </Button>
       <Button variant="link" size="sm" asChild className="gap-1">
         <Link
           href={`${process.env.NEXT_PUBLIC_URL}/tips/${tip?.slug}`}
@@ -92,7 +71,7 @@ const TipActions: React.FC<{tip: Tip | undefined; className?: string}> = ({
         </Link>
       </Button>
       <Button asChild size="sm" className="ml-4 gap-1">
-        <Link href="/creator/tips/new">
+        <Link href="/tips/new">
           <RxPlus className="h-4 w-4" /> Create a New Tip
         </Link>
       </Button>
@@ -123,7 +102,7 @@ const TipsNavigationList = () => {
                       return (
                         <li key={tip._id}>
                           <Link
-                            href={`/creator/tips/${tip.slug}`}
+                            href={`/tips/${tip.slug}`}
                             className={cn(
                               'flex rounded px-3 py-2 text-sm font-medium',
                               {

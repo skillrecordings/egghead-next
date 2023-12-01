@@ -14,6 +14,10 @@ export const tipVideoUploaded = inngest.createFunction(
     let tip: any = null
     let tipVideo: any = null
 
+    await step.run('announce video resource created', async () => {
+      return 'TODO: announce in slack'
+    })
+
     if (event.data.tipId) {
       tip = await step.run('get the tip from Sanity', async () => {
         return await sanityWriteClient.fetch(

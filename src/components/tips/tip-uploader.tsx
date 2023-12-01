@@ -73,7 +73,7 @@ const formatString = (str: string) => {
 const NewTipFormSchema = z.object({
   title: z.string().min(10).max(90),
   description: z.string().min(2).max(240),
-  s3Url: z.string().trim().url({ message: 'Please Upload a Video' }),
+  s3Url: z.string().trim().url({message: 'Please Upload a Video'}),
 })
 
 const TipCreationForm: React.FunctionComponent<
@@ -92,7 +92,7 @@ const TipCreationForm: React.FunctionComponent<
   const trpcUtils = trpc.useUtils()
 
   const {mutate: createTip} = trpc.tips.create.useMutation({
-    onSuccess: async () => {
+    onSuccess: async (newTip) => {
       toast.success(`Tip created.`, {
         duration: 3000,
         icon: '✅',
@@ -102,11 +102,11 @@ const TipCreationForm: React.FunctionComponent<
       form.setValue('s3Url', '')
 
       await trpcUtils.tips.invalidate()
-      router.refresh()
+      router.push(`/tips/edit/${newTip?.slug}`)
     },
     onError: (error) => {
       toast.error(
-        `There was a problem creating this tip. Contact egghead staff if the issue persists.`,
+        `There was a problem creating this tip. Contact egghead staff if the issue persists.\n\n${error.message}`,
         {
           duration: 3000,
           icon: '❌',
