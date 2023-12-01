@@ -2,31 +2,28 @@ import Link from 'next/link'
 import {Button, Skeleton} from '@/ui'
 import EditTipForm, {Video} from '@/module-builder/edit-tip-form'
 import {twMerge} from 'tailwind-merge'
-import Balancer from 'react-wrap-balancer'
-import {useRouter} from 'next/router'
-import {trpc} from '@/app/_trpc/client'
-import Layout from '@/components/app/layout'
-import cn from 'classnames'
 import {getTip, type Tip} from '@/lib/tips'
 import {RxPlus, RxPencil1, RxEyeOpen} from 'react-icons/rx'
 import {Suspense} from 'react'
 import {notFound} from 'next/navigation'
 
 const EditTip = async ({params}: {params: {tipId: string}}) => {
+  console.log(params)
   const tip = await getTip(params.tipId as string)
+
+  console.log()
 
   if (!tip) {
     return notFound()
   }
 
   return (
-    <Layout>
+    <div>
       <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-between space-y-5 pl-3 lg:flex-row lg:space-y-0 lg:py-6">
         <h1 className="hidden text-3xl font-bold lg:block">Your Tips</h1>
         <TipActions className="hidden lg:flex" tip={tip} />
       </header>
       <main className="mx-auto flex w-full max-w-screen-lg flex-col-reverse gap-8 pb-16 lg:flex-row">
-        <TipsNavigationList />
         <article className="flex w-full flex-col space-y-6 px-5 pt-5 lg:px-0 lg:pt-0">
           <Suspense
             fallback={
@@ -47,7 +44,7 @@ const EditTip = async ({params}: {params: {tipId: string}}) => {
           </Suspense>
         </article>
       </main>
-    </Layout>
+    </div>
   )
 }
 
@@ -76,61 +73,5 @@ const TipActions: React.FC<{tip: Tip | undefined; className?: string}> = ({
         </Link>
       </Button>
     </div>
-  )
-}
-
-const TipsNavigationList = () => {
-  const {data: tips, status: tipsStatus} = trpc.tips.all.useQuery()
-  const router = useRouter()
-
-  return (
-    <nav className="w-full lg:max-w-[280px]">
-      <ul className="flex flex-col">
-        {tipsStatus === 'success' ? (
-          <>
-            {tips?.map((tipGroup, groupIdx) => {
-              return (
-                <li key={tipGroup.state} className="py-3">
-                  <h2 className="pb-3 pl-3 text-sm font-bold uppercase">
-                    {tipGroup.state}
-                  </h2>
-                  <ul className="flex flex-col gap-0.5">
-                    {tipGroup.tips.map((tip, tipIdx) => {
-                      const isActive = router.query.slug
-                        ? tip.slug === router.query.slug
-                        : groupIdx === 0 && tipIdx === 0
-                      return (
-                        <li key={tip._id}>
-                          <Link
-                            href={`/tips/${tip.slug}`}
-                            className={cn(
-                              'flex rounded px-3 py-2 text-sm font-medium',
-                              {
-                                'bg-white text-foreground text-opacity-100 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:bg-white/20':
-                                  isActive,
-                                'opacity-80 transition hover:opacity-100':
-                                  !isActive,
-                              },
-                            )}
-                          >
-                            <Balancer>{tip.title}</Balancer>
-                          </Link>
-                        </li>
-                      )
-                    })}
-                  </ul>
-                </li>
-              )
-            })}
-          </>
-        ) : (
-          <div className="flex flex-col space-y-4">
-            {new Array(10).fill(0).map((_, i) => (
-              <Skeleton key={i} className="h-10 w-full" />
-            ))}
-          </div>
-        )}
-      </ul>
-    </nav>
   )
 }

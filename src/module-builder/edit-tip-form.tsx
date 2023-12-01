@@ -16,10 +16,9 @@ import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import MuxPlayer from '@mux/mux-player-react'
 import {trpc} from '@/app/_trpc/client'
-import {useRouter} from 'next/router'
+import {redirect} from 'next/navigation'
 
 const EditTipForm: React.FC<{tip: Tip}> = ({tip}) => {
-  const router = useRouter()
   const formSchema = TipSchema
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,7 +39,7 @@ const EditTipForm: React.FC<{tip: Tip}> = ({tip}) => {
         },
         {
           onSuccess: (data) => {
-            router.push(`/creator/tips/${data?.slug}`)
+            redirect(`/tips/${data?.slug}`)
           },
         },
       )

@@ -248,26 +248,30 @@ export const tipsRouter = router({
       const token = ctx?.userToken
       if (!token) return null
 
-      const {id} = input
+      try {
+        const {id} = input
 
-      const query = gql`
-        query getTipCompletion($id: String!) {
-          lesson_by_id(id: $id) {
-            id
-            completed
+        const query = gql`
+          query getTipCompletion($id: String!) {
+            lesson_by_id(id: $id) {
+              id
+              completed
+            }
           }
+        `
+        const graphQLClient = new GraphQLClient(graphqlConfig.graphQLEndpoint, {
+          headers: graphqlConfig.headers,
+        })
+        graphQLClient.setHeader('Authorization', `Bearer ${token}`)
+
+        const variables = {
+          id: String(id),
         }
-      `
-      const graphQLClient = new GraphQLClient(graphqlConfig.graphQLEndpoint, {
-        headers: graphqlConfig.headers,
-      })
-      graphQLClient.setHeader('Authorization', `Bearer ${token}`)
+        const {lesson_by_id} = await graphQLClient.request(query, variables)
 
-      const variables = {
-        id: String(id),
+        return {tipCompleted: lesson_by_id?.completed as boolean}
+      } catch (error) {
+        return {tipCompleted: false}
       }
-      const {lesson_by_id} = await graphQLClient.request(query, variables)
-
-      return {tipCompleted: lesson_by_id?.completed as boolean}
     }),
 })
