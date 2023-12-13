@@ -184,6 +184,9 @@ export const getTip = async (slug: string): Promise<Tip | null> => {
         },
     }`,
     {slug},
+    {
+      cache: 'no-cache',
+    },
   )
 
   if (tip?.legacyTranscript && !tip.transcript) {
