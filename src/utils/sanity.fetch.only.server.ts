@@ -7,7 +7,6 @@ export async function sanityMutation(mutations: any[]) {
         'Content-type': 'application/json',
         Authorization: `Bearer ${process.env.SANITY_API_TOKEN}`,
       },
-      next: {revalidate: 3600},
       body: JSON.stringify({mutations}),
     },
   ).then((response) => response.json())
