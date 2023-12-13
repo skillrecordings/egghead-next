@@ -185,7 +185,7 @@ export const getTip = async (slug: string): Promise<Tip | null> => {
     }`,
     {slug},
     {
-      cache: 'no-cache',
+      next: {revalidate: 3600},
     },
   )
 
