@@ -117,8 +117,6 @@ const UploadWrapper = ({
         })
 
         setSubmitResponse(response)
-
-        console.log({response})
       }}
     >
       {(props) => (

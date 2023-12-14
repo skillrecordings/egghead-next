@@ -168,8 +168,6 @@ const DynamicGridComponentWithTips = ({
 
   const publishedTips = data || []
 
-  console.log({publishedTips})
-
   const rowOneResources = section?.resources?.slice(0, 2)
   const rowTwoResources = section?.resources?.slice(2, 8)
 

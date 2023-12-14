@@ -44,7 +44,7 @@ const EditTipForm: React.FC<{tip: Tip}> = ({tip}) => {
         },
       )
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 

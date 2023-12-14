@@ -136,11 +136,7 @@ export const getAllTips = async (
     },
   }${sliceClause}`
 
-  console.log(query)
-
   const tips = await sanityQuery<Tip[]>(query)
-
-  console.log({tips})
 
   return tips
 }

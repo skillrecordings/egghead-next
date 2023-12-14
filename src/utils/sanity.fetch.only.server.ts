@@ -32,7 +32,7 @@ export async function sanityQuery<T = any>(query: string): Promise<T> {
       return result as T
     })
     .catch((error) => {
-      console.log(error)
+      console.error(error)
       throw error
     })
 }

@@ -208,7 +208,6 @@ const AnonUserOverlay: React.FunctionComponent<
   const courseImage = lesson?.collection?.square_cover_480_url
   const router = useRouter()
   const tag = lesson.tags[0]
-  console.log(lesson)
   const hits = transformHits(
     trpc.topics.top.useQuery({topic: tag.name})?.data,
     2,

@@ -8,10 +8,7 @@ import {Suspense} from 'react'
 import {notFound} from 'next/navigation'
 
 const EditTip = async ({params}: {params: {tipId: string}}) => {
-  console.log(params)
   const tip = await getTip(params.tipId as string)
-
-  console.log()
 
   if (!tip) {
     return notFound()
