@@ -20,6 +20,7 @@ export async function sanityQuery<T = any>(query: string): Promise<T> {
       headers: {
         Authorization: `Bearer ${process.env.SANITY_EDITOR_TOKEN}`,
       },
+      next: {revalidate: 3600},
     },
   )
     .then(async (response) => {
