@@ -9,11 +9,14 @@ export const sanityWriteClient = createClient({
   token: process.env.SANITY_EDITOR_TOKEN,
 })
 
-export async function sanityQuery<T = any>(query: string): Promise<T> {
+export async function sanityQuery<T = any>(
+  query: string,
+  useCdn: boolean = true,
+): Promise<T> {
   return await fetch(
-    `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v${
-      process.env.NEXT_PUBLIC_SANITY_API_VERSION
-    }/data/query/${
+    `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.${
+      useCdn ? 'apicdn' : 'api'
+    }.sanity.io/v${process.env.NEXT_PUBLIC_SANITY_API_VERSION}/data/query/${
       process.env.NEXT_PUBLIC_SANITY_DATASET
     }?query=${encodeURIComponent(query)}`,
     {
