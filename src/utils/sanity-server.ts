@@ -1,4 +1,5 @@
 import {createClient} from '@sanity/client'
+import {pickBy} from 'lodash'
 
 export const sanityWriteClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -13,7 +14,7 @@ export async function sanityQuery<T = any>(query: string): Promise<T> {
     `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v${
       process.env.NEXT_PUBLIC_SANITY_API_VERSION
     }/data/query/${
-      process.env.NEXT_PUBLIC_SANITY_DATASET_ID
+      process.env.NEXT_PUBLIC_SANITY_DATASET
     }?query=${encodeURIComponent(query)}`,
     {
       method: 'get',
@@ -24,6 +25,13 @@ export async function sanityQuery<T = any>(query: string): Promise<T> {
     },
   )
     .then(async (response) => {
+      if (response.status !== 200) {
+        throw new Error(
+          `Sanity Query failed with status ${response.status}: ${
+            response.statusText
+          }\n\n\n${JSON.stringify(await response.json(), null, 2)})}`,
+        )
+      }
       const {result} = await response.json()
       return result as T
     })
@@ -35,7 +43,7 @@ export async function sanityQuery<T = any>(query: string): Promise<T> {
 
 export async function sanityMutation(mutations: any[]) {
   return await fetch(
-    `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v${process.env.NEXT_PUBLIC_SANITY_API_VERSION}/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET_ID}`,
+    `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v${process.env.NEXT_PUBLIC_SANITY_API_VERSION}/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}`,
     {
       method: 'post',
       headers: {
