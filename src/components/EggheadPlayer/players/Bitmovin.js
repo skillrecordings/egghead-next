@@ -346,7 +346,7 @@ export default class Bitmovin extends Base {
       },
       (error) => {
         console.log('Bitmovin player failed to load')
-        console.log(error)
+        console.error(error)
       },
     )
   }

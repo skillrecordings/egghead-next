@@ -182,8 +182,6 @@ export const VideoProvider: React.FC<
   const isModuleComplete =
     nextExerciseStatus !== 'loading' && !nextExercise && !nextSection
 
-  console.log(module, lesson)
-
   const isFirstLessonInModule =
     (module.lessons &&
       Boolean(module.lessons?.length) &&
