@@ -1,7 +1,7 @@
 import {sanityClient} from '@/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
-import {pickBy} from 'lodash'
+import {sanityQuery} from '@/utils/sanity-server'
 
 export const TipSchema = z.object({
   _id: z.string(),
@@ -136,64 +136,52 @@ export const getAllTips = async (
     },
   }${sliceClause}`
 
-  const tips = await sanityClient.fetch(query)
+  const tips = await sanityQuery<Tip[]>(query)
 
-  return TipsSchema.parse(tips)
+  return tips
 }
 
 export const getTip = async (slug: string): Promise<Tip | null> => {
   if (!slug) {
     return null
   }
-
-  const tip = await sanityClient.fetch(
-    groq`*[_type == "tip" && slug.current == $slug][0] {
-        _id,
-        _type,
-        _updatedAt,
-        _createdAt,
-        title,
-        state,
-        description,
-        summary,
-        body,
-        eggheadRailsLessonId,
-        "tags": softwareLibraries[] {
-          ...(library->{
-            name,
-            'label': slug.current,
-            'http_url': url,
-            'image_url': image.url
-          })
-        },
-        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-        "duration": resources[@->._type == 'videoResource'][0]->duration,
-        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
-        "slug": slug.current,
-        "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-        "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
-        "srt": resources[@->._type == 'videoResource'][0]-> transcript.srt,
-        "tweetId":  resources[@._type == 'tweet'][0].tweetId,
-        'instructor': collaborators[@->.role == 'instructor'][0]->{
-          title,
-          'slug': person->slug.current,
-          'name': person->name,
-          'path': person->website,
-          'twitter': person->twitter,
-          'image': person->image.url
-        },
-    }`,
-    {slug},
-    {
-      next: {revalidate: 3600},
+  const tip =
+    await sanityQuery<Tip>(groq`*[_type == "tip" && slug.current == "${slug}"][0] {
+    _id,
+    _type,
+    _updatedAt,
+    _createdAt,
+    title,
+    state,
+    description,
+    eggheadRailsLessonId,
+    summary,
+    body,
+    'tags': softwareLibraries[] {
+      ...(library-> {
+        name,
+        'label': slug.current,
+        'http_url': url,
+        'image_url': image.url
+      }),
     },
-  )
+    "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+    "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+    "duration": resources[@->._type == 'videoResource'][0]->duration,
+    "slug": slug.current,
+    "transcript": resources[@->._type == 'videoResource'][0]->transcript.text,
+    "tweetId":  resources[@._type == 'tweet'][0].tweetId,
+    'instructor': collaborators[@->.role == 'instructor'][0]->{
+      title,
+      'slug': person->slug.current,
+      'name': person->name,
+      'path': person->website,
+      'twitter': person->twitter,
+      'image': person->image.url
+    },
+  }`)
 
-  if (tip?.legacyTranscript && !tip.transcript) {
-    tip.transcript = tip.legacyTranscript
-  }
-
-  return TipSchema.parse(pickBy(tip))
+  return tip
 }
 
 export const getCoursesRelatedToTip = async (
