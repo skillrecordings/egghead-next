@@ -173,16 +173,18 @@ const VideoOverlayCourseCard: React.FC<{suggestedCourse: any}> = ({
           {suggestedCourse.title}
         </span>
       </div>
-      <div className="aspect-square absolute right-2 top-2 bottom-2">
-        <Image
-          src={suggestedCourse.image}
-          alt=""
-          aria-hidden="true"
-          layout="fill"
-          className="blur-xs z-0 object-cover opacity-30 transition group-hover:opacity-40 group-hover:brightness-150"
-          quality={100}
-        />
-      </div>
+      {suggestedCourse.image ? (
+        <div className="aspect-square absolute right-2 top-2 bottom-2">
+          <Image
+            src={suggestedCourse.image}
+            alt=""
+            aria-hidden="true"
+            layout="fill"
+            className="blur-xs z-0 object-cover opacity-30 transition group-hover:opacity-40 group-hover:brightness-150"
+            quality={100}
+          />
+        </div>
+      ) : null}
       <div
         className="absolute left-0 top-0 flex h-full w-full items-start justify-end p-5"
         aria-hidden="true"
