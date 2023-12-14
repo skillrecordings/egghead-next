@@ -16,6 +16,7 @@ export const videoUploaded = inngest.createFunction(
       sanityModule = await step.run('get the module from Sanity', async () => {
         return await sanityQuery(
           `*[_type == "module" && slug.current == "${event.data.moduleSlug}"][0]`,
+          false,
         )
       })
     }
@@ -50,6 +51,7 @@ export const videoUploaded = inngest.createFunction(
 
         return await sanityQuery(
           `*[_type == "videoResource" && _id == "${event.data.fileName}"][0]`,
+          false,
         )
       },
     )

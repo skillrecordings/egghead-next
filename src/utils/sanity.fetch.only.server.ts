@@ -12,11 +12,14 @@ export async function sanityMutation(mutations: any[]) {
   ).then((response) => response.json())
 }
 
-export async function sanityQuery<T = any>(query: string): Promise<T> {
+export async function sanityQuery<T = any>(
+  query: string,
+  useCdn: boolean = true,
+): Promise<T> {
   return await fetch(
-    `https://${process.env.SANITY_STUDIO_PROJECT_ID}.api.sanity.io/v${
-      process.env.SANITY_STUDIO_API_VERSION
-    }/data/query/${
+    `https://${process.env.SANITY_STUDIO_PROJECT_ID}.${
+      useCdn ? 'apicdn' : 'api'
+    }.sanity.io/v${process.env.SANITY_STUDIO_API_VERSION}/data/query/${
       process.env.SANITY_STUDIO_DATASET
     }?query=${encodeURIComponent(query)}`,
     {

@@ -40,6 +40,7 @@ export const muxVideoAssetReady = inngest.createFunction(
       const resourceTemp = VideoResourceSchema.safeParse(
         await sanityQuery(
           `*[_type == "videoResource" && muxAssetId == "${event.data.muxWebhookEvent.data.id}"][0]`,
+          false,
         ),
       )
       return resourceTemp.success ? resourceTemp.data : null
