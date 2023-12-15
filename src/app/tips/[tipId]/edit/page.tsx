@@ -3,12 +3,22 @@ import {Button, Skeleton} from '@/ui'
 import EditTipForm, {Video} from '@/module-builder/edit-tip-form'
 import {twMerge} from 'tailwind-merge'
 import {getTip, type Tip} from '@/lib/tips'
-import {RxPlus, RxPencil1, RxEyeOpen} from 'react-icons/rx'
+import {RxPlus, RxEyeOpen} from 'react-icons/rx'
 import {Suspense} from 'react'
-import {notFound} from 'next/navigation'
+import {notFound, redirect} from 'next/navigation'
+import {cookies} from 'next/headers'
+import {ACCESS_TOKEN_KEY} from '@/utils/auth'
+import {getAbilityFromToken} from '@/server/ability'
 
 const EditTip = async ({params}: {params: {tipId: string}}) => {
+  const cookieStore = cookies()
+  const userToken = cookieStore?.get(ACCESS_TOKEN_KEY ?? '')?.value
+  const ability = await getAbilityFromToken(userToken)
   const tip = await getTip(params.tipId as string)
+
+  if (!ability.can('create', 'Content')) {
+    redirect('/')
+  }
 
   if (!tip) {
     return notFound()

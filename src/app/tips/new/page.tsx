@@ -9,7 +9,7 @@ const NewTip = async () => {
   const userToken = cookieStore?.get(ACCESS_TOKEN_KEY ?? '')?.value
   const ability = await getAbilityFromToken(userToken)
 
-  if (!ability.can('upload', 'Video')) {
+  if (!ability.can('create', 'Content')) {
     redirect('/')
   }
 
