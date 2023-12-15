@@ -61,12 +61,12 @@ export const tipsRouter = router({
             _id: `tip-${id}`,
             _type: 'tip',
             title: input.title,
-            description: input?.description,
+            body: input?.description,
             state: 'new',
             accessLevel: 'free',
             slug: {
               // since title is unique, we can use it as the slug with a random string
-              current: `${slugify(input.title)}~${nanoid()}`,
+              current: `${slugify(input.title.toLowerCase())}~${nanoid()}`,
             },
             collaborators: [
               {

@@ -66,13 +66,9 @@ function removeFileExtension(filename: string): string {
   return filename.replace(/\.[^/.]+$/, '')
 }
 
-const formatString = (str: string) => {
-  return toChicagoTitleCase(removeFileExtension(str))
-}
-
 const NewTipFormSchema = z.object({
   title: z.string().min(10).max(90),
-  description: z.string().min(2).max(240),
+  description: z.string().min(2),
   s3Url: z.string().trim().url({message: 'Please Upload a Video'}),
 })
 
@@ -222,12 +218,13 @@ function TipUploader({sets3Url}: {sets3Url: (value: string) => void}) {
   const [fileUploadState, dispatch] = useFileUploadReducer([])
   const uploadingFile = fileUploadState?.files[0]
   const isUploaded = fileUploadState.files[0]?.percent === 100
+  const signedUrl = fileUploadState.files[0]?.signedUrl
 
   React.useEffect(() => {
-    if (fileUploadState.files[0]?.signedUrl) {
-      sets3Url(fileUploadState.files[0]?.signedUrl)
+    if (signedUrl) {
+      sets3Url(signedUrl)
     }
-  }, [fileUploadState.files[0]?.signedUrl, sets3Url])
+  }, [signedUrl, sets3Url])
 
   return (
     <>
