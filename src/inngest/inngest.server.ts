@@ -19,6 +19,10 @@ type Events = {
   [VIDEO_UPLOADED_EVENT]: VideoUploaded
   [MUX_SRT_READY_EVENT]: MuxSrtReady
   [TIP_VIDEO_UPLOADED_EVENT]: NewTipVideo
+  test: {
+    name: 'test'
+    data: {}
+  }
 }
 
 export const inngest = new Inngest({
