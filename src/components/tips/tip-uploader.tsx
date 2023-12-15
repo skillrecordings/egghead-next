@@ -102,7 +102,7 @@ const TipCreationForm: React.FunctionComponent<
       form.setValue('s3Url', '')
 
       await trpcUtils.tips.invalidate()
-      router.push(`/tips/edit/${newTip?.slug}`)
+      router.push(`/tips/${newTip?.slug}/edit`)
     },
     onError: (error) => {
       toast.error(
