@@ -27,6 +27,7 @@ function defineAbilityFor(viewerRoles: Roles[]) {
   // this is roughly what permissions will look like.
   if (includesRoles(viewerRoles, ['instructor'])) {
     can('upload', 'Video')
+    can('create', 'Content')
   }
 
   if (includesRoles(viewerRoles, ['editor', 'publisher'])) {
