@@ -325,7 +325,7 @@ const CollectionPageLayout: React.FunctionComponent<
         className="inline-flex items-center justify-center px-6 py-4 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700"
       >
         <PlayIcon className="mr-2 text-blue-100" />
-        {isContinuing ? 'Continue' : 'Start'}Watching
+        {isContinuing ? 'Continue' : 'Start'} Watching
       </Link>
     ) : null
   }
