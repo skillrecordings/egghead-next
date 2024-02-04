@@ -17,14 +17,14 @@ export type RequestEmailChangeFormProps = {
 }
 
 async function requestEmailChange(newEmail: string) {
-  const {data} = await axios.post(
-    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/email_change_requests`,
-    {
-      email: newEmail,
-    },
-  )
+  // const {data} = await axios.post(
+  //   `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/email_change_requests`,
+  //   {
+  //     email: newEmail,
+  //   },
+  // )
 
-  return data
+  return {success: true, email: newEmail}
 }
 
 const RequestNameChangeForm: React.FunctionComponent<
