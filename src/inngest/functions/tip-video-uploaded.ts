@@ -1,11 +1,11 @@
 import {inngest} from '@/inngest/inngest.server'
 import {TIP_VIDEO_UPLOADED_EVENT} from '@/inngest/events/tips'
-import {sanityMutation, sanityQuery} from '@/utils/sanity.fetch.only.server'
 import {sanityWriteClient} from '@/utils/sanity-server'
 import {getMuxOptions} from '@/lib/get-mux-options'
 import {v4} from 'uuid'
 import {orderDeepgramTranscript} from '@/lib/deepgram-order-transcript'
 import {createMuxAsset} from '../../lib/mux'
+import {postToSlack} from '@/lib/slack'
 
 export const tipVideoUploaded = inngest.createFunction(
   {id: `tip-video-uploaded`, name: 'Tip Video Uploaded'},
@@ -14,14 +14,28 @@ export const tipVideoUploaded = inngest.createFunction(
     let tip: any = null
     let tipVideo: any = null
 
-    await step.run('announce video resource created', async () => {
-      return 'TODO: announce in slack'
-    })
-
     if (event.data.tipId) {
       tip = await step.run('get the tip from Sanity', async () => {
         return await sanityWriteClient.fetch(
-          `*[_type == "tip" && _id == "${event.data.tipId}"][0]`,
+          `*[_type == "tip" && _id == "${event.data.tipId}"][0]{
+              _id,
+              eggheadRailsLessonId,
+              title,
+              body,
+              "slug": slug.current,
+              'tags': softwareLibraries[] {
+                ...(library-> {
+                  name,
+                  'label': slug.current,
+                  'http_url': url,
+                  'image_url': image.url
+                }),
+              },
+              'instructor': collaborators[@->.role == 'instructor'][0]->{
+                _id,
+                eggheadInstructorId
+              },
+          }`,
         )
       })
     }
@@ -66,6 +80,21 @@ export const tipVideoUploaded = inngest.createFunction(
     )
 
     if (tip) {
+      const eggheadInstructor = await step.run('get instructor', async () => {
+        return fetch(
+          `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/instructors/${tip.instructor.eggheadInstructorId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.EGGHEAD_SUPPORT_BOT_TOKEN}`,
+            },
+          },
+        )
+          .then((res) => res.json())
+          .catch((e) => {
+            console.error(e)
+          })
+      })
+
       await step.run('update the tip in Sanity', async () => {
         return await sanityWriteClient
           .patch(tip._id)
@@ -76,6 +105,29 @@ export const tipVideoUploaded = inngest.createFunction(
           })
           .commit()
       })
+
+      if (eggheadInstructor?.slack_group_id) {
+        await step.run('announce tip created', async () => {
+          const channel = eggheadInstructor.slack_group_id
+          return postToSlack({
+            channel,
+            username: 'Tip Robot',
+            text: `Tip Ready for Review`,
+            attachments: [
+              {
+                mrkdwn_in: ['text'],
+                title_link: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/tips/${tip._id}`,
+                text: tip.body,
+                color: '#f17f08',
+                title: tip.title,
+              },
+            ],
+          }).catch((e) => {
+            console.error(e)
+            return e
+          })
+        })
+      }
     }
 
     // TODO add partykit later

@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:concurrent": "concurrently \"npm:dev:*\"",
-    "dev:inngest": "npx inngest-cli@latest dev",
+    "dev:inngest": "pnpx inngest-cli@latest dev",
     "dev-build": "NODE_ENV=production yarn test:ci && next build",
     "sanity": "cd studio && sanity dev",
     "prebuild": "yarn make-tags-sitemap",
@@ -79,6 +79,7 @@
     "@sanity/webhook": "^2.0.0",
     "@sindresorhus/slugify": "^2.2.1",
     "@skillrecordings/player": "^1.1.6",
+    "@slack/web-api": "^6.10.0",
     "@stripe/react-stripe-js": "^1.4.1",
     "@stripe/stripe-js": "^1.17.1",
     "@supabase/supabase-js": "^1.21.0",
