@@ -1,4 +1,4 @@
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@/utils/sanity-client'
 import groq from 'groq'
 import {loadPlaylist} from './playlists'
 import {z} from 'zod'

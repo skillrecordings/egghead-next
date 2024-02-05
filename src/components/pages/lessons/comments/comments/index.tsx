@@ -1,11 +1,11 @@
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
-import Comment from 'components/pages/lessons/comments/comment'
-import CommentField from 'components/pages/lessons/comments/comment-field'
-import {track} from 'utils/analytics'
-import {useViewer} from 'context/viewer-context'
-import {saveCommentForLesson} from 'lib/lesson-comments'
+import Comment from '@/components/pages/lessons/comments/comment'
+import CommentField from '@/components/pages/lessons/comments/comment-field'
+import {track} from '@/utils/analytics'
+import {useViewer} from '@/context/viewer-context'
+import {saveCommentForLesson} from '@/lib/lesson-comments'
 
 type CommentsProps = {
   lesson: any

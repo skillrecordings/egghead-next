@@ -3,11 +3,11 @@ export const meta = {
   contributors: [{name: 'Hiro Nishimura'}],
 }
 
-import ProseSection from 'components/mdx/prose-section'
-import Course from 'components/mdx/course'
-import Callout from 'components/mdx/callout'
-import QuestionReveal from 'components/mdx/question-reveal'
-import FancyGuideLayout from 'layouts/fancy-guide'
+import ProseSection from '@/components/mdx/prose-section'
+import Course from '@/components/mdx/course'
+import Callout from '@/components/mdx/callout'
+import QuestionReveal from '@/components/mdx/question-reveal'
+import FancyGuideLayout from '@/layouts/fancy-guide'
 export default ({children}) => (
   <FancyGuideLayout meta={meta}>{children}</FancyGuideLayout>
 )

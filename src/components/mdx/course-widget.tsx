@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import {convertTimeToMins} from 'utils/time-utils'
+import {convertTimeToMins} from '@/utils/time-utils'
 import {find} from 'lodash'
 
 const PlayIcon = () => (

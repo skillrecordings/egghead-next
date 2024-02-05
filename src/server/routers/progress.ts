@@ -1,7 +1,7 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {loadLessonProgress, loadPlaylistProgress} from '../../lib/progress'
-import {loadUserCompletedCourses} from 'lib/users'
+import {loadUserCompletedCourses} from '@/lib/users'
 
 export const progressRouter = router({
   completedCourseIds: baseProcedure.query(async ({ctx}): Promise<number[]> => {

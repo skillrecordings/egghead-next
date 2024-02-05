@@ -6,7 +6,7 @@ import {useMachine} from '@xstate/react'
 import {
   requestEmailChangeMachine,
   DoneEventObject,
-} from 'machines/request-email-change-machine'
+} from '@/machines/request-email-change-machine'
 
 const emailChangeSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),

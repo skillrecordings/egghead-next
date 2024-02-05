@@ -1,11 +1,11 @@
 import * as React from 'react'
 import groq from 'groq'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@/utils/sanity-client'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
-import {track} from 'utils/analytics'
-import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import {track} from '@/utils/analytics'
+import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 import rehypeRaw from 'rehype-raw'
 
 const DigitalGardening: React.FC<React.PropsWithChildren<any>> = ({data}) => {

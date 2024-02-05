@@ -1,4 +1,4 @@
-import fetcher from 'utils/fetcher'
+import fetcher from '@/utils/fetcher'
 import useSWR from 'swr'
 
 export const useEnhancedTranscript = (url: string) => {

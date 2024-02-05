@@ -4,8 +4,8 @@ import Topic from '../../components/topic'
 import nodePageData from './node-page-data'
 import {find} from 'lodash'
 import {ThreeLevels} from '../curated-essential'
-import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
-import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import {HorizontalResourceCard} from '@/components/card/horizontal-resource-card'
+import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 import {useRouter} from 'next/router'
 
 const SearchNode = () => {

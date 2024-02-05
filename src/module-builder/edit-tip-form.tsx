@@ -1,7 +1,7 @@
 'use client'
 
-import {Tip, TipSchema} from 'lib/tips'
-import {Button, Input, Textarea} from 'ui'
+import {Tip, TipSchema} from '@/lib/tips'
+import {Button, Input, Textarea} from '@/ui'
 import {
   Form,
   FormControl,
@@ -10,16 +10,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from 'ui/form'
+} from '@/ui/form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import MuxPlayer from '@mux/mux-player-react'
-import {trpc} from 'app/_trpc/client'
-import {useRouter} from 'next/router'
+import {trpc} from '@/app/_trpc/client'
+import {redirect} from 'next/navigation'
 
 const EditTipForm: React.FC<{tip: Tip}> = ({tip}) => {
-  const router = useRouter()
   const formSchema = TipSchema
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,12 +39,12 @@ const EditTipForm: React.FC<{tip: Tip}> = ({tip}) => {
         },
         {
           onSuccess: (data) => {
-            router.push(`/creator/tips/${data?.slug}`)
+            redirect(`/tips/${data?.slug}`)
           },
         },
       )
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 

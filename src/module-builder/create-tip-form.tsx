@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import {Button, Input, Progress} from 'ui'
+import {Button, Input, Progress} from '@/ui'
 import {
   Form,
   FormControl,
@@ -10,14 +10,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from 'ui/form'
+} from '@/ui/form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import {useFileChange} from './use-file-change'
-import {trpc} from 'app/_trpc/client'
+import {trpc} from '@/app/_trpc/client'
 import {useRouter} from 'next/router'
-import {processFile} from 'module-builder/cloudinary-video-uploader'
+import {processFile} from '@/module-builder/cloudinary-video-uploader'
 
 type CreateTipFormState = 'idle' | 'ready' | 'uploading' | 'success' | 'error'
 
@@ -61,12 +61,12 @@ const CreateTipForm: React.FC = () => {
             fileName,
             title: values.title,
           },
-          {
-            onSettled: (data) => {
-              console.log('tip creation settled', data)
-              router.push(`/creator/tips/${data?.slug}`)
-            },
-          },
+          // {
+          //   onSettled: (data) => {
+          //     console.log('tip creation settled', data)
+          //     router.push(`/creator/tips/${data?.slug}`)
+          //   },
+          // },
         )
       }
     } catch (err) {
@@ -139,7 +139,7 @@ const CreateTipForm: React.FC = () => {
                 <FormDescription>
                   {form.formState.isSubmitting || tipFormState === 'success' ? (
                     <div className="flex items-center justify-between gap-3">
-                      <div className="w-6 flex-shrink-0 text-xs">
+                      <div className="flex-shrink-0 w-6 text-xs">
                         {(progress * 100).toFixed(0)}%
                       </div>
                       <Progress

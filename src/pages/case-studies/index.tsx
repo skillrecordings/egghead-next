@@ -1,6 +1,6 @@
 import * as React from 'react'
 import groq from 'groq'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@/utils/sanity-client'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {NextSeo} from 'next-seo'

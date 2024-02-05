@@ -7,8 +7,8 @@ import {
   ListboxList,
   ListboxOption,
 } from '@reach/listbox'
-import {track} from 'utils/analytics'
-import MultiplySymbol from 'components/icons/cancel'
+import {track} from '@/utils/analytics'
+import MultiplySymbol from '@/components/icons/cancel'
 
 const availableSpeeds = ['0.5', '0.75', '1', '1.25', '1.5', '1.75', '2']
 

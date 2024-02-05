@@ -1,15 +1,15 @@
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import * as React from 'react'
-import {track} from 'utils/analytics'
-import noop from 'utils/noop'
+import {track} from '@/utils/analytics'
+import noop from '@/utils/noop'
 import {useRouter} from 'next/router'
-import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
-import analytics from 'utils/analytics'
-import SearchBar from 'components/app/header/search-bar'
-import {HorizontalResourceCard} from 'components/card/overlay/overlay-horiztonal-resource-card'
-import {VerticalResourceCard} from 'components/card/overlay/overlay-vertical-resource-card'
-import {trpc} from 'app/_trpc/client'
+import OverlayWrapper from '@/components/pages/lessons/overlay/wrapper'
+import analytics from '@/utils/analytics'
+import SearchBar from '@/components/app/header/search-bar'
+import {HorizontalResourceCard} from '@/components/card/overlay/overlay-horiztonal-resource-card'
+import {VerticalResourceCard} from '@/components/card/overlay/overlay-vertical-resource-card'
+import {trpc} from '@/app/_trpc/client'
 import {integer} from 'aws-sdk/clients/cloudfront'
 import {twMerge} from 'tailwind-merge'
 import {
@@ -19,7 +19,7 @@ import {
   CardContent,
   CardBody,
   CardMeta,
-} from 'components/card/index'
+} from '@/components/card/index'
 import {get} from 'lodash'
 import {PlayIcon} from '@heroicons/react/solid'
 import {AcademicCapIcon} from '@heroicons/react/solid'
@@ -208,7 +208,6 @@ const AnonUserOverlay: React.FunctionComponent<
   const courseImage = lesson?.collection?.square_cover_480_url
   const router = useRouter()
   const tag = lesson.tags[0]
-  console.log(lesson)
   const hits = transformHits(
     trpc.topics.top.useQuery({topic: tag.name})?.data,
     2,

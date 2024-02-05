@@ -27,19 +27,9 @@ export default function Custom404() {
       <div className="container flex flex-col items-center justify-center my-24 prose dark:prose-dark">
         <h1>404 - Page Not Found</h1>
         <p>
-          The page you are looking for may now live at{' '}
-          <code>{process.env.NEXT_PUBLIC_AUTH_DOMAIN}</code>.
-        </p>
-        <p>
-          Try visiting{' '}
-          <a
-            className="break-all"
-            style={{color: '#1C64F2'}}
-            href={appVersionOfPath}
-          >
-            {appVersionOfPath}
-          </a>
-          .
+          The page you are looking for does not exist. It may have been moved,
+          or removed altogether. Perhaps you can return back to the site's
+          homepage and see if you can find what you are looking for.
         </p>
       </div>
     </>

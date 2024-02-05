@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getUniqueFilename} from 'module-builder/get-unique-filename'
+import {getUniqueFilename} from '@/module-builder/get-unique-filename'
 
 const SIGNING_URL = `/api/aws/sign-s3`
 

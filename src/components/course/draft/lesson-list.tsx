@@ -22,14 +22,14 @@ import {
 } from '@dnd-kit/sortable'
 import {Dialog, Disclosure, Transition} from '@headlessui/react'
 import {ChevronDownIcon, DotsVerticalIcon} from '@heroicons/react/solid'
-import {convertTimeWithTitles} from 'utils/time-utils'
-import {trpc} from 'app/_trpc/client'
-import Spinner from 'components/spinner'
+import {convertTimeWithTitles} from '@/utils/time-utils'
+import {trpc} from '@/app/_trpc/client'
+import Spinner from '@/components/spinner'
 import {z} from 'zod'
 import {Form, Formik} from 'formik'
-import VideoUploader from 'components/upload/video-uploader'
+import VideoUploader from '@/components/upload/video-uploader'
 import {twMerge} from 'tailwind-merge'
-import useFileUploadReducer from 'hooks/use-file-upload-reducer'
+import useFileUploadReducer from '@/hooks/use-file-upload-reducer'
 
 const SanityLessonSchema = z.object({
   key: z.string(),

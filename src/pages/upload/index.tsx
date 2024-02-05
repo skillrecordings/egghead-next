@@ -1,17 +1,17 @@
 import * as React from 'react'
-import {ACCESS_TOKEN_KEY} from 'utils/auth'
+import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {find} from 'lodash'
 import {GetServerSideProps} from 'next'
-import {getAbilityFromToken} from 'server/ability'
+import {getAbilityFromToken} from '@/server/ability'
 import groq from 'groq'
-import {sanityClient} from 'utils/sanity-client'
-import {useViewer} from 'context/viewer-context'
+import {sanityClient} from '@/utils/sanity-client'
+import {useViewer} from '@/context/viewer-context'
 import {Formik, Form, Field, FormikProps} from 'formik'
 import axios, {AxiosResponse} from 'axios'
-import VideoUploader from 'components/upload/video-uploader'
+import VideoUploader from '@/components/upload/video-uploader'
 import _find from 'lodash/find'
-import {CourseData} from 'pages/api/sanity/lessons/create'
-import useFileUploadReducer from 'hooks/use-file-upload-reducer'
+import {CourseData} from '@/pages/api/sanity/lessons/create'
+import useFileUploadReducer from '@/hooks/use-file-upload-reducer'
 import cx from 'classnames'
 
 type Instructor = {
@@ -111,14 +111,12 @@ const UploadWrapper = ({
     <Formik
       initialValues={initialValues}
       onSubmit={async (values, actions) => {
-        const response = await axios.post('api/sanity/lessons/create', {
+        const response = await axios.post('@/api/sanity/lessons/create', {
           course: values.course,
           lessons: values.lessons,
         })
 
         setSubmitResponse(response)
-
-        console.log({response})
       }}
     >
       {(props) => (

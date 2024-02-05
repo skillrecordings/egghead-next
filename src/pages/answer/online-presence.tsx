@@ -1,11 +1,11 @@
 import * as React from 'react'
 import {get, isEmpty, keys} from 'lodash'
 import {useRouter} from 'next/router'
-import Layout from 'layouts'
+import Layout from '@/layouts'
 import Link from 'next/link'
-import EssayQuestion from 'components/forms/quiz/essay-question'
-import MultipleChoiceQuestion from 'components/forms/quiz/multiple-choice-question'
-import {Question, Questions} from 'types'
+import EssayQuestion from '@/components/forms/quiz/essay-question'
+import MultipleChoiceQuestion from '@/components/forms/quiz/multiple-choice-question'
+import {Question, Questions} from '@/types'
 
 type AnswerProps = {
   questions: Questions

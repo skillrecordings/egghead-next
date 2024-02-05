@@ -1,9 +1,9 @@
 import * as React from 'react'
 import groq from 'groq'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@/utils/sanity-client'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import Markdown from 'react-markdown'
 
 const DeveloperPortfolio: React.FC<React.PropsWithChildren<any>> = ({data}) => {

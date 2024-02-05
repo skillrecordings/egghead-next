@@ -1,15 +1,15 @@
-import {LessonResource} from 'types'
+import {LessonResource} from '@/types'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import {loadLessonComments} from './lesson-comments'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@/utils/sanity-client'
 import groq from 'groq'
 import isEmpty from 'lodash/isEmpty'
 import {
   mergeLessonMetadata,
   deriveDataFromBaseValues,
-} from 'utils/lesson-metadata'
-import compactedMerge from 'utils/compacted-merge'
+} from '@/utils/lesson-metadata'
+import compactedMerge from '@/utils/compacted-merge'
 
 // code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`

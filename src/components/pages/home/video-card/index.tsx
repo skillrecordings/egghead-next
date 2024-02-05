@@ -1,11 +1,11 @@
 import * as React from 'react'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import PlayIcon from '../../courses/play-icon'
 import Link from 'next/link'
-import {Card} from 'components/card'
+import {Card} from '@/components/card'
 import Markdown from 'react-markdown'
 import Image from 'next/legacy/image'
-import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
+import {useEggheadPlayerPrefs} from '@/components/EggheadPlayer/use-egghead-player'
 import {useRouter} from 'next/router'
 
 const VideoCard: React.FC<

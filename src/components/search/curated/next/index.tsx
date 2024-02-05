@@ -1,8 +1,8 @@
 import React from 'react'
 import {get} from 'lodash'
 import SearchCuratedEssential from '../curated-essential'
-import {CardResource} from 'types'
-import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import {CardResource} from '@/types'
+import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 import {HorizontalResourceCard} from '../../../card/horizontal-resource-card'
 import groq from 'groq'
 

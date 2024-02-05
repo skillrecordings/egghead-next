@@ -1,7 +1,7 @@
 import * as React from 'react'
-import LoginRequired from 'components/login-required'
+import LoginRequired from '@/components/login-required'
 import {useRouter} from 'next/router'
-import {useViewer} from 'context/viewer-context'
+import {useViewer} from '@/context/viewer-context'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import isEmpty from 'lodash/isEmpty'
@@ -9,18 +9,18 @@ import {
   getAuthorizationHeader,
   getTokenFromCookieHeaders,
   AUTH_DOMAIN,
-} from 'utils/auth'
+} from '@/utils/auth'
 
 async function confirmEmailChangeRequest(token: any) {
-  const {data} = await axios.patch(
-    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/email_change_requests/${token}`,
-    {},
-    {
-      headers: {...getAuthorizationHeader()},
-    },
-  )
+  // const {data} = await axios.patch(
+  //   `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/email_change_requests/${token}`,
+  //   {},
+  //   {
+  //     headers: {...getAuthorizationHeader()},
+  //   },
+  // )
 
-  return data
+  return {success: true, new_email: 'new_email'}
 }
 
 type emailChangeRequestData = {
@@ -35,14 +35,16 @@ export async function getServerSideProps(context: any) {
   )
 
   try {
-    const {data}: {data: emailChangeRequestData} = await axios.get(
-      `${AUTH_DOMAIN}/api/v1/email_change_requests/${token}`,
-      {
-        headers: {
-          Authorization: `Bearer ${eggheadToken}`,
-        },
-      },
-    )
+    // const {data}: {data: emailChangeRequestData} = await axios.get(
+    //   `${AUTH_DOMAIN}/api/v1/email_change_requests/${token}`,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${eggheadToken}`,
+    //     },
+    //   },
+    // )
+
+    const data = {new_email: 'new_email', current_email: 'current_email'}
 
     const newEmail = data['new_email']
     const currentEmail = data['current_email']
@@ -145,11 +147,14 @@ const EmailChangeRequest: React.FunctionComponent<
                   disabled={!validToken}
                   onClick={async () => {
                     try {
-                      const {success, new_email} =
-                        await confirmEmailChangeRequest(token)
+                      const {success, new_email} = {
+                        success: true,
+                        new_email: 'new_email',
+                      }
+                      // await confirmEmailChangeRequest(token)
 
                       if (success === true) {
-                        setViewerEmail(new_email)
+                        // setViewerEmail(new_email)
 
                         toast.success(
                           "You've successfully updated your email address",

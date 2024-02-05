@@ -5,8 +5,8 @@ import {useMachine} from '@xstate/react'
 import confirmationDialogMachine, {
   ConfirmationDialogMachineContext,
   ConfirmationDialogMachineEvent,
-} from 'machines/confirmation-dialog-machine'
-import RemoveMemberConfirmDialog from 'components/team/remove-member-confirm-dialog'
+} from '@/machines/confirmation-dialog-machine'
+import RemoveMemberConfirmDialog from '@/components/team/remove-member-confirm-dialog'
 
 const MemberTable = ({
   accountId,

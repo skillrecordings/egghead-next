@@ -1,8 +1,8 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import AWS from 'aws-sdk'
 import {v4 as uuidv4} from 'uuid'
-import {ACCESS_TOKEN_KEY} from 'utils/auth'
-import {getAbilityFromToken} from 'server/ability'
+import {ACCESS_TOKEN_KEY} from '@/utils/auth'
+import {getAbilityFromToken} from '@/server/ability'
 
 const options = {
   bucket: process.env.AWS_VIDEO_UPLOAD_BUCKET,

@@ -3,7 +3,7 @@ import {NextSeo} from 'next-seo'
 import Topic from '../components/topic'
 import {find} from 'lodash'
 import DefaultCTA from './default-cta'
-import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-collection-card'
+import {VerticalResourceCollectionCard} from '@/components/card/vertical-resource-collection-card'
 import {CardResource} from '../../../types'
 import {useRouter} from 'next/router'
 

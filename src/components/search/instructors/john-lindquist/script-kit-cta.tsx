@@ -1,5 +1,5 @@
 import * as React from 'react'
-import ExternalTrackedLink from 'components/external-tracked-link'
+import ExternalTrackedLink from '@/components/external-tracked-link'
 
 const ScriptKitBadge = ({className}: any) => {
   return (

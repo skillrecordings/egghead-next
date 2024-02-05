@@ -1,8 +1,8 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getTokenFromCookieHeaders} from 'utils/parse-server-cookie'
-import getTracer from 'utils/honeycomb-tracer'
-import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
-import {CIO_IDENTIFIER_KEY} from 'config'
+import {getTokenFromCookieHeaders} from '@/utils/parse-server-cookie'
+import getTracer from '@/utils/honeycomb-tracer'
+import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
+import {CIO_IDENTIFIER_KEY} from '@/config'
 
 const serverCookie = require('cookie')
 const axios = require('axios')

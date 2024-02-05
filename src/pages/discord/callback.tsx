@@ -1,11 +1,11 @@
 import React, {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
-import {getTokenFromCookieHeaders} from 'utils/auth'
-import LoginRequired, {LoginRequiredParams} from 'components/login-required'
+import {getTokenFromCookieHeaders} from '@/utils/auth'
+import LoginRequired, {LoginRequiredParams} from '@/components/login-required'
 import isEmpty from 'lodash/isEmpty'
 import axios from 'axios'
 import {useRouter} from 'next/router'
-import {Viewer} from 'types'
+import {Viewer} from '@/types'
 
 type CombinedEggheadDiscordUserData = {
   eggheadUser?: Viewer

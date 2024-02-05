@@ -1,5 +1,5 @@
 import {ClockIcon} from '@heroicons/react/solid'
-import ClosedCaptionIcon from 'components/icons/closed-captioning'
+import ClosedCaptionIcon from '@/components/icons/closed-captioning'
 
 export const Duration: React.FunctionComponent<
   React.PropsWithChildren<{duration: string}>

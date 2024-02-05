@@ -3,7 +3,7 @@
 import * as React from 'react'
 import {useFileChange} from './use-file-change'
 import {uploadToS3} from './upload-file'
-import {Button, Input, Label} from 'ui'
+import {Button, Input, Label} from '@/ui'
 
 const VideoUploader = () => {
   const {fileError, fileContents, fileType, fileDispatch, handleFileChange} =

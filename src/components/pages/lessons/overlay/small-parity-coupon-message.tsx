@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {ParityCouponMessageProps} from 'types'
+import {ParityCouponMessageProps} from '@/types'
 
 const SmallParityCouponMessage = ({
   coupon,

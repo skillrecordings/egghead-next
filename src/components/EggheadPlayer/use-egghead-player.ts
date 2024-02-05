@@ -1,10 +1,10 @@
 import * as React from 'react'
-import cookies from 'utils/cookies'
-import analytics from 'utils/analytics'
-import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
+import cookies from '@/utils/cookies'
+import analytics from '@/utils/analytics'
+import getAccessTokenFromCookie from '@/utils/get-access-token-from-cookie'
 import axios from 'axios'
 import {get, identity, isEmpty, pickBy} from 'lodash'
-import {LessonResource} from 'types'
+import {LessonResource} from '@/types'
 
 const getOptions = () =>
   getAccessTokenFromCookie()

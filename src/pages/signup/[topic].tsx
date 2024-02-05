@@ -1,14 +1,14 @@
 import * as React from 'react'
-import Header from 'components/pages/landing/header'
-import Article from 'components/pages/landing/article/index.mdx'
-import MembershipBenefits from 'components/pages/landing/membership-benefits'
-import Footer from 'components/pages/landing/footer'
+import Header from '@/components/pages/landing/header'
+import Article from '@/components/pages/landing/article/index.mdx'
+import MembershipBenefits from '@/components/pages/landing/membership-benefits'
+import Footer from '@/components/pages/landing/footer'
 import {GetServerSideProps} from 'next'
-import {setupHttpTracing} from '../../utils/tracing-js/dist/src'
+import {setupHttpTracing} from '@/utils/tracing-js/dist/src'
 import getTracer from '../../utils/honeycomb-tracer'
-import {loadCio} from '../../lib/customer'
+import {loadCio} from '@/lib/customer'
 import serverCookie from 'cookie'
-import {CIO_IDENTIFIER_KEY} from 'config'
+import {CIO_IDENTIFIER_KEY} from '@/config'
 
 const tracer = getTracer('signup-topic-page')
 

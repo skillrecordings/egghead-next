@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import title from 'title'
 
 const Browse: React.FC<React.PropsWithChildren<{topic?: string}>> = ({

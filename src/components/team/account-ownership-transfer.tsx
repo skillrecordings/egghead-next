@@ -2,11 +2,11 @@ import * as React from 'react'
 import toast from 'react-hot-toast'
 import {AUTH_DOMAIN, getAuthorizationHeader} from '../../utils/auth'
 import axios from 'axios'
-import {track} from 'utils/analytics'
-import {useViewer} from 'context/viewer-context'
+import {track} from '@/utils/analytics'
+import {useViewer} from '@/context/viewer-context'
 import {useMachine} from '@xstate/react'
-import strongConfirmationDialogMachine from 'machines/strong-confirmation-dialog-machine'
-import TransferOwnershipConfirmDialog from 'components/team/transfer-ownership-confirm-dialog'
+import strongConfirmationDialogMachine from '@/machines/strong-confirmation-dialog-machine'
+import TransferOwnershipConfirmDialog from '@/components/team/transfer-ownership-confirm-dialog'
 
 const sendOwnershipTransferInvite = async (
   inviteeEmail: string,

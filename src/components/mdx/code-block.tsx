@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {Children, ReactNode, ReactElement} from 'react'
-import {paramsFromMetastring} from 'utils/code'
+import {paramsFromMetastring} from '@/utils/code'
 import useClipboard from 'react-use-clipboard'
 import SimpleBar from 'simplebar-react'
 

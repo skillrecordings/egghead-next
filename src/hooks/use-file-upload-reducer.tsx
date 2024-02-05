@@ -12,13 +12,14 @@ type FileUpload = {
 type FileUploadReducerState = {files: FileUpload[]}
 
 type Action = {
-  type: 'add' | 'progress' | 'finalize'
+  type: 'add' | 'cancel' | 'progress' | 'finalize'
 }
 
 type Actions = {
   add: {
     fileUpload: FileUpload
   }
+  cancel: {}
   progress: FileUpload
   finalize: {
     file: FileUpload['file']
@@ -41,6 +42,8 @@ const fileUploadReducer = (
   switch (action.type) {
     case 'add':
       return {files: [...state.files, action.fileUpload]}
+    case 'cancel':
+      return {files: []}
     case 'progress':
       upload = find<FileUpload>(
         state.files,

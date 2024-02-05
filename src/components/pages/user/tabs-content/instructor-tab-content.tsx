@@ -1,13 +1,13 @@
 import * as React from 'react'
 
-import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
-import {BookmarksList} from 'components/pages/user/components'
-import {getAbilityFromToken} from 'server/ability'
-import {ACCESS_TOKEN_KEY} from 'utils/auth'
+import {ItemWrapper} from '@/components/pages/user/components/widget-wrapper'
+import {BookmarksList} from '@/components/pages/user/components'
+import {getAbilityFromToken} from '@/server/ability'
+import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {GetServerSideProps} from 'next/types'
-import {useAccount} from 'hooks/use-account'
+import {useAccount} from '@/hooks/use-account'
 import Link from 'next/link'
-import {trpc} from 'app/_trpc/client'
+import {trpc} from '@/app/_trpc/client'
 
 type Instructor = {
   _id: string

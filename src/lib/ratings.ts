@@ -1,6 +1,6 @@
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import {get} from 'lodash'
-import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
+import getAccessTokenFromCookie from '@/utils/get-access-token-from-cookie'
 
 const CourseRatingsQuery = `
   query RatingsQuery($slug: String!, $per_page: Int!, $type: String!) {

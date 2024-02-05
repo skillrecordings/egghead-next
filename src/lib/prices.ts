@@ -1,7 +1,7 @@
 import {find} from 'lodash'
-import axios from 'utils/configured-axios'
+import axios from '@/utils/configured-axios'
 import {pickBy} from 'lodash'
-import {Prices, PricingData} from 'types'
+import {Prices, PricingData} from '@/types'
 
 export const mockPrices = {
   mode: 'individual',

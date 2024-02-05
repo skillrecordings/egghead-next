@@ -3,12 +3,12 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import typescriptPageData from './typescript-page-data'
 import SearchCuratedEssential from '../curated-essential'
-import {bpMinMD} from 'utils/breakpoints'
+import {bpMinMD} from '@/utils/breakpoints'
 import {find} from 'lodash'
-import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-collection-card'
+import {VerticalResourceCollectionCard} from '@/components/card/vertical-resource-collection-card'
 
 const SearchTypescript = () => {
-  const location = 'typescript landing'
+  const location = '@/typescript landing'
   const podcasts: any = find(typescriptPageData, {id: 'podcasts'})
   const playlists: any = find(typescriptPageData, {id: 'playlists'})
   const algorithms: any = find(typescriptPageData, {
@@ -23,7 +23,7 @@ const SearchTypescript = () => {
     <SearchCuratedEssential
       topic={{
         label: 'TypeScript',
-        name: 'typescript',
+        name: '@/typescript',
         description: `Over the last several years, TypeScript has been coming on strong with the idea that static types get out of your way and provide deep benefits to code bases of all shapes and sizes, while allowing the flexibility of dynamic types when needed.
 
 TypeScript is a great idea that provides a mature ecosystem, building on top of the ECMAScript we (mostly) all love, while adding protection and resilience to our application without a lot of added hassle or pain.

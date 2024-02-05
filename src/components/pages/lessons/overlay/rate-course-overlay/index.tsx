@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {Field, Form, Formik} from 'formik'
-import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
+import OverlayWrapper from '@/components/pages/lessons/overlay/wrapper'
 
 const rangeArr = [1, 2, 3, 4, 5, 6, 7]
 

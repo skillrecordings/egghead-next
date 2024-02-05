@@ -1,5 +1,5 @@
 import React from 'react'
-import {Question, Questions} from 'types'
+import {Question, Questions} from '@/types'
 import last from 'lodash/last'
 
 const CompletedMessage: React.FC<

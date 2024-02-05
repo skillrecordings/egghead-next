@@ -8,8 +8,8 @@ import {type Subscriber} from '../schemas/subscriber'
 // } from '@skillrecordings/config'
 
 export function useConvertkitForm({
-  submitUrl = process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL ,
-  formId = (0) as number,
+  submitUrl = process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL,
+  formId = 0 as number,
   fields,
   onSuccess,
   onError,
@@ -51,7 +51,7 @@ export function useConvertkitForm({
         .catch((error: Error) => {
           onError(error)
           setStatus('error')
-          console.log(error)
+          console.error(error)
         })
     },
   })

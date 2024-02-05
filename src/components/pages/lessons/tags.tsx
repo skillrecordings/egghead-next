@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
-import getDependencies from 'data/courseDependencies'
-import {track} from 'utils/analytics'
+import getDependencies from '@/data/courseDependencies'
+import {track} from '@/utils/analytics'
 import {get, isEmpty} from 'lodash'
 
 type Version = string

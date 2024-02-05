@@ -1,10 +1,10 @@
 import * as React from 'react'
-import useCio from 'hooks/use-cio'
+import useCio from '@/hooks/use-cio'
 import Link from 'next/link'
-import {Card} from 'components/card'
+import {Card} from '@/components/card'
 import Markdown from 'react-markdown'
 import {SurveyQuestion, surveyReducer, SurveyState} from './survey-reducer'
-import {HeaderButtonShapedLink} from 'components/app/header/header-button-shaped-link'
+import {HeaderButtonShapedLink} from '@/components/app/header/header-button-shaped-link'
 
 const QuestionHeading: React.FunctionComponent<
   React.PropsWithChildren<{question: SurveyQuestion}>

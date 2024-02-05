@@ -3,7 +3,7 @@ import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import client from '@sanity/client'
 import {z} from 'zod'
 import groq from 'groq'
-import {prisma} from 'server/prisma'
+import {prisma} from '@/server/prisma'
 
 const sanityClient = client({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,

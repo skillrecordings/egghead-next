@@ -1,18 +1,20 @@
 import {z} from 'zod'
-import slugify from '@sindresorhus/slugify'
+import slugify from 'slugify'
 import {customAlphabet} from 'nanoid'
 import {groupBy} from 'lodash'
 import {v4} from 'uuid'
-import {inngest} from 'utils/inngest.server'
 import {baseProcedure, router} from '../trpc'
-import {sanityWriteClient} from 'utils/sanity-server'
-import {getAllTips, getTip, getCoursesRelatedToTip, TipSchema} from 'lib/tips'
-import {getAbilityFromToken} from 'server/ability'
+import {sanityWriteClient} from '@/utils/sanity-server'
+import {getAllTips, getTip, getCoursesRelatedToTip, TipSchema} from '@/lib/tips'
+import {getAbilityFromToken} from '@/server/ability'
 import gql from 'graphql-tag'
-import graphqlConfig from 'lib/config'
+import graphqlConfig from '@/lib/config'
 import {GraphQLClient} from 'graphql-request'
-import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
+import {inngest} from '@/inngest/inngest.server'
+import {TIP_VIDEO_UPLOADED_EVENT} from '@/inngest/events/tips'
+import groq from 'groq'
+import {loadCurrentUser} from '@/lib/users'
 
 export const tipsRouter = router({
   create: baseProcedure
@@ -21,24 +23,21 @@ export const tipsRouter = router({
         s3Url: z.string(),
         fileName: z.string().nullable(),
         title: z.string(),
+        description: z.string().optional().nullable(),
       }),
     )
     .mutation(async ({ctx, input}) => {
-      // create a video resource, which should trigger the process of uploading to
-      // mux and ordering a transcript because of the active webhook
+      if (!ctx?.userToken) throw new Error('Unauthorized')
       const ability = await getAbilityFromToken(ctx?.userToken)
 
-      // use CASL rbac to check if the user can create content
-      if (ability.can('create', 'Content')) {
-        // create the video resource object in Sanity
+      if (ability.can('upload', 'Video')) {
         const newVideoResource = await sanityWriteClient.create({
           _id: `videoResource-${v4()}`,
           _type: 'videoResource',
           state: 'new',
-          title: input.fileName,
-          originalMediaUrl: input.s3Url,
+          filename: input.fileName,
+          originalVideoUrl: input.s3Url,
         })
-
         if (newVideoResource._id) {
           // control the id that is used so we can reference it immediately
           const id = v4()
@@ -47,17 +46,36 @@ export const tipsRouter = router({
             '1234567890abcdefghijklmnopqrstuvwxyz',
             5,
           )
+          const {instructor_id: instructorId} = await loadCurrentUser(
+            ctx?.userToken,
+          )
+          if (!instructorId) throw new Error('Instructor ID not found')
 
-          // create the Tip resource in sanity with the video resource attached
+          let sanityInstructor = await sanityWriteClient.fetch(groq`
+          *[_type == 'collaborator' && eggheadInstructorId == '${instructorId}'][0] {
+            _id,
+          }`)
+          if (!sanityInstructor)
+            throw new Error('Sanity Instructor ID not found')
+
           const tipResource = await sanityWriteClient.create({
             _id: `tip-${id}`,
             _type: 'tip',
-            state: 'new',
             title: input.title,
+            body: input?.description,
+            state: 'new',
+            accessLevel: 'free',
             slug: {
               // since title is unique, we can use it as the slug with a random string
-              current: `${slugify(input.title)}~${nanoid()}`,
+              current: `${slugify(input.title.toLowerCase())}~${nanoid()}`,
             },
+            collaborators: [
+              {
+                _key: v4(),
+                _type: 'reference',
+                _ref: sanityInstructor._id,
+              },
+            ],
             resources: [
               {
                 _key: v4(),
@@ -74,7 +92,7 @@ export const tipsRouter = router({
 
           if (tip) {
             await inngest.send({
-              name: 'tip/video.uploaded',
+              name: TIP_VIDEO_UPLOADED_EVENT,
               data: {
                 tipId: tip._id,
                 videoResourceId: newVideoResource._id,
@@ -82,13 +100,19 @@ export const tipsRouter = router({
             })
           }
 
-          return tip
+          const parsedTip = TipSchema.safeParse(tip)
+
+          if (parsedTip.success) {
+            return parsedTip.data
+          } else {
+            throw new Error('Could not create tip')
+          }
         } else {
           throw new Error('Could not create video resource')
         }
-      } else {
-        throw new Error('Unauthorized')
       }
+
+      throw new Error('Unauthorized')
     }),
   update: baseProcedure
     .input(
@@ -175,6 +199,9 @@ export const tipsRouter = router({
       }),
     )
     .mutation(async ({input, ctx}) => {
+      if (process.env.NODE_ENV === 'development') {
+        return true
+      }
       const token = ctx?.userToken
 
       if (!token) return null
@@ -223,26 +250,30 @@ export const tipsRouter = router({
       const token = ctx?.userToken
       if (!token) return null
 
-      const {id} = input
+      try {
+        const {id} = input
 
-      const query = gql`
-        query getTipCompletion($id: String!) {
-          lesson_by_id(id: $id) {
-            id
-            completed
+        const query = gql`
+          query getTipCompletion($id: String!) {
+            lesson_by_id(id: $id) {
+              id
+              completed
+            }
           }
+        `
+        const graphQLClient = new GraphQLClient(graphqlConfig.graphQLEndpoint, {
+          headers: graphqlConfig.headers,
+        })
+        graphQLClient.setHeader('Authorization', `Bearer ${token}`)
+
+        const variables = {
+          id: String(id),
         }
-      `
-      const graphQLClient = new GraphQLClient(graphqlConfig.graphQLEndpoint, {
-        headers: graphqlConfig.headers,
-      })
-      graphQLClient.setHeader('Authorization', `Bearer ${token}`)
+        const {lesson_by_id} = await graphQLClient.request(query, variables)
 
-      const variables = {
-        id: String(id),
+        return {tipCompleted: lesson_by_id?.completed as boolean}
+      } catch (error) {
+        return {tipCompleted: false}
       }
-      const {lesson_by_id} = await graphQLClient.request(query, variables)
-
-      return {tipCompleted: lesson_by_id?.completed as boolean}
     }),
 })

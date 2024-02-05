@@ -1,18 +1,18 @@
 import * as React from 'react'
-import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
-import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
-import Topics from 'components/pages/home/topics'
+import {HorizontalResourceCard} from '@/components/card/new-horizontal-resource-card'
+import {VerticalResourceCard} from '@/components/card/new-vertical-resource-card'
+import Topics from '@/components/pages/home/topics'
 import ReactMarkdown from 'react-markdown'
-import {CardResource} from 'types'
-import Grid from 'components/grid'
+import {CardResource} from '@/types'
+import Grid from '@/components/grid'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
-import EggheadForTeamsCta from 'components/pages/home/egghead-for-teams-cta'
-import analytics from 'utils/analytics'
-import {SanitySectionType} from 'pages/learn'
-import {trpc} from 'app/_trpc/client'
-import {convertTimeWithTitles} from 'utils/time-utils'
-import Spinner from 'components/spinner'
+import EggheadForTeamsCta from '@/components/pages/home/egghead-for-teams-cta'
+import analytics from '@/utils/analytics'
+import {SanitySectionType} from '@/pages/learn'
+import {trpc} from '@/app/_trpc/client'
+import {convertTimeWithTitles} from '@/utils/time-utils'
+import Spinner from '@/components/spinner'
 import {Balancer} from 'react-wrap-balancer'
 
 const DynamicGridComponent = ({
@@ -167,8 +167,6 @@ const DynamicGridComponentWithTips = ({
   const {data, status: tipsStatus} = trpc.tips.published.useQuery({limit: 5})
 
   const publishedTips = data || []
-
-  console.log({publishedTips})
 
   const rowOneResources = section?.resources?.slice(0, 2)
   const rowTwoResources = section?.resources?.slice(2, 8)

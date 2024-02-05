@@ -1,6 +1,6 @@
-import Grid from 'components/grid'
-import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
-import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
+import Grid from '@/components/grid'
+import {VerticalResourceCard} from '@/components/card/new-vertical-resource-card'
+import {HorizontalResourceCard} from '@/components/card/new-horizontal-resource-card'
 import cx from 'classnames'
 import Image from 'next/legacy/image'
 import {
@@ -11,14 +11,14 @@ import {
   CardBody,
   CardAuthor,
   CardFooter,
-} from 'components/card'
-import {CardResource} from 'types'
+} from '@/components/card'
+import {CardResource} from '@/types'
 import {get, isEmpty, truncate} from 'lodash'
 import {CheckIcon} from '@heroicons/react/solid'
 import {Textfit} from 'react-textfit'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
-import analytics from 'utils/analytics'
+import analytics from '@/utils/analytics'
 import {twMerge} from 'tailwind-merge'
 
 const ResourceLink: React.FC<

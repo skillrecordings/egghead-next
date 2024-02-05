@@ -1,17 +1,17 @@
 import * as React from 'react'
 import {isEmpty} from 'lodash'
-import axios from 'utils/configured-axios'
-import {loadRatings} from 'lib/ratings'
-import FiveStars from 'components/five-stars'
+import axios from '@/utils/configured-axios'
+import {loadRatings} from '@/lib/ratings'
+import FiveStars from '@/components/five-stars'
 import friendlyTime from 'friendly-time'
 import Image from 'next/legacy/image'
 import Markdown from '../../markdown'
-import {useViewer} from 'context/viewer-context'
+import {useViewer} from '@/context/viewer-context'
 import {NextSeo} from 'next-seo'
 import {
   shareUrlBuilder,
   useShareCourseReview,
-} from 'hooks/use-share-course-review'
+} from '@/hooks/use-share-course-review'
 import {useRouter} from 'next/router'
 
 const LearnerRatings: React.FunctionComponent<

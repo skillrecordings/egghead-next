@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Markdown from 'react-markdown'
-import Topic from 'components/search/components/topic'
+import Topic from '@/components/search/components/topic'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 

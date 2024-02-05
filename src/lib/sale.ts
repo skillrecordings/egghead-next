@@ -1,6 +1,6 @@
-import CourseGrid from 'components/pages/20-days-of-egghead/course-grid'
-import {sanityClient} from 'utils/sanity-client'
-import {CardResource} from 'types'
+import CourseGrid from '@/components/pages/20-days-of-egghead/course-grid'
+import {sanityClient} from '@/utils/sanity-client'
+import {CardResource} from '@/types'
 import groq from 'groq'
 
 const saleOn = process.env.NEXT_PUBLIC_FLASH_SALE

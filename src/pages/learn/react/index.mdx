@@ -3,9 +3,9 @@ export const meta = {
   contributors: [{name: 'Joel Hooks'}, {name: 'Will Johnson'}],
 }
 
-import ProseSection from 'components/mdx/prose-section'
-import Course from 'components/mdx/course'
-import UltimateGuide from 'layouts/ultimate-guide'
+import ProseSection from '@/components/mdx/prose-section'
+import Course from '@/components/mdx/course'
+import UltimateGuide from '@/layouts/ultimate-guide'
 export default ({children}) => (
   <UltimateGuide meta={meta}>{children}</UltimateGuide>
 )

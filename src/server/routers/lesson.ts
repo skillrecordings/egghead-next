@@ -1,6 +1,6 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
-import {loadAssociatedLessonsByTag} from 'lib/lessons'
+import {loadAssociatedLessonsByTag} from '@/lib/lessons'
 
 export const lessonRouter = router({
   getAssociatedLessonsByTag: baseProcedure

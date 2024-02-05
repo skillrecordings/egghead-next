@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import * as React from 'react'
-import {track} from 'utils/analytics'
-import Share from 'components/share'
-import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
+import {track} from '@/utils/analytics'
+import Share from '@/components/share'
+import OverlayWrapper from '@/components/pages/lessons/overlay/wrapper'
 
 const RecommendNextStepOverlay: React.FunctionComponent<
   React.PropsWithChildren<{

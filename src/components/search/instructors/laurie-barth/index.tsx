@@ -1,7 +1,7 @@
 import * as React from 'react'
 import SearchInstructorEssential from '../instructor-essential'
 import LaurieBarthPageData from './laurie-barth-page-data'
-import ResourceCta from 'components/search/instructors/resource-cta'
+import ResourceCta from '@/components/search/instructors/resource-cta'
 import find from 'lodash/find'
 
 export default function SearchLaurieBarth({instructor}: {instructor: any}) {

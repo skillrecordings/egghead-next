@@ -1,8 +1,8 @@
 import find from 'lodash/find'
 import indexOf from 'lodash/indexOf'
 import first from 'lodash/first'
-import {type Section} from 'schemas/section'
-import {type Module} from 'schemas/module'
+import {type Section} from '@/schemas/section'
+import {type Module} from '@/schemas/module'
 
 export const getNextSection = ({
   module,

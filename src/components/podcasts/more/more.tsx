@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
-import {PodcastResource} from 'types'
-import PodcastCard from 'components/podcasts/card/card'
+import {PodcastResource} from '@/types'
+import PodcastCard from '@/components/podcasts/card/card'
 
 type MorePodcastProps = {
   podcasts: Array<PodcastResource>

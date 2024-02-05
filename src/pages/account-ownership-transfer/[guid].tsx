@@ -1,5 +1,5 @@
 import * as React from 'react'
-import LoginRequired from 'components/login-required'
+import LoginRequired from '@/components/login-required'
 import {useRouter} from 'next/router'
 import {GetServerSideProps} from 'next'
 import toast from 'react-hot-toast'
@@ -8,9 +8,9 @@ import {
   getAuthorizationHeader,
   getTokenFromCookieHeaders,
   AUTH_DOMAIN,
-} from 'utils/auth'
-import {track} from 'utils/analytics'
-import {useViewer} from 'context/viewer-context'
+} from '@/utils/auth'
+import {track} from '@/utils/analytics'
+import {useViewer} from '@/context/viewer-context'
 
 async function confirmAccountOwnershipTransfer(guid: string) {
   try {

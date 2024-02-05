@@ -1,8 +1,8 @@
-import {track} from 'utils/analytics'
+import {track} from '@/utils/analytics'
 import {useRouter} from 'next/navigation'
 import {Form, Formik} from 'formik'
 import {isEmpty} from 'lodash'
-import analytics from 'utils/analytics'
+import analytics from '@/utils/analytics'
 import {twMerge} from 'tailwind-merge'
 
 const SearchBar = ({

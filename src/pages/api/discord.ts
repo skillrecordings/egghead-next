@@ -1,8 +1,8 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {Client, GuildMember, User, Guild} from 'discord.js'
-import {Viewer} from 'types'
+import {Viewer} from '@/types'
 import got from 'got'
-import {getTokenFromCookieHeaders} from 'utils/auth'
+import {getTokenFromCookieHeaders} from '@/utils/auth'
 
 const EGGHEAD_AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 const DISCORD_API_BASE = process.env.DISCORD_API_BASE
