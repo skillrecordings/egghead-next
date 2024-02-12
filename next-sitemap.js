@@ -20,6 +20,7 @@ module.exports = {
     '/logout',
     '/redirect',
     '/sale',
+    '/invoices',
   ],
   robotsTxtOptions: {
     policies: [
@@ -42,6 +43,7 @@ module.exports = {
           '/logout',
           '/redirect',
           '/sale',
+          '/invoices',
         ],
       },
     ],
