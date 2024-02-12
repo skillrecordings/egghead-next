@@ -9,18 +9,14 @@ import {LessonResource, VideoResource} from '@/types'
 import getTracer from '@/utils/honeycomb-tracer'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import cookieUtil from '@/utils/cookies'
-import dynamic from 'next/dynamic'
 import type {
   VideoEvent,
   VideoStateContext,
 } from '@skillrecordings/player/dist/machines/video-machine'
 import {GenericErrorBoundary} from '@/components/generic-error-boundary'
-const Lesson = dynamic(() => import('@/components/pages/lessons/lesson'), {
-  ssr: false,
-})
-const VideoProvider = dynamic(() =>
-  import('@skillrecordings/player').then((mod) => mod.VideoProvider),
-)
+import Lesson from '@/components/pages/lessons/lesson'
+
+import {VideoProvider} from '@skillrecordings/player'
 
 const tracer = getTracer('lesson-page')
 

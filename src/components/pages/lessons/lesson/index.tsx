@@ -1,7 +1,6 @@
 import React from 'react'
 import {useRouter} from 'next/router'
 import {filter, get, isEmpty, compact} from 'lodash'
-import queryString from 'query-string'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import {useEggheadPlayer} from '@/components/EggheadPlayer'
 import Course from '@/components/pages/lessons/course'
@@ -786,7 +785,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
               )}
             </div>
             <div>
-              {md && (
+              {mounted && md && (
                 <div className="py-4">
                   <Course course={collection} currentLessonSlug={lesson.slug} />
                 </div>
