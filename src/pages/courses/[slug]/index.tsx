@@ -117,6 +117,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   res,
   req,
   params,
+  query,
 }) => {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
 

@@ -21,6 +21,7 @@ module.exports = {
     '/redirect',
     '/sale',
     '/invoices',
+    '/server-sitemap.xml',
   ],
   robotsTxtOptions: {
     policies: [
@@ -49,6 +50,7 @@ module.exports = {
     ],
     additionalSitemaps: [
       'http://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz',
+      'https://egghead.io/server-sitemap.xml',
       'https://egghead.io/tags-sitemap-0.xml',
       'https://egghead.io/tags-sitemap-1.xml',
       'https://egghead.io/tags-sitemap-2.xml',
