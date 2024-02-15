@@ -11,6 +11,10 @@ import {
 } from './events/transcript-requested'
 import {VIDEO_UPLOADED_EVENT, VideoUploaded} from './events/video-uploaded'
 import {MUX_SRT_READY_EVENT, MuxSrtReady} from './events/mux-add-srt-to-asset'
+import {
+  INDEX_LESSONS_FOREVER,
+  IndexLessonsForever,
+} from '@/inngest/events/index-lessons-forever-event'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
@@ -19,6 +23,7 @@ type Events = {
   [VIDEO_UPLOADED_EVENT]: VideoUploaded
   [MUX_SRT_READY_EVENT]: MuxSrtReady
   [TIP_VIDEO_UPLOADED_EVENT]: NewTipVideo
+  [INDEX_LESSONS_FOREVER]: IndexLessonsForever
   test: {
     name: 'test'
     data: {}
