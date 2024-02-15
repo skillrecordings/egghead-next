@@ -218,7 +218,7 @@ const DynamicGridComponentWithTips = ({
             />
           )
         })}
-        <div className="col-span-2 row-span-2 dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth p-4 flex flex-col">
+        <div className="col-span-2 row-span-2 rounded dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth p-4 flex flex-col">
           <Link
             href="/tips"
             passHref
@@ -293,7 +293,7 @@ const DynamicGridComponentWithTips = ({
                           </div>
                           {tip?.duration && (
                             <span className="text-xs dark:text-indigo-100 text-gray-700">
-                              {convertTimeWithTitles(tip.duration, {
+                              {convertTimeWithTitles(Math.floor(tip.duration), {
                                 showSeconds: true,
                               })}
                             </span>
