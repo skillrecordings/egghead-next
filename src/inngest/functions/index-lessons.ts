@@ -10,7 +10,7 @@ const jwtClient = new google.auth.JWT(
   undefined,
 )
 export const indexLessonsForever = inngest.createFunction(
-  {id: `video-uploaded`, name: 'Video Uploaded'},
+  {id: `index-all-lessons-forever`, name: 'Index 200 Lessons'},
   {event: INDEX_LESSONS_FOREVER},
   async ({event, step}) => {
     const lessons = await step.run('load a page of lessons', async () => {
