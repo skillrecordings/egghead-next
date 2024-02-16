@@ -2,13 +2,21 @@ import {inngest} from '@/inngest/inngest.server'
 import {INDEX_LESSONS_FOREVER} from '@/inngest/events/index-lessons-forever-event'
 import {google} from 'googleapis'
 
+const base64EncodedServiceAccount = process.env
+  .GOOGLE_SERVICE_ACCOUNT_ENCODED as string
+const decodedServiceAccount = Buffer.from(
+  base64EncodedServiceAccount,
+  'base64',
+).toString('utf-8')
+const credentials = JSON.parse(decodedServiceAccount)
+
 const jwtClient = new google.auth.JWT(
-  process.env.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+  credentials.client_email,
   undefined,
-  process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY,
+  credentials.private_key,
   ['https://www.googleapis.com/auth/indexing'],
-  undefined,
 )
+
 export const indexLessonsForever = inngest.createFunction(
   {id: `index-all-lessons-forever`, name: 'Index 200 Lessons'},
   {event: INDEX_LESSONS_FOREVER},
@@ -28,7 +36,9 @@ export const indexLessonsForever = inngest.createFunction(
       })
     } else {
       await step.run('index the lessons', async () => {
-        const promises = lessons.map(async (lesson: any) => {
+        const results = []
+
+        for (const lesson of lessons) {
           try {
             const url = `https://egghead.io/lessons/${lesson.slug}`
             const res = await jwtClient.request({
@@ -39,12 +49,12 @@ export const indexLessonsForever = inngest.createFunction(
                 type: 'URL_UPDATED',
               },
             })
-            console.log(`indexed ${url}`, res.data)
+            results.push(res.data)
           } catch (e) {
             console.error(e)
           }
-        })
-        return await Promise.all(promises)
+        }
+        return results
       })
       await step.sleep('sleep for a day', `24.25h`)
       await step.sendEvent('index the next page', {
