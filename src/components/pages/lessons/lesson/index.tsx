@@ -1,6 +1,6 @@
 import React from 'react'
 import {useRouter} from 'next/router'
-import {filter, get, isEmpty, compact} from 'lodash'
+import {filter, get, isEmpty, compact, truncate} from 'lodash'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import {useEggheadPlayer} from '@/components/EggheadPlayer'
 import Course from '@/components/pages/lessons/course'
@@ -8,7 +8,7 @@ import Overlays from '@/components/pages/lessons/overlays'
 import specialLessons from '@/components/pages/lessons/special-lessons'
 import Transcript from '@/components/pages/lessons/transcript'
 import {VideoResource} from '@/types'
-import {NextSeo, VideoJsonLd} from 'next-seo'
+import {NextSeo, SocialProfileJsonLd, VideoJsonLd} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {useEnhancedTranscript} from '@/hooks/use-enhanced-transcript'
 import useLastResource from '@/hooks/use-last-resource'
@@ -488,7 +488,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
   return (
     <>
       <NextSeo
-        description={removeMarkdown(description)}
+        description={truncate(removeMarkdown(description), {length: 155})}
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${lesson.path}`}
         title={title}
         titleTemplate={'%s | egghead.io'}
@@ -500,7 +500,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
         openGraph={{
           title,
           url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${lesson.path}`,
-          description: removeMarkdown(description),
+          description: truncate(removeMarkdown(description), {length: 155}),
           site_name: 'egghead',
           images: [
             {
@@ -511,9 +511,15 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
       />
       <VideoJsonLd
         name={title}
-        description={removeMarkdown(description)}
+        description={truncate(removeMarkdown(description), {length: 155})}
         uploadDate={lesson?.created_at}
         thumbnailUrls={compact([lesson?.thumb_url])}
+      />
+      <SocialProfileJsonLd
+        type="Person"
+        name={instructor.full_name}
+        url={`https://egghead.io/${instructorPagePath}`}
+        sameAs={[`https://twitter.com/${instructor.twitter}`]}
       />
       <div className={cx({'h-screen': isFullscreen})}>
         <div

@@ -8,7 +8,7 @@ import {MDXRemote} from 'next-mdx-remote'
 import {FunctionComponent} from 'react'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
-import {NextSeo} from 'next-seo'
+import {ArticleJsonLd, NextSeo, SocialProfileJsonLd} from 'next-seo'
 import {useRouter} from 'next/router'
 import CourseWidget from '@/components/mdx/course-widget'
 import ResourceWidget from '@/components/mdx/resource-widget'
@@ -18,6 +18,8 @@ import {useScrollTracker} from 'react-scroll-tracker'
 import analytics from '@/utils/analytics'
 import EmailSubscribeWidget from '@/components/mdx/email-subscribe-widget'
 import remarkGfm from 'remark-gfm'
+import truncate from 'lodash/truncate'
+import removeMarkdown from 'remove-markdown'
 
 function urlFor(source: any): any {
   return imageUrlBuilder(sanityClient).image(source)
@@ -35,6 +37,8 @@ const Tag = (props: any) => {
     articleResources,
     resources,
     slug,
+    updatedAt,
+    publishedAt,
   } = props
 
   const seo = originalSEO ? originalSEO : {}
@@ -82,6 +86,23 @@ const Tag = (props: any) => {
           handle: seo.handle,
         }}
         canonical={canonicalUrl}
+      />
+      <SocialProfileJsonLd
+        type="Person"
+        name={author.name}
+        url={`https://egghead.io/q/resources-by-${author.slug.current}`}
+        sameAs={[author.twitter, author.website]}
+      />
+      <ArticleJsonLd
+        url={canonicalUrl}
+        title={title}
+        images={[ogImage]}
+        datePublished={publishedAt}
+        dateModified={updatedAt}
+        authorName={author.name}
+        description={truncate(removeMarkdown(seo.description), {length: 155})}
+        publisherName="egghead.io"
+        publisherLogo="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg"
       />
       <div className="container">
         <article className="max-w-screen-md mx-auto mt-10 mb-16 lg:mt-24 md:mt-20">
@@ -210,6 +231,8 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
   seo,
   coverImage,
   body,
+  publishedAt,
+  _updatedAt,
   "slug": slug.current,
   "articleResources": resources[type == "collection"]{
     "location": content[0].text,
