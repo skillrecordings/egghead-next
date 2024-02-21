@@ -185,7 +185,7 @@ const legacyRoutes = [
   },
   {
     source: `/sitemap.xml.gz`,
-    destination: `${appUrl}/sitemap.xml.gz`,
+    destination: `https://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz`,
     permanent: true,
   },
   {

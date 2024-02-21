@@ -207,7 +207,7 @@ const LoginForm: FunctionComponent<React.PropsWithChildren<LoginFormProps>> = ({
                               Sign In (or up) with GitHub
                             </div>
                           </ExternalTrackedLink>
-                          <a
+                          {/* <a
                             className="block pt-2 text-center text-gray-600 transition-colors duration-150 ease-in-out hover:text-blue-600 dark:text-gray-400"
                             href="/login"
                             onClick={(e) => {
@@ -216,7 +216,7 @@ const LoginForm: FunctionComponent<React.PropsWithChildren<LoginFormProps>> = ({
                             }}
                           >
                             Enterprise Login (SSO)
-                          </a>
+                          </a> */}
                         </div>
                       </form>
                     </>

@@ -86,7 +86,7 @@ const GetAllTipsOptionsSchema = z.object({
 type GetAllTipsOptions = z.infer<typeof GetAllTipsOptionsSchema>
 
 export const getAllTips = async (
-  options: GetAllTipsOptions,
+  options: GetAllTipsOptions = {onlyPublished: true},
 ): Promise<Tip[]> => {
   const {onlyPublished, limit} = GetAllTipsOptionsSchema.parse(options)
 
