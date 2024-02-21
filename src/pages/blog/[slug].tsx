@@ -64,6 +64,8 @@ const Tag = (props: any) => {
     }
   }, [scrollY])
 
+  console.log({author})
+
   return (
     <>
       <NextSeo
@@ -89,9 +91,9 @@ const Tag = (props: any) => {
       />
       <SocialProfileJsonLd
         type="Person"
-        name={author.name}
-        url={`https://egghead.io/q/resources-by-${author.slug.current}`}
-        sameAs={[author.twitter, author.website]}
+        name={author?.name}
+        url={`https://egghead.io/q/resources-by-${author?.slug?.current}`}
+        sameAs={[author?.twitter, author?.website]}
       />
       <ArticleJsonLd
         url={canonicalUrl}
@@ -99,8 +101,8 @@ const Tag = (props: any) => {
         images={[ogImage]}
         datePublished={publishedAt}
         dateModified={updatedAt}
-        authorName={author.name}
-        description={truncate(removeMarkdown(seo.description), {length: 155})}
+        authorName={author?.name}
+        description={truncate(removeMarkdown(seo?.description), {length: 155})}
         publisherName="egghead.io"
         publisherLogo="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg"
       />
