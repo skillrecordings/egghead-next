@@ -27,6 +27,8 @@ const courseQuery = groq`
     "avatar_url": person->image.url,
     "full_name": person->name,
     "slug": person->slug.current,
+    "website": person->website,
+    "twitter": person->twitter,
     "id": _id
   },
   "tags": softwareLibraries[] {
@@ -50,7 +52,9 @@ const courseQuery = groq`
   'instructor': collaborators[@->.role == "instructor"][0]->{
     'full_name': person->name,
     'avatar_url': person->image.url,
-    'slug': person->slug.current
+    'slug': person->slug.current,
+    "website": person->website,
+    "twitter": person->twitter,
   },
   'dependencies': softwareLibraries[]{
     version,
@@ -158,6 +162,8 @@ export async function loadDraftSanityCourse(slug: string, token?: string) {
       "avatar_url": person->image.url,
       "full_name": person->name,
       "slug": person->slug.current,
+      "website": person->website,
+      "twitter": person->twitter,
       "id": _id
     },
     "tags": softwareLibraries[] {
@@ -190,6 +196,8 @@ export async function loadSanityInstructorbyCourseId(
       "avatar_url": person->image.url,
       "full_name": person->name,
       "slug": person->slug.current,
+      "website": person->website,
+      "twitter": person->twitter,
       "id": _id
     },
  }`
@@ -220,6 +228,8 @@ export async function loadDraftSanityCourseById(id: string, token?: string) {
       "avatar_url": person->image.url,
       "full_name": person->name,
       "slug": person->slug.current,
+      "website": person->website,
+      "twitter": person->twitter,
       "id": _id
     },
     "tags": softwareLibraries[] {
@@ -261,6 +271,8 @@ const SanityInstructorSchema = z.object({
   full_name: z.string(),
   slug: z.string(),
   id: z.string(),
+  website: z.string(),
+  twitter: z.string(),
 })
 
 const SanityDraftCourse = z.object({

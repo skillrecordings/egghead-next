@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import Markdown from 'react-markdown'
 import Image from 'next/legacy/image'
-import {NextSeo} from 'next-seo'
+import {NextSeo, SocialProfileJsonLd} from 'next-seo'
 import DefaultCTA from '../curated/default-cta'
 import analytics from '@/utils/analytics'
 import {useRouter} from 'next/router'
@@ -49,6 +49,12 @@ const SearchInstructorEssential: FunctionComponent<
             },
           ],
         }}
+      />
+      <SocialProfileJsonLd
+        type="Person"
+        name={name}
+        url={`https://egghead.io/q/resources-by-${slug}`}
+        sameAs={[twitterHandle, instructor.website]}
       />
       <div className="items-center flex flex-col grid-cols-1 space-y-12 lg:grid lg:grid-cols-12 lg:space-y-0 dark:bg-gray-900">
         <div

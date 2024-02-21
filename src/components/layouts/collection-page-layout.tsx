@@ -7,7 +7,7 @@ import InstructorProfile from '@/components/pages/courses/instructor-profile'
 import PlayIcon from '@/components/pages/courses/play-icon'
 import getDependencies from '@/data/courseDependencies'
 import {get, first, filter, isEmpty, take, truncate} from 'lodash'
-import {NextSeo} from 'next-seo'
+import {NextSeo, SocialProfileJsonLd, CourseJsonLd} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from '@/utils/analytics'
 import analytics from '@/utils/analytics'
@@ -423,6 +423,18 @@ const CollectionPageLayout: React.FunctionComponent<
             },
           ],
         }}
+      />
+      <SocialProfileJsonLd
+        type="Person"
+        name={name}
+        url={`https://egghead.io/q/resources-by-${slug}`}
+        sameAs={[twitter, instructor.website]}
+      />
+      <CourseJsonLd
+        courseName={title}
+        providerName="egghead.io"
+        providerUrl="https://egghead.io"
+        description={truncate(removeMarkdown(description), {length: 155})}
       />
       <div className="container pb-8 sm:pb-16 dark:text-gray-100">
         {state === 'retired' && (
