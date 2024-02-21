@@ -124,7 +124,7 @@ export async function loadCourseMetadata(id: number, slug: string) {
 
   const course = await sanityClient.fetch(courseQuery, params)
 
-  if (!course?.square_cover_480_url) {
+  if (course && !course?.square_cover_480_url) {
     const imageUrl = course?.dependencies
       ? `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683914713/tags/${course?.dependencies[0]?.name}.png`
       : 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1569292667/eggo/eggo_flair.png'
