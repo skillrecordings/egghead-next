@@ -207,6 +207,41 @@ const GetAccessButton: React.FunctionComponent<
   )
 }
 
+const PlanPercentageOff: React.FunctionComponent<
+  React.PropsWithChildren<{interval: string}>
+> = ({interval}) => {
+  switch (interval) {
+    case 'Yearly':
+      return (
+        <div className="max-w-2xl pt-4 text-sm font-light leading-tight text-gray-700 dark:text-gray-200">
+          Best Value
+        </div>
+      )
+    case 'Quarterly':
+      return (
+        <div className="max-w-2xl pt-4 text-sm font-light leading-tight text-gray-700 dark:text-gray-200">
+          Save{' '}
+          <strong className="dark:bg-amber-400 dark:text-black bg-blue-600 text-white px-px font-semibold">
+            29%
+          </strong>{' '}
+          with yearly billing
+        </div>
+      )
+    case 'Monthly':
+      return (
+        <div className="max-w-2xl pt-4 text-sm font-light leading-tight text-gray-700 dark:text-gray-200">
+          Save{' '}
+          <strong className="dark:bg-amber-400 dark:text-black bg-blue-600 text-white px-px font-semibold">
+            50%
+          </strong>{' '}
+          with yearly billing
+        </div>
+      )
+    default:
+      return null
+  }
+}
+
 type SelectPlanProps = {
   prices: any
   pricesLoading: boolean
@@ -270,6 +305,7 @@ const SelectPlanNew: React.FunctionComponent<
             </div>
           )}
         </div>
+        {!appliedCoupon && <PlanPercentageOff interval={currentPlan.name} />}
         {quantityAvailable && (
           <div className="my-4">
             <PlanQuantitySelect
@@ -292,7 +328,6 @@ const SelectPlanNew: React.FunctionComponent<
         />
       </div>
       <ColoredBackground />
-      {currentPlan.interval === 'year' && <BestValueStamp />}
     </>
   )
 }
