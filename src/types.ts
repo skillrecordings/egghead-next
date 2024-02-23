@@ -42,6 +42,7 @@ export type LessonResource = Resource & {
   completed: boolean
   duration: number
   instructor: any
+  hls_url?: string
   collection: Resource & {lessons: any[]}
   staff_notes_url?: string
   download_url?: string

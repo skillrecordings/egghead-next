@@ -58,7 +58,7 @@ export default async function Tip({params}: {params: {tipId: string}}) {
     return notFound()
   }
 
-  const coursesFromTag = await serverClient.tips.relatedContent({
+  const coursesFromTagLoader = serverClient.tips.relatedContent({
     slug: params.tipId,
   })
 
@@ -73,14 +73,12 @@ export default async function Tip({params}: {params: {tipId: string}}) {
   }
 
   return (
-    tip && (
-      <>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
-        />
-        <TipTemplate tip={tip} coursesFromTag={coursesFromTag} />
-      </>
-    )
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
+      />
+      <TipTemplate tip={tip} coursesFromTagLoader={coursesFromTagLoader} />
+    </>
   )
 }
