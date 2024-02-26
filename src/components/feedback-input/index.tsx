@@ -7,7 +7,7 @@ import {motion} from 'framer-motion'
 import {useInterval} from 'react-use'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import {DialogOverlay, DialogContent} from '@reach/dialog'
-import {track} from '@/utils/analytics'
+import analytics, {track} from '@/utils/analytics'
 import {Listbox, Transition} from '@headlessui/react'
 import {CheckIcon, SelectorIcon} from '@heroicons/react/solid'
 
@@ -230,12 +230,13 @@ const Feedback: FunctionComponent<React.PropsWithChildren<FeedbackProps>> = ({
         },
       })
       .then(() => {
-        track(`sent feedback`, {
-          category: selectedCategory.category,
-          comment: values.feedback,
-          emotion: slackEmojiCode,
-          url: window.location.toString(),
-        })
+        analytics.events.engagementSentFeedback(
+          selectedCategory.category,
+          values.feedback,
+          slackEmojiCode,
+          window.location.toString(),
+        )
+
         if (subscriber) {
           const learner_score =
             Number(subscriber.attributes?.learner_score) || 0
