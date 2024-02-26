@@ -17,7 +17,9 @@ import SearchBar from './search-bar'
 import {Fragment} from 'react'
 import {Popover, Transition} from '@headlessui/react'
 import {
+  ChevronUpIcon,
   ChevronDownIcon,
+  ChevronRightIcon,
   MicrophoneIcon,
   PresentationChartBarIcon,
   DocumentTextIcon,
@@ -25,7 +27,6 @@ import {
   XIcon,
   PlayIcon,
   MapIcon,
-  ChevronUpIcon,
 } from '@heroicons/react/solid'
 import {
   BookOpenIcon,
@@ -186,18 +187,18 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
         collapsible
         value={open}
         onValueChange={setOpen}
-        className="font-medium border-b border-gray-100 w-full "
+        className="font-medium border-y border-gray-100 border-opacity-40 w-full "
       >
         <AccordionItem value="item-1">
           <AccordionTrigger className="flex justify-between items-center px-5 py-4 w-full">
             <div>Topics</div>
             {open.includes(`item-1`) ? (
-              <ChevronUpIcon
+              <ChevronDownIcon
                 className="relative h-8 w-8 transition group-radix-state-open:rotate-180"
                 aria-hidden="true"
               />
             ) : (
-              <ChevronDownIcon
+              <ChevronRightIcon
                 className="relative h-8 w-8 transition"
                 aria-hidden="true"
               />
@@ -262,7 +263,15 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
     )
   }
 
-  const MobileNavigation = ({isOpen}: {isOpen: boolean}) => {
+  const MobileNavigation = ({
+    isOpen,
+    viewer,
+  }: {
+    isOpen: boolean
+    viewer: any
+  }) => {
+    const showEnrollNow = !viewer?.is_pro && !viewer?.is_instructor
+
     React.useEffect(() => {
       const originalStyle = window.getComputedStyle(document.body).overflow
       if (isOpen) {
@@ -330,10 +339,10 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
             <MobileTopicsList />
             {!isEmpty(viewer) && (
               <div className="bg-white dark:bg-gray-800">
-                <div className="flex flex-col mt-4 space-y-4 w-full">
+                <div className="flex flex-col w-full">
                   <FeedbackInput
                     user={viewer}
-                    className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100"
+                    className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100 border-opacity-40"
                   >
                     Feedback
                   </FeedbackInput>
@@ -347,7 +356,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                           '/user/membership',
                         )
                       }
-                      className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100"
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100  border-opacity-40"
                     >
                       Membership
                     </a>
@@ -363,7 +372,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                           '/user/profile',
                         )
                       }
-                      className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100"
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100  border-opacity-40"
                     >
                       Profile
                     </a>
@@ -378,7 +387,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                           '/user/activity',
                         )
                       }
-                      className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100"
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100  border-opacity-40"
                     >
                       Activity
                     </a>
@@ -393,7 +402,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                           '/bookmarks',
                         )
                       }
-                      className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100"
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100  border-opacity-40"
                     >
                       Bookmarks
                     </a>
@@ -401,6 +410,25 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                 </div>
               </div>
             )}
+            <div>
+              {showEnrollNow && (
+                <Link href={`/pricing`}>
+                  <a
+                    onClick={() =>
+                      analytics.events.activityInternalLinkClick(
+                        'page',
+                        'mobile header',
+                        'pricing',
+                        '/pricing',
+                      )
+                    }
+                    className="flex text-lg font-medium items-center justify-start px-5 py-4  transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth bg-blue-500"
+                  >
+                    Enroll Now
+                  </a>
+                </Link>
+              )}
+            </div>
           </div>
           <div className="sticky bottom-2">
             <Link href={`/logout`}>
@@ -554,7 +582,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
             </div>
           </div>
         )}
-        {isOpen && <MobileNavigation isOpen={isOpen} />}
+        {isOpen && <MobileNavigation isOpen={isOpen} viewer={viewer} />}
       </nav>
     </>
   )
