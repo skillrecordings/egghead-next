@@ -177,43 +177,6 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
     )
   }
 
-  const Bookmarks = () => {
-    return (
-      <Link href={`/bookmarks`}>
-        <a
-          onClick={() =>
-            track('clicked bookmarks', {
-              location: 'header',
-            })
-          }
-          className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
-        >
-          Bookmarks
-        </a>
-      </Link>
-    )
-  }
-
-  const Tips = () => {
-    return (
-      <Link href={`/tips`}>
-        <a
-          onClick={() =>
-            analytics.events.activityInternalLinkClick(
-              'tips',
-              'header',
-              'tips',
-              '/tips',
-            )
-          }
-          className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
-        >
-          Tips
-        </a>
-      </Link>
-    )
-  }
-
   const MobileTopicsList = () => {
     const [open, setOpen] = React.useState<string>('')
 
@@ -249,7 +212,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                   onClick={() => {
                     analytics.events.activityInternalLinkClick(
                       'curated topic page',
-                      'header browse',
+                      'header mobile browse',
                       item.name,
                       item.href,
                     )
@@ -314,36 +277,53 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
       }
     }, [isOpen])
 
+    const MobileNavLinkButton = ({
+      href,
+      children,
+    }: {
+      href: string
+      children: any
+    }) => {
+      return (
+        <Link href={href}>
+          <a
+            onClick={() =>
+              analytics.events.activityInternalLinkClick(
+                'page',
+                'mobile header',
+                href,
+              )
+            }
+            className="dark:bg-gray-700 bg-gray-100 rounded p-2 flex flex-col items-center font-semibold min-w-[72px] dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
+          >
+            {children}
+          </a>
+        </Link>
+      )
+    }
+
     return (
       <div className="relative z-20 dark:bg-gray-800 bg-gray-50 shadow-smooth h-screen w-full">
         <div className="flex w-full justify-center gap-4 py-4">
-          <Link href="/q">
-            <a className="dark:bg-gray-700 bg-gray-100 rounded p-2 flex flex-col items-center font-semibold min-w-[72px] dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5">
-              <CodeIcon className="mb-1" height={40} width={40} />
-              Courses
-            </a>
-          </Link>
+          <MobileNavLinkButton href="/q">
+            <CodeIcon className="mb-1" height={40} width={40} />
+            Courses
+          </MobileNavLinkButton>
 
-          <Link href="/tips">
-            <a className="dark:bg-gray-700 bg-gray-100 rounded p-2 flex flex-col items-center font-semibold min-w-[72px] dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5">
-              <PlayIcon className="mb-1" height={40} width={40} />
-              Tips
-            </a>
-          </Link>
+          <MobileNavLinkButton href="/tips">
+            <PlayIcon className="mb-1" height={40} width={40} />
+            Tips
+          </MobileNavLinkButton>
 
-          <Link href="/guides">
-            <a className="dark:bg-gray-700 bg-gray-100 rounded p-2 flex flex-col items-center font-semibold min-w-[72px] dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5">
-              <MapIcon className="mb-1" height={40} width={40} />
-              Guides
-            </a>
-          </Link>
+          <MobileNavLinkButton href="/guides">
+            <MapIcon className="mb-1" height={40} width={40} />
+            Guides
+          </MobileNavLinkButton>
 
-          <Link href="/blog">
-            <a className="dark:bg-gray-700 bg-gray-100 rounded p-2 flex flex-col items-center font-semibold min-w-[72px] dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5">
-              <DocumentTextIcon className="mb-1" height={40} width={40} />
-              Articles
-            </a>
-          </Link>
+          <MobileNavLinkButton href="/blog">
+            <DocumentTextIcon className="mb-1" height={40} width={40} />
+            Articles
+          </MobileNavLinkButton>
         </div>
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col w-full pb-5 text-lg ">
@@ -360,9 +340,12 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                   <Link href={`/user/membership`}>
                     <a
                       onClick={() =>
-                        track('clicked bookmarks', {
-                          location: 'header',
-                        })
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'membership',
+                          '/user/membership',
+                        )
                       }
                       className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100"
                     >
@@ -373,9 +356,12 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                   <Link href={`/user/profile`}>
                     <a
                       onClick={() =>
-                        track('clicked bookmarks', {
-                          location: 'header',
-                        })
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'profile',
+                          '/user/profile',
+                        )
                       }
                       className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100"
                     >
@@ -385,9 +371,12 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                   <Link href={`/user/activity`}>
                     <a
                       onClick={() =>
-                        track('clicked bookmarks', {
-                          location: 'header',
-                        })
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'activity',
+                          '/user/activity',
+                        )
                       }
                       className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100"
                     >
@@ -397,9 +386,12 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                   <Link href={`/bookmarks`}>
                     <a
                       onClick={() =>
-                        track('clicked bookmarks', {
-                          location: 'header',
-                        })
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'bookmarks',
+                          '/bookmarks',
+                        )
                       }
                       className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100"
                     >
@@ -414,9 +406,11 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
             <Link href={`/logout`}>
               <a
                 onClick={() =>
-                  track('clicked bookmarks', {
-                    location: 'header',
-                  })
+                  analytics.events.activityInternalLinkClick(
+                    'logout',
+                    'mobile header',
+                    'logout',
+                  )
                 }
                 className="flex text-lg items-center justify-start px-5 py-2 transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
               >
@@ -448,7 +442,17 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                   {!isTopics && <Browse viewer={viewer} />}
                   <div className="flex items-center h-full">
                     <Link href="/q">
-                      <a className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5">
+                      <a
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'page',
+                            'header',
+                            'courses',
+                            '/q',
+                          )
+                        }
+                        className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
+                      >
                         <CodeIcon
                           className=" text-blue-400 mr-1"
                           height={20}
@@ -478,7 +482,17 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                       </a>
                     </Link>
                     <Link href="/guides">
-                      <a className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5">
+                      <a
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'page',
+                            'header',
+                            'guides',
+                            '/guides',
+                          )
+                        }
+                        className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
+                      >
                         <MapIconOutline
                           className=" text-blue-400 mr-1"
                           height={20}
@@ -488,7 +502,17 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                       </a>
                     </Link>
                     <Link href="/blog">
-                      <a className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5">
+                      <a
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'page',
+                            'header',
+                            'blog',
+                            '/blog',
+                          )
+                        }
+                        className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
+                      >
                         <DocumentTextIconOutline
                           className=" text-blue-400 mr-1"
                           height={20}
@@ -543,9 +567,12 @@ const Team = () => {
     <Link href={`/team`}>
       <a
         onClick={() =>
-          track('clicked team', {
-            location: 'header',
-          })
+          analytics.events.activityInternalLinkClick(
+            'page',
+            'header',
+            'team',
+            '/team',
+          )
         }
         className="flex items-center h-full px-2 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
       >
@@ -561,9 +588,11 @@ const Login = () => {
       <Link href="/login" activeClassName="underline">
         <a
           onClick={() =>
-            track('clicked sign in', {
-              location: 'header',
-            })
+            analytics.events.activityInternalLinkClick(
+              'login',
+              'header',
+              'login',
+            )
           }
           className="flex items-center h-full px-2 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
         >
@@ -641,9 +670,12 @@ const ProfileDropdown: React.FC<React.PropsWithChildren<any>> = ({
                       <Link href={`/user/membership`}>
                         <a
                           onClick={() =>
-                            track('clicked bookmarks', {
-                              location: 'header',
-                            })
+                            analytics.events.activityInternalLinkClick(
+                              'page',
+                              'header',
+                              'membership',
+                              '/user/membership',
+                            )
                           }
                           className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
                         >
@@ -654,9 +686,12 @@ const ProfileDropdown: React.FC<React.PropsWithChildren<any>> = ({
                       <Link href={`/user/profile`}>
                         <a
                           onClick={() =>
-                            track('clicked bookmarks', {
-                              location: 'header',
-                            })
+                            analytics.events.activityInternalLinkClick(
+                              'page',
+                              'header',
+                              'profile',
+                              '/user/profile',
+                            )
                           }
                           className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
                         >
@@ -666,9 +701,12 @@ const ProfileDropdown: React.FC<React.PropsWithChildren<any>> = ({
                       <Link href={`/user/activity`}>
                         <a
                           onClick={() =>
-                            track('clicked bookmarks', {
-                              location: 'header',
-                            })
+                            analytics.events.activityInternalLinkClick(
+                              'page',
+                              'header',
+                              'activity',
+                              '/user/activity',
+                            )
                           }
                           className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
                         >
@@ -678,9 +716,12 @@ const ProfileDropdown: React.FC<React.PropsWithChildren<any>> = ({
                       <Link href={`/bookmarks`}>
                         <a
                           onClick={() =>
-                            track('clicked bookmarks', {
-                              location: 'header',
-                            })
+                            analytics.events.activityInternalLinkClick(
+                              'page',
+                              'header',
+                              'bookmarks',
+                              '/bookmarks',
+                            )
                           }
                           className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
                         >
@@ -699,9 +740,11 @@ const ProfileDropdown: React.FC<React.PropsWithChildren<any>> = ({
                       <Link href={`/logout`}>
                         <a
                           onClick={() =>
-                            track('clicked bookmarks', {
-                              location: 'header',
-                            })
+                            analytics.events.activityInternalLinkClick(
+                              'logout',
+                              'header',
+                              'logout',
+                            )
                           }
                           className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
                         >
