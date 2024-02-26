@@ -34,6 +34,7 @@ import {
   MapIcon as MapIconOutline,
   DocumentTextIcon as DocumentTextIconOutline,
   CodeIcon,
+  SearchIcon,
 } from '@heroicons/react/outline'
 import {
   Accordion,
@@ -45,6 +46,9 @@ import SaleHeaderBanner from '@/components/cta/sale/header-banner'
 import {MazePattern} from './images'
 import {isMember} from '@/utils/is-member'
 import analytics from '@/utils/analytics'
+import cx from 'classnames'
+import {twMerge} from 'tailwind-merge'
+import {Search} from 'lucide-react'
 
 const browse = [
   {
@@ -263,6 +267,43 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
     )
   }
 
+  const MobileSearch = () => {
+    const [open, setOpen] = React.useState<boolean>(false)
+
+    return (
+      <div className="relative">
+        <button
+          onClick={() => setOpen(!open)}
+          className="flex items-center justify-center dark:bg-gray-700 bg-gray-100 rounded-full w-8 h-8 transition duration-150 ease-in-out"
+        >
+          <div className="">
+            <XIcon
+              className={twMerge(
+                'w-5 transition-transform duration-300 ease-in-out',
+                cx({
+                  'scale-100': open,
+                  'scale-0': !open,
+                }),
+              )}
+            />
+            <SearchIcon
+              className={twMerge(
+                'absolute top-[20%] w-5 transition-transform duration-300 ease-in-out',
+                cx({
+                  'scale-0': open,
+                  'scale-100': !open,
+                }),
+              )}
+            />
+          </div>
+        </button>
+        {open && (
+          <SearchBar className="absolute top-[41px] right-[-58px] w-screen z-10 dark:bg-gray-700 bg-gray-100" />
+        )}
+      </div>
+    )
+  }
+
   const MobileNavigation = ({
     isOpen,
     viewer,
@@ -312,7 +353,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
     }
 
     return (
-      <div className="relative z-20 dark:bg-gray-800 bg-gray-50 shadow-smooth h-screen w-full">
+      <div className="relative z-50 dark:bg-gray-800 bg-gray-50 shadow-smooth h-screen w-full">
         <div className="flex w-full justify-center gap-4 py-4">
           <MobileNavLinkButton href="/q">
             <CodeIcon className="mb-1" height={40} width={40} />
@@ -563,21 +604,24 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
                 </>
               )}
               {sm && !loading && (
-                <button
-                  onClick={() => setOpen(!isOpen)}
-                  aria-labelledby="menubutton"
-                  aria-expanded={isOpen}
-                  className="flex items-center justify-center px-3 py-2 -mr-2 transition"
-                >
-                  <span className="sr-only">
-                    {isOpen ? 'Close navigation' : 'Open navigation'}
-                  </span>
-                  {isOpen ? (
-                    <XIcon className="w-8" aria-hidden />
-                  ) : (
-                    <MenuIcon className="w-8" aria-hidden />
-                  )}
-                </button>
+                <div className="flex items-center gap-4">
+                  {!isSearch && <MobileSearch />}
+                  <button
+                    onClick={() => setOpen(!isOpen)}
+                    aria-labelledby="menubutton"
+                    aria-expanded={isOpen}
+                    className="flex items-center justify-center py-2 -mr-2 transition"
+                  >
+                    <span className="sr-only">
+                      {isOpen ? 'Close navigation' : 'Open navigation'}
+                    </span>
+                    {isOpen ? (
+                      <XIcon className="w-8" aria-hidden />
+                    ) : (
+                      <MenuIcon className="w-8" aria-hidden />
+                    )}
+                  </button>
+                </div>
               )}
             </div>
           </div>
