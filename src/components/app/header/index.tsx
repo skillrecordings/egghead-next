@@ -385,11 +385,20 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
               })}
             </div>
           </div>
-          <div className="flex items-center">
-            {!isSearch && <SearchBar className="lg:block hidden" />}
-            {!isEmpty(viewer) && <Feedback />}
-            <div className="flex items-center px-1">{activeCTA}</div>
-            <ProfileDropdown />
+          <div className="flex items-center h-full">
+            {loading ? null : (
+              <>
+                {!isSearch && <SearchBar className="lg:block hidden" />}
+                {!isEmpty(viewer) && <Feedback />}
+                <div className="flex items-center px-1">{activeCTA}</div>
+
+                {isEmpty(viewer) ? (
+                  <NavLink href="/login" name="Sign in" />
+                ) : (
+                  <ProfileDropdown />
+                )}
+              </>
+            )}
             <MobileNavigation />
           </div>
         </div>
@@ -420,27 +429,6 @@ const Team = () => {
   )
 }
 
-const Login = () => {
-  return (
-    <div>
-      <Link href="/login" activeClassName="underline">
-        <a
-          onClick={() =>
-            analytics.events.activityInternalLinkClick(
-              'login',
-              'header',
-              'login',
-            )
-          }
-          className="flex items-center h-full px-2 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
-        >
-          Sign in
-        </a>
-      </Link>
-    </div>
-  )
-}
-
 const ProfileDropdown: React.FC<React.PropsWithChildren> = () => {
   const {viewer} = useViewer()
   const {lg} = useBreakpoint()
@@ -448,8 +436,6 @@ const ProfileDropdown: React.FC<React.PropsWithChildren> = () => {
   const isInstructor = viewer?.is_instructor || false
   const isProOrInstructor = viewer?.is_pro || isInstructor
   const profileLink = isInstructor ? '/instructor' : '/user/membership'
-
-  if (isEmpty(viewer)) return <Login />
 
   const showTeamNavLink =
     viewer?.accounts &&
@@ -461,10 +447,10 @@ const ProfileDropdown: React.FC<React.PropsWithChildren> = () => {
     )
 
   return (
-    <Popover className="relative">
+    <Popover className="relative h-full">
       {({open, close}) => (
         <>
-          <Popover.Button className="flex items-center h-full w-full ">
+          <Popover.Button className="flex items-center h-full w-full">
             {!isEmpty(viewer) && (
               <div
                 onClick={() =>
@@ -658,13 +644,13 @@ const MobileNavigation = () => {
 
   return (
     <>
-      <div className="inline-flex items-center gap-4 lg:hidden">
+      <div className="inline-flex items-center gap-4 lg:hidden h-full -mr-3">
         {/* {!isSearch && <MobileSearch />} */}
         <button
           onClick={() => setOpen(!isOpen)}
           aria-labelledby="menubutton"
           aria-expanded={isOpen}
-          className="flex items-center justify-center py-2 -mr-2 transition"
+          className="flex items-center justify-center p-3 transition"
         >
           <span className="sr-only">
             {isOpen ? 'Close navigation' : 'Open navigation'}
@@ -918,7 +904,7 @@ const Logo = () => {
 
 const Feedback = () => {
   const {viewer, loading} = useViewer()
-  return (
+  return loading ? null : (
     <FeedbackInput
       user={viewer}
       className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
