@@ -9,20 +9,14 @@ import {useViewer} from '@/context/viewer-context'
 import {track} from '@/utils/analytics'
 import {isEmpty} from 'lodash'
 import FeedbackInput from '@/components/feedback-input'
-import {useRouter, usePathname} from 'next/navigation'
-import useCio from '@/hooks/use-cio'
-import PortfolioFoundationsCTA from '@/components/survey/portfolio-foundations'
-import OnlinePresenceCTA from '@/components/survey/online-presence-cta'
+import {usePathname} from 'next/navigation'
 import {HeaderButtonShapedLink} from './header-button-shaped-link'
 import SearchBar from './search-bar'
 import {Fragment} from 'react'
 import {Popover, Transition} from '@headlessui/react'
 import {
-  ChevronUpIcon,
   ChevronDownIcon,
   ChevronRightIcon,
-  MicrophoneIcon,
-  PresentationChartBarIcon,
   DocumentTextIcon,
   MenuIcon,
   XIcon,
@@ -44,12 +38,9 @@ import {
   AccordionTrigger,
 } from '@radix-ui/react-accordion'
 import SaleHeaderBanner from '@/components/cta/sale/header-banner'
-import {MazePattern} from './images'
-import {isMember} from '@/utils/is-member'
 import analytics from '@/utils/analytics'
 import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'
-import {Search} from 'lucide-react'
 
 type NavLink = {
   name: string
@@ -218,9 +209,6 @@ const NavLink: React.FC<React.PropsWithChildren<NavLink>> = ({
 const NavDropdown: React.FC<
   React.PropsWithChildren<NavLink & {className?: string}>
 > = ({name, items, className, href}) => {
-  const {viewer, loading} = useViewer()
-  const {subscriber, loadingSubscriber} = useCio()
-
   return (
     <Popover className={'h-full'}>
       {({open, close}) => (
@@ -322,29 +310,15 @@ const NavDropdown: React.FC<
 }
 
 const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
-  const router = useRouter()
   const {viewer, loading} = useViewer()
-  const {subscriber, loadingSubscriber} = useCio()
 
   const pathname = usePathname() || ''
 
   const isSearch = pathname.includes('/q')
-  const isTopics = pathname.includes('/topics')
 
   const [activeCTA, setActiveCTA] = React.useState<any>(null)
   React.useEffect(() => {
     switch (true) {
-      // case !isProOrInstructor && !subscriber?.attributes?.team_interest:
-      //   setActiveCTA(
-      //     <HeaderButtonShapedLink
-      //       url="/egghead-for-teams"
-      //       label="egghead for teams"
-      //       onClick={() => {
-      //         track('clicked egghead for teams', {location: 'header'})
-      //       }}
-      //     />,
-      //   )
-      //   break
       case !viewer?.is_pro && !viewer?.is_instructor:
         setActiveCTA(
           <HeaderButtonShapedLink
@@ -359,7 +333,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
       default:
         setActiveCTA(null)
     }
-  }, [subscriber, viewer])
+  }, [viewer])
 
   return (
     <>
@@ -425,10 +399,6 @@ const Team = () => {
 
 const ProfileDropdown: React.FC<React.PropsWithChildren> = () => {
   const {viewer} = useViewer()
-
-  const isInstructor = viewer?.is_instructor || false
-  const isProOrInstructor = viewer?.is_pro || isInstructor
-  const profileLink = isInstructor ? '/instructor' : '/user/membership'
 
   const showTeamNavLink =
     viewer?.accounts &&
@@ -587,20 +557,6 @@ const MobileNavigation = () => {
   const [isOpen, setOpen] = React.useState<boolean>(false)
   const showEnrollNow = !viewer?.is_pro && !viewer?.is_instructor
 
-  // React.useEffect(() => {
-  //   const originalStyle = window.getComputedStyle(document.body).overflow
-  //   if (isOpen) {
-  //     document.body.style.overflow = 'hidden'
-  //   } else {
-  //     document.body.style.overflow = originalStyle
-  //   }
-
-  //   // Cleanup function to reset overflow style
-  //   return () => {
-  //     document.body.style.overflow = originalStyle
-  //   }
-  // }, [isOpen])
-
   const MobileNavLinkButton = ({
     href,
     children,
@@ -638,7 +594,6 @@ const MobileNavigation = () => {
   return (
     <>
       <div className="inline-flex items-center gap-4 lg:hidden h-full -mr-3">
-        {/* {!isSearch && <MobileSearch />} */}
         <button
           onClick={() => setOpen(!isOpen)}
           aria-labelledby="menubutton"
@@ -907,42 +862,5 @@ const Feedback: React.FC<{className?: string}> = ({className}) => {
     >
       Feedback
     </FeedbackInput>
-  )
-}
-
-const MobileSearch = () => {
-  const [open, setOpen] = React.useState<boolean>(false)
-
-  return (
-    <div className="relative">
-      <button
-        onClick={() => setOpen(!open)}
-        className="flex items-center justify-center dark:bg-gray-700 bg-gray-100 rounded-full w-8 h-8 transition duration-150 ease-in-out"
-      >
-        <div className="">
-          <XIcon
-            className={twMerge(
-              'w-5 transition-transform duration-300 ease-in-out',
-              cx({
-                'scale-100': open,
-                'scale-0': !open,
-              }),
-            )}
-          />
-          <SearchIcon
-            className={twMerge(
-              'absolute top-[20%] w-5 transition-transform duration-300 ease-in-out',
-              cx({
-                'scale-0': open,
-                'scale-100': !open,
-              }),
-            )}
-          />
-        </div>
-      </button>
-      {open && (
-        <SearchBar className="absolute top-[41px] right-[-58px] w-screen z-10 dark:bg-gray-700 bg-gray-100" />
-      )}
-    </div>
   )
 }
