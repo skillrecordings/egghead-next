@@ -389,7 +389,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
             {loading ? null : (
               <>
                 {!isSearch && <SearchBar className="lg:block hidden" />}
-                {!isEmpty(viewer) && <Feedback />}
+                {!isEmpty(viewer) && <Feedback className="lg:flex hidden" />}
                 <div className="flex items-center px-1">{activeCTA}</div>
 
                 {isEmpty(viewer) ? (
@@ -902,12 +902,15 @@ const Logo = () => {
   )
 }
 
-const Feedback = () => {
+const Feedback: React.FC<{className?: string}> = ({className}) => {
   const {viewer, loading} = useViewer()
   return loading ? null : (
     <FeedbackInput
       user={viewer}
-      className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
+      className={twMerge(
+        'flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5',
+        className,
+      )}
     >
       Feedback
     </FeedbackInput>
