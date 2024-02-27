@@ -8,7 +8,6 @@ import {useViewer} from '@/context/viewer-context'
 import {track} from '@/utils/analytics'
 import {isEmpty} from 'lodash'
 import FeedbackInput from '@/components/feedback-input'
-import useBreakpoint from '@/utils/breakpoints'
 import {useRouter, usePathname} from 'next/navigation'
 import useCio from '@/hooks/use-cio'
 import PortfolioFoundationsCTA from '@/components/survey/portfolio-foundations'
@@ -425,7 +424,6 @@ const Team = () => {
 
 const ProfileDropdown: React.FC<React.PropsWithChildren> = () => {
   const {viewer} = useViewer()
-  const {lg} = useBreakpoint()
 
   const isInstructor = viewer?.is_instructor || false
   const isProOrInstructor = viewer?.is_pro || isInstructor
