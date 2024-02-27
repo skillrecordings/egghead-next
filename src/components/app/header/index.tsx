@@ -266,12 +266,9 @@ const NavDropdown: React.FC<
                           key={name}
                           href={href}
                           onClick={() => {
-                            analytics.events.activityInternalLinkClick(
-                              'curated topic page',
-                              'header browse',
-                              name,
-                              href,
-                            )
+                            track(`clicked ${name}`, {
+                              location: 'header',
+                            })
                           }}
                           className="flex items-center justify-start px-5 py-3 transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
                         >
@@ -297,12 +294,9 @@ const NavDropdown: React.FC<
                       <Link href={href}>
                         <a
                           onClick={() => {
-                            analytics.events.activityInternalLinkClick(
-                              'search all topics',
-                              'header browse',
-                              'all topics',
-                              '/topics',
-                            )
+                            track(`clicked All ${name}`, {
+                              location: 'header',
+                            })
                           }}
                           className="flex items-center w-full px-5 py-3 font-medium leading-tight transition duration-150 ease-in-out rounded-sm lg:col-span-2 lg:px-5 sm:px-3 group hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth justify-between"
                         >
