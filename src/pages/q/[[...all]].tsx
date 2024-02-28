@@ -20,6 +20,15 @@ import {topicExtractor} from '@/utils/search/topic-extractor'
 import useSelectedTopic from '@/hooks/use-selected-topic'
 import useLoadTopicData, {topicQuery} from '@/hooks/use-load-topic-data'
 import {sanityClient} from '@/utils/sanity-client'
+import {
+  Configure,
+  getServerState,
+  Hits,
+  InstantSearch,
+  InstantSearchSSRProvider,
+  SearchBox,
+} from 'react-instantsearch'
+import {renderToString} from 'react-dom/server'
 
 const tracer = getTracer('search-page')
 
@@ -157,6 +166,17 @@ SearchIndex.getLayout = (Page: any, pageProps: any) => {
 
 export default SearchIndex
 
+function BrandPage({serverState}: any) {
+  return (
+    <InstantSearchSSRProvider {...serverState}>
+      <InstantSearch searchClient={searchClient} indexName={ALGOLIA_INDEX_NAME}>
+        <SearchBox />
+        <Hits />
+      </InstantSearch>
+    </InstantSearchSSRProvider>
+  )
+}
+
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
   query,
@@ -172,6 +192,12 @@ export const getServerSideProps: GetServerSideProps = async function ({
   //   searchState: initialSearchState,
   //   indexName: ALGOLIA_INDEX_NAME,
   // } as InstantSearchProps)
+
+  const serverState = await getServerState(<BrandPage />, {
+    renderToString,
+  })
+
+  console.log('serverState', serverState)
 
   let initialInstructor = null
   let initialTopic = null
