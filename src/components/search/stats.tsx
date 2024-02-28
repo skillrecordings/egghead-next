@@ -1,15 +1,12 @@
 import React from 'react'
-import {connectStats} from 'react-instantsearch-dom'
+import {useStats, StatsProps} from 'react-instantsearch'
 
-type CustomStatsProps = {
-  nbHits: number
-  searchQuery: string
-}
+const Stats: React.FunctionComponent<React.PropsWithChildren<StatsProps>> = (
+  props,
+) => {
+  const {nbHits, query} = useStats(props)
 
-const CustomStats: React.FunctionComponent<
-  React.PropsWithChildren<CustomStatsProps>
-> = ({nbHits, searchQuery}) => {
-  return !searchQuery || /^\s*$/.test(searchQuery) ? (
+  return !query || /^\s*$/.test(query) ? (
     <div />
   ) : (
     <div className="sm:text-lg flex items-baseline flex-nowrap overflow-hidden max-w-full  pt-5 px-3">
@@ -17,12 +14,10 @@ const CustomStats: React.FunctionComponent<
         {nbHits.toLocaleString()} results
       </div>
       <div className="ml-2 whitespace-nowrap flex overflow-hidden">
-        found for "<div className="truncate">{searchQuery}</div>"
+        found for "<div className="truncate">{query}</div>"
       </div>
     </div>
   )
 }
-
-const Stats = connectStats(CustomStats)
 
 export default Stats
