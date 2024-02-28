@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import {connectStats} from 'react-instantsearch-dom'
+import {connectStats} from 'instantsearch.js/es/connectors'
 
 const NoSearchResultsPlaceholder = ({
   searchQuery,
@@ -43,7 +43,7 @@ const NoSearchResultsPlaceholder = ({
   )
 }
 
-const NoSearchResults = connectStats(NoSearchResultsPlaceholder)
+const NoSearchResults = NoSearchResultsPlaceholder
 
 export default NoSearchResults
 

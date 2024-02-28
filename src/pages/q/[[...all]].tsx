@@ -1,6 +1,5 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
-import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
 import Search from '@/components/search'
 import {NextSeo} from 'next-seo'
@@ -21,7 +20,6 @@ import {topicExtractor} from '@/utils/search/topic-extractor'
 import useSelectedTopic from '@/hooks/use-selected-topic'
 import useLoadTopicData, {topicQuery} from '@/hooks/use-load-topic-data'
 import {sanityClient} from '@/utils/sanity-client'
-import {InstantSearchProps} from 'react-instantsearch-dom'
 
 const tracer = getTracer('search-page')
 
@@ -86,60 +84,60 @@ const SearchIndex: any = ({
     initialTopicData,
   )
 
-  const onSearchStateChange = async (searchState: any) => {
-    clearTimeout(debouncedState.current)
-
-    const instructors = getInstructorsFromSearchState(searchState)
-
-    if (instructors.length === 1) {
-      const instructorSlug = getInstructorSlugFromInstructorList(instructors)
-      try {
-        await loadInstructor(instructorSlug).then((instructor: any) =>
-          setInstructor(instructor),
-        )
-      } catch (error) {}
-    } else {
-      setInstructor(null)
-    }
-
-    debouncedState.current = setTimeout(() => {
-      const href: string = createUrl(searchState)
-      setNoIndex(queryParamsPresent(href))
-
-      router.push(href, undefined, {
-        shallow: true,
-      })
-    }, 250)
-
-    setSearchState(searchState)
-  }
-
-  const customProps = {
-    searchState,
-    resultsState,
-    createURL,
-    onSearchStateChange,
-  }
+  // const onSearchStateChange = async (searchState: any) => {
+  //   clearTimeout(debouncedState.current)
+  //
+  //   const instructors = getInstructorsFromSearchState(searchState)
+  //
+  //   if (instructors.length === 1) {
+  //     const instructorSlug = getInstructorSlugFromInstructorList(instructors)
+  //     try {
+  //       await loadInstructor(instructorSlug).then((instructor: any) =>
+  //         setInstructor(instructor),
+  //       )
+  //     } catch (error) {}
+  //   } else {
+  //     setInstructor(null)
+  //   }
+  //
+  //   debouncedState.current = setTimeout(() => {
+  //     const href: string = createUrl(searchState)
+  //     setNoIndex(queryParamsPresent(href))
+  //
+  //     router.push(href, undefined, {
+  //       shallow: true,
+  //     })
+  //   }, 250)
+  //
+  //   setSearchState(searchState)
+  // }
+  //
+  // const customProps = {
+  //   searchState,
+  //   resultsState,
+  //   createURL,
+  //   onSearchStateChange,
+  // }
 
   return (
     <div className="flex-grow">
-      <NextSeo
-        noindex={noIndex}
-        title={pageTitle}
-        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
-        openGraph={{
-          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
-          site_name: 'egghead',
-        }}
-      />
-      <Search
-        {...defaultProps}
-        {...customProps}
-        instructor={instructor}
-        topic={topic}
-        topicData={topicData}
-        loading={isLoadingTopic || isLoadingTopicData}
-      />
+      {/*<NextSeo*/}
+      {/*  noindex={noIndex}*/}
+      {/*  title={pageTitle}*/}
+      {/*  canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}*/}
+      {/*  openGraph={{*/}
+      {/*    url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,*/}
+      {/*    site_name: 'egghead',*/}
+      {/*  }}*/}
+      {/*/>*/}
+      {/*<Search*/}
+      {/*  {...defaultProps}*/}
+      {/*  {...customProps}*/}
+      {/*  instructor={instructor}*/}
+      {/*  topic={topic}*/}
+      {/*  topicData={topicData}*/}
+      {/*  loading={isLoadingTopic || isLoadingTopicData}*/}
+      {/*/>*/}
     </div>
   )
 }
@@ -169,11 +167,11 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const {all, ...rest} = query
   const initialSearchState = parseUrl(query)
   const pageTitle = titleFromPath(all as string[])
-  const resultsState = await findResultsState(Search, {
-    searchClient,
-    searchState: initialSearchState,
-    indexName: ALGOLIA_INDEX_NAME,
-  } as InstantSearchProps)
+  const resultsState = {rawResults: [], state: {query: ''}} //await findResultsState(Search, {
+  //   searchClient,
+  //   searchState: initialSearchState,
+  //   indexName: ALGOLIA_INDEX_NAME,
+  // } as InstantSearchProps)
 
   let initialInstructor = null
   let initialTopic = null

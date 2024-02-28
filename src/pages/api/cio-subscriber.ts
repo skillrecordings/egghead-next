@@ -54,34 +54,34 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
       if (!cioId) {
         const eggheadUser = await fetchEggheadUser(eggheadToken)
 
-        if (!eggheadUser || eggheadUser.opted_out || !eggheadUser.contact_id)
-          throw new Error('cannot identify user')
+        if (!eggheadUser || eggheadUser.opted_out || !eggheadUser.contact_id) {
+        } else {
+          const headers = {
+            'content-type': 'application/json',
+            Authorization: `Basic ${process.env.CUSTOMER_IO_TRACK_API_BASIC}`,
+          }
 
-        const headers = {
-          'content-type': 'application/json',
-          Authorization: `Basic ${process.env.CUSTOMER_IO_TRACK_API_BASIC}`,
-        }
-
-        await axios.put(
-          `https://track.customer.io/api/v1/customers/${eggheadUser.contact_id}`,
-          {
-            email: eggheadUser.email,
-            pro: eggheadUser.is_pro,
-            created_at: eggheadUser.created_at,
-          },
-          {headers},
-        )
-
-        subscriber = await cioAxios
-          .get(`/customers/${eggheadUser.contact_id}/attributes`, {
-            headers: {
-              Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
+          await axios.put(
+            `https://track.customer.io/api/v1/customers/${eggheadUser.contact_id}`,
+            {
+              email: eggheadUser.email,
+              pro: eggheadUser.is_pro,
+              created_at: eggheadUser.created_at,
             },
-          })
-          .then(({data}: {data: any}) => data.customer)
-          .catch((error: any) => {
-            console.error(error)
-          })
+            {headers},
+          )
+
+          subscriber = await cioAxios
+            .get(`/customers/${eggheadUser.contact_id}/attributes`, {
+              headers: {
+                Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
+              },
+            })
+            .then(({data}: {data: any}) => data.customer)
+            .catch((error: any) => {
+              console.error(error)
+            })
+        }
       } else {
         subscriber = await cioAxios
           .get(`/customers/${cioId}/attributes`, {
