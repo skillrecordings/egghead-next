@@ -65,7 +65,7 @@ const VerticalResourceCard: React.FC<
       <Card
         {...props}
         resource={resource}
-        className="justify-center rounded-md aspect-[3/4] w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 flex"
+        className="flex justify-center rounded-md aspect-[3/4] w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50"
       >
         {resource.background && (
           <Image
