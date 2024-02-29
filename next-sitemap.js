@@ -34,12 +34,11 @@ module.exports = {
         allow: ['/'],
         disallow: [
           '/discord',
-          '/_next',
           '/purchase',
           '/404',
           '/ask',
           '/blank',
-          '/confirm/membership',
+          '/confirm',
           '/login',
           '/logout',
           '/redirect',
