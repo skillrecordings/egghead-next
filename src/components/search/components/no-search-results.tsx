@@ -40,7 +40,7 @@ const NoSearchResultsPlaceholder: React.FunctionComponent<
   )
 }
 
-const NoSearchResults = connectStats(NoSearchResultsPlaceholder)
+const NoSearchResults = NoSearchResultsPlaceholder
 
 export default NoSearchResults
 
@@ -126,14 +126,3 @@ const SearchEggo = () => (
     </g>
   </svg>
 )
-
-// TODO (Codemod generated): ensure your usage correctly maps the props from the connector to the hook
-function connectStats(Component) {
-  const Stats = (props) => {
-    const data = useStats(props)
-
-    return <Component {...props} {...data} />
-  }
-
-  return Stats
-}

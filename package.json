@@ -248,7 +248,6 @@
     "@types/qs": "^6.9.7",
     "@types/react": "^18.2.58",
     "@types/react-dom": "=18.2.19",
-    "@types/react-instantsearch-dom": "^6.12.3",
     "@types/react-scroll": "^1.8.7",
     "@types/react-syntax-highlighter": "^15.5.7",
     "@types/shortid": "^0.0.29",

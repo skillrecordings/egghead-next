@@ -50,7 +50,8 @@ const cioIdentify = async (req: NextApiRequest, res: NextApiResponse) => {
         })
         .then(({data}: {data: any}) => data.customer)
         .catch((error: any) => {
-          console.error(error)
+          // console.error(error)
+          return {}
         })
 
       res.setHeader('Set-Cookie', cioCookie)
