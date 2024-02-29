@@ -177,9 +177,7 @@ const NavLink: React.FC<React.PropsWithChildren<NavLink>> = ({
       </>
     ),
     onClick: () => {
-      track(`clicked ${name}`, {
-        location: 'header',
-      })
+      analytics.events.activityInternalLinkClick('page', 'header', name, href)
     },
   }
 
