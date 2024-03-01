@@ -27,7 +27,7 @@ const Dialog: FunctionComponent<React.PropsWithChildren<DialogProps>> = ({
       <DialogOverlay isOpen={showDialog} onDismiss={close}>
         <DialogContent
           aria-label={ariaLabel}
-          className="bg-white rounded-md border-gray-400 p-8"
+          className="bg-gray-50 dark:bg-gray-1000 rounded-md border-gray-400 p-8 w-11/12 sm:w-1/2"
         >
           <div className="flex justify-center relative mb-6">
             {title && <h3 className="text-xl font-medium">{title}</h3>}

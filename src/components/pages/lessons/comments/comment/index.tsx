@@ -11,7 +11,7 @@ type CommentProps = {
   user: {
     avatar_url: string
     full_name: string
-    instructor: {
+    instructor?: {
       first_name: string
     }
   }
