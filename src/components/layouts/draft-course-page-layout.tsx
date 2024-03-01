@@ -63,7 +63,9 @@ const DraftCourseLayout: React.FunctionComponent<
   return (
     <>
       <NextSeo
-        description={truncate(removeMarkdown(description), {length: 155})}
+        description={truncate(removeMarkdown(description.replace(/"/g, "'")), {
+          length: 155,
+        })}
         title={title}
         titleTemplate={'%s | egghead.io'}
         twitter={{
@@ -72,7 +74,10 @@ const DraftCourseLayout: React.FunctionComponent<
         }}
         openGraph={{
           title,
-          description: truncate(removeMarkdown(description), {length: 155}),
+          description: truncate(
+            removeMarkdown(description.replace(/"/g, "'")),
+            {length: 155},
+          ),
           site_name: 'egghead',
         }}
       />
