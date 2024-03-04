@@ -15,7 +15,7 @@ export const HeaderButtonShapedLink: React.FC<
     <div className="flex items-center pl-1">
       <Link
         href={url}
-        className="bg-blue-600 text-white sm:px-2 sm:py-1 px-3 py-2 rounded-md tracking-tight hover:bg-blue-700 transition"
+        className="bg-blue-600 text-white sm:px-2 sm:py-1 px-3 py-2 rounded-md tracking-tight hover:bg-blue-700 transition whitespace-nowrap"
         onClick={onClick}
       >
         {label}

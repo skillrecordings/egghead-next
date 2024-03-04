@@ -1,6 +1,20 @@
 import {track} from './track'
 
 //! ENGAGEMENT EVENT GROUP
+
+export const engagementSentFeedback = (
+  category: string,
+  comment: string,
+  emotion: string,
+  url: string,
+) =>
+  track('sent feedback', {
+    eventGroup: 'engagement',
+    category,
+    comment,
+    emotion,
+    url,
+  })
 // start course
 /* When a course get started by a user  */
 /* This will show courses that get started but the don't get finished  */
