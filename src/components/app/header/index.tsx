@@ -167,7 +167,7 @@ const NavLink: React.FC<React.PropsWithChildren<NavLinkProps>> = ({
   onClick,
 }) => {
   const pathname = usePathname()
-  const isActive = href?.includes(pathname || '')
+  const isActive = pathname && pathname !== '/' && href?.includes(pathname)
 
   const props = {
     className: cn(
