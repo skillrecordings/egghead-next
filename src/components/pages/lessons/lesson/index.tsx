@@ -488,9 +488,11 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
   return (
     <>
       <NextSeo
-        description={truncate(removeMarkdown(description), {length: 155})}
+        description={truncate(removeMarkdown(description.replace(/"/g, "'")), {
+          length: 155,
+        })}
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${lesson.path}`}
-        title={title}
+        title={title.replace(/"/g, "'")}
         titleTemplate={'%s | egghead.io'}
         twitter={{
           handle: instructor?.twitter,
@@ -498,9 +500,12 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
           cardType: 'summary_large_image',
         }}
         openGraph={{
-          title,
+          title: title.replace(/"/g, "'"),
           url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${lesson.path}`,
-          description: truncate(removeMarkdown(description), {length: 155}),
+          description: truncate(
+            removeMarkdown(description.replace(/"/g, "'")),
+            {length: 155},
+          ),
           site_name: 'egghead',
           images: [
             {
@@ -510,8 +515,10 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
         }}
       />
       <VideoJsonLd
-        name={title}
-        description={truncate(removeMarkdown(description), {length: 155})}
+        name={title.replace(/"/g, "'")}
+        description={truncate(removeMarkdown(description.replace(/"/g, "'")), {
+          length: 155,
+        })}
         uploadDate={lesson?.created_at}
         thumbnailUrls={compact([lesson?.thumb_url])}
       />
