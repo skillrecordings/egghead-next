@@ -3,7 +3,7 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Link from '../../link'
 import NextLink from 'next/link'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import Eggo from '@/components/icons/eggo'
 import {useViewer} from '@/context/viewer-context'
 import {track} from '@/utils/analytics'
@@ -14,22 +14,13 @@ import {HeaderButtonShapedLink} from './header-button-shaped-link'
 import SearchBar from './search-bar'
 import {Fragment} from 'react'
 import {Popover, Transition} from '@headlessui/react'
-import {
-  ChevronDownIcon,
-  ChevronRightIcon,
-  DocumentTextIcon,
-  MenuIcon,
-  XIcon,
-  PlayIcon,
-  MapIcon,
-} from '@heroicons/react/solid'
+import {ChevronDownIcon, MenuIcon, XIcon} from '@heroicons/react/solid'
 import {
   BookOpenIcon,
   PlayIcon as PlayIconOutline,
   MapIcon as MapIconOutline,
   DocumentTextIcon as DocumentTextIconOutline,
   CodeIcon,
-  SearchIcon,
 } from '@heroicons/react/outline'
 import {
   Accordion,
@@ -39,26 +30,32 @@ import {
 } from '@radix-ui/react-accordion'
 import SaleHeaderBanner from '@/components/cta/sale/header-banner'
 import analytics from '@/utils/analytics'
-import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'
+import {useClickAway} from 'react-use'
+import {ChevronDown} from 'lucide-react'
+import clsx from 'clsx'
+import {cn} from '@/ui/utils'
 
-type NavLink = {
+type NavLinkProps = {
   name: string
   href?: string
-  image?: React.JSX.Element | string
-  items?: NavLink[]
+  image?: ((props?: React.SVGProps<SVGSVGElement>) => JSX.Element) | string
+  items?: NavLinkProps[]
+  onClick?: () => void
+  className?: string
 }
 
 const navLinks = [
   {
     name: 'Topics',
-    image: (
+    image: (props?: React.SVGProps<SVGSVGElement>) => (
       <BookOpenIcon
         className="text-gray-600 dark:text-gray-400"
         strokeWidth={1.5}
         height={20}
         width={20}
         aria-hidden="true"
+        {...props}
       />
     ),
     href: '/topics',
@@ -110,74 +107,101 @@ const navLinks = [
   {
     name: 'Courses',
     href: '/q?type=playlist',
-    image: (
+    image: (props?: React.SVGProps<SVGSVGElement>) => (
       <CodeIcon
-        className="text-gray-600 dark:text-gray-400"
         strokeWidth={1.5}
         height={20}
         width={20}
         aria-hidden="true"
+        {...props}
       />
     ),
   },
   {
     name: 'Tips',
     href: '/tips',
-    image: (
+    image: (props?: React.SVGProps<SVGSVGElement>) => (
       <PlayIconOutline
-        className="text-gray-600 dark:text-gray-400"
         strokeWidth={1.5}
         height={20}
         width={20}
         aria-hidden="true"
+        {...props}
       />
     ),
   },
   {
     name: 'Guides',
     href: '/guides',
-    image: (
+    image: (props?: React.SVGProps<SVGSVGElement>) => (
       <MapIconOutline
-        className=" text-gray-600 dark:text-gray-400"
         strokeWidth={1.5}
         height={20}
         width={20}
         aria-hidden="true"
+        {...props}
       />
     ),
   },
   {
     name: 'Articles',
     href: '/blog',
-    image: (
+    image: (props?: React.SVGProps<SVGSVGElement>) => (
       <DocumentTextIconOutline
-        className="text-gray-600 dark:text-gray-400"
         strokeWidth={1.5}
         height={20}
         width={20}
         aria-hidden="true"
+        {...props}
       />
     ),
   },
 ]
 
-const NavLink: React.FC<React.PropsWithChildren<NavLink>> = ({
+const NavLink: React.FC<React.PropsWithChildren<NavLinkProps>> = ({
   name,
   href,
   items,
   image,
+  className,
+  onClick,
 }) => {
+  const pathname = usePathname()
+  const isActive = href?.includes(pathname || '')
+
   const props = {
-    className:
+    className: cn(
       'flex items-center h-full px-3 dark:hover:bg-white transition hover:bg-gray-50 gap-1 dark:hover:bg-opacity-5',
+      className,
+      {
+        'bg-gray-50 dark:bg-gray-400/5': isActive,
+        '': !isActive,
+      },
+    ),
     children: (
       <>
-        {image}
+        {image && typeof image === 'string'
+          ? image
+          : typeof image === 'function'
+          ? image({
+              className: clsx('lg:block hidden ', {
+                'text-blue-600 dark:text-blue-300': isActive,
+                'text-gray-600 dark:text-gray-400': !isActive,
+              }),
+            })
+          : null}
         {name}
       </>
     ),
     onClick: () => {
-      analytics.events.activityInternalLinkClick('page', 'header', name, href)
+      onClick
+        ? onClick()
+        : analytics.events.activityInternalLinkClick(
+            'page',
+            'header',
+            name,
+            href,
+          )
     },
   }
 
@@ -205,7 +229,7 @@ const NavLink: React.FC<React.PropsWithChildren<NavLink>> = ({
 }
 
 const NavDropdown: React.FC<
-  React.PropsWithChildren<NavLink & {className?: string}>
+  React.PropsWithChildren<NavLinkProps & {className?: string}>
 > = ({name, items, className, href}) => {
   return (
     <Popover className={'h-full'}>
@@ -319,11 +343,16 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
     switch (true) {
       case !viewer?.is_pro && !viewer?.is_instructor:
         setActiveCTA(
-          <HeaderButtonShapedLink
-            url="/pricing"
-            label="Enroll Today"
+          <NavLink
+            href="/pricing"
+            name="Enroll Today"
             onClick={() => {
-              track('clicked go pro', {location: 'header'})
+              analytics.events.activityInternalLinkClick(
+                'page',
+                'header',
+                'Enroll Today',
+                '/pricing',
+              )
             }}
           />,
         )
@@ -340,28 +369,28 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
       )}
       <nav
         aria-label="header"
-        className="relative h-12 text-sm border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000"
+        className="relative h-12 text-sm border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000"
       >
         <div className="container flex items-center justify-between w-full h-full relative">
-          <div className="flex h-full">
+          <div className="flex h-full relative z-50">
             <Logo />
-            <div className="hidden items-center h-full lg:flex">
+            <div className="hidden items-center h-full md:flex">
               {navLinks.map((link) => {
                 return <NavLink key={link.name} {...link} />
               })}
             </div>
           </div>
-          <div className="flex items-center h-full">
+          <div className="flex items-center h-full lg:-mr-6">
             {loading ? null : (
               <>
                 {!isSearch && <SearchBar className="lg:block hidden" />}
                 {!isEmpty(viewer) && <Feedback className="lg:flex hidden" />}
-                <div className="flex items-center px-1">{activeCTA}</div>
+                <div className="flex items-center px-1 h-full">{activeCTA}</div>
 
                 {isEmpty(viewer) ? (
                   <NavLink href="/login" name="Sign in" />
                 ) : (
-                  <ProfileDropdown />
+                  <ProfileDropdown className="lg:flex hidden" />
                 )}
               </>
             )}
@@ -395,7 +424,9 @@ const Team = () => {
   )
 }
 
-const ProfileDropdown: React.FC<React.PropsWithChildren> = () => {
+const ProfileDropdown: React.FC<
+  React.PropsWithChildren<{className?: string; isDropdown?: boolean}>
+> = ({className, isDropdown = true}) => {
   const {viewer} = useViewer()
 
   const showTeamNavLink =
@@ -408,10 +439,13 @@ const ProfileDropdown: React.FC<React.PropsWithChildren> = () => {
     )
 
   return (
-    <Popover className="relative h-full">
+    <Popover className={twMerge('relative h-full')}>
       {({open, close}) => (
         <>
-          <Popover.Button className="flex items-center h-full w-full">
+          <Popover.Button
+            disabled={!isDropdown}
+            className="flex items-center h-full w-full"
+          >
             {!isEmpty(viewer) && (
               <div
                 onClick={() =>
@@ -432,7 +466,9 @@ const ProfileDropdown: React.FC<React.PropsWithChildren> = () => {
                   {viewer.name}
                   {viewer.is_pro && <sup>⭐️</sup>}
                 </span>
-                <ChevronDownIcon className="h-4 mt-px " aria-hidden="true" />
+                {isDropdown && (
+                  <ChevronDownIcon className="h-4 mt-px " aria-hidden="true" />
+                )}
               </div>
             )}
           </Popover.Button>
@@ -555,31 +591,6 @@ const MobileNavigation = () => {
   const [isOpen, setOpen] = React.useState<boolean>(false)
   const showEnrollNow = !viewer?.is_pro && !viewer?.is_instructor
 
-  const MobileNavLinkButton = ({
-    href,
-    children,
-  }: {
-    href: string
-    children: any
-  }) => {
-    return (
-      <Link href={href}>
-        <a
-          onClick={() =>
-            analytics.events.activityInternalLinkClick(
-              'page',
-              'mobile header',
-              href,
-            )
-          }
-          className="dark:bg-gray-700 bg-gray-100 rounded p-2 flex flex-col items-center font-semibold min-w-[72px] dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
-        >
-          {children}
-        </a>
-      </Link>
-    )
-  }
-
   const showTeamNavLink =
     viewer?.accounts &&
     !isEmpty(
@@ -589,9 +600,15 @@ const MobileNavigation = () => {
       ),
     )
 
+  const mobileNavRef = React.useRef(null)
+
+  useClickAway(mobileNavRef, () => {
+    setOpen(false)
+  })
+
   return (
     <>
-      <div className="inline-flex items-center gap-4 lg:hidden h-full -mr-3">
+      <div className="inline-flex items-center gap-4 relative z-50 lg:hidden h-full -mr-3">
         <button
           onClick={() => setOpen(!isOpen)}
           aria-labelledby="menubutton"
@@ -609,102 +626,119 @@ const MobileNavigation = () => {
         </button>
       </div>
       {isOpen ? (
-        <div className="fixed top-12 w-full h-screen dark:bg-gray-900 bg-white z-50 left-0 lg:hidden flex flex-col">
-          <div className="flex w-full justify-center gap-4 py-4">
-            <MobileNavLinkButton href="/q">
-              <CodeIcon className="mb-1" height={40} width={40} />
-              Courses
-            </MobileNavLinkButton>
-
-            <MobileNavLinkButton href="/tips">
-              <PlayIcon className="mb-1" height={40} width={40} />
-              Tips
-            </MobileNavLinkButton>
-
-            <MobileNavLinkButton href="/guides">
-              <MapIcon className="mb-1" height={40} width={40} />
-              Guides
-            </MobileNavLinkButton>
-
-            <MobileNavLinkButton href="/blog">
-              <DocumentTextIcon className="mb-1" height={40} width={40} />
-              Articles
-            </MobileNavLinkButton>
+        <div
+          ref={mobileNavRef}
+          className="absolute pt-12 top-0 w-full shadow-xl dark:bg-gray-900 border-b dark:border-white/5 border-white/40 bg-white z-40 left-0 lg:hidden block flex-col"
+        >
+          <div className="bg-blue-600 flex w-full items-center justify-center gap-2 p-2">
+            {navLinks?.slice(1, navLinks.length)?.map((item) =>
+              item.href ? (
+                <NextLink
+                  className="flex items-center justify-center aspect-square flex-col p-4 rounded dark:bg-gray-900 bg-white w-full h-full gap-2 text-base"
+                  href={item.href}
+                  key={item.name}
+                  onClick={() =>
+                    analytics.events.activityInternalLinkClick(
+                      'page',
+                      'mobile header',
+                      item.href,
+                    )
+                  }
+                >
+                  {item.image &&
+                    item.image({className: 'w-6 h-6 text-blue-500'})}
+                  {item.name}
+                </NextLink>
+              ) : null,
+            )}
           </div>
+          <SearchBar className="px-2" />
           <div className="flex flex-col h-full justify-between">
-            <div className="flex flex-col w-full pb-5 text-lg ">
+            <div className="flex flex-col w-full text-base">
               <MobileTopicsList />
               {!isEmpty(viewer) && (
-                <div className="bg-white dark:bg-gray-800">
-                  <div className="flex flex-col w-full">
-                    <FeedbackInput
-                      user={viewer}
-                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100 border-opacity-40"
+                <div className="flex flex-col w-full">
+                  <FeedbackInput
+                    user={viewer}
+                    className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                  >
+                    Feedback
+                  </FeedbackInput>
+                  <Link href={`/user/membership`}>
+                    <a
+                      onClick={() =>
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'membership',
+                          '/user/membership',
+                        )
+                      }
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
                     >
-                      Feedback
-                    </FeedbackInput>
-                    <Link href={`/user/membership`}>
-                      <a
-                        onClick={() =>
-                          analytics.events.activityInternalLinkClick(
-                            'page',
-                            'mobile header',
-                            'membership',
-                            '/user/membership',
-                          )
-                        }
-                        className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100  border-opacity-40"
-                      >
-                        Membership
-                      </a>
-                    </Link>
-                    {showTeamNavLink && <Team />}
-                    <Link href={`/user/profile`}>
-                      <a
-                        onClick={() =>
-                          analytics.events.activityInternalLinkClick(
-                            'page',
-                            'mobile header',
-                            'profile',
-                            '/user/profile',
-                          )
-                        }
-                        className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100  border-opacity-40"
-                      >
-                        Profile
-                      </a>
-                    </Link>
-                    <Link href={`/user/activity`}>
-                      <a
-                        onClick={() =>
-                          analytics.events.activityInternalLinkClick(
-                            'page',
-                            'mobile header',
-                            'activity',
-                            '/user/activity',
-                          )
-                        }
-                        className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100  border-opacity-40"
-                      >
-                        Activity
-                      </a>
-                    </Link>
-                    <Link href={`/bookmarks`}>
-                      <a
-                        onClick={() =>
-                          analytics.events.activityInternalLinkClick(
-                            'page',
-                            'mobile header',
-                            'bookmarks',
-                            '/bookmarks',
-                          )
-                        }
-                        className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-100  border-opacity-40"
-                      >
-                        Bookmarks
-                      </a>
-                    </Link>
-                  </div>
+                      Membership
+                    </a>
+                  </Link>
+                  {showTeamNavLink && <Team />}
+                  <Link href={`/user/profile`}>
+                    <a
+                      onClick={() =>
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'profile',
+                          '/user/profile',
+                        )
+                      }
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                    >
+                      Profile
+                    </a>
+                  </Link>
+                  <Link href={`/user/activity`}>
+                    <a
+                      onClick={() =>
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'activity',
+                          '/user/activity',
+                        )
+                      }
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                    >
+                      Activity
+                    </a>
+                  </Link>
+                  <Link href={`/bookmarks`}>
+                    <a
+                      onClick={() =>
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'bookmarks',
+                          '/bookmarks',
+                        )
+                      }
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                    >
+                      Bookmarks
+                    </a>
+                  </Link>
+                  <Link href={`/logout`}>
+                    <a
+                      onClick={() =>
+                        analytics.events.activityInternalLinkClick(
+                          'logout',
+                          'mobile header',
+                          'logout',
+                        )
+                      }
+                      className="flex text-base items-center justify-start px-5 py-4 font-semibold transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
+                    >
+                      Log Out
+                    </a>
+                  </Link>
                 </div>
               )}
               <div>
@@ -719,29 +753,13 @@ const MobileNavigation = () => {
                           '/pricing',
                         )
                       }
-                      className="flex text-lg font-medium items-center justify-start px-5 py-4  transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth bg-blue-500"
+                      className="flex text-base font-medium items-center justify-start px-5 py-4 transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth bg-blue-500"
                     >
                       Enroll Now
                     </a>
                   </Link>
                 )}
               </div>
-            </div>
-            <div className="sticky bottom-2">
-              <Link href={`/logout`}>
-                <a
-                  onClick={() =>
-                    analytics.events.activityInternalLinkClick(
-                      'logout',
-                      'mobile header',
-                      'logout',
-                    )
-                  }
-                  className="flex text-lg items-center justify-start px-5 py-2 transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
-                >
-                  Log Out
-                </a>
-              </Link>
             </div>
           </div>
         </div>
@@ -751,32 +769,20 @@ const MobileNavigation = () => {
 }
 
 const MobileTopicsList = () => {
-  const [open, setOpen] = React.useState<string>('')
-
   return (
     <Accordion
-      type="single"
-      collapsible
-      value={open}
-      onValueChange={setOpen}
-      className="font-medium border-y border-gray-100 border-opacity-40 w-full "
+      type="multiple"
+      className="font-medium border-y border-gray-200 dark:border-opacity-10 border-opacity-40 w-full "
     >
-      <AccordionItem value="item-1">
+      <AccordionItem value="topics">
         <AccordionTrigger className="flex justify-between items-center px-5 py-4 w-full">
           <div>Topics</div>
-          {open.includes(`item-1`) ? (
-            <ChevronDownIcon
-              className="relative h-8 w-8 transition group-radix-state-open:rotate-180"
-              aria-hidden="true"
-            />
-          ) : (
-            <ChevronRightIcon
-              className="relative h-8 w-8 transition"
-              aria-hidden="true"
-            />
-          )}
+          <ChevronDown
+            className="relative h-4 w-4 transition"
+            aria-hidden="true"
+          />
         </AccordionTrigger>
-        <AccordionContent className="dark:bg-gray-700 bg-gray-100 w-full data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+        <AccordionContent className="dark:bg-gray-700 bg-gray-100 w-full transition overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
           <div className="py-2 flex flex-col w-full">
             {navLinks[0]?.items?.map((item) => (
               <a
