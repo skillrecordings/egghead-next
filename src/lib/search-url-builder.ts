@@ -107,15 +107,38 @@ export const createUrl = (searchState: {
   return `${urlRoot}${queryString && `?${queryString}`}`
 }
 
-export const parseUrl = (query: {
+type InitialQueryType = {
   all?: any
   q?: any
   type?: any
   access_state?: any
   page?: number
   sortBy?: string
-}) => {
-  if (isEmpty(query)) return query
+}
+
+export type QueryReturnType = {
+  query?: string
+  sortBy?: string
+  page?: number
+  refinementList: {
+    access_state?: string[]
+    type?: string[]
+    _tags?: string[]
+    instructor_name?: string[]
+  }
+}
+
+export const parseUrl = (query: InitialQueryType): QueryReturnType => {
+  if (isEmpty(query))
+    return pickBy({
+      query: query.q,
+      page: query.page,
+      sortBy: query.sortBy,
+      refinementList: {
+        access_state: query.access_state,
+        type: query.type,
+      },
+    }) as QueryReturnType
   const firstPath: string = first(query.all) as string
 
   const instructors = instructorsForPath(firstPath)
@@ -134,5 +157,5 @@ export const parseUrl = (query: {
       _tags: tags,
       instructor_name: instructors,
     }),
-  })
+  }) as QueryReturnType
 }
