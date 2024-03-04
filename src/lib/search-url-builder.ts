@@ -129,16 +129,20 @@ export type QueryReturnType = {
 }
 
 export const parseUrl = (query: InitialQueryType): QueryReturnType => {
-  if (isEmpty(query))
+  if (isEmpty(query)) {
+    // ensures that refinementList is not returned if either of its values are empty in the query
+    const refinementList = pickBy({
+      access_state: query.access_state,
+      type: query.type,
+    })
+
     return pickBy({
       query: query.q,
       page: query.page,
       sortBy: query.sortBy,
-      refinementList: {
-        access_state: query.access_state,
-        type: query.type,
-      },
+      refinementList: isEmpty(refinementList) ? null : refinementList,
     }) as QueryReturnType
+  }
   const firstPath: string = first(query.all) as string
 
   const instructors = instructorsForPath(firstPath)
