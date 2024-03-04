@@ -98,10 +98,10 @@ const Comments: React.FunctionComponent<
           <CommentField onSubmit={() => {}} />
 
           <div className="absolute backdrop-blur-sm bg-gray-50/20 dark:bg-black/20 p-8 w-[105%] h-[105%] -top-1 -right-1 flex flex-col justify-center items-center gap-4">
-            <h4 className="font-semibold flex gap-2 justify-center">
+            <span className="font-semibold flex gap-2 justify-center">
               <LockClosedIcon height={20} width={20} /> Become a member to join
               the discussion
-            </h4>
+            </span>
             <Link
               href="/pricing"
               onClick={() =>
