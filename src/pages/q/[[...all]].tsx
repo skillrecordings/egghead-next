@@ -93,60 +93,60 @@ const SearchIndex: any = ({
     initialTopicData,
   )
 
-  // const onSearchStateChange = async (searchState: any) => {
-  //   clearTimeout(debouncedState.current)
-  //
-  //   const instructors = getInstructorsFromSearchState(searchState)
-  //
-  //   if (instructors.length === 1) {
-  //     const instructorSlug = getInstructorSlugFromInstructorList(instructors)
-  //     try {
-  //       await loadInstructor(instructorSlug).then((instructor: any) =>
-  //         setInstructor(instructor),
-  //       )
-  //     } catch (error) {}
-  //   } else {
-  //     setInstructor(null)
-  //   }
-  //
-  //   debouncedState.current = setTimeout(() => {
-  //     const href: string = createUrl(searchState)
-  //     setNoIndex(queryParamsPresent(href))
-  //
-  //     router.push(href, undefined, {
-  //       shallow: true,
-  //     })
-  //   }, 250)
-  //
-  //   setSearchState(searchState)
-  // }
-  //
-  // const customProps = {
-  //   searchState,
-  //   resultsState,
-  //   createURL,
-  //   onSearchStateChange,
-  // }
+  const onSearchStateChange = async (searchState: any) => {
+    clearTimeout(debouncedState.current)
+
+    const instructors = getInstructorsFromSearchState(searchState)
+
+    if (instructors.length === 1) {
+      const instructorSlug = getInstructorSlugFromInstructorList(instructors)
+      try {
+        await loadInstructor(instructorSlug).then((instructor: any) =>
+          setInstructor(instructor),
+        )
+      } catch (error) {}
+    } else {
+      setInstructor(null)
+    }
+
+    debouncedState.current = setTimeout(() => {
+      const href: string = createUrl(searchState)
+      setNoIndex(queryParamsPresent(href))
+
+      router.push(href, undefined, {
+        shallow: true,
+      })
+    }, 250)
+
+    setSearchState(searchState)
+  }
+
+  const customProps = {
+    searchState,
+    resultsState,
+    createURL,
+    onSearchStateChange,
+  }
 
   return (
     <div className="flex-grow">
-      {/*<NextSeo*/}
-      {/*  noindex={noIndex}*/}
-      {/*  title={pageTitle}*/}
-      {/*  canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}*/}
-      {/*  openGraph={{*/}
-      {/*    url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,*/}
-      {/*    site_name: 'egghead',*/}
-      {/*  }}*/}
-      {/*/>*/}
-      {/*<Search*/}
-      {/*  {...defaultProps}*/}
-      {/*  {...customProps}*/}
-      {/*  instructor={instructor}*/}
-      {/*  topic={topic}*/}
-      {/*  topicData={topicData}*/}
-      {/*  loading={isLoadingTopic || isLoadingTopicData}*/}
-      {/*/>*/}
+      <NextSeo
+        noindex={noIndex}
+        title={pageTitle}
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
+          site_name: 'egghead',
+        }}
+      />
+      <Search
+        {...defaultProps}
+        {...customProps}
+        instructor={instructor}
+        topic={topic}
+        topicData={topicData}
+        loading={isLoadingTopic || isLoadingTopicData}
+      />
     </div>
   )
 }
@@ -187,25 +187,22 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const {all, ...rest} = query
   const initialSearchState = parseUrl(query)
   const pageTitle = titleFromPath(all as string[])
-  const resultsState = {rawResults: [], state: {query: ''}} //await findResultsState(Search, {
-  //   searchClient,
-  //   searchState: initialSearchState,
-  //   indexName: ALGOLIA_INDEX_NAME,
-  // } as InstantSearchProps)
 
   const serverState = await getServerState(<BrandPage />, {
     renderToString,
   })
 
-  console.log('serverState', serverState)
+  const resultsState = Object.keys(serverState.initialResults).map((key) => {
+    return serverState.initialResults[key]
+  })[0]
+
+  const {results, state} = resultsState
 
   let initialInstructor = null
   let initialTopic = null
   let initialTopicData = null
 
-  const {rawResults, state} = resultsState
-
-  const noHits = isEmpty(get(first(rawResults), 'hits'))
+  const noHits = isEmpty(get(first(results), 'hits'))
   const queryParamsPresent = !isEmpty(rest)
   const userQueryPresent = !isEmpty(state.query)
 
