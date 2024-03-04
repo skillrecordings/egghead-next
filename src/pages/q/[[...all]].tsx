@@ -192,6 +192,8 @@ export const getServerSideProps: GetServerSideProps = async function ({
     renderToString,
   })
 
+  // Maps the InitialResults record to an array and gets the first (and only) result.
+  // From there you have access to the state and result which matches what we expected before the upgrade to react-instantsearch v7
   const resultsState = Object.keys(serverState.initialResults).map((key) => {
     return serverState.initialResults[key]
   })[0]
