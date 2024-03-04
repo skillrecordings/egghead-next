@@ -8,6 +8,7 @@ type DialogProps = {
   title: string
   buttonText: string
   buttonStyles: string
+  disabled: boolean | undefined
 }
 const Dialog: FunctionComponent<React.PropsWithChildren<DialogProps>> = ({
   children,
@@ -15,13 +16,14 @@ const Dialog: FunctionComponent<React.PropsWithChildren<DialogProps>> = ({
   title,
   buttonText,
   buttonStyles = '',
+  disabled = false,
 }) => {
   const [showDialog, setShowDialog] = React.useState(false)
   const open = () => setShowDialog(true)
   const close = () => setShowDialog(false)
   return (
     <div>
-      <button onClick={open} className={buttonStyles}>
+      <button disabled={disabled} onClick={open} className={buttonStyles}>
         {buttonText}
       </button>
       <DialogOverlay isOpen={showDialog} onDismiss={close}>
