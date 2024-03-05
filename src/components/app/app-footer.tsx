@@ -186,9 +186,9 @@ const DarkModeToggle = () => {
   }
   return (
     <div className="flex items-center justify-between">
-      <h2 className="hidden mr-3 sm:block">
+      <span className="hidden mr-3 sm:block">
         {resolvedTheme === 'dark' ? 'Dark' : 'Light'} Mode
-      </h2>
+      </span>
       <div
         className="flex-shrink-0 w-16 h-10 p-1 bg-gray-300 rounded-full dark:bg-gray-1000"
         onClick={handleClick}

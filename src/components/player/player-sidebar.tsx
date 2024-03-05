@@ -163,9 +163,9 @@ const CourseHeader: React.FunctionComponent<
         />
       </div>
       <div className="ml-2 lg:ml-4">
-        <h4 className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
+        <span className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
           Course
-        </h4>
+        </span>
         <Link href={course.path}>
           <a
             onClick={() => {
@@ -175,9 +175,9 @@ const CourseHeader: React.FunctionComponent<
             }}
             className="hover:underline"
           >
-            <h3 className="font-bold leading-tighter 2xl:text-lg">
+            <h2 className="font-bold leading-tighter 2xl:text-lg">
               {course.title}
-            </h3>
+            </h2>
           </a>
         </Link>
       </div>
@@ -206,9 +206,9 @@ const TagHeader: React.FunctionComponent<
         />
       </div>
       <div className="ml-2 lg:ml-4">
-        <h4 className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
+        <span className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
           Tag
-        </h4>
+        </span>
         <Link href={`/q/${tag.name}`}>
           <a
             onClick={() => {
@@ -218,9 +218,9 @@ const TagHeader: React.FunctionComponent<
             }}
             className="hover:underline"
           >
-            <h3 className="font-bold leading-tighter 2xl:text-lg">
+            <h2 className="font-bold leading-tighter 2xl:text-lg">
               Lessons Related to {tag.label}
-            </h3>
+            </h2>
           </a>
         </Link>
       </div>
