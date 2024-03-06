@@ -527,7 +527,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
       <SocialProfileJsonLd
         type="Person"
         name={instructor.full_name}
-        url={`https://egghead.io/${instructorPagePath}`}
+        url={`https://egghead.io${instructorPagePath}`}
         sameAs={[`https://twitter.com/${instructor.twitter}`]}
       />
       <div className={cx({'h-screen': isFullscreen})}>
