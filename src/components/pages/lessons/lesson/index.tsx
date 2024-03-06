@@ -519,6 +519,8 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
         description={truncate(removeMarkdown(description.replace(/"/g, "'")), {
           length: 155,
         })}
+        contentUrl={lesson?.hls_url}
+        duration={lesson?.duration}
         uploadDate={lesson?.created_at}
         thumbnailUrls={compact([lesson?.thumb_url])}
       />
