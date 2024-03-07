@@ -11,13 +11,14 @@ import type {
 import {get} from 'lodash'
 import {useViewer} from '@/context/viewer-context'
 
-export async function PlayerTwo({
+export function PlayerTwo({
   lessonLoader,
 }: {
   lessonLoader: Promise<LessonResource>
 }) {
   const lesson = use(lessonLoader)
   const {viewer} = useViewer()
+
   return (
     <VideoProvider
       services={{
