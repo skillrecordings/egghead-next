@@ -7,7 +7,7 @@ import Image from 'next/legacy/image'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
 import tags from '@/pages/site-directory/tags.json'
-import {track} from '../utils/analytics'
+import analytics from '@/utils/analytics'
 
 type TagsProps = {
   tags: any[]
@@ -34,10 +34,11 @@ const Tags: FunctionComponent<React.PropsWithChildren<TagsProps>> = ({
               <Link
                 href={`/q/${tag.slug}`}
                 onClick={() =>
-                  track(`clicked topic`, {
-                    location: 'topic page',
-                    topic: tag.slug,
-                  })
+                  analytics.events.activityInternalLinkClick(
+                    'page',
+                    'topics index',
+                    tag.slug,
+                  )
                 }
                 className="flex flex-row items-center justify-start w-full p-4 space-x-2 transition-all duration-150 ease-in-out border border-transparent rounded-lg hover:shadow-sm hover:border-gray-200 sm:p-5"
               >

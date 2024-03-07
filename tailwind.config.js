@@ -128,8 +128,18 @@ module.exports = {
         'gradient-x': 'gradient-x 10s ease infinite',
         'gradient-y': 'gradient-y 10s ease infinite',
         'gradient-xy': 'gradient-xy 10s ease infinite',
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
       keyframes: {
+        'accordion-down': {
+          from: {height: '0'},
+          to: {height: 'var(--radix-accordion-content-height)'},
+        },
+        'accordion-up': {
+          from: {height: 'var(--radix-accordion-content-height)'},
+          to: {height: '0'},
+        },
         'gradient-y': {
           '0%, 100%': {
             'background-size': '400% 400%',

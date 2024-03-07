@@ -403,7 +403,9 @@ const CollectionPageLayout: React.FunctionComponent<
   return (
     <>
       <NextSeo
-        description={truncate(removeMarkdown(description), {length: 155})}
+        description={truncate(removeMarkdown(description.replace(/"/g, "'")), {
+          length: 155,
+        })}
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`}
         title={title}
         titleTemplate={'%s | egghead.io'}
@@ -415,7 +417,10 @@ const CollectionPageLayout: React.FunctionComponent<
         openGraph={{
           title,
           url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`,
-          description: truncate(removeMarkdown(description), {length: 155}),
+          description: truncate(
+            removeMarkdown(description.replace(/"/g, "'")),
+            {length: 155},
+          ),
           site_name: 'egghead',
           images: [
             {
@@ -429,12 +434,6 @@ const CollectionPageLayout: React.FunctionComponent<
         name={name}
         url={`https://egghead.io/q/resources-by-${slug}`}
         sameAs={[twitter, instructor.website]}
-      />
-      <CourseJsonLd
-        courseName={title}
-        providerName="egghead.io"
-        providerUrl="https://egghead.io"
-        description={truncate(removeMarkdown(description), {length: 155})}
       />
       <div className="container pb-8 sm:pb-16 dark:text-gray-100">
         {state === 'retired' && (

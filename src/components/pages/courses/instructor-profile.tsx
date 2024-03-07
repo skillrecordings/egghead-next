@@ -21,14 +21,14 @@ const InstructorProfile: React.FunctionComponent<
         }}
       />
       <div className="ml-2 flex flex-col justify-center">
-        <h4 className="text-gray-700 dark:text-gray-400 text-sm leading-tighter">
+        <span className="text-gray-700 dark:text-gray-400 text-sm leading-tighter">
           Instructor
-        </h4>
+        </span>
         <Link
           href={`/q/resources-by-${url}`}
           className="flex hover:underline flex-shrink-0"
         >
-          <span className="font-semibold text-base">{name}</span>
+          <h2 className="font-semibold text-base">{name}</h2>
         </Link>
       </div>
     </div>

@@ -48,20 +48,20 @@ const SearchBar = ({
           <Form
             role="search"
             className={twMerge(
-              'sm:border-r dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5 sm:w-auto',
+              'sm:border-x dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5 sm:max-w-[180px]',
               className,
             )}
           >
-            <div className="relative flex dark:hover:border-white dark:focus-within:border-white hover:border-gray-900 focus-within:border-gray-900 border-b border-transparent pl-2 hover:border-opacity-30 focus-within:border-opacity-30 dark:hover:border-opacity-30 dark:focus-within:border-opacity-30 justify-between">
+            <div className="relative flex dark:hover:border-white dark:focus-within:border-white pl-3 hover:border-opacity-30 focus-within:border-opacity-30 dark:hover:border-opacity-30 dark:focus-within:border-opacity-30 justify-between">
               <input
                 name="query"
                 value={values.query}
                 onChange={handleChange}
                 type="search"
                 aria-label="Search"
-                placeholder="Search for Anything"
+                placeholder="Search"
                 autoComplete="off"
-                className="dark:placeholder-opacity-60 placeholder-opacity-60 dark:placeholder-white placeholder-black bg-transparent sm:text-sm text-base sm:w-[230px] w-full h-12 focus:ring-0 border-none p-0 xl:text-md"
+                className="dark:placeholder-opacity-60 placeholder-opacity-60 dark:placeholder-white placeholder-black bg-transparent sm:text-sm text-base  w-full h-12 focus:ring-0 border-none p-0 xl:text-md"
               />
               <button
                 type="submit"
