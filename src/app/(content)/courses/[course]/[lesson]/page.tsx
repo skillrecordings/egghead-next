@@ -4,7 +4,10 @@ import {LessonResource} from '@/types'
 import {notFound} from 'next/navigation'
 import {PlayerTwo} from '@/app/(content)/courses/[course]/[lesson]/Player'
 import {Suspense} from 'react'
-import PlayerSidebar from './PlayerSidebar'
+import {ACCESS_TOKEN_KEY} from '@/utils/auth'
+import {getAbilityFromToken} from '@/server/ability'
+import {redirect} from 'next/navigation'
+import {cookies} from 'next/headers'
 
 export default async function LessonPage({
   searchParams,
@@ -16,8 +19,14 @@ export default async function LessonPage({
     course: string
   }
 }) {
-  console.log('searchParams', searchParams)
-  console.log('params', params)
+  const cookieStore = cookies()
+  const userToken = cookieStore?.get(ACCESS_TOKEN_KEY ?? '')?.value
+  const ability = await getAbilityFromToken(userToken)
+
+  if (!ability.can('create', 'Content')) {
+    redirect('/')
+  }
+
   const lessonLoader = loadLesson(params.lesson)
   const courseLoader = loadCourse(params.course)
 
