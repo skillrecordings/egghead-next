@@ -227,10 +227,12 @@ const TagList: FunctionComponent<
               <Link
                 href={`/q/${tag.name}`}
                 onClick={() => {
-                  // track(`clicked view topic`, {
-                  //   course: courseSlug,
-                  //   topic: tag.name,
-                  // })
+                  analytics.events.activityInternalLinkClick(
+                    'tag',
+                    'tips index',
+                    tag.name,
+                    tag.slug,
+                  )
                 }}
                 className="inline-flex items-center hover:underline"
               >
