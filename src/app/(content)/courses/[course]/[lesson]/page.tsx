@@ -4,6 +4,7 @@ import {LessonResource} from '@/types'
 import {notFound} from 'next/navigation'
 import {PlayerTwo} from '@/app/(content)/courses/[course]/[lesson]/Player'
 import {Suspense} from 'react'
+import PlayerSidebar from './PlayerSidebar'
 
 export default async function LessonPage({
   searchParams,
@@ -22,10 +23,17 @@ export default async function LessonPage({
 
   return (
     <div>
-      <LessonHeader lessonLoader={lessonLoader} />
       <Suspense>
-        <PlayerTwo lessonLoader={lessonLoader} />
+        <div className="bg-black w-full lg:grid lg:grid-cols-12 lg:space-y-0 relative">
+          <div className="relative before:float-left after:clear-both after:table col-span-9">
+            <PlayerTwo
+              lessonLoader={lessonLoader}
+              courseLoader={courseLoader}
+            />
+          </div>
+        </div>
       </Suspense>
+      <LessonHeader lessonLoader={lessonLoader} />
     </div>
   )
 }

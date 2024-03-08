@@ -10,11 +10,14 @@ import type {
 } from '@skillrecordings/player/dist/machines/video-machine'
 import {get} from 'lodash'
 import {useViewer} from '@/context/viewer-context'
+import PlayerSidebar from './PlayerSidebar'
 
 export function PlayerTwo({
   lessonLoader,
+  courseLoader,
 }: {
   lessonLoader: Promise<LessonResource>
+  courseLoader: Promise<any>
 }) {
   const lesson = use(lessonLoader)
   const {viewer} = useViewer()
@@ -40,6 +43,9 @@ export function PlayerTwo({
         {lesson.hls_url && (
           <HLSSource key={lesson.hls_url} src={lesson.hls_url} />
         )}
+        <div className="flex flex-col col-span-3 dark:bg-gray-800 bg-gray-50">
+          <PlayerSidebar lesson={lesson} courseLoader={courseLoader} />
+        </div>
       </Player>
     </VideoProvider>
   )
