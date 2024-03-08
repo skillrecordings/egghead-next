@@ -120,7 +120,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
 }) => {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-  debugger
   try {
     const course = params && (await loadPlaylist(params.course as string))
     const courseSlug = getSlugFromPath(course?.path)
