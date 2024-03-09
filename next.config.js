@@ -41,6 +41,9 @@ const IMAGE_HOST_DOMAINS = compact([
 ])
 
 const nextConfig = {
+  experimental: {
+    ppr: true,
+  },
   transpilePackages: ['unist-util-visit'],
   reactStrictMode: true,
   images: {
@@ -282,11 +285,6 @@ const contentCrudRoutes = [
   {
     source: `/downloads/:title/:rest(.+)`,
     destination: `${appUrl}/downloads/:title/:rest`,
-    permanent: true,
-  },
-  {
-    source: `/courses/:title/:rest(.+)`,
-    destination: `${appUrl}/courses/:title/:rest`,
     permanent: true,
   },
   {

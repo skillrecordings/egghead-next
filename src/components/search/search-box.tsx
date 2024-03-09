@@ -1,31 +1,33 @@
 import React, {FunctionComponent} from 'react'
-import {connectSearchBox} from 'react-instantsearch-dom'
+import {useSearchBox, SearchBoxProps} from 'react-instantsearch'
 import {track} from '@/utils/analytics'
 import useBreakpoint from '@/utils/breakpoints'
 import analytics from '@/utils/analytics'
 
-type CustomSearchBoxProps = {
-  currentRefinement: any
-  refine: any
-  placeholder?: string | undefined
-}
-
 const CustomSearchBox: FunctionComponent<
-  React.PropsWithChildren<CustomSearchBoxProps>
-> = ({currentRefinement, refine, placeholder = 'Search for Anything'}) => {
-  const [timerId, setTimerId] = React.useState<any>()
-  const [trackTimerId, setTrackTimerId] = React.useState<any>()
-  const [value, setValue] = React.useState<any>(currentRefinement)
+  React.PropsWithChildren<SearchBoxProps>
+> = (props) => {
+  const {placeholder = 'Search for Anything'} = props
+  const {query, refine} = useSearchBox(props)
+
+  const [timerId, setTimerId] = React.useState<NodeJS.Timeout | null>()
+  const [trackTimerId, setTrackTimerId] =
+    React.useState<NodeJS.Timeout | null>()
+
+  const [value, setValue] = React.useState<string>(query)
+
   const {sm} = useBreakpoint()
+
   const [mounted, setMounted] = React.useState<boolean>(false)
+
   React.useEffect(() => {
     setMounted(true)
   }, [])
 
-  const onChangeDebounced = (event: any) => {
+  const onChangeDebounced = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value
-    clearTimeout(timerId)
-    clearTimeout(trackTimerId)
+    if (timerId) clearTimeout(timerId)
+    if (trackTimerId) clearTimeout(trackTimerId)
 
     setTimerId(
       setTimeout(() => {
@@ -66,6 +68,4 @@ const CustomSearchBox: FunctionComponent<
   )
 }
 
-const SearchBox = connectSearchBox(CustomSearchBox)
-
-export default SearchBox
+export default CustomSearchBox

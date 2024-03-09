@@ -1,20 +1,18 @@
 import React from 'react'
 import Link from 'next/link'
-import {connectStats} from 'react-instantsearch-dom'
+import {useStats, StatsProps} from 'react-instantsearch'
 
-const NoSearchResultsPlaceholder = ({
-  searchQuery,
-  nbHits,
-}: {
-  searchQuery: string
-  nbHits: number
-}) => {
+const NoSearchResultsPlaceholder: React.FunctionComponent<
+  React.PropsWithChildren<StatsProps>
+> = (props) => {
+  const {nbHits, query} = useStats(props)
+
   return nbHits ? null : (
     <div className="px-4 w-full flex bg-white border border-gray-300 border-dashed dark:border-gray-600 dark:bg-gray-900 rounded justify-center">
       <div className="py-10 sm:py-20 self-center text-center flex flex-col items-center">
         <SearchEggo />
         <div className="text-gray-700 dark:text-gray-300 text-lg mt-6 mb-2">
-          Sorry, we don't have any resources on <b>"{searchQuery}"</b>
+          Sorry, we don't have any resources on <b>"{query}"</b>
         </div>
         <div className="text-gray-500 dark:text-gray-400">
           Why not try one of these topics?
@@ -30,7 +28,6 @@ const NoSearchResultsPlaceholder = ({
               href={topic.url}
               key={i}
               tabIndex={0}
-              role="link"
               aria-label={topic.title}
               className="dark:bg-gray-800 text-sm font-semibold text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 border border-gray-300 dark:border-gray-700 rounded-full my-1 py-2 px-4 dark:hover:bg-gray-700 hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50"
             >
@@ -43,7 +40,7 @@ const NoSearchResultsPlaceholder = ({
   )
 }
 
-const NoSearchResults = connectStats(NoSearchResultsPlaceholder)
+const NoSearchResults = NoSearchResultsPlaceholder
 
 export default NoSearchResults
 

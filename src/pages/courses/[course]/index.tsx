@@ -120,11 +120,10 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
 }) => {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-
   try {
-    const course = params && (await loadPlaylist(params.slug as string))
+    const course = params && (await loadPlaylist(params.course as string))
     const courseSlug = getSlugFromPath(course?.path)
-    if (course && courseSlug !== params?.slug) {
+    if (course && courseSlug !== params?.course) {
       return {
         redirect: {
           destination: course.path,
@@ -141,7 +140,8 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
   } catch (e) {
     const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
-    const draftCourse = params && (await loadDraftCourse(params.slug as string))
+    const draftCourse =
+      params && (await loadDraftCourse(params.course as string))
     if (draftCourse && ability.can('upload', 'Video')) {
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
       return {

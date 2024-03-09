@@ -12,8 +12,8 @@ import {
   InstantSearch,
   ClearRefinements,
   SortBy,
-} from 'react-instantsearch-dom'
-import {get, isEmpty} from 'lodash'
+} from 'react-instantsearch'
+import {get, isEmpty, sortBy} from 'lodash'
 import {useToggle} from 'react-use'
 import config from '@/lib/config'
 import InstructorsIndex from '@/components/search/instructors/index'
@@ -247,7 +247,12 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
         <InstantSearch
           indexName={ALGOLIA_INDEX_NAME}
           searchClient={searchClient}
-          searchState={searchState}
+          initialUiState={{
+            [ALGOLIA_INDEX_NAME]: {
+              ...searchState,
+              sortBy: 'popular',
+            },
+          }}
           {...rest}
         >
           <Configure hitsPerPage={config.searchResultCount} />
@@ -266,7 +271,6 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                     <SearchBox placeholder={searchBoxPlaceholder} />
                     <div className="border-l dark:border-gray-800 border-gray-100 flex items-center flex-shrink-0 space-x-2 flex-nowrap">
                       <SortBy
-                        defaultRefinement="popular"
                         items={[
                           {
                             value: 'popular',

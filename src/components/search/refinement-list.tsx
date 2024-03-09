@@ -1,25 +1,24 @@
 import React, {FunctionComponent} from 'react'
-import {Highlight, connectRefinementList} from 'react-instantsearch-dom'
+import {
+  Highlight,
+  useRefinementList,
+  RefinementListProps,
+} from 'react-instantsearch'
 import {track} from '../../utils/analytics'
 import capitalize from 'lodash/capitalize'
 import cx from 'classnames'
 import {scroller} from 'react-scroll'
 
-type RefinementListProps = {
-  items?: any[]
-  item?: any
-  isFromSearch: boolean
-  refine?: any
-  searchForItems?: any
-  createURL: any
-  attribute?: string
-  isShown?: boolean
-  tabIndex?: number
-  expand?: boolean
+type RefinementListItemProps = Pick<
+  ReturnType<typeof useRefinementList>,
+  'isFromSearch' | 'refine' | 'createURL'
+> & {
+  item: ReturnType<typeof useRefinementList>['items'][number]
+  tabIndex: number
 }
 
 const TagItem: FunctionComponent<
-  React.PropsWithChildren<RefinementListProps>
+  React.PropsWithChildren<RefinementListItemProps>
 > = ({item, isFromSearch, refine, createURL, tabIndex}) => {
   return (
     <li key={item.label}>
@@ -59,7 +58,7 @@ const TagItem: FunctionComponent<
 }
 
 const InstructorItem: FunctionComponent<
-  React.PropsWithChildren<RefinementListProps>
+  React.PropsWithChildren<RefinementListItemProps>
 > = ({item, isFromSearch, refine, createURL, tabIndex}) => {
   return (
     <li key={item.label}>
@@ -99,13 +98,9 @@ const InstructorItem: FunctionComponent<
   )
 }
 
-const Item: FunctionComponent<React.PropsWithChildren<RefinementListProps>> = ({
-  item,
-  isFromSearch,
-  refine,
-  createURL,
-  tabIndex,
-}) => {
+const Item: FunctionComponent<
+  React.PropsWithChildren<RefinementListItemProps>
+> = ({item, isFromSearch, refine, createURL, tabIndex}) => {
   // @ts-ignore
   return (
     <li key={item.label}>
@@ -152,15 +147,7 @@ const Item: FunctionComponent<React.PropsWithChildren<RefinementListProps>> = ({
   )
 }
 
-const RefinementList = ({
-  items,
-  isFromSearch,
-  refine,
-  searchForItems,
-  createURL,
-  attribute,
-  isShown,
-}: RefinementListProps) => {
+const RefinementList = (props: RefinementListProps) => {
   function label(attribute: any) {
     switch (attribute) {
       case '_tags':
@@ -175,9 +162,21 @@ const RefinementList = ({
         break
     }
   }
-  const tabIndex = isShown ? 0 : -1
+
+  const {
+    items,
+    isFromSearch,
+    refine,
+    searchForItems,
+    createURL,
+    isShowingMore,
+  } = useRefinementList(props)
+
+  const tabIndex = isShowingMore ? 0 : -1
 
   const propsNotSearched = ['type', 'access_state']
+
+  const {attribute} = props
 
   return (
     <div>
@@ -262,6 +261,4 @@ const RefinementList = ({
   )
 }
 
-const CustomRefinementList = connectRefinementList(RefinementList)
-
-export default CustomRefinementList
+export default RefinementList

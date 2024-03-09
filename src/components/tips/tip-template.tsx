@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, {use} from 'react'
 import Link from 'next/link'
 import {get} from 'lodash'
 import Image from 'next/image'
@@ -22,13 +22,15 @@ import analytics from '@/utils/analytics'
 
 const TipTemplate = ({
   tip,
-  coursesFromTag,
+  coursesFromTagLoader,
 }: {
   tip: Tip
-  coursesFromTag: any
+  coursesFromTagLoader: any
 }) => {
   const markComplete = trpc.tips.markTipComplete.useMutation()
   const {data: tips = []} = trpc.tips.published.useQuery()
+
+  const coursesFromTag = use(coursesFromTagLoader)
 
   const {instructor, tags} = tip
 

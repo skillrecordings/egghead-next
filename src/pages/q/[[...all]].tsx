@@ -1,6 +1,5 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
-import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
 import Search from '@/components/search'
 import {NextSeo} from 'next-seo'
@@ -21,7 +20,15 @@ import {topicExtractor} from '@/utils/search/topic-extractor'
 import useSelectedTopic from '@/hooks/use-selected-topic'
 import useLoadTopicData, {topicQuery} from '@/hooks/use-load-topic-data'
 import {sanityClient} from '@/utils/sanity-client'
-import {InstantSearchProps} from 'react-instantsearch-dom'
+import {
+  Configure,
+  getServerState,
+  Hits,
+  InstantSearch,
+  InstantSearchSSRProvider,
+  SearchBox,
+} from 'react-instantsearch'
+import {renderToString} from 'react-dom/server'
 
 const tracer = getTracer('search-page')
 
@@ -159,6 +166,17 @@ SearchIndex.getLayout = (Page: any, pageProps: any) => {
 
 export default SearchIndex
 
+function BrandPage({serverState}: any) {
+  return (
+    <InstantSearchSSRProvider {...serverState}>
+      <InstantSearch searchClient={searchClient} indexName={ALGOLIA_INDEX_NAME}>
+        <SearchBox />
+        <Hits />
+      </InstantSearch>
+    </InstantSearchSSRProvider>
+  )
+}
+
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
   query,
@@ -169,19 +187,24 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const {all, ...rest} = query
   const initialSearchState = parseUrl(query)
   const pageTitle = titleFromPath(all as string[])
-  const resultsState = await findResultsState(Search, {
-    searchClient,
-    searchState: initialSearchState,
-    indexName: ALGOLIA_INDEX_NAME,
-  } as InstantSearchProps)
+
+  const serverState = await getServerState(<BrandPage />, {
+    renderToString,
+  })
+
+  // Maps the InitialResults record to an array and gets the first (and only) result.
+  // From there you have access to the state and result which matches what we expected before the upgrade to react-instantsearch v7
+  const resultsState = Object.keys(serverState.initialResults).map((key) => {
+    return serverState.initialResults[key]
+  })[0]
+
+  const {results, state} = resultsState
 
   let initialInstructor = null
   let initialTopic = null
   let initialTopicData = null
 
-  const {rawResults, state} = resultsState
-
-  const noHits = isEmpty(get(first(rawResults), 'hits'))
+  const noHits = isEmpty(get(first(results), 'hits'))
   const queryParamsPresent = !isEmpty(rest)
   const userQueryPresent = !isEmpty(state.query)
 
