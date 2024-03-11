@@ -82,6 +82,15 @@ const MAX_FREE_VIEWS = 4
 
 const notesEnabled = process.env.NEXT_PUBLIC_NOTES_ENABLED === 'true'
 
+function toISO8601Duration(duration: number) {
+  const seconds = Math.floor(duration % 60)
+  const minutes = Math.floor((duration / 60) % 60)
+  const hours = Math.floor((duration / (60 * 60)) % 24)
+  const days = Math.floor(duration / (60 * 60 * 24))
+
+  return `P${days}DT${hours}H${minutes}M${seconds}S`
+}
+
 const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
   initialLesson,
   state,
@@ -520,7 +529,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
           length: 155,
         })}
         contentUrl={lesson?.hls_url}
-        duration={lesson?.duration}
+        duration={toISO8601Duration(Number(lesson?.duration ?? 0))}
         uploadDate={lesson?.created_at}
         thumbnailUrls={compact([lesson?.thumb_url])}
       />
