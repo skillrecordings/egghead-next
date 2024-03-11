@@ -6,6 +6,7 @@ import removeMarkdown from 'remove-markdown'
 import type {Metadata, ResolvingMetadata} from 'next'
 import {getTip} from '@/lib/tips'
 import {notFound} from 'next/navigation'
+import {Suspense} from 'react'
 
 type Props = {
   params: {tipId: string}
@@ -74,11 +75,14 @@ export default async function Tip({params}: {params: {tipId: string}}) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
-      />
-      <TipTemplate tip={tip} coursesFromTagLoader={coursesFromTagLoader} />
+      <Suspense>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
+        />
+
+        <TipTemplate tip={tip} coursesFromTagLoader={coursesFromTagLoader} />
+      </Suspense>
     </>
   )
 }
