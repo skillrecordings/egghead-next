@@ -1,9 +1,10 @@
+'use client'
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Contributors from '@/components/contributors'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
-import {useRouter} from 'next/router'
+import {usePathname} from 'next/navigation'
 
 type LayoutProps = {
   meta?: {
@@ -40,9 +41,10 @@ const UltimateGuideLayout: FunctionComponent<
       )}`
     : undefined
 
-  const router = useRouter()
+  const pathname = usePathname()
 
-  const editUrl = `https://github.com/eggheadio/egghead-next/edit/main/src/pages${router.pathname}/index.mdx`
+  const editUrl = `https://github.com/eggheadio/egghead-next/edit/main/src/pages${pathname}/index.mdx`
+
   const EditLink: FunctionComponent<
     React.PropsWithChildren<{className: string}>
   > = ({className}) => (
