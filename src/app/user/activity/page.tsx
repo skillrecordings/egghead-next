@@ -11,13 +11,3 @@ const Activity = () => {
 }
 
 export default Activity
-
-Activity.getLayout = function getLayout(Page: any, pageProps: any) {
-  return (
-    <AppLayout>
-      <UserLayout>
-        <Page {...pageProps} />
-      </UserLayout>
-    </AppLayout>
-  )
-}

@@ -1,3 +1,4 @@
+'use client'
 import {
   FireIcon,
   BookmarkIcon,
@@ -8,16 +9,15 @@ import {
 } from '@heroicons/react/outline'
 import cx from 'classnames'
 import Link from 'next/link'
-import {useRouter} from 'next/router'
-import {useViewer} from '@/context/viewer-context'
+import {usePathname} from 'next/navigation'
 import LoginRequired from '@/components/login-required'
-import {useAccount} from '@/hooks/use-account'
 
-export default function UserLayout({children}: any) {
-  const {isTeamAccountOwner, isInstructor} = useAccount()
-  const {viewer} = useViewer()
-  const router = useRouter()
-  const currentPath = router.asPath
+export default function UserLayout({
+  children,
+  isTeamAccountOwner,
+  isInstructor,
+}: any) {
+  const currentPath = usePathname()
 
   const userPagesMap = [
     ...(isInstructor
@@ -37,7 +37,7 @@ export default function UserLayout({children}: any) {
     ...(isTeamAccountOwner
       ? [
           {
-            path: '/team',
+            path: '/user/team',
             name: 'Team',
             icon: UsersIcon,
           },
@@ -65,9 +65,7 @@ export default function UserLayout({children}: any) {
       <main>
         <div className="max-w-screen-xl px-4 pb-6 mx-auto sm:px-6 lg:px-8 lg:pb-16">
           <div className="pt-10 pb-4 sm:px-6 md:px-0">
-            <h1 className="text-xl font-bold tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
-              Hello, {viewer?.full_name || viewer?.username}!
-            </h1>
+            <h1 className="sr-only">User Profile Page</h1>
           </div>
           <div className="overflow-hidden rounded-lg shadow bg-gray-50 dark:bg-gray-800">
             <div className="divide-y divide-gray-200 dark:divide-gray-700 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
