@@ -1,49 +1,28 @@
 'use client'
-import * as React from 'react'
-import {useQuery} from '@tanstack/react-query'
+import {use} from 'react'
 
-import {useViewer} from '@/context/viewer-context'
-import {loadUserProgress, loadUserCompletedCourses} from '@/lib/users'
 import {
   CompletedCourses,
   ContinueLearning,
   LearnerStats,
 } from '@/components/pages/user/components'
 import {ItemWrapper} from '@/components/pages/user/components/widget-wrapper'
-import {trpc} from '@/app/_trpc/client'
 
-const useProgressForUser = (viewerId: number) => {
-  return useQuery(['progress'], async () => {
-    if (viewerId) {
-      const {
-        progress: {data},
-        completionStats,
-      } = await loadUserProgress(viewerId)
+const ActivityTabContent: React.FC<
+  React.PropsWithChildren<{
+    completedCoursesLoader: Promise<any>
+    userProgressLoader: Promise<any>
+  }>
+> = ({completedCoursesLoader, userProgressLoader}) => {
+  const completedCourses = use(completedCoursesLoader)
+  const userProgress = use(userProgressLoader)
 
-      return {
-        progress: data.filter((p: any) => !p.is_complete),
-        completionStats,
-      }
-    }
-  })
-}
-
-const ActivityTabContent: React.FC<React.PropsWithChildren<any>> = () => {
-  const {viewer, authToken} = useViewer()
-  const viewerId = viewer?.id
-  const {status: progressStatus, data: progressData} =
-    useProgressForUser(viewerId)
-  const {
-    data: completeCourseData,
-    status: completeCourseStatus,
-    error: completeCourseError,
-  } = trpc.progress.completedCourses.useQuery()
-  const completeCourseCount = !!completeCourseData?.length
-    ? completeCourseData?.length
+  const completedCourseCount = !!completedCourses?.length
+    ? completedCourses?.length
     : 0
   const learnerStatsData = {
-    ...progressData?.completionStats,
-    completeCourseCount,
+    ...userProgress?.completionStats,
+    completedCourseCount,
   }
 
   return (
@@ -51,20 +30,20 @@ const ActivityTabContent: React.FC<React.PropsWithChildren<any>> = () => {
       <ItemWrapper title="Learner Stats">
         <LearnerStats
           learnerStatsData={learnerStatsData}
-          learnerStatsStatus={progressStatus}
+          learnerStatsStatus="success"
         />
       </ItemWrapper>
       <ItemWrapper title="Continue Learning">
         <ContinueLearning
-          continueLearningData={progressData?.progress}
-          continueLearningStatus={progressStatus}
+          continueLearningData={userProgress.progress.data}
+          continueLearningStatus="success"
         />
       </ItemWrapper>
       <ItemWrapper title="Completed Courses">
         <CompletedCourses
-          completeCourseData={completeCourseData}
-          completedCourseStatus={completeCourseStatus}
-          completedCourseCount={completeCourseCount}
+          completeCourseData={completedCourses}
+          completedCourseStatus="success"
+          completedCourseCount={completedCourseCount}
         />
       </ItemWrapper>
     </div>
