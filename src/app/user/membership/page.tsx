@@ -5,8 +5,6 @@ import {format} from 'date-fns'
 import {useAccount} from '@/hooks/use-account'
 import SubscriptionDetails from '@/components/pages/user/components/subscription-details'
 import {ItemWrapper} from '@/components/pages/user/components/widget-wrapper'
-import AppLayout from '@/components/app/layout'
-import UserLayout from '@/components/pages/user/components/user-layout'
 import PricingWidget from '@/components/pricing/pricing-widget'
 import Invoices from '@/components/invoices'
 import Spinner from '@/components/spinner'
@@ -170,13 +168,3 @@ const Membership = () => {
 }
 
 export default Membership
-
-Membership.getLayout = function getLayout(Page: any, pageProps: any) {
-  return (
-    <AppLayout>
-      <UserLayout>
-        <Page {...pageProps} />
-      </UserLayout>
-    </AppLayout>
-  )
-}
