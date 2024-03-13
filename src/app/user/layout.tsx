@@ -13,7 +13,7 @@ export default async function UserPageLayout({
 
   const user = await fetchEggheadUser(eggheadToken, false)
 
-  const isTeamAccountOwner = user?.memberships.some(
+  const isTeamAccountOwner = user?.memberships?.some(
     (membership: {owner: {email: string}; status: string}) => {
       return (
         membership?.owner?.email === user.email &&

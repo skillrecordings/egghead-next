@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
@@ -8,11 +9,13 @@ import CheckIcon from '@/components/icons/check'
 import axios from '@/utils/configured-axios'
 import {track} from '@/utils/analytics'
 import {convertTimeWithTitles} from '@/utils/time-utils'
-import {useViewer} from '@/context/viewer-context'
 import {LoginRequiredParams} from '@/components/login-required'
 import Eggo from '@/components/icons/eggo'
-import Spinner from '@/components/spinner'
 import {trpc} from '@/app/_trpc/client'
+
+type BookmarkProps = LoginRequiredParams & {
+  bookmarks: any
+}
 
 const Bookmark: React.FunctionComponent<React.PropsWithChildren<any>> = ({
   bookmark,
@@ -104,40 +107,19 @@ const Bookmark: React.FunctionComponent<React.PropsWithChildren<any>> = ({
 }
 
 const BookmarksList: React.FunctionComponent<
-  React.PropsWithChildren<LoginRequiredParams>
-> = () => {
-  const {viewer} = useViewer()
-  const [bookmarks, setBookmarks] = React.useState([])
-  const [loadingBookmarks, setLoadingBookmarks] = React.useState(true)
-  const watchLaterUrl = viewer?.watch_later_bookmarks_url
-
-  React.useEffect(() => {
-    setLoadingBookmarks(true)
-    if (watchLaterUrl) {
-      axios
-        .get(watchLaterUrl)
-        .then(({data}) => {
-          setBookmarks(data.items)
-        })
-        .finally(() => setLoadingBookmarks(false))
-    }
-  }, [watchLaterUrl])
+  React.PropsWithChildren<BookmarkProps>
+> = ({bookmarks}) => {
+  const [currentBookmarks, setBookmarks] = React.useState(bookmarks)
 
   return (
     <>
-      {loadingBookmarks || isEmpty(bookmarks) ? (
+      {isEmpty(currentBookmarks) ? (
         <div className="text-gray-600 dark:text-gray-400">
-          {loadingBookmarks ? (
-            <div className="relative flex justify-center">
-              <Spinner className="w-6 h-6 text-gray-600" />
-            </div>
-          ) : (
-            "You haven't bookmarked any courses yet."
-          )}
+          You haven't bookmarked any courses yet.
         </div>
       ) : (
         <ul>
-          {bookmarks.map((bookmark: any) => {
+          {currentBookmarks.map((bookmark: any) => {
             return (
               <li
                 key={bookmark.slug}

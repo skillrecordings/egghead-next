@@ -536,14 +536,14 @@ const ProfileDropdown: React.FC<
                           Activity
                         </a>
                       </Link>
-                      <Link href={`/bookmarks`}>
+                      <Link href={`/user/bookmarks`}>
                         <a
                           onClick={() =>
                             analytics.events.activityInternalLinkClick(
                               'page',
                               'header',
                               'bookmarks',
-                              '/bookmarks',
+                              '/user/bookmarks',
                             )
                           }
                           className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
