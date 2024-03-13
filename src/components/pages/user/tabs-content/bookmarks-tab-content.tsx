@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react'
 
 import {ItemWrapper} from '@/components/pages/user/components/widget-wrapper'

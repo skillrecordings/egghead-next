@@ -4,7 +4,7 @@ import {useViewer} from '@/context/viewer-context'
 import {Dialog, Transition} from '@headlessui/react'
 import {trpc} from '@/app/_trpc/client'
 import toast from 'react-hot-toast'
-import {useRouter} from 'next/router'
+import {useRouter} from 'next/navigation'
 import analytics from '@/utils/analytics'
 
 const DeleteAccount: React.FC<React.PropsWithChildren<{}>> = () => {

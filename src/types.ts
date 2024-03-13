@@ -98,6 +98,7 @@ export type Viewer = {
   opted_out: boolean
   purchases: any[]
   accounts: StripeAccount[]
+  memberships?: any
 }
 
 export type Question = {
