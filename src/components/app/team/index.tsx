@@ -2,12 +2,12 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
-import LoginRequired from '../../components/login-required'
-import {useRouter} from 'next/router'
-import CopyToClipboard from '../../components/team/copy-to-clipboard'
+import LoginRequired from '@/components/login-required'
+import {useRouter} from 'next/navigation'
+import CopyToClipboard from '@/components/team/copy-to-clipboard'
 import {track} from '@/utils/analytics'
 import {loadTeams} from '@/lib/teams'
-import TeamName from '../../components/team/team-name'
+import TeamName from '@/components/team/team-name'
 import {getTokenFromCookieHeaders} from '@/utils/auth'
 import {isEmpty, find} from 'lodash'
 import BillingSection from '@/components/team/billing-section'
@@ -228,44 +228,5 @@ const Team = ({team: teamData}: TeamPageProps) => {
     </LoginRequired>
   )
 }
-
-export const getServerSideProps: GetServerSideProps<TeamPageProps> =
-  async function (context: any) {
-    const {eggheadToken} = getTokenFromCookieHeaders(
-      context.req.headers.cookie as string,
-    )
-
-    const {data: teams = []} = await loadTeams(eggheadToken)
-
-    const fetchedTeam = find(teams, (team) => team.capacity > 0)
-
-    if (fetchedTeam) {
-      const team: TeamData = {
-        accountId: fetchedTeam.id,
-        name: fetchedTeam.name,
-        inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${fetchedTeam.invite_token}`,
-        members: fetchedTeam.members,
-        numberOfMembers: fetchedTeam.number_of_members,
-        capacity: fetchedTeam.capacity,
-        isFull: fetchedTeam.is_full,
-        accountSlug: fetchedTeam.slug,
-        stripeCustomerId: fetchedTeam.stripe_customer_id,
-      }
-
-      return {
-        props: {
-          team,
-        },
-      }
-    } else {
-      const props = {
-        error: true,
-      }
-
-      return {
-        props,
-      }
-    }
-  }
 
 export default Team

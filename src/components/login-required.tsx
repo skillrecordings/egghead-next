@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import {useRouter} from 'next/router'
+import {useRouter} from 'next/navigation'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 
 export type LoginRequiredParams = {

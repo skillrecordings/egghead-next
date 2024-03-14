@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {useViewer} from '@/context/viewer-context'

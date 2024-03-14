@@ -167,7 +167,7 @@ const BillingSection = ({stripeCustomerId}: {stripeCustomerId: string}) => {
                     }}
                     className="mt-4 text-center transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
                   >
-                    Manage Your Team Membership
+                    Add/Remove Team Seats
                   </Link>
                 )}
               </div>
