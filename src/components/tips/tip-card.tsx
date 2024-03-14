@@ -79,7 +79,7 @@ const TipCard: React.FC<{tip: Tip; i: number}> = ({tip, i}) => {
       </CardHeader>
       <CardContent className="flex h-full w-full flex-col px-6  py-4">
         <div
-          className="absolute right-5 top-5 z-20 flex items-center gap-2"
+          className="absolute left-5 top-5 z-20 flex items-center gap-2"
           aria-hidden="true"
         >
           {tipCompleted && (
