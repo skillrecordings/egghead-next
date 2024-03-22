@@ -5,7 +5,6 @@ import Hits from './hits'
 import Stats from './stats'
 import SearchBox from './search-box'
 import RefinementList from './refinement-list'
-import uniq from 'lodash/uniq'
 import Pagination from './pagination'
 import {
   Configure,
@@ -13,7 +12,7 @@ import {
   ClearRefinements,
   SortBy,
 } from 'react-instantsearch'
-import {get, isEmpty, sortBy} from 'lodash'
+import {get, isEmpty} from 'lodash'
 import {useToggle} from 'react-use'
 import config from '@/lib/config'
 import InstructorsIndex from '@/components/search/instructors/index'
@@ -40,6 +39,7 @@ type SearchProps = {
   topic?: any
   topicData?: any
   loading?: boolean
+  onSearchStateChange?: any
 }
 
 const queryClient = new QueryClient()
@@ -47,6 +47,7 @@ const queryClient = new QueryClient()
 const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
   children = [],
   searchClient,
+  onSearchStateChange,
   searchState,
   instructor,
   topic,
@@ -247,6 +248,7 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
         <InstantSearch
           indexName={ALGOLIA_INDEX_NAME}
           searchClient={searchClient}
+          onStateChange={onSearchStateChange}
           initialUiState={{
             [ALGOLIA_INDEX_NAME]: {
               ...searchState,

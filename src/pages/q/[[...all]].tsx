@@ -21,7 +21,6 @@ import useSelectedTopic from '@/hooks/use-selected-topic'
 import useLoadTopicData, {topicQuery} from '@/hooks/use-load-topic-data'
 import {sanityClient} from '@/utils/sanity-client'
 import {
-  Configure,
   getServerState,
   Hits,
   InstantSearch,
@@ -93,7 +92,9 @@ const SearchIndex: any = ({
     initialTopicData,
   )
 
-  const onSearchStateChange = async (searchState: any) => {
+  const onSearchStateChange = async (state: any) => {
+    const searchState = {...state.uiState[ALGOLIA_INDEX_NAME]}
+
     clearTimeout(debouncedState.current)
 
     const instructors = getInstructorsFromSearchState(searchState)
