@@ -17,8 +17,7 @@ import Main from '@/components/app/main'
 import Footer from '@/components/app/footer'
 import {loadTag} from '@/lib/tags'
 import {topicExtractor} from '@/utils/search/topic-extractor'
-import useSelectedTopic from '@/hooks/use-selected-topic'
-import useLoadTopicData, {topicQuery} from '@/hooks/use-load-topic-data'
+import useLoadTopicSanityData, {topicQuery} from '@/hooks/use-load-topic-data'
 import {sanityClient} from '@/utils/sanity-client'
 import {
   getServerState,
@@ -64,8 +63,8 @@ type SearchIndexProps = {
   pageTitle: string
   noIndexInitial: boolean
   initialInstructor: any
-  initialTopic: any
-  initialTopicData: any
+  initialTopicGraphqlData: any
+  initialTopicSanityData: any
 }
 
 const SearchIndex: any = ({
@@ -74,8 +73,8 @@ const SearchIndex: any = ({
   pageTitle,
   noIndexInitial,
   initialInstructor,
-  initialTopic,
-  initialTopicData,
+  initialTopicGraphqlData,
+  initialTopicSanityData,
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
@@ -83,19 +82,16 @@ const SearchIndex: any = ({
   const debouncedState = React.useRef<any>()
   const router = useRouter()
 
-  const {isLoading: isLoadingTopic, topic} = useSelectedTopic(
-    initialTopic,
+  const {loading, topicSanityData, topicGraphqlData} = useLoadTopicSanityData(
+    initialTopicGraphqlData,
+    initialTopicSanityData,
     searchState,
-  )
-  const {isLoading: isLoadingTopicData, topicData} = useLoadTopicData(
-    topic?.slug,
-    initialTopicData,
   )
 
   const onSearchStateChange = async (state: any) => {
-    const searchState = {...state.uiState[ALGOLIA_INDEX_NAME]}
-
     clearTimeout(debouncedState.current)
+
+    const searchState = {...state.uiState[ALGOLIA_INDEX_NAME]}
 
     const instructors = getInstructorsFromSearchState(searchState)
 
@@ -144,9 +140,9 @@ const SearchIndex: any = ({
         {...defaultProps}
         {...customProps}
         instructor={instructor}
-        topic={topic}
-        topicData={topicData}
-        loading={isLoadingTopic || isLoadingTopicData}
+        topic={topicGraphqlData}
+        topicData={topicSanityData}
+        loading={loading}
       />
     </div>
   )
@@ -202,8 +198,8 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const {results, state} = resultsState
 
   let initialInstructor = null
-  let initialTopic = null
-  let initialTopicData = null
+  let initialTopicGraphqlData = null
+  let initialTopicSanityData = null
 
   const noHits = isEmpty(get(first(results), 'hits'))
   const queryParamsPresent = !isEmpty(rest)
@@ -220,8 +216,8 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
     try {
       if (topic) {
-        initialTopic = await loadTag(topic)
-        initialTopicData = await sanityClient.fetch(topicQuery, {
+        initialTopicGraphqlData = await loadTag(topic)
+        initialTopicSanityData = await sanityClient.fetch(topicQuery, {
           slug: topic,
         })
       }
@@ -247,8 +243,8 @@ export const getServerSideProps: GetServerSideProps = async function ({
       pageTitle,
       noIndexInitial,
       initialInstructor,
-      ...(!!initialTopic && {initialTopic}),
-      ...(!!initialTopicData && {initialTopicData}),
+      ...(!!initialTopicGraphqlData && {initialTopicGraphqlData}),
+      ...(!!initialTopicSanityData && {initialTopicSanityData}),
     },
   }
 }
