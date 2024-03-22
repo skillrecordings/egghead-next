@@ -30,6 +30,7 @@ const TagItem: FunctionComponent<
         href={createURL(item.value)}
         onClick={(event) => {
           event.preventDefault()
+          item.isRefined = !item.isRefined
           refine(item.value)
           track('search refined for topic', {
             topic: item.value,
