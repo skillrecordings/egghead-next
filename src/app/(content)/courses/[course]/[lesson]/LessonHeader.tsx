@@ -1,3 +1,4 @@
+import React from 'react'
 import {LessonResource} from '@/types'
 import {get} from 'lodash'
 import Link from 'next/link'
@@ -7,27 +8,27 @@ import Eggo from '@/components/icons/eggo'
 import Share from '@/components/share'
 import Markdown from 'react-markdown'
 import Tabs from './Tabs'
+import Title from './Title'
 
 const LessonHeader = async ({
+  userToken,
   lessonLoader,
+  courseLoader,
 }: {
+  userToken?: string
   lessonLoader: Promise<LessonResource>
+  courseLoader: Promise<any>
 }) => {
   const lesson = await lessonLoader
+
+  console.log('USER TOKEN: ', userToken)
 
   if (!lesson) {
     return notFound()
   }
 
-  const {
-    description,
-    title,
-    instructor,
-    slug,
-    transcript_url,
-    transcript,
-    comments,
-  } = lesson
+  const {description, instructor, slug, transcript_url, transcript, comments} =
+    lesson
 
   const instructorPagePath = `/q/resources-by-${get(instructor, 'slug', '#')}`
 
@@ -37,11 +38,11 @@ const LessonHeader = async ({
       <div className="grid grid-cols-1 gap-8 divide-y lg:grid-cols-1 lg:gap-12 md:divide-transparent divide-gray-50">
         <div className="row-start-1 space-y-6 md:col-span-8 md:row-start-1 md:space-y-8 lg:space-y-10">
           <div className="pb-2 space-y-4 sm:pb-8">
-            {title && (
-              <h1 className="text-xl font-extrabold leading-tight lg:text-3xl">
-                {title}
-              </h1>
-            )}
+            <Title
+              courseLoader={courseLoader}
+              lesson={lesson}
+              userToken={userToken}
+            />
             <div className="flex flex-col flex-wrap justify-between w-full pt-4 space-y-5 lg:flex-row lg:space-x-8 lg:space-y-0 lg:items-center">
               <div className="flex items-center justify-between w-full space-x-5 md:w-auto">
                 {instructor && (

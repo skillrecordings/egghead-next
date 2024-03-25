@@ -18,8 +18,8 @@ export default async function LessonPage({
     course: string
   }
 }) {
-  // const cookieStore = cookies()
-  // const userToken = cookieStore?.get(ACCESS_TOKEN_KEY ?? '')?.value
+  const cookieStore = cookies()
+  const userToken = cookieStore?.get(ACCESS_TOKEN_KEY ?? '')?.value
   // const ability = await getAbilityFromToken(userToken)
 
   // if (!ability.can('create', 'Content')) {
@@ -30,18 +30,17 @@ export default async function LessonPage({
   const courseLoader = loadCourse(params.course)
 
   return (
-    <div>
-      <Suspense>
-        <div className="bg-black w-full lg:grid lg:grid-cols-12 lg:space-y-0 relative">
-          <div className="relative before:float-left after:clear-both after:table col-span-9">
-            <PlayerTwo
-              lessonLoader={lessonLoader}
-              courseLoader={courseLoader}
-            />
-          </div>
+    <Suspense>
+      <div className="bg-black w-full lg:grid lg:grid-cols-12 lg:space-y-0 relative">
+        <div className="relative before:float-left after:clear-both after:table col-span-9">
+          <PlayerTwo lessonLoader={lessonLoader} courseLoader={courseLoader} />
         </div>
-        <LessonHeader lessonLoader={lessonLoader} />
-      </Suspense>
-    </div>
+      </div>
+      <LessonHeader
+        lessonLoader={lessonLoader}
+        courseLoader={courseLoader}
+        userToken={userToken}
+      />
+    </Suspense>
   )
 }
