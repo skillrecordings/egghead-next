@@ -30,12 +30,17 @@ export default function LessonTabs({
   return (
     <Tabs index={tabIndex} onChange={(index) => setTabIndex(index)}>
       <TabList>
-        {transcriptAvailable && <Tab>Transcript</Tab>}
         <Tab>
           Comments <span className="text-sm">({numberOfComments})</span>
         </Tab>
+        {transcriptAvailable && <Tab>Transcript</Tab>}
       </TabList>
       <TabPanels className="p-5 rounded-lg rounded-tl-none bg-gray-50 dark:bg-gray-1000 sm:p-8">
+        <TabPanel>
+          <div className="space-y-6 sm:space-y-8 break-[break-word]">
+            <Comments slug={lessonSlug} comments={comments} />
+          </div>
+        </TabPanel>
         {transcriptAvailable && (
           <TabPanel>
             <Transcript
@@ -44,11 +49,6 @@ export default function LessonTabs({
             />
           </TabPanel>
         )}
-        <TabPanel>
-          <div className="space-y-6 sm:space-y-8 break-[break-word]">
-            <Comments slug={lessonSlug} comments={comments} />
-          </div>
-        </TabPanel>
       </TabPanels>
     </Tabs>
   )
