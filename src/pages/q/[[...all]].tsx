@@ -17,7 +17,7 @@ import Main from '@/components/app/main'
 import Footer from '@/components/app/footer'
 import {loadTag} from '@/lib/tags'
 import {topicExtractor} from '@/utils/search/topic-extractor'
-import useLoadTopicSanityData, {topicQuery} from '@/hooks/use-load-topic-data'
+import useLoadTopicData, {topicQuery} from '@/hooks/use-load-topic-data'
 import {sanityClient} from '@/utils/sanity-client'
 import {
   getServerState,
@@ -82,7 +82,7 @@ const SearchIndex: any = ({
   const debouncedState = React.useRef<any>()
   const router = useRouter()
 
-  const {loading, topicSanityData, topicGraphqlData} = useLoadTopicSanityData(
+  const {loading, topicSanityData, topicGraphqlData} = useLoadTopicData(
     initialTopicGraphqlData,
     initialTopicSanityData,
     searchState,

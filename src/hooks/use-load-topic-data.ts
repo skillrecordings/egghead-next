@@ -5,7 +5,7 @@ import {topicExtractor} from '@/utils/search/topic-extractor'
 import {first} from 'lodash'
 import {loadTag} from '@/lib/tags'
 
-function useLoadTopicSanityData(
+function useLoadTopicData(
   initialTopicGraphqlData: any,
   initialTopicSanityData: any,
   searchState: any,
@@ -71,7 +71,7 @@ function useLoadTopicSanityData(
   return {loading, topicSanityData, topicGraphqlData}
 }
 
-export default useLoadTopicSanityData
+export default useLoadTopicData
 
 export const topicQuery = groq`*[_type == 'resource' && type == 'landing-page' && slug.current == $slug][0]{
     "slug": slug.current,
