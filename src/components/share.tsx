@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import useClipboard from 'react-use-clipboard'

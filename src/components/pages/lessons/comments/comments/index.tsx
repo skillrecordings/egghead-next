@@ -1,5 +1,5 @@
+'use client'
 import * as React from 'react'
-import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
 import Comment from '@/components/pages/lessons/comments/comment'
 import CommentField from '@/components/pages/lessons/comments/comment-field'
@@ -9,7 +9,8 @@ import {saveCommentForLesson} from '@/lib/lesson-comments'
 import {LockClosedIcon} from '@heroicons/react/solid'
 
 type CommentsProps = {
-  lesson: any
+  comments: any
+  slug: string
 }
 
 const defaultComment = {
@@ -48,10 +49,9 @@ const defaultComment = {
 
 const Comments: React.FunctionComponent<
   React.PropsWithChildren<CommentsProps>
-> = ({lesson}: CommentsProps) => {
+> = ({comments, slug}: CommentsProps) => {
   const {viewer} = useViewer()
-  const [comments, setComments] = React.useState(lesson.comments)
-  const {slug} = lesson
+  const [commentsState, setCommentsState] = React.useState(comments)
   const commentsAvailable =
     comments?.some((comment: any) => comment.state === 'published') ?? false
 
@@ -59,17 +59,17 @@ const Comments: React.FunctionComponent<
     const newComment = await saveCommentForLesson(slug, {
       comment,
     })
-    setComments([...comments, newComment])
+    setCommentsState([...commentsState, newComment])
   }
 
   React.useEffect(() => {
-    setComments(lesson.comments)
-  }, [lesson])
+    setCommentsState(comments)
+  }, [comments])
 
   return (
     <div className={commentsAvailable ? 'space-y-10' : 'space-y-6'}>
       {commentsAvailable ? (
-        comments.map((comment: any) => {
+        commentsState.map((comment: any) => {
           return (
             <Comment
               key={comment.id}

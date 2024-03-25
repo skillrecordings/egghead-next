@@ -857,7 +857,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                 )}
                 <TabPanel>
                   <div className="space-y-6 sm:space-y-8 break-[break-word]">
-                    <Comments lesson={lesson} />
+                    <Comments slug={slug} comments={comments} />
                   </div>
                 </TabPanel>
               </TabPanels>
