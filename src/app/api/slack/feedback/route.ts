@@ -1,9 +1,7 @@
 import {NextRequest} from 'next/server'
 
 export async function POST(req: NextRequest) {
-  const body = await req.json()
-
-  const {feedback} = body
+  const {feedback} = await req.json()
 
   let response = await fetch(process.env.SLACK_FEEDBACK_URL ?? '', {
     method: 'POST',
