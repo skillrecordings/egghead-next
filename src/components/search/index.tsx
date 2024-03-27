@@ -84,12 +84,14 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
     ? `Search resources by ${instructor.full_name}`
     : undefined
 
-  const shouldDisplayLandingPageForTopics = (topic: string) => {
+  const shouldDisplayLandingPageForTopics = (topic: any) => {
+    if (!topic) return false
+
     const terms = searchQueryToArray(searchState)
 
     return (
       (isEmpty(searchState.query) ||
-        (terms.includes(topic) && terms.length === 1)) &&
+        (terms.includes(topic.name) && terms.length === 1)) &&
       isEmpty(searchState.page) &&
       noInstructorsSelected(searchState)
     )
@@ -286,7 +288,7 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                     </div>
                   </div>
                   <NoSearchResults searchQuery={searchState.query} />
-                  {loading && shouldDisplayLandingPageForTopics(topic.name) && (
+                  {loading && shouldDisplayLandingPageForTopics(topic) && (
                     <div className="flex py-8 justify-center">
                       <Spinner
                         size={8}
@@ -294,27 +296,25 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                       />
                     </div>
                   )}
-                  {!loading &&
-                    !isEmpty(topic) &&
-                    shouldDisplayLandingPageForTopics(topic.name) && (
-                      <>
-                        {isEmpty(topicData) ? (
-                          CuratedTopicPage && (
-                            // TODO: create more topic pages in Sanity and deprecate
-                            // following component in favor of approach below
-                            <div className="px-5">
-                              <CuratedTopicPage topic={topic} />
-                            </div>
-                          )
-                        ) : (
-                          // dynamic topic from page resource in Sanity
-                          <NewCuratedTopicPage
-                            topicData={topicData}
-                            topic={topic}
-                          />
-                        )}
-                      </>
-                    )}
+                  {!loading && shouldDisplayLandingPageForTopics(topic) && (
+                    <>
+                      {isEmpty(topicData) ? (
+                        CuratedTopicPage && (
+                          // TODO: create more topic pages in Sanity and deprecate
+                          // following component in favor of approach below
+                          <div className="px-5">
+                            <CuratedTopicPage topic={topic} />
+                          </div>
+                        )
+                      ) : (
+                        // dynamic topic from page resource in Sanity
+                        <NewCuratedTopicPage
+                          topicData={topicData}
+                          topic={topic}
+                        />
+                      )}
+                    </>
+                  )}
 
                   {!isEmpty(instructor) &&
                     shouldDisplayLandingPageForInstructor(instructor.slug) && (
