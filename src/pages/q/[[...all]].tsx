@@ -115,6 +115,7 @@ const SearchIndex: any = ({
       })
     }, 250)
 
+    state.setUiState(state.uiState)
     setSearchState(searchState)
   }
 
