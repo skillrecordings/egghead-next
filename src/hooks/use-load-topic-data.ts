@@ -60,7 +60,7 @@ function useLoadTopicData(
       getData()
     } else {
       setTopicSanityData(null)
-      setTopicGraphqlData({name: ''})
+      setTopicGraphqlData(null)
     }
 
     return () => {
