@@ -118,21 +118,20 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
     setMounted(true)
   }, [])
 
-  // This is responsible for scrolling to either hits or top of the page depending
-  // on the filters applied and whether or not there is curated content present
+  // Scrolls to hits if the user is using pagination to navigate results
+  // Scrolls to the top otherwise
   React.useEffect(() => {
-    if (
-      mounted &&
-      (get(searchState, 'refinementList._tags', []).length === 1 ||
-        get(searchState, 'refinementList.instructor_name', []).length === 1)
-    ) {
-      scroller.scrollTo('hits', {
-        offset: -47,
-      })
-    } else {
-      scroller.scrollTo('page', {})
+    if (mounted) {
+      const currentPage = get(searchState, 'page', 0)
+      if (currentPage && parseInt(currentPage) > 1) {
+        scroller.scrollTo('hits', {
+          offset: -47,
+        })
+      } else {
+        scroller.scrollTo('page', {})
+      }
     }
-  }, [searchState])
+  }, [searchState, mounted])
 
   const FilterToggle = () => {
     return (
