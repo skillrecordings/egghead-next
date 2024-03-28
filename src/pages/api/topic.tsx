@@ -37,6 +37,7 @@ async function fetchEggheadUser(token: any) {
 }
 
 const cioTopicScore = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (process.env.NODE_ENV === 'development') return res.status(200).end()
   setupHttpTracing({name: cioTopicScore.name, tracer, req, res})
   if (req.method === 'POST') {
     try {

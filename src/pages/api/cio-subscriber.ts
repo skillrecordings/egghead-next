@@ -38,6 +38,7 @@ async function fetchEggheadUser(token: any) {
 }
 
 const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (process.env.NODE_ENV === 'development') return res.status(200).end()
   setupHttpTracing({name: cioSubscriber.name, tracer, req, res})
 
   if (req.method === 'GET') {

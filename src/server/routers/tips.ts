@@ -10,6 +10,7 @@ import {getAbilityFromToken} from '@/server/ability'
 import gql from 'graphql-tag'
 import graphqlConfig from '@/lib/config'
 import {GraphQLClient} from 'graphql-request'
+import {sanityClient} from 'utils/sanity-client'
 import {inngest} from '@/inngest/inngest.server'
 import {TIP_VIDEO_UPLOADED_EVENT} from '@/inngest/events/tips'
 import groq from 'groq'
@@ -245,6 +246,7 @@ export const tipsRouter = router({
       }),
     )
     .query(async ({input, ctx}) => {
+      if (process.env.NODE_ENV === 'development') return null
       const token = ctx?.userToken
       if (!token) return null
 
