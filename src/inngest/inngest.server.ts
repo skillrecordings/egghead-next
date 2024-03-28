@@ -15,6 +15,10 @@ import {
   INDEX_LESSONS_FOREVER,
   IndexLessonsForever,
 } from '@/inngest/events/index-lessons-forever-event'
+import {
+  SEND_SLACK_MESSAGE_EVENT,
+  SlackMessage,
+} from './events/send-slack-message'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
@@ -23,7 +27,8 @@ type Events = {
   [VIDEO_UPLOADED_EVENT]: VideoUploaded
   [MUX_SRT_READY_EVENT]: MuxSrtReady
   [TIP_VIDEO_UPLOADED_EVENT]: NewTipVideo
-  [INDEX_LESSONS_FOREVER]: IndexLessonsForever
+  //[INDEX_LESSONS_FOREVER]: IndexLessonsForever
+  [SEND_SLACK_MESSAGE_EVENT]: SlackMessage
   test: {
     name: 'test'
     data: {}

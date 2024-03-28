@@ -7,7 +7,8 @@ import {transcriptReady} from '@/inngest/functions/transcript-ready'
 import {videoUploaded} from '@/inngest/functions/video-uploaded'
 import {tipVideoUploaded} from '@/inngest/functions/tip-video-uploaded'
 import {addSrtToMuxAsset} from '@/inngest/functions/mux/add-srt-to-mux-asset'
-import {indexLessonsForever} from '@/inngest/functions/index-lessons'
+//import {indexLessonsForever} from '@/inngest/functions/index-lessons'
+import {sendSlackMessage} from '@/inngest/functions/send-slack-message'
 const test = inngest.createFunction(
   {id: `test`, name: 'Test'},
   {event: 'test'},
@@ -28,7 +29,8 @@ export const inngestConfig = {
     videoUploaded,
     tipVideoUploaded,
     addSrtToMuxAsset,
-    indexLessonsForever,
+    //indexLessonsForever,
+    sendSlackMessage,
     test,
   ],
 }
