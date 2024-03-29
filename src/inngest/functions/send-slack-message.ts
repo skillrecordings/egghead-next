@@ -8,7 +8,7 @@ export const sendSlackMessage = inngest.createFunction(
   {id: `send-slack-message`, name: 'Send Slack Message'},
   {event: SEND_SLACK_MESSAGE_EVENT},
   async ({event, step}) => {
-    const {instructorId, message} = event.data
+    const {instructorId, message, attachments} = event.data
 
     const query = `query getInstructor($slug: String!){
       instructor(slug: $slug){
@@ -61,22 +61,8 @@ export const sendSlackMessage = inngest.createFunction(
                     text: message,
                   },
                 },
-                {
-                  type: 'context',
-                  elements: [
-                    {
-                      type: 'image',
-                      image_url: instructor.avatar_url,
-                      alt_text: 'profile picture',
-                    },
-                    {
-                      type: 'plain_text',
-                      text: instructor.full_name,
-                      emoji: true,
-                    },
-                  ],
-                },
               ],
+              attachments,
             }),
           },
         ).then((res) => {
