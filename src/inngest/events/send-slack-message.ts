@@ -9,7 +9,6 @@ export type SlackMessage = {
 
 export const SlackMessage = z.object({
   instructorId: z.string(),
-  messageType: z.string(),
   message: z.string(),
 })
 

@@ -44,39 +44,36 @@ export async function POST(req: NextRequest) {
         name: SEND_SLACK_MESSAGE_EVENT,
         data: {
           instructorId,
-          messageType: 'resource-created',
           message: `_Created egghead tip_: *<https://egghead.io/tips/${slug.current}|${title}>*\n\n`,
         },
       })
 
       // create a lesson in rails
       // patch lesson resources array with ref using the video resource id
-      // try {
-      //   const body = new URLSearchParams({
-      //     'lesson[instructor_id]': instructorId,
-      //     'lesson[title]': title,
-      //   })
+      try {
+        const body = new URLSearchParams({
+          'lesson[instructor_id]': instructorId,
+          'lesson[title]': title,
+        })
 
-      //   const lesson = await eggAxios.post('/api/v1/lessons', body)
+        const lesson = await eggAxios.post('/api/v1/lessons', body)
 
-      //   await sanityClient
-      //     .patch(_id)
-      //     .set({
-      //       eggheadRailsLessonId: lesson.data.id,
-      //       eggheadRailsCreatedAt: new Date().toISOString(),
-      //     })
-      //     .commit()
+        await sanityClient
+          .patch(_id)
+          .set({
+            eggheadRailsLessonId: lesson.data.id,
+            eggheadRailsCreatedAt: new Date().toISOString(),
+          })
+          .commit()
 
-      //   return NextResponse.json({success: true}, {status: 200})
-      // } catch (e) {
-      //   console.error(e)
-      //   return NextResponse.json(
-      //     {error: 'Internal Server Error', success: false},
-      //     {status: 500},
-      //   )
-      // }
-
-      return NextResponse.json({success: true}, {status: 200})
+        return NextResponse.json({success: true}, {status: 200})
+      } catch (e) {
+        console.error(e)
+        return NextResponse.json(
+          {error: 'Internal Server Error', success: false},
+          {status: 500},
+        )
+      }
     } else {
       return NextResponse.json(
         {error: 'Internal Server Error', success: false},
