@@ -37,14 +37,28 @@ export async function POST(req: NextRequest) {
 
   try {
     if (isValid) {
-      const {_id, title, slug, instructorId} = sanityRequestBody.data
+      const {_id, title, slug, instructorId, body, collaborators} =
+        sanityRequestBody.data
       console.info('processing Sanity webhook: Lesson created', _id)
+
+      const instructor = collaborators[0]
 
       await inngest.send({
         name: SEND_SLACK_MESSAGE_EVENT,
         data: {
           instructorId,
-          message: `_Created egghead tip_: *<https://egghead.io/tips/${slug.current}|${title}>*\n\n`,
+          message: `_egghead tip created_`,
+          attachments: [
+            {
+              author_name: instructor.person.name,
+              author_icon: instructor.person.image,
+              mrkdwn_in: ['text'],
+              title,
+              title_link: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/tips/${title}`,
+              text: body,
+              color: '#f17f08',
+            },
+          ],
         },
       })
 
