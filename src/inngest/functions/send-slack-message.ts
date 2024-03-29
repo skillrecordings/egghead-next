@@ -1,7 +1,5 @@
 import {inngest} from '@/inngest/inngest.server'
-import {WebClient} from '@slack/web-api'
 import {SEND_SLACK_MESSAGE_EVENT} from '@/inngest/events/send-slack-message'
-import {loadInstructor} from '@/lib/instructors'
 import {getGraphQLClient} from '@/utils/configured-graphql-client'
 
 const railsToken = process.env.EGGHEAD_ADMIN_TOKEN || ''
@@ -10,8 +8,7 @@ export const sendSlackMessage = inngest.createFunction(
   {id: `send-slack-message`, name: 'Send Slack Message'},
   {event: SEND_SLACK_MESSAGE_EVENT},
   async ({event, step}) => {
-    const slack = new WebClient(process.env.SLACK_EGGO_APP_TOKEN)
-    const {instructorId, messageType, message} = event.data
+    const {instructorId, message} = event.data
 
     const query = `query getInstructor($slug: String!){
       instructor(slug: $slug){
@@ -27,60 +24,66 @@ export const sendSlackMessage = inngest.createFunction(
     }`
     const graphQLClient = getGraphQLClient(railsToken)
 
-    console.log('Instructor ID', instructorId)
-    const instructor = await step.run(
+    const {instructor} = await step.run(
       'Get Rails Instructor object',
       async () => {
         try {
           return await graphQLClient.request(query, {slug: instructorId})
         } catch (error) {
-          console.error('Error getting instructor', error)
+          console.error('Error fetching instructor', error)
         }
       },
     )
 
-    const slackChannelId = instructor?.slack_group_id
+    if (!instructor?.slack_group_id) return 'no slack channel id found'
 
     await step.run('send slack message', async () => {
       try {
-        //   await fetch("https://slack.com/api/chat.postMessage",{
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     'Authorization': `Bearer ${process.env.SLACK_EGGO_APP_TOKEN}`
-        //   },
-        //   body: JSON.stringify({
-        //     channel: slackChannelId,
-        //     text: message,
-        //   })
-        // })
-        await slack.chat.postMessage({
-          channel: slackChannelId,
-          text: message,
-          blocks: [
-            {
-              type: 'section',
-              text: {
-                type: 'mrkdwn',
-                text: message,
-              },
+        await fetch(
+          `${process.env.SLACK_EGGHEAD_DOMAIN ?? ''}/api/chat.postMessage`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${process.env.SLACK_ADMIN_API_KEY}`,
             },
-            {
-              type: 'context',
-              elements: [
+            body: JSON.stringify({
+              channel: instructor.slack_group_id,
+              text: message,
+              username: 'Eggo',
+              icon_url:
+                'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1569292667/eggo/eggo_flair.png',
+              blocks: [
                 {
-                  type: 'image',
-                  image_url: instructor.avatar_url,
-                  alt_text: 'profile picture',
+                  type: 'section',
+                  text: {
+                    type: 'mrkdwn',
+                    text: message,
+                  },
                 },
                 {
-                  type: 'plain_text',
-                  text: instructor.full_name,
-                  emoji: true,
+                  type: 'context',
+                  elements: [
+                    {
+                      type: 'image',
+                      image_url: instructor.avatar_url,
+                      alt_text: 'profile picture',
+                    },
+                    {
+                      type: 'plain_text',
+                      text: instructor.full_name,
+                      emoji: true,
+                    },
+                  ],
                 },
               ],
-            },
-          ],
+            }),
+          },
+        ).then((res) => {
+          if (!res.ok) {
+            throw new Error(`Server error ${res.status}`)
+          }
+          return res.json()
         })
       } catch (error) {
         console.error('Error sending slack message', error)
