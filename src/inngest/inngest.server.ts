@@ -27,7 +27,7 @@ type Events = {
   [VIDEO_UPLOADED_EVENT]: VideoUploaded
   [MUX_SRT_READY_EVENT]: MuxSrtReady
   [TIP_VIDEO_UPLOADED_EVENT]: NewTipVideo
-  //[INDEX_LESSONS_FOREVER]: IndexLessonsForever
+  [INDEX_LESSONS_FOREVER]: IndexLessonsForever
   [SEND_SLACK_MESSAGE_EVENT]: SlackMessage
   test: {
     name: 'test'
