@@ -2,13 +2,15 @@ import {inngest} from '@/inngest/inngest.server'
 import {INDEX_LESSONS_FOREVER} from '@/inngest/events/index-lessons-forever-event'
 import {google} from 'googleapis'
 
-const base64EncodedServiceAccount = process.env
-  .GOOGLE_SERVICE_ACCOUNT_ENCODED as string
+const base64EncodedServiceAccount =
+  process.env.GOOGLE_SERVICE_ACCOUNT_ENCODED ?? ('' as string)
 const decodedServiceAccount = Buffer.from(
   base64EncodedServiceAccount,
   'base64',
 ).toString('utf-8')
-const credentials = JSON.parse(decodedServiceAccount)
+const credentials = decodedServiceAccount
+  ? JSON.parse(decodedServiceAccount)
+  : ''
 
 const jwtClient = new google.auth.JWT(
   credentials.client_email,
