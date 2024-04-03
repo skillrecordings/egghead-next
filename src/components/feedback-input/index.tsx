@@ -15,6 +15,7 @@ import Sob from './images/Sob'
 import Hearteyes from './images/Hearteyes'
 import NeutralFace from './images/NeutralFace'
 import useCio from '@/hooks/use-cio'
+import {getAuthorizationHeader} from '@/utils/auth'
 
 type FeedbackCategory = {
   id: number
@@ -218,8 +219,13 @@ const Feedback: FunctionComponent<React.PropsWithChildren<FeedbackProps>> = ({
 
     setState({loading: true, success: false, errorMessage: null})
     actions.setSubmitting(true)
-    axios
-      .post('/api/v1/feedback', {
+    fetch('/api/slack/feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthorizationHeader(),
+      },
+      body: JSON.stringify({
         feedback: {
           url: window.location.toString(),
           site: `egghead-next`,
@@ -228,7 +234,8 @@ const Feedback: FunctionComponent<React.PropsWithChildren<FeedbackProps>> = ({
           user: user,
           emotion: slackEmojiCode,
         },
-      })
+      }),
+    })
       .then(() => {
         analytics.events.engagementSentFeedback(
           selectedCategory.category,
