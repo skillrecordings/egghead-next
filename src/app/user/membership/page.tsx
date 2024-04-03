@@ -20,9 +20,37 @@ const Membership = () => {
     accountOwner,
     isDisabled,
     isInstructor,
+    isLifetimeMember,
   } = useAccount()
 
   switch (true) {
+    case isLifetimeMember:
+      return (
+        <>
+          <div className="sm:h-[50vh] md:w-[75ch] mx-auto min-h-[450px] ">
+            <div className="w-full leading-relaxed mt-8 text-center place-items-center">
+              <h3 className="sm:text-xl text-lg font-medium text-center text-balance">
+                ✨ You have a lifetime membership ✨
+              </h3>
+              <p className="mt-4 text-balance">
+                You have lifetime access to all of our courses. Please reach out
+                to{' '}
+                <strong>
+                  <a
+                    href={`mailto:support@egghead.io?subject=${encodeURIComponent(
+                      `Support needed for egghead membership`,
+                    )}`}
+                    className="hover:underline duration-100"
+                  >
+                    support@egghead.io
+                  </a>
+                </strong>{' '}
+                if you have any questions about your membership.
+              </p>
+            </div>
+          </div>
+        </>
+      )
     case isInstructor:
       return (
         <>
