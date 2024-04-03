@@ -9,6 +9,8 @@ export const useAccount = () => {
 
   const isInstructor = viewer?.is_instructor
 
+  const isLifetimeMember = viewer?.roles?.includes('lifetime_subscriber')
+
   const isActiveAccountMember = userAccounts?.some(
     (account: {members: {id: number}[]}) => {
       return account.members?.find((member: {id: number}) => {
@@ -63,7 +65,7 @@ export const useAccount = () => {
     giftExpiration,
     isTeamMember,
     hasStripeAccount,
-
+    isLifetimeMember,
     accountLoading: accountLoadingStatus === 'loading',
     accountOwner: userAccounts?.find((account: any) => account?.owner)?.owner,
   })
@@ -80,6 +82,7 @@ export const useAccount = () => {
     hasStripeAccount,
     isDisabled,
     isInstructor,
+    isLifetimeMember,
     instructorId: viewer?.instructor_id,
     accountLoading: accountLoadingStatus === 'loading',
     accountOwner: userAccounts?.find((account: any) => account?.owner)?.owner,
