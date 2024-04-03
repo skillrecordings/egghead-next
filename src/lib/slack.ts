@@ -16,7 +16,7 @@ export async function postToSlack(
   options: PostToSlackOptions,
 ): Promise<ChatPostMessageResponse> {
   const {
-    webClient = new WebClient(process.env.SLACK_API_TOKEN),
+    webClient = new WebClient(process.env.SLACK_ADMIN_API_KEY),
     attachments,
     channel,
     text,
@@ -33,4 +33,35 @@ export async function postToSlack(
     console.log(e)
     return Promise.reject(e)
   }
+}
+
+export type PostFeedbackToSlackOptions = {
+  attachments: MessageAttachment[]
+  webhookUrl: string
+  username?: string
+  text?: string
+}
+
+export async function postFeedbackToSlack(
+  options: PostFeedbackToSlackOptions,
+): Promise<ChatPostMessageResponse> {
+  const {webhookUrl, text, attachments, username = 'Eggo'} = options
+  try {
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        text,
+        attachments,
+        username,
+      }),
+    })
+  } catch (e) {
+    throw new Error('error occured, feedback not sent')
+  }
+  return new Response('feedback sent', {
+    status: 200,
+  })
 }

@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
       await inngest.send({
         name: SEND_SLACK_MESSAGE_EVENT,
         data: {
+          messageType: 'instructor-comms',
           instructorId,
           message: `_egghead tip created_`,
           attachments: [
