@@ -219,7 +219,7 @@ const Feedback: FunctionComponent<React.PropsWithChildren<FeedbackProps>> = ({
 
     setState({loading: true, success: false, errorMessage: null})
     actions.setSubmitting(true)
-    fetch('/api/slack/feedback', {
+    fetch('/api/feedback', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
