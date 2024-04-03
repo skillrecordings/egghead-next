@@ -19,6 +19,10 @@ import {
   SEND_SLACK_MESSAGE_EVENT,
   SlackMessage,
 } from './events/send-slack-message'
+import {
+  SEND_FEEDBACK_EMAIL_EVENT,
+  FeedbackEmail,
+} from './events/send-feedback-email'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
@@ -29,6 +33,7 @@ type Events = {
   [TIP_VIDEO_UPLOADED_EVENT]: NewTipVideo
   [INDEX_LESSONS_FOREVER]: IndexLessonsForever
   [SEND_SLACK_MESSAGE_EVENT]: SlackMessage
+  [SEND_FEEDBACK_EMAIL_EVENT]: FeedbackEmail
   test: {
     name: 'test'
     data: {}
