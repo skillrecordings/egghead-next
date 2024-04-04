@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
               author_icon: instructor.person.image,
               mrkdwn_in: ['text'],
               title,
-              title_link: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/tips/${slug}`,
+              title_link: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/tips/${slug.current}`,
               text: body,
               color: '#f17f08',
             },
