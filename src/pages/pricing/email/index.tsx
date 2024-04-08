@@ -1,4 +1,4 @@
-import stripeCheckoutRedirect from '@/api/stripe/stripe-checkout-redirect'
+import {redirectToSubscriptionCheckout} from '@/api/stripe/stripe-checkout-redirect'
 import {Formik} from 'formik'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -54,7 +54,7 @@ const Email: React.FunctionComponent<
       })
     } else if (!!priceId) {
       setIsError(false)
-      stripeCheckoutRedirect({
+      redirectToSubscriptionCheckout({
         priceId,
         email,
         quantity,
