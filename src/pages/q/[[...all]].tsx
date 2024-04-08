@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
+import Image from 'next/image'
 import algoliasearchLite from 'algoliasearch/lite'
 import Search from '@/components/search'
 import {NextSeo} from 'next-seo'
@@ -27,6 +28,7 @@ import {
   SearchBox,
 } from 'react-instantsearch'
 import {renderToString} from 'react-dom/server'
+import rateLimit from '@/utils/rate-limit'
 
 const tracer = getTracer('search-page')
 
@@ -58,6 +60,7 @@ const getInstructorSlugFromInstructorList = (instructors: string[]) => {
 }
 
 type SearchIndexProps = {
+  error: string
   initialSearchState: any
   resultsState: any
   pageTitle: string
@@ -68,6 +71,7 @@ type SearchIndexProps = {
 }
 
 const SearchIndex: any = ({
+  error,
   initialSearchState,
   resultsState,
   pageTitle,
@@ -87,6 +91,20 @@ const SearchIndex: any = ({
     initialTopicSanityData,
     searchState,
   )
+
+  if (error) {
+    return (
+      <div className="h-screen flex items-center justify-center gap-4">
+        <Image
+          src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1659039546/eggodex/basic_eggo.png"
+          alt="egghead search error"
+          width={200}
+          height={200}
+        />
+        <p className="prose dark:prose-dark text-xl">{error}</p>
+      </div>
+    )
+  }
 
   const onSearchStateChange = async (state: any) => {
     clearTimeout(debouncedState.current)
@@ -175,11 +193,27 @@ function BrandPage({serverState}: any) {
   )
 }
 
+const limiter = rateLimit({
+  interval: 60 * 1000,
+  uniqueTokenPerInterval: 500,
+})
+
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
   query,
   res,
 }) {
+  try {
+    await limiter.check(res, 60, 'SEARCH_CACHE_TOKEN') // 60 requests per minute
+  } catch (error) {
+    res.setHeader('Retry-After', 60)
+    res.statusCode = 429
+
+    return {
+      props: {error: 'Rate limit exceeded, please try again in 60 seconds.'},
+    }
+  }
+
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const {all, ...rest} = query
