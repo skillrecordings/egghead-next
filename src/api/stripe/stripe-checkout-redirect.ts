@@ -8,7 +8,7 @@ if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
-const stripeCheckoutRedirect = async (options: {
+export const redirectToSubscriptionCheckout = async (options: {
   priceId: string
   email: string
   stripeCustomerId?: string
@@ -57,5 +57,3 @@ const stripeCheckoutRedirect = async (options: {
       }
     })
 }
-
-export default stripeCheckoutRedirect
