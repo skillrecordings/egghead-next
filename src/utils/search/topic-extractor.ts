@@ -2,8 +2,8 @@ import {QueryReturnType} from '@/lib/search-url-builder'
 import {first, isEmpty} from 'lodash'
 
 export const topicExtractor = (searchState: QueryReturnType) => {
-  if (!isEmpty(searchState.refinementList?._tags)) {
-    return searchState.refinementList?._tags
+  if (!isEmpty(searchState?.refinementList?._tags)) {
+    return searchState?.refinementList?._tags
   }
   const selectedTopics = []
 
