@@ -28,7 +28,10 @@ import {
   SearchBox,
 } from 'react-instantsearch'
 import {renderToString} from 'react-dom/server'
-import rateLimit from '@/utils/rate-limit'
+import {Ratelimit} from '@upstash/ratelimit'
+import {Redis} from '@upstash/redis'
+import getAccessTokenFromCookie from '@/utils/get-access-token-from-cookie'
+import {getTokenFromCookieHeaders} from '@/utils/auth'
 
 const tracer = getTracer('search-page')
 
@@ -193,9 +196,11 @@ function BrandPage({serverState}: any) {
   )
 }
 
-const limiter = rateLimit({
-  interval: 60 * 1000,
-  uniqueTokenPerInterval: 500,
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(10, '10 s'),
+  analytics: false,
+  prefix: '@egghead/upstash/ratelimit',
 })
 
 export const getServerSideProps: GetServerSideProps = async function ({
@@ -203,10 +208,17 @@ export const getServerSideProps: GetServerSideProps = async function ({
   query,
   res,
 }) {
-  try {
-    await limiter.check(res, 60, 'SEARCH_CACHE_TOKEN') // 60 requests per minute
-  } catch (error) {
-    res.setHeader('Retry-After', 60)
+  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
+  const ip = Array.isArray(req.headers['x-forwarded-for'])
+    ? req.headers['x-forwarded-for'][0]
+    : req.headers['x-forwarded-for']
+  const identifier =
+    eggheadToken || ip || req.headers['user-agent'] || 'unknown'
+
+  const {success} = await ratelimit.limit(identifier)
+
+  if (!success) {
+    res.setHeader('Retry-After', 10)
     res.statusCode = 429
 
     return {

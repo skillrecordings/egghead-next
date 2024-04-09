@@ -97,6 +97,8 @@
     "@trpc/react-query": "^10.38.5",
     "@trpc/server": "^10.38.5",
     "@typeform/embed-react": "^2.11.0",
+    "@upstash/ratelimit": "^1.0.3",
+    "@upstash/redis": "^1.29.0",
     "@vercel/edge-config": "^0.2.1",
     "@videojs/http-streaming": "^2.9.3",
     "@xstate/react": "^3.2.2",
