@@ -142,7 +142,6 @@
     "load-script": "^1.0.0",
     "lodash": "^4.17.21",
     "logrocket": "^2.0.0",
-    "lru-cache": "^10.2.0",
     "lucide-react": "^0.274.0",
     "mdast-util-to-markdown": "^0.6.5",
     "mdx-bundler": "9.2.1",
