@@ -105,29 +105,6 @@ export const tipVideoUploaded = inngest.createFunction(
           })
           .commit()
       })
-
-      if (eggheadInstructor?.slack_group_id) {
-        await step.run('announce tip created', async () => {
-          const channel = eggheadInstructor.slack_group_id
-          return postToSlack({
-            channel,
-            username: 'Tip Robot',
-            text: `Tip Ready for Review`,
-            attachments: [
-              {
-                mrkdwn_in: ['text'],
-                title_link: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/tips/${tip._id}`,
-                text: tip.body,
-                color: '#f17f08',
-                title: tip.title,
-              },
-            ],
-          }).catch((e) => {
-            console.error(e)
-            return e
-          })
-        })
-      }
     }
 
     // TODO add partykit later
