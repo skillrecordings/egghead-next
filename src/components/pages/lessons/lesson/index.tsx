@@ -497,11 +497,11 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
   return (
     <>
       <NextSeo
-        description={truncate(removeMarkdown(description.replace(/"/g, "'")), {
+        description={truncate(removeMarkdown(description?.replace(/"/g, "'")), {
           length: 155,
         })}
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${lesson.path}`}
-        title={title.replace(/"/g, "'")}
+        title={title?.replace(/"/g, "'")}
         titleTemplate={'%s | egghead.io'}
         twitter={{
           handle: instructor?.twitter,
@@ -509,10 +509,10 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
           cardType: 'summary_large_image',
         }}
         openGraph={{
-          title: title.replace(/"/g, "'"),
+          title: title?.replace(/"/g, "'"),
           url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${lesson.path}`,
           description: truncate(
-            removeMarkdown(description.replace(/"/g, "'")),
+            removeMarkdown(description?.replace(/"/g, "'")),
             {length: 155},
           ),
           site_name: 'egghead',
@@ -524,8 +524,8 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
         }}
       />
       <VideoJsonLd
-        name={title.replace(/"/g, "'")}
-        description={truncate(removeMarkdown(description.replace(/"/g, "'")), {
+        name={title?.replace(/"/g, "'")}
+        description={truncate(removeMarkdown(description?.replace(/"/g, "'")), {
           length: 155,
         })}
         contentUrl={lesson?.hls_url}
@@ -535,7 +535,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
       />
       <SocialProfileJsonLd
         type="Person"
-        name={instructor.full_name}
+        name={instructor?.full_name}
         url={`https://egghead.io${instructorPagePath}`}
         sameAs={[`https://twitter.com/${instructor.twitter}`]}
       />
