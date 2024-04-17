@@ -335,6 +335,59 @@ export const ConfirmMembership: React.FC<
   )
 }
 
+export const ConfirmLifetimeMembership: React.FC<
+  React.PropsWithChildren<ConfirmMembershipProps>
+> = ({session_id}) => {
+  const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
+
+  if (!session_id) {
+    return null
+  }
+
+  const {data} = trpc.stripe.checkoutSessionById.useQuery({
+    checkoutSessionId: session_id as string,
+  })
+
+  if (!data) {
+    return null
+  }
+
+  return (
+    <div className="w-full max-w-screen-lg mx-auto space-y-16 text-gray-900 dark:text-white">
+      <Header
+        heading={<>Thank you so much for joining egghead!</>}
+        primaryMessage={
+          <>
+            <p className="text-lg text-center">
+              We've charged your credit card{' '}
+              <strong>
+                ${(data?.session?.amount_total || 0) / 100} for your lifetime
+                egghead membership
+              </strong>{' '}
+              and sent a receipt to <strong>{data.customer.email}</strong>.
+            </p>
+
+            <LinkToLatestInvoice />
+            <Support />
+            <p className="pt-5 text-lg text-center">
+              You can now learn from all premium resources on egghead, including
+              courses, talks, podcasts, articles, and more. Enjoy!
+            </p>
+          </>
+        }
+      />
+
+      <div className="space-y-10">
+        <PopularTopics />
+        <LastResource />
+        <div className="flex justify-center">
+          <StartLearning />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const topics: Topic[] = [
   {
     title: 'React',
