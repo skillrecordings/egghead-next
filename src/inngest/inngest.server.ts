@@ -23,9 +23,11 @@ import {
   SEND_FEEDBACK_EMAIL_EVENT,
   FeedbackEmail,
 } from './events/send-feedback-email'
+import {STRIPE_WEBHOOK_EVENT, StripeWebhook} from './events/stripe-webhook'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
+  [STRIPE_WEBHOOK_EVENT]: StripeWebhook
   [DEEPGRAM_WEBHOOK_EVENT]: DeepgramWebhook
   [TRANSCRIPT_READY_EVENT]: TranscriptReady
   [VIDEO_UPLOADED_EVENT]: VideoUploaded
