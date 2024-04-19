@@ -5,6 +5,11 @@ import {stripe} from '../../../utils/stripe'
 import Stripe from 'stripe'
 import {z} from 'zod'
 import Mixpanel from 'mixpanel'
+import {inngest} from '@/inngest/inngest.server'
+import {
+  STRIPE_WEBHOOK_EVENT,
+  StripeWebhookEventSchema,
+} from '@/inngest/events/stripe-webhook'
 
 const mixpanel = Mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN || '')
 
@@ -182,10 +187,24 @@ const stripeWebhookHandler = async (
     const buf = await buffer(req)
     const sig = req.headers['stripe-signature']
 
-    let event: any
-
     try {
-      event = stripe.webhooks.constructEvent(buf, sig as string, webhookSecret)
+      let event = StripeWebhookEventSchema.parse(
+        stripe.webhooks.constructEvent(buf, sig as string, webhookSecret),
+      )
+
+      console.info(`Received from Stripe: ${event.type} [${event.id}]`)
+
+      // TODO: for Stripe, send an event like this with the webhook data and an imported name identifier
+      await inngest.send({
+        name: STRIPE_WEBHOOK_EVENT,
+        data: {
+          event,
+        },
+      })
+
+      return new Response('ok', {
+        status: 200,
+      })
 
       const stripeSubscription = await stripe.subscriptions.retrieve(
         event.data.object.id,
