@@ -4,9 +4,19 @@ import {
   getCookiesForRequest,
   setCookiesForResponse,
 } from './process-customer-cookies'
+import {Ratelimit} from '@upstash/ratelimit'
+import {Redis} from '@upstash/redis'
 
 export const SITE_ROOT_PATH = '/'
 export const PRICING_PAGE_PATH = '/pricing'
+export const SEARCH_PAGE_PATH = '/q'
+
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(10, '60 s'),
+  analytics: false,
+  prefix: '@egghead/upstash/ratelimit',
+})
 
 /**
  * with this approach, logged in users can be shown
@@ -49,6 +59,23 @@ export async function getMiddlewareResponse(req: NextRequest) {
         break
       default:
         response = NextResponse.next()
+    }
+  }
+
+  if (req.nextUrl.pathname.startsWith(SEARCH_PAGE_PATH)) {
+    switch (true) {
+      case isLoggedInMember:
+        response = NextResponse.next()
+        break
+      case isMember:
+        response = NextResponse.next()
+        break
+      default:
+        const ip = req.ip ?? '127.0.0.1'
+        const {success} = await ratelimit.limit(ip)
+        response = success
+          ? NextResponse.next()
+          : NextResponse.redirect(new URL('/blocked', req.url))
     }
   }
 
