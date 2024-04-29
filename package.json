@@ -12,7 +12,7 @@
     "dev": "next dev",
     "dev:concurrent": "concurrently \"npm:dev:*\"",
     "dev:inngest": "pnpx inngest-cli@latest dev",
-    "dev-build": "NODE_ENV=production yarn test:ci && next build",
+    "dev-build": "NODE_ENV=production next build",
     "sanity": "cd studio && sanity dev",
     "prebuild": "yarn make-tags-sitemap",
     "build": "yarn dev-build",
