@@ -10,6 +10,7 @@ import {
   STRIPE_WEBHOOK_EVENT,
   StripeWebhookEventSchema,
 } from '@/inngest/events/stripe-webhook'
+import invariant from 'tiny-invariant'
 
 const mixpanel = Mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN || '')
 
@@ -194,18 +195,6 @@ const stripeWebhookHandler = async (
 
       console.info(`Received from Stripe: ${event.type} [${event.id}]`)
 
-      // TODO: for Stripe, send an event like this with the webhook data and an imported name identifier
-      await inngest.send({
-        name: STRIPE_WEBHOOK_EVENT,
-        data: {
-          event,
-        },
-      })
-
-      return new Response('ok', {
-        status: 200,
-      })
-
       const stripeSubscription = await stripe.subscriptions.retrieve(
         event.data.object.id,
       )
@@ -216,10 +205,22 @@ const stripeWebhookHandler = async (
       const subscriptionInterval =
         stripeSubscription.items.data[0].plan?.interval || ''
 
+      if (event.type === 'checkout.session.completed') {
+        const result = await inngest.send({
+          name: STRIPE_WEBHOOK_EVENT,
+          data: {
+            event,
+          },
+        })
+
+        return new Response(`handed to inngest: ${result.ids.join(', ')}`, {
+          status: 200,
+        })
+      }
       // Also handle:
       // - 'customer.subscription.updated'
       // - 'customer.subscription.deleted'
-      if (event.type === 'customer.subscription.updated') {
+      else if (event.type === 'customer.subscription.updated') {
         const previousSubscription = event.data.previous_attributes
         // if the previous attributes have a plan it's an upgrade/downgrade
         if (previousSubscription.plan) {
@@ -253,16 +254,18 @@ const stripeWebhookHandler = async (
 
           let cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
 
+          const {current_period_start, current_period_end} = event.data.object
+
+          invariant(current_period_start, 'current_period_start is required')
+          invariant(current_period_end, 'current_period_end is required')
+
           const mixpanelEventData = {
             distinct_id: cioCustomer.id,
             subscriptionType,
             subscriptionInterval,
-            currentPeriodStart: stripeToMixpanelDataConverter(
-              event.data.object.current_period_start,
-            ),
-            currentPeriodEnd: stripeToMixpanelDataConverter(
-              event.data.object.current_period_end,
-            ),
+            currentPeriodStart:
+              stripeToMixpanelDataConverter(current_period_start),
+            currentPeriodEnd: stripeToMixpanelDataConverter(current_period_end),
           }
 
           if (stripeUpgradeState === UPGRADE) {
@@ -311,16 +314,18 @@ const stripeWebhookHandler = async (
         let subscriptionInterval =
           stripeSubscription.items.data[0].plan.interval
 
+        const {current_period_start, current_period_end} = event.data.object
+
+        invariant(current_period_start, 'current_period_start is required')
+        invariant(current_period_end, 'current_period_end is required')
+
         purchaseSubscriptionCreated({
           distinct_id: cioCustomer.id,
           subscriptionType,
           subscriptionInterval,
-          currentPeriodStart: stripeToMixpanelDataConverter(
-            event.data.object.current_period_start,
-          ),
-          currentPeriodEnd: stripeToMixpanelDataConverter(
-            event.data.object.current_period_end,
-          ),
+          currentPeriodStart:
+            stripeToMixpanelDataConverter(current_period_start),
+          currentPeriodEnd: stripeToMixpanelDataConverter(current_period_end),
         })
 
         purchaseSetSubscriptionStatus(cioCustomer.id, stripeSubscription.status)

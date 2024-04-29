@@ -21,6 +21,8 @@ export const StripeWebhookEventSchema = z.object({
         id: z.string(),
         plan: z.any(),
         customer: z.string(),
+        current_period_start: z.number().optional(),
+        current_period_end: z.number().optional(),
       })
       .passthrough(),
     previous_attributes: z.any(),

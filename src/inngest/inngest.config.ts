@@ -10,6 +10,9 @@ import {addSrtToMuxAsset} from '@/inngest/functions/mux/add-srt-to-mux-asset'
 import {indexLessonsForever} from '@/inngest/functions/index-lessons'
 import {sendSlackMessage} from '@/inngest/functions/send-slack-message'
 import {sendFeedbackEmail} from '@/inngest/functions/send-feedback-email'
+import {stripeWebhookCheckoutSessionCompleted} from './functions/stripe-webhook-handlers'
+import {lifetimePurchase} from '@/inngest/functions/lifetime-purchase'
+
 const test = inngest.createFunction(
   {id: `test`, name: 'Test'},
   {event: 'test'},
@@ -20,6 +23,8 @@ const test = inngest.createFunction(
     return 'test'
   },
 )
+
+const stripeWebhookFunctions = [stripeWebhookCheckoutSessionCompleted]
 
 export const inngestConfig = {
   client: inngest,
@@ -33,6 +38,8 @@ export const inngestConfig = {
     indexLessonsForever,
     sendSlackMessage,
     sendFeedbackEmail,
+    ...stripeWebhookFunctions,
+    lifetimePurchase,
     test,
   ],
 }
