@@ -5,17 +5,17 @@ import {
   setCookiesForResponse,
 } from './process-customer-cookies'
 import {Ratelimit} from '@upstash/ratelimit'
-import {Redis} from '@upstash/redis'
+import {kv} from '@vercel/kv'
 
 export const SITE_ROOT_PATH = '/'
 export const PRICING_PAGE_PATH = '/pricing'
 export const SEARCH_PAGE_PATH = '/q'
 
 const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
+  redis: kv,
   limiter: Ratelimit.slidingWindow(10, '60 s'),
   analytics: false,
-  prefix: '@egghead/upstash/ratelimit',
+  prefix: 'egh-next-ratelimit',
 })
 
 /**
