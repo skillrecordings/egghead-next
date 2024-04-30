@@ -7,7 +7,6 @@ const Blocked = () => {
   let searchParams = useSearchParams()
   const prevPath = searchParams?.get('prevPath')
 
-  console.log({prevPath})
   return (
     <div className="flex self-center items-center justify-center gap-4">
       <Image
