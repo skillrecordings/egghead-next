@@ -75,7 +75,12 @@ export async function getMiddlewareResponse(req: NextRequest) {
         const {success} = await ratelimit.limit(ip)
         response = success
           ? NextResponse.next()
-          : NextResponse.redirect(new URL('/blocked', req.url))
+          : NextResponse.redirect(
+              new URL(
+                `/blocked?prevPath=${encodeURIComponent(req.nextUrl.pathname)}`,
+                req.url,
+              ),
+            )
     }
   }
 
