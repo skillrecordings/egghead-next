@@ -5,8 +5,7 @@
     "node": "18.x"
   },
   "resolutions": {
-    "autoprefixer": "10.4.5",
-    "string-width": "4.2.3"
+    "autoprefixer": "10.4.5"
   },
   "private": true,
   "scripts": {
@@ -337,5 +336,6 @@
     "exclude": [
       "pages/api/__coverage__.js"
     ]
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }
