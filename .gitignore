@@ -5,7 +5,7 @@ node_modules
 /.pnp
 .pnp.js
 .mdx-data
-.yarn
+
 
 # testing
 /coverage
