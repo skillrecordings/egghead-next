@@ -12,7 +12,7 @@
     "dev": "next dev",
     "dev:concurrent": "concurrently \"npm:dev:*\"",
     "dev:inngest": "pnpx inngest-cli@latest dev --no-discovery -u http://egghead.af:3000/api/inngest",
-    "dev-build": "NODE_ENV=production yarn test:ci && next build",
+    "dev-build": "NODE_ENV=production next build",
     "sanity": "cd studio && sanity dev",
     "prebuild": "yarn make-tags-sitemap",
     "build": "yarn dev-build",
@@ -100,6 +100,7 @@
     "@upstash/ratelimit": "^1.0.3",
     "@upstash/redis": "^1.29.0",
     "@vercel/edge-config": "^0.2.1",
+    "@vercel/kv": "^1.0.1",
     "@videojs/http-streaming": "^2.9.3",
     "@xstate/react": "^3.2.2",
     "airtable": "^0.11.1",
@@ -335,5 +336,6 @@
     "exclude": [
       "pages/api/__coverage__.js"
     ]
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }

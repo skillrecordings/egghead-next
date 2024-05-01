@@ -209,9 +209,11 @@ export const getServerSideProps: GetServerSideProps = async function ({
   res,
 }) {
   const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
+
   const ip = Array.isArray(req.headers['x-forwarded-for'])
     ? req.headers['x-forwarded-for'][0]
     : req.headers['x-forwarded-for']
+
   const identifier =
     eggheadToken || ip || req.headers['user-agent'] || 'unknown'
 
