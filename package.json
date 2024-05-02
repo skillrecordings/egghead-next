@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:concurrent": "concurrently \"npm:dev:*\"",
-    "dev:inngest": "pnpx inngest-cli@latest dev",
+    "dev:inngest": "pnpx inngest-cli@latest dev --no-discovery -u http://egghead.af:3000/api/inngest",
     "dev-build": "NODE_ENV=production next build",
     "sanity": "cd studio && sanity dev",
     "prebuild": "yarn make-tags-sitemap",
