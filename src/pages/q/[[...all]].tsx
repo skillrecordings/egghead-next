@@ -28,10 +28,6 @@ import {
   SearchBox,
 } from 'react-instantsearch'
 import {renderToString} from 'react-dom/server'
-import {Ratelimit} from '@upstash/ratelimit'
-import {Redis} from '@upstash/redis'
-import getAccessTokenFromCookie from '@/utils/get-access-token-from-cookie'
-import {getTokenFromCookieHeaders} from '@/utils/auth'
 
 const tracer = getTracer('search-page')
 
@@ -196,38 +192,11 @@ function BrandPage({serverState}: any) {
   )
 }
 
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(10, '10 s'),
-  analytics: false,
-  prefix: '@egghead/upstash/ratelimit',
-})
-
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
   query,
   res,
 }) {
-  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
-
-  const ip = Array.isArray(req.headers['x-forwarded-for'])
-    ? req.headers['x-forwarded-for'][0]
-    : req.headers['x-forwarded-for']
-
-  const identifier =
-    eggheadToken || ip || req.headers['user-agent'] || 'unknown'
-
-  const {success} = await ratelimit.limit(identifier)
-
-  if (!success) {
-    res.setHeader('Retry-After', 10)
-    res.statusCode = 429
-
-    return {
-      props: {error: 'Rate limit exceeded, please try again in 60 seconds.'},
-    }
-  }
-
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const {all, ...rest} = query
