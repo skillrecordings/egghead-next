@@ -199,7 +199,10 @@ export const getServerSideProps: GetServerSideProps = async function ({
 }) {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const {all, ...rest} = query
+  const {all = [], ...rest} = query
+
+  if (all[0] === 'undefined') return {props: {error: 'no search query'}}
+
   const initialSearchState = parseUrl(query)
   const pageTitle = titleFromPath(all as string[])
 
