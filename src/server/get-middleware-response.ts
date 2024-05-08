@@ -13,7 +13,7 @@ export const SEARCH_PAGE_PATH = '/q'
 
 const ratelimit = new Ratelimit({
   redis: kv,
-  limiter: Ratelimit.slidingWindow(10, '60 s'),
+  limiter: Ratelimit.slidingWindow(10, '5s'),
   analytics: false,
   prefix: 'egh-next-ratelimit',
 })
@@ -65,8 +65,7 @@ export async function getMiddlewareResponse(req: NextRequest) {
   if (req.nextUrl.pathname.startsWith(SEARCH_PAGE_PATH)) {
     switch (true) {
       case isLoggedInMember:
-        response = NextResponse.next()
-        break
+      case user?.email:
       case isMember:
         response = NextResponse.next()
         break
