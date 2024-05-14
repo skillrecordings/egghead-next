@@ -403,7 +403,7 @@ const CollectionPageLayout: React.FunctionComponent<
   return (
     <>
       <NextSeo
-        description={truncate(removeMarkdown(description.replace(/"/g, "'")), {
+        description={truncate(removeMarkdown(description?.replace(/"/g, "'")), {
           length: 155,
         })}
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`}
@@ -418,7 +418,7 @@ const CollectionPageLayout: React.FunctionComponent<
           title,
           url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`,
           description: truncate(
-            removeMarkdown(description.replace(/"/g, "'")),
+            removeMarkdown(description?.replace(/"/g, "'")),
             {length: 155},
           ),
           site_name: 'egghead',
