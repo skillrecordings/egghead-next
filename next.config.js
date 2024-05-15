@@ -59,10 +59,6 @@ const IMAGE_HOST_DOMAINS = compact([
     protocol: 'https',
     hostname: `image.mux.com`,
   },
-  {
-    protocol: 'https',
-    hostname: process.env.NODE_ENV !== 'production' && 'via.placeholder.com',
-  },
 ])
 
 const nextConfig = {
