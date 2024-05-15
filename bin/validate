@@ -71,6 +71,6 @@ echo
 echo "Verifying system-level requirements..."
 verify_installation 'brew' '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
 verify_installation 'node'
-verify_installation 'yarn'
-verify_isntallation 'vercel' 'yarn global add vercel'
+verify_installation 'pnpm'
+verify_isntallation 'vercel' 'pnpm add -g vercel'
 verify_installation 'stripe' 'brew install stripe/stripe-cli/stripe'
