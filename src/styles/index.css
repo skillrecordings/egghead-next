@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import './icons.css';
-@import '../../node_modules/simplebar/dist/simplebar.min.css';
+@import '../../node_modules/simplebar-react/dist/simplebar.min.css';
 @import '../../node_modules/@skillrecordings/player/dist/skillrecordings-player.css';
 
 
