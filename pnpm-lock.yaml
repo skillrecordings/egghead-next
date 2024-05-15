@@ -527,12 +527,6 @@ importers:
       tailwindcss:
         specifier: ^3.4.1
         version: 3.4.3(ts-node@10.9.2(@types/node@16.18.97)(typescript@5.1.6))
-      tailwindcss-autofill:
-        specifier: ^0.1.0
-        version: 0.1.0(tailwindcss@3.4.3(ts-node@10.9.2(@types/node@16.18.97)(typescript@5.1.6)))
-      tailwindcss-text-fill:
-        specifier: ^0.1.2
-        version: 0.1.2(tailwindcss@3.4.3(ts-node@10.9.2(@types/node@16.18.97)(typescript@5.1.6)))
       tincanjs:
         specifier: ^0.50.0
         version: 0.50.0
@@ -7981,9 +7975,6 @@ packages:
   flatted@3.3.1:
     resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
 
-  flatten-tailwindcss-theme@0.1.1:
-    resolution: {integrity: sha512-H4VV6pXPVX+NZMy4Ddky+Ae3y8hRrDmYn1piauHx3nPWa/4YS6ufL2G4crxqisGawHGztSTJ5TjZkmiyTA035Q==}
-
   flatten@1.0.3:
     resolution: {integrity: sha512-dVsPA/UwQ8+2uoFe5GHtiBMu48dWLTdsuEd7CKGlZlD78r1TTWBvDuFaFGKCo/ZfEr95Uk56vZoX86OsHkUeIg==}
     deprecated: flatten is deprecated in favor of utility frameworks such as lodash.
@@ -13481,16 +13472,6 @@ packages:
 
   tailwind-merge@1.14.0:
     resolution: {integrity: sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==}
-
-  tailwindcss-autofill@0.1.0:
-    resolution: {integrity: sha512-U7P+smNko8729EIe/FOXJvcoZt6LAzexevBuZ8pkrdoazAoabUGFdE/xOaGTb9P7rzkNp4OGH0WeE8Y8UvnDtw==}
-    peerDependencies:
-      tailwindcss: ^2.0.2
-
-  tailwindcss-text-fill@0.1.2:
-    resolution: {integrity: sha512-zhff4E8tjWVriuiFBRtnw1n6R9HfaEGVTixUbiF8tnlzzbFTPLY+1a5LRWp6cE0T46GUVoXIQIa5rw1zc7NOqg==}
-    peerDependencies:
-      tailwindcss: ^2.0.2
 
   tailwindcss@3.4.3:
     resolution: {integrity: sha512-U7sxQk/n397Bmx4JHbJx/iSOOv5G+II3f1kpLpY2QeUv5DcPdcTsYLlusZfq1NthHS1c1cZoyFmmkex1rzke0A==}
@@ -24295,8 +24276,6 @@ snapshots:
 
   flatted@3.3.1: {}
 
-  flatten-tailwindcss-theme@0.1.1: {}
-
   flatten@1.0.3: {}
 
   flush-write-stream@1.1.1:
@@ -31349,15 +31328,6 @@ snapshots:
       strip-ansi: 6.0.1
 
   tailwind-merge@1.14.0: {}
-
-  tailwindcss-autofill@0.1.0(tailwindcss@3.4.3(ts-node@10.9.2(@types/node@16.18.97)(typescript@5.1.6))):
-    dependencies:
-      tailwindcss: 3.4.3(ts-node@10.9.2(@types/node@16.18.97)(typescript@5.1.6))
-
-  tailwindcss-text-fill@0.1.2(tailwindcss@3.4.3(ts-node@10.9.2(@types/node@16.18.97)(typescript@5.1.6))):
-    dependencies:
-      flatten-tailwindcss-theme: 0.1.1
-      tailwindcss: 3.4.3(ts-node@10.9.2(@types/node@16.18.97)(typescript@5.1.6))
 
   tailwindcss@3.4.3(ts-node@10.9.2(@types/node@16.18.97)(typescript@5.1.6)):
     dependencies:

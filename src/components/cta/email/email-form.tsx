@@ -110,7 +110,7 @@ const EmailForm: FunctionComponent<React.PropsWithChildren<LoginFormProps>> = ({
                           onChange={handleChange}
                           onBlur={handleBlur}
                           placeholder="you@company.com"
-                          className="text-black autofill:text-fill-black py-3 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full pl-10 border-gray-300 rounded-md"
+                          className="text-black py-3 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full pl-10 border-gray-300 rounded-md"
                           required
                         />
                       </div>
