@@ -242,7 +242,7 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
       <Head>
         <link
           rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/algolia-min.css"
+          href="https://cdn.jsdelivr.net/npm/instantsearch.css@8.1.0/themes/reset-min.css"
         />
       </Head>
       <div className="dark:bg-gray-1000 bg-gray-100 relative">
@@ -270,10 +270,16 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                   {!loading && isEmpty(instructor) && isEmpty(topic) && (
                     <h1 className="hidden">Search</h1>
                   )}
-                  <div className="dark:bg-gray-900 bg-white sticky top-0 z-40 shadow-smooth flex items-center w-full border-b dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5">
+                  <div className="dark:bg-gray-900 bg-white sticky top-0 z-40 shadow-smooth flex items-center w-full border-b dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5 h-full">
                     <SearchBox placeholder={searchBoxPlaceholder} />
-                    <div className="border-l dark:border-gray-800 border-gray-100 flex items-center flex-shrink-0 space-x-2 flex-nowrap">
+                    <div className="border-l dark:border-gray-800 border-gray-100 flex items-center flex-shrink-0 space-x-2 flex-nowrap h-full">
                       <SortBy
+                        classNames={{
+                          root: 'border-opacity-0',
+                          select:
+                            ' flex items-center flex-shrink-0 space-x-2 flex-nowrap dark:bg-gray-900 bg-white h-full',
+                          option: 'dark:border-gray-800 border-gray-100',
+                        }}
                         items={[
                           {
                             value: 'popular',
