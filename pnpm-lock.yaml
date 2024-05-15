@@ -503,9 +503,6 @@ importers:
       shiki:
         specifier: ^0.14.4
         version: 0.14.7
-      shortid:
-        specifier: ^2.2.16
-        version: 2.2.16
       simplebar-react:
         specifier: ^2.3.5
         version: 2.4.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -627,9 +624,6 @@ importers:
       '@testing-library/react':
         specifier: ^14.0.0
         version: 14.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@types/classnames':
-        specifier: ^2.3.1
-        version: 2.3.1
       '@types/cookie':
         specifier: ^0.4.1
         version: 0.4.1
@@ -4619,10 +4613,6 @@ packages:
 
   '@types/cacheable-request@6.0.3':
     resolution: {integrity: sha512-IQ3EbTzGxIigb1I3qPZc1rWJnH0BmSKv5QYTalEwweFvyBDLSAe24zP0le/hyi7ecGfZVlIVAg4BZqb8WBwKqw==}
-
-  '@types/classnames@2.3.1':
-    resolution: {integrity: sha512-zeOWb0JGBoVmlQoznvqXbE0tEC/HONsnoUNH19Hc96NFsTAwTXbTqb8FMYkru1F/iqp7a18Ws3nWJvtA1sHD1A==}
-    deprecated: This is a stub types definition. classnames provides its own type definitions, so you do not need this installed.
 
   '@types/codemirror@5.60.15':
     resolution: {integrity: sha512-dTOvwEQ+ouKJ/rE9LT1Ue2hmP6H1mZv5+CCnNWu2qtiOe2LQa9lCprEY20HxiDmV/Bxh+dXjywmy5aKvoGjULA==}
@@ -10742,9 +10732,6 @@ packages:
   nanoclone@0.2.1:
     resolution: {integrity: sha512-wynEP02LmIbLpcYw8uBKpcfF6dmg2vcpKqxeH5UcoKEYdExslsdUA4ugFauuaeYdTB76ez6gJW8XAZ6CgkXYxA==}
 
-  nanoid@2.1.11:
-    resolution: {integrity: sha512-s/snB+WGm6uwi0WjsZdaVcuf3KJXlfGl2LcxgwkEwJF0D/BWzVWAZW/XY4bFaiR7s0Jk3FPvlnepg1H1b1UwlA==}
-
   nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -12961,10 +12948,6 @@ packages:
 
   shimmer@1.2.1:
     resolution: {integrity: sha512-sQTKC1Re/rM6XyFM6fIAGHRPVGvyXfgzIDvzoq608vM+jeyVD0Tu1E6Np0Kc2zAIFWIj963V2800iF/9LPieQw==}
-
-  shortid@2.2.16:
-    resolution: {integrity: sha512-Ugt+GIZqvGXCIItnsL+lvFJOiN7RYqlGy7QE41O3YC1xbNSeDGIRO7xg2JJXIAj1cAGnOeC1r7/T9pgrtQbv4g==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   side-channel@1.0.6:
     resolution: {integrity: sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==}
@@ -19988,10 +19971,6 @@ snapshots:
       '@types/keyv': 3.1.4
       '@types/node': 16.18.97
       '@types/responselike': 1.0.3
-
-  '@types/classnames@2.3.1':
-    dependencies:
-      classnames: 2.5.1
 
   '@types/codemirror@5.60.15':
     dependencies:
@@ -28013,8 +27992,6 @@ snapshots:
 
   nanoclone@0.2.1: {}
 
-  nanoid@2.1.11: {}
-
   nanoid@3.3.7: {}
 
   nanoid@5.0.7: {}
@@ -30825,10 +30802,6 @@ snapshots:
       vscode-textmate: 8.0.0
 
   shimmer@1.2.1: {}
-
-  shortid@2.2.16:
-    dependencies:
-      nanoid: 2.1.11
 
   side-channel@1.0.6:
     dependencies:
