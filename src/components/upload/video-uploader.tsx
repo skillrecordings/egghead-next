@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ReactS3Uploader from 'react-s3-uploader'
 import {getAuthorizationHeader} from '@/utils/auth'
-import uuid from 'shortid'
+import {nanoid} from 'nanoid'
 import fileExtension from 'file-extension'
 import {DispatchFunction} from '@/hooks/use-file-upload-reducer'
 
@@ -32,7 +32,7 @@ const VideoUploader = ({
         // filename with no extension
         const filename = fullFilename.replace(/\.[^/.]+$/, '')
         // remove stuff s3 hates
-        const scrubbed = `${filename}-${uuid.generate()}`
+        const scrubbed = `${filename}-${nanoid()}`
           .replace(/[^\w\d_\-.]+/gi, '')
           .toLowerCase()
         // rebuild it as a fresh new thing
