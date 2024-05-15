@@ -248,6 +248,7 @@
     "@types/cors": "^2.8.12",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^27.0.1",
+    "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.14.172",
     "@types/mdx-js__react": "^1.5.5",
     "@types/micro": "^7.3.7",
