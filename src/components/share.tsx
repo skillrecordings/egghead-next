@@ -23,9 +23,7 @@ const Share: FunctionComponent<React.PropsWithChildren<ShareProps>> = ({
   return (
     <>
       <span className="text-sm">{children || title}</span>
-      <h2 sr-only className="sr-only">
-        Social Share Links
-      </h2>
+      <h2 className="sr-only">Social Share Links</h2>
       <div className={className || 'flex items-center mt-3'}>
         <div className={'flex items-center space-x-2'}>
           <TweetLink resource={resource} instructor={instructor} />
