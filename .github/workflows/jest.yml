@@ -11,8 +11,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '18.x'
-      - run: yarn install
-      - run: yarn test:ci
+      - run: pnpm install
+      - run: pnpm test:ci
       - name: Jest tests ✅
         if: ${{ success() }}
         # set the merge commit status check
