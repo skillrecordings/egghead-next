@@ -68,6 +68,7 @@
     "@radix-ui/react-switch": "^1.0.1",
     "@radix-ui/react-tooltip": "^1.0.6",
     "@reach/alert-dialog": "^0.16.2",
+    "@reach/auto-id": "^0.18.0",
     "@reach/dialog": "^0.16.0",
     "@reach/listbox": "^0.16.1",
     "@reach/menu-button": "^0.16.1",
