@@ -101,6 +101,9 @@ importers:
       '@reach/alert-dialog':
         specifier: ^0.16.2
         version: 0.16.2(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@reach/auto-id':
+        specifier: ^0.18.0
+        version: 0.18.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@reach/dialog':
         specifier: ^0.16.0
         version: 0.16.2(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3467,6 +3470,12 @@ packages:
       react: ^16.8.0 || 17.x
       react-dom: ^16.8.0 || 17.x
 
+  '@reach/auto-id@0.18.0':
+    resolution: {integrity: sha512-XwY1IwhM7mkHZFghhjiqjQ6dstbOdpbFLdggeke75u8/8icT8uEHLbovFUgzKjy9qPvYwZIB87rLiR8WdtOXCg==}
+    peerDependencies:
+      react: ^16.8.0 || 17.x
+      react-dom: ^16.8.0 || 17.x
+
   '@reach/descendants@0.16.1':
     resolution: {integrity: sha512-3WZgRnD9O4EORKE31rrduJDiPFNMOjUkATx0zl192ZxMq3qITe4tUj70pS5IbJl/+v9zk78JwyQLvA1pL7XAPA==}
     peerDependencies:
@@ -3557,6 +3566,12 @@ packages:
 
   '@reach/utils@0.17.0':
     resolution: {integrity: sha512-M5y8fCBbrWeIsxedgcSw6oDlAMQDkl5uv3VnMVJ7guwpf4E48Xlh1v66z/1BgN/WYe2y8mB/ilFD2nysEfdGeA==}
+    peerDependencies:
+      react: ^16.8.0 || 17.x
+      react-dom: ^16.8.0 || 17.x
+
+  '@reach/utils@0.18.0':
+    resolution: {integrity: sha512-KdVMdpTgDyK8FzdKO9SCpiibuy/kbv3pwgfXshTI6tEcQT1OOwj7BAksnzGC0rPz0UholwC+AgkqEl3EJX3M1A==}
     peerDependencies:
       react: ^16.8.0 || 17.x
       react-dom: ^16.8.0 || 17.x
@@ -17744,6 +17759,12 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       tslib: 2.6.2
 
+  '@reach/auto-id@0.18.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@reach/utils': 0.18.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
   '@reach/descendants@0.16.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@reach/utils': 0.16.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -17885,6 +17906,11 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       tiny-warning: 1.0.3
       tslib: 2.6.2
+
+  '@reach/utils@0.18.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   '@reach/visually-hidden@0.16.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
