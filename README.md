@@ -4,7 +4,7 @@ Welcome to the `egghead-next` project—the front-end for [egghead.io](https://e
 
 If you've already set up your local development environment, you can run:
 
-`yarn dev`
+`pnpm dev`
 
 # Setting Up Your Development Environment
 
@@ -12,7 +12,7 @@ To run this app locally for development, you'll need a few things. One of those 
 
 ## 1. System-level stuff.
 
-For the basic stuff like Homebrew, Node, Yarn, etc., run `bin/validate` to ensure you have the base requirements. It will help you install anything that's missing.
+For the basic stuff like Homebrew, Node, pnpm, etc., run `bin/validate` to ensure you have the base requirements. It will help you install anything that's missing.
 
 ## 2. Vercel & Develoment Environment Variables
 
@@ -41,8 +41,8 @@ You'll also need to ensure that the `webhook_signing_secret` is updated in the `
 
 To run `egghead-next` once `egghead-rails` is running, use:
 
-`yarn install && yarn dev`
+`pnpm install && pnpm dev`
 
 ## 5. Handy Commands
 
-View the `scripts` section of `package.json` for the primary development commands to run with `yarn`.
+View the `scripts` section of `package.json` for the primary development commands to run with `pnpm`.

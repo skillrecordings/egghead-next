@@ -14,8 +14,8 @@
     "dev:inngest": "pnpx inngest-cli@latest dev --no-discovery -u http://egghead.af:3000/api/inngest",
     "dev-build": "NODE_ENV=production next build",
     "sanity": "cd studio && sanity dev",
-    "prebuild": "yarn make-tags-sitemap",
-    "build": "yarn dev-build",
+    "prebuild": "pnpm make-tags-sitemap",
+    "build": "pnpm dev-build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:style": "tailwind build src/styles/index.css -o src/styles/output.css",
     "start": "NODE_ENV=production next start",
@@ -25,7 +25,7 @@
     "cy:open": "cypress open",
     "pree2e": "rm -rf .nyc_output coverage .next || true",
     "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100",
-    "format": "yarn format:index && yarn format:src",
+    "format": "pnpm format:index && pnpm format:src",
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
     "format:src": "prettier --write \"src/**/*.{js,ts,tsx,md,mdx}\"",
     "analyze": "ANALYZE=true next build",
@@ -34,6 +34,7 @@
     "build-storybook": "build-storybook --no-dll",
     "lint": "eslint --ext ts --ext tsx --fix src/",
     "prepare": "husky install",
+    "preinstall": "npx only-allow pnpm",
     "postinstall": "prisma generate"
   },
   "dependencies": {
@@ -109,6 +110,7 @@
     "bitmovin-player": "^8.66.0",
     "browser-cookies": "^1.2.0",
     "class-variance-authority": "^0.7.0",
+    "classnames": "^2.3.1",
     "client-oauth2": "^4.3.3",
     "clsx": "^2.0.0",
     "cookie": "^0.4.1",
@@ -149,6 +151,7 @@
     "micro": "^9.3.4",
     "mixpanel": "^0.16.0",
     "mixpanel-browser": "^2.41.0",
+    "nanoid": "^5.0.7",
     "next": "canary",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.1",
@@ -242,6 +245,7 @@
     "@storybook/react": "^6.4.17",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
+    "@types/classnames": "^2.3.1",
     "@types/cookie": "^0.4.1",
     "@types/cors": "^2.8.12",
     "@types/isomorphic-fetch": "^0.0.35",
@@ -319,7 +323,7 @@
       "prettier --write"
     ],
     "src/**/*.{ts,tsx}": [
-      "yarn lint"
+      "pnpm lint"
     ]
   },
   "prettier": {
@@ -336,6 +340,5 @@
     "exclude": [
       "pages/api/__coverage__.js"
     ]
-  },
-  "packageManager": "yarn@4.1.1"
+  }
 }
