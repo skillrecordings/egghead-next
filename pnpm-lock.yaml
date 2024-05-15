@@ -149,6 +149,9 @@ importers:
       '@skillrecordings/player':
         specifier: ^1.1.6
         version: 1.1.7(@types/react@18.3.2)(@xstate/react@3.2.2(@types/react@18.3.2)(react@18.3.1)(xstate@4.38.3))(lodash@4.17.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(xstate@4.38.3)
+      '@skillrecordings/time':
+        specifier: ^0.0.13
+        version: 0.0.13
       '@slack/web-api':
         specifier: ^7.0.2
         version: 7.0.4
@@ -3939,6 +3942,9 @@ packages:
 
   '@skillrecordings/time@0.0.12':
     resolution: {integrity: sha512-pfzligALVLPuq6Gwa98vqwSKaDluhig27JAssr9NNmwjYF/AP4D2PtF+ZicswpaD5t8KVYNb/uGajbuiy1pRjw==}
+
+  '@skillrecordings/time@0.0.13':
+    resolution: {integrity: sha512-6w/jPrLXNBYygMMqmf8OXNdY54n/VsfGe8X7eqjouesu6Qdk13AjLz3E2GTf5wrH2rcjgfqfzvpZWUB2oH26oQ==}
 
   '@slack/logger@4.0.0':
     resolution: {integrity: sha512-Wz7QYfPAlG/DR+DfABddUZeNgoeY7d1J39OCR2jR+v7VBsB8ezulDK5szTnDDPDwLH5IWhLvXIHlCFZV7MSKgA==}
@@ -18554,6 +18560,8 @@ snapshots:
       - supports-color
 
   '@skillrecordings/time@0.0.12': {}
+
+  '@skillrecordings/time@0.0.13': {}
 
   '@slack/logger@4.0.0':
     dependencies:
