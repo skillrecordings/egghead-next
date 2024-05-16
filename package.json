@@ -14,8 +14,8 @@
     "dev:inngest": "pnpx inngest-cli@latest dev --no-discovery -u http://egghead.af:3000/api/inngest",
     "dev-build": "NODE_ENV=production next build",
     "sanity": "cd studio && sanity dev",
-    "prebuild": "yarn make-tags-sitemap",
-    "build": "yarn dev-build",
+    "prebuild": "pnpm make-tags-sitemap",
+    "build": "pnpm dev-build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:style": "tailwind build src/styles/index.css -o src/styles/output.css",
     "start": "NODE_ENV=production next start",
@@ -25,7 +25,7 @@
     "cy:open": "cypress open",
     "pree2e": "rm -rf .nyc_output coverage .next || true",
     "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100",
-    "format": "yarn format:index && yarn format:src",
+    "format": "pnpm format:index && pnpm format:src",
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
     "format:src": "prettier --write \"src/**/*.{js,ts,tsx,md,mdx}\"",
     "analyze": "ANALYZE=true next build",
@@ -34,6 +34,7 @@
     "build-storybook": "build-storybook --no-dll",
     "lint": "eslint --ext ts --ext tsx --fix src/",
     "prepare": "husky install",
+    "preinstall": "npx only-allow pnpm",
     "postinstall": "prisma generate"
   },
   "dependencies": {
@@ -67,6 +68,7 @@
     "@radix-ui/react-switch": "^1.0.1",
     "@radix-ui/react-tooltip": "^1.0.6",
     "@reach/alert-dialog": "^0.16.2",
+    "@reach/auto-id": "^0.18.0",
     "@reach/dialog": "^0.16.0",
     "@reach/listbox": "^0.16.1",
     "@reach/menu-button": "^0.16.1",
@@ -82,6 +84,7 @@
     "@sanity/webhook": "^2.0.0",
     "@sindresorhus/slugify": "^2.2.1",
     "@skillrecordings/player": "^1.1.6",
+    "@skillrecordings/time": "^0.0.13",
     "@slack/web-api": "^7.0.2",
     "@stripe/react-stripe-js": "^1.4.1",
     "@stripe/stripe-js": "^1.17.1",
@@ -109,6 +112,7 @@
     "bitmovin-player": "^8.66.0",
     "browser-cookies": "^1.2.0",
     "class-variance-authority": "^0.7.0",
+    "classnames": "^2.3.1",
     "client-oauth2": "^4.3.3",
     "clsx": "^2.0.0",
     "cookie": "^0.4.1",
@@ -149,6 +153,7 @@
     "micro": "^9.3.4",
     "mixpanel": "^0.16.0",
     "mixpanel-browser": "^2.41.0",
+    "nanoid": "^5.0.7",
     "next": "canary",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.1",
@@ -199,7 +204,6 @@
     "sanity-plugin-markdown": "^4.1.0",
     "sharp": "^0.32.4",
     "shiki": "^0.14.4",
-    "shortid": "^2.2.16",
     "simplebar-react": "^2.3.5",
     "slugify": "^1.6.0",
     "speakingurl": "^14.0.1",
@@ -208,8 +212,6 @@
     "swr": "^0.5.5",
     "tailwind-merge": "^1.12.0",
     "tailwindcss": "^3.4.1",
-    "tailwindcss-autofill": "^0.1.0",
-    "tailwindcss-text-fill": "^0.1.2",
     "tincanjs": "^0.50.0",
     "tiny-invariant": "^1.2.0",
     "title": "^3.4.3",
@@ -246,6 +248,7 @@
     "@types/cors": "^2.8.12",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^27.0.1",
+    "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.14.172",
     "@types/mdx-js__react": "^1.5.5",
     "@types/micro": "^7.3.7",
@@ -305,7 +308,6 @@
     "react-is": "^17.0.2",
     "react-test-renderer": "^17.0.2",
     "rehype": "^12.0.0",
-    "start-server-and-test": "^1.13.1",
     "storybook-addon-themes": "^6.1.0",
     "ts-node": "^10.2.0",
     "typescript": "5.1.6",
@@ -319,7 +321,7 @@
       "prettier --write"
     ],
     "src/**/*.{ts,tsx}": [
-      "yarn lint"
+      "pnpm lint"
     ]
   },
   "prettier": {
@@ -336,6 +338,5 @@
     "exclude": [
       "pages/api/__coverage__.js"
     ]
-  },
-  "packageManager": "yarn@4.1.1"
+  }
 }

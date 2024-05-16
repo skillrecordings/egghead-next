@@ -20,6 +20,7 @@ const withMDX = require(`@next/mdx`)({
   },
 })
 const compact = require('lodash/compact')
+const {hostname} = require('os')
 
 const searchUrlRoot = `/q`
 
@@ -30,14 +31,34 @@ checkEnv({
 const appUrl = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 
 const IMAGE_HOST_DOMAINS = compact([
-  `d2eip9sf3oo6c2.cloudfront.net`,
-  `dcv19h61vib2d.cloudfront.net`,
-  `image.simplecastcdn.com`,
-  `res.cloudinary.com`,
-  `app.egghead.io`,
-  `gravatar.com`,
-  `image.mux.com`,
-  process.env.NODE_ENV !== 'production' && 'via.placeholder.com',
+  {
+    protocol: 'https',
+    hostname: `d2eip9sf3oo6c2.cloudfront.net`,
+  },
+  {
+    protocol: 'https',
+    hostname: `dcv19h61vib2d.cloudfront.net`,
+  },
+  {
+    protocol: 'https',
+    hostname: `image.simplecastcdn.com`,
+  },
+  {
+    protocol: 'https',
+    hostname: `res.cloudinary.com`,
+  },
+  {
+    protocol: 'https',
+    hostname: `app.egghead.io`,
+  },
+  {
+    protocol: 'https',
+    hostname: `gravatar.com`,
+  },
+  {
+    protocol: 'https',
+    hostname: `image.mux.com`,
+  },
 ])
 
 const nextConfig = {
@@ -47,7 +68,7 @@ const nextConfig = {
   transpilePackages: ['unist-util-visit'],
   reactStrictMode: true,
   images: {
-    domains: IMAGE_HOST_DOMAINS,
+    remotePatterns: IMAGE_HOST_DOMAINS,
   },
   async redirects() {
     return [
