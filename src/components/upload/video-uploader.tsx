@@ -32,7 +32,7 @@ const VideoUploader = ({
         // filename with no extension
         const filename = fullFilename.replace(/\.[^/.]+$/, '')
         // remove stuff s3 hates
-        const scrubbed = `${filename}-${nanoid()}`
+        const scrubbed = `${filename}-${nanoid(7)}`
           .replace(/[^\w\d_\-.]+/gi, '')
           .toLowerCase()
         // rebuild it as a fresh new thing
