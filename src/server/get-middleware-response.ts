@@ -18,6 +18,16 @@ const ratelimit = new Ratelimit({
   prefix: 'egh-next-ratelimit',
 })
 
+const checkRateLimit = async (ip: string) => {
+  if (process.env.NODE_ENV === 'development') {
+    return {blocked: false}
+  }
+
+  const {success} = await ratelimit.limit(ip)
+
+  return {blocked: !success}
+}
+
 /**
  * with this approach, logged in users can be shown
  * '/' and anon users '/signup' IN PLACE
@@ -71,15 +81,15 @@ export async function getMiddlewareResponse(req: NextRequest) {
         break
       default:
         const ip = req.ip ?? '127.0.0.1'
-        const {success} = await ratelimit.limit(ip)
-        response = success
-          ? NextResponse.next()
-          : NextResponse.redirect(
+        const {blocked} = await checkRateLimit(ip)
+        response = blocked
+          ? NextResponse.redirect(
               new URL(
                 `/blocked?prevPath=${encodeURIComponent(req.nextUrl.pathname)}`,
                 req.url,
               ),
             )
+          : NextResponse.next()
     }
   }
 
