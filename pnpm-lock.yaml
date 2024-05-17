@@ -350,6 +350,9 @@ importers:
       micro:
         specifier: ^9.3.4
         version: 9.4.1
+      mime-types:
+        specifier: ^2.1.35
+        version: 2.1.35
       mixpanel:
         specifier: ^0.16.0
         version: 0.16.0
@@ -443,9 +446,6 @@ importers:
       react-refractor:
         specifier: ^2.1.7
         version: 2.1.7(react@18.3.1)
-      react-s3-uploader:
-        specifier: ^5.0.0
-        version: 5.0.0
       react-scroll:
         specifier: ^1.8.9
         version: 1.9.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -10950,10 +10950,6 @@ packages:
     engines: {node: '>=8.9'}
     hasBin: true
 
-  object-assign@2.1.1:
-    resolution: {integrity: sha512-CdsOUYIh5wIiozhJ3rLQgmUTgcyzFwZZrqhkKhODMoGtPKM+wt0h0CNIoauJWMsS9822EdzPsF/6mb4nLvPN5g==}
-    engines: {node: '>=0.10.0'}
-
   object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
@@ -12212,9 +12208,6 @@ packages:
     peerDependencies:
       react: ^16.8 || ^17 || ^18
       rxjs: ^6.5 || ^7
-
-  react-s3-uploader@5.0.0:
-    resolution: {integrity: sha512-UVPHkmJpYS9iucurTbsCY1E4a+1qVocw1wGqpy/ILM3pC54Ub//wr2SrIMTnCFPIuJAAEDdOi/aLm1vO62qUOg==}
 
   react-scroll-tracker@1.7.0:
     resolution: {integrity: sha512-h7pAjLu9iB9hD2yDJfZp2KnQdMHIc7a5/hHTWbH5OLir96H4qmpg8uvHqIjKKm3w0Gthhvmnm+DHWQI6XWt0RQ==}
@@ -28204,8 +28197,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  object-assign@2.1.1: {}
-
   object-assign@4.1.1: {}
 
   object-copy@0.1.0:
@@ -29610,16 +29601,6 @@ snapshots:
       react: 18.3.1
       rxjs: 7.8.1
       use-sync-external-store: 1.2.2(react@18.3.1)
-
-  react-s3-uploader@5.0.0:
-    dependencies:
-      create-react-class: 15.7.0
-      mime-types: 2.1.35
-      object-assign: 2.1.1
-      prop-types: 15.8.1
-      uuid: 3.4.0
-    optionalDependencies:
-      aws-sdk: 2.1620.0
 
   react-scroll-tracker@1.7.0(react@18.3.1):
     dependencies:

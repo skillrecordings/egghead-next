@@ -1,5 +1,6 @@
 import * as React from 'react'
 import ReactS3Uploader from 'react-s3-uploader'
+import ModernReactS3Uploader from './modern-react-s3-uploader'
 import {getAuthorizationHeader} from '@/utils/auth'
 import {nanoid} from 'nanoid'
 import fileExtension from 'file-extension'
@@ -17,9 +18,10 @@ const VideoUploader = ({
   const uploaderRef = React.useRef(null)
 
   return (
-    <ReactS3Uploader
+    <ModernReactS3Uploader
       className="hidden"
       ref={uploaderRef}
+      inputRef={uploaderRef}
       {...(multiple ? {multiple: true} : {})}
       //if we set this to `false` we can list all the files and
       //call `uploaderRef.current.uploadFile()` when we are ready
@@ -30,7 +32,7 @@ const VideoUploader = ({
       accept="video/*"
       scrubFilename={(fullFilename) => {
         // filename with no extension
-        const filename = fullFilename.replace(/\.[^/.]+$/, '')
+        const filename = fullFilename?.replace(/\.[^/.]+$/, '')
         // remove stuff s3 hates
         const scrubbed = `${filename}-${nanoid(7)}`
           .replace(/[^\w\d_\-.]+/gi, '')
