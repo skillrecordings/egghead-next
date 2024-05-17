@@ -76,7 +76,7 @@ S3Upload.prototype.createCORSRequest = function (method, url, opts) {
     if (opts.withCredentials != null) {
       xhr.withCredentials = opts.withCredentials
     }
-  } else if (typeof XDomainRequest !== 'undefined') {
+  } else if (typeof xhr?.XDomainRequest !== 'undefined') {
     xhr = new XDomainRequest()
     xhr.open(method, url)
   } else {
