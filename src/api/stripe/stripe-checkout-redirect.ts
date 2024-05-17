@@ -17,8 +17,17 @@ export const redirectToStandardCheckout = async (options: {
   quantity?: number
   coupon?: string
   successPath?: string
+  cancelPath?: string
 }) => {
-  const {priceId, email, authToken, coupon, quantity = 1, successPath} = options
+  const {
+    priceId,
+    email,
+    authToken,
+    coupon,
+    quantity = 1,
+    successPath,
+    cancelPath,
+  } = options
   const referralCookieToken = cookie.get('rc')
 
   console.log({priceId, email})
@@ -26,6 +35,9 @@ export const redirectToStandardCheckout = async (options: {
   const defaultSuccessPath = '/confirm/membership'
   const basePath = successPath || defaultSuccessPath
   const successUrl = `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${basePath}?session_id={CHECKOUT_SESSION_ID}`
+
+  const baseCancelPath = cancelPath || '/pricing'
+  const cancelUrl = `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${baseCancelPath}?stripe=cancelled`
 
   // TODO: if the only difference between this function and
   // `redirectToSubscriptionCheckout` is the URL path, then extract all
@@ -39,7 +51,7 @@ export const redirectToStandardCheckout = async (options: {
       site: 'egghead.io',
       client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
       success_url: successUrl,
-      cancel_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/pricing?stripe=cancelled`,
+      cancel_url: cancelUrl,
       metadata: {
         ...(!!referralCookieToken && {referralCookieToken}),
         email,
