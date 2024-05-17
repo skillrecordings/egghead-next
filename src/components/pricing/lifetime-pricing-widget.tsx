@@ -227,6 +227,7 @@ const LifetimePricingWidget: FunctionComponent<
         authToken,
         quantity,
         successPath: '/confirm/forever',
+        cancelPath: '/pricing/forever',
         // coupon: state.context.couponToApply?.couponCode,
       })
     } else {

@@ -51,6 +51,7 @@ const ForeverEmail: React.FunctionComponent<
       quantity,
       coupon,
       successPath: '/confirm/forever',
+      cancelPath: '/pricing/forever',
     }).catch((error) => {
       setIsError(error)
     })
