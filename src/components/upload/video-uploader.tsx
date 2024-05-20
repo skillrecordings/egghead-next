@@ -1,5 +1,4 @@
 import * as React from 'react'
-import ReactS3Uploader from 'react-s3-uploader'
 import ModernReactS3Uploader from './modern-react-s3-uploader'
 import {getAuthorizationHeader} from '@/utils/auth'
 import {nanoid} from 'nanoid'
