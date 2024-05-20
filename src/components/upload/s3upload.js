@@ -1,3 +1,4 @@
+/* global XDomainRequest */
 /**
  * Taken from https://github.com/odysseyscience/react-s3-uploader/blob/master/s3upload.js
  */
@@ -76,7 +77,7 @@ S3Upload.prototype.createCORSRequest = function (method, url, opts) {
     if (opts.withCredentials != null) {
       xhr.withCredentials = opts.withCredentials
     }
-  } else if (typeof xhr?.XDomainRequest !== 'undefined') {
+  } else if (typeof XDomainRequest !== 'undefined') {
     xhr = new XDomainRequest()
     xhr.open(method, url)
   } else {
