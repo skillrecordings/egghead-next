@@ -3,6 +3,7 @@ import {getTokenFromCookieHeaders} from '@/utils/parse-server-cookie'
 import getTracer from '@/utils/honeycomb-tracer'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import {CIO_IDENTIFIER_KEY} from '@/config'
+import {ENCODED_CUSTOMER_IO_TRACKING_API_CREDENTIALS} from '@/lib/customer-io'
 
 const serverCookie = require('cookie')
 const axios = require('axios')
@@ -58,7 +59,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         } else {
           const headers = {
             'content-type': 'application/json',
-            Authorization: `Basic ${process.env.CUSTOMER_IO_TRACK_API_BASIC}`,
+            Authorization: `Basic ${ENCODED_CUSTOMER_IO_TRACKING_API_CREDENTIALS}`,
           }
 
           await axios.put(

@@ -10,3 +10,8 @@ export const getAttributes = async (user_contact: string) => {
     return null
   }
 }
+
+export const ENCODED_CUSTOMER_IO_TRACKING_API_CREDENTIALS = Buffer.from(
+  `${process.env.NEXT_PUBLIC_CUSTOMER_IO_SITE_ID}:${process.env.CUSTOMER_IO_TRACK_API_BASIC}` ||
+    '',
+).toString('base64')
