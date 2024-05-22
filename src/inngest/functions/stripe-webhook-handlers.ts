@@ -5,7 +5,7 @@ import {stripe} from '@/utils/stripe'
 import Stripe from 'stripe'
 import {NonRetriableError} from 'inngest'
 
-const LIFETIME_PRICE_ID = 'price_1P1Dip2nImeJXwdJCCqfTViv'
+const LIFETIME_PRICE_ID = process.env.STRIPE_LIFETIME_MEMBERSHIP_PRICE_ID
 const PRICE_ID_ALLOW_LIST = [LIFETIME_PRICE_ID]
 
 /**
@@ -70,7 +70,7 @@ export const stripeWebhookCheckoutSessionCompleted = inngest.createFunction(
         const checkoutSession = await stripe.checkout.sessions.retrieve(
           checkoutSessionId,
           {
-            expand: ['line_items'],
+            expand: ['line_items', 'payment_intent'],
           },
         )
 
@@ -85,6 +85,7 @@ export const stripeWebhookCheckoutSessionCompleted = inngest.createFunction(
     }
 
     const stripePriceId = checkoutSession.line_items?.data[0]?.price?.id
+    const chargeId = checkoutSession.payment_intent?.latest_charge
 
     // if this is the lifetime price ID, then trigger a separate inngest event to handle that purchase
     if (stripePriceId === LIFETIME_PRICE_ID) {
@@ -95,7 +96,7 @@ export const stripeWebhookCheckoutSessionCompleted = inngest.createFunction(
         checkoutSessionId,
         priceId: stripePriceId,
         customerId,
-        stripeChargeIdentifier: checkoutSession.id,
+        stripeChargeIdentifier: chargeId,
       }
 
       await step.sendEvent('trigger lifetime purchase event', {
