@@ -4,7 +4,6 @@ import {track} from '@/utils/analytics'
 import {useViewer} from '@/context/viewer-context'
 import {format} from 'date-fns'
 import {recur} from '@/utils/recur'
-import PricingWidget from '@/components/pricing/pricing-widget'
 import {useAccount} from '@/hooks/use-account'
 import {trpc} from '@/app/_trpc/client'
 
