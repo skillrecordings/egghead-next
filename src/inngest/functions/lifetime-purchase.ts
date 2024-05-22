@@ -54,6 +54,7 @@ export const lifetimePurchase = inngest.createFunction(
           email,
           site: 'egghead.io',
           stripe_charge_id: event.data.stripeChargeIdentifier,
+          stripe_customer_id: event.data.customerId,
         })
 
         const ResponseSchema = z.object({
