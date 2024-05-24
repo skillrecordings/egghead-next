@@ -9,6 +9,7 @@ import usePurchaseAndPlay from '@/hooks/use-purchase-and-play'
 import {Topic} from '@/types'
 import {trpc} from '@/app/_trpc/client'
 import {useAccount} from '@/hooks/use-account'
+import Stripe from 'stripe'
 
 type HeaderProps = {
   heading: React.ReactElement
@@ -22,9 +23,10 @@ type ConfirmMembershipProps = {
 const ExistingMemberConfirmation: React.FC<
   React.PropsWithChildren<{session_id: string}>
 > = ({session_id}) => {
-  const {data} = trpc.stripe.checkoutSessionById.useQuery({
-    checkoutSessionId: session_id as string,
-  })
+  const {data, status: postCheckoutStatus} =
+    trpc.stripe.postCheckoutDetails.useQuery({
+      checkoutSessionId: session_id as string,
+    })
 
   return data ? (
     <>
@@ -41,7 +43,10 @@ const ExistingMemberConfirmation: React.FC<
               and sent a receipt to <strong>{data.customer.email}</strong>.
             </p>
 
-            <LinkToLatestInvoice />
+            <LinkToLatestInvoice
+              charge={data.charge}
+              chargeLoadingStatus={postCheckoutStatus}
+            />
             <Support />
             <p className="pt-5 text-lg text-center">
               You can now learn from all premium resources on egghead, including
@@ -62,19 +67,14 @@ const ExistingMemberConfirmation: React.FC<
   ) : null
 }
 
-const LinkToLatestInvoice = () => {
-  const {account} = useAccount()
-  const {data: subscriptionData, status: subscriptionLoadingStatus} =
-    trpc.subscriptionDetails.forStripeCustomerId.useQuery({
-      stripeCustomerId: account?.stripe_customer_id,
-    })
-  const {data: charge, status: chargeLoadingStatus} =
-    trpc.stripe.chargeById.useQuery({
-      chargeId: subscriptionData?.latestInvoice?.charge as string,
-    })
-
-  const dataLoading =
-    subscriptionLoadingStatus === 'loading' || chargeLoadingStatus === 'loading'
+const LinkToLatestInvoice = ({
+  charge,
+  chargeLoadingStatus,
+}: {
+  charge: Stripe.Charge
+  chargeLoadingStatus: string
+}) => {
+  const dataLoading = chargeLoadingStatus === 'loading'
 
   return (
     <div className="mt-5">
@@ -338,15 +338,17 @@ export const ConfirmMembership: React.FC<
 export const ConfirmLifetimeMembership: React.FC<
   React.PropsWithChildren<ConfirmMembershipProps>
 > = ({session_id}) => {
+  // TODO: can this line be deleted?
   const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
 
   if (!session_id) {
     return null
   }
 
-  const {data} = trpc.stripe.checkoutSessionById.useQuery({
-    checkoutSessionId: session_id as string,
-  })
+  const {data, status: postCheckoutStatus} =
+    trpc.stripe.postCheckoutDetails.useQuery({
+      checkoutSessionId: session_id as string,
+    })
 
   if (!data) {
     return null
@@ -367,7 +369,10 @@ export const ConfirmLifetimeMembership: React.FC<
               and sent a receipt to <strong>{data.customer.email}</strong>.
             </p>
 
-            <LinkToLatestInvoice />
+            <LinkToLatestInvoice
+              charge={data.charge}
+              chargeLoadingStatus={postCheckoutStatus}
+            />
             <Support />
             <p className="pt-5 text-lg text-center">
               You can now learn from all premium resources on egghead, including

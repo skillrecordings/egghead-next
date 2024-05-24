@@ -10,22 +10,43 @@ const Transaction = async (req: NextApiRequest, res: NextApiResponse) => {
       if (!transaction_id) throw new Error('no balance transaction id')
 
       const transaction = await stripe.balanceTransactions.retrieve(
-        transaction_id,
+        transaction_id as string,
         {
           expand: ['source.invoice'],
         },
       )
 
       if (transaction) {
-        res
-          .status(200)
-          .json({transaction, lineItems: transaction.source.invoice.lines.data})
+        if (transaction.source?.invoice) {
+          // @ts-ignore
+          const lineItems = transaction.source.invoice.lines.data
+
+          res.status(200).json({transaction, lineItems})
+        } else {
+          const charge = await stripe.charges.retrieve(transaction.source.id)
+
+          const lineItems = [
+            {
+              description: charge.description,
+              price: {unit_amount: charge.amount},
+              quantity: 1,
+              amount: charge.amount,
+            },
+          ]
+
+          console.log('!@!@!', {charge})
+
+          res.status(200).json({transaction, lineItems})
+        }
       } else {
         res.status(400).end()
       }
     } catch (error) {
-      console.error(JSON.stringify(error))
-      res.end(error)
+      const {message} = error as Error
+
+      console.error('#@#@#', message)
+
+      res.status(400).end()
     }
   } else {
     res.statusCode = 404
