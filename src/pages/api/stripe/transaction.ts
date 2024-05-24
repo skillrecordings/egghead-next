@@ -18,7 +18,6 @@ const Transaction = async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (transaction) {
         if (transaction.source?.invoice) {
-          // @ts-ignore
           const lineItems = transaction.source.invoice.lines.data
 
           res.status(200).json({transaction, lineItems})
@@ -34,18 +33,12 @@ const Transaction = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           ]
 
-          console.log('!@!@!', {charge})
-
           res.status(200).json({transaction, lineItems})
         }
       } else {
         res.status(400).end()
       }
     } catch (error) {
-      const {message} = error as Error
-
-      console.error('#@#@#', message)
-
       res.status(400).end()
     }
   } else {
