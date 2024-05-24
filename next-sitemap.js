@@ -30,6 +30,14 @@ module.exports = {
         disallow: '',
       },
       {
+        userAgent: 'ClaudeBot',
+        disallow: ['/q'],
+      },
+      {
+        userAgent: 'GPTBot',
+        disallow: ['/q'],
+      },
+      {
         userAgent: '*',
         allow: ['/'],
         disallow: [
