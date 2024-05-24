@@ -6,13 +6,29 @@ import {format} from 'date-fns'
 
 type InvoiceProps = {
   viewer: any
-  transaction: any
+  transactionDetails?: {
+    transaction: {created: number; amount: number; source: {id: string}}
+    lineItems: Array<{
+      description: string
+      price: {unit_amount: number}
+      plan: {amount: number}
+      quantity: number
+      amount: number
+    }>
+  }
 }
 
 const Invoice: React.FunctionComponent<
   React.PropsWithChildren<InvoiceProps>
-> = ({viewer, transaction}) => {
+> = ({viewer, transactionDetails}) => {
   const [invoiceInfo, setInvoiceInfo] = useLocalStorage('invoice-info', '')
+
+  if (!transactionDetails) {
+    return null
+  }
+
+  const {transaction, lineItems} = transactionDetails
+
   return (
     <div className="max-w-screen-md mx-auto pb-16">
       <div className="flex sm:flex-row flex-col items-center justify-between py-5 print:hidden">
@@ -53,14 +69,11 @@ const Invoice: React.FunctionComponent<
           <div className="grid md:grid-cols-3 print:grid-cols-3 mt-6">
             <div className="md:col-span-2 print:col-span-2">
               <h5 className="text-2xl font-bold mb-2">Invoice</h5>
-              Invoice ID: <strong>{transaction.transaction.source.id}</strong>
+              Invoice ID: <strong>{transaction.source.id}</strong>
               <br />
               Created:{' '}
               <strong>
-                {format(
-                  new Date(transaction.transaction.created * 1000),
-                  'yyyy/MM/dd',
-                )}
+                {format(new Date(transaction.created * 1000), 'yyyy/MM/dd')}
               </strong>
             </div>
             <div className="mt-8 md:mt-0 print:mt-0">
@@ -93,7 +106,7 @@ const Invoice: React.FunctionComponent<
               </tr>
             </thead>
             <tbody>
-              {transaction.lineItems.map((lineItem: any) => {
+              {lineItems.map((lineItem: any) => {
                 return (
                   <tr className="table-row" key={lineItem.id}>
                     <td>{lineItem.description}</td>
@@ -118,15 +131,11 @@ const Invoice: React.FunctionComponent<
           <div className="flex flex-col items-end mt-16">
             <div>
               <span className="mr-3">Total</span>
-              <strong>
-                USD {(transaction.transaction.amount / 100.0).toFixed(2)}
-              </strong>
+              <strong>USD {(transaction.amount / 100.0).toFixed(2)}</strong>
             </div>
             <div className="font-bold">
               <span className="mr-3 text-lg">Amount Due</span>
-              <strong>
-                USD {(transaction.transaction.amount / 100.0).toFixed(2)}
-              </strong>
+              <strong>USD {(transaction.amount / 100.0).toFixed(2)}</strong>
             </div>
           </div>
         </div>
