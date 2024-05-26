@@ -11,9 +11,7 @@ const MembershipDialogButton = ({title, children, buttonText}: any) => {
       buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
         dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
     >
-      <p className="max-w-10 text-center text-gray-700 dark:text-gray-400">
-        {children}
-      </p>
+      <p className="text-center text-gray-700 dark:text-gray-400">{children}</p>
       <p className="uppercase text-sm tracking-wide dark:text-gray-300 text-gray-500 font-semibold text-center border-t border-gray-200 dark:border-gray-700 pt-5">
         Membership includes
       </p>
