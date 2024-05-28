@@ -85,7 +85,22 @@ export const stripeWebhookCheckoutSessionCompleted = inngest.createFunction(
     }
 
     const stripePriceId = checkoutSession.line_items?.data[0]?.price?.id
-    const chargeId = checkoutSession.payment_intent?.latest_charge
+    const paymentIntent = checkoutSession.payment_intent
+
+    const chargeId = await step.run('retrieve charge id', async () => {
+      if (!paymentIntent) {
+        throw new NonRetriableError('No payment intent found')
+      }
+
+      if (typeof paymentIntent === 'string') {
+        const retrievedPaymentIntent = await stripe.paymentIntents.retrieve(
+          paymentIntent,
+        )
+        return retrievedPaymentIntent.charges.data[0].id
+      }
+
+      return paymentIntent.charges.data[0].id
+    })
 
     // if this is the lifetime price ID, then trigger a separate inngest event to handle that purchase
     if (stripePriceId === LIFETIME_PRICE_ID) {
