@@ -8,7 +8,6 @@ import {IconTwitter} from '@/components/share'
 import usePurchaseAndPlay from '@/hooks/use-purchase-and-play'
 import {Topic} from '@/types'
 import {trpc} from '@/app/_trpc/client'
-import {useAccount} from '@/hooks/use-account'
 import Stripe from 'stripe'
 
 type HeaderProps = {
