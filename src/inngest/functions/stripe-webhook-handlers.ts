@@ -59,8 +59,6 @@ export const stripeWebhookCheckoutSessionCompleted = inngest.createFunction(
     if: 'event.data.event.type == "checkout.session.completed"',
   },
   async ({event, step}) => {
-    console.log(event.data.event)
-
     const checkoutSessionEvent = event.data.event
     const checkoutSessionId = checkoutSessionEvent.data.object.id
 
