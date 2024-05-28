@@ -59,6 +59,12 @@ export const stripeWebhookCheckoutSessionCompleted = inngest.createFunction(
     if: 'event.data.event.type == "checkout.session.completed"',
   },
   async ({event, step}) => {
+    if (LIFETIME_PRICE_ID === undefined) {
+      throw new NonRetriableError(
+        'process.env.STRIPE_LIFETIME_MEMBERSHIP_PRICE_ID is not set',
+      )
+    }
+
     const checkoutSessionEvent = event.data.event
     const checkoutSessionId = checkoutSessionEvent.data.object.id
 
