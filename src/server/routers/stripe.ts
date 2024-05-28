@@ -89,7 +89,7 @@ export const stripeRouter = router({
       return {
         customer,
         session,
-        charge: {},
+        charge: null,
       }
     }),
   chargeById: baseProcedure

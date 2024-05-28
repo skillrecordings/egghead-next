@@ -70,7 +70,7 @@ const LinkToLatestInvoice = ({
   charge,
   chargeLoadingStatus,
 }: {
-  charge: Stripe.Charge
+  charge: Stripe.Charge | null
   chargeLoadingStatus: string
 }) => {
   const dataLoading = chargeLoadingStatus === 'loading'
