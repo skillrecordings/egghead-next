@@ -1,4 +1,4 @@
-import cookies from './cookies'
+import cookies from '../cookies'
 import {CIO_IDENTIFIER_KEY} from '@/config'
 
 const getCioIdFromCookie = () => {
