@@ -4,6 +4,8 @@ import getTracer from '@/utils/honeycomb-tracer'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import {CIO_IDENTIFIER_KEY} from '@/config'
 import {ENCODED_CUSTOMER_IO_TRACKING_API_CREDENTIALS} from '@/lib/customer-io'
+import {inngest} from '@/inngest/inngest.server'
+import {SEND_SLACK_MESSAGE_EVENT} from '@/inngest/events/send-slack-message'
 
 const serverCookie = require('cookie')
 const axios = require('axios')
@@ -113,8 +115,33 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         console.error('no subscriber was loaded')
         res.status(200).end()
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error)
+      console.log('sending message', {res: error.response})
+      const cioId = error.response.config.url.split('/').pop()
+      await inngest.send({
+        name: SEND_SLACK_MESSAGE_EVENT,
+        data: {
+          messageType: 'error',
+          message: `CustomerIO responded with a ${error.response.status} / ${error.response.statusText} on ${error.response.request.path}for /api/cio-subscriber`,
+          channel: 'C04AUF65Y9G',
+          attachments: [
+            {
+              color: '#d42115',
+              blocks: [
+                {
+                  type: 'section',
+                  text: {
+                    type: 'mrkdwn',
+                    text: `${process.env.CUSTOMER_IO_WORKSPACE_URL}/${cioId}`,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      })
+
       res.status(200).end()
     }
   } else {

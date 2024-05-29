@@ -12,7 +12,7 @@ const Attachments: z.ZodType<MessageAttachment> = z.any()
 
 export const SlackMessage = z.object({
   instructorId: z.string().optional(),
-  messageType: z.enum(['instructor-comms', 'feedback']),
+  messageType: z.enum(['instructor-comms', 'feedback', 'error']),
   message: z.string(),
   attachments: z.array(Attachments),
 })
