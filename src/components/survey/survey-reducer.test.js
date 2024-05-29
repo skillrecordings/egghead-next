@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import {cioIdentify} from '@/utils/cio-identify'
+import {cioIdentify} from '@/utils/cio/cio-identify'
 import {surveyReducer, sortingHatInitialState} from './survey-reducer'
 import {track} from '@/utils/analytics'
 

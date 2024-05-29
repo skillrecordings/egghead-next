@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {useRouter} from 'next/router'
-import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
-import getCioIdFromCookie from '../utils/get-cio-id-from-cookie'
+import getAccessTokenFromCookie from '@/utils/get-access-token-from-cookie'
+import getCioIdFromCookie from '@/utils/cio/get-cio-id-from-cookie'
 
 const useIdentityRequired = () => {
   const token = getAccessTokenFromCookie()
