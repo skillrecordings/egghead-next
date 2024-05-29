@@ -69,6 +69,19 @@ export const sendSlackMessage = inngest.createFunction(
       } catch (error) {
         console.error('Error sending slack message', error)
       }
+    } else if (messageType === 'error') {
+      channel = process.env.SLACK_EGGHEAD_MONITORING_CHANNEL_WEBHOOK ?? ''
+
+      try {
+        await postFeedbackToSlack({
+          webhookUrl: channel,
+          username: 'Eggo',
+          text: message,
+          attachments,
+        })
+      } catch (error) {
+        console.error('Error sending slack message', error)
+      }
     } else {
       throw new Error('invalid message type')
     }
