@@ -6,7 +6,7 @@ import {cioIdentify} from '@/utils/cio/cio-identify'
 import {surveyReducer, sortingHatInitialState} from './survey-reducer'
 import {track} from '@/utils/analytics'
 
-jest.mock('@/utils/cio-identify', () => ({
+jest.mock('@/utils/cio/cio-identify', () => ({
   cioIdentify: jest.fn(() => null),
 }))
 
