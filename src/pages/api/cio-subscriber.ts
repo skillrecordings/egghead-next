@@ -118,7 +118,9 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     } catch (error: any) {
       console.error(error)
-      reportCioApiError(error)
+      if (error.response.status !== 404) {
+        await reportCioApiError(error)
+      }
 
       res.status(200).end()
     }
