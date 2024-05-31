@@ -14,16 +14,19 @@ const ActivityTabContent: React.FC<
     userProgressLoader: Promise<any>
   }>
 > = ({completedCoursesLoader, userProgressLoader}) => {
-  const completedCourses = use(completedCoursesLoader)
+  const {completeCourses} = use(completedCoursesLoader)
   const userProgress = use(userProgressLoader)
 
-  const completedCourseCount = !!completedCourses?.length
-    ? completedCourses?.length
-    : 0
+  const completedCourseCount = completeCourses?.length ?? 0
+
   const learnerStatsData = {
     ...userProgress?.completionStats,
     completedCourseCount,
   }
+
+  const coursesInProgress = userProgress?.progress.data.filter(
+    (course: any) => course.is_complete === false,
+  )
 
   return (
     <div className="space-y-10 md:space-y-14 xl:space-y-16">
@@ -35,13 +38,13 @@ const ActivityTabContent: React.FC<
       </ItemWrapper>
       <ItemWrapper title="Continue Learning">
         <ContinueLearning
-          continueLearningData={userProgress.progress.data}
+          continueLearningData={coursesInProgress}
           continueLearningStatus="success"
         />
       </ItemWrapper>
       <ItemWrapper title="Completed Courses">
         <CompletedCourses
-          completeCourseData={completedCourses}
+          completeCourseData={completeCourses}
           completedCourseStatus="success"
           completedCourseCount={completedCourseCount}
         />
