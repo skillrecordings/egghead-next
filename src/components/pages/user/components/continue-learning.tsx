@@ -19,7 +19,7 @@ const ContinueLearning: React.FC<
       ) : continueLearningStatus === 'error' ? (
         <span>There was an error fetching stats</span>
       ) : isEmpty(continueLearningData) ? (
-        <span>You don't have any progress yet</span>
+        <span>You aren't learning anything right now</span>
       ) : (
         continueLearningData.map((item: any) => {
           return (
