@@ -609,7 +609,7 @@ const CollectionPageLayout: React.FunctionComponent<
                       button="Sign In or Create an Account"
                       track={trackEmailCapture}
                     >
-                      <p className="px-3 text-center text-gray-700 max-w-10 dark:text-gray-400">
+                      <p className="px-3 text-center text-gray-700 dark:text-gray-400">
                         You need to be signed in to bookmark courses. Sign in or
                         create a free account to save this course.
                       </p>
