@@ -26,7 +26,6 @@ type CourseProps = {
 }
 
 const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
-  const {data} = useSWR(`${props?.course?.slug}`, loadAuthedPlaylistForUser)
   const router = useRouter()
   const {viewer, loading} = useViewer()
 
@@ -40,12 +39,10 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
     )
   }
 
-  const course = {...props.course, ...data}
-
   const {slug, sections, lessons}: {slug: string; sections: any; lessons: any} =
-    course
+    props.course
 
-  const items = get(course, 'items', [])
+  const items = get(props.course, 'items', [])
 
   const courseLessons = isEmpty(lessons)
     ? filter(items, (item) => {
@@ -60,7 +57,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
       return (
         <PhpCollectionPageLayout
           lessons={courseLessons}
-          course={course}
+          course={props.course}
           ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
         />
       )
@@ -69,7 +66,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
         <ScrimbaPageLayout
           sections={sections}
           lessons={courseLessons}
-          course={course}
+          course={props.course}
           ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
         />
       )
@@ -77,7 +74,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
       return (
         <MultiModuleCollectionPageLayout
           lessons={courseLessons}
-          course={course}
+          course={props.course}
           ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
         />
       )
@@ -86,7 +83,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
   return (
     <CollectionPageLayout
       lessons={courseLessons}
-      course={course}
+      course={props.course}
       ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
     />
   )
@@ -122,6 +119,13 @@ export const getServerSideProps: GetServerSideProps = async ({
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
   try {
     const course = params && (await loadPlaylist(params.course as string))
+    const authedCourseAttributes =
+      params &&
+      (await loadAuthedPlaylistForUser(
+        params.course as string,
+        req.cookies[ACCESS_TOKEN_KEY],
+      ))
+
     const courseSlug = getSlugFromPath(course?.path)
     if (course && courseSlug !== params?.course) {
       return {
@@ -134,7 +138,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
       return {
         props: {
-          course,
+          course: {...course, ...authedCourseAttributes},
         },
       }
     }

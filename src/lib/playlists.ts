@@ -102,7 +102,10 @@ export async function loadAllPlaylists() {
   return all_playlists
 }
 
-export async function loadAuthedPlaylistForUser(slug: string) {
+export async function loadAuthedPlaylistForUser(
+  slug: string,
+  accessToken?: string,
+) {
   if (slug === 'undefined') return
 
   const query = /* GraphQL */ `
@@ -115,14 +118,13 @@ export async function loadAuthedPlaylistForUser(slug: string) {
     }
   `
   const token = getAccessTokenFromCookie()
-  const graphQLClient = getGraphQLClient(token)
+  const graphQLClient = getGraphQLClient(accessToken ?? token)
 
   const variables = {
     slug: slug,
   }
 
   const {playlist} = await graphQLClient.request(query, variables)
-
   return playlist
 }
 
