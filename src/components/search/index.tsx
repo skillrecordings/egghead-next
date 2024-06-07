@@ -28,7 +28,7 @@ import cx from 'classnames'
 import NewCuratedTopicPage from './curated/[slug]'
 import Link from 'next/link'
 import analytics from '@/utils/analytics'
-import {TYPESENSE_COLLECTION_NAME} from '@/utils/typesense'
+import {SORT_PRESETS} from '@/utils/typesense'
 
 type SearchProps = {
   searchClient?: any
@@ -251,8 +251,7 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
           initialUiState={{
             content_production: {
               ...searchState,
-              sortBy:
-                'content_production/sort/_eval([ (type:playlist):4, (type:lesson):3, (type:podcast):2], (type:talk):1):desc,rank:desc', // CREE: Replace with preset
+              sortBy: SORT_PRESETS.POPULAR,
             },
           }}
           {...rest}
@@ -286,7 +285,6 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                           },
                           {value: 'reviews', label: 'Highest Rated'},
                           {value: 'created', label: 'Recently Added'},
-                          {value: 'completed', label: 'Most Watched'},
                         ]}
                       />
                     </div>

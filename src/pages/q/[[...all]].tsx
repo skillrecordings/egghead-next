@@ -32,9 +32,9 @@ import {TYPESENSE_COLLECTION_NAME} from '@/utils/typesense'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 
 const TYPESENSE = {
-  apiKey: process.env.TYPESENSE_API_KEY ?? '',
-  host: process.env.TYPESENSE_HOST ?? 'localhost',
-  port: Number(process.env.TYPESENSE_PORT) ?? 8108,
+  apiKey: process.env.NEXT_PUBLIC_TYPESENSE_API_KEY ?? '',
+  host: process.env.NEXT_PUBLIC_TYPESENSE_HOST ?? 'localhost',
+  port: Number(process.env.NEXT_PUBLIC_TYPESENSE_PORT) || 8108,
 }
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
