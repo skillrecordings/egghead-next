@@ -28,9 +28,7 @@ import cx from 'classnames'
 import NewCuratedTopicPage from './curated/[slug]'
 import Link from 'next/link'
 import analytics from '@/utils/analytics'
-
-const ALGOLIA_INDEX_NAME =
-  process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
+import {TYPESENSE_COLLECTION_NAME} from '@/utils/typesense'
 
 type SearchProps = {
   searchClient?: any
@@ -247,13 +245,14 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
       </Head>
       <div className="dark:bg-gray-1000 bg-gray-100 relative">
         <InstantSearch
-          indexName={ALGOLIA_INDEX_NAME}
+          indexName={'content_production'} // CREE: Replace with env
           searchClient={searchClient}
           onStateChange={onSearchStateChange}
           initialUiState={{
-            [ALGOLIA_INDEX_NAME]: {
+            content_production: {
               ...searchState,
-              sortBy: 'popular',
+              sortBy:
+                'content_production/sort/_eval([ (type:playlist):4, (type:lesson):3, (type:podcast):2], (type:talk):1):desc,rank:desc', // CREE: Replace with preset
             },
           }}
           {...rest}
@@ -282,7 +281,7 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                         }}
                         items={[
                           {
-                            value: 'popular',
+                            value: 'content_production',
                             label: 'Most Popular',
                           },
                           {value: 'reviews', label: 'Highest Rated'},

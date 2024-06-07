@@ -1,20 +1,35 @@
 import {router, baseProcedure} from '../trpc'
-import algoliasearchLite from 'algoliasearch/lite'
-
 import {z} from 'zod'
 
-const fullTextSearch = {
-  appId: process.env.NEXT_PUBLIC_ALGOLIA_APP || '',
-  searchApiKey: process.env.NEXT_PUBLIC_ALGOLIA_KEY || '',
+import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
+
+const TYPESENSE = {
+  apiKey: process.env.TYPESENSE_API_KEY ?? '',
+  host: process.env.TYPESENSE_HOST ?? 'localhost',
+  port: Number(process.env.TYPESENSE_PORT) ?? 8108,
 }
 
-const ALGOLIA_INDEX_NAME =
-  process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
+const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
+  server: {
+    apiKey: TYPESENSE.apiKey, // Be sure to use an API key that only allows search operations
+    nodes: [
+      {
+        host: TYPESENSE.host,
+        port: TYPESENSE.port,
+        protocol: 'https',
+      },
+    ],
+    cacheSearchResultsForSeconds: 0,
+  },
+  // The following parameters are directly passed to Typesense's search API endpoint.
+  //  So you can pass any parameters supported by the search endpoint below.
+  //  query_by is required.
+  additionalSearchParameters: {
+    query_by: 'title',
+  },
+})
 
-const searchClient = algoliasearchLite(
-  fullTextSearch.appId,
-  fullTextSearch.searchApiKey,
-)
+const searchClient = typesenseInstantsearchAdapter.searchClient
 
 export const topicRouter = router({
   top: baseProcedure
@@ -26,7 +41,7 @@ export const topicRouter = router({
         .optional(),
     )
     .query(async ({input, ctx}) => {
-      const index = searchClient.initIndex(ALGOLIA_INDEX_NAME)
+      const index = searchClient.initIndex('content_production')
       // top 10 free playlists for a topic
       const filters = `access_state:free AND type:playlist ${
         input?.topic ? ` AND _tags:${input.topic}` : ''

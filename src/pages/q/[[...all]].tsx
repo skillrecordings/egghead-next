@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
-import algoliasearchLite from 'algoliasearch/lite'
 import Search from '@/components/search'
 import {NextSeo} from 'next-seo'
 import {GetServerSideProps} from 'next'
@@ -28,23 +27,42 @@ import {
   SearchBox,
 } from 'react-instantsearch'
 import {renderToString} from 'react-dom/server'
+import {TYPESENSE_COLLECTION_NAME} from '@/utils/typesense'
+
+import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
+
+const TYPESENSE = {
+  apiKey: process.env.TYPESENSE_API_KEY ?? '',
+  host: process.env.TYPESENSE_HOST ?? 'localhost',
+  port: Number(process.env.TYPESENSE_PORT) ?? 8108,
+}
+
+const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
+  server: {
+    apiKey: TYPESENSE.apiKey, // Be sure to use an API key that only allows search operations
+    nodes: [
+      {
+        host: TYPESENSE.host,
+        port: TYPESENSE.port,
+        protocol: 'https',
+      },
+    ],
+    cacheSearchResultsForSeconds: 0,
+  },
+  // The following parameters are directly passed to Typesense's search API endpoint.
+  //  So you can pass any parameters supported by the search endpoint below.
+  //  query_by is required.
+  additionalSearchParameters: {
+    query_by: 'title',
+  },
+})
 
 const tracer = getTracer('search-page')
 
 const createURL = (state: any) => `?${qs.stringify(state)}`
 
-const fullTextSearch = {
-  appId: process.env.NEXT_PUBLIC_ALGOLIA_APP || '',
-  searchApiKey: process.env.NEXT_PUBLIC_ALGOLIA_KEY || '',
-}
-
-const ALGOLIA_INDEX_NAME =
-  process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
-
-const searchClient = algoliasearchLite(
-  fullTextSearch.appId,
-  fullTextSearch.searchApiKey,
-)
+const searchClient = typesenseInstantsearchAdapter.searchClient
+console.log({searchClient})
 
 const defaultProps = {
   searchClient,
@@ -108,7 +126,7 @@ const SearchIndex: any = ({
   const onSearchStateChange = async (state: any) => {
     clearTimeout(debouncedState.current)
 
-    const searchState = {...state.uiState[ALGOLIA_INDEX_NAME]}
+    const searchState = {...state.uiState[TYPESENSE_COLLECTION_NAME]}
 
     const instructors = getInstructorsFromSearchState(searchState)
 
@@ -184,7 +202,7 @@ export default SearchIndex
 function BrandPage({serverState}: any) {
   return (
     <InstantSearchSSRProvider {...serverState}>
-      <InstantSearch searchClient={searchClient} indexName={ALGOLIA_INDEX_NAME}>
+      <InstantSearch searchClient={searchClient} indexName="content_production">
         <SearchBox />
         <Hits />
       </InstantSearch>
@@ -224,7 +242,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
   const noHits = isEmpty(get(first(results), 'hits'))
   const queryParamsPresent = !isEmpty(rest)
-  const userQueryPresent = !isEmpty(state.query)
+  const userQueryPresent = !isEmpty(state?.query)
 
   const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
