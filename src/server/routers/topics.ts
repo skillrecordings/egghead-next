@@ -1,35 +1,8 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
+import {typesenseInstantsearchAdapter} from '@/utils/typesense'
 
-import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
-
-const TYPESENSE = {
-  apiKey: process.env.TYPESENSE_API_KEY ?? '',
-  host: process.env.TYPESENSE_HOST ?? 'localhost',
-  port: Number(process.env.TYPESENSE_PORT) ?? 8108,
-}
-
-const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
-  server: {
-    apiKey: TYPESENSE.apiKey, // Be sure to use an API key that only allows search operations
-    nodes: [
-      {
-        host: TYPESENSE.host,
-        port: TYPESENSE.port,
-        protocol: 'https',
-      },
-    ],
-    cacheSearchResultsForSeconds: 0,
-  },
-  // The following parameters are directly passed to Typesense's search API endpoint.
-  //  So you can pass any parameters supported by the search endpoint below.
-  //  query_by is required.
-  additionalSearchParameters: {
-    query_by: 'title',
-  },
-})
-
-const searchClient = typesenseInstantsearchAdapter.searchClient
+const searchClient = typesenseInstantsearchAdapter().searchClient
 
 export const topicRouter = router({
   top: baseProcedure

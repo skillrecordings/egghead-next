@@ -27,42 +27,16 @@ import {
   SearchBox,
 } from 'react-instantsearch'
 import {renderToString} from 'react-dom/server'
-import {TYPESENSE_COLLECTION_NAME} from '@/utils/typesense'
-
-import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
-
-const TYPESENSE = {
-  apiKey: process.env.NEXT_PUBLIC_TYPESENSE_API_KEY ?? '',
-  host: process.env.NEXT_PUBLIC_TYPESENSE_HOST ?? 'localhost',
-  port: Number(process.env.NEXT_PUBLIC_TYPESENSE_PORT) || 8108,
-}
-
-const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
-  server: {
-    apiKey: TYPESENSE.apiKey, // Be sure to use an API key that only allows search operations
-    nodes: [
-      {
-        host: TYPESENSE.host,
-        port: TYPESENSE.port,
-        protocol: 'https',
-      },
-    ],
-    cacheSearchResultsForSeconds: 0,
-  },
-  // The following parameters are directly passed to Typesense's search API endpoint.
-  //  So you can pass any parameters supported by the search endpoint below.
-  //  query_by is required.
-  additionalSearchParameters: {
-    query_by: 'title',
-  },
-})
+import {
+  TYPESENSE_COLLECTION_NAME,
+  typesenseInstantsearchAdapter,
+} from '@/utils/typesense'
 
 const tracer = getTracer('search-page')
 
 const createURL = (state: any) => `?${qs.stringify(state)}`
 
-const searchClient = typesenseInstantsearchAdapter.searchClient
-console.log({searchClient})
+const searchClient = typesenseInstantsearchAdapter().searchClient
 
 const defaultProps = {
   searchClient,
