@@ -27,8 +27,8 @@ export const TYPESENSE_COLLECTION_NAME =
 const BASE_SORT = `${TYPESENSE_COLLECTION_NAME}/sort/_eval([ (type:playlist):4, (type:lesson):3, (type:podcast):2], (type:talk):1):desc`
 
 export const SORT_PRESETS = {
-  POPULAR: `${BASE_SORT},rank:desc`,
-  // RATING,
-  // CREATED_AT,
-  // MOST_WATCHED,
+  POPULAR: `${BASE_SORT},search_research_sort:asc,rank:asc`,
+  RATING: `${BASE_SORT},average_rating_out_of_5:desc,rank:asc`,
+  CREATED_AT: `${BASE_SORT},published_at_timestamp:desc,rank:asc`,
+  MOST_WATCHED: `${BASE_SORT},watched_count:desc,rank:asc`,
 }

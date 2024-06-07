@@ -280,11 +280,18 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                         }}
                         items={[
                           {
-                            value: 'content_production',
+                            value: SORT_PRESETS.POPULAR,
                             label: 'Most Popular',
                           },
-                          {value: 'reviews', label: 'Highest Rated'},
-                          {value: 'created', label: 'Recently Added'},
+                          {value: SORT_PRESETS.RATING, label: 'Highest Rated'},
+                          {
+                            value: SORT_PRESETS.CREATED_AT,
+                            label: 'Recently Added',
+                          },
+                          {
+                            value: SORT_PRESETS.MOST_WATCHED,
+                            label: 'Most Watched',
+                          },
                         ]}
                       />
                     </div>
