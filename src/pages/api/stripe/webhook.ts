@@ -5,6 +5,12 @@ import {stripe} from '../../../utils/stripe'
 import Stripe from 'stripe'
 import {z} from 'zod'
 import Mixpanel from 'mixpanel'
+import {inngest} from '@/inngest/inngest.server'
+import {
+  STRIPE_WEBHOOK_EVENT,
+  StripeWebhookEventSchema,
+} from '@/inngest/events/stripe-webhook'
+import invariant from 'tiny-invariant'
 
 const mixpanel = Mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN || '')
 
@@ -174,6 +180,13 @@ const cioAxios = axios.create({
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ''
 
+const handledEvents = {
+  CHECKOUT_SESSION_COMPLETED: 'checkout.session.completed',
+  CUSTOMER_SUBSCRIPTION_UPDATED: 'customer.subscription.updated',
+  CUSTOMER_SUBSCRIPTION_DELETED: 'customer.subscription.deleted',
+  CUSTOMER_SUBSCRIPTION_CREATED: 'customer.subscription.created',
+}
+
 const stripeWebhookHandler = async (
   req: NextApiRequest,
   res: NextApiResponse,
@@ -182,132 +195,24 @@ const stripeWebhookHandler = async (
     const buf = await buffer(req)
     const sig = req.headers['stripe-signature']
 
-    let event: any
-
     try {
-      event = stripe.webhooks.constructEvent(buf, sig as string, webhookSecret)
-
-      const stripeSubscription = await stripe.subscriptions.retrieve(
-        event.data.object.id,
-      )
-      const stripeCustomer = await stripe.customers.retrieve(
-        event.data.object.customer,
+      let event = stripe.webhooks.constructEvent(
+        buf,
+        sig as string,
+        webhookSecret,
       )
 
-      const subscriptionInterval =
-        stripeSubscription.items.data[0].plan?.interval || ''
+      console.info(`Received from Stripe: ${event.type} [${event.id}]`)
 
-      // Also handle:
-      // - 'customer.subscription.updated'
-      // - 'customer.subscription.deleted'
-      if (event.type === 'customer.subscription.updated') {
-        const previousSubscription = event.data.previous_attributes
-        // if the previous attributes have a plan it's an upgrade/downgrade
-        if (previousSubscription.plan) {
-          const previousPlanInterval = previousSubscription.plan?.interval || ''
+      if (Object.values(handledEvents).includes(event.type)) {
+        // This is where the Stripe handling happens for this app.
+        // Only known events are processed.
+        const message = await processAcceptedEvent(event)
 
-          const intervalTuple = z.tuple([intervalOptions, intervalOptions])
-          const result = intervalTuple.safeParse([
-            previousPlanInterval,
-            subscriptionInterval,
-          ])
-
-          if (!result.success) {
-            const errorMessage = `
-            Invalid interval types ahead of checkForUpgrade
-            - previousPlanInterval: ${previousPlanInterval}
-            - newSubscriptionInterval: ${subscriptionInterval}
-          
-            Detailed ZodError: ${result.error}
-            `
-
-            // OR, if we don't want to throw an error, we could send the message to something
-            // like Honeybadger and then early return from the webhook handler.
-            throw new Error(errorMessage)
-          }
-
-          // because of the `intervalTupe.safeParse(...)` above, we know we are passing in
-          // valid inputs to the checkForUpgrade
-          const stripeUpgradeState = checkForUpgrade(...result.data)
-
-          let subscriptionType = !stripeSubscription.discount ? 'pro' : 'ppp'
-
-          let cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
-
-          const mixpanelEventData = {
-            distinct_id: cioCustomer.id,
-            subscriptionType,
-            subscriptionInterval,
-            currentPeriodStart: stripeToMixpanelDataConverter(
-              event.data.object.current_period_start,
-            ),
-            currentPeriodEnd: stripeToMixpanelDataConverter(
-              event.data.object.current_period_end,
-            ),
-          }
-
-          if (stripeUpgradeState === UPGRADE) {
-            purchaseSubscriptionUpgraded(mixpanelEventData)
-          } else {
-            purchaseSubscriptionDowngraded(mixpanelEventData)
-          }
-
-          purchaseSetSubscriptionStatus(
-            cioCustomer.id,
-            stripeSubscription.status,
-          )
-        }
-
-        res.status(200).send(`This works!`)
-      } else if (event.type === 'customer.subscription.deleted') {
-        const stripeCustomer = await stripe.customers.retrieve(
-          event.data.object.customer,
-        )
-        const cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
-
-        purchaseSubscriptionCanceled(cioCustomer.id, subscriptionInterval)
-        purchaseSetSubscriptionStatus(cioCustomer.id, 'canceled')
-
-        res.status(200).send(`This works!`)
-      } else if (event.type === 'customer.subscription.created') {
-        // this types it as a Stripe.Subscription instead of any
-        const stripeSubscription = await stripe.subscriptions.retrieve(
-          event.data.object.id,
-        )
-        const stripeCustomer = await stripe.customers.retrieve(
-          event.data.object.customer,
-        )
-
-        // we want to get the `co_************` id from CustomerIO which we can
-        // cross-reference with MixPanel to uniquely identify the user.
-        // This correlates to the contact_id of the user in egghead.io
-        let cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
-
-        // if running sale we would want to check for that but the regular case it's pro or PPP
-        // TODO: need to differentiate between other types of discounts (e.g. sales)
-        let subscriptionType = !stripeSubscription.discount ? 'pro' : 'ppp'
-
-        // stripe puts the plan at the top level of the subscription object
-        // but it isn't on the type so had to do this
-        let subscriptionInterval =
-          stripeSubscription.items.data[0].plan.interval
-
-        purchaseSubscriptionCreated({
-          distinct_id: cioCustomer.id,
-          subscriptionType,
-          subscriptionInterval,
-          currentPeriodStart: stripeToMixpanelDataConverter(
-            event.data.object.current_period_start,
-          ),
-          currentPeriodEnd: stripeToMixpanelDataConverter(
-            event.data.object.current_period_end,
-          ),
-        })
-
-        purchaseSetSubscriptionStatus(cioCustomer.id, stripeSubscription.status)
-
-        res.status(200).send(`This works!`)
+        res.status(200).send(message)
       } else {
+        // Make sure Stripe gets a 200 response for anything we are
+        // opting out of processing here
         res.status(200).send(`not-handled`)
       }
     } catch (err: any) {
@@ -318,6 +223,143 @@ const stripeWebhookHandler = async (
   } else {
     res.setHeader('Allow', 'POST')
     res.status(405).end('Method Not Allowed')
+  }
+}
+
+const processAcceptedEvent = async (unparsedEvent: Stripe.Event) => {
+  let event = StripeWebhookEventSchema.parse(unparsedEvent)
+
+  if (event.type === handledEvents.CHECKOUT_SESSION_COMPLETED) {
+    const result = await inngest.send({
+      name: STRIPE_WEBHOOK_EVENT,
+      data: {
+        event,
+      },
+    })
+
+    return 'Handled by inngest'
+  } else if (event.type === handledEvents.CUSTOMER_SUBSCRIPTION_UPDATED) {
+    const stripeSubscription = await stripe.subscriptions.retrieve(
+      event.data.object.id,
+    )
+    const stripeCustomer = await stripe.customers.retrieve(
+      event.data.object.customer,
+    )
+
+    const subscriptionInterval =
+      stripeSubscription.items.data[0].plan?.interval || ''
+
+    const previousSubscription = event.data.previous_attributes
+    // if the previous attributes have a plan it's an upgrade/downgrade
+    if (previousSubscription.plan) {
+      const previousPlanInterval = previousSubscription.plan?.interval || ''
+
+      const intervalTuple = z.tuple([intervalOptions, intervalOptions])
+      const result = intervalTuple.safeParse([
+        previousPlanInterval,
+        subscriptionInterval,
+      ])
+
+      if (!result.success) {
+        const errorMessage = `
+        Invalid interval types ahead of checkForUpgrade
+        - previousPlanInterval: ${previousPlanInterval}
+        - newSubscriptionInterval: ${subscriptionInterval}
+      
+        Detailed ZodError: ${result.error}
+        `
+
+        // OR, if we don't want to throw an error, we could send the message to something
+        // like Honeybadger and then early return from the webhook handler.
+        throw new Error(errorMessage)
+      }
+
+      // because of the `intervalTupe.safeParse(...)` above, we know we are passing in
+      // valid inputs to the checkForUpgrade
+      const stripeUpgradeState = checkForUpgrade(...result.data)
+
+      let subscriptionType = !stripeSubscription.discount ? 'pro' : 'ppp'
+
+      let cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
+
+      const {current_period_start, current_period_end} = event.data.object
+
+      invariant(current_period_start, 'current_period_start is required')
+      invariant(current_period_end, 'current_period_end is required')
+
+      const mixpanelEventData = {
+        distinct_id: cioCustomer.id,
+        subscriptionType,
+        subscriptionInterval,
+        currentPeriodStart: stripeToMixpanelDataConverter(current_period_start),
+        currentPeriodEnd: stripeToMixpanelDataConverter(current_period_end),
+      }
+
+      if (stripeUpgradeState === UPGRADE) {
+        purchaseSubscriptionUpgraded(mixpanelEventData)
+      } else {
+        purchaseSubscriptionDowngraded(mixpanelEventData)
+      }
+
+      purchaseSetSubscriptionStatus(cioCustomer.id, stripeSubscription.status)
+    }
+
+    return 'This works!'
+  } else if (event.type === handledEvents.CUSTOMER_SUBSCRIPTION_DELETED) {
+    const stripeSubscription = await stripe.subscriptions.retrieve(
+      event.data.object.id,
+    )
+
+    const subscriptionInterval =
+      stripeSubscription.items.data[0].plan?.interval || ''
+
+    const stripeCustomer = await stripe.customers.retrieve(
+      event.data.object.customer,
+    )
+    const cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
+
+    purchaseSubscriptionCanceled(cioCustomer.id, subscriptionInterval)
+    purchaseSetSubscriptionStatus(cioCustomer.id, 'canceled')
+
+    return 'This works!'
+  } else if (event.type === handledEvents.CUSTOMER_SUBSCRIPTION_CREATED) {
+    // this types it as a Stripe.Subscription instead of any
+    const stripeSubscription = await stripe.subscriptions.retrieve(
+      event.data.object.id,
+    )
+    const stripeCustomer = await stripe.customers.retrieve(
+      event.data.object.customer,
+    )
+
+    // we want to get the `co_************` id from CustomerIO which we can
+    // cross-reference with MixPanel to uniquely identify the user.
+    // This correlates to the contact_id of the user in egghead.io
+    let cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
+
+    // if running sale we would want to check for that but the regular case it's pro or PPP
+    // TODO: need to differentiate between other types of discounts (e.g. sales)
+    let subscriptionType = !stripeSubscription.discount ? 'pro' : 'ppp'
+
+    // stripe puts the plan at the top level of the subscription object
+    // but it isn't on the type so had to do this
+    let subscriptionInterval = stripeSubscription.items.data[0].plan.interval
+
+    const {current_period_start, current_period_end} = event.data.object
+
+    invariant(current_period_start, 'current_period_start is required')
+    invariant(current_period_end, 'current_period_end is required')
+
+    purchaseSubscriptionCreated({
+      distinct_id: cioCustomer.id,
+      subscriptionType,
+      subscriptionInterval,
+      currentPeriodStart: stripeToMixpanelDataConverter(current_period_start),
+      currentPeriodEnd: stripeToMixpanelDataConverter(current_period_end),
+    })
+
+    purchaseSetSubscriptionStatus(cioCustomer.id, stripeSubscription.status)
+
+    return 'This works!'
   }
 }
 

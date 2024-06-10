@@ -12,7 +12,7 @@ import {useViewer} from '@/context/viewer-context'
 import ParityCouponMessage from '@/components/pricing/parity-coupon-message'
 import {PlanPrice} from '@/components/pricing/select-plan-new/index'
 import {Coupon, StripeAccount} from '@/types'
-import stripeCheckoutRedirect from '@/api/stripe/stripe-checkout-redirect'
+import {redirectToSubscriptionCheckout} from '@/api/stripe/stripe-checkout-redirect'
 import Countdown from '@/components/pricing/countdown'
 import {fromUnixTime} from 'date-fns'
 import Join from '../join'
@@ -123,7 +123,7 @@ const PricingCta = () => {
         location: 'signup page',
       })
 
-      stripeCheckoutRedirect({
+      redirectToSubscriptionCheckout({
         priceId,
         email: formik.values.email,
         authToken,
