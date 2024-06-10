@@ -20,6 +20,11 @@ import EmailSubscribeWidget from '@/components/mdx/email-subscribe-widget'
 import remarkGfm from 'remark-gfm'
 import truncate from 'lodash/truncate'
 import removeMarkdown from 'remove-markdown'
+import friendlyTime from 'friendly-time'
+
+const UpdatedAt: React.FunctionComponent<
+  React.PropsWithChildren<{date: string}>
+> = ({date}) => <div>{date}</div>
 
 function urlFor(source: any): any {
   return imageUrlBuilder(sanityClient).image(source)
@@ -109,24 +114,22 @@ const Tag = (props: any) => {
       <div className="container">
         <article className="max-w-screen-md mx-auto mt-10 mb-16 lg:mt-24 md:mt-20">
           <header>
-            <h1 className="w-full max-w-screen-md mb-8 text-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl lg:mb-10 leading-tighter">
+            <h1 className="w-full max-w-screen-mdtext-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl text-2xl pb-10 pt-16 sm:pb-24 sm:pt-32 leading-tighter">
               {title}
             </h1>
-            {author && <Author author={author} />}
-            {coverImage?.url && (
-              <div className="mt-4">
-                <Image
-                  src={coverImage.url}
-                  alt={coverImage.alt || title}
-                  width={1280}
-                  height={720}
-                  quality={100}
-                  className="rounded-lg"
-                />
+            <div className="flex justify-between items-center">
+              {author && <Author author={author} />}
+              <div className="flex flex-col w-40 text-sm leading-tighter justify-between">
+                <span className="uppercase text-xs">Published</span>
+                {publishedAt && (
+                  <div className="font-semibold place-content-end opacity-90">
+                    <UpdatedAt date={friendlyTime(new Date(publishedAt))} />
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </header>
-          <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500">
+          <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 py-8">
             <MDXRemote
               {...source}
               components={{
