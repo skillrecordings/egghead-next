@@ -270,7 +270,7 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                   {!loading && isEmpty(instructor) && isEmpty(topic) && (
                     <h1 className="hidden">Search</h1>
                   )}
-                  <div className="dark:bg-gray-900 bg-white sticky top-0 z-40 shadow-smooth flex items-center w-full border-b dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5 h-full">
+                  <div className="dark:bg-gray-900 bg-white sticky top-0 z-40 shadow-smooth flex items-center w-full border-b dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5">
                     <SearchBox placeholder={searchBoxPlaceholder} />
                     <div className="border-l dark:border-gray-800 border-gray-100 flex items-center flex-shrink-0 space-x-2 flex-nowrap h-full">
                       <SortBy
