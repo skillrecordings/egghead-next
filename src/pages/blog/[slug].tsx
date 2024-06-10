@@ -114,7 +114,7 @@ const Tag = (props: any) => {
       <div className="container">
         <article className="max-w-screen-md mx-auto mt-10 mb-16 lg:mt-24 md:mt-20">
           <header>
-            <h1 className="w-full max-w-screen-mdtext-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl pb-14 pt-24 sm:pb-24 sm:pt-32 leading-tighter">
+            <h1 className="w-full max-w-screen-mdtext-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl text-2xl pb-10 pt-16 sm:pb-24 sm:pt-32 leading-tighter">
               {title}
             </h1>
             <div className="flex justify-between items-center">

@@ -37,7 +37,7 @@ const Blog: React.FC<React.PropsWithChildren<unknown>> = (allArticles: any) => {
                     key={fullSlug}
                     className="flex h-full flex-col justify-between rounded-lg border border-gray-100 px-5 py-8 dark:border-gray-800 md:px-8 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-all ease-in-out"
                   >
-                    <h2 className="text-balance text-2xl font-bold">
+                    <h2 className="text-balance text-xl sm:text-2xl font-bold">
                       {article.title}
                     </h2>
 
@@ -46,7 +46,7 @@ const Blog: React.FC<React.PropsWithChildren<unknown>> = (allArticles: any) => {
                         {article.description}
                       </div>
                     )}
-                    <div className="relative z-10 flex w-full flex-col items-start justify-between space-y-10 pt-8 md:flex-row md:items-center md:space-y-0">
+                    <div className="relative z-10 flex sm:w-full flex-row items-center justify-between pt-8">
                       {article.author && (
                         <div className="flex w-full items-center gap-10 text-sm text-gray-700 dark:text-gray-300">
                           <div className="flex items-center space-x-3">
@@ -67,7 +67,7 @@ const Blog: React.FC<React.PropsWithChildren<unknown>> = (allArticles: any) => {
                           </div>
                         </div>
                       )}
-                      <div className="flex flex-col w-40 text-sm">
+                      <div className="flex flex-col w-40 text-sm m-0">
                         <span className="font-bold text-gray-700 dark:text-gray-300">
                           Published
                         </span>
