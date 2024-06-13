@@ -1,11 +1,10 @@
 import {NextRequest, NextResponse} from 'next/server'
-import {headers} from 'next/headers'
-import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
+import {parseBody} from 'next-sanity/webhook'
 import client from '@sanity/client'
 import axios from 'axios'
-import _get from 'lodash/get'
 import {inngest} from '@/inngest/inngest.server'
 import {SEND_SLACK_MESSAGE_EVENT} from '@/inngest/events/send-slack-message'
+import {SANITY_WEBHOOK_LESSON_CREATED} from '@/inngest/events/sanity/webhooks/lesson/created'
 
 const secret = process.env.SANITY_WEBHOOK_CREATED_SECRET || ''
 const railsToken = process.env.EGGHEAD_ADMIN_TOKEN || ''
@@ -27,73 +26,106 @@ const eggAxios = axios.create({
 })
 
 export async function POST(req: NextRequest) {
-  const signature = headers().get(SIGNATURE_HEADER_NAME) as string
-  const sanityRequestBody = await req.json()
-  const isValid = isValidSignature(
-    JSON.stringify(sanityRequestBody),
-    signature,
-    secret,
-  )
-
   try {
-    if (isValid) {
-      const {_id, title, slug, instructorId, body, collaborators} =
-        sanityRequestBody.data
-      console.info('processing Sanity webhook: Lesson created', _id)
+    const {isValidSignature, body: parsedBody} = await parseBody<any>(
+      req,
+      secret,
+    )
 
-      const instructor = collaborators[0]
+    if (!isValidSignature) {
+      const message = 'Invalid signature'
+      return new Response(
+        JSON.stringify({message, isValidSignature, parsedBody}),
+        {status: 401},
+      )
+    }
 
-      await inngest.send({
-        name: SEND_SLACK_MESSAGE_EVENT,
-        data: {
-          messageType: 'instructor-comms',
-          instructorId,
-          message: `_egghead tip created_`,
-          attachments: [
-            {
-              author_name: instructor.person.name,
-              author_icon: instructor.person.image,
-              mrkdwn_in: ['text'],
-              title,
-              title_link: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/tips/${slug.current}`,
-              text: body,
-              color: '#f17f08',
+    if (!parsedBody?.data?._type) {
+      const message = 'Bad request'
+      return new Response(
+        JSON.stringify({message, isValidSignature, parsedBody}),
+        {status: 401},
+      )
+    }
+
+    switch (parsedBody.data._type) {
+      case 'lesson':
+        try {
+          await inngest.send({
+            name: SANITY_WEBHOOK_LESSON_CREATED,
+            data: {
+              body: parsedBody.data,
             },
-          ],
-        },
-      })
+          })
+          return NextResponse.json({success: true}, {status: 200})
+        } catch (e) {
+          console.error(e)
+          return NextResponse.json(
+            {
+              error: `inngest - failed to send event SANITY_WEBHOOK_LESSON_CREATED`,
+              success: false,
+            },
+            {status: 400},
+          )
+        }
+      case 'tip':
+        const {_id, title, slug, instructorId, body, collaborators} =
+          parsedBody.data
+        console.info('processing Sanity webhook: Lesson created', _id)
 
-      // create a lesson in rails
-      // patch lesson resources array with ref using the video resource id
-      try {
-        const body = new URLSearchParams({
-          'lesson[instructor_id]': instructorId,
-          'lesson[title]': title,
+        const instructor = collaborators[0]
+
+        await inngest.send({
+          name: SEND_SLACK_MESSAGE_EVENT,
+          data: {
+            messageType: 'instructor-comms',
+            instructorId,
+            message: `_egghead tip created_`,
+            attachments: [
+              {
+                author_name: instructor.person.name,
+                author_icon: instructor.person.image,
+                mrkdwn_in: ['text'],
+                title,
+                title_link: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/tips/${slug.current}`,
+                text: body,
+                color: '#f17f08',
+              },
+            ],
+          },
         })
 
-        const lesson = await eggAxios.post('/api/v1/lessons', body)
-
-        await sanityClient
-          .patch(_id)
-          .set({
-            eggheadRailsLessonId: lesson.data.id,
-            eggheadRailsCreatedAt: new Date().toISOString(),
+        // create a lesson in rails
+        // patch lesson resources array with ref using the video resource id
+        try {
+          const body = new URLSearchParams({
+            'lesson[instructor_id]': instructorId,
+            'lesson[title]': title,
           })
-          .commit()
 
-        return NextResponse.json({success: true}, {status: 200})
-      } catch (e) {
-        console.error(e)
+          const lesson = await eggAxios.post('/api/v1/lessons', body)
+
+          await sanityClient
+            .patch(_id)
+            .set({
+              eggheadRailsLessonId: lesson.data.id,
+              eggheadRailsCreatedAt: new Date().toISOString(),
+            })
+            .commit()
+
+          return NextResponse.json({success: true}, {status: 200})
+        } catch (e) {
+          console.error(e)
+          return NextResponse.json(
+            {error: 'Internal Server Error', success: false},
+            {status: 400},
+          )
+        }
+      default:
         return NextResponse.json(
-          {error: 'Internal Server Error', success: false},
-          {status: 500},
+          {error: 'Internal Server Error - invalid documents', success: false},
+          {status: 400},
         )
-      }
-    } else {
-      return NextResponse.json(
-        {error: 'Internal Server Error', success: false},
-        {status: 500},
-      )
     }
   } catch (e) {
     // Sentry.captureException(e)

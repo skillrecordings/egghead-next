@@ -23,6 +23,10 @@ import {
   SEND_FEEDBACK_EMAIL_EVENT,
   FeedbackEmail,
 } from './events/send-feedback-email'
+import {
+  SANITY_WEBHOOK_LESSON_CREATED,
+  SanityWebhookLessonCreated,
+} from './events/sanity/webhooks/lesson/created'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
@@ -34,6 +38,7 @@ type Events = {
   [INDEX_LESSONS_FOREVER]: IndexLessonsForever
   [SEND_SLACK_MESSAGE_EVENT]: SlackMessage
   [SEND_FEEDBACK_EMAIL_EVENT]: FeedbackEmail
+  [SANITY_WEBHOOK_LESSON_CREATED]: SanityWebhookLessonCreated
   test: {
     name: 'test'
     data: {}

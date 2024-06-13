@@ -8,23 +8,23 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'videoFile',
+      type: 'file',
+      title: 'Video File',
+      description: 'The video file',
+      options: {
+        accept: 'video/mp4'
+      }
+    }),
+    defineField({
       name: 'filename',
       title: 'Filename',
       type: 'string',
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'originalVideoUrl',
       title: 'Original Video URL',
       type: 'url',
-      validation: (Rule) =>
-        Rule.custom((originalVideoUrl, context) => {
-          if (_.isEmpty(originalVideoUrl) && _.isEmpty(context?.document?.hlsUrl)) {
-            return 'Either "Original Video URL" or "HLS URL" must be set.'
-          }
-
-          return true
-        }),
     }),
     defineField({
       name: 'muxAsset',

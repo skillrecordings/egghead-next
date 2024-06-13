@@ -10,6 +10,8 @@ import {addSrtToMuxAsset} from '@/inngest/functions/mux/add-srt-to-mux-asset'
 import {indexLessonsForever} from '@/inngest/functions/index-lessons'
 import {sendSlackMessage} from '@/inngest/functions/send-slack-message'
 import {sendFeedbackEmail} from '@/inngest/functions/send-feedback-email'
+import {createLesson} from '@/inngest/functions/create-lesson'
+
 const test = inngest.createFunction(
   {id: `test`, name: 'Test'},
   {event: 'test'},
@@ -33,6 +35,7 @@ export const inngestConfig = {
     indexLessonsForever,
     sendSlackMessage,
     sendFeedbackEmail,
+    createLesson,
     test,
   ],
 }
