@@ -27,6 +27,14 @@ import {
   SANITY_WEBHOOK_LESSON_CREATED,
   SanityWebhookLessonCreated,
 } from './events/sanity/webhooks/lesson/created'
+import {
+  RECEIVED_TRANSLOADIT_NOTIFICATION_EVENT,
+  ReceivedTransloaditNotification,
+} from './events/received-transloadit-notification'
+import {
+  VERIFIED_TRANSLOADIT_NOTIFICATION_EVENT,
+  VerifiedTransloaditNotification,
+} from './events/verified-transloadit-notification'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
@@ -39,6 +47,9 @@ type Events = {
   [SEND_SLACK_MESSAGE_EVENT]: SlackMessage
   [SEND_FEEDBACK_EMAIL_EVENT]: FeedbackEmail
   [SANITY_WEBHOOK_LESSON_CREATED]: SanityWebhookLessonCreated
+  [RECEIVED_TRANSLOADIT_NOTIFICATION_EVENT]: ReceivedTransloaditNotification
+  [VERIFIED_TRANSLOADIT_NOTIFICATION_EVENT]: VerifiedTransloaditNotification
+
   test: {
     name: 'test'
     data: {}

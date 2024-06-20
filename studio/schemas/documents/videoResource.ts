@@ -1,5 +1,4 @@
-import * as _ from 'lodash'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 
 export default defineType({
@@ -27,6 +26,25 @@ export default defineType({
       type: 'url',
     }),
     defineField({
+      name: 'mediaUrls',
+      title: 'Media URLs',
+      type: 'object',
+      fields: [
+        defineField({
+          type: 'string',
+          name: 'dashUrl',
+          title: 'Dash URL',
+        }),
+        defineField({
+          type: 'string',
+          name: 'hlsUrl',
+          title: 'HLS URL'
+        })
+      ]
+    }, {
+      strict: false
+    }),
+    defineField({
       name: 'muxAsset',
       title: 'Mux Asset',
       type: 'muxAsset',
@@ -43,6 +61,8 @@ export default defineType({
         defineField({name: 'text', type: 'text'}),
         defineField({name: 'srt', type: 'text'}),
       ],
+    }, {
+      strict: false
     }),
     defineField({
       name: 'subtitlesUrl',

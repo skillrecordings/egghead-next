@@ -11,17 +11,7 @@ import {indexLessonsForever} from '@/inngest/functions/index-lessons'
 import {sendSlackMessage} from '@/inngest/functions/send-slack-message'
 import {sendFeedbackEmail} from '@/inngest/functions/send-feedback-email'
 import {createLesson} from '@/inngest/functions/create-lesson'
-
-const test = inngest.createFunction(
-  {id: `test`, name: 'Test'},
-  {event: 'test'},
-  async ({event, step}) => {
-    await step.run('test', async () => {
-      //test stuff here
-    })
-    return 'test'
-  },
-)
+import {handleTransloaditNotification} from '@/inngest/functions/handle-transloadit-notification'
 
 export const inngestConfig = {
   client: inngest,
@@ -36,6 +26,6 @@ export const inngestConfig = {
     sendSlackMessage,
     sendFeedbackEmail,
     createLesson,
-    test,
+    handleTransloaditNotification,
   ],
 }
