@@ -22,7 +22,7 @@ let createLessonObject = async (data: any) => {
   let lessonParams = {
     'lesson[instructor_id]': instructor.eggheadInstructorId,
     'lesson[title]': title,
-    'lesson[topic_list]': topicList,
+    'lesson[topic_list]': topicList.toString(),
   }
 
   let body = new URLSearchParams(lessonParams)
