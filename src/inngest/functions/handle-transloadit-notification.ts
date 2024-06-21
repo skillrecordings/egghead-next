@@ -5,7 +5,6 @@ import crypto from 'node:crypto'
 
 let checkSignature = (fields: any) => {
   const AUTH_SECRET = process.env.TRANSLOADIT_SECRET || ''
-  console.log({AUTH_SECRET})
   const receivedSignature = fields.signature
   let payload = fields.transloadit
 
@@ -24,10 +23,7 @@ let checkSignature = (fields: any) => {
 }
 
 let signUrl = async ({formData}: {formData: any}) => {
-  const validSignature = checkSignature(formData.data)
-  console.log({validSignature})
-
-  return validSignature
+  return checkSignature(formData.data)
 }
 
 export let handleTransloaditNotification = inngest.createFunction(
