@@ -12,6 +12,7 @@ import {sendSlackMessage} from '@/inngest/functions/send-slack-message'
 import {sendFeedbackEmail} from '@/inngest/functions/send-feedback-email'
 import {createLesson} from '@/inngest/functions/create-lesson'
 import {handleTransloaditNotification} from '@/inngest/functions/handle-transloadit-notification'
+import {createCourse} from '@/inngest/functions/create-course'
 
 export const inngestConfig = {
   client: inngest,
@@ -27,5 +28,6 @@ export const inngestConfig = {
     sendFeedbackEmail,
     createLesson,
     handleTransloaditNotification,
+    createCourse,
   ],
 }

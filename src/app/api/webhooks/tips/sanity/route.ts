@@ -5,6 +5,7 @@ import axios from 'axios'
 import {inngest} from '@/inngest/inngest.server'
 import {SEND_SLACK_MESSAGE_EVENT} from '@/inngest/events/send-slack-message'
 import {SANITY_WEBHOOK_LESSON_CREATED} from '@/inngest/events/sanity/webhooks/lesson/created'
+import {SANITY_COURSE_DOCUMENT_CREATED} from '@/inngest/events/sanity-course-document-created'
 
 const secret = process.env.SANITY_WEBHOOK_CREATED_SECRET || ''
 const railsToken = process.env.EGGHEAD_ADMIN_TOKEN || ''
@@ -49,6 +50,25 @@ export async function POST(req: NextRequest) {
     }
 
     switch (parsedBody.data._type) {
+      case 'course':
+        try {
+          await inngest.send({
+            name: SANITY_COURSE_DOCUMENT_CREATED,
+            data: {
+              body: parsedBody.data,
+            },
+          })
+          return NextResponse.json({success: true}, {status: 200})
+        } catch (e) {
+          return NextResponse.json(
+            {
+              error:
+                'inngest - failed to send event SANITY_COURSE_DOCUMENT_CREATED',
+              success: false,
+            },
+            {status: 500},
+          )
+        }
       case 'lesson':
         try {
           await inngest.send({
