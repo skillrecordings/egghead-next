@@ -10,7 +10,7 @@ const EGGHEAD_AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN || ''
 const railsToken = process.env.EGGHEAD_ADMIN_TOKEN || ''
 
 let createLessonObject = async (data: any) => {
-  let {instructor, title, topicList} = data.body
+  let {instructor, title, topicList, description} = data.body
 
   let eggAxios = axios.create({
     baseURL: EGGHEAD_AUTH_DOMAIN,
@@ -20,9 +20,10 @@ let createLessonObject = async (data: any) => {
   })
 
   let lessonParams = {
-    'lesson[instructor_id]': instructor.eggheadInstructorId,
-    'lesson[title]': title,
-    'lesson[topic_list]': topicList.toString(),
+    'lesson[instructor_id]': instructor.eggheadInstructorId ?? '',
+    'lesson[title]': title ?? '',
+    'lesson[topic_list]': topicList.toString() ?? '',
+    'lesson[summary]': description ?? '',
   }
 
   let body = new URLSearchParams(lessonParams)
@@ -111,6 +112,7 @@ let postVideoDataToSanity = async ({data, video}: {data: any; video: any}) => {
   return await sanityClient
     .patch(data.body.videoResource._id)
     .set({
+      railsLessonId: data.id,
       mediaUrls: {
         dashUrl: transloadit.results?.dash_adaptive
           ? `https://${ABR_CLOUDFRONT_ID}.cloudfront.net/${titleSlug}/dash/${titleSlug}.mpd`
