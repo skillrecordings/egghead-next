@@ -6,18 +6,13 @@ const rehypeShiki = require(`rehype-shiki`)
 const checkEnv = require(`@47ng/check-env`).default
 const withImages = require(`next-images`)
 const withMDX = require(`@next/mdx`)({
-  extension: /\.mdx?$/,
-  options: {
-    rehypePlugins: [
-      [
-        rehypeShiki,
-        {
-          theme: `./src/styles/material-theme-dark.json`,
-          useBackground: false,
-        },
-      ],
-    ],
-  },
+  pageExtensions: [`ts`, `tsx`, `mdx`, /\.mdx?$/],
+  remarkPlugins: [
+    require(`remark-slug`),
+    require(`remark-footnotes`),
+    require(`remark-code-titles`),
+  ],
+  rehypePlugins: [],
 })
 const compact = require('lodash/compact')
 const {hostname} = require('os')
@@ -62,9 +57,6 @@ const IMAGE_HOST_DOMAINS = compact([
 ])
 
 const nextConfig = {
-  experimental: {
-    ppr: true,
-  },
   transpilePackages: ['unist-util-visit'],
   reactStrictMode: true,
   images: {
@@ -404,15 +396,7 @@ module.exports = withPlugins(
     }),
     withSvgr,
     withImages(),
-    withMDX({
-      pageExtensions: [`ts`, `tsx`, `mdx`],
-      remarkPlugins: [
-        require(`remark-slug`),
-        require(`remark-footnotes`),
-        require(`remark-code-titles`),
-      ],
-      rehypePlugins: [],
-    }),
+    withMDX(),
   ],
   nextConfig,
 )
