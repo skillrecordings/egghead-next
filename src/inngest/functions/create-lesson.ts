@@ -99,7 +99,7 @@ let postVideoDataToSanity = async ({data, video}: {data: any; video: any}) => {
   const ABR_CLOUDFRONT_ID = process.env.ABR_CLOUDFRONT_ID ?? ''
 
   let sanityClient = createClient({
-    projectId: 'sb1i5dlc',
+    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? '',
     dataset: 'production',
     useCdn: false,
     apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
