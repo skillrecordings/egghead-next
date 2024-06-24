@@ -224,7 +224,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
   const noHits = isEmpty(get(first(results), 'hits'))
   const queryParamsPresent = !isEmpty(rest)
-  const userQueryPresent = !isEmpty(state.query)
+  const userQueryPresent = !isEmpty(state?.query)
 
   const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 

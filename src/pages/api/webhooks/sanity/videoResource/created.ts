@@ -10,7 +10,7 @@ const sanityClient = client({
   token: process.env.SANITY_EDITOR_TOKEN,
 })
 
-const secret = process.env.SANITY_WEBHOOK_CREATED_SECRET || ''
+const secret = process.env.SANITY_WEBHOOK_SECRET || ''
 
 interface MuxAsset {
   muxAssetId: string
@@ -89,7 +89,7 @@ const sanityLessonCreatedWebhook = async (
 
   try {
     if (isValid) {
-      const {_id, originalVideoUrl, muxAsset, duration} = req.body
+      const {_id, originalVideoUrl, muxAsset} = req.body
       console.info('processing Sanity webhook: Lesson created', _id)
 
       const {...newMuxAsset} = await createMuxAsset({
@@ -100,7 +100,7 @@ const sanityLessonCreatedWebhook = async (
       // create a video resource
       // patch lesson resources array with ref using the video resource id
       try {
-        const resource = await patchVideoResource(_id, newMuxAsset)
+        await patchVideoResource(_id, newMuxAsset)
         // await patchLessonWithVideoResource(_id, resource._id)
       } catch (e) {
         console.error(e)

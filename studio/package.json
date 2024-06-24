@@ -20,10 +20,11 @@
     "@sanity/code-input": "^4.1.1",
     "@sanity/icons": "^2.6.0",
     "@sanity/production-preview": "^2.35.3",
-    "@sanity/ui": "^1.8.2",
+    "@sanity/ui": "2.0.0",
     "@sanity/vision": "^3.18.1",
     "add": "^2.0.6",
     "easymde": "2",
+    "next-sanity": "^9.3.10",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -36,7 +37,7 @@
     "sanity-plugin-json-to-docs": "^1.0.3",
     "sanity-plugin-markdown": "^4.1.0",
     "speakingurl": "^14.0.1",
-    "styled-components": "^5.3.11"
+    "styled-components": "6.0.0"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^3.0.1",

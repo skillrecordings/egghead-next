@@ -10,16 +10,9 @@ import {addSrtToMuxAsset} from '@/inngest/functions/mux/add-srt-to-mux-asset'
 import {indexLessonsForever} from '@/inngest/functions/index-lessons'
 import {sendSlackMessage} from '@/inngest/functions/send-slack-message'
 import {sendFeedbackEmail} from '@/inngest/functions/send-feedback-email'
-const test = inngest.createFunction(
-  {id: `test`, name: 'Test'},
-  {event: 'test'},
-  async ({event, step}) => {
-    await step.run('test', async () => {
-      //test stuff here
-    })
-    return 'test'
-  },
-)
+import {createLesson} from '@/inngest/functions/create-lesson'
+import {handleTransloaditNotification} from '@/inngest/functions/handle-transloadit-notification'
+import {createCourse} from '@/inngest/functions/create-course'
 
 export const inngestConfig = {
   client: inngest,
@@ -33,6 +26,8 @@ export const inngestConfig = {
     indexLessonsForever,
     sendSlackMessage,
     sendFeedbackEmail,
-    test,
+    createLesson,
+    handleTransloaditNotification,
+    createCourse,
   ],
 }
