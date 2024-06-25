@@ -14,6 +14,9 @@ dependencies:
   '@babel/plugin-transform-react-pure-annotations':
     specifier: ^7.14.5
     version: 7.24.7(@babel/core@7.24.7)
+  '@babel/runtime':
+    specifier: ^7.24.7
+    version: 7.24.7
   '@casl/ability':
     specifier: ^5.4.3
     version: 5.4.4
@@ -545,6 +548,9 @@ dependencies:
   ts-toolbelt:
     specifier: ^9.6.0
     version: 9.6.0
+  typesense-instantsearch-adapter:
+    specifier: ^2.8.0
+    version: 2.8.0(@babel/runtime@7.24.7)
   unified:
     specifier: ^10.1.2
     version: 10.1.2
@@ -15935,6 +15941,11 @@ packages:
       wrap-ansi: 6.2.0
     dev: true
 
+  /loglevel@1.9.1:
+    resolution: {integrity: sha512-hP3I3kCrDIMuRwAwHltphhDM1r8i55H33GgqjXbrisuJhF4kRhW1dNuxsRklp4bXl8DSdLaNLuiL4A/LWRfxvg==}
+    engines: {node: '>= 0.6.0'}
+    dev: false
+
   /logrocket@2.2.1:
     resolution: {integrity: sha512-yf+iaZNuB13RjNFHzEWvj76G5nVzpl1u6p0wOnWOyLbOJflJJEIMBO81VEOtDUawFYeus8Xprsdfofb+KRqoCQ==}
     dev: false
@@ -22017,6 +22028,32 @@ packages:
     resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
     engines: {node: '>=14.17'}
     hasBin: true
+
+  /typesense-instantsearch-adapter@2.8.0(@babel/runtime@7.24.7):
+    resolution: {integrity: sha512-2q4QVpHoUV0ncf1XOqIC0dufOTkFRxQ0mHzg//H3WK02ZYqdNNPCAacZODhQlltl1cNJdTI8Y4uuGVd6fJuGzw==}
+    engines: {node: '>=16'}
+    requiresBuild: true
+    peerDependencies:
+      '@babel/runtime': ^7.17.2
+    dependencies:
+      '@babel/runtime': 7.24.7
+      typesense: 1.8.2(@babel/runtime@7.24.7)
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /typesense@1.8.2(@babel/runtime@7.24.7):
+    resolution: {integrity: sha512-aBpePjA99Qvo+OP2pJwMpvga4Jrm1Y2oV5NsrWXBxlqUDNEUCPZBIksPv2Hq0jxQxHhLLyJVbjXjByXsvpCDVA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@babel/runtime': ^7.23.2
+    dependencies:
+      '@babel/runtime': 7.24.7
+      axios: 1.7.2
+      loglevel: 1.9.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /typical@4.0.0:
     resolution: {integrity: sha512-VAH4IvQ7BDFYglMd7BPRDfLgxZZX4O4TFcRDA6EN5X7erNJJq+McIEp8np9aVtxrCJ6qx4GTYVfOWNjcqwZgRw==}

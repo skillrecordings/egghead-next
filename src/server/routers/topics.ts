@@ -1,20 +1,8 @@
 import {router, baseProcedure} from '../trpc'
-import algoliasearchLite from 'algoliasearch/lite'
-
 import {z} from 'zod'
+import {typesenseInstantsearchAdapter} from '@/utils/typesense'
 
-const fullTextSearch = {
-  appId: process.env.NEXT_PUBLIC_ALGOLIA_APP || '',
-  searchApiKey: process.env.NEXT_PUBLIC_ALGOLIA_KEY || '',
-}
-
-const ALGOLIA_INDEX_NAME =
-  process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
-
-const searchClient = algoliasearchLite(
-  fullTextSearch.appId,
-  fullTextSearch.searchApiKey,
-)
+const searchClient = typesenseInstantsearchAdapter().searchClient
 
 export const topicRouter = router({
   top: baseProcedure
@@ -26,7 +14,7 @@ export const topicRouter = router({
         .optional(),
     )
     .query(async ({input, ctx}) => {
-      const index = searchClient.initIndex(ALGOLIA_INDEX_NAME)
+      const index = searchClient.initIndex('content_production')
       // top 10 free playlists for a topic
       const filters = `access_state:free AND type:playlist ${
         input?.topic ? ` AND _tags:${input.topic}` : ''

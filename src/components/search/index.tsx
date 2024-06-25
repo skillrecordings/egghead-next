@@ -28,9 +28,7 @@ import cx from 'classnames'
 import NewCuratedTopicPage from './curated/[slug]'
 import Link from 'next/link'
 import analytics from '@/utils/analytics'
-
-const ALGOLIA_INDEX_NAME =
-  process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
+import {SORT_PRESETS} from '@/utils/typesense'
 
 type SearchProps = {
   searchClient?: any
@@ -247,13 +245,13 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
       </Head>
       <div className="dark:bg-gray-1000 bg-gray-100 relative">
         <InstantSearch
-          indexName={ALGOLIA_INDEX_NAME}
+          indexName={'content_production'} // CREE: Replace with env
           searchClient={searchClient}
           onStateChange={onSearchStateChange}
           initialUiState={{
-            [ALGOLIA_INDEX_NAME]: {
+            content_production: {
               ...searchState,
-              sortBy: 'popular',
+              sortBy: SORT_PRESETS.POPULAR,
             },
           }}
           {...rest}
@@ -282,12 +280,18 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                         }}
                         items={[
                           {
-                            value: 'popular',
+                            value: SORT_PRESETS.POPULAR,
                             label: 'Most Popular',
                           },
-                          {value: 'reviews', label: 'Highest Rated'},
-                          {value: 'created', label: 'Recently Added'},
-                          {value: 'completed', label: 'Most Watched'},
+                          {value: SORT_PRESETS.RATING, label: 'Highest Rated'},
+                          {
+                            value: SORT_PRESETS.CREATED_AT,
+                            label: 'Recently Added',
+                          },
+                          {
+                            value: SORT_PRESETS.MOST_WATCHED,
+                            label: 'Most Watched',
+                          },
                         ]}
                       />
                     </div>

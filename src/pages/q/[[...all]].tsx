@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
-import algoliasearchLite from 'algoliasearch/lite'
 import Search from '@/components/search'
 import {NextSeo} from 'next-seo'
 import {GetServerSideProps} from 'next'
@@ -28,23 +27,16 @@ import {
   SearchBox,
 } from 'react-instantsearch'
 import {renderToString} from 'react-dom/server'
+import {
+  TYPESENSE_COLLECTION_NAME,
+  typesenseInstantsearchAdapter,
+} from '@/utils/typesense'
 
 const tracer = getTracer('search-page')
 
 const createURL = (state: any) => `?${qs.stringify(state)}`
 
-const fullTextSearch = {
-  appId: process.env.NEXT_PUBLIC_ALGOLIA_APP || '',
-  searchApiKey: process.env.NEXT_PUBLIC_ALGOLIA_KEY || '',
-}
-
-const ALGOLIA_INDEX_NAME =
-  process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
-
-const searchClient = algoliasearchLite(
-  fullTextSearch.appId,
-  fullTextSearch.searchApiKey,
-)
+const searchClient = typesenseInstantsearchAdapter().searchClient
 
 const defaultProps = {
   searchClient,
@@ -108,7 +100,7 @@ const SearchIndex: any = ({
   const onSearchStateChange = async (state: any) => {
     clearTimeout(debouncedState.current)
 
-    const searchState = {...state.uiState[ALGOLIA_INDEX_NAME]}
+    const searchState = {...state.uiState[TYPESENSE_COLLECTION_NAME]}
 
     const instructors = getInstructorsFromSearchState(searchState)
 
@@ -184,7 +176,7 @@ export default SearchIndex
 function BrandPage({serverState}: any) {
   return (
     <InstantSearchSSRProvider {...serverState}>
-      <InstantSearch searchClient={searchClient} indexName={ALGOLIA_INDEX_NAME}>
+      <InstantSearch searchClient={searchClient} indexName="content_production">
         <SearchBox />
         <Hits />
       </InstantSearch>

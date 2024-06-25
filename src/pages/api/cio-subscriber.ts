@@ -117,6 +117,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(200).end()
       }
     } catch (error: any) {
+      if (process.env.NODE_ENV === 'development') return
       console.error(error)
       if (error.response.status !== 404) {
         await reportCioApiError(error)
