@@ -9,6 +9,16 @@ import {createClient} from '@sanity/client'
 const EGGHEAD_AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN || ''
 const railsToken = process.env.EGGHEAD_ADMIN_TOKEN || ''
 
+let createSanityClient = () => {
+  return createClient({
+    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? '',
+    dataset: 'production',
+    useCdn: false,
+    apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
+    token: process.env.SANITY_EDITOR_TOKEN,
+  })
+}
+
 let createLessonObject = async (data: any) => {
   let {instructor, title, topicList, description} = data.body
 
@@ -30,6 +40,17 @@ let createLessonObject = async (data: any) => {
 
   let lessonObject = await eggAxios.post('/api/v1/lessons', body)
   return lessonObject.data
+}
+
+let putRailsIdToSanityLesson = async (lessonId: number, documentId: string) => {
+  let sanityClient = createSanityClient()
+
+  return await sanityClient
+    .patch(documentId)
+    .set({
+      railsLessonId: lessonId,
+    })
+    .commit()
 }
 
 let uploadVideoToS3 = async ({data, videoUrl}: {data: any; videoUrl: any}) => {
@@ -98,13 +119,7 @@ let postSignedUrlToLesson = async ({
 let postVideoDataToSanity = async ({data, video}: {data: any; video: any}) => {
   const ABR_CLOUDFRONT_ID = process.env.ABR_CLOUDFRONT_ID ?? ''
 
-  let sanityClient = createClient({
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? '',
-    dataset: 'production',
-    useCdn: false,
-    apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
-    token: process.env.SANITY_EDITOR_TOKEN,
-  })
+  let sanityClient = createSanityClient()
 
   let transloadit = JSON.parse(video.transloadit)
   let titleSlug = transloadit.fields.title_url
@@ -112,7 +127,6 @@ let postVideoDataToSanity = async ({data, video}: {data: any; video: any}) => {
   return await sanityClient
     .patch(data.body.videoResource._id)
     .set({
-      railsLessonId: data.id,
       mediaUrls: {
         dashUrl: transloadit.results?.dash_adaptive
           ? `https://${ABR_CLOUDFRONT_ID}.cloudfront.net/${titleSlug}/dash/${titleSlug}.mpd`
@@ -132,6 +146,16 @@ export let createLesson = inngest.createFunction(
     let lessonObject = await step.run('create-lesson-in-rails', async () => {
       return await createLessonObject(event.data)
     })
+
+    await step.run(
+      'add-rails-lesson-id-to-sanity-lesson-document',
+      async () => {
+        return await putRailsIdToSanityLesson(
+          lessonObject.data.id,
+          event.data.body._id,
+        )
+      },
+    )
 
     let signedUrl = await step.run('upload-video-to-s3', async () => {
       return await uploadVideoToS3({
