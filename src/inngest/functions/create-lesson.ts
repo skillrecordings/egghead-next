@@ -151,7 +151,7 @@ export let createLesson = inngest.createFunction(
       'add-rails-lesson-id-to-sanity-lesson-document',
       async () => {
         return await putRailsIdToSanityLesson(
-          lessonObject.data.id,
+          lessonObject.id,
           event.data.body._id,
         )
       },
