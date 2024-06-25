@@ -7,7 +7,7 @@ import {SEND_SLACK_MESSAGE_EVENT} from '@/inngest/events/send-slack-message'
 import {SANITY_WEBHOOK_LESSON_CREATED} from '@/inngest/events/sanity/webhooks/lesson/created'
 import {SANITY_COURSE_DOCUMENT_CREATED} from '@/inngest/events/sanity-course-document-created'
 
-const secret = process.env.SANITY_WEBHOOK_SECRET || ''
+const secret = process.env.SANITY_WEBHOOK_SIGNATURE_SECRET || ''
 const railsToken = process.env.EGGHEAD_ADMIN_TOKEN || ''
 const EGGHEAD_AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN || ''
 
