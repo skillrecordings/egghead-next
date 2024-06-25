@@ -1,14 +1,9 @@
-import {GoStack, GoVideo} from 'react-icons/go'
+import {GoMortarBoard} from 'react-icons/go'
 
 const courses = (S) =>
   S.listItem()
     .title('Courses')
-    .icon(GoStack)
-    .child(
-      S.documentList()
-        .schemaType('resource')
-        .title('Resource')
-        .filter('_type == "resource" && type == "course"')
-    )
+    .icon(GoMortarBoard)
+    .child(S.documentTypeList('course').title('All Courses'))
 
 export default courses

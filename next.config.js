@@ -62,9 +62,6 @@ const IMAGE_HOST_DOMAINS = compact([
 ])
 
 const nextConfig = {
-  experimental: {
-    ppr: true,
-  },
   transpilePackages: ['unist-util-visit'],
   reactStrictMode: true,
   images: {

@@ -23,6 +23,22 @@ import {
   SEND_FEEDBACK_EMAIL_EVENT,
   FeedbackEmail,
 } from './events/send-feedback-email'
+import {
+  SANITY_WEBHOOK_LESSON_CREATED,
+  SanityWebhookLessonCreated,
+} from './events/sanity/webhooks/lesson/created'
+import {
+  RECEIVED_TRANSLOADIT_NOTIFICATION_EVENT,
+  ReceivedTransloaditNotification,
+} from './events/received-transloadit-notification'
+import {
+  VERIFIED_TRANSLOADIT_NOTIFICATION_EVENT,
+  VerifiedTransloaditNotification,
+} from './events/verified-transloadit-notification'
+import {
+  SANITY_COURSE_DOCUMENT_CREATED,
+  SanityCourseDocumentCreated,
+} from '@/inngest/events/sanity-course-document-created'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
@@ -34,6 +50,11 @@ type Events = {
   [INDEX_LESSONS_FOREVER]: IndexLessonsForever
   [SEND_SLACK_MESSAGE_EVENT]: SlackMessage
   [SEND_FEEDBACK_EMAIL_EVENT]: FeedbackEmail
+  [SANITY_WEBHOOK_LESSON_CREATED]: SanityWebhookLessonCreated
+  [RECEIVED_TRANSLOADIT_NOTIFICATION_EVENT]: ReceivedTransloaditNotification
+  [VERIFIED_TRANSLOADIT_NOTIFICATION_EVENT]: VerifiedTransloaditNotification
+  [SANITY_COURSE_DOCUMENT_CREATED]: SanityCourseDocumentCreated
+
   test: {
     name: 'test'
     data: {}
