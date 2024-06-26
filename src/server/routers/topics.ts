@@ -1,6 +1,9 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
-import {typesenseInstantsearchAdapter} from '@/utils/typesense'
+import {
+  typesenseInstantsearchAdapter,
+  TYPESENSE_COLLECTION_NAME,
+} from '@/utils/typesense'
 
 const searchClient = typesenseInstantsearchAdapter().searchClient
 
@@ -14,7 +17,7 @@ export const topicRouter = router({
         .optional(),
     )
     .query(async ({input, ctx}) => {
-      const index = searchClient.initIndex('content_production')
+      const index = searchClient.initIndex(TYPESENSE_COLLECTION_NAME)
       // top 10 free playlists for a topic
       const filters = `access_state:free AND type:playlist ${
         input?.topic ? ` AND _tags:${input.topic}` : ''

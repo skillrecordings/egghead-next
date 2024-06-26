@@ -10,7 +10,7 @@ import {
   Configure,
   InstantSearch,
   ClearRefinements,
-  SortBy,
+  useInstantSearch,
 } from 'react-instantsearch'
 import {get, isEmpty} from 'lodash'
 import {useToggle} from 'react-use'
@@ -28,7 +28,11 @@ import cx from 'classnames'
 import NewCuratedTopicPage from './curated/[slug]'
 import Link from 'next/link'
 import analytics from '@/utils/analytics'
-import {SORT_PRESETS} from '@/utils/typesense'
+import {
+  typsenseAdapterConfig,
+  TYPESENSE_COLLECTION_NAME,
+} from '@/utils/typesense'
+import {typesenseAdapter} from '@/pages/q/[[...all]]'
 
 type SearchProps = {
   searchClient?: any
@@ -157,6 +161,53 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
     )
   }
 
+  const PresetOptions = () => {
+    const {refresh} = useInstantSearch()
+
+    return (
+      <select
+        className="border-0 flex items-center flex-shrink-0 space-x-2 flex-nowrap dark:bg-gray-900 bg-white h-full"
+        defaultValue="popular"
+        onChange={(e) => {
+          typesenseAdapter.updateConfiguration({
+            ...typsenseAdapterConfig,
+            additionalSearchParameters: {
+              query_by: 'title,description,_tags,instructor_name,contributors',
+              preset: e.target.value,
+            },
+          })
+
+          refresh()
+        }}
+      >
+        <option
+          className="border-opacity-0 dark:border-gray-800 border-gray-100"
+          value="popular"
+        >
+          Most Popular
+        </option>
+        <option
+          className="border-opacity-0 dark:border-gray-800 border-gray-100"
+          value="rating"
+        >
+          Highest Rated
+        </option>
+        <option
+          className="border-opacity-0 dark:border-gray-800 border-gray-100"
+          value="created_at"
+        >
+          Recently Added
+        </option>
+        <option
+          className="border-opacity-0 dark:border-gray-800 border-gray-100"
+          value="most_watched"
+        >
+          Most Watched
+        </option>
+      </select>
+    )
+  }
+
   const RefinementsDesktop = () => {
     return (
       <aside className="col-span-2 md:block hidden relative flex-shrink-0 dark:bg-gray-1000 bg-gray-100 pl-4">
@@ -245,13 +296,12 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
       </Head>
       <div className="dark:bg-gray-1000 bg-gray-100 relative">
         <InstantSearch
-          indexName={'content_production'} // CREE: Replace with env
+          indexName={TYPESENSE_COLLECTION_NAME}
           searchClient={searchClient}
           onStateChange={onSearchStateChange}
           initialUiState={{
-            content_production: {
+            TYPESENSE_COLLECTION_NAME: {
               ...searchState,
-              sortBy: SORT_PRESETS.POPULAR,
             },
           }}
           {...rest}
@@ -271,29 +321,7 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                   <div className="dark:bg-gray-900 bg-white sticky top-0 z-40 shadow-smooth flex items-center w-full border-b dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5">
                     <SearchBox placeholder={searchBoxPlaceholder} />
                     <div className="border-l dark:border-gray-800 border-gray-100 flex items-center flex-shrink-0 space-x-2 flex-nowrap h-full">
-                      <SortBy
-                        classNames={{
-                          root: 'border-opacity-0',
-                          select:
-                            ' flex items-center flex-shrink-0 space-x-2 flex-nowrap dark:bg-gray-900 bg-white h-full',
-                          option: 'dark:border-gray-800 border-gray-100',
-                        }}
-                        items={[
-                          {
-                            value: SORT_PRESETS.POPULAR,
-                            label: 'Most Popular',
-                          },
-                          {value: SORT_PRESETS.RATING, label: 'Highest Rated'},
-                          {
-                            value: SORT_PRESETS.CREATED_AT,
-                            label: 'Recently Added',
-                          },
-                          {
-                            value: SORT_PRESETS.MOST_WATCHED,
-                            label: 'Most Watched',
-                          },
-                        ]}
-                      />
+                      <PresetOptions />
                     </div>
                   </div>
                   <NoSearchResults searchQuery={searchState.query} />

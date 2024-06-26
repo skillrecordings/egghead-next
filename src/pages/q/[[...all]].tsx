@@ -36,7 +36,9 @@ const tracer = getTracer('search-page')
 
 const createURL = (state: any) => `?${qs.stringify(state)}`
 
-const searchClient = typesenseInstantsearchAdapter().searchClient
+export const typesenseAdapter = typesenseInstantsearchAdapter()
+
+const searchClient = typesenseAdapter.searchClient
 
 const defaultProps = {
   searchClient,
