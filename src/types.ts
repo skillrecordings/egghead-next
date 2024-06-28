@@ -46,6 +46,9 @@ export type LessonResource = Resource & {
   collection: Resource & {lessons: any[]}
   staff_notes_url?: string
   download_url?: string
+  comments?: any
+  transcript?: any
+  transcript_url: string
   scrimba: {
     url: string
     transcript: string
