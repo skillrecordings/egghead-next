@@ -125,4 +125,28 @@ export const userRouter = router({
 
     return res
   }),
+  updateName: baseProcedure
+    .input(
+      z.object({
+        name: z.string(),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
+      const token = ctx?.userToken
+      if (!token) throw new Error('Unauthorized')
+      if (!input.name) throw new Error('Name is required')
+
+      const user = await loadCurrentUser(token)
+
+      const updatedUser = await ctx.prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          first_name: input.name,
+        },
+      })
+
+      return updatedUser
+    }),
 })

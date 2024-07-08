@@ -32,6 +32,7 @@ import dynamic from 'next/dynamic'
 
 import LoginForm from '@/pages/login'
 import {trpc} from '@/app/_trpc/client'
+import ModuleCertificate from '@/lib/certificate/module-certificate'
 const CoursePodcast = dynamic(
   () => import('@/components/course/course-podcast'),
   {
@@ -775,6 +776,7 @@ const CollectionPageLayout: React.FunctionComponent<
                 <span>{courseIllustrator?.name}</span>
               </div>
             )}
+
             <div className="hidden space-y-6 md:block">
               <div className="flex justify-center w-full mt-10 mb-4">
                 <PlayButton lesson={nextLesson} />
@@ -788,6 +790,7 @@ const CollectionPageLayout: React.FunctionComponent<
                 </div>
               )}
             </div>
+
             <section className="mt-8">
               <div className="flex flex-col mb-2 space-y-4 ">
                 <h2 className="text-xl font-bold">Course Content</h2>
@@ -934,6 +937,7 @@ const CollectionPageLayout: React.FunctionComponent<
                   })}
                 </ul>
               </div>
+              {isCourseCompleted && <ModuleCertificate module={course} />}
             </section>
             {!isEmpty(pairWithResources) && (
               <div className="flex flex-col my-12 space-y-2 md:hidden">
