@@ -119,12 +119,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
   try {
     const course = params && (await loadPlaylist(params.course as string))
-    const authedCourseAttributes =
-      params &&
-      (await loadAuthedPlaylistForUser(
-        params.course as string,
-        req.cookies[ACCESS_TOKEN_KEY],
-      ))
 
     const courseSlug = getSlugFromPath(course?.path)
     if (course && courseSlug !== params?.course) {
@@ -138,7 +132,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
       return {
         props: {
-          course: {...course, ...authedCourseAttributes},
+          course,
         },
       }
     }
