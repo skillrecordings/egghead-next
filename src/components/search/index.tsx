@@ -299,8 +299,11 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
           indexName={TYPESENSE_COLLECTION_NAME}
           searchClient={searchClient}
           onStateChange={onSearchStateChange}
+          future={{
+            preserveSharedStateOnUnmount: true,
+          }}
           initialUiState={{
-            TYPESENSE_COLLECTION_NAME: {
+            [TYPESENSE_COLLECTION_NAME]: {
               ...searchState,
             },
           }}
