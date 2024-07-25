@@ -9,9 +9,9 @@ const ConfirmLifetimeMembershipPage: React.FC<
 > = () => {
   const {query} = useRouter()
 
-  const {session_id} = query
+  const session_id = query.session_id as string
   const {data} = trpc.stripe.checkoutSessionById.useQuery({
-    checkoutSessionId: session_id as string,
+    checkoutSessionId: session_id,
   })
 
   const isPaid = data && data?.session?.payment_status === 'paid'
