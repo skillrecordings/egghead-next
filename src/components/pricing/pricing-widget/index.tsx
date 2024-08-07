@@ -2,7 +2,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {useViewer} from '@/context/viewer-context'
-import stripeCheckoutRedirect from '@/api/stripe/stripe-checkout-redirect'
+import {redirectToSubscriptionCheckout} from '@/api/stripe/stripe-checkout-redirect'
 import emailIsValid from '@/utils/email-is-valid'
 import {track} from '@/utils/analytics'
 import {useCommerceMachine} from '@/hooks/use-commerce-machine'
@@ -103,7 +103,7 @@ const PricingWidget: FunctionComponent<React.PropsWithChildren<{}>> = () => {
       await track('checkout: redirect to stripe', {
         priceId,
       })
-      stripeCheckoutRedirect({
+      redirectToSubscriptionCheckout({
         priceId,
         email: viewer.email,
         authToken,

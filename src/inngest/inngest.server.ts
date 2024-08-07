@@ -39,9 +39,16 @@ import {
   SANITY_COURSE_DOCUMENT_CREATED,
   SanityCourseDocumentCreated,
 } from '@/inngest/events/sanity-course-document-created'
+import {STRIPE_WEBHOOK_EVENT, StripeWebhook} from './events/stripe-webhook'
+import {
+  LIFETIME_PURCHASE_EVENT,
+  LifetimePurchase,
+} from './events/lifetime-purchase'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
+  [STRIPE_WEBHOOK_EVENT]: StripeWebhook
+  [LIFETIME_PURCHASE_EVENT]: LifetimePurchase
   [DEEPGRAM_WEBHOOK_EVENT]: DeepgramWebhook
   [TRANSCRIPT_READY_EVENT]: TranscriptReady
   [VIDEO_UPLOADED_EVENT]: VideoUploaded

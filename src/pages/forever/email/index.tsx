@@ -1,10 +1,8 @@
-import {redirectToSubscriptionCheckout} from '@/api/stripe/stripe-checkout-redirect'
+import {redirectToStandardCheckout} from '@/api/stripe/stripe-checkout-redirect'
 import {Formik} from 'formik'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
-import {bpMinSM} from '@/utils/breakpoints'
 import {track} from '@/utils/analytics'
-import axios from '@/utils/configured-axios'
 import * as yup from 'yup'
 import Stepper from '@/components/pricing/stepper'
 import Spinner from '@/components/spinner'
@@ -12,19 +10,20 @@ import getTracer from '../../../utils/honeycomb-tracer'
 import {GetServerSideProps} from 'next'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import {useRouter} from 'next/router'
+import invariant from 'tiny-invariant'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
 })
 
-type EmailFormProps = {
+type ForeverEmailFormProps = {
   priceId: string | undefined
   quantity?: number
   coupon: string | undefined
 }
 
-const Email: React.FunctionComponent<
-  React.PropsWithChildren<EmailFormProps>
+const ForeverEmail: React.FunctionComponent<
+  React.PropsWithChildren<ForeverEmailFormProps>
 > & {getLayout: any} = ({priceId, quantity = 1, coupon}) => {
   const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
   const [isError, setIsError] = React.useState<boolean | string>(false)
@@ -33,38 +32,29 @@ const Email: React.FunctionComponent<
   React.useEffect(() => {
     if (!priceId) {
       //no price id needs to select a price
-      router.push('/pricing')
+      router.push('/forever')
     }
   }, [priceId])
 
   const validateEmail = async (email: string) => {
-    setIsSubmitted(true)
-    const {hasProAccess} = await axios
-      .post(`/api/users/check-pro-status`, {
-        email,
-      })
-      .then(({data}) => data)
+    invariant(
+      priceId,
+      'the priceId must be set, otherwise redirect to /forever',
+    )
 
-    if (hasProAccess) {
-      setIsError(
-        `You've already got a pro account at ${email}. [Please login](/login).`,
-      )
-      track('checkout: existing pro account found', {
-        email,
-      })
-    } else if (!!priceId) {
-      setIsError(false)
-      redirectToSubscriptionCheckout({
-        priceId,
-        email,
-        quantity,
-        coupon,
-      }).catch((error) => {
-        setIsError(error)
-      })
-    } else {
-      // priceId is not set, useEffect should push to different route
-    }
+    setIsSubmitted(true)
+    setIsError(false)
+
+    redirectToStandardCheckout({
+      priceId,
+      email,
+      quantity,
+      coupon,
+      successPath: '/confirm/forever',
+      cancelPath: '/pricing/forever',
+    }).catch((error) => {
+      setIsError(error)
+    })
   }
 
   return (
@@ -76,7 +66,8 @@ const Email: React.FunctionComponent<
         <div className="px-6 pb-6 sm:px-7 sm:pb-7 md:px-10 md:pb-10 bg-white sm:mx-auto sm:w-full dark:bg-gray-900">
           <div>
             <h2 className="py-6 text-lg font-semibold leading-tight text-center sm:text-xl dark:text-white">
-              Please provide your email address to create an account.
+              Please provide your email address to create or upgrade your
+              account.
             </h2>
             {!isSubmitted && !isError && (
               <div>
@@ -84,7 +75,7 @@ const Email: React.FunctionComponent<
                   initialValues={{email: ''}}
                   validationSchema={loginSchema}
                   onSubmit={(values) => {
-                    track('checkout: submitted email', {
+                    track('lifetime checkout: submitted email', {
                       email: values.email,
                     })
                     validateEmail(values.email)
@@ -173,8 +164,8 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
 }
 
-Email.getLayout = (Page: any, pageProps: any) => {
+ForeverEmail.getLayout = (Page: any, pageProps: any) => {
   return <Page {...pageProps} />
 }
 
-export default Email
+export default ForeverEmail

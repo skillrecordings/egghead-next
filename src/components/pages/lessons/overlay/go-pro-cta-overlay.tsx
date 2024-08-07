@@ -12,7 +12,7 @@ import first from 'lodash/first'
 import {useViewer} from '@/context/viewer-context'
 import emailIsValid from '@/utils/email-is-valid'
 import axios from 'axios'
-import stripeCheckoutRedirect from '@/api/stripe/stripe-checkout-redirect'
+import {redirectToSubscriptionCheckout} from '@/api/stripe/stripe-checkout-redirect'
 import toast from 'react-hot-toast'
 import {StripeAccount} from '@/types'
 import * as Yup from 'yup'
@@ -159,7 +159,7 @@ const GoProCtaOverlay: FunctionComponent<
           location: 'lesson overlay',
         })
 
-        stripeCheckoutRedirect({
+        redirectToSubscriptionCheckout({
           priceId,
           email: formik.values.email,
           authToken,
