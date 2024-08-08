@@ -5,7 +5,8 @@ import {format} from 'date-fns'
 import {useAccount} from '@/hooks/use-account'
 import SubscriptionDetails from '@/components/pages/user/components/subscription-details'
 import {ItemWrapper} from '@/components/pages/user/components/widget-wrapper'
-import PricingWidget from '@/components/pricing/pricing-widget'
+import PricingProvider from '@/components/pricing/pricing-provider'
+import PricingCard from '@/components/pricing/pricing-card'
 import Invoices from '@/components/invoices'
 import Spinner from '@/components/spinner'
 
@@ -82,7 +83,9 @@ const Membership = () => {
               </p>
             </div>
             <div className="mt-10">
-              <PricingWidget />
+              <PricingProvider>
+                <PricingCard />
+              </PricingProvider>
             </div>
           </div>
         </>
@@ -190,7 +193,9 @@ const Membership = () => {
           </a>
         </strong>
       </p>
-      <PricingWidget />
+      <PricingProvider>
+        <PricingCard />
+      </PricingProvider>
     </div>
   )
 }
