@@ -4,9 +4,17 @@ import {track} from '@/utils/analytics'
 import {useRouter} from 'next/router'
 import Testimonials from '@/components/pricing/testimonials'
 import testimonialsData from '@/components/pricing/testimonials/data'
-import PricingWidget from '@/components/pricing/pricing-widget'
 import Layout from '@/components/app/layout'
 import {NextSeo} from 'next-seo'
+import PricingCard from '@/components/pricing/pricing-card'
+import PricingProvider from '@/components/pricing/pricing-provider'
+import LifetimePriceProvider from '@/components/pricing/lifetime-price-provider'
+import LifetimePriceCard from '@/components/pricing/lifetime-price-card'
+import PlanTitle from '@/components/pricing/plan-title'
+import PlanPrice from '@/components/pricing/plan-price'
+import PlanFeatures from '@/components/pricing/plan-features'
+import GetAccessButton from '@/components/pricing/get-access-button'
+import PoweredByStripe from '@/components/pricing/powered-by-stripe'
 
 type PricingProps = {
   annualPrice: {
@@ -48,7 +56,27 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
           </h2>
         </header>
         <main className="container flex flex-col items-center">
-          <PricingWidget />
+          <div className="flex flex-col items-center">
+            <div className="flex sm:flex-row flex-col items-center py-24 sm:space-x-5 sm:space-y-0 space-y-5">
+              <PricingProvider>
+                <PricingCard />
+              </PricingProvider>
+              <LifetimePriceProvider>
+                <LifetimePriceCard hidePoweredByStripe={true}>
+                  <PlanTitle>Lifetime Membership</PlanTitle>
+                  <div className="py-6">
+                    <PlanPrice />
+                  </div>
+                  <PlanFeatures />
+                  <GetAccessButton />
+                </LifetimePriceCard>
+              </LifetimePriceProvider>
+            </div>
+            <div className="flex sm:flex-row flex-col items-center py-24 sm:space-x-5 sm:space-y-0 space-y-5">
+              <PoweredByStripe />
+              <div className="text-sm">30 day money back guarantee</div>
+            </div>
+          </div>
           <Testimonials testimonials={testimonialsData} />
         </main>
       </div>

@@ -5,8 +5,6 @@ import {NonRetriableError} from 'inngest'
 import axios from 'axios'
 import {z} from 'zod'
 
-const LIFETIME_PRICE_ID = 'price_1P1Dip2nImeJXwdJCCqfTViv'
-
 const railsToken = process.env.EGGHEAD_SUPPORT_BOT_TOKEN || ''
 const EGGHEAD_AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN || ''
 
