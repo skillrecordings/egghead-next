@@ -172,7 +172,7 @@ const LifetimePricingWidget: FunctionComponent<
   //     currentPlan,
   //   } = useCommerceMachine()
 
-  const priceId = 'price_1P1Dip2nImeJXwdJCCqfTViv'
+  const priceId = process.env.NEXT_PUBLIC_STRIPE_LIFETIME_MEMBERSHIP_PRICE_ID
   const quantity = 1
   const pricesLoading = false
 
