@@ -22,6 +22,7 @@ import {fromUnixTime} from 'date-fns'
 import SelectPlanNew from '@/components/pricing/select-plan-new'
 import ParityCouponMessage from '@/components/pricing/parity-coupon-message'
 import {Coupon} from '@/types'
+import ColoredBackground from '@/components/pricing/select-plan-new/assets/colored-background'
 
 type PricingProps = {
   annualPrice: {
@@ -77,9 +78,9 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
         </header>
         <main className="container flex flex-col items-center">
           <div className="flex flex-col items-center">
-            <div className="flex sm:flex-row flex-col items-center py-24 sm:space-x-5 sm:space-y-0 space-y-5">
+            <div className="flex sm:flex-row flex-col py-24 sm:space-x-5 sm:space-y-0 space-y-5 items-stretch gap-4">
               <PricingProvider>
-                <PricingCard>
+                <PricingCard className="opacity-90 hover:opacity-100">
                   <SelectPlanNew />
                   {displayPPPMessage && (
                     <div className="max-w-screen-md pb-5 mx-auto mt-4">
@@ -95,13 +96,37 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
                 </PricingCard>
               </PricingProvider>
               <LifetimePriceProvider>
-                <PricingCard>
-                  <PlanTitle>Lifetime Membership</PlanTitle>
-                  <div className="py-6">
-                    <PlanPrice />
+                <PricingCard
+                  className="scale-110"
+                  displayBackground
+                  displayImage
+                >
+                  <div className="flex flex-col h-full justify-between">
+                    <div className="flex flex-col items-center pt-12">
+                      <PlanTitle className="text-2xl">
+                        Lifetime Membership
+                      </PlanTitle>
+                      <div className="py-6">
+                        <PlanPrice />
+                      </div>
+                    </div>
+                    <PlanFeatures />
+                    <GetAccessButton />
                   </div>
-                  <PlanFeatures />
-                  <GetAccessButton />
+                </PricingCard>
+              </LifetimePriceProvider>
+              <LifetimePriceProvider>
+                <PricingCard>
+                  <div className="flex flex-col h-full justify-between">
+                    <div className="flex flex-col items-center">
+                      <PlanTitle>Lifetime Membership</PlanTitle>
+                      <div className="py-6">
+                        <PlanPrice />
+                      </div>
+                    </div>
+                    <PlanFeatures />
+                    <GetAccessButton />
+                  </div>
                 </PricingCard>
               </LifetimePriceProvider>
             </div>

@@ -302,54 +302,51 @@ const SelectPlanNew: React.FunctionComponent<
 
   return (
     <>
-      <div className="relative z-10 flex flex-col items-center max-w-sm px-5 py-5 text-gray-900 bg-white rounded-sm dark:text-white dark:bg-gray-900 sm:px-8 sm:py-12">
-        <PlanTitle>{currentPlan?.name}</PlanTitle>
-        {!pppCouponIsApplied &&
-          appliedCoupon?.coupon_expires_at &&
-          !pricesLoading && (
-            <Countdown
-              label="Save on Yearly Memberships Price goes up in:"
-              date={fromUnixTime(appliedCoupon.coupon_expires_at)}
-            />
-          )}
-        <div className="py-6">
-          <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
-        </div>
-        <div className="h-9">
-          {keys(prices).length > 1 && (
-            <div>
-              <PlanIntervalsSwitch
-                disabled={false}
-                currentPlan={currentPlan}
-                setCurrentPlan={(newPlan: any) => {
-                  onPriceChanged(newPlan.stripe_price_id)
-                }}
-                planTypes={individualPlans}
-              />
-            </div>
-          )}
-        </div>
-        {!appliedCoupon && <PlanPercentageOff interval={currentPlan.name} />}
-        <div className="my-4">
-          <PlanQuantitySelect
-            quantity={quantity}
-            plan={currentPlan}
-            pricesLoading={pricesLoading}
-            onQuantityChanged={(quantity: number) => {
-              onQuantityChanged(quantity)
-            }}
+      <PlanTitle>{currentPlan?.name}</PlanTitle>
+      {!pppCouponIsApplied &&
+        appliedCoupon?.coupon_expires_at &&
+        !pricesLoading && (
+          <Countdown
+            label="Save on Yearly Memberships Price goes up in:"
+            date={fromUnixTime(appliedCoupon.coupon_expires_at)}
           />
-        </div>
-
-        <PlanFeatures planFeatures={planFeatures} />
-        <GetAccessButton
-          label={buttonLabel}
-          handleClick={handleClickGetAccess}
-          loaderOn={false}
+        )}
+      <div className="py-6">
+        <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
+      </div>
+      <div className="h-9">
+        {keys(prices).length > 1 && (
+          <div>
+            <PlanIntervalsSwitch
+              disabled={false}
+              currentPlan={currentPlan}
+              setCurrentPlan={(newPlan: any) => {
+                onPriceChanged(newPlan.stripe_price_id)
+              }}
+              planTypes={individualPlans}
+            />
+          </div>
+        )}
+      </div>
+      {!appliedCoupon && <PlanPercentageOff interval={currentPlan.name} />}
+      <div className="my-4">
+        <PlanQuantitySelect
+          quantity={quantity}
+          plan={currentPlan}
           pricesLoading={pricesLoading}
+          onQuantityChanged={(quantity: number) => {
+            onQuantityChanged(quantity)
+          }}
         />
       </div>
-      <ColoredBackground />
+
+      <PlanFeatures planFeatures={planFeatures} />
+      <GetAccessButton
+        label={buttonLabel}
+        handleClick={handleClickGetAccess}
+        loaderOn={false}
+        pricesLoading={pricesLoading}
+      />
     </>
   )
 }
