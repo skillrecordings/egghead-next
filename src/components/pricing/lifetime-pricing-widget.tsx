@@ -142,8 +142,8 @@ const PlanFeatures: React.FunctionComponent<
 }
 
 const LifetimePricingWidget: FunctionComponent<
-  React.PropsWithChildren<{}>
-> = () => {
+  React.PropsWithChildren<{hidePoweredByStripe?: boolean}>
+> = ({hidePoweredByStripe = false}) => {
   const {viewer, authToken} = useViewer()
 
   const router = useRouter()
@@ -321,10 +321,12 @@ const LifetimePricingWidget: FunctionComponent<
           />
         </div>
       )} */}
-      <div className="flex sm:flex-row flex-col items-center py-24 sm:space-x-5 sm:space-y-0 space-y-5">
-        <PoweredByStripe />
-        <div className="text-sm">30 day money back guarantee</div>
-      </div>
+      {!hidePoweredByStripe && (
+        <div className="flex sm:flex-row flex-col items-center py-24 sm:space-x-5 sm:space-y-0 space-y-5">
+          <PoweredByStripe />
+          <div className="text-sm">30 day money back guarantee</div>
+        </div>
+      )}
     </div>
   )
 }

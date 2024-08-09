@@ -8,6 +8,8 @@ import Spinner from '@/components/spinner'
 import Countdown from '@/components/pricing/countdown'
 import {fromUnixTime} from 'date-fns'
 import {Coupon, PricingPlan} from '@/types'
+import {useCommerceMachine} from '@/hooks/use-commerce-machine'
+import {PricingContext, usePPP} from '../pricing-provider'
 
 const PlanTitle: React.FunctionComponent<React.PropsWithChildren<unknown>> = ({
   children,
@@ -259,41 +261,63 @@ type SelectPlanProps = {
 }
 
 const SelectPlanNew: React.FunctionComponent<
-  React.PropsWithChildren<SelectPlanProps>
-> = ({
-  quantityAvailable = true,
-  handleClickGetAccess,
-  pricesLoading,
-  prices,
-  onQuantityChanged,
-  onPriceChanged,
-  currentPlan,
-  currentQuantity,
-  loaderOn,
-  appliedCoupon,
-  isPPP,
-}) => {
+  React.PropsWithChildren<any>
+> = () => {
+  const {prices, send, currentPlan, quantity, state} = useCommerceMachine()
+  const {onClickCheckout, planFeatures} = React.useContext(PricingContext)
+  const {appliedCoupon, pppCouponIsApplied} = usePPP()
+
+  const [pricesLoading, setPricesLoading] = React.useState(false)
+
+  React.useEffect(() => {
+    if (state.matches('loadingPrices')) {
+      setPricesLoading(true)
+    }
+
+    if (state.matches('pricesLoaded')) {
+      setPricesLoading(false)
+    }
+
+    if (state.matches('debouncingQuantityChange')) {
+      setPricesLoading(true)
+    }
+  }, [state])
+
+  const onQuantityChanged = (quantity: number) => {
+    send({type: 'CHANGE_QUANTITY', quantity})
+  }
+
+  const onPriceChanged = (priceId: string) => {
+    send({type: 'SWITCH_PRICE', priceId})
+  }
+
+  const handleClickGetAccess = () => {
+    send({type: 'CONFIRM_PRICE', onClickCheckout})
+  }
+
   const individualPlans = filter(prices, (plan: any) => true)
 
-  const forTeams: boolean = currentQuantity > 1
+  const forTeams: boolean = quantity > 1
   const buttonLabel: string = forTeams ? 'Level Up My Team' : 'Become a Member'
 
   return (
     <>
       <div className="relative z-10 flex flex-col items-center max-w-sm px-5 py-5 text-gray-900 bg-white rounded-sm dark:text-white dark:bg-gray-900 sm:px-8 sm:py-12">
         <PlanTitle>{currentPlan?.name}</PlanTitle>
-        {!isPPP && appliedCoupon?.coupon_expires_at && !pricesLoading && (
-          <Countdown
-            label="Save on Yearly Memberships Price goes up in:"
-            date={fromUnixTime(appliedCoupon.coupon_expires_at)}
-          />
-        )}
+        {!pppCouponIsApplied &&
+          appliedCoupon?.coupon_expires_at &&
+          !pricesLoading && (
+            <Countdown
+              label="Save on Yearly Memberships Price goes up in:"
+              date={fromUnixTime(appliedCoupon.coupon_expires_at)}
+            />
+          )}
         <div className="py-6">
           <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
         </div>
         <div className="h-9">
           {keys(prices).length > 1 && (
-            <div className={quantityAvailable ? '' : 'mb-4'}>
+            <div>
               <PlanIntervalsSwitch
                 disabled={false}
                 currentPlan={currentPlan}
@@ -306,24 +330,22 @@ const SelectPlanNew: React.FunctionComponent<
           )}
         </div>
         {!appliedCoupon && <PlanPercentageOff interval={currentPlan.name} />}
-        {quantityAvailable && (
-          <div className="my-4">
-            <PlanQuantitySelect
-              quantity={currentQuantity}
-              plan={currentPlan}
-              pricesLoading={pricesLoading}
-              onQuantityChanged={(quantity: number) => {
-                onQuantityChanged(quantity)
-              }}
-            />
-          </div>
-        )}
+        <div className="my-4">
+          <PlanQuantitySelect
+            quantity={quantity}
+            plan={currentPlan}
+            pricesLoading={pricesLoading}
+            onQuantityChanged={(quantity: number) => {
+              onQuantityChanged(quantity)
+            }}
+          />
+        </div>
 
-        <PlanFeatures planFeatures={currentPlan?.features} />
+        <PlanFeatures planFeatures={planFeatures} />
         <GetAccessButton
           label={buttonLabel}
           handleClick={handleClickGetAccess}
-          loaderOn={loaderOn}
+          loaderOn={false}
           pricesLoading={pricesLoading}
         />
       </div>

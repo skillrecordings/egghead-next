@@ -7,7 +7,7 @@ import testimonialsData from '@/components/pricing/testimonials/data'
 import Layout from '@/components/app/layout'
 import {NextSeo} from 'next-seo'
 import PricingCard from '@/components/pricing/pricing-card'
-import PricingProvider from '@/components/pricing/pricing-provider'
+import PricingProvider, {usePPP} from '@/components/pricing/pricing-provider'
 import LifetimePriceProvider from '@/components/pricing/lifetime-price-provider'
 import LifetimePriceCard from '@/components/pricing/lifetime-price-card'
 import PlanTitle from '@/components/pricing/plan-title'
@@ -15,6 +15,13 @@ import PlanPrice from '@/components/pricing/plan-price'
 import PlanFeatures from '@/components/pricing/plan-features'
 import GetAccessButton from '@/components/pricing/get-access-button'
 import PoweredByStripe from '@/components/pricing/powered-by-stripe'
+import Countdown from '@/components/pricing/countdown'
+import {PlanPrice as SubscriptionPlanPrice} from '@/components/pricing/select-plan-new'
+import {useCommerceMachine} from '@/hooks/use-commerce-machine'
+import {fromUnixTime} from 'date-fns'
+import SelectPlanNew from '@/components/pricing/select-plan-new'
+import ParityCouponMessage from '@/components/pricing/parity-coupon-message'
+import {Coupon} from '@/types'
 
 type PricingProps = {
   annualPrice: {
@@ -31,6 +38,17 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
   getLayout: any
 } = () => {
   const router = useRouter()
+  const {currentPlan} = useCommerceMachine()
+  const {
+    pppCouponIsApplied,
+    pppCouponAvailable,
+    pppCouponEligible,
+    onApplyParityCoupon,
+    onDismissParityCoupon,
+    parityCoupon,
+    countryName,
+    appliedCoupon,
+  } = usePPP()
 
   React.useEffect(() => {
     track('visited pricing')
@@ -38,6 +56,8 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
       track('checkout: cancelled from stripe')
     }
   }, [])
+
+  const displayPPPMessage = pppCouponAvailable && pppCouponEligible
 
   return (
     <>
@@ -59,17 +79,30 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
           <div className="flex flex-col items-center">
             <div className="flex sm:flex-row flex-col items-center py-24 sm:space-x-5 sm:space-y-0 space-y-5">
               <PricingProvider>
-                <PricingCard />
+                <PricingCard>
+                  <SelectPlanNew />
+                  {displayPPPMessage && (
+                    <div className="max-w-screen-md pb-5 mx-auto mt-4">
+                      <ParityCouponMessage
+                        coupon={parityCoupon as Coupon}
+                        countryName={countryName as string}
+                        onApply={onApplyParityCoupon}
+                        onDismiss={onDismissParityCoupon}
+                        isPPP={pppCouponIsApplied}
+                      />
+                    </div>
+                  )}
+                </PricingCard>
               </PricingProvider>
               <LifetimePriceProvider>
-                <LifetimePriceCard hidePoweredByStripe={true}>
+                <PricingCard>
                   <PlanTitle>Lifetime Membership</PlanTitle>
                   <div className="py-6">
                     <PlanPrice />
                   </div>
                   <PlanFeatures />
                   <GetAccessButton />
-                </LifetimePriceCard>
+                </PricingCard>
               </LifetimePriceProvider>
             </div>
             <div className="flex sm:flex-row flex-col items-center py-24 sm:space-x-5 sm:space-y-0 space-y-5">

@@ -39,26 +39,8 @@ export const PricingContext = React.createContext<any>({
   },
 })
 
-const PricingProvider: FunctionComponent<React.PropsWithChildren<{}>> = ({
-  children,
-}) => {
-  const {viewer, authToken} = useViewer()
-
-  const router = useRouter()
-  const params = useSearchParams()
-  const stripeParam = params?.get('stripe')
-
-  const [loaderOn, setLoaderOn] = React.useState<boolean>(false)
-
-  const {
-    state,
-    send,
-    priceId = '',
-    quantity,
-    prices,
-    availableCoupons,
-    currentPlan,
-  } = useCommerceMachine()
+export const usePPP = () => {
+  const {state, send, availableCoupons, quantity} = useCommerceMachine()
 
   const pricesLoading = !state.matches('pricesLoaded')
   const pppCouponIsApplied =
@@ -82,6 +64,49 @@ const PricingProvider: FunctionComponent<React.PropsWithChildren<{}>> = ({
   const onDismissParityCoupon = () => {
     send('REMOVE_PPP_COUPON')
   }
+
+  return {
+    pppCouponIsApplied,
+    pppCouponAvailable,
+    pppCouponEligible,
+    onApplyParityCoupon,
+    onDismissParityCoupon,
+    parityCoupon,
+    countryCode,
+    countryName,
+    appliedCoupon,
+    pricesLoading,
+  }
+}
+
+const PricingProvider: FunctionComponent<React.PropsWithChildren<{}>> = ({
+  children,
+}) => {
+  const {viewer, authToken} = useViewer()
+
+  const router = useRouter()
+  const params = useSearchParams()
+  const stripeParam = params?.get('stripe')
+
+  const [loaderOn, setLoaderOn] = React.useState<boolean>(false)
+
+  const planFeatures = [
+    'Full access to all the premium courses',
+    'Closed captions for every video',
+    'Commenting and support',
+    'Enhanced Transcripts',
+    'RSS course feeds',
+  ]
+
+  const {
+    state,
+    send,
+    priceId = '',
+    quantity,
+    prices,
+    availableCoupons,
+    currentPlan,
+  } = useCommerceMachine()
 
   React.useEffect(() => {
     if (stripeParam === 'cancelled') {
@@ -110,6 +135,7 @@ const PricingProvider: FunctionComponent<React.PropsWithChildren<{}>> = ({
         viewer,
         authToken,
         onClickCheckout,
+        planFeatures,
         commerce: {
           state,
           send,
@@ -118,17 +144,6 @@ const PricingProvider: FunctionComponent<React.PropsWithChildren<{}>> = ({
           prices,
           availableCoupons,
           currentPlan,
-        },
-        ppp: {
-          pppCouponIsApplied,
-          pppCouponAvailable,
-          pppCouponEligible,
-          onApplyParityCoupon,
-          onDismissParityCoupon,
-          parityCoupon,
-          countryCode,
-          countryName,
-          appliedCoupon,
         },
       }}
     >
