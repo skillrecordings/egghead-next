@@ -43,18 +43,23 @@ export const useCommerceMachine = (
 
   const [state, send] = useMachine(memoizedCommerceMachine)
 
-  const placeholderAnnualPlan = {
-    name: 'Yearly',
-    interval: 'year',
-    stripe_price_id: 'NO_PRICE_ID',
-    interval_count: 1,
-    price: 0,
-  }
+  const placeholderAnnualPlan = React.useMemo(() => {
+    return {
+      name: 'Yearly',
+      interval: 'year',
+      stripe_price_id: 'NO_PRICE_ID',
+      interval_count: 1,
+      price: 0,
+    }
+  }, [])
 
   // derived values
-  const prices = state.matches('pricesLoaded')
-    ? extractPricesFromPricingData(state.context.pricingData)
-    : {annualPrice: placeholderAnnualPlan}
+  const prices = React.useMemo(() => {
+    return state.matches('pricesLoaded')
+      ? extractPricesFromPricingData(state.context.pricingData)
+      : {annualPrice: placeholderAnnualPlan}
+  }, [state, placeholderAnnualPlan])
+
   const quantity = state.context.quantity
   const priceId = state.context.priceId
   const availableCoupons = state?.context?.pricingData?.available_coupons
@@ -86,7 +91,7 @@ export const useCommerceMachine = (
     if (!isEmpty(planForPriceId)) {
       setPlanKey(newPlanKey)
     }
-  }, [priceId, prices])
+  }, [priceId, prices, defaultPlanKey])
 
   return {
     state,
