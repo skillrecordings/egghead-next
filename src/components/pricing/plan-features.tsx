@@ -7,8 +7,15 @@ const PlanFeatures: React.FC<
     planFeatures?: string[]
     className?: string
   }>
-> = ({className = ''}) => {
-  const {planFeatures} = React.useContext(LifetimePriceContext)
+> = ({className = '', planFeatures}) => {
+  let features = planFeatures
+
+  let lifetimePriceContext = React.useContext(LifetimePriceContext)
+
+  if (!features && lifetimePriceContext?.planFeatures) {
+    features = lifetimePriceContext.planFeatures
+  }
+
   const CheckIcon = () => (
     <svg
       className="flex-shrink-0 inline-block mt-1 text-blue-500"
@@ -26,7 +33,7 @@ const PlanFeatures: React.FC<
 
   return (
     <ul className={className}>
-      {planFeatures.map((feature: string) => {
+      {features?.map((feature: string) => {
         return (
           <li className="flex py-2 font-medium" key={slugify(feature)}>
             <CheckIcon />
