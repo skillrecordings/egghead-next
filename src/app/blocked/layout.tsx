@@ -4,7 +4,7 @@ import Header from '@/components/app/header'
 import Main from '@/components/app/app-main'
 import Footer from '@/components/app/app-footer'
 import '../styles/index.css'
-import {Providers} from './providers'
+import {Providers} from '../providers'
 
 const Layout: FunctionComponent<React.PropsWithChildren<unknown>> = ({
   children,
