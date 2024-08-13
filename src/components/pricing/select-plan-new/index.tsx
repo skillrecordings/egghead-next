@@ -301,45 +301,46 @@ const SelectPlanNew: React.FunctionComponent<
   const buttonLabel: string = forTeams ? 'Level Up My Team' : 'Become a Member'
 
   return (
-    <>
-      <PlanTitle>{currentPlan?.name}</PlanTitle>
-      {!pppCouponIsApplied &&
-        appliedCoupon?.coupon_expires_at &&
-        !pricesLoading && (
-          <Countdown
-            label="Save on Yearly Memberships Price goes up in:"
-            date={fromUnixTime(appliedCoupon.coupon_expires_at)}
-          />
-        )}
-      <div className="py-6">
-        <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
-      </div>
-      <div className="h-9">
-        {keys(prices).length > 1 && (
-          <div>
-            <PlanIntervalsSwitch
-              disabled={false}
-              currentPlan={currentPlan}
-              setCurrentPlan={(newPlan: any) => {
-                onPriceChanged(newPlan.stripe_price_id)
-              }}
-              planTypes={individualPlans}
+    <div className="h-[600px] min-w-[300px] flex flex-col items-center justify-between">
+      <div className="flex flex-col items-center">
+        <PlanTitle>{currentPlan?.name}</PlanTitle>
+        {!pppCouponIsApplied &&
+          appliedCoupon?.coupon_expires_at &&
+          !pricesLoading && (
+            <Countdown
+              label="Save on Yearly Memberships Price goes up in:"
+              date={fromUnixTime(appliedCoupon.coupon_expires_at)}
             />
-          </div>
-        )}
+          )}
+        <div className="py-6">
+          <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
+        </div>
+        <div className="h-9">
+          {keys(prices).length > 1 && (
+            <div>
+              <PlanIntervalsSwitch
+                disabled={false}
+                currentPlan={currentPlan}
+                setCurrentPlan={(newPlan: any) => {
+                  onPriceChanged(newPlan.stripe_price_id)
+                }}
+                planTypes={individualPlans}
+              />
+            </div>
+          )}
+        </div>
+        {!appliedCoupon && <PlanPercentageOff interval={currentPlan.name} />}
+        <div className="my-4">
+          <PlanQuantitySelect
+            quantity={quantity}
+            plan={currentPlan}
+            pricesLoading={pricesLoading}
+            onQuantityChanged={(quantity: number) => {
+              onQuantityChanged(quantity)
+            }}
+          />
+        </div>
       </div>
-      {!appliedCoupon && <PlanPercentageOff interval={currentPlan.name} />}
-      <div className="my-4">
-        <PlanQuantitySelect
-          quantity={quantity}
-          plan={currentPlan}
-          pricesLoading={pricesLoading}
-          onQuantityChanged={(quantity: number) => {
-            onQuantityChanged(quantity)
-          }}
-        />
-      </div>
-
       <PlanFeatures planFeatures={planFeatures} />
       <GetAccessButton
         label={buttonLabel}
@@ -347,7 +348,7 @@ const SelectPlanNew: React.FunctionComponent<
         loaderOn={false}
         pricesLoading={pricesLoading}
       />
-    </>
+    </div>
   )
 }
 

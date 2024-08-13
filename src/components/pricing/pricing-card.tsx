@@ -25,7 +25,7 @@ const PricingCard: FunctionComponent<PricingCardProps> = ({
       )}
     >
       {displayImage && (
-        <div className="block absolute left-0 z-20 scale-50 top-[-184px]">
+        <div className="hidden sm:block absolute left-0 z-20 scale-50 top-[-184px]">
           <Image
             src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1659039546/eggodex/basic_eggo.png"
             alt="egghead search error"

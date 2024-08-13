@@ -9,20 +9,15 @@ import {NextSeo} from 'next-seo'
 import PricingCard from '@/components/pricing/pricing-card'
 import PricingProvider, {usePPP} from '@/components/pricing/pricing-provider'
 import LifetimePriceProvider from '@/components/pricing/lifetime-price-provider'
-import LifetimePriceCard from '@/components/pricing/lifetime-price-card'
 import PlanTitle from '@/components/pricing/plan-title'
 import PlanPrice from '@/components/pricing/plan-price'
 import PlanFeatures from '@/components/pricing/plan-features'
 import GetAccessButton from '@/components/pricing/get-access-button'
 import PoweredByStripe from '@/components/pricing/powered-by-stripe'
-import Countdown from '@/components/pricing/countdown'
-import {PlanPrice as SubscriptionPlanPrice} from '@/components/pricing/select-plan-new'
-import {useCommerceMachine} from '@/hooks/use-commerce-machine'
-import {fromUnixTime} from 'date-fns'
 import SelectPlanNew from '@/components/pricing/select-plan-new'
 import ParityCouponMessage from '@/components/pricing/parity-coupon-message'
 import {Coupon} from '@/types'
-import ColoredBackground from '@/components/pricing/select-plan-new/assets/colored-background'
+import {PopupButton} from '@typeform/embed-react'
 
 type PricingProps = {
   annualPrice: {
@@ -35,11 +30,50 @@ type PricingProps = {
   redirectURL?: string
 }
 
+const TeamContactCard = () => {
+  return (
+    <div>
+      <PricingCard>
+        <div className="flex flex-col min-w-[300px] h-[600px]">
+          <div className="flex flex-col h-full items-center justify-between">
+            <div className="text-center">
+              <PlanTitle className="text-center">Enterprise</PlanTitle>
+              <p className="pt-2 text-sm">For Teams of 20+</p>
+              <p className="py-4 self-stretch text-3xl font-extrabold ">
+                Custom
+              </p>
+            </div>
+
+            <div>
+              <PlanFeatures
+                planFeatures={[
+                  '20+ Seats',
+                  'Custom Price',
+                  'Tailored to your team',
+                  'Assign specific courses to team members',
+                  'Be assigned a custom dashboard',
+                  'Customize your team’s experience',
+                ]}
+              />
+            </div>
+            <PopupButton
+              className="w-full px-5 py-2 h-[60px] flex justify-center items-center mt-8 font-semibold text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
+              id="JWBc8Ohx"
+              size={60}
+            >
+              Contact Us
+            </PopupButton>
+          </div>
+        </div>
+      </PricingCard>
+    </div>
+  )
+}
+
 const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
   getLayout: any
 } = () => {
   const router = useRouter()
-  const {currentPlan} = useCommerceMachine()
   const {
     pppCouponIsApplied,
     pppCouponAvailable,
@@ -48,7 +82,6 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
     onDismissParityCoupon,
     parityCoupon,
     countryName,
-    appliedCoupon,
   } = usePPP()
 
   React.useEffect(() => {
@@ -80,7 +113,7 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
           <div className="flex flex-col items-center">
             <div className="flex sm:flex-row flex-col py-24 sm:space-x-5 sm:space-y-0 space-y-5 items-stretch gap-4">
               <PricingProvider>
-                <PricingCard className="opacity-90 hover:opacity-100">
+                <PricingCard className="opacity-90 hover:opacity-100 min-w-[300px] min-h-[600px]">
                   <SelectPlanNew />
                   {displayPPPMessage && (
                     <div className="max-w-screen-md pb-5 mx-auto mt-4">
@@ -97,7 +130,7 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
               </PricingProvider>
               <LifetimePriceProvider>
                 <PricingCard
-                  className="scale-110"
+                  className="scale-110 min-w-[300px]"
                   displayBackground
                   displayImage
                 >
@@ -115,20 +148,7 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
                   </div>
                 </PricingCard>
               </LifetimePriceProvider>
-              <LifetimePriceProvider>
-                <PricingCard>
-                  <div className="flex flex-col h-full justify-between">
-                    <div className="flex flex-col items-center">
-                      <PlanTitle>Lifetime Membership</PlanTitle>
-                      <div className="py-6">
-                        <PlanPrice />
-                      </div>
-                    </div>
-                    <PlanFeatures />
-                    <GetAccessButton />
-                  </div>
-                </PricingCard>
-              </LifetimePriceProvider>
+              <TeamContactCard />
             </div>
             <div className="flex sm:flex-row flex-col items-center py-24 sm:space-x-5 sm:space-y-0 space-y-5">
               <PoweredByStripe />
