@@ -4,29 +4,9 @@ import {
   getCookiesForRequest,
   setCookiesForResponse,
 } from './process-customer-cookies'
-import {Ratelimit} from '@upstash/ratelimit'
-import {kv} from '@vercel/kv'
 
 export const SITE_ROOT_PATH = '/'
 export const PRICING_PAGE_PATH = '/pricing'
-export const SEARCH_PAGE_PATH = '/q'
-
-const ratelimit = new Ratelimit({
-  redis: kv,
-  limiter: Ratelimit.slidingWindow(10, '5s'),
-  analytics: false,
-  prefix: 'egh-next-ratelimit',
-})
-
-const checkRateLimit = async (ip: string) => {
-  if (process.env.NODE_ENV === 'development') {
-    return {blocked: false}
-  }
-
-  const {success} = await ratelimit.limit(ip)
-
-  return {blocked: !success}
-}
 
 /**
  * with this approach, logged in users can be shown
@@ -69,27 +49,6 @@ export async function getMiddlewareResponse(req: NextRequest) {
         break
       default:
         response = NextResponse.next()
-    }
-  }
-
-  if (req.nextUrl.pathname.startsWith(SEARCH_PAGE_PATH)) {
-    switch (true) {
-      case isLoggedInMember:
-      case user?.email:
-      case isMember:
-        response = NextResponse.next()
-        break
-      default:
-        const ip = req.ip ?? '127.0.0.1'
-        const {blocked} = await checkRateLimit(ip)
-        response = blocked
-          ? NextResponse.redirect(
-              new URL(
-                `/blocked?prevPath=${encodeURIComponent(req.nextUrl.pathname)}`,
-                req.url,
-              ),
-            )
-          : NextResponse.next()
     }
   }
 
