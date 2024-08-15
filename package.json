@@ -205,7 +205,7 @@
     "sanity": "^3.18.1",
     "sanity-plugin-markdown": "^4.1.0",
     "sharp": "^0.32.4",
-    "shiki": "^0.14.4",
+    "shiki": "^0.14.7",
     "simplebar-react": "^2.3.5",
     "slugify": "^1.6.0",
     "speakingurl": "^14.0.1",
