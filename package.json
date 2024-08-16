@@ -147,7 +147,7 @@
     "lodash": "^4.17.21",
     "logrocket": "^2.0.0",
     "lucide-react": "^0.274.0",
-    "mdast-util-to-markdown": "^0.6.5",
+    "mdast-util-to-markdown": "0.6.5",
     "mdx-bundler": "9.2.1",
     "micro": "^9.3.4",
     "mime-types": "^2.1.35",
