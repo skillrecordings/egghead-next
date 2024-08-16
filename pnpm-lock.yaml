@@ -519,7 +519,7 @@ importers:
         specifier: ^0.32.4
         version: 0.32.6
       shiki:
-        specifier: ^0.14.7
+        specifier: 0.14.7
         version: 0.14.7
       simplebar-react:
         specifier: ^2.3.5
