@@ -29,6 +29,7 @@ import {trpc} from '@/app/_trpc/client'
 import {LessonProgress} from '@/lib/progress'
 import {LessonResource, SectionResource, VideoResource} from '@/types'
 import './talk-player.css'
+import {useViewer} from '@/context/viewer-context'
 
 type LessonProps = {
   state: any
@@ -51,6 +52,7 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
 }) => {
   const router = useRouter()
   const {subscriber, cioIdentify} = useCio()
+  const {viewer} = useViewer()
 
   const videoService = useVideo()
   const video = useSelector(videoService, selectVideo)
@@ -63,12 +65,11 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
 
   const {setPlayerPrefs, getPlayerPrefs} = usePlayerPrefs()
   const {autoplay, defaultView, subtitle} = getPlayerPrefs()
-  const withSidePanel = useSelector(videoService, selectWithSidePanel)
-  const isWaiting = useSelector(videoService, selectIsWaiting)
+
   const hasEnded = useSelector(videoService, selectHasEnded)
+  const isWaiting = useSelector(videoService, selectIsWaiting)
   const isPaused = useSelector(videoService, selectIsPaused)
   const isFullscreen = useSelector(videoService, selectIsFullscreen)
-  const viewer: any = useSelector(videoService, selectViewer)
 
   const [lessonState, send] = state
 
@@ -168,40 +169,6 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
     }
   }
 
-  const completeVideo = (lessonView: any) => {
-    console.debug('completed video', {lessonView, video: lesson})
-    clearResource()
-    if (lessonView) {
-      const hasNextLesson = nextLesson
-      const progress = getProgress(lessonView)
-
-      if (!hasNextLesson && isFullscreen) {
-        window.document.exitFullscreen()
-        videoService.send({type: 'EXIT_FULLSCREEN'})
-      }
-
-      if (!hasNextLesson && progress?.rate_url) {
-        console.debug('presenting opportunity to rate course', {
-          lessonView,
-          video: lesson,
-        })
-        console.debug('RATE')
-        send('RATE')
-      } else {
-        checkAutoPlay()
-      }
-    } else {
-      console.debug('no lesson view - incrementing watch count')
-      const newWatchCount = Number(
-        cookieUtil.set(`egghead-watch-count`, watchCount + 1, {
-          expires: 15,
-        }),
-      )
-      setWatchCount(newWatchCount)
-      checkAutoPlay()
-    }
-  }
-
   React.useEffect(() => {
     //TODO: We are doing work here that the lesson machine should
     //be handling but we don't have enough information in the context
@@ -250,16 +217,13 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
         break
 
       case 'viewing':
-        console.debug(
-          `changed to viewing isFullscreen: ${isFullscreen} mediaPresent: ${mediaPresent}`,
-        )
         if (!initialMediaPresent && mediaPresent) {
           videoService.send({
             type: 'LOAD_RESOURCE',
             resource: lesson,
           })
         }
-        if (!mediaPresent && !isFullscreen) {
+        if (!mediaPresent) {
           console.debug(`sending load event from viewing`)
           console.debug('LOAD')
           send('LOAD')
@@ -276,7 +240,6 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
           .then((lessonView: any) => {
             if (lessonView) {
               setLessonView(lessonView)
-              completeVideo(lessonView)
             } else if (lesson.collection && isIncomingAnonViewer) {
               console.debug('OFFER_SEARCH')
               send(`OFFER_SEARCH`)
@@ -290,7 +253,6 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
           })
           .catch(() => {
             if (lessonView) {
-              completeVideo(lessonView)
             } else if (lesson.collection && isIncomingAnonViewer) {
               console.debug('OFFER_SEARCH')
               send(`OFFER_SEARCH`)
@@ -338,13 +300,6 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
     }
   }
 
-  React.useEffect(() => {
-    // Autoplay
-    if (autoplay && !isWaiting) {
-      play()
-    }
-  }, [isWaiting, video])
-
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = React.useState<boolean>(false)
 
@@ -383,15 +338,7 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
           })}
           ref={fullscreenWrapperRef}
         >
-          <div
-            className={cx(
-              'relative before:float-left after:clear-both after:table',
-              {
-                'col-span-9': withSidePanel,
-                'col-span-12': !withSidePanel,
-              },
-            )}
-          >
+          <div className="relative before:float-left after:clear-both after:table">
             <div className={cx({hidden: !playerVisible})}>
               <Player
                 canAddNotes={
