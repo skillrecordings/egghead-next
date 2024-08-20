@@ -48,10 +48,6 @@ const about = [
     label: 'egghead for teams',
   },
   {
-    path: 'https://store.egghead.io/',
-    label: 'Store',
-  },
-  {
     path: 'mailto:support@egghead.io',
     label: 'support@egghead.io',
   },

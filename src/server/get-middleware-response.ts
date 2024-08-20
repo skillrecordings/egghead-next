@@ -13,7 +13,7 @@ export const SEARCH_PAGE_PATH = '/q'
 
 const ratelimit = new Ratelimit({
   redis: kv,
-  limiter: Ratelimit.slidingWindow(10, '5s'),
+  limiter: Ratelimit.slidingWindow(20, '5s'),
   analytics: false,
   prefix: 'egh-next-ratelimit',
 })
