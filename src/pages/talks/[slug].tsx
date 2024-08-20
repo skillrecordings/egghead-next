@@ -260,6 +260,8 @@ export const getServerSideProps: GetServerSideProps = async function ({
 }) {
   const initialLesson = params && (await loadLesson(params.slug as string))
 
+  console.log({initialLesson})
+
   return {
     props: {
       initialLesson,

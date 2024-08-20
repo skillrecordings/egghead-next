@@ -29,7 +29,6 @@ import {trpc} from '@/app/_trpc/client'
 import {LessonProgress} from '@/lib/progress'
 import {LessonResource, SectionResource, VideoResource} from '@/types'
 import './talk-player.css'
-import {useViewer} from '@/context/viewer-context'
 
 type LessonProps = {
   state: any
@@ -52,7 +51,6 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
 }) => {
   const router = useRouter()
   const {subscriber, cioIdentify} = useCio()
-  const {viewer} = useViewer()
 
   const videoService = useVideo()
   const video = useSelector(videoService, selectVideo)
@@ -70,6 +68,7 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
   const isWaiting = useSelector(videoService, selectIsWaiting)
   const isPaused = useSelector(videoService, selectIsPaused)
   const isFullscreen = useSelector(videoService, selectIsFullscreen)
+  const viewer = useSelector(videoService, selectViewer)
 
   const [lessonState, send] = state
 
@@ -110,12 +109,6 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
 
   const nextLesson = useNextForCollection(collection, lesson.slug)
   const {session_id} = router.query
-
-  const getProgress = (lessonView: any) => {
-    if (lessonView?.collection_progress) {
-      return lessonView.collection_progress
-    }
-  }
 
   const {data} = trpc.progress.forLesson.useQuery<LessonProgress>({
     slug: lesson.slug,
@@ -327,6 +320,8 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
       video?.removeEventListener('timeupdate', recordProgress)
     }
   }, [video])
+
+  if (!initialLesson || !state) return null
 
   return (
     <>
