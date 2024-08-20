@@ -874,8 +874,8 @@ const CollectionPageLayout: React.FunctionComponent<
               <div>
                 <ul>
                   {lessons.map((lesson: LessonResource, index: number) => {
+                    if (lesson?.published_at === null) return null
                     const tagImageUrl = `https://res.cloudinary.com/dg3gyk0gu/image/upload/w_72,h_72/v1683914713/tags/${lesson?.primary_tag?.name}.png`
-
                     const isComplete = completedLessonSlugs?.includes(
                       lesson.slug,
                     )
