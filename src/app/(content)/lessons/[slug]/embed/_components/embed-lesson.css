@@ -1,0 +1,14 @@
+.cueplayer-react .cueplayer-react-video-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+}
+
+.cueplayer-react-controls-holder {
+  width: 100%;
+  margin: 0 auto;
+  opacity: 100%;
+  max-width: 100vw;
+}
