@@ -6,6 +6,7 @@ import {Providers} from '../providers'
 import Header from '@/components/app/header'
 import Main from '@/components/app/app-main'
 import Footer from '@/components/app/app-footer'
+import '@/styles/index.css'
 
 export default async function UserPageLayout({
   children,
