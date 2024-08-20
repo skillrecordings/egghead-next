@@ -36,6 +36,7 @@ export type LessonResource = Resource & {
   thumb_url: string
   lesson_view_url: string
   id: string | number
+  published_at: string
   tags: any[]
   lessons: any[]
   primary_tag: any
