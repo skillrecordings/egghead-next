@@ -2,7 +2,6 @@ import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useMachine} from '@xstate/react'
-import EggheadPlayer from '@/components/EggheadPlayer'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
 import Image from 'next/legacy/image'
@@ -12,11 +11,26 @@ import {GetServerSideProps} from 'next'
 import {lessonMachine} from '@/machines/lesson-machine'
 import {useWindowSize} from 'react-use'
 import Transcript from '@/components/pages/lessons/transcript'
-import {NextSeo} from 'next-seo'
-import Head from 'next/head'
+import {NextSeo, SocialProfileJsonLd, VideoJsonLd} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {useEnhancedTranscript} from '@/hooks/use-enhanced-transcript'
-import analytics from '@/utils/analytics'
+import {GenericErrorBoundary} from '@/components/generic-error-boundary'
+import {VideoProvider} from '@skillrecordings/player'
+import {
+  VideoEvent,
+  VideoStateContext,
+} from '@skillrecordings/player/dist/machines/video-machine'
+import {compact, truncate} from 'lodash'
+import TalkPLayer from './_components/talk-player'
+
+function toISO8601Duration(duration: number) {
+  const seconds = Math.floor(duration % 60)
+  const minutes = Math.floor((duration / 60) % 60)
+  const hours = Math.floor((duration / (60 * 60)) % 24)
+  const days = Math.floor(duration / (60 * 60 * 24))
+
+  return `P${days}DT${hours}H${minutes}M${seconds}S`
+}
 
 type LessonProps = {
   initialLesson: any
@@ -29,9 +43,8 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
   initialLesson,
 }) => {
   const router = useRouter()
-  const playerRef = React.useRef(null)
   const {viewer} = useViewer()
-  const [playerState] = useMachine(lessonMachine, {
+  const [lessonState, send] = useMachine(lessonMachine, {
     context: {
       lesson: initialLesson,
       viewer,
@@ -42,18 +55,22 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
         const loadedLesson = await loadLesson(initialLesson.slug)
         console.debug('authed video loaded', {video: loadedLesson})
 
-        return loadedLesson
+        return {
+          ...initialLesson,
+          ...loadedLesson,
+        }
       },
     },
   })
   const {height} = useWindowSize()
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
+  const [watchCount, setWatchCount] = React.useState<number>(0)
 
   React.useEffect(() => {
     setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
   }, [height])
 
-  const lesson: any = get(playerState, 'context.lesson', initialLesson)
+  const lesson: any = get(lessonState, 'context.lesson', initialLesson)
 
   const {
     instructor,
@@ -67,6 +84,11 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
     slug,
   } = lesson
 
+  const instructorPagePath = `/q/resources-by-${get(
+    instructor?.slug,
+    'slug',
+    '#',
+  )}`
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
 
@@ -79,9 +101,13 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
   return (
     <>
       <NextSeo
-        description={removeMarkdown(description)}
+        description={truncate(removeMarkdown(description?.replace(/"/g, "'")), {
+          length: 150,
+        })}
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`}
-        title={title}
+        title={truncate(removeMarkdown(title?.replace(/"/g, "'")), {
+          length: 42,
+        })}
         titleTemplate={'%s | conference talk | egghead.io'}
         twitter={{
           handle: instructor?.twitter,
@@ -91,7 +117,12 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
         openGraph={{
           title,
           url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`,
-          description: removeMarkdown(description),
+          description: truncate(
+            removeMarkdown(description?.replace(/"/g, "'")),
+            {
+              length: 150,
+            },
+          ),
           site_name: 'egghead',
           images: [
             {
@@ -100,9 +131,22 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
           ],
         }}
       />
-      <Head>
-        <script src="//cdn.bitmovin.com/player/web/8/bitmovinplayer.js" />
-      </Head>
+      <VideoJsonLd
+        name={title?.replace(/"/g, "'")}
+        description={truncate(removeMarkdown(description?.replace(/"/g, "'")), {
+          length: 150,
+        })}
+        contentUrl={lesson?.hls_url}
+        duration={toISO8601Duration(Number(lesson?.duration ?? 0))}
+        uploadDate={lesson?.created_at}
+        thumbnailUrls={compact([lesson?.thumb_url])}
+      />
+      <SocialProfileJsonLd
+        type="Person"
+        name={instructor?.full_name}
+        url={`https://egghead.io${instructorPagePath}`}
+        sameAs={[`https://twitter.com/${instructor.twitter}`]}
+      />
       <div>
         <div className="bg-black">
           <style jsx>
@@ -122,24 +166,35 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
             `}
           </style>
           <div className="w-full m-auto player-container">
-            <div className="pt-[56.25%] w-full relative overflow-hidden bg-black text-white">
+            <div className="pt-[56.25%] w-full relative overflow-hidden bg-black text-white pb-12">
               <div className="absolute top-0 left-0 w-full h-full">
-                <EggheadPlayer
-                  ref={playerRef}
-                  hls_url={hls_url}
-                  dash_url={dash_url}
-                  width="100%"
-                  height="auto"
-                  pip="true"
-                  poster={`https://og-image-react-egghead.now.sh/talk/${get(
-                    lesson,
-                    'slug',
-                  )}?v=20201027`}
-                  controls
-                  subtitlesUrl={get(lesson, 'subtitles_url')}
-                  lessonSlug={lesson.slug}
-                  trackCompletion={analytics.events.engagementWatchedTalk}
-                />
+                <VideoProvider
+                  services={{
+                    loadViewer:
+                      (_context: VideoStateContext, _event: VideoEvent) =>
+                      async () => {
+                        return await viewer
+                      },
+                    loadResource:
+                      (_context: VideoStateContext, event: VideoEvent) =>
+                      async () => {
+                        const loadedLesson = get(event, 'resource') as any
+                        return {
+                          ...initialLesson,
+                          ...loadedLesson,
+                        }
+                      },
+                  }}
+                >
+                  <GenericErrorBoundary>
+                    <TalkPLayer
+                      state={[lessonState, send]}
+                      initialLesson={initialLesson}
+                      watchCount={watchCount}
+                      setWatchCount={setWatchCount}
+                    />
+                  </GenericErrorBoundary>
+                </VideoProvider>
               </div>
             </div>
           </div>
@@ -178,9 +233,9 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
               </Markdown>
               {transcriptAvailable && (
                 <div className="mt-8 sm:mt-16">
-                  <h3 className="mb-4 text-lg font-bold leading-tight tracking-tight">
+                  <h2 className="mb-4 text-lg font-bold leading-tight tracking-tight">
                     Transcript
-                  </h3>
+                  </h2>
                   <Transcript
                     className="prose text-gray-800 dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none"
                     initialTranscript={transcript}
