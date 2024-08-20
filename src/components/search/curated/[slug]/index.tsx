@@ -124,7 +124,7 @@ const CuratedTopic: React.FC<React.PropsWithChildren<CuratedTopicProps>> = ({
   const location = `${topic.name} landing`
   const pageDescription = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online led by working professionals that learn in public.`
   const pageTitle = `In-Depth ${
-    topic.label
+    topicData.title
   } Tutorials for ${new Date().getFullYear()}`
   const router = useRouter()
   const {data: completeCourseData} = trpc.progress.completedCourses.useQuery()
