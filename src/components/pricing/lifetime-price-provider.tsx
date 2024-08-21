@@ -18,6 +18,9 @@ const LifetimePriceProvider: React.FC<LifetimePriceProviderProps> = ({
   const stripeParam = params?.get('stripe')
   const lifetimePlan = {price: 500} // TODO: Make this dynamic
   const planFeatures = [
+    'Forever Yours',
+    'Only Pay Once',
+    'Access to all future content',
     'Full access to all the premium courses',
     'Closed captions for every video',
     'Commenting and support',
