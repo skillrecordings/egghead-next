@@ -281,18 +281,6 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
     videoService.send('ACTIVITY')
   }, [initialLesson.slug])
 
-  const play = () => {
-    const playPromise = video?.play()
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          video?.play()
-          videoService.send({type: 'PLAY'})
-        })
-        .catch((e: any) => console.error(`PLAY failed: ${e}`))
-    }
-  }
-
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = React.useState<boolean>(false)
 

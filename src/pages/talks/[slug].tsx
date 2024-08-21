@@ -11,8 +11,7 @@ import {GetServerSideProps} from 'next'
 import {lessonMachine} from '@/machines/lesson-machine'
 import {useWindowSize} from 'react-use'
 import Transcript from '@/components/pages/lessons/transcript'
-import {NextSeo, SocialProfileJsonLd, VideoJsonLd} from 'next-seo'
-import removeMarkdown from 'remove-markdown'
+import PageSEO from './_components/page-seo'
 import {useEnhancedTranscript} from '@/hooks/use-enhanced-transcript'
 import {GenericErrorBoundary} from '@/components/generic-error-boundary'
 import {VideoProvider} from '@skillrecordings/player'
@@ -20,17 +19,12 @@ import {
   VideoEvent,
   VideoStateContext,
 } from '@skillrecordings/player/dist/machines/video-machine'
-import {compact, truncate} from 'lodash'
-import TalkPLayer from './_components/talk-player'
+import dynamic from 'next/dynamic'
+import {LessonResource} from '@/types'
 
-function toISO8601Duration(duration: number) {
-  const seconds = Math.floor(duration % 60)
-  const minutes = Math.floor((duration / 60) % 60)
-  const hours = Math.floor((duration / (60 * 60)) % 24)
-  const days = Math.floor(duration / (60 * 60 * 24))
-
-  return `P${days}DT${hours}H${minutes}M${seconds}S`
-}
+const TalkPlayer = dynamic(() => import('./_components/talk-player'), {
+  ssr: false,
+})
 
 type LessonProps = {
   initialLesson: any
@@ -41,6 +35,7 @@ const VIDEO_MIN_HEIGHT = 480
 
 const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
   initialLesson,
+  ...props
 }) => {
   const router = useRouter()
   const {viewer} = useViewer()
@@ -96,57 +91,11 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
     return <div>Loading...</div>
   }
 
-  if (!lesson) return null
+  if (!lesson || !initialLesson) return null
 
   return (
     <>
-      <NextSeo
-        description={truncate(removeMarkdown(description?.replace(/"/g, "'")), {
-          length: 150,
-        })}
-        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`}
-        title={truncate(removeMarkdown(title?.replace(/"/g, "'")), {
-          length: 42,
-        })}
-        titleTemplate={'%s | conference talk | egghead.io'}
-        twitter={{
-          handle: instructor?.twitter,
-          site: `@eggheadio`,
-          cardType: 'summary_large_image',
-        }}
-        openGraph={{
-          title,
-          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`,
-          description: truncate(
-            removeMarkdown(description?.replace(/"/g, "'")),
-            {
-              length: 150,
-            },
-          ),
-          site_name: 'egghead',
-          images: [
-            {
-              url: `https://og-image-react-egghead.now.sh/talk/${slug}?v=20201027`,
-            },
-          ],
-        }}
-      />
-      <VideoJsonLd
-        name={title?.replace(/"/g, "'")}
-        description={truncate(removeMarkdown(description?.replace(/"/g, "'")), {
-          length: 150,
-        })}
-        contentUrl={lesson?.hls_url}
-        duration={toISO8601Duration(Number(lesson?.duration ?? 0))}
-        uploadDate={lesson?.created_at}
-        thumbnailUrls={compact([lesson?.thumb_url])}
-      />
-      <SocialProfileJsonLd
-        type="Person"
-        name={instructor?.full_name}
-        url={`https://egghead.io${instructorPagePath}`}
-        sameAs={[`https://twitter.com/${instructor.twitter}`]}
-      />
+      <PageSEO lesson={lesson} />
       <div>
         <div className="bg-black">
           <style jsx>
@@ -187,11 +136,12 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
                   }}
                 >
                   <GenericErrorBoundary>
-                    <TalkPLayer
+                    <TalkPlayer
                       state={[lessonState, send]}
                       initialLesson={initialLesson}
                       watchCount={watchCount}
                       setWatchCount={setWatchCount}
+                      {...props}
                     />
                   </GenericErrorBoundary>
                 </VideoProvider>
@@ -258,13 +208,32 @@ export const getServerSideProps: GetServerSideProps = async function ({
   req,
   params,
 }) {
-  const initialLesson = params && (await loadLesson(params.slug as string))
+  try {
+    const initialLesson: LessonResource | undefined =
+      params && (await loadLesson(params.slug as string))
 
-  console.log({initialLesson})
-
-  return {
-    props: {
-      initialLesson,
-    },
+    if (initialLesson && initialLesson?.slug !== params?.slug) {
+      return {
+        redirect: {
+          destination: initialLesson.path,
+          permanent: true,
+        },
+      }
+    } else {
+      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+      return {
+        props: {
+          initialLesson,
+        },
+      }
+    }
+  } catch (e) {
+    console.error(e)
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
   }
 }
