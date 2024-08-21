@@ -134,17 +134,20 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
                   displayBackground
                   displayImage
                 >
-                  <div className="flex flex-col h-full justify-between">
-                    <div className="flex flex-col items-center pt-12">
+                  <div className="flex flex-col h-full">
+                    <div className="flex flex-col items-center pt-12 pb-6">
+                      <div className="bg-gray-100 py-2 px-4 rounded-full font-semibold">
+                        BEST VALUE
+                      </div>
                       <PlanTitle className="text-2xl">
                         Lifetime Membership
                       </PlanTitle>
-                      <div className="py-6">
+                      <div className="pt-6">
                         <PlanPrice />
                       </div>
+                      <GetAccessButton className="bg-yellow-300 text-black" />
                     </div>
                     <PlanFeatures />
-                    <GetAccessButton />
                   </div>
                 </PricingCard>
               </LifetimePriceProvider>
