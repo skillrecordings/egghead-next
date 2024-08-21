@@ -35,6 +35,7 @@ import {useClickAway} from 'react-use'
 import {ChevronDown} from 'lucide-react'
 import clsx from 'clsx'
 import {cn} from '@/ui/utils'
+import LifetimeSaleHeaderBanner from '@/components/cta/sale/lifetime-header-banner'
 
 type NavLinkProps = {
   name: string
@@ -367,6 +368,9 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
       {!viewer?.is_pro && !viewer?.is_instructor && pathname !== '/pricing' && (
         <SaleHeaderBanner />
       )}
+      {!viewer?.is_instructor &&
+        pathname !== '/pricing' &&
+        pathname !== '/forever' && <LifetimeSaleHeaderBanner />}
       <nav
         aria-label="header"
         className="relative h-12 text-sm border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000"
