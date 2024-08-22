@@ -3,11 +3,9 @@ import {LifetimePriceContext} from './lifetime-price-provider'
 import Spinner from '../spinner'
 import {twMerge} from 'tailwind-merge'
 
-const GetAccessButton: React.FunctionComponent = ({
-  className,
-}: {
+const GetAccessButton: React.FunctionComponent<{
   className?: string
-}) => {
+}> = ({className}) => {
   const {loaderOn, pricesLoading, onClickCheckout} =
     React.useContext(LifetimePriceContext)
 
