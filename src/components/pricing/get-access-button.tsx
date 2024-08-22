@@ -5,7 +5,8 @@ import {twMerge} from 'tailwind-merge'
 
 const GetAccessButton: React.FunctionComponent<{
   className?: string
-}> = ({className}) => {
+  hoverClassName?: string
+}> = ({className, hoverClassName = 'hover:bg-blue-700 hover:scale-105'}) => {
   const {loaderOn, pricesLoading, onClickCheckout} =
     React.useContext(LifetimePriceContext)
 
@@ -14,9 +15,7 @@ const GetAccessButton: React.FunctionComponent<{
       disabled={pricesLoading}
       className={twMerge(
         `w-full px-5 py-2 h-[60px] flex justify-center items-center mt-8 font-semibold text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md ${
-          pricesLoading
-            ? 'opacity-60 cursor-default'
-            : 'hover:bg-blue-700 hover:scale-105'
+          pricesLoading ? 'opacity-60 cursor-default' : hoverClassName
         }`,
         className,
       )}
