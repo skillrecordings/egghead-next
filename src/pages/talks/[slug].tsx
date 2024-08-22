@@ -2,7 +2,6 @@ import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useMachine} from '@xstate/react'
-import EggheadPlayer from '@/components/EggheadPlayer'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
 import Image from 'next/legacy/image'
@@ -12,11 +11,16 @@ import {GetServerSideProps} from 'next'
 import {lessonMachine} from '@/machines/lesson-machine'
 import {useWindowSize} from 'react-use'
 import Transcript from '@/components/pages/lessons/transcript'
-import {NextSeo} from 'next-seo'
-import Head from 'next/head'
-import removeMarkdown from 'remove-markdown'
 import {useEnhancedTranscript} from '@/hooks/use-enhanced-transcript'
-import analytics from '@/utils/analytics'
+import {GenericErrorBoundary} from '@/components/generic-error-boundary'
+import {VideoProvider} from '@skillrecordings/player'
+import {
+  VideoEvent,
+  VideoStateContext,
+} from '@skillrecordings/player/dist/machines/video-machine'
+import {LessonResource} from '@/types'
+import TalkPlayer from '@/components/talks/talk-player'
+import PageSEO from '@/components/talks/page-seo'
 
 type LessonProps = {
   initialLesson: any
@@ -27,11 +31,11 @@ const VIDEO_MIN_HEIGHT = 480
 
 const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
   initialLesson,
+  ...props
 }) => {
   const router = useRouter()
-  const playerRef = React.useRef(null)
   const {viewer} = useViewer()
-  const [playerState] = useMachine(lessonMachine, {
+  const [lessonState, send] = useMachine(lessonMachine, {
     context: {
       lesson: initialLesson,
       viewer,
@@ -42,18 +46,22 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
         const loadedLesson = await loadLesson(initialLesson.slug)
         console.debug('authed video loaded', {video: loadedLesson})
 
-        return loadedLesson
+        return {
+          ...initialLesson,
+          ...loadedLesson,
+        }
       },
     },
   })
   const {height} = useWindowSize()
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
+  const [watchCount, setWatchCount] = React.useState<number>(0)
 
   React.useEffect(() => {
     setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
   }, [height])
 
-  const lesson: any = get(playerState, 'context.lesson', initialLesson)
+  const lesson: any = get(lessonState, 'context.lesson', initialLesson)
 
   const {
     instructor,
@@ -67,6 +75,11 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
     slug,
   } = lesson
 
+  const instructorPagePath = `/q/resources-by-${get(
+    instructor?.slug,
+    'slug',
+    '#',
+  )}`
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
 
@@ -74,35 +87,11 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
     return <div>Loading...</div>
   }
 
-  if (!lesson) return null
+  if (!lesson || !initialLesson) return null
 
   return (
     <>
-      <NextSeo
-        description={removeMarkdown(description)}
-        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`}
-        title={title}
-        titleTemplate={'%s | conference talk | egghead.io'}
-        twitter={{
-          handle: instructor?.twitter,
-          site: `@eggheadio`,
-          cardType: 'summary_large_image',
-        }}
-        openGraph={{
-          title,
-          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`,
-          description: removeMarkdown(description),
-          site_name: 'egghead',
-          images: [
-            {
-              url: `https://og-image-react-egghead.now.sh/talk/${slug}?v=20201027`,
-            },
-          ],
-        }}
-      />
-      <Head>
-        <script src="//cdn.bitmovin.com/player/web/8/bitmovinplayer.js" />
-      </Head>
+      <PageSEO lesson={lesson} />
       <div>
         <div className="bg-black">
           <style jsx>
@@ -122,24 +111,36 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
             `}
           </style>
           <div className="w-full m-auto player-container">
-            <div className="pt-[56.25%] w-full relative overflow-hidden bg-black text-white">
+            <div className="pt-[56.25%] w-full relative overflow-hidden bg-black text-white pb-12">
               <div className="absolute top-0 left-0 w-full h-full">
-                <EggheadPlayer
-                  ref={playerRef}
-                  hls_url={hls_url}
-                  dash_url={dash_url}
-                  width="100%"
-                  height="auto"
-                  pip="true"
-                  poster={`https://og-image-react-egghead.now.sh/talk/${get(
-                    lesson,
-                    'slug',
-                  )}?v=20201027`}
-                  controls
-                  subtitlesUrl={get(lesson, 'subtitles_url')}
-                  lessonSlug={lesson.slug}
-                  trackCompletion={analytics.events.engagementWatchedTalk}
-                />
+                <VideoProvider
+                  services={{
+                    loadViewer:
+                      (_context: VideoStateContext, _event: VideoEvent) =>
+                      async () => {
+                        return await viewer
+                      },
+                    loadResource:
+                      (_context: VideoStateContext, event: VideoEvent) =>
+                      async () => {
+                        const loadedLesson = get(event, 'resource') as any
+                        return {
+                          ...initialLesson,
+                          ...loadedLesson,
+                        }
+                      },
+                  }}
+                >
+                  <GenericErrorBoundary>
+                    <TalkPlayer
+                      state={[lessonState, send]}
+                      initialLesson={initialLesson}
+                      watchCount={watchCount}
+                      setWatchCount={setWatchCount}
+                      {...props}
+                    />
+                  </GenericErrorBoundary>
+                </VideoProvider>
               </div>
             </div>
           </div>
@@ -178,9 +179,9 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
               </Markdown>
               {transcriptAvailable && (
                 <div className="mt-8 sm:mt-16">
-                  <h3 className="mb-4 text-lg font-bold leading-tight tracking-tight">
+                  <h2 className="mb-4 text-lg font-bold leading-tight tracking-tight">
                     Transcript
-                  </h3>
+                  </h2>
                   <Transcript
                     className="prose text-gray-800 dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none"
                     initialTranscript={transcript}
@@ -203,11 +204,32 @@ export const getServerSideProps: GetServerSideProps = async function ({
   req,
   params,
 }) {
-  const initialLesson = params && (await loadLesson(params.slug as string))
+  try {
+    const initialLesson: LessonResource | undefined =
+      params && (await loadLesson(params.slug as string))
 
-  return {
-    props: {
-      initialLesson,
-    },
+    if (initialLesson && initialLesson?.slug !== params?.slug) {
+      return {
+        redirect: {
+          destination: initialLesson.path,
+          permanent: true,
+        },
+      }
+    } else {
+      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+      return {
+        props: {
+          initialLesson,
+        },
+      }
+    }
+  } catch (e) {
+    console.error(e)
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
   }
 }

@@ -69,8 +69,6 @@ const Tag = (props: any) => {
     }
   }, [scrollY])
 
-  console.log({author})
-
   return (
     <>
       <NextSeo
