@@ -11,7 +11,6 @@ import {GetServerSideProps} from 'next'
 import {lessonMachine} from '@/machines/lesson-machine'
 import {useWindowSize} from 'react-use'
 import Transcript from '@/components/pages/lessons/transcript'
-import PageSEO from './_components/page-seo'
 import {useEnhancedTranscript} from '@/hooks/use-enhanced-transcript'
 import {GenericErrorBoundary} from '@/components/generic-error-boundary'
 import {VideoProvider} from '@skillrecordings/player'
@@ -19,12 +18,9 @@ import {
   VideoEvent,
   VideoStateContext,
 } from '@skillrecordings/player/dist/machines/video-machine'
-import dynamic from 'next/dynamic'
 import {LessonResource} from '@/types'
-
-const TalkPlayer = dynamic(() => import('./_components/talk-player'), {
-  ssr: false,
-})
+import TalkPlayer from '@/components/talks/talk-player'
+import PageSEO from '@/components/talks/page-seo'
 
 type LessonProps = {
   initialLesson: any
