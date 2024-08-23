@@ -131,7 +131,7 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
                 >
                   <div className="flex flex-col h-full">
                     <div className="flex flex-col items-center pt-12 pb-6">
-                      <div className="bg-gray-100 py-2 px-4 rounded-full font-semibold">
+                      <div className="bg-gray-100 py-2 px-4 rounded-full font-semibold dark:bg-gray-700">
                         BEST VALUE
                       </div>
                       <PlanTitle className="text-2xl">
