@@ -32,7 +32,7 @@ type PricingProps = {
 
 const TeamContactCard = () => {
   return (
-    <PricingCard className="mt-24">
+    <PricingCard className="mt-24 order-3">
       <div className="min-w-[300px] h-full">
         <div className="text-center">
           <PlanTitle className="text-center">Enterprise</PlanTitle>
@@ -109,7 +109,7 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
           <div className="flex flex-col items-center">
             <div className="flex sm:flex-row flex-col sm:mt-24">
               <PricingProvider>
-                <PricingCard className="opacity-90 hover:opacity-100 min-w-[300px] h-full mt-12">
+                <PricingCard className="sm:order-1 order-2 opacity-90 hover:opacity-100 min-w-[300px] h-full mt-12">
                   <SelectPlanNew />
                   {displayPPPMessage && (
                     <div className="max-w-screen-md pb-5 mx-auto mt-4">
@@ -126,7 +126,7 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
               </PricingProvider>
               <LifetimePriceProvider>
                 <PricingCard
-                  className="scale-110 min-w-[300px] z-30 drop-shadow-2xl"
+                  className="sm:order-2 order-1 sm:scale-110 min-w-[300px] z-30 drop-shadow-2xl"
                   displayImage
                 >
                   <div className="flex flex-col h-full">
