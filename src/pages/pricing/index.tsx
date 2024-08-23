@@ -32,42 +32,37 @@ type PricingProps = {
 
 const TeamContactCard = () => {
   return (
-    <div>
-      <PricingCard>
-        <div className="flex flex-col min-w-[300px]">
-          <div className="flex flex-col h-full items-center">
-            <div className="text-center">
-              <PlanTitle className="text-center">Enterprise</PlanTitle>
-              <p className="pt-4 self-stretch text-3xl font-extrabold ">
-                For Teams
-              </p>
-              <p className="font-bold text-xl">of 20+</p>
-            </div>
-            <div className="justify-center my-6 w-full">
-              <PopupButton
-                className="w-full px-5 py-2 h-[60px] flex justify-center items-center font-semibold text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
-                id="JWBc8Ohx"
-                size={60}
-              >
-                Contact Us
-              </PopupButton>
-            </div>
-            <div>
-              <PlanFeatures
-                planFeatures={[
-                  '20+ Seats',
-                  'Custom Price',
-                  'Tailored to your team',
-                  'Assign specific courses to team members',
-                  'Be assigned a custom dashboard',
-                  'Customize your team’s experience',
-                ]}
-              />
-            </div>
-          </div>
+    <PricingCard className="mt-24">
+      <div className="min-w-[300px] h-full">
+        <div className="text-center">
+          <PlanTitle className="text-center">Enterprise</PlanTitle>
+          <p className="pt-4 self-stretch text-3xl font-extrabold ">
+            For Teams
+          </p>
+          <p className="font-bold text-xl">of 20+</p>
         </div>
-      </PricingCard>
-    </div>
+        <div className="justify-center my-6 w-full">
+          <PopupButton
+            className="w-full px-5 py-2 h-[60px] flex justify-center items-center font-semibold text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
+            id="JWBc8Ohx"
+            size={60}
+          >
+            Contact Us
+          </PopupButton>
+        </div>
+        <div>
+          <PlanFeatures
+            planFeatures={[
+              '20+ Seats',
+              'Custom Learning Paths',
+              'Onboarding Call',
+              'Bulk Discounts',
+              'Discounted Lifetime Licenses',
+            ]}
+          />
+        </div>
+      </div>
+    </PricingCard>
   )
 }
 
@@ -112,9 +107,9 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
         </header>
         <main className="container flex flex-col items-center">
           <div className="flex flex-col items-center">
-            <div className="flex sm:flex-row flex-col py-24 -space-x-4 sm:space-y-0 space-y-5 items-stretch gap-4">
+            <div className="flex sm:flex-row flex-col sm:mt-24">
               <PricingProvider>
-                <PricingCard className="opacity-90 hover:opacity-100 min-w-[300px] min-h-[600px]">
+                <PricingCard className="opacity-90 hover:opacity-100 min-w-[300px] h-full mt-12">
                   <SelectPlanNew />
                   {displayPPPMessage && (
                     <div className="max-w-screen-md pb-5 mx-auto mt-4">
@@ -132,7 +127,6 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
               <LifetimePriceProvider>
                 <PricingCard
                   className="scale-110 min-w-[300px] z-30 drop-shadow-2xl"
-                  displayBackground
                   displayImage
                 >
                   <div className="flex flex-col h-full">
@@ -159,6 +153,7 @@ const Pricing: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
                 </PricingCard>
               </LifetimePriceProvider>
               <TeamContactCard />
+              <div className="w-0 h-0"></div>
             </div>
             <div className="flex sm:flex-row flex-col items-center py-24 sm:space-x-5 sm:space-y-0 space-y-5">
               <PoweredByStripe />

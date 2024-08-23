@@ -10,6 +10,7 @@ import {fromUnixTime} from 'date-fns'
 import {Coupon, PricingPlan} from '@/types'
 import {useCommerceMachine} from '@/hooks/use-commerce-machine'
 import {PricingContext, usePPP} from '../pricing-provider'
+import PlanFeatures from '@/components/pricing/plan-features'
 
 const PlanTitle: React.FunctionComponent<React.PropsWithChildren<unknown>> = ({
   children,
@@ -136,48 +137,6 @@ const PlanIntervalsSwitch: React.FunctionComponent<
   )
 }
 
-const DEFAULT_FEATURES = [
-  'Full access to all the premium courses',
-  'Closed captions for every video',
-  'Commenting and support',
-  'Enhanced Transcripts',
-  'RSS course feeds',
-]
-
-const PlanFeatures: React.FunctionComponent<
-  React.PropsWithChildren<{
-    planFeatures?: string[]
-  }>
-> = ({planFeatures = DEFAULT_FEATURES}) => {
-  const CheckIcon = () => (
-    <svg
-      className="flex-shrink-0 inline-block mt-1 text-blue-500"
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-    >
-      <path
-        fill="currentColor"
-        d="M6.00266104,15 C5.73789196,15 5.48398777,14.8946854 5.29679603,14.707378 L0.304822855,9.71382936 C0.0452835953,9.46307884 -0.0588050485,9.09175514 0.0325634765,8.74257683 C0.123932001,8.39339851 0.396538625,8.12070585 0.745606774,8.02930849 C1.09467492,7.93791112 1.46588147,8.04203262 1.71655287,8.30165379 L5.86288579,12.4482966 L14.1675324,0.449797837 C14.3666635,0.147033347 14.7141342,-0.0240608575 15.0754425,0.00274388845 C15.4367507,0.0295486344 15.7551884,0.250045268 15.9074918,0.578881992 C16.0597953,0.907718715 16.0220601,1.29328389 15.8088932,1.58632952 L6.82334143,14.5695561 C6.65578773,14.8145513 6.38796837,14.9722925 6.09251656,15 C6.06256472,15 6.03261288,15 6.00266104,15 Z"
-      />
-    </svg>
-  )
-
-  return (
-    <ul>
-      {planFeatures.map((feature: string) => {
-        return (
-          <li className="flex py-2 font-medium" key={slugify(feature)}>
-            <CheckIcon />
-            <span className="ml-2 leading-tight">{feature}</span>
-          </li>
-        )
-      })}
-    </ul>
-  )
-}
-
 const GetAccessButton: React.FunctionComponent<
   React.PropsWithChildren<{
     label: string
@@ -189,7 +148,7 @@ const GetAccessButton: React.FunctionComponent<
   return (
     <button
       disabled={pricesLoading}
-      className={`w-full px-5 py-2 h-[60px] flex justify-center items-center mt-8 font-semibold text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md ${
+      className={`w-full px-5 py-2 h-[60px] flex justify-center items-center font-semibold text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md ${
         pricesLoading
           ? 'opacity-60 cursor-default'
           : 'hover:bg-blue-700 hover:scale-105'
@@ -301,7 +260,7 @@ const SelectPlanNew: React.FunctionComponent<
   const buttonLabel: string = forTeams ? 'Level Up My Team' : 'Become a Member'
 
   return (
-    <div className="h-[600px] min-w-[300px] flex flex-col items-center justify-between">
+    <div className="min-w-[300px] flex flex-col items-center">
       <div className="flex flex-col items-center">
         <PlanTitle>{currentPlan?.name}</PlanTitle>
         {!pppCouponIsApplied &&
@@ -330,7 +289,7 @@ const SelectPlanNew: React.FunctionComponent<
           )}
         </div>
         {!appliedCoupon && <PlanPercentageOff interval={currentPlan.name} />}
-        <div className="my-4">
+        <div className="mt-4">
           <PlanQuantitySelect
             quantity={quantity}
             plan={currentPlan}
@@ -341,13 +300,15 @@ const SelectPlanNew: React.FunctionComponent<
           />
         </div>
       </div>
+      <div className="w-full my-6">
+        <GetAccessButton
+          label={buttonLabel}
+          handleClick={handleClickGetAccess}
+          loaderOn={false}
+          pricesLoading={pricesLoading}
+        />
+      </div>
       <PlanFeatures planFeatures={planFeatures} />
-      <GetAccessButton
-        label={buttonLabel}
-        handleClick={handleClickGetAccess}
-        loaderOn={false}
-        pricesLoading={pricesLoading}
-      />
     </div>
   )
 }

@@ -7,20 +7,18 @@ import Image from 'next/image'
 interface PricingCardProps {
   children: React.ReactNode
   className?: string // Add className prop
-  displayBackground?: boolean
   displayImage?: boolean
 }
 
 const PricingCard: FunctionComponent<PricingCardProps> = ({
   children,
   className, // Destructure className
-  displayBackground = false,
   displayImage = false,
 }: PricingCardProps) => {
   return (
     <div
       className={twMerge(
-        'relative p-2 bg-gray-100 rounded-md shadow-lg dark:bg-gray-800 dark:shadow-none',
+        'relative p-2 bg-gray-100 rounded-md shadow-lg dark:bg-gray-800 dark:shadow-none h-full',
         className,
       )}
     >
@@ -34,10 +32,9 @@ const PricingCard: FunctionComponent<PricingCardProps> = ({
           />
         </div>
       )}
-      <div className="relative z-10 flex flex-col items-center max-w-sm px-5 py-5 text-gray-900 bg-white rounded-sm dark:text-white dark:bg-gray-9000 sm:px-8 sm:py-12 h-full">
+      <div className="relative z-10 flex flex-col items-center max-w-sm px-5 py-5 text-gray-900 bg-white rounded-sm dark:text-white dark:bg-gray-900 sm:px-8 sm:py-12">
         {children}
       </div>
-      {displayBackground && <ColoredBackground />}
     </div>
   )
 }
