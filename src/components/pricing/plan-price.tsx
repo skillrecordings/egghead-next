@@ -38,7 +38,14 @@ const PlanPrice: React.FC<
             </div>
           ) : (
             <div className={`relative ${pricesLoading ? 'opacity-60' : ''}`}>
-              {priceToDisplay}
+              {priceToDisplay && (
+                <>
+                  {priceToDisplay}
+                  <span className="inline-block text-sm text-gray-500 -translate-y-7 translate-x-1">
+                    00
+                  </span>
+                </>
+              )}
               {pricesLoading && (
                 <Spinner className="absolute text-current " size={6} />
               )}
