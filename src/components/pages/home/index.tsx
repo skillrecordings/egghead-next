@@ -44,6 +44,7 @@ const Home: React.FC<React.PropsWithChildren<any>> = ({
       <div className="container">
         <main className="pt-8 sm:pt-16">
           <Search />
+
           <SanitySections
             sections={data.sections}
             location={location}

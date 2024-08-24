@@ -9,14 +9,6 @@ const Search = () => {
   const router = useRouter()
   return (
     <div className="pt-8 pb-24 flex flex-col items-center w-full">
-      <Image
-        src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637330011/egghead-next-pages/home-page/monocle-eggo.png"
-        alt=""
-        aria-hidden
-        width={200}
-        height={200}
-      />
-
       <Formik
         initialValues={{
           query: '',
