@@ -327,7 +327,9 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                       <PresetOptions />
                     </div>
                   </div>
-                  <NoSearchResults searchQuery={searchState.query} />
+                  {!loading && (
+                    <NoSearchResults searchQuery={searchState.query} />
+                  )}
                   {loading && shouldDisplayLandingPageForTopics(topic) && (
                     <div className="flex py-8 justify-center">
                       <Spinner
