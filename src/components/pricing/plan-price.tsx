@@ -5,19 +5,24 @@ import Spinner from '../spinner'
 const PlanPrice: React.FC<
   React.PropsWithChildren<{
     className?: string
+    planPrice?: string
+    displayDollars?: boolean
+    currency?: string
   }>
-> = ({className = ''}) => {
+> = ({className = '', planPrice, displayDollars = true, currency}) => {
   const {pricesLoading, lifetimePlan} = React.useContext(LifetimePriceContext)
   const {price, price_discounted} = lifetimePlan
-  const priceToDisplay = price_discounted || price
+  const priceToDisplay = planPrice || price_discounted || price
   const discount_percentage = price_discounted
     ? Math.round(((price - price_discounted) * 100) / price)
     : null
   return (
     <div className={`flex items-center ${className}`}>
       <div className="flex items-end leading-none">
-        <span className="self-start mt-1">USD</span>
-        <span className="text-4xl font-light">$</span>
+        {currency && (
+          <span className="self-start mt-1">{currency.toUpperCase()}</span>
+        )}
+        {displayDollars && <span className="text-4xl font-light">$</span>}
         <span className="self-stretch text-4xl font-extrabold">
           {price_discounted ? (
             <div className="flex items-end">

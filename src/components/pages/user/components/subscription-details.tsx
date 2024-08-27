@@ -6,10 +6,73 @@ import {format} from 'date-fns'
 import {recur} from '@/utils/recur'
 import {useAccount} from '@/hooks/use-account'
 import {trpc} from '@/app/_trpc/client'
+import PricingProvider from '@/components/pricing/pricing-provider'
+import PricingCard from '@/components/pricing/pricing-card'
+import LifetimePriceProvider from '@/components/pricing/lifetime-price-provider'
+import PlanTitle from '@/components/pricing/plan-title'
+import PlanPrice from '@/components/pricing/plan-price'
+import PlanFeatures from '@/components/pricing/plan-features'
+import GetAccessButton from '@/components/pricing/get-access-button'
+import {twMerge} from 'tailwind-merge'
+import {Stripe} from 'stripe'
 
 type SubscriptionDetailsProps = {
   stripeCustomerId: string
   slug: string
+}
+
+type Account = {
+  subscriptions: {
+    currency: string
+  }[]
+}
+
+const ManageSubscriptionCard = ({
+  account,
+  priceData,
+  subscriptionPrice,
+  subscriptionName,
+  subscriptionPortalUrl,
+  currency,
+}: {
+  account: Account
+  subscriptionPrice: string | 0 | null | undefined
+  subscriptionName: string
+  subscriptionPortalUrl: string
+  currency: string
+  priceData: Stripe.Price | undefined
+}) => {
+  return (
+    <PricingCard>
+      <div className="flex flex-col h-full">
+        <div className="flex flex-col items-center pt-12 pb-6">
+          <p className="capitalize">{recur(priceData)}ly Subscription</p>
+          <PlanTitle className="text-2xl">Your Current Plan</PlanTitle>
+          <div className="pt-6">
+            <PlanPrice
+              planPrice={subscriptionPrice ? subscriptionPrice : ''}
+              displayDollars={false}
+              currency={currency}
+            />
+          </div>
+          <SubscriptionPortalLink
+            subscriptionPortalUrl={subscriptionPortalUrl}
+            text="Manage"
+            className="w-full outline-1 outline-black"
+            buttonClassName="bg-transparent outline outline-1 outline-gray-400 hover:bg-gray-100 active:bg-gray-200 text-black w-full"
+          />
+        </div>
+        <PlanFeatures
+          planFeatures={[
+            'Access to all premium courses',
+            'Closed captions for every video',
+            'Commenting and support',
+            'RSS course feeds',
+          ]}
+        />
+      </div>
+    </PricingCard>
+  )
 }
 
 const formatAmountWithCurrency = (
@@ -48,6 +111,8 @@ const SubscriptionDetails: React.FunctionComponent<
     subscriptionData?.latestInvoice?.currency ||
     subscriptionData?.price?.currency
 
+  console.log({currency})
+
   const subscriptionPrice =
     subscriptionUnitAmount &&
     currency &&
@@ -65,6 +130,8 @@ const SubscriptionDetails: React.FunctionComponent<
   const pendingCancelation =
     subscriptionData?.subscription?.cancel_at_period_end
   const teamAccountPendingCancelation = isTeamAccountOwner && pendingCancelation
+
+  console.log({account, subscriptionData})
 
   if (status === 'loading' || !subscriptionData) return null
   switch (true) {
@@ -165,6 +232,34 @@ const SubscriptionDetails: React.FunctionComponent<
               <h3 className="text-lg font-medium text-center mb-4">
                 ⭐️ You have a pro egghead membership! ⭐️
               </h3>
+              <LifetimePriceProvider>
+                <PricingCard
+                  className="sm:order-2 order-1 sm:scale-110 min-w-[300px] z-30 drop-shadow-2xl"
+                  displayImage
+                >
+                  <div className="flex flex-col h-full">
+                    <div className="flex flex-col items-center pt-12 pb-6">
+                      <div className="bg-gray-100 py-1 px-3 text-xs rounded-full font-medium dark:bg-gray-700 mb-1">
+                        BEST VALUE
+                      </div>
+                      <PlanTitle className="text-2xl">
+                        Lifetime Membership
+                      </PlanTitle>
+                      <div className="pt-6">
+                        <PlanPrice />
+                      </div>
+                      <GetAccessButton
+                        className="bg-yellow-300 text-black"
+                        hoverClassName="hover:bg-yellow-400 hover:scale-105"
+                      />
+                    </div>
+                    <PlanFeatures
+                      numberOfHighlightedFeatures={3}
+                      highlightHexColor="#FDE046"
+                    />
+                  </div>
+                </PricingCard>
+              </LifetimePriceProvider>
               <p>
                 Your{' '}
                 <strong>
@@ -204,10 +299,45 @@ const SubscriptionDetails: React.FunctionComponent<
     <div className="w-full">
       {subscriptionName ? (
         <div className="md:w-[75ch] mx-auto">
-          <div className="w-full leading-relaxed mt-4 text-center space-y-4">
+          <div className="text-left w-full leading-relaxed mt-4 space-y-4">
             <h3 className="text-lg font-medium text-center">
               ⭐️ You have a pro egghead membership ⭐️
             </h3>
+            <div className="flex sm:flex-row flex-col items-center w-full">
+              <LifetimePriceProvider>
+                <ManageSubscriptionCard
+                  subscriptionPrice={subscriptionPrice}
+                  subscriptionName={subscriptionName}
+                  subscriptionPortalUrl={subscriptionData.portalUrl}
+                  currency={currency || 'USD'}
+                  account={account}
+                  priceData={subscriptionData.price}
+                />
+                <PricingCard className="w-fit">
+                  <div className="flex flex-col h-full">
+                    <div className="flex flex-col items-center pt-12 pb-6">
+                      <div className="bg-gray-100 py-1 px-3 text-xs rounded-full font-medium dark:bg-gray-700 mb-1">
+                        UPGRADE
+                      </div>
+                      <PlanTitle className="text-2xl">
+                        Lifetime Membership
+                      </PlanTitle>
+                      <div className="pt-6">
+                        <PlanPrice />
+                      </div>
+                      <GetAccessButton
+                        className="bg-yellow-300 text-black"
+                        hoverClassName="hover:bg-yellow-400 hover:scale-105"
+                      />
+                    </div>
+                    <PlanFeatures
+                      numberOfHighlightedFeatures={3}
+                      highlightHexColor="#FDE046"
+                    />
+                  </div>
+                </PricingCard>
+              </LifetimePriceProvider>
+            </div>
             <p>
               Your {recur(subscriptionData.price)}ly membership will
               automatically renew for{' '}
@@ -255,21 +385,33 @@ const SubscriptionDetails: React.FunctionComponent<
 const SubscriptionPortalLink = ({
   subscriptionPortalUrl,
   text = 'Update Your Subscription or Payment Method',
+  className,
+  buttonClassName,
 }: {
   subscriptionPortalUrl: string | undefined
   text?: string
+  className?: string
+  buttonClassName?: string
 }) => {
   if (!subscriptionPortalUrl) return null
 
   return (
-    <div className="bg-primary-2 text-accents-3 rounded-b-md mt-6">
+    <div
+      className={twMerge(
+        'bg-primary-2 text-accents-3 rounded-b-md mt-6',
+        className,
+      )}
+    >
       <div className="flex flex-col justify-between items-center">
         <Link
           href={subscriptionPortalUrl}
           onClick={() => {
             track(`clicked manage membership`)
           }}
-          className="w-2/3 px-5 py-3 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+          className={twMerge(
+            'w-2/3 px-5 py-3 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl',
+            buttonClassName,
+          )}
         >
           {text}
         </Link>
