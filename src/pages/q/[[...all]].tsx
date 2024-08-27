@@ -61,6 +61,7 @@ type SearchIndexProps = {
   initialInstructor: any
   initialTopicGraphqlData: any
   initialTopicSanityData: any
+  path: string
 }
 
 const SearchIndex: any = ({
@@ -72,6 +73,7 @@ const SearchIndex: any = ({
   initialInstructor,
   initialTopicGraphqlData,
   initialTopicSanityData,
+  path,
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
@@ -138,13 +140,9 @@ const SearchIndex: any = ({
       <NextSeo
         noindex={noIndex}
         title={pageTitle}
-        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${
-          typeof window !== 'undefined' ? window.location.pathname : '/q'
-        }`}
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`}
         openGraph={{
-          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${
-            typeof window !== 'undefined' ? window.location.pathname : '/q'
-          }`,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`,
           site_name: 'egghead',
         }}
       />
@@ -191,6 +189,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
   const initialSearchState = parseUrl(query)
   const pageTitle = titleFromPath(all as string[])
+  const path = req.url
+
+  console.log('mypath', path)
 
   const serverState = await getServerState(
     <SearchIndex initialSearchState={initialSearchState} />,
@@ -249,6 +250,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   return {
     props: {
       initialSearchState,
+      path,
       serverState,
       pageTitle,
       noIndexInitial,
