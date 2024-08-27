@@ -84,6 +84,7 @@ const Membership = () => {
             </div>
             <div className="mt-10">
               <PricingProvider>
+                {/* TODO: Add children to PricingCard */}
                 <PricingCard />
               </PricingProvider>
             </div>
