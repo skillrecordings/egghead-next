@@ -58,7 +58,6 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
   ...rest
 }) => {
   const [isFilterShown, setShowFilter] = useToggle(false)
-
   const noInstructorsSelected = (searchState: any) => {
     return get(searchState, 'refinementList.instructor_name', []).length === 0
   }
@@ -328,7 +327,7 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                     </div>
                   </div>
                   {!loading && (
-                    <NoSearchResults searchQuery={searchState.query} />
+                    <NoSearchResults searchQuery={searchState?.query ?? ''} />
                   )}
                   {loading && shouldDisplayLandingPageForTopics(topic) && (
                     <div className="flex py-8 justify-center">
@@ -365,7 +364,7 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                       </div>
                     )}
                   <ScrollElement name="hits" />
-                  <Stats searchQuery={searchState.query} />
+                  <Stats searchQuery={searchState?.query ?? ''} />
                   <h2 className="sm:px-5 px-3 mt-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
                     Search Results
                   </h2>
