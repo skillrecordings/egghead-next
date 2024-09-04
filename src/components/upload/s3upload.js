@@ -49,6 +49,7 @@ function S3Upload(options) {
 }
 
 function getFileMimeType(file) {
+  if (!file) return
   console.log('getFileMimeType', {file})
   return file.type || mime.lookup(file.name)
 }
