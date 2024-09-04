@@ -121,7 +121,7 @@ const ModernReactS3Uploader: React.FC<ModernReactS3UploaderProps> = ({
     ...props,
   }
 
-  return <input className={className} {...inputProps} />
+  return <input className={className} {...inputProps} ref={inputRef} />
 }
 
 export default ModernReactS3Uploader
