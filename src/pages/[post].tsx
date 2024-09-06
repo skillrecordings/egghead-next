@@ -1,13 +1,10 @@
 import {GetServerSideProps} from 'next'
-import {LessonResource} from '@/types'
-import {pgQuery} from '@/db'
 import MuxPlayer from '@mux/mux-player-react'
 import * as mysql from 'mysql2/promise'
 import {ConnectionOptions, RowDataPacket} from 'mysql2/promise'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
-  rowsAsArray: true,
 }
 
 function convertToSerializeForNextResponse(result: any) {
@@ -46,13 +43,13 @@ SELECT *
 		FROM egghead_ContentResource cr_lesson
 		JOIN egghead_ContentResourceResource crr ON cr_lesson.id = crr.resourceOfId
 		JOIN egghead_ContentResource cr_video ON crr.resourceId = cr_video.id
-		WHERE (cr_lesson.id = 'test-lesson-for-course-builder-ixntp' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}')
+		WHERE (cr_lesson.id = '${params.post}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}')
 			AND cr_video.type = 'videoResource'
 		LIMIT 1`)
   const [postRows] = await conn.execute<RowDataPacket[]>(`
 SELECT *
 		FROM egghead_ContentResource cr_lesson
-		WHERE (cr_lesson.id = 'test-lesson-for-course-builder-ixntp' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}')
+		WHERE (cr_lesson.id = '${params.post}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}')
 		LIMIT 1`)
   await conn.end()
 
@@ -65,6 +62,7 @@ SELECT *
     }
   }
 
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   return {
     props: {
       post: convertToSerializeForNextResponse(post),
