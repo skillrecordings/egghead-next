@@ -103,6 +103,7 @@
     "@upstash/redis": "^1.29.0",
     "@vercel/edge-config": "^0.2.1",
     "@vercel/kv": "2.0.0",
+    "@vercel/og": "^0.6.2",
     "@videojs/http-streaming": "^2.9.3",
     "@xstate/react": "^3.2.2",
     "airtable": "^0.11.1",
