@@ -106,13 +106,13 @@ SELECT *
         require(`remark-code-titles`),
       ],
       rehypePlugins: [
-        [
-          require(`rehype-shiki`),
-          {
-            theme: `../styles/material-theme-dark.json`,
-            useBackground: false,
-          },
-        ],
+        //[
+         // require(`rehype-shiki`),
+          //{
+            //theme: `../styles/material-theme-dark.json`,
+            //useBackground: false,
+          //},
+        //],
       ],
     },
   })
