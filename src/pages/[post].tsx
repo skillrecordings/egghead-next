@@ -105,7 +105,7 @@ SELECT *
         [
           require(`rehype-shiki`),
           {
-            theme: defaultTheme,
+            theme: `./src/styles/material-theme-dark.json`,
             useBackground: false,
           },
         ],
