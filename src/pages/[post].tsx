@@ -11,7 +11,7 @@ import remarkGfm from 'remark-gfm'
 import {truncate} from 'lodash'
 import removeMarkdown from 'remove-markdown'
 import ReactMarkdown from 'react-markdown'
-import defaultTheme from 'shiki/themes/github-dark.json'
+import {trpc} from '@/app/_trpc/client'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -135,6 +135,9 @@ export default function PostPage({
   const imageParams = new URLSearchParams()
   imageParams.set('title', post.fields.title)
 
+  const {mutate: markLessonComplete} =
+    trpc.progress.markLessonComplete.useMutation()
+
   return (
     <div className="container">
       <NextSeo
@@ -169,7 +172,16 @@ export default function PostPage({
         </h1>
       </header>
 
-      <MuxPlayer playbackId={videoResource.fields.muxPlaybackId} />
+      <MuxPlayer
+        playbackId={videoResource.fields.muxPlaybackId}
+        onEnded={() => {
+          if (post.fields.eggheadLessonId) {
+            markLessonComplete({
+              lessonId: post.fields.eggheadLessonId,
+            })
+          }
+        }}
+      />
 
       <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 py-8">
         <MDXRemote
