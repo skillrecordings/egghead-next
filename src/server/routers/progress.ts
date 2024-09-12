@@ -69,7 +69,7 @@ export const progressRouter = router({
     .input(
       z.object({
         lessonId: z.number(),
-        collectionId: z.number(),
+        collectionId: z.number().optional(),
       }),
     )
     .mutation(async ({input, ctx}) => {

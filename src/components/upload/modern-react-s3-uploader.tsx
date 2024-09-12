@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {forwardRef, useState} from 'react'
 import S3Upload from './s3upload'
 
 interface ModernReactS3UploaderProps {
@@ -43,85 +43,94 @@ const clearInputFile = (f: HTMLInputElement) => {
   }
 }
 
-const ModernReactS3Uploader: React.FC<ModernReactS3UploaderProps> = ({
-  signingUrl,
-  className,
-  getSignedUrl,
-  preprocess = (file, next) => {
-    console.log('Pre-process: ', file.name)
-    next(file)
-  },
-  onSignedUrl = (signingServerResponse) => {
-    console.log('Signing server response: ', signingServerResponse)
-  },
-  onProgress = (percent, message, file) => {
-    console.log('Upload progress: ', `${percent} % ${message}`)
-  },
-  onFinish = (signResult) => {
-    console.log('Upload finished: ', signResult.publicUrl)
-  },
-  onError = (message) => {
-    console.log('Upload error: ', message)
-  },
-  signingUrlMethod = 'GET',
-  signingUrlHeaders,
-  signingUrlQueryParams,
-  signingUrlWithCredentials,
-  uploadRequestHeaders,
-  contentDisposition,
-  server = '',
-  scrubFilename = (filename) => filename.replace(/[^\w\d_\-\.]+/gi, ''),
-  s3path = '',
-  autoUpload = true,
-  inputRef,
-  ...props
-}) => {
-  const [myUploader, setMyUploader] = React.useState<any>(null)
-
-  const uploadFile = () => {
-    const uploader = new S3Upload({
-      fileElement: inputRef?.current,
+const ModernReactS3Uploader = forwardRef<
+  HTMLInputElement,
+  ModernReactS3UploaderProps
+>(
+  (
+    {
       signingUrl,
+      className,
       getSignedUrl,
-      preprocess,
-      onSignedUrl,
-      onProgress,
-      onFinishS3Put: onFinish,
-      onError,
-      signingUrlMethod,
+      preprocess = (file, next) => {
+        console.log('Pre-process: ', file.name)
+        next(file)
+      },
+      onSignedUrl = (signingServerResponse) => {
+        console.log('Signing server response: ', signingServerResponse)
+      },
+      onProgress = (percent, message, file) => {
+        console.log('Upload progress: ', `${percent} % ${message}`)
+      },
+      onFinish = (signResult) => {
+        console.log('Upload finished: ', signResult.publicUrl)
+      },
+      onError = (message) => {
+        console.log('Upload error: ', message)
+      },
+      signingUrlMethod = 'GET',
       signingUrlHeaders,
       signingUrlQueryParams,
       signingUrlWithCredentials,
       uploadRequestHeaders,
       contentDisposition,
-      server,
-      scrubFilename,
-      s3path,
-    })
-    setMyUploader(uploader)
-    uploader.uploadFile()
-  }
+      server = '',
+      scrubFilename = (filename) => filename.replace(/[^\w\d_\-\.]+/gi, ''),
+      s3path = '',
+      autoUpload = true,
+      ...props
+    },
+    ref,
+  ) => {
+    const [myUploader, setMyUploader] = useState<any>(null)
 
-  const abort = () => {
-    if (myUploader) {
-      myUploader.abortUpload()
+    const fileRef = typeof ref !== 'function' ? ref : null
+
+    const uploadFile = () => {
+      const uploader = new S3Upload({
+        fileElement: fileRef?.current,
+        signingUrl,
+        getSignedUrl,
+        preprocess,
+        onSignedUrl,
+        onProgress,
+        onFinishS3Put: onFinish,
+        onError,
+        signingUrlMethod,
+        signingUrlHeaders,
+        signingUrlQueryParams,
+        signingUrlWithCredentials,
+        uploadRequestHeaders,
+        contentDisposition,
+        server,
+        scrubFilename,
+        s3path,
+      })
+      setMyUploader(uploader)
+      uploader.uploadFile()
     }
-  }
 
-  const clear = () => {
-    if (inputRef?.current) {
-      abort()
-      clearInputFile(inputRef.current)
+    const abort = () => {
+      if (myUploader) {
+        myUploader.abortUpload()
+      }
     }
-  }
 
-  const inputProps = {
-    type: 'file',
-    onChange: autoUpload ? uploadFile : undefined,
-    ...props,
-  }
+    const clear = () => {
+      if (fileRef?.current) {
+        abort()
+        clearInputFile(fileRef.current)
+      }
+    }
 
-  return <input className={className} {...inputProps} />
-}
+    const inputProps = {
+      type: 'file',
+      onChange: autoUpload ? uploadFile : undefined,
+      ...props,
+    }
+
+    return <input className={className} {...inputProps} ref={ref} />
+  },
+)
 
 export default ModernReactS3Uploader

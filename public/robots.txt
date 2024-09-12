@@ -1,3 +1,57 @@
+
+# AI Bots
+User-agent: CCBot
+Disallow: /q
+
+User-agent: ChatGPT-User
+Disallow: /q
+
+User-agent: GPTBot
+Disallow: /q
+
+User-agent: Google-Extended
+Disallow: /q
+
+User-agent: Applebot-Extended 
+Disallow: /q
+User-agent: anthropic-ai
+Disallow: /q
+
+User-agent: ClaudeBot 
+Disallow: /q
+User-agent: Omgilibot
+Disallow: /q
+
+User-agent: Omgili
+Disallow: /q
+
+User-agent: FacebookBot
+Disallow: /q
+
+User-agent: Diffbot
+Disallow: /q
+
+User-agent: Bytespider
+Disallow: /q
+
+User-agent: ImagesiftBot 
+Disallow: /q
+
+User-agent: PerplexityBot
+Disallow: /q
+
+User-agent: cohere-ai
+Disallow: /q
+
+User-agent: Meta-ExternalAgent
+Disallow: /q
+
+User-agent: Meta-ExternalFetcher
+Disallow: /q
+
+User-agent: Timpibot
+Disallow: /q
+
 # Twitterbot
 User-agent: Twitterbot
 Disallow: 

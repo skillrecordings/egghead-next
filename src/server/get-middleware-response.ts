@@ -13,7 +13,7 @@ export const SEARCH_PAGE_PATH = '/q'
 
 const ratelimit = new Ratelimit({
   redis: kv,
-  limiter: Ratelimit.slidingWindow(10, '5s'),
+  limiter: Ratelimit.slidingWindow(100, '5s'),
   analytics: false,
   prefix: 'egh-next-ratelimit',
 })
@@ -44,19 +44,8 @@ export async function getMiddlewareResponse(req: NextRequest) {
   const {user, customer, isMember, isLoggedInMember} =
     await getCookiesForRequest(req)
 
-  const reactFan = customer && customer.attributes?.react_score > 1
-
   if (req.nextUrl.pathname === SITE_ROOT_PATH) {
-    switch (true) {
-      case isMember:
-        response = rewriteToPath('learn', req)
-        break
-      case reactFan:
-        response = rewriteToPath('/signup/react', req)
-        break
-      default:
-        response = rewriteToPath('/signup', req)
-    }
+    response = rewriteToPath('learn', req)
   }
 
   if (req.nextUrl.pathname.startsWith(PRICING_PAGE_PATH)) {

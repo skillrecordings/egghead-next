@@ -20,7 +20,6 @@ const VideoUploader = ({
     <ModernReactS3Uploader
       className="hidden"
       ref={uploaderRef}
-      inputRef={uploaderRef}
       {...(multiple ? {multiple: true} : {})}
       //if we set this to `false` we can list all the files and
       //call `uploaderRef.current.uploadFile()` when we are ready
@@ -29,7 +28,7 @@ const VideoUploader = ({
       // @ts-ignore
       signingUrlHeaders={getAuthorizationHeader()}
       accept="video/*"
-      scrubFilename={(fullFilename) => {
+      scrubFilename={(fullFilename: string) => {
         // filename with no extension
         const filename = fullFilename?.replace(/\.[^/.]+$/, '')
         // remove stuff s3 hates
@@ -39,7 +38,7 @@ const VideoUploader = ({
         // rebuild it as a fresh new thing
         return `${scrubbed}.${fileExtension(fullFilename)}`
       }}
-      preprocess={(file, next) => {
+      preprocess={(file: File, next: (file: File) => void) => {
         dispatch({
           type: 'add',
           fileUpload: {
@@ -51,11 +50,11 @@ const VideoUploader = ({
 
         next(file)
       }}
-      onProgress={(percent, message, file) => {
+      onProgress={(percent: number, message: string, file: File) => {
         dispatch({type: 'progress', file, percent, message})
       }}
-      onError={(message) => console.log(message)}
-      onFinish={(signResult, file) => {
+      onError={(message: string) => console.log(message)}
+      onFinish={(signResult: any, file: File) => {
         const fileUrl = signResult.signedUrl.split('?')[0]
         dispatch({type: 'finalize', file, fileUrl})
       }}

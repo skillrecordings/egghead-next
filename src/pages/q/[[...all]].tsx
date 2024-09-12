@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {useRouter} from 'next/router'
+import singletonRouter, {useRouter} from 'next/router'
 import Image from 'next/image'
 import Search from '@/components/search'
 import {NextSeo} from 'next-seo'
@@ -9,7 +9,6 @@ import {createUrl, parseUrl, titleFromPath} from '@/lib/search-url-builder'
 import {isEmpty, get, first} from 'lodash'
 import queryParamsPresent from '@/utils/query-params-present'
 import {loadInstructor} from '@/lib/instructors'
-import nameToSlug from '@/lib/name-to-slug'
 import getTracer from '@/utils/honeycomb-tracer'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/'
 import Header from '@/components/app/header'
@@ -31,6 +30,7 @@ import {
   TYPESENSE_COLLECTION_NAME,
   typesenseInstantsearchAdapter,
 } from '@/utils/typesense'
+import nameToSlug from '@/lib/name-to-slug'
 
 const tracer = getTracer('search-page')
 
@@ -55,30 +55,30 @@ const getInstructorSlugFromInstructorList = (instructors: string[]) => {
 type SearchIndexProps = {
   error: string
   initialSearchState: any
-  resultsState: any
+  serverState: any
   pageTitle: string
   noIndexInitial: boolean
   initialInstructor: any
   initialTopicGraphqlData: any
   initialTopicSanityData: any
+  path: string
 }
 
 const SearchIndex: any = ({
   error,
   initialSearchState,
-  resultsState,
+  serverState,
   pageTitle,
   noIndexInitial,
   initialInstructor,
   initialTopicGraphqlData,
   initialTopicSanityData,
+  path,
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
   const [noIndex, setNoIndex] = React.useState(noIndexInitial)
   const debouncedState = React.useRef<any>()
-  const router = useRouter()
-
   const {loading, topicSanityData, topicGraphqlData} = useLoadTopicData(
     initialTopicGraphqlData,
     initialTopicSanityData,
@@ -121,7 +121,7 @@ const SearchIndex: any = ({
       const href: string = createUrl(searchState)
       setNoIndex(queryParamsPresent(href))
 
-      router.push(href, undefined, {
+      singletonRouter.push(href, undefined, {
         shallow: true,
       })
     }, 250)
@@ -132,9 +132,7 @@ const SearchIndex: any = ({
 
   const customProps = {
     searchState,
-    resultsState,
     createURL,
-    onSearchStateChange,
   }
 
   return (
@@ -142,20 +140,23 @@ const SearchIndex: any = ({
       <NextSeo
         noindex={noIndex}
         title={pageTitle}
-        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`}
         openGraph={{
-          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`,
           site_name: 'egghead',
         }}
       />
-      <Search
-        {...defaultProps}
-        {...customProps}
-        instructor={instructor}
-        topic={topicGraphqlData}
-        topicData={topicSanityData}
-        loading={loading}
-      />
+      <InstantSearchSSRProvider {...serverState}>
+        <Search
+          {...defaultProps}
+          {...customProps}
+          instructor={instructor}
+          topic={topicGraphqlData}
+          topicData={topicSanityData}
+          onSearchStateChange={onSearchStateChange}
+          loading={loading}
+        />
+      </InstantSearchSSRProvider>
     </div>
   )
 }
@@ -175,17 +176,6 @@ SearchIndex.getLayout = (Page: any, pageProps: any) => {
 
 export default SearchIndex
 
-function BrandPage({serverState}: any) {
-  return (
-    <InstantSearchSSRProvider {...serverState}>
-      <InstantSearch searchClient={searchClient} indexName="content_production">
-        <SearchBox />
-        <Hits />
-      </InstantSearch>
-    </InstantSearchSSRProvider>
-  )
-}
-
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
   query,
@@ -199,10 +189,16 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
   const initialSearchState = parseUrl(query)
   const pageTitle = titleFromPath(all as string[])
+  const path = req.url
 
-  const serverState = await getServerState(<BrandPage />, {
-    renderToString,
-  })
+  console.log('mypath', path)
+
+  const serverState = await getServerState(
+    <SearchIndex initialSearchState={initialSearchState} />,
+    {
+      renderToString,
+    },
+  )
 
   // Maps the InitialResults record to an array and gets the first (and only) result.
   // From there you have access to the state and result which matches what we expected before the upgrade to react-instantsearch v7
@@ -253,8 +249,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
   return {
     props: {
-      resultsState: JSON.parse(JSON.stringify(resultsState)),
       initialSearchState,
+      path,
+      serverState,
       pageTitle,
       noIndexInitial,
       initialInstructor,

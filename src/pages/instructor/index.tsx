@@ -57,7 +57,10 @@ Instructor.getLayout = function getLayout(Page: any, pageProps: any) {
 export const getServerSideProps: GetServerSideProps = async function ({req}) {
   const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
   const roles = await loadCurrentViewerRoles(req.cookies[ACCESS_TOKEN_KEY])
-  const draftCourseRole = await getDraftFeatureFlag('allowedRoles')
+  const draftCourseRole = await getDraftFeatureFlag(
+    'featureFlagDraftCourse',
+    'allowedRoles',
+  )
 
   const canViewDraftCourses = roles?.includes(draftCourseRole)
 
