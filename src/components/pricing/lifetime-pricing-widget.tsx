@@ -172,14 +172,19 @@ const LifetimePricingWidget: FunctionComponent<
         priceId: priceId,
       })
 
-      await fetch('/api/stripe/checkout/lifetime', {
+      const {sessionUrl, error} = await fetch('/api/stripe/checkout/lifetime', {
         method: 'POST',
         body: JSON.stringify({
           email: viewer.email,
           successPath: '/confirm/forever',
           cancelPath: '/pricing/forever',
         }),
-      })
+      }).then((res) => res.json())
+      if (sessionUrl) {
+        router.push(sessionUrl)
+      } else {
+        console.error('error creating checkout session', error)
+      }
     } else {
       track('checkout: get email', {
         priceId: priceId,

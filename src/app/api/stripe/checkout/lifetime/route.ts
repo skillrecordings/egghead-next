@@ -20,9 +20,11 @@ export async function POST(req: NextRequest) {
 
   const LIFETIME_MEMBERSHIP_COST_IN_CENTS = 50000
   // live mode product hard coded rofl
-  const LIFETIME_MEMBERSHIP_STRIPE_PRODUCT_ID = 'prod_QbmCKJ3ZPXAzDg'
+  const LIFETIME_MEMBERSHIP_STRIPE_PRODUCT_ID =
+    process.env.LIFETIME_MEMBERSHIP_STRIPE_PRODUCT_ID!
   // live mode price hard coded rofl
-  const LIFETIME_MEMBERSHIP_STRIPE_PRICE_ID = 'price_1PkYdi2nImeJXwdJuOfdYJvo'
+  const LIFETIME_MEMBERSHIP_STRIPE_PRICE_ID =
+    process.env.LIFETIME_MEMBERSHIP_STRIPE_PRICE_ID!
 
   if (amountPaid > 0) {
     const couponName = `Lifetime ${(amountPaid / 100).toFixed(2)}`
@@ -61,9 +63,7 @@ export async function POST(req: NextRequest) {
     expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
     mode: 'payment',
     success_url: successUrl,
-    cancel_url:
-      cancelPath ??
-      `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/pricing?stripe=cancelled`,
+    cancel_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/forever`,
     ...(stripeCustomerId
       ? {customer: stripeCustomerId}
       : {customer_creation: 'always', ...(email && {customer_email: email})}),
@@ -77,12 +77,8 @@ export async function POST(req: NextRequest) {
       metadata,
     },
   })
+
   return sessionUrl
-    ? NextResponse.redirect(sessionUrl, {status: 303})
-    : NextResponse.json(
-        {error: 'checkout session failed'},
-        {
-          status: 500,
-        },
-      )
+    ? NextResponse.json({sessionUrl})
+    : NextResponse.json({error: 'checkout session failed'})
 }

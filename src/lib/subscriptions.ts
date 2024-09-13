@@ -10,7 +10,6 @@ import {z} from 'zod'
 export async function getLastChargeForActiveSubscription(email?: string) {
   const allCookies = cookies()
   const authToken = allCookies.get('eh_token_2020_11_22')
-
   const eggheadUser = await fetch(
     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/current?minimal=true`,
     {
@@ -18,7 +17,12 @@ export async function getLastChargeForActiveSubscription(email?: string) {
         Authorization: `Bearer ${authToken}`,
       },
     },
-  ).then((res) => res.json())
+  )
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log('err', err)
+      return null
+    })
 
   const queryResult = await pgQuery(`
     select account_subscriptions.stripe_subscription_id as stripeSubscriptionId,
@@ -30,7 +34,9 @@ export async function getLastChargeForActiveSubscription(email?: string) {
     join account_users ON account_users.user_id = users.id
     join accounts on accounts.id = account_users.account_id
     join account_subscriptions on accounts.id = account_subscriptions.account_id
-    where (users.email = lower(${email}) OR users.id = ${eggheadUser.id}) AND account_subscriptions.status = 'active'
+    where (users.email = lower('${email}') ${
+    eggheadUser?.id ? `OR users.id = ${eggheadUser?.id}` : ''
+  }) AND account_subscriptions.status = 'active'
     LIMIT 1`)
 
   let amountPaid = 0

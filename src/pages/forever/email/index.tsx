@@ -45,16 +45,22 @@ const ForeverEmail: React.FunctionComponent<
     setIsSubmitted(true)
     setIsError(false)
 
-    await fetch('/api/stripe/checkout/lifetime', {
+    const {sessionUrl, error} = await fetch('/api/stripe/checkout/lifetime', {
       method: 'POST',
       body: JSON.stringify({
         email,
         successPath: '/confirm/forever',
         cancelPath: '/pricing/forever',
       }),
-    }).catch((error) => {
+    }).then((res) => res.json())
+
+    console.log('sessionUrl', sessionUrl)
+
+    if (sessionUrl) {
+      router.push(sessionUrl)
+    } else {
       setIsError(error)
-    })
+    }
   }
 
   return (

@@ -3,9 +3,13 @@ const connectionString = process.env.DATABASE_URL
 
 const pool = new Pool({
   connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ...(process.env.NODE_ENV === 'production'
+    ? {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      }
+    : {}),
 })
 
 export const pgQuery = async (sql: string, params?: any[]) => {
