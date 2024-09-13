@@ -1,21 +1,21 @@
 import * as React from 'react'
 import {useViewer} from '@/context/viewer-context'
-import {useRouter, useSearchParams} from 'next/navigation'
+import {useRouter} from 'next/navigation'
 import {handleCheckout} from '@/utils/checkout'
-
-interface LifetimePriceProviderProps {
-  children: React.ReactNode
-}
 
 export const LifetimePriceContext = React.createContext<any>(null)
 
-const LifetimePriceProvider: React.FC<LifetimePriceProviderProps> = ({
+function LifetimePriceProvider({
   children,
-}) => {
+  couponPromoCode,
+}: {
+  children: React.ReactNode
+  couponPromoCode: string
+}) {
+  const quantity = 1
+
   const {viewer, authToken} = useViewer()
   const router = useRouter()
-  const params = useSearchParams()
-  const stripeParam = params?.get('stripe')
   const lifetimePlan = {price: 500} // TODO: Make this dynamic
   const planFeatures = [
     'Forever Yours',
@@ -32,7 +32,7 @@ const LifetimePriceProvider: React.FC<LifetimePriceProviderProps> = ({
 
   const priceId =
     process.env.NEXT_PUBLIC_STRIPE_LIFETIME_MEMBERSHIP_PRICE_ID || ''
-  const quantity = 1
+
   const pricesLoading = false
 
   const onClickCheckout = async () => {
@@ -44,6 +44,7 @@ const LifetimePriceProvider: React.FC<LifetimePriceProviderProps> = ({
       router,
       setLoaderOn,
       true,
+      couponPromoCode,
     )
   }
 

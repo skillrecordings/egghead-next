@@ -1,3 +1,4 @@
+import {Input} from '@/ui'
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {stripe} from '../../utils/stripe'
@@ -5,6 +6,30 @@ import {Stripe} from 'stripe'
 import isEmpty from 'lodash/isEmpty'
 
 export const subscriptionDetailsRouter = router({
+  couponPromoCode: baseProcedure
+    .input(
+      z.object({
+        amountPaid: z.number().optional(),
+      }),
+    )
+    .query(async ({input, ctx}) => {
+      const {amountPaid} = input
+
+      if (!amountPaid) return null
+
+      const couponPromoCode = await fetch(
+        `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/api/stripe`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({amountPaid}),
+        },
+      ).then((res) => res.json())
+
+      return couponPromoCode
+    }),
   forStripeCustomerId: baseProcedure
     .input(
       z.object({

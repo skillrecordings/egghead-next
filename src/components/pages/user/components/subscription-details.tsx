@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Suspense, useMemo} from 'react'
 import Link from 'next/link'
 import {track} from '@/utils/analytics'
 import {useViewer} from '@/context/viewer-context'
@@ -16,17 +16,6 @@ import GetAccessButton from '@/components/pricing/get-access-button'
 import {twMerge} from 'tailwind-merge'
 import {Stripe} from 'stripe'
 
-type SubscriptionDetailsProps = {
-  stripeCustomerId: string
-  slug: string
-}
-
-type Account = {
-  subscriptions: {
-    currency: string
-  }[]
-}
-
 const ManageSubscriptionCard = ({
   account,
   priceData,
@@ -35,7 +24,7 @@ const ManageSubscriptionCard = ({
   subscriptionPortalUrl,
   currency,
 }: {
-  account: Account
+  account: Stripe.Account
   subscriptionPrice: string | 0 | null | undefined
   subscriptionName: string
   subscriptionPortalUrl: string
@@ -91,16 +80,31 @@ const formatAmountWithCurrency = (
   return formattedAmount
 }
 
+type StripeAccountSubscription = {
+  status: string
+  stripe_subscription_id: string
+}
+
 const SubscriptionDetails: React.FunctionComponent<
-  React.PropsWithChildren<SubscriptionDetailsProps>
-> = ({stripeCustomerId, slug}) => {
+  React.PropsWithChildren<{
+    subscription: StripeAccountSubscription
+    stripeCustomerId: string
+    slug: string
+  }>
+> = ({subscription, stripeCustomerId, slug}) => {
   const {viewer} = useViewer()
   const {data: subscriptionData, status} =
     trpc.subscriptionDetails.forStripeCustomerId.useQuery({
       stripeCustomerId,
     })
+
+  // This should only run once and have its value cached
+  const {data: couponPromoCode} =
+    trpc.subscriptionDetails.couponPromoCode.useQuery({
+      amountPaid: subscriptionData?.latestInvoice?.amount_paid,
+    })
+
   const {isTeamAccountOwner, account} = useAccount()
-  const {number_of_members} = account
 
   const subscriptionName = subscriptionData?.product?.name
   const subscriptionUnitAmount =
@@ -232,7 +236,7 @@ const SubscriptionDetails: React.FunctionComponent<
               <h3 className="text-lg font-medium text-center mb-4">
                 ⭐️ You have a pro egghead membership! ⭐️
               </h3>
-              <LifetimePriceProvider>
+              <LifetimePriceProvider couponPromoCode={couponPromoCode}>
                 <PricingCard
                   className="sm:order-2 order-1 sm:scale-110 min-w-[300px] z-30 drop-shadow-2xl"
                   displayImage
@@ -296,89 +300,91 @@ const SubscriptionDetails: React.FunctionComponent<
   }
 
   return (
-    <div className="w-full">
-      {subscriptionName ? (
-        <div className="md:w-[75ch] mx-auto">
-          <div className="text-left w-full leading-relaxed mt-4 space-y-4">
-            <h3 className="text-lg font-medium text-center">
-              ⭐️ You have a pro egghead membership ⭐️
-            </h3>
-            <div className="flex sm:flex-row flex-col items-center w-full">
-              <LifetimePriceProvider>
-                <ManageSubscriptionCard
-                  subscriptionPrice={subscriptionPrice}
-                  subscriptionName={subscriptionName}
-                  subscriptionPortalUrl={subscriptionData.portalUrl}
-                  currency={currency || 'USD'}
-                  account={account}
-                  priceData={subscriptionData.price}
-                />
-                <PricingCard className="w-fit">
-                  <div className="flex flex-col h-full">
-                    <div className="flex flex-col items-center pt-12 pb-6">
-                      <div className="bg-gray-100 py-1 px-3 text-xs rounded-full font-medium dark:bg-gray-700 mb-1">
-                        UPGRADE
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="w-full">
+        {subscriptionName ? (
+          <div className="md:w-[75ch] mx-auto">
+            <div className="text-left w-full leading-relaxed mt-4 space-y-4">
+              <h3 className="text-lg font-medium text-center">
+                ⭐️ You have a pro egghead membership ⭐️
+              </h3>
+              <div className="flex sm:flex-row flex-col items-center w-full">
+                <LifetimePriceProvider couponPromoCode={couponPromoCode}>
+                  <ManageSubscriptionCard
+                    subscriptionPrice={subscriptionPrice}
+                    subscriptionName={subscriptionName}
+                    subscriptionPortalUrl={subscriptionData.portalUrl}
+                    currency={currency || 'USD'}
+                    account={account}
+                    priceData={subscriptionData.price}
+                  />
+                  <PricingCard className="w-fit">
+                    <div className="flex flex-col h-full">
+                      <div className="flex flex-col items-center pt-12 pb-6">
+                        <div className="bg-gray-100 py-1 px-3 text-xs rounded-full font-medium dark:bg-gray-700 mb-1">
+                          UPGRADE
+                        </div>
+                        <PlanTitle className="text-2xl">
+                          Lifetime Membership
+                        </PlanTitle>
+                        <div className="pt-6">
+                          <PlanPrice />
+                        </div>
+                        <GetAccessButton
+                          className="bg-yellow-300 text-black"
+                          hoverClassName="hover:bg-yellow-400 hover:scale-105"
+                        />
                       </div>
-                      <PlanTitle className="text-2xl">
-                        Lifetime Membership
-                      </PlanTitle>
-                      <div className="pt-6">
-                        <PlanPrice />
-                      </div>
-                      <GetAccessButton
-                        className="bg-yellow-300 text-black"
-                        hoverClassName="hover:bg-yellow-400 hover:scale-105"
+                      <PlanFeatures
+                        numberOfHighlightedFeatures={3}
+                        highlightHexColor="#FDE046"
                       />
                     </div>
-                    <PlanFeatures
-                      numberOfHighlightedFeatures={3}
-                      highlightHexColor="#FDE046"
-                    />
-                  </div>
-                </PricingCard>
-              </LifetimePriceProvider>
+                  </PricingCard>
+                </LifetimePriceProvider>
+              </div>
+              <p>
+                Your {recur(subscriptionData.price)}ly membership will
+                automatically renew for{' '}
+                <strong>
+                  {subscriptionPrice} on{' '}
+                  {format(
+                    new Date(account.subscriptions[0].current_period_end),
+                    'PPP',
+                  )}
+                </strong>
+                .
+              </p>
+              <p>
+                If you'd like to update payment information, change your billing
+                interval, or cancel auto-renewal you can update your
+                subscription below.
+              </p>
             </div>
-            <p>
-              Your {recur(subscriptionData.price)}ly membership will
-              automatically renew for{' '}
-              <strong>
-                {subscriptionPrice} on{' '}
-                {format(
-                  new Date(account.subscriptions[0].current_period_end),
-                  'PPP',
-                )}
-              </strong>
-              .
-            </p>
-            <p>
-              If you'd like to update payment information, change your billing
-              interval, or cancel auto-renewal you can update your subscription
-              below.
-            </p>
           </div>
-        </div>
-      ) : (
-        <div className="w-full">
-          {(viewer.is_pro || viewer.is_instructor) && (
-            <p>
-              You still have access to a Pro Membership. If you feel this is in
-              error please email{' '}
-              <a
-                className="text-blue-600 underline hover:text-blue-700"
-                href={`mailto:support@egghead.io?subject=${encodeURIComponent(
-                  `Support needed for egghead membership`,
-                )}`}
-              >
-                support@egghead.io
-              </a>
-            </p>
-          )}
-        </div>
-      )}
-      <SubscriptionPortalLink
-        subscriptionPortalUrl={subscriptionData.portalUrl}
-      />
-    </div>
+        ) : (
+          <div className="w-full">
+            {(viewer.is_pro || viewer.is_instructor) && (
+              <p>
+                You still have access to a Pro Membership. If you feel this is
+                in error please email{' '}
+                <a
+                  className="text-blue-600 underline hover:text-blue-700"
+                  href={`mailto:support@egghead.io?subject=${encodeURIComponent(
+                    `Support needed for egghead membership`,
+                  )}`}
+                >
+                  support@egghead.io
+                </a>
+              </p>
+            )}
+          </div>
+        )}
+        <SubscriptionPortalLink
+          subscriptionPortalUrl={subscriptionData.portalUrl}
+        />
+      </div>
+    </Suspense>
   )
 }
 

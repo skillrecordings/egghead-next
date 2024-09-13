@@ -62,7 +62,7 @@ const redirectToCheckout = (
  * @param {Router | AppRouterInstance} router - The Next.js router instance.
  * @param {(loaderOn: boolean) => void} setLoaderOn - Function to set the loader state.
  * @param {boolean} [isLifetime=false] - Flag indicating if the plan is a lifetime plan.
- * @param {string} [couponCode] - Optional coupon code for the plan.
+ * @param {string} [couponPromoCode] - Optional coupon code for the plan.
  * @returns {Promise<void>}
  */
 export const handleCheckout = async (
@@ -73,7 +73,7 @@ export const handleCheckout = async (
   router: Router | AppRouterInstance,
   setLoaderOn: (loaderOn: boolean) => void,
   isLifetime: boolean = false,
-  couponCode?: string,
+  couponPromoCode?: string,
 ): Promise<void> => {
   if (!priceId) {
     console.error('handleCheckout: priceId is required')
@@ -103,7 +103,7 @@ export const handleCheckout = async (
       email,
       authToken,
       quantity,
-      couponCode,
+      'SlYpb7e0',
     )
   } else {
     track('checkout: get email', {priceId})
@@ -113,7 +113,7 @@ export const handleCheckout = async (
       }${new URLSearchParams({
         priceId,
         quantity: quantity.toString(),
-        ...(couponCode && {coupon: couponCode}),
+        ...(couponPromoCode && {coupon: couponPromoCode}),
       })}`,
     )
     setLoaderOn(true)

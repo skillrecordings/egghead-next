@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, {Suspense} from 'react'
 import {format} from 'date-fns'
 
 import {useAccount} from '@/hooks/use-account'
@@ -117,10 +117,13 @@ const Membership = () => {
       return (
         <div className="w-full">
           <ItemWrapper title="Membership">
-            <SubscriptionDetails
-              stripeCustomerId={account.stripe_customer_id}
-              slug={account.slug}
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+              <SubscriptionDetails
+                subscription={account.subscriptions[0]}
+                stripeCustomerId={account.stripe_customer_id}
+                slug={account.slug}
+              />
+            </Suspense>
           </ItemWrapper>
           <Invoices headingAs="h3" />
         </div>

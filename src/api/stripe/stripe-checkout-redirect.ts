@@ -39,38 +39,44 @@ export const redirectToStandardCheckout = async (options: {
   const baseCancelPath = cancelPath || '/pricing'
   const cancelUrl = `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${baseCancelPath}?stripe=cancelled`
 
-  // TODO: if the only difference between this function and
-  // `redirectToSubscriptionCheckout` is the URL path, then extract all
-  // the duplicated details to avoid drift.
-  return await axios
-    .post(`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/stripe/session`, {
-      email,
-      quantity,
-      stripe_price_id: priceId,
-      coupon,
-      site: 'egghead.io',
-      client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
-      success_url: successUrl,
-      cancel_url: cancelUrl,
-      metadata: {
-        ...(!!referralCookieToken && {referralCookieToken}),
-        email,
-        authToken,
-        // TODO: add something to metadata to signal lifetime purchase?
+  return await fetch(
+    `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/api/stripe/checkout`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        email,
+        quantity,
+        stripe_price_id: priceId,
+        coupon,
+        site: 'egghead.io',
+        client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+        metadata: {
+          ...(!!referralCookieToken && {referralCookieToken}),
+          email,
+          authToken,
+        },
+      }),
+    },
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session')
+      }
+      return response.json()
     })
-    .then(({data}) => {
+    .then((data) => {
       if (data.error) {
         console.error(data.error)
         throw new Error(data.error)
       } else {
         stripePromise.then((stripe: any) => {
           if (!stripe) throw new Error('Stripe not loaded 😭')
-          stripe
-            .redirectToCheckout({
-              sessionId: data.id,
-            })
-            .then((r: any) => console.log(r))
+          stripe.redirectToCheckout({sessionId: data.id})
         })
       }
     })
