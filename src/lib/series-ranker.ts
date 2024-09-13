@@ -1,11 +1,7 @@
-import {NextApiRequest, NextApiResponse} from 'next'
-
 import {pgQuery} from '@/db'
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.json(
-    (
-      await pgQuery(`with 
+export async function getPlaylistRankings() {
+  return await pgQuery(`with 
 
       series_ratings as (
         select
@@ -89,9 +85,5 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           left join completions on completions.playlist_id = playlists.id
           where playlists.visibility_state = 'indexed' and playlists.site = 'egghead.io'
       ) x
-      order by weight desc`)
-    ).rows,
-  )
+      order by weight desc`).then((result) => result.rows)
 }
-
-export default handler
