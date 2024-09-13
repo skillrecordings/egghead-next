@@ -45,13 +45,13 @@ const ForeverEmail: React.FunctionComponent<
     setIsSubmitted(true)
     setIsError(false)
 
-    redirectToStandardCheckout({
-      priceId,
-      email,
-      quantity,
-      coupon,
-      successPath: '/confirm/forever',
-      cancelPath: '/pricing/forever',
+    await fetch('/api/stripe/checkout/lifetime', {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        successPath: '/confirm/forever',
+        cancelPath: '/pricing/forever',
+      }),
     }).catch((error) => {
       setIsError(error)
     })

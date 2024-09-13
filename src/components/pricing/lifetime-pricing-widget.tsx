@@ -152,60 +152,13 @@ const LifetimePricingWidget: FunctionComponent<
 
   const [loaderOn, setLoaderOn] = React.useState<boolean>(false)
 
-  // TODO: commerce machine pulls in prices for Yearly/Monthly/Quarterly and
-  // provides the `priceId` for the currently selected plan.
-  // Instead, we want a single Lifetime Membership `priceId` coming back.
-  //
-  // Since `useCommerceMachine` is a thin wrapper around `CommerceMachine`,
-  // we might be able to add a separate `useLifetimeCommerceMachine` that
-  // can get the details we want for this component?
-  //
-  // However, I do wonder if there is an even more hardcoded way of getting
-  // to this that would be faster than modifying the commerce machine.
-  //   const {
-  //     state,
-  //     send,
-  //     priceId,
-  //     quantity,
-  //     prices,
-  //     availableCoupons,
-  //     currentPlan,
-  //   } = useCommerceMachine()
-
   const priceId = process.env.NEXT_PUBLIC_STRIPE_LIFETIME_MEMBERSHIP_PRICE_ID
   const quantity = 1
   const pricesLoading = false
 
-  // machine-derived states
-  //   const pricesLoading = !state.matches('pricesLoaded')
-  //   const pppCouponIsApplied =
-  //     state.matches('pricesLoaded.withPPPCoupon') ||
-  //     (pricesLoading && state.context?.couponToApply?.couponType === 'ppp')
-
-  // machine-derived data
-  //   const parityCoupon = availableCoupons?.['ppp']
-
-  //   const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
-  //   const countryName = get(parityCoupon, 'coupon_region_restricted_to_name')
-
-  //   const pppCouponAvailable =
-  //     !isEmpty(countryName) && !isEmpty(countryCode) && !isEmpty(parityCoupon)
-  //   const pppCouponEligible = quantity === 1
-
-  //   const appliedCoupon = get(state.context.pricingData, 'applied_coupon')
-
-  //   // handlers
-  //   const onApplyParityCoupon = () => {
-  //     send('APPLY_PPP_COUPON')
-  //   }
-
-  //   const onDismissParityCoupon = () => {
-  //     send('REMOVE_PPP_COUPON')
-  //   }
-
   const onClickCheckout = async () => {
     if (!priceId) return
-    await track('lifetime checkout: selected plan', {
+    track('lifetime checkout: selected plan', {
       priceId: priceId,
     })
 
@@ -215,23 +168,20 @@ const LifetimePricingWidget: FunctionComponent<
       // if they already have Pro, then this upgrades them to Lifetime Pro.
 
       // the user doesn't have pro access, proceed to checkout
-      await track('lifetime checkout: valid email present', {
+      track('lifetime checkout: valid email present', {
         priceId: priceId,
       })
-      await track('lifetime checkout: redirect to stripe', {
-        priceId,
-      })
-      redirectToStandardCheckout({
-        priceId,
-        email: viewer.email,
-        authToken,
-        quantity,
-        successPath: '/confirm/forever',
-        cancelPath: '/pricing/forever',
-        // coupon: state.context.couponToApply?.couponCode,
+
+      await fetch('/api/stripe/checkout/lifetime', {
+        method: 'POST',
+        body: JSON.stringify({
+          email: viewer.email,
+          successPath: '/confirm/forever',
+          cancelPath: '/pricing/forever',
+        }),
       })
     } else {
-      await track('checkout: get email', {
+      track('checkout: get email', {
         priceId: priceId,
       })
 
@@ -242,7 +192,6 @@ const LifetimePricingWidget: FunctionComponent<
           new URLSearchParams({
             priceId,
             quantity: quantity.toString(),
-            // ...(couponCode && {coupon: couponCode}),
           }),
       )
       setLoaderOn(true)
