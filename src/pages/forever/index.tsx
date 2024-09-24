@@ -49,6 +49,35 @@ const Forever: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
             Learn the skills you and your team need to build real-world business
             focused professional web applications.
           </h2>
+
+          <article className="prose text-left max-w-2xl dark:prose-invert pt-12">
+            <p>
+              Your time is precious. You don't need another 40 hour course to
+              slog through just to have one or two 'aha' moments.
+            </p>
+            <p>
+              egghead keeps courses scoped to a specific goal you have like:
+              <ul>
+                <li>learn the latest JavaScript features</li>
+                <li>build modern state solutions in Angular</li>
+                <li>create a full stack solution for Ecommerce</li>
+              </ul>
+              You'll be guided through the key concepts and skills you need to
+              build the application you've been dreaming of.
+            </p>
+            <p>
+              This lets you start buildingsooner which means your learning will
+              truly stick, no more spinning your wheels on more tutorials.
+            </p>
+            <p>
+              When you're ready to lean another skill, egghead is here to
+              support your journey, now for the rest of your life.
+            </p>
+            <p>
+              For the price of 2 years of egghead, you get a membership{' '}
+              <em>forever</em>.
+            </p>
+          </article>
         </header>
         <main className="container flex flex-col items-center">
           <LifetimePricingWidget />
