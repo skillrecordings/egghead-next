@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react'
-import {FunctionComponent} from 'react'
+import {FunctionComponent, useEffect} from 'react'
 import {useViewer} from '@/context/viewer-context'
 import {redirectToStandardCheckout} from '@/api/stripe/stripe-checkout-redirect'
 import emailIsValid from '@/utils/email-is-valid'
@@ -24,15 +24,17 @@ export const PlanPrice: React.FunctionComponent<
   React.PropsWithChildren<{
     plan: {price: number; price_discounted?: number}
     pricesLoading: boolean
+    lastCharge: {amountPaid: number}
   }>
-> = ({plan, pricesLoading}) => {
+> = ({plan, pricesLoading, lastCharge}) => {
+  const amountPaid = lastCharge?.amountPaid
   const {price, price_discounted} = plan
   const priceToDisplay = price_discounted || price
   const discount_percentage = price_discounted
     ? Math.round(((price - price_discounted) * 100) / price)
     : null
   return (
-    <div className="flex items-center">
+    <div className={`flex items-center`}>
       <div className="flex items-end leading-none">
         <span className="self-start mt-1">USD</span>
         <span className="text-4xl font-light">$</span>
@@ -43,7 +45,7 @@ export const PlanPrice: React.FunctionComponent<
                 {pricesLoading && (
                   <Spinner className="absolute text-current" size={6} />
                 )}
-                {priceToDisplay}
+                {amountPaid}
               </div>
               <div className="flex flex-col items-start ml-2">
                 <div className="relative text-xl opacity-90 before:h-[2px] before:rotate-[-19deg] before:absolute before:bg-current before:w-full flex justify-center items-center text-center">
@@ -56,7 +58,14 @@ export const PlanPrice: React.FunctionComponent<
             </div>
           ) : (
             <div className={`relative ${pricesLoading ? 'opacity-60' : ''}`}>
-              {priceToDisplay}
+              {priceToDisplay && (
+                <>
+                  {priceToDisplay}
+                  <span className="inline-block text-sm text-gray-500 -translate-y-7 translate-x-1">
+                    00
+                  </span>
+                </>
+              )}
               {pricesLoading && (
                 <Spinner className="absolute text-current " size={6} />
               )}
@@ -142,8 +151,8 @@ const PlanFeatures: React.FunctionComponent<
 }
 
 const LifetimePricingWidget: FunctionComponent<
-  React.PropsWithChildren<{}>
-> = () => {
+  React.PropsWithChildren<{lastCharge: {amountPaid: number}}>
+> = ({lastCharge}) => {
   const {viewer, authToken} = useViewer()
 
   const router = useRouter()
@@ -206,7 +215,7 @@ const LifetimePricingWidget: FunctionComponent<
   // TODO: make the priceId and display price come from env vars
   // as an MVP, it is good enough for now to manually make sure those
   // values match up with what is in Stripe.
-  const lifetimePlan = {price: 500}
+  const lifetimePlan = {price: 500, price_discounted: 250}
 
   return (
     <div className="flex flex-col items-center">
@@ -220,7 +229,11 @@ const LifetimePricingWidget: FunctionComponent<
           />
         )} */}
           <div className="py-6">
-            <PlanPrice pricesLoading={pricesLoading} plan={lifetimePlan} />
+            <PlanPrice
+              pricesLoading={pricesLoading}
+              plan={lifetimePlan}
+              lastCharge={lastCharge}
+            />
           </div>
           {/* {!appliedCoupon && <PlanPercentageOff interval={currentPlan.name} />}
         {quantityAvailable && (
