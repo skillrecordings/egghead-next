@@ -29,10 +29,10 @@ export const PlanPrice: React.FunctionComponent<
 > = ({plan, pricesLoading, lastCharge}) => {
   const price = plan.price
   const amountPaid = lastCharge?.amountPaid
-  const displayPrice = amountPaid ? 500 - amountPaid : 500
+  const displayPrice = amountPaid ? price - amountPaid : price
   const discount_percentage = amountPaid
-    ? Math.round(((price - amountPaid) * 100) / price)
-    : null
+    ? Math.round((amountPaid * 100) / price)
+    : 0
   return (
     <div className={`flex items-center`}>
       <div className="flex items-end leading-none">
