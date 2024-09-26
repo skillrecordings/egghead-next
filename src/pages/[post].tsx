@@ -12,12 +12,16 @@ import {truncate} from 'lodash'
 import removeMarkdown from 'remove-markdown'
 import ReactMarkdown from 'react-markdown'
 import {trpc} from '@/app/_trpc/client'
+import Image from 'next/image'
+import Eggo from '@/components/icons/eggo'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
 }
 
 function convertToSerializeForNextResponse(result: any) {
+  if (!result) return null
+
   for (const resultKey in result) {
     if (result[resultKey] instanceof Date) {
       result[resultKey] = result[resultKey].toISOString()
@@ -78,10 +82,11 @@ SELECT *
 			AND cr_video.type = 'videoResource'
 		LIMIT 1`)
   const [postRows] = await conn.execute<RowDataPacket[]>(`
-SELECT *
-		FROM egghead_ContentResource cr_lesson
-		WHERE (cr_lesson.id = '${params.post}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}')
-		LIMIT 1`)
+SELECT cr_lesson.*, egh_user.name, egh_user.image
+    FROM egghead_ContentResource cr_lesson
+    LEFT JOIN egghead_User egh_user ON cr_lesson.createdById = egh_user.id
+    WHERE (cr_lesson.id = '${params.post}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}')
+    LIMIT 1`)
   await conn.end()
 
   const videoResource = videoResourceRows[0]
@@ -117,6 +122,10 @@ SELECT *
     props: {
       mdxSource,
       post: convertToSerializeForNextResponse(post),
+      instructor: {
+        full_name: post.name,
+        avatar_url: post.image,
+      },
       videoResource: convertToSerializeForNextResponse(videoResource),
     },
     revalidate: 60,
@@ -126,10 +135,12 @@ SELECT *
 export default function PostPage({
   post,
   videoResource,
+  instructor,
   mdxSource,
 }: {
   mdxSource: any
   post: any
+  instructor: any
   videoResource: any
 }) {
   const imageParams = new URLSearchParams()
@@ -139,7 +150,7 @@ export default function PostPage({
     trpc.progress.markLessonComplete.useMutation()
 
   return (
-    <div className="container">
+    <div className="container mx-auto w-fit">
       <NextSeo
         title={post.fields.title}
         description={post.fields.description}
@@ -166,24 +177,51 @@ export default function PostPage({
           ],
         }}
       />
-      <header>
-        <h1 className="w-full max-w-screen-mdtext-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl text-2xl pb-10 pt-16 sm:pb-24 sm:pt-32 leading-tighter">
+      <header className="pb-6 pt-16 sm:pb-18 sm:pt-32 space-y-4 w-fit">
+        <h1 className="max-w-screen-md font-extrabold lg:text-6xl md:text-5xl sm:text-4xl text-2xl leading-tighter w-fit">
           {post.fields.title}
         </h1>
+        <div>
+          <div className="flex flex-shrink-0 items-center">
+            {instructor?.avatar_url ? (
+              <Image
+                className="rounded-full flex-shrink-0 bg-cover"
+                src={`https:${instructor.avatar_url}`}
+                alt={instructor.full_name}
+                width={40}
+                height={40}
+              />
+            ) : (
+              <Eggo className="mr-1 sm:w-10 w-8" />
+            )}
+            <div className="ml-2 flex flex-col justify-center">
+              <span className="text-gray-700 dark:text-gray-400 text-sm leading-tighter">
+                Instructor
+              </span>
+              <h2 className="font-semibold text-base">
+                {instructor.full_name}
+              </h2>
+            </div>
+          </div>
+        </div>
       </header>
 
-      <MuxPlayer
-        playbackId={videoResource.fields.muxPlaybackId}
-        onEnded={() => {
-          if (post.fields.eggheadLessonId) {
-            markLessonComplete({
-              lessonId: post.fields.eggheadLessonId,
-            })
-          }
-        }}
-      />
+      {videoResource && (
+        <div className="py-4 min-w-[1280px] h-[720px]">
+          <MuxPlayer
+            playbackId={videoResource.fields.muxPlaybackId}
+            onEnded={() => {
+              if (post.fields.eggheadLessonId) {
+                markLessonComplete({
+                  lessonId: post.fields.eggheadLessonId,
+                })
+              }
+            }}
+          />
+        </div>
+      )}
 
-      <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 py-8">
+      <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-3xl dark:prose-a:text-blue-300 prose-a:text-blue-500 pt-4 pb-8 mx-auto">
         <MDXRemote
           {...mdxSource}
           components={{
@@ -191,12 +229,14 @@ export default function PostPage({
             PodcastLinks,
           }}
         />
-        <section>
-          <h2 className="text-xl font-bold">Transcript</h2>
-          <ReactMarkdown className="prose text-gray-800 dark:prose-dark max-w-none">
-            {videoResource.fields.transcript}
-          </ReactMarkdown>
-        </section>
+        {videoResource && (
+          <section>
+            <h2 className="text-xl font-bold">Transcript</h2>
+            <ReactMarkdown className="prose text-gray-800 dark:prose-dark max-w-none">
+              {videoResource.fields.transcript}
+            </ReactMarkdown>
+          </section>
+        )}
       </main>
     </div>
   )
