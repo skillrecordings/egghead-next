@@ -28,6 +28,7 @@ export const PlanPrice: React.FunctionComponent<
   }>
 > = ({plan, pricesLoading, lastCharge}) => {
   const amountPaid = lastCharge?.amountPaid
+  const displayPrice = amountPaid ? 500 - amountPaid : 500
   const {price, price_discounted} = plan
   const discount_percentage = price_discounted
     ? Math.round(((price - price_discounted) * 100) / price)
@@ -44,11 +45,11 @@ export const PlanPrice: React.FunctionComponent<
                 {pricesLoading && (
                   <Spinner className="absolute text-current" size={6} />
                 )}
-                {amountPaid}
+                {displayPrice}
               </div>
               <div className="flex flex-col items-start ml-2">
                 <div className="relative text-xl opacity-90 before:h-[2px] before:rotate-[-19deg] before:absolute before:bg-current before:w-full flex justify-center items-center text-center">
-                  &nbsp;{price}&nbsp;
+                  &nbsp;{displayPrice}&nbsp;
                 </div>
                 <div className="text-sm font-semibold text-blue-600 uppercase dark:text-amber-400">
                   save {discount_percentage}%
@@ -57,7 +58,7 @@ export const PlanPrice: React.FunctionComponent<
             </div>
           ) : (
             <div className={`relative ${pricesLoading ? 'opacity-60' : ''}`}>
-              500
+              {displayPrice}
               <span className="inline-block text-sm text-gray-500 -translate-y-7 translate-x-1">
                 00
               </span>
