@@ -1,13 +1,21 @@
+import {cookies} from 'next/headers'
 import {NextRequest, NextResponse} from 'next/server'
 import {stripeAdapter} from '@/adapters/stripe-adapter'
 import {add} from 'date-fns'
 import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
 
 export async function POST(req: NextRequest) {
+  const allCookies = cookies()
+  const authToken = allCookies.get('eh_token_2020_11_22')
+
   const {email, successPath, metadata, cancelPath} = await req.json()
 
-  let {amountPaid, stripeCustomerId, accountId, userId} =
-    await getLastChargeForActiveSubscription(email)
+  let {
+    amountPaid = 0,
+    stripeCustomerId,
+    accountId,
+    userId,
+  } = await getLastChargeForActiveSubscription(email, authToken?.value)
 
   // active global coupon?
   // is global > amountPaid? use it
@@ -18,8 +26,6 @@ export async function POST(req: NextRequest) {
     add(new Date(), {hours: 12}).getTime() / 1000,
   )
 
-  const LIFETIME_MEMBERSHIP_COST_IN_CENTS = 50000
-  // live mode product hard coded rofl
   const LIFETIME_MEMBERSHIP_STRIPE_PRODUCT_ID =
     process.env.LIFETIME_MEMBERSHIP_STRIPE_PRODUCT_ID!
   // live mode price hard coded rofl
@@ -27,9 +33,9 @@ export async function POST(req: NextRequest) {
     process.env.LIFETIME_MEMBERSHIP_STRIPE_PRICE_ID!
 
   if (amountPaid > 0) {
-    const couponName = `Lifetime ${(amountPaid / 100).toFixed(2)}`
+    const couponName = `Lifetime ${amountPaid}`
 
-    const amount_off_in_cents = LIFETIME_MEMBERSHIP_COST_IN_CENTS - amountPaid
+    const amount_off_in_cents = amountPaid * 100
 
     const couponId = await stripeAdapter.createCoupon({
       amount_off: amount_off_in_cents,
