@@ -27,11 +27,11 @@ export const PlanPrice: React.FunctionComponent<
     lastCharge: {amountPaid: number}
   }>
 > = ({plan, pricesLoading, lastCharge}) => {
+  const price = plan.price
   const amountPaid = lastCharge?.amountPaid
   const displayPrice = amountPaid ? 500 - amountPaid : 500
-  const {price, price_discounted} = plan
-  const discount_percentage = price_discounted
-    ? Math.round(((price - price_discounted) * 100) / price)
+  const discount_percentage = amountPaid
+    ? Math.round(((price - amountPaid) * 100) / price)
     : null
   return (
     <div className={`flex items-center`}>
@@ -49,7 +49,7 @@ export const PlanPrice: React.FunctionComponent<
               </div>
               <div className="flex flex-col items-start ml-2">
                 <div className="relative text-xl opacity-90 before:h-[2px] before:rotate-[-19deg] before:absolute before:bg-current before:w-full flex justify-center items-center text-center">
-                  &nbsp;{displayPrice}&nbsp;
+                  &nbsp;{price}&nbsp;
                 </div>
                 <div className="text-sm font-semibold text-blue-600 uppercase dark:text-amber-400">
                   save {discount_percentage}%
