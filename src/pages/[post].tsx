@@ -207,7 +207,7 @@ export default function PostPage({
       </header>
 
       {videoResource && (
-        <div className="py-4 min-w-[1280px] h-[720px]">
+        <div className="my-8">
           <MuxPlayer
             playbackId={videoResource.fields.muxPlaybackId}
             onEnded={() => {
