@@ -29,7 +29,6 @@ export const PlanPrice: React.FunctionComponent<
 > = ({plan, pricesLoading, lastCharge}) => {
   const amountPaid = lastCharge?.amountPaid
   const {price, price_discounted} = plan
-  const priceToDisplay = price_discounted || price
   const discount_percentage = price_discounted
     ? Math.round(((price - price_discounted) * 100) / price)
     : null
@@ -39,7 +38,7 @@ export const PlanPrice: React.FunctionComponent<
         <span className="self-start mt-1">USD</span>
         <span className="text-4xl font-light">$</span>
         <span className="self-stretch text-4xl font-extrabold">
-          {price_discounted ? (
+          {amountPaid ? (
             <div className="flex items-end">
               <div className={`relative ${pricesLoading ? 'opacity-60' : ''}`}>
                 {pricesLoading && (
@@ -58,17 +57,10 @@ export const PlanPrice: React.FunctionComponent<
             </div>
           ) : (
             <div className={`relative ${pricesLoading ? 'opacity-60' : ''}`}>
-              {priceToDisplay && (
-                <>
-                  {priceToDisplay}
-                  <span className="inline-block text-sm text-gray-500 -translate-y-7 translate-x-1">
-                    00
-                  </span>
-                </>
-              )}
-              {pricesLoading && (
-                <Spinner className="absolute text-current " size={6} />
-              )}
+              500
+              <span className="inline-block text-sm text-gray-500 -translate-y-7 translate-x-1">
+                00
+              </span>
             </div>
           )}
         </span>
