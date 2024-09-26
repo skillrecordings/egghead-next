@@ -1,15 +1,15 @@
-import {cookies} from 'next/headers'
 import {pgQuery} from '@/db'
 import {stripeAdapter} from '@/adapters/stripe-adapter'
 import {z} from 'zod'
 
 /**
- * this will only work in App router
+ * this will only work in Pages router
  * @param email
  */
-export async function getLastChargeForActiveSubscription(email?: string) {
-  const allCookies = cookies()
-  const authToken = allCookies.get('eh_token_2020_11_22')
+export async function getLastChargeForActiveSubscription(
+  email?: string,
+  authToken?: string,
+) {
   const eggheadUser = await fetch(
     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/current?minimal=true`,
     {
@@ -25,11 +25,11 @@ export async function getLastChargeForActiveSubscription(email?: string) {
     })
 
   const queryResult = await pgQuery(`
-    select account_subscriptions.stripe_subscription_id as stripeSubscriptionId,
-           accounts.stripe_customer_id as stripeCustomerId,
+    select account_subscriptions.stripe_subscription_id as stripe_subscription_id,
+           accounts.stripe_customer_id as stripe_customer_id,
            users.email, 
-           users.id as userId, 
-           accounts.id as accountId 
+           users.id as user_id, 
+           accounts.id as account_id 
     from users
     join account_users ON account_users.user_id = users.id
     join accounts on accounts.id = account_users.account_id
@@ -53,11 +53,11 @@ export async function getLastChargeForActiveSubscription(email?: string) {
   if (queryResult.rows.length === 1) {
     const parsedResult = z
       .object({
-        stripeSubscriptionId: z.string(),
-        stripeCustomerId: z.string(),
+        stripe_subscription_id: z.string(),
+        stripe_customer_id: z.string(),
         email: z.string(),
-        userId: z.number(),
-        accountId: z.number(),
+        user_id: z.number(),
+        account_id: z.string(),
       })
       .safeParse(queryResult.rows[0])
 
@@ -65,20 +65,34 @@ export async function getLastChargeForActiveSubscription(email?: string) {
       return noAccount
     }
 
-    const {stripeSubscriptionId, stripeCustomerId, email, userId, accountId} =
-      parsedResult.data
+    console.log('parsedResult.data', parsedResult.data)
+
+    const {
+      stripe_subscription_id: stripeSubscriptionId,
+      stripe_customer_id: stripeCustomerId,
+      email,
+      user_id: userId,
+      account_id: accountId,
+    } = parsedResult.data
+
+    console.log('stripeSubscriptionId', stripeSubscriptionId)
 
     const subscription = await stripeAdapter.getSubscription(
       stripeSubscriptionId,
     )
 
+    console.log('subscription', subscription)
+
     amountPaid = Number(subscription.latest_invoice.charge.amount) / 100
+
+    console.log('amountPaid', amountPaid)
+
     return {
       stripeSubscriptionId,
       stripeCustomerId,
       email,
-      userId,
-      accountId,
+      userId: String(userId),
+      accountId: accountId,
       amountPaid,
     }
   }
