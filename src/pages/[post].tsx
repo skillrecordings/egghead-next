@@ -4,8 +4,11 @@ import * as mysql from 'mysql2/promise'
 import {ConnectionOptions, RowDataPacket} from 'mysql2/promise'
 import {NextSeo} from 'next-seo'
 import * as React from 'react'
+import {type Pluggable} from 'unified'
 import {MDXRemote} from 'next-mdx-remote'
 import mdxComponents from '@/components/mdx'
+import rehypeHighlight from 'rehype-highlight'
+import 'highlight.js/styles/night-owl.css'
 import {serialize} from 'next-mdx-remote/serialize'
 import remarkGfm from 'remark-gfm'
 import {truncate} from 'lodash'
@@ -107,6 +110,7 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
         require(`remark-code-titles`),
       ],
       rehypePlugins: [
+        rehypeHighlight as unknown as Pluggable,
         // [
         //   require(`rehype-shiki`),
         //   {
@@ -227,6 +231,18 @@ export default function PostPage({
           components={{
             ...mdxComponents,
             PodcastLinks,
+            pre: (props) => <pre {...props} className="hljs" />,
+            code: ({className, ...props}: any) => {
+              const match = /language-(\w+)/.exec(className || '')
+              return match ? (
+                <code
+                  className={`${className} hljs language-${match[1]}`}
+                  {...props}
+                />
+              ) : (
+                <code className={className} {...props} />
+              )
+            },
           }}
         />
         {videoResource && (
