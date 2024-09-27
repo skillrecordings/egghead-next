@@ -34,7 +34,7 @@ export const PlanPrice: React.FunctionComponent<
     ? Math.round((amountPaid * 100) / price)
     : 0
   return (
-    <div className={`flex items-center`}>
+    <div className={`flex flex-col items-center`}>
       <div className="flex items-end leading-none">
         <span className="self-start mt-1">USD</span>
         <span className="text-4xl font-light">$</span>
@@ -66,6 +66,12 @@ export const PlanPrice: React.FunctionComponent<
           )}
         </span>
       </div>
+      <div className="text-sm font-medium pt-2">Member Pricing</div>
+      {amountPaid && (
+        <div className="text-sm font-semibold uppercase text-blue-600  dark:text-amber-400">
+          ${amountPaid}.00 credit applied
+        </div>
+      )}
     </div>
   )
 }
