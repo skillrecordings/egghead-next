@@ -24,11 +24,10 @@ export const PlanPrice: React.FunctionComponent<
   React.PropsWithChildren<{
     plan: {price: number; price_discounted?: number}
     pricesLoading: boolean
-    lastCharge: {amountPaid: number}
+    amountPaid: number | null
   }>
-> = ({plan, pricesLoading, lastCharge}) => {
+> = ({plan, pricesLoading, amountPaid}) => {
   const price = plan.price
-  const amountPaid = lastCharge?.amountPaid
   const displayPrice = amountPaid ? price - amountPaid : price
   const discount_percentage = amountPaid
     ? Math.round((amountPaid * 100) / price)
@@ -167,7 +166,8 @@ const LifetimePricingWidget: FunctionComponent<
   const quantity = 1
   const pricesLoading = false
 
-  const amountPaid = lastCharge?.amountPaid
+  const amountPaid =
+    lastCharge?.amountPaid === 0 ? null : lastCharge?.amountPaid
 
   const onClickCheckout = async () => {
     if (!priceId) return
@@ -236,7 +236,7 @@ const LifetimePricingWidget: FunctionComponent<
             <PlanPrice
               pricesLoading={pricesLoading}
               plan={lifetimePlan}
-              lastCharge={lastCharge}
+              amountPaid={amountPaid}
             />
           </div>
           {/* {!appliedCoupon && <PlanPercentageOff interval={currentPlan.name} />}
