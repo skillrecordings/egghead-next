@@ -66,11 +66,14 @@ export const PlanPrice: React.FunctionComponent<
           )}
         </span>
       </div>
-      <div className="text-sm font-medium pt-2">Member Pricing</div>
+
       {amountPaid && (
-        <div className="text-sm font-semibold uppercase text-blue-600  dark:text-amber-400">
-          ${amountPaid}.00 credit applied
-        </div>
+        <>
+          <div className="text-sm font-medium pt-2">Member Pricing</div>
+          <div className="text-sm font-semibold uppercase text-blue-600  dark:text-amber-400">
+            ${amountPaid}.00 credit applied
+          </div>
+        </>
       )}
     </div>
   )
@@ -164,6 +167,8 @@ const LifetimePricingWidget: FunctionComponent<
   const quantity = 1
   const pricesLoading = false
 
+  const amountPaid = lastCharge?.amountPaid
+
   const onClickCheckout = async () => {
     if (!priceId) return
     track('lifetime checkout: selected plan', {
@@ -250,7 +255,9 @@ const LifetimePricingWidget: FunctionComponent<
 
           <PlanFeatures planFeatures={DEFAULT_FEATURES} />
           <GetAccessButton
-            label={'Get Lifetime Access'}
+            label={
+              amountPaid ? 'Upgrade to Lifetime Access' : 'Get Lifetime Access'
+            }
             handleClick={onClickCheckout}
             loaderOn={loaderOn}
             pricesLoading={pricesLoading}
