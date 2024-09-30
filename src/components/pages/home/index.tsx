@@ -52,13 +52,12 @@ const Home: React.FC<React.PropsWithChildren<any>> = ({
       <div className="md:container">
         <Jumbotron data={jumbotron} />
       </div>
-      <div className="container">
-        <main className="pt-8 sm:pt-16">
-          <InstantSearchSSRProvider {...searchServerState}>
-            <TheFeed />
-          </InstantSearchSSRProvider>
-        </main>
-      </div>
+
+      <main className="pt-8 sm:pt-16">
+        <InstantSearchSSRProvider {...searchServerState}>
+          <TheFeed />
+        </InstantSearchSSRProvider>
+      </main>
     </>
   )
 }

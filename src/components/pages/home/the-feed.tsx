@@ -38,8 +38,8 @@ const TheFeed = () => {
               <div className="flex flex-col relative gap-3">
                 <main className="flex flex-col col-span-full w-full relative dark:bg-gray-900 bg-gray-50">
                   <ScrollElement name="hits" />
-                  <div className="flex items-center justify-between">
-                    <h2 className="sm:px-5 px-3 mt-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+                  <div className="flex sm:items-end items-center justify-between">
+                    <h2 className="sm:px-5 px-3 sm:mt-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
                       The Feed
                     </h2>
                     <PresetOptions classNames="bg-gray-50" />
