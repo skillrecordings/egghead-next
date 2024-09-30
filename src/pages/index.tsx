@@ -5,9 +5,9 @@ import {NextSeo} from 'next-seo'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import groq from 'groq'
-import {trpc} from '@/app/_trpc/client'
 import {getServerState} from 'react-instantsearch'
 import {renderToString} from 'react-dom/server'
+import TheFeed from '@/components/pages/home/the-feed'
 
 const HomePage: FunctionComponent<React.PropsWithChildren<any>> = ({
   data,
@@ -87,7 +87,7 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
 export async function getStaticProps() {
   const data = await sanityClient.fetch(homepageQuery)
 
-  const searchServerState = await getServerState(<HomePage data={data} />, {
+  const searchServerState = await getServerState(<TheFeed />, {
     renderToString,
   })
 

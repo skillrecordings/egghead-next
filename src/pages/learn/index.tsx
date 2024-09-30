@@ -8,10 +8,14 @@ import get from 'lodash/get'
 import groq from 'groq'
 import {z} from 'zod'
 import {result} from 'lodash'
+import {getServerState} from 'react-instantsearch'
+import TheFeed from '@/components/pages/home/the-feed'
+import {renderToString} from 'react-dom/server'
 
 const LearnPage: FunctionComponent<React.PropsWithChildren<any>> = ({
   data,
   holidayCourses,
+  searchServerState,
 }) => {
   const location = 'curated home landing'
   const jumbotron = find(data.sections, {slug: 'jumbotron'})
@@ -40,6 +44,7 @@ const LearnPage: FunctionComponent<React.PropsWithChildren<any>> = ({
           holidayCourses={holidayCourses}
           jumbotron={jumbotron}
           location={location}
+          searchServerState={searchServerState}
         />
       </div>
     </>
@@ -145,10 +150,15 @@ export async function getStaticProps() {
   const data = await sanityClient.fetch(homepageQuery)
   const holidayCourses = saleOn ? await loadHolidayCourses() : {}
 
+  const searchServerState = await getServerState(<TheFeed />, {
+    renderToString,
+  })
+
   return {
     props: {
       holidayCourses,
       data,
+      searchServerState,
     },
   }
 }
