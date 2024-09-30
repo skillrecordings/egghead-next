@@ -118,45 +118,6 @@ const navLinks = [
       />
     ),
   },
-  {
-    name: 'Tips',
-    href: '/tips',
-    image: (props?: React.SVGProps<SVGSVGElement>) => (
-      <PlayIconOutline
-        strokeWidth={1.5}
-        height={20}
-        width={20}
-        aria-hidden="true"
-        {...props}
-      />
-    ),
-  },
-  {
-    name: 'Guides',
-    href: '/guides',
-    image: (props?: React.SVGProps<SVGSVGElement>) => (
-      <MapIconOutline
-        strokeWidth={1.5}
-        height={20}
-        width={20}
-        aria-hidden="true"
-        {...props}
-      />
-    ),
-  },
-  {
-    name: 'Articles',
-    href: '/blog',
-    image: (props?: React.SVGProps<SVGSVGElement>) => (
-      <DocumentTextIconOutline
-        strokeWidth={1.5}
-        height={20}
-        width={20}
-        aria-hidden="true"
-        {...props}
-      />
-    ),
-  },
 ]
 
 const NavLink: React.FC<React.PropsWithChildren<NavLinkProps>> = ({
