@@ -1,5 +1,6 @@
 import React from 'react'
 import {Pagination as AlgoliaPagination} from 'react-instantsearch'
+import 'instantsearch.css/themes/algolia-min.css'
 import useBreakpoint from '@/utils/breakpoints'
 
 const Pagination = () => {
@@ -8,6 +9,7 @@ const Pagination = () => {
   return (
     <AlgoliaPagination
       padding={sm ? 1 : 3}
+      className="flex justify-center"
       showLast
       translations={{
         firstPageItemText: 'First',

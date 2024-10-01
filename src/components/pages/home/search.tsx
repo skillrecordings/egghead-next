@@ -8,7 +8,7 @@ import Image from 'next/legacy/image'
 const Search = () => {
   const router = useRouter()
   return (
-    <div className="pt-8 pb-24 flex flex-col items-center w-full">
+    <div className="py-24 flex flex-col items-center w-full">
       <Formik
         initialValues={{
           query: '',

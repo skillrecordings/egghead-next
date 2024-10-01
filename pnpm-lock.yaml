@@ -317,6 +317,9 @@ dependencies:
   inngest:
     specifier: ^3.6.0
     version: 3.19.14(encoding@0.1.13)(next@14.2.4)(typescript@5.1.6)
+  instantsearch.css:
+    specifier: ^8.5.1
+    version: 8.5.1
   isomorphic-fetch:
     specifier: ^3.0.0
     version: 3.0.0(encoding@0.1.13)
@@ -14218,6 +14221,10 @@ packages:
     resolution: {integrity: sha512-Jj3F9D46ef8VtzVZTgWsy79P25Q5nhI5XzK0NqfUVVI5yI3vA/3NkvKYtBHBlz50DDyBm6t9kIn/ZfpOwENm2A==}
     dependencies:
       '@babel/runtime': 7.24.7
+    dev: false
+
+  /instantsearch.css@8.5.1:
+    resolution: {integrity: sha512-lu4gWSa2crIA1OAuFwtrNJy4d8oRvKmkY5gv8Dbf3tuedQMm6cf7K+1kXJKRAHLm4pZos9RXIH10m57UfDKbyg==}
     dev: false
 
   /instantsearch.js@4.71.1(algoliasearch@4.23.3):

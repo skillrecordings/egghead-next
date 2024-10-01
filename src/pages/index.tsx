@@ -5,9 +5,14 @@ import {NextSeo} from 'next-seo'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import groq from 'groq'
-import {trpc} from '@/app/_trpc/client'
+import {getServerState} from 'react-instantsearch'
+import {renderToString} from 'react-dom/server'
+import TheFeed from '@/components/pages/home/the-feed'
 
-const HomePage: FunctionComponent<React.PropsWithChildren<any>> = ({data}) => {
+const HomePage: FunctionComponent<React.PropsWithChildren<any>> = ({
+  data,
+  searchServerState,
+}) => {
   const location = 'curated home landing'
   const jumbotron = find(data.sections, {slug: 'jumbotron'})
   const ogImage = get(
@@ -30,7 +35,12 @@ const HomePage: FunctionComponent<React.PropsWithChildren<any>> = ({data}) => {
         }}
       />
       <div className="dark:bg-gray-900 bg-gray-100">
-        <Home data={data} jumbotron={jumbotron} location={location} />
+        <Home
+          data={data}
+          jumbotron={jumbotron}
+          location={location}
+          searchServerState={searchServerState}
+        />
       </div>
     </>
   )
@@ -77,9 +87,14 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
 export async function getStaticProps() {
   const data = await sanityClient.fetch(homepageQuery)
 
+  const searchServerState = await getServerState(<TheFeed />, {
+    renderToString,
+  })
+
   return {
     props: {
       data,
+      searchServerState,
     },
   }
 }

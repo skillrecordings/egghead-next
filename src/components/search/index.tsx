@@ -28,11 +28,8 @@ import cx from 'classnames'
 import NewCuratedTopicPage from './curated/[slug]'
 import Link from 'next/link'
 import analytics from '@/utils/analytics'
-import {
-  typsenseAdapterConfig,
-  TYPESENSE_COLLECTION_NAME,
-} from '@/utils/typesense'
-import {typesenseAdapter} from '@/pages/q/[[...all]]'
+import {TYPESENSE_COLLECTION_NAME} from '@/utils/typesense'
+import PresetOptions from './components/preset-options'
 
 type SearchProps = {
   searchClient?: any
@@ -157,53 +154,6 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
           </>
         )}
       </button>
-    )
-  }
-
-  const PresetOptions = () => {
-    const {refresh} = useInstantSearch()
-
-    return (
-      <select
-        className="border-0 flex items-center flex-shrink-0 space-x-2 flex-nowrap dark:bg-gray-900 bg-white h-full"
-        defaultValue="popular"
-        onChange={(e) => {
-          typesenseAdapter.updateConfiguration({
-            ...typsenseAdapterConfig,
-            additionalSearchParameters: {
-              query_by: 'title,description,_tags,instructor_name,contributors',
-              preset: e.target.value,
-            },
-          })
-
-          refresh()
-        }}
-      >
-        <option
-          className="border-opacity-0 dark:border-gray-800 border-gray-100"
-          value="popular"
-        >
-          Most Popular
-        </option>
-        <option
-          className="border-opacity-0 dark:border-gray-800 border-gray-100"
-          value="rating"
-        >
-          Highest Rated
-        </option>
-        <option
-          className="border-opacity-0 dark:border-gray-800 border-gray-100"
-          value="created_at"
-        >
-          Recently Added
-        </option>
-        <option
-          className="border-opacity-0 dark:border-gray-800 border-gray-100"
-          value="most_watched"
-        >
-          Most Watched
-        </option>
-      </select>
     )
   }
 
