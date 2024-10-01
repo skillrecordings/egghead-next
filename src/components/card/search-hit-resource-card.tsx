@@ -46,9 +46,6 @@ const SearchHitResourceCard: React.FC<
   const defaultClassName =
     'rounded-md w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 aspect-[3/1] sm:aspect-[4/2] flex'
 
-  small =
-    (get(resource.image, 'src', resource.image) as string)?.includes('/tags') ??
-    true
   return (
     <ResourceLink
       path={resource.path.replace(/playlists/, 'courses')}
@@ -151,7 +148,7 @@ const PreviewImage: React.FC<
   const size = small ? 40 : 85
 
   return (
-    <CardPreview className="relative flex items-center justify-center sm:w-full w-16 ">
+    <CardPreview className="relative flex items-center justify-center w-16">
       <Image
         aria-hidden
         src={get(image, 'src', image)}

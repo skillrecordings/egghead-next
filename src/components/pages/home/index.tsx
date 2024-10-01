@@ -49,11 +49,7 @@ const Home: React.FC<React.PropsWithChildren<any>> = ({
         location={location}
         completedCoursesIds={completedCourseIds}
       />
-      <div className="md:container">
-        <Jumbotron data={jumbotron} />
-      </div>
-
-      <main className="pt-8 sm:pt-16">
+      <main className="">
         <InstantSearchSSRProvider {...searchServerState}>
           <TheFeed />
         </InstantSearchSSRProvider>
