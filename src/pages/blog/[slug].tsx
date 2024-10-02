@@ -110,9 +110,15 @@ const Tag = (props: any) => {
         publisherLogo="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg"
       />
       <div className="container">
-        <article className="max-w-screen-md mx-auto mt-10 mb-16 lg:mt-24 md:mt-20">
-          <header>
-            <h1 className="w-full max-w-screen-mdtext-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl text-2xl pb-10 pt-16 sm:pb-24 sm:pt-32 leading-tighter">
+        <article className="max-w-4xl mx-auto mb-16">
+          <header className="sm:pt-16 pt-8">
+            <Link
+              href="/blog"
+              className="opacity-75 text-sm mb-5 inline-flex hover:text-blue-600 dark:hover:text-blue-400 transition"
+            >
+              ← Articles
+            </Link>
+            <h1 className="w-full text-balance max-w-screen-mdtext-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl text-2xl pb-10 sm:pb-24 leading-tighter">
               {title}
             </h1>
             <div className="flex justify-between items-center">
