@@ -73,7 +73,7 @@ const Item: FunctionComponent<
     <Link href={path} activeClassName="underline">
       <a
         onClick={onClick}
-        className="transition-colors duration-150 ease-in-out hover:text-blue-600"
+        className="transition-colors duration-150 ease-in-out dark:hover:text-blue-400 hover:text-blue-600"
       >
         {children}
       </a>
@@ -146,7 +146,7 @@ const Footer: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
   const [isMounted, setIsMounted] = React.useState<boolean>(false)
   React.useEffect(() => setIsMounted(true), [])
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 print:hidden dark:text-gray-200">
+    <footer className="bg-gray-50 dark:bg-gray-800/50 print:hidden dark:text-gray-200">
       <div className="container">
         {isMounted && <FooterNavigation />}
         <small className="flex items-center justify-center w-full py-6 space-x-6 text-xs text-gray-500 md:justify-end dark:text-gray-300">

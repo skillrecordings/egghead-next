@@ -42,14 +42,15 @@ const Home: React.FC<React.PropsWithChildren<any>> = ({
 
   return (
     <>
-      <Search />
-
-      <SanitySections
-        sections={data.sections}
-        location={location}
-        completedCoursesIds={completedCourseIds}
-      />
       <main className="">
+        <section aria-label="search or browse sections" className="">
+          <Search />
+          <SanitySections
+            sections={data.sections}
+            location={location}
+            completedCoursesIds={completedCourseIds}
+          />
+        </section>
         <InstantSearchSSRProvider {...searchServerState}>
           <TheFeed />
         </InstantSearchSSRProvider>

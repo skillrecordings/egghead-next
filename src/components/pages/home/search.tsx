@@ -4,11 +4,12 @@ import {useRouter} from 'next/router'
 import isEmpty from 'lodash/isEmpty'
 import {Form, Formik} from 'formik'
 import Image from 'next/legacy/image'
+import {SearchIcon} from 'lucide-react'
 
 const Search = () => {
   const router = useRouter()
   return (
-    <div className="py-24 flex flex-col items-center w-full">
+    <div className="lg:pt-20 sm:pt-16 pt-10 px-5 flex flex-col bg-gradient-to-b dark:from-gray-800/50 from-gray-200 to-transparent items-center w-full">
       <Formik
         initialValues={{
           query: '',
@@ -31,10 +32,10 @@ const Search = () => {
         {({values, handleChange}) => {
           return (
             <Form role="search" className="w-full">
-              <h2 className="text-center lg:text-2xl sm:text-xl text-lg font-medium leading-tighter pb-8">
+              <h1 className="text-center lg:text-3xl text-balance sm:text-2xl text-2xl font-bold leading-tighter sm:pb-8 pb-5">
                 What are you going to learn today?
-              </h2>
-              <div className="max-w-lg w-full mx-auto relative flex items-center">
+              </h1>
+              <div className="max-w-2xl w-full mx-auto relative flex items-center shadow-smooth rounded-lg">
                 <input
                   name="query"
                   value={values.query}
@@ -42,13 +43,14 @@ const Search = () => {
                   type="search"
                   placeholder={`React, TypeScript, AWS, CSS...`}
                   autoComplete="off"
-                  className="w-full py-4 px-5 pr-16 lg:text-lg sm:text-base text-sm rounded-lg dark:bg-gray-1000 border dark:border-gray-800 bg-white border-transparent focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+                  className="w-full py-4 px-5 pr-16 lg:text-lg sm:text-base text-sm rounded-lg dark:bg-gray-1000 border dark:border-gray-800 bg-white border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
                 />
                 <button
                   type="submit"
-                  className="sm:text-base text-sm absolute px-5 text-white right-0 bg-gradient-to-t from-blue-600 to-blue-500 h-full rounded-r-lg transition-all ease-in-out duration-200 after:absolute after:left-0 after:top-0 after:w-full after:h-full after:bg-gray-900 hover:after:bg-opacity-40 after:bg-opacity-10 overflow-hidden after:transition-all after:ease-in-out after:duration-200"
+                  className="flex items-center gap-2 sm:text-base font-medium text-sm absolute px-5 text-white right-0 bg-gradient-to-t from-blue-600 to-blue-500 h-full rounded-r-lg transition-all ease-in-out duration-200 after:absolute overflow-hidden"
                 >
-                  <div className="relative z-10">Search egghead</div>
+                  <SearchIcon className="w-4 h-4" aria-hidden="true" />
+                  <span className="sm:not-sr-only sr-only">Search egghead</span>
                 </button>
               </div>
             </Form>
