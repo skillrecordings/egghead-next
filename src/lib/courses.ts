@@ -5,7 +5,7 @@ import {z} from 'zod'
 
 const courseQuery = groq`
 *[
-  (_type == 'resource' || _type == 'course') && (railsCourseId ==$courseId || externalId == $courseId || slug.current == $slug)
+  (_type == 'resource' || _type == 'course') && (railsCourseId == $courseId || externalId == $courseId || slug.current == $slug)
 ][0]{
   "id": _id,
   title,

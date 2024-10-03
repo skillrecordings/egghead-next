@@ -143,59 +143,11 @@ const CollectionPageLayout: React.FunctionComponent<
     slug: course.slug,
   })
   const isCourseCompleted = courseProgress?.is_complete
-  const defaultPairWithResources: any[] = take(
-    [
-      {
-        title: 'Introduction to Cloudflare Workers',
-        byline: 'Kristian Freeman・36m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/thumb/EGH_IntroCloudFlareWorkers_Final.png',
-        path: '/playlists/introduction-to-cloudflare-workers-5aa3',
-        slug: 'introduction-to-cloudflare-workers-5aa3',
-        description:
-          "Become familiar with the Workers CLI `wrangler` that we will use to bootstrap our Worker project. From there you'll understand how a Worker receives and returns requests/Responses. We will also build this serverless function locally for development and deploy it to a custom domain.",
-      },
-      {
-        title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
-        byline: 'Colby Fayock・1h 4m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/thumb/ecommerce-stripe-next.png',
-        path: '/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
-        slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
-        description: `This is a practical project based look at building a working e-commerce store
-        using modern tools and APIs. Excellent for a weekend side-project for your [developer project portfolio](https://joelhooks.com/developer-portfolio)`,
-      },
-      {
-        title: 'Practical Git for Everyday Professional Use',
-        byline: 'Trevor Miller・1h・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/050/thumb/egghead-practical-git-course.png',
-        path: '/courses/practical-git-for-everyday-professional-use',
-        slug: 'practical-git-for-everyday-professional-use',
-        description: `[git](/q/git) is a critical component in the modern web developers tool box. This course
-         is a solid introduction and goes beyond the basics with some more advanced git commands
-         you are sure to find useful.`,
-      },
-      {
-        title: 'Build an App with the AWS Cloud Development Kit',
-        byline: 'Tomasz Łakomy・1h 4m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
-        path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
-        slug: 'build-an-app-with-the-aws-cloud-development-kit',
-        description:
-          "Tomasz Łakomy will guide you through using TypeScript to complete the lifecycle of an application powered by AWS CDK. You'll see how to start a project, develop it locally, deploy it globally, then tear it all down when you're done. Excellent kick start for your next side project or your developer portfolio.",
-      },
-    ].filter((resource) => {
-      return resource.slug !== course.slug
-    }),
-    3,
-  )
 
   const {
     topics,
     illustrator,
-    pairWithResources = defaultPairWithResources,
+    pairWithResources,
     courseProject,
     quickFacts,
     prerequisites,
@@ -936,7 +888,7 @@ const CollectionPageLayout: React.FunctionComponent<
                 </ul>
               </div>
             </section>
-            {!isEmpty(pairWithResources) && (
+            {!isEmpty(relatedResources) && (
               <div className="flex flex-col my-12 space-y-2 md:hidden">
                 <h2 className="mb-3 text-lg font-semibold">
                   You might also like these resources:
@@ -949,17 +901,18 @@ const CollectionPageLayout: React.FunctionComponent<
                   width={916 / 2}
                   height={1024 / 2}
                 />
-                {pairWithResources.map((resource: any) => {
-                  return (
-                    <div key={resource.slug}>
-                      <HorizontalResourceCard
-                        className="my-4 border border-gray-400 border-opacity-10 dark:border-gray-500"
-                        resource={resource}
-                        location={course.path}
-                      />
-                    </div>
-                  )
-                })}
+                {relatedResources &&
+                  relatedResources.map((resource: any) => {
+                    return (
+                      <div key={resource.slug}>
+                        <HorizontalResourceCard
+                          className="my-4 border border-gray-400 border-opacity-10 dark:border-gray-500"
+                          resource={resource}
+                          location={course.path}
+                        />
+                      </div>
+                    )
+                  })}
               </div>
             )}
           </div>
