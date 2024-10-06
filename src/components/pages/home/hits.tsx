@@ -6,7 +6,9 @@ import {UseHitsProps} from 'react-instantsearch'
 import {usePagination} from 'react-instantsearch'
 import {useQuery} from '@tanstack/react-query'
 
-import HitComponent from '@/components/search/components/hit'
+import HitComponent, {
+  getInstructorImageUrl,
+} from '@/components/search/components/hit'
 import {useViewer} from '@/context/viewer-context'
 import {loadUserCompletedCourses} from '@/lib/users'
 import {CardResource} from '@/types'
@@ -39,17 +41,6 @@ const CustomHits = (props: UseHitsProps) => {
 
   const [firstHit, ...restHits] = hits
 
-  const getInstructorImageUrl = (id: string) => {
-    switch (id?.length ?? 0) {
-      case 1:
-        return `https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/00${id}/square_128/${firstHit?.instructor?.avatar_file_name}`
-      case 2:
-        return `https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/0${id}/square_128/${firstHit?.instructor?.avatar_file_name}`
-      default:
-        return `https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/${id}/square_128/${firstHit?.instructor?.avatar_file_name}`
-    }
-  }
-
   function truncateDescription(description: string) {
     if (!description) return ''
     const cleanedDescription = description.replace(/\n/g, ' ').trim()
@@ -72,10 +63,13 @@ const CustomHits = (props: UseHitsProps) => {
     path: firstHit?.path,
     description: truncateDescription(firstHit?.summary),
     instructor: {
+      id: firstHit?.instructor?.id,
       name: getInstructorName(firstHit?.instructor),
       image:
         firstHit?.instructor_avatar_url ??
-        getInstructorImageUrl(firstHit?.instructor?.id),
+        firstHit?.instructor?.avatar_url ??
+        (firstHit?.instructor?.avatar_file_name &&
+          getInstructorImageUrl(firstHit?.instructor)),
     },
     name: resourceType,
   }

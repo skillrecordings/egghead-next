@@ -112,7 +112,10 @@ async function loadLessonMetadataFromSanity(slug: string) {
   }
 }
 
-async function loadLessonMetadataFromGraphQL(slug: string, token?: string) {
+export async function loadLessonMetadataFromGraphQL(
+  slug: string,
+  token?: string,
+) {
   const graphQLClient = getGraphQLClient(token)
 
   try {

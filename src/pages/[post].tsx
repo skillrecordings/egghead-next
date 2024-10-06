@@ -76,20 +76,31 @@ export const getStaticProps: GetServerSideProps = async function ({
       notFound: true,
     }
   }
+
+  let hashFromSlug = String(params.post)
+  let splitOnTilde = String(params.post).split('~')
+
+  if (splitOnTilde.length > 1) {
+    hashFromSlug = splitOnTilde[splitOnTilde.length - 1]
+  } else {
+    let splitOnDash = String(params.post).split('-')
+    hashFromSlug = splitOnDash[splitOnDash.length - 1]
+  }
+
   const conn = await mysql.createConnection(access)
   const [videoResourceRows] = await conn.execute<RowDataPacket[]>(`
 SELECT *
 		FROM egghead_ContentResource cr_lesson
 		JOIN egghead_ContentResourceResource crr ON cr_lesson.id = crr.resourceOfId
 		JOIN egghead_ContentResource cr_video ON crr.resourceId = cr_video.id
-		WHERE (cr_lesson.id = '${params.post}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}')
+		WHERE (cr_lesson.id = '${params.post}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}' OR cr_lesson.id LIKE '%${hashFromSlug}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE '%${hashFromSlug}')
 			AND cr_video.type = 'videoResource'
 		LIMIT 1`)
   const [postRows] = await conn.execute<RowDataPacket[]>(`
 SELECT cr_lesson.*, egh_user.name, egh_user.image
     FROM egghead_ContentResource cr_lesson
     LEFT JOIN egghead_User egh_user ON cr_lesson.createdById = egh_user.id
-    WHERE (cr_lesson.id = '${params.post}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}')
+    WHERE (cr_lesson.id = '${params.post}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}' OR cr_lesson.id LIKE '%${hashFromSlug}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE '%${hashFromSlug}')
     LIMIT 1`)
   await conn.end()
 
@@ -102,6 +113,10 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
     }
   }
 
+  const lesson = await fetch(
+    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.slug}`,
+  ).then((res) => res.json())
+
   const resource = {
     id: `${post.fields.eggheadLessonId}`,
     externalId: post.id,
@@ -109,10 +124,14 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
     slug: post.fields.slug,
     summary: post.fields.description,
     description: post.fields.body,
-    image: post.fields.image,
     name: post.fields.title,
     path: `/${post.fields.slug}`,
     type: post.fields.postType,
+    ...(lesson && {
+      instructor_name: lesson.instructor?.full_name,
+      instructor: lesson.instructor,
+      image: lesson.image_480_url,
+    }),
   }
 
   let client = new Typesense.Client({
