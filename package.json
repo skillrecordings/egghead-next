@@ -222,6 +222,7 @@
     "tiny-invariant": "^1.2.0",
     "title": "^3.4.3",
     "ts-toolbelt": "^9.6.0",
+    "typesense": "^1.8.2",
     "typesense-instantsearch-adapter": "^2.8.0",
     "unified": "^10.1.2",
     "unist-util-visit": "5.0.0",

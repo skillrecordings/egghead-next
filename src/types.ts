@@ -17,13 +17,20 @@ export type SectionResource = LessonResource & {
 }
 
 export type CardResource = Resource & {
+  type?: string
   id?: string
+  title: string
+  slug: string
+  description: string
+  icon_url?: string
+  completed?: boolean
+  path: string
   externalId?: number
   image: string | {src: string; alt: string}
   name: string
   tag?: any
   subTitle?: string
-  byline: string
+  byline?: string
   resources?: CardResource[]
   related?: CardResource[]
   instructor?: any

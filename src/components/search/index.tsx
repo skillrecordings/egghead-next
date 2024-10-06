@@ -6,12 +6,7 @@ import Stats from './stats'
 import SearchBox from './search-box'
 import RefinementList from './refinement-list'
 import Pagination from './pagination'
-import {
-  Configure,
-  InstantSearch,
-  ClearRefinements,
-  useInstantSearch,
-} from 'react-instantsearch'
+import {Configure, InstantSearch, ClearRefinements} from 'react-instantsearch'
 import {get, isEmpty} from 'lodash'
 import {useToggle} from 'react-use'
 import config from '@/lib/config'

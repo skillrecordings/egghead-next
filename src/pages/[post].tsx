@@ -17,6 +17,7 @@ import ReactMarkdown from 'react-markdown'
 import {trpc} from '@/app/_trpc/client'
 import Image from 'next/image'
 import Eggo from '@/components/icons/eggo'
+import Typesense from 'typesense'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -100,6 +101,39 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
       notFound: true,
     }
   }
+
+  const resource = {
+    id: `${post.fields.eggheadLessonId}`,
+    externalId: post.id,
+    title: post.fields.title,
+    slug: post.fields.slug,
+    summary: post.fields.description,
+    description: post.fields.body,
+    image: post.fields.image,
+    name: post.fields.title,
+    path: `/${post.fields.slug}`,
+    type: post.fields.postType,
+  }
+
+  let client = new Typesense.Client({
+    nodes: [
+      {
+        host: process.env.NEXT_PUBLIC_TYPESENSE_HOST!,
+        port: 443,
+        protocol: 'https',
+      },
+    ],
+    apiKey: process.env.TYPESENSE_WRITE_API_KEY!,
+    connectionTimeoutSeconds: 2,
+  })
+
+  await client
+    .collections(process.env.TYPESENSE_COLLECTION_NAME!)
+    .documents()
+    .upsert({
+      ...resource,
+      published_at_timestamp: post.updatedAt.getTime(),
+    })
 
   const mdxSource = await serialize(post.fields.body, {
     mdxOptions: {

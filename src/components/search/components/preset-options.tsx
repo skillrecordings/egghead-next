@@ -13,7 +13,7 @@ const PresetOptions = ({classNames}: {classNames?: string}) => {
         'border-0 flex items-center flex-shrink-0 space-x-2 flex-nowrap dark:bg-gray-900 bg-white h-full',
         classNames,
       )}
-      defaultValue="popular"
+      defaultValue="created_at"
       onChange={(e) => {
         typesenseAdapter.updateConfiguration({
           ...typsenseAdapterConfig,

@@ -18,13 +18,7 @@ import {loadTag} from '@/lib/tags'
 import {topicExtractor} from '@/utils/search/topic-extractor'
 import useLoadTopicData, {topicQuery} from '@/hooks/use-load-topic-data'
 import {sanityClient} from '@/utils/sanity-client'
-import {
-  getServerState,
-  Hits,
-  InstantSearch,
-  InstantSearchSSRProvider,
-  SearchBox,
-} from 'react-instantsearch'
+import {getServerState, InstantSearchSSRProvider} from 'react-instantsearch'
 import {renderToString} from 'react-dom/server'
 import {
   TYPESENSE_COLLECTION_NAME,

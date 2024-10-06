@@ -19,9 +19,11 @@ export const typsenseAdapterConfig = {
   //  query_by is required.
   additionalSearchParameters: {
     query_by: 'title,description,_tags,instructor_name,contributors',
-    preset: 'popular',
+    preset: 'created_at',
   },
 }
+
+// _eval([ (type:playlist):4, (type:lesson):3, (type:podcast):2], (type:talk):1):desc,published_at_timestamp:desc,rank:asc
 
 export const typesenseInstantsearchAdapter = () =>
   new TypesenseInstantSearchAdapter({...typsenseAdapterConfig})
