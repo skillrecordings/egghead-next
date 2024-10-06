@@ -24,7 +24,14 @@ export const getInstructorImageUrl = (instructor: {
 const HitComponent: FunctionComponent<
   React.PropsWithChildren<HitComponentProps>
 > = ({hit, completedCoursesIds}) => {
-  const {image, type, instructor_url, instructor_name, instructor} = hit
+  const {
+    image,
+    type,
+    instructor_url,
+    instructor_name,
+    instructor,
+    instructor_avatar_url,
+  } = hit
 
   const hasImage = image !== 'https://d2eip9sf3oo6c2.cloudfront.net/logo.svg'
 
@@ -35,10 +42,12 @@ const HitComponent: FunctionComponent<
       resource={{
         ...hit,
         name: type === 'playlist' ? 'course' : type,
+        image,
         instructor: {
           name: instructor_name,
           url: instructor_url,
-          image: instructor ? getInstructorImageUrl(instructor) : null,
+          image:
+            instructor?.avatar_url ?? instructor?.instructor_avatar_url ?? null,
         },
       }}
       completedCoursesIds={completedCoursesIds}

@@ -114,7 +114,7 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
   }
 
   const lesson = await fetch(
-    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.slug}`,
+    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.eggheadLessonId}`,
   ).then((res) => res.json())
 
   const resource = {
