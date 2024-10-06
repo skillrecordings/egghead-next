@@ -186,3 +186,12 @@ pre > code {
 .cueplayer-react .cueplayer-react-cue-form-submit-button {
   @apply bg-blue-600;
 }
+
+mux-player {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  --seek-backward-button: none;
+  --seek-forward-button: none;
+  @apply overflow-hidden;
+}

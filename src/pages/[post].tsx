@@ -1,5 +1,5 @@
 import {GetServerSideProps, GetStaticPaths} from 'next'
-import MuxPlayer from '@mux/mux-player-react'
+import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import * as mysql from 'mysql2/promise'
 import {ConnectionOptions, RowDataPacket} from 'mysql2/promise'
 import {NextSeo} from 'next-seo'
@@ -18,6 +18,7 @@ import {trpc} from '@/app/_trpc/client'
 import Image from 'next/image'
 import Eggo from '@/components/icons/eggo'
 import Typesense from 'typesense'
+import {cn} from '@/ui/utils'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -207,8 +208,18 @@ export default function PostPage({
   const {mutate: markLessonComplete} =
     trpc.progress.markLessonComplete.useMutation()
 
+  const playerProps = {
+    id: 'mux-player',
+    defaultHiddenCaptions: true,
+    streamType: 'on-demand',
+    thumbnailTime: 0,
+    playbackRates: [0.75, 1, 1.25, 1.5, 1.75, 2],
+    maxResolution: '2160p',
+    minResolution: '540p',
+  } as MuxPlayerProps
+
   return (
-    <div className="container mx-auto w-fit">
+    <div>
       <NextSeo
         title={post.fields.title}
         description={post.fields.description}
@@ -235,79 +246,94 @@ export default function PostPage({
           ],
         }}
       />
-      <header className="pb-6 pt-16 sm:pb-18 sm:pt-32 space-y-4 w-fit">
-        <h1 className="max-w-screen-md font-extrabold lg:text-6xl md:text-5xl sm:text-4xl text-2xl leading-tighter w-fit">
-          {post.fields.title}
-        </h1>
-        <div>
-          <div className="flex flex-shrink-0 items-center">
-            {instructor?.avatar_url ? (
-              <Image
-                className="rounded-full flex-shrink-0 bg-cover"
-                src={`https:${instructor.avatar_url}`}
-                alt={instructor.full_name}
-                width={40}
-                height={40}
-              />
-            ) : (
-              <Eggo className="mr-1 sm:w-10 w-8" />
-            )}
-            <div className="ml-2 flex flex-col justify-center">
-              <span className="text-gray-700 dark:text-gray-400 text-sm leading-tighter">
-                Instructor
-              </span>
-              <h2 className="font-semibold text-base">
-                {instructor.full_name}
-              </h2>
+      {videoResource && (
+        <div className="relative z-10 flex items-center justify-center">
+          <div className="flex w-full max-w-screen-lg flex-col">
+            <div className="relative aspect-[16/9]">
+              <div
+                className={cn(
+                  'flex items-center justify-center  overflow-hidden',
+                  {
+                    hidden: false,
+                  },
+                )}
+              >
+                <MuxPlayer
+                  {...playerProps}
+                  playbackId={videoResource.fields.muxPlaybackId}
+                  onEnded={() => {
+                    if (post.fields.eggheadLessonId) {
+                      markLessonComplete({
+                        lessonId: post.fields.eggheadLessonId,
+                      })
+                    }
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </header>
-
-      {videoResource && (
-        <div className="my-8">
-          <MuxPlayer
-            playbackId={videoResource.fields.muxPlaybackId}
-            onEnded={() => {
-              if (post.fields.eggheadLessonId) {
-                markLessonComplete({
-                  lessonId: post.fields.eggheadLessonId,
-                })
-              }
-            }}
-          />
-        </div>
       )}
-
-      <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-3xl dark:prose-a:text-blue-300 prose-a:text-blue-500 pt-4 pb-8 mx-auto">
-        <MDXRemote
-          {...mdxSource}
-          components={{
-            ...mdxComponents,
-            PodcastLinks,
-            pre: (props) => <pre {...props} className="hljs" />,
-            code: ({className, ...props}: any) => {
-              const match = /language-(\w+)/.exec(className || '')
-              return match ? (
-                <code
-                  className={`${className} hljs language-${match[1]}`}
-                  {...props}
+      <div className="container mx-auto w-fit">
+        <header className="pb-6 pt-7 sm:pb-18 sm:pt-16 space-y-4 ">
+          <h1 className="max-w-screen-md font-extrabold lg:text-6xl md:text-5xl sm:text-4xl text-2xl leading-tighter w-fit">
+            {post.fields.title}
+          </h1>
+          <div>
+            <div className="flex flex-shrink-0 items-center">
+              {instructor?.avatar_url ? (
+                <Image
+                  className="rounded-full flex-shrink-0 bg-cover"
+                  src={`https:${instructor.avatar_url}`}
+                  alt={instructor.full_name}
+                  width={40}
+                  height={40}
                 />
               ) : (
-                <code className={className} {...props} />
-              )
-            },
-          }}
-        />
-        {videoResource && (
-          <section>
-            <h2 className="text-xl font-bold">Transcript</h2>
-            <ReactMarkdown className="prose text-gray-800 dark:prose-dark max-w-none">
-              {videoResource.fields.transcript}
-            </ReactMarkdown>
-          </section>
-        )}
-      </main>
+                <Eggo className="mr-1 sm:w-10 w-8" />
+              )}
+              <div className="ml-2 flex flex-col justify-center">
+                <span className="text-gray-700 dark:text-gray-400 text-sm leading-tighter">
+                  Instructor
+                </span>
+                <h2 className="font-semibold text-base">
+                  {instructor.full_name}
+                </h2>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-3xl dark:prose-a:text-blue-300 prose-a:text-blue-500 pt-4 pb-8 mx-auto">
+          <MDXRemote
+            {...mdxSource}
+            components={{
+              ...mdxComponents,
+              PodcastLinks,
+              pre: (props) => <pre {...props} className="hljs" />,
+              code: ({className, ...props}: any) => {
+                const match = /language-(\w+)/.exec(className || '')
+                return match ? (
+                  <code
+                    className={`${className} hljs language-${match[1]}`}
+                    {...props}
+                  />
+                ) : (
+                  <code className={className} {...props} />
+                )
+              },
+            }}
+          />
+          {videoResource && (
+            <section>
+              <h2 className="text-xl font-bold">Transcript</h2>
+              <ReactMarkdown className="prose text-gray-800 dark:prose-dark max-w-none">
+                {videoResource.fields.transcript}
+              </ReactMarkdown>
+            </section>
+          )}
+        </main>
+      </div>
     </div>
   )
 }
