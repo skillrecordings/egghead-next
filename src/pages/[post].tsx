@@ -127,13 +127,14 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
     connectionTimeoutSeconds: 2,
   })
 
-  await client
-    .collections(process.env.TYPESENSE_COLLECTION_NAME!)
-    .documents()
-    .upsert({
-      ...resource,
-      published_at_timestamp: post.updatedAt.getTime(),
-    })
+  post.fields.state === 'published' &&
+    (await client
+      .collections(process.env.TYPESENSE_COLLECTION_NAME!)
+      .documents()
+      .upsert({
+        ...resource,
+        published_at_timestamp: post.updatedAt.getTime(),
+      }))
 
   const mdxSource = await serialize(post.fields.body, {
     mdxOptions: {
