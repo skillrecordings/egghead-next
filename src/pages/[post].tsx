@@ -62,6 +62,7 @@ SELECT *
         },
       }
     }),
+
     fallback: 'blocking',
   }
 }
@@ -78,7 +79,7 @@ export const getStaticProps: GetServerSideProps = async function ({
     }
   }
 
-  let hashFromSlug = String(params.post)
+  let hashFromSlug: string
   let splitOnTilde = String(params.post).split('~')
 
   if (splitOnTilde.length > 1) {
@@ -147,14 +148,29 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
     connectionTimeoutSeconds: 2,
   })
 
-  post.fields.state === 'published' &&
-    (await client
+  if (
+    post.fields.state === 'published' &&
+    post.fields.visibility === 'public'
+  ) {
+    await client
       .collections(process.env.TYPESENSE_COLLECTION_NAME!)
       .documents()
       .upsert({
         ...resource,
         published_at_timestamp: post.updatedAt.getTime(),
-      }))
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  } else {
+    await client
+      .collections(process.env.TYPESENSE_COLLECTION_NAME!)
+      .documents()
+      .delete(resource.id)
+      .catch((err) => {
+        console.error(err)
+      })
+  }
 
   const mdxSource = await serialize(post.fields.body, {
     mdxOptions: {
