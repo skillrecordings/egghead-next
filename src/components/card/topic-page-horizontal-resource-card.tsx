@@ -71,7 +71,7 @@ const HorizontalResourceCard: React.FC<
                 className={className}
               >
                 <PreviewImage
-                  name={resource.byline}
+                  name={resource.byline || resource.type || ''}
                   image={resource.image}
                   title={resource.title}
                 />
@@ -128,7 +128,7 @@ const HorizontalResourceCard: React.FC<
                 className={className}
               >
                 <PreviewImage
-                  name={resource.byline}
+                  name={resource.byline || resource.type || ''}
                   image={resource.image}
                   title={resource.title}
                 />
