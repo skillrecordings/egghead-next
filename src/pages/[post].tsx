@@ -239,9 +239,7 @@ export default function PostPage({
           site_name: 'egghead',
           images: [
             {
-              url: `${
-                process.env.NEXT_PUBLIC_DEPLOYMENT_URL
-              }/api/og/og-default?${imageParams.toString()}`,
+              url: `https://og-image-react-egghead.now.sh/lesson/${post.fields.eggheadLessonId}?v=20201027`,
             },
           ],
         }}
