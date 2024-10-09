@@ -324,18 +324,6 @@ export default function PostPage({
             components={{
               ...mdxComponents,
               PodcastLinks,
-              pre: (props) => <pre {...props} className="hljs" />,
-              code: ({className, ...props}: any) => {
-                const match = /language-(\w+)/.exec(className || '')
-                return match ? (
-                  <code
-                    className={`${className} hljs language-${match[1]}`}
-                    {...props}
-                  />
-                ) : (
-                  <code className={className} {...props} />
-                )
-              },
             }}
           />
           {videoResource && (
