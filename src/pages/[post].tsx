@@ -175,20 +175,18 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
   const mdxSource = await serialize(post.fields.body, {
     mdxOptions: {
       remarkPlugins: [
-        remarkGfm,
         require(`remark-slug`),
         require(`remark-footnotes`),
         require(`remark-code-titles`),
       ],
       rehypePlugins: [
-        rehypeHighlight as unknown as Pluggable,
-        // [
-        //   require(`rehype-shiki`),
-        //   {
-        //     theme: `./src/styles/material-theme-dark.json`,
-        //     useBackground: false,
-        //   },
-        // ],
+        [
+          require(`rehype-shiki`),
+          {
+            theme: `./src/styles/material-theme-dark.json`,
+            useBackground: false,
+          },
+        ],
       ],
     },
   })
