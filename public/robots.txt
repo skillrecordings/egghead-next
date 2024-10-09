@@ -1,23 +1,24 @@
+# Twitterbot
+User-agent: Twitterbot
+Disallow: 
 
-# AI Bots
-User-agent: CCBot
+# ClaudeBot
+User-agent: ClaudeBot
 Disallow: /q
 
-User-agent: ChatGPT-User
-Disallow: /q
-
+# GPTBot
 User-agent: GPTBot
 Disallow: /q
 
 User-agent: Google-Extended
 Disallow: /q
 
-User-agent: Applebot-Extended 
+User-agent: Applebot-Extended
 Disallow: /q
 User-agent: anthropic-ai
 Disallow: /q
 
-User-agent: ClaudeBot 
+User-agent: ClaudeBot
 Disallow: /q
 User-agent: Omgilibot
 Disallow: /q
@@ -34,7 +35,7 @@ Disallow: /q
 User-agent: Bytespider
 Disallow: /q
 
-User-agent: ImagesiftBot 
+User-agent: ImagesiftBot
 Disallow: /q
 
 User-agent: PerplexityBot
@@ -52,31 +53,28 @@ Disallow: /q
 User-agent: Timpibot
 Disallow: /q
 
-# Twitterbot
-User-agent: Twitterbot
-Disallow: 
-
 # *
 User-agent: *
 Allow: /
 Disallow: /discord
-Disallow: /_next
 Disallow: /purchase
 Disallow: /404
 Disallow: /ask
 Disallow: /blank
-Disallow: /confirm/membership
+Disallow: /confirm
 Disallow: /login
 Disallow: /logout
 Disallow: /redirect
 Disallow: /sale
+Disallow: /invoices
 
 # Host
-Host: http://egghead.af:3000
+Host: https://egghead.io
 
 # Sitemaps
-Sitemap: http://egghead.af:3000/sitemap.xml
-Sitemap: http://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz
+Sitemap: https://egghead.io/sitemap.xml
+Sitemap: https://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz
+Sitemap: https://egghead.io/server-sitemap.xml
 Sitemap: https://egghead.io/tags-sitemap-0.xml
 Sitemap: https://egghead.io/tags-sitemap-1.xml
 Sitemap: https://egghead.io/tags-sitemap-2.xml

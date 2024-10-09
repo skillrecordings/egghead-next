@@ -4,13 +4,10 @@ import * as mysql from 'mysql2/promise'
 import {ConnectionOptions, RowDataPacket} from 'mysql2/promise'
 import {NextSeo} from 'next-seo'
 import * as React from 'react'
-import {type Pluggable} from 'unified'
 import {MDXRemote} from 'next-mdx-remote'
 import mdxComponents from '@/components/mdx'
-import rehypeHighlight from 'rehype-highlight'
 import 'highlight.js/styles/night-owl.css'
 import {serialize} from 'next-mdx-remote/serialize'
-import remarkGfm from 'remark-gfm'
 import {truncate} from 'lodash'
 import removeMarkdown from 'remove-markdown'
 import ReactMarkdown from 'react-markdown'
@@ -19,12 +16,8 @@ import Image from 'next/image'
 import Eggo from '@/components/icons/eggo'
 import Typesense from 'typesense'
 import {cn} from '@/ui/utils'
-import MuxPlayerElement, {MuxPlayerElementEventMap} from '@mux/mux-player'
-import {
-  MaxResolution,
-  MaxResolutionValue,
-  MinResolution,
-} from '@mux/playback-core'
+import MuxPlayerElement from '@mux/mux-player'
+import {MaxResolution, MinResolution} from '@mux/playback-core'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -73,12 +66,7 @@ SELECT *
   }
 }
 
-export const getStaticProps: GetServerSideProps = async function ({
-  req,
-  res,
-  params,
-  query,
-}) {
+export const getStaticProps: GetServerSideProps = async function ({params}) {
   if (!params?.post) {
     return {
       notFound: true,

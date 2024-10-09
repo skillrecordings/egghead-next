@@ -103,8 +103,6 @@ export const progressRouter = router({
       const roundedProgress = Math.ceil(input.secondsWatched)
       const isSegment = roundedProgress % 30 === 0
 
-      console.log({roundedProgress, isSegment})
-
       if (!isSegment) {
         return
       }
