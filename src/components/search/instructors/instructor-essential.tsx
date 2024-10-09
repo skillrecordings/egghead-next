@@ -3,8 +3,11 @@ import Markdown from 'react-markdown'
 import Image from 'next/legacy/image'
 import {NextSeo, SocialProfileJsonLd} from 'next-seo'
 import DefaultCTA from '../curated/default-cta'
-import analytics from '@/utils/analytics'
+import analytics, {track} from '@/utils/analytics'
 import {useRouter} from 'next/router'
+import Link from 'next/link'
+import RSSIcon from '@/components/icons/rss'
+import useClipboard from 'react-use-clipboard'
 
 type InstructorProps = {
   className?: string
@@ -29,6 +32,13 @@ const SearchInstructorEssential: FunctionComponent<
 
   const location = `${name} landing`
   const router = useRouter()
+
+  const [isCopied, setCopied] = useClipboard(
+    `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/i/${instructor.slug}/rss.xml`,
+    {
+      successDuration: 1000,
+    },
+  )
 
   return (
     <div className="lg:pb-4 -mx-5">
@@ -79,7 +89,7 @@ const SearchInstructorEssential: FunctionComponent<
             )}
             <h1 className="text-2xl font-extrabold sm:text-3xl">{name}</h1>
             <div className="mt-2">
-              <ul className="flex space-x-5">
+              <ul className="flex items-center align-middle space-x-5">
                 {twitterHandle && (
                   <li>
                     <a
@@ -216,6 +226,7 @@ const SearchInstructorEssential: FunctionComponent<
                     </a>
                   </li>
                 )}
+
                 {websiteUrl && (
                   <li>
                     <a
@@ -250,6 +261,18 @@ const SearchInstructorEssential: FunctionComponent<
                     </a>
                   </li>
                 )}
+                <li>
+                  <button
+                    type="button"
+                    onClick={setCopied}
+                    className={`flex flex-row items-center text-gray-400 hover:text-gray-500 m-0`}
+                  >
+                    <div className="flex flex-row items-center ">
+                      <RSSIcon className="w-5 h-5 mr-1" />{' '}
+                      {isCopied ? 'Copied' : 'RSS'}
+                    </div>
+                  </button>
+                </li>
               </ul>
             </div>
 
