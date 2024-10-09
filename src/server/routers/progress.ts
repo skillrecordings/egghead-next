@@ -1,7 +1,30 @@
-import {router, baseProcedure} from '../trpc'
+import {baseProcedure, router} from '../trpc'
 import {z} from 'zod'
 import {loadLessonProgress, loadPlaylistProgress} from '../../lib/progress'
 import {loadUserCompletedCourses} from '@/lib/users'
+
+const createLessonView = async (
+  lessonId: String | Number,
+  token: string | null = null,
+) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${lessonId}/views`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        lesson_view: {
+          lessonId,
+        },
+      }),
+    },
+  )
+
+  return res.ok ? res.json() : null
+}
 
 export const progressRouter = router({
   completedCourseIds: baseProcedure.query(async ({ctx}): Promise<number[]> => {
@@ -65,6 +88,46 @@ export const progressRouter = router({
 
       return await loadLessonProgress({token, slug: input.slug})
     }),
+  addProgressToLesson: baseProcedure
+    .input(
+      z.object({
+        lessonId: z.union([z.number(), z.string()]).nullish(),
+        secondsWatched: z.number().nullish(),
+      }),
+    )
+    .mutation(async ({input, ctx}) => {
+      const token = ctx?.userToken
+
+      if (!token || !input.secondsWatched || !input.lessonId) return null
+
+      const roundedProgress = Math.ceil(input.secondsWatched)
+      const isSegment = roundedProgress % 30 === 0
+
+      console.log({roundedProgress, isSegment})
+
+      if (!isSegment) {
+        return
+      }
+
+      const incrementViewSegments = async (
+        lessonView: {increment_url: string} | null,
+      ) => {
+        if (!lessonView) return null
+        const res = await fetch(lessonView.increment_url, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({}),
+        })
+        return res.ok ? res.json() : null
+      }
+
+      return await createLessonView(input.lessonId, token).then(
+        incrementViewSegments,
+      )
+    }),
   markLessonComplete: baseProcedure
     .input(
       z.object({
@@ -78,7 +141,7 @@ export const progressRouter = router({
       if (!token) return null
       const {lessonId, collectionId} = input
 
-      let res = await fetch(
+      return await fetch(
         `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/watch/manual_complete`,
         {
           method: 'POST',
@@ -97,7 +160,5 @@ export const progressRouter = router({
           }),
         },
       ).then((res) => res.json())
-
-      return res
     }),
 })
