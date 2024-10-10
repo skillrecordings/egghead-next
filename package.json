@@ -51,6 +51,7 @@
     "@mux/mux-node": "^7.3.0",
     "@mux/mux-player": "^3.0.0",
     "@mux/mux-player-react": "^2.2.0",
+    "@mux/playback-core": "^0.26.0",
     "@portabletext/react": "^3.0.7",
     "@prisma/client": "4.7.0",
     "@radix-ui/react-accordion": "^1.0.0",
