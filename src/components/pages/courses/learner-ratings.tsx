@@ -26,11 +26,14 @@ const LearnerRatings: React.FunctionComponent<
   const {viewer} = useViewer()
 
   React.useEffect(() => {
-    loadRatings(slug, type).then((ratings: any) => {
-      setLoadingRatings(false)
-      setRatings(ratings)
-    })
-  }, [slug, type, loadingRatings])
+    if (ratings.length === 0) {
+      loadRatings(slug, type).then((ratings: any) => {
+        console.log('load', {ratings})
+        setLoadingRatings(false)
+        setRatings(ratings)
+      })
+    }
+  }, [slug, type, loadingRatings, ratings])
 
   const {reviewImageUrl} = useShareCourseReview(ratings, collection)
 

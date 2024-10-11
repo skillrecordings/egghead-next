@@ -81,15 +81,6 @@ export const logCollectionResource = (collection: CollectionResource) => {
     const byline = `${
       instructor?.full_name && `${instructor.full_name}・`
     }${formattedDuration}・Course`
-
-    console.debug('collection resource', {
-      title,
-      byline,
-      ...(!!image && {image}),
-      path,
-      slug,
-      description,
-    })
   }
 }
 

@@ -299,5 +299,5 @@ export async function loadPlaylist(slug: string, token?: string) {
   const {playlist} = await graphQLClient.request(query, variables)
   const courseMeta = await loadCourseMetadata(playlist.id, playlist.slug)
 
-  return {...playlist, ...courseMeta}
+  return {...playlist, ...courseMeta, slug}
 }

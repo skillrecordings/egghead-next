@@ -39,8 +39,11 @@ export async function loadRatings(slug: string, type: string = 'Series') {
     per_page: SIZE_OF_PAGE,
   }
 
+  console.log('variables', {variables})
+
   try {
     const result = await graphQLClient.request(CourseRatingsQuery, variables)
+    console.log('result', {result})
     return get(result, 'ratings.data', [])
   } catch {
     return []
