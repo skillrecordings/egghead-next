@@ -28,7 +28,6 @@ const LearnerRatings: React.FunctionComponent<
   React.useEffect(() => {
     if (ratings.length === 0) {
       loadRatings(slug, type).then((ratings: any) => {
-        console.log('load', {ratings})
         setLoadingRatings(false)
         setRatings(ratings)
       })

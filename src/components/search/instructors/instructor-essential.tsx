@@ -8,6 +8,7 @@ import {useRouter} from 'next/router'
 import Link from 'next/link'
 import RSSIcon from '@/components/icons/rss'
 import useClipboard from 'react-use-clipboard'
+import Head from 'next/head'
 
 type InstructorProps = {
   className?: string
@@ -60,6 +61,14 @@ const SearchInstructorEssential: FunctionComponent<
           ],
         }}
       />
+      <Head>
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`RSS feed for ${name} on egghead`}
+          href={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/i/${slug}/rss.xml`}
+        />
+      </Head>
       <SocialProfileJsonLd
         type="Person"
         name={name}
