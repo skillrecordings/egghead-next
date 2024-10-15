@@ -18,6 +18,7 @@ import Typesense from 'typesense'
 import {cn} from '@/ui/utils'
 import MuxPlayerElement from '@mux/mux-player'
 import {MaxResolution, MinResolution} from '@mux/playback-core'
+import serializeMDX from '@/markdown/serialize-mdx'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -166,24 +167,32 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
       })
   }
 
-  const mdxSource = await serialize(post.fields.body, {
-    mdxOptions: {
-      remarkPlugins: [
-        require(`remark-slug`),
-        require(`remark-footnotes`),
-        require(`remark-code-titles`),
-      ],
-      rehypePlugins: [
-        [
-          require(`rehype-shiki`),
-          {
-            theme: `./src/styles/material-theme-dark.json`,
-            useBackground: false,
-          },
-        ],
-      ],
+  const mdxSource = await serializeMDX(post.fields.body, {
+    useShikiTwoslash: true,
+    syntaxHighlighterOptions: {
+      authorization: process.env.SHIKI_AUTH_TOKEN!,
+      endpoint: process.env.SHIKI_ENDPOINT!,
     },
   })
+
+  // const mdxSource = await serialize(post.fields.body, {
+  //   mdxOptions: {
+  //     remarkPlugins: [
+  //       require(`remark-slug`),
+  //       require(`remark-footnotes`),
+  //       require(`remark-code-titles`),
+  //     ],
+  //     rehypePlugins: [
+  //       [
+  //         require(`rehype-shiki`),
+  //         {
+  //           theme: `./src/styles/material-theme-dark.json`,
+  //           useBackground: false,
+  //         },
+  //       ],
+  //     ],
+  //   },
+  // })
 
   return {
     props: {
