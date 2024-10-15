@@ -12,6 +12,7 @@ export const TranscriptReadyEventSchema = z.object({
   srt: z.string(),
   transcript: z.string(),
   moduleSlug: z.string().nullable(),
+  eggheadLessonId: z.string().nullable(),
 })
 
 export type TranscriptReadyEvent = z.infer<typeof TranscriptReadyEventSchema>

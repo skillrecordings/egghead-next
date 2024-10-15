@@ -32,7 +32,7 @@ export const addSrtToMuxAsset = inngest.createFunction(
 
     if (videoResource) {
       const muxAsset = await step.run('get the mux asset', async () => {
-        const assetId = videoResource.muxAsset.muxAssetId
+        const assetId = videoResource?.muxAsset?.muxAssetId
 
         if (!assetId) throw new Error('No Mux Asset ID')
 

@@ -4,16 +4,19 @@ export async function orderDeepgramTranscript({
   videoResourceId,
   moduleSlug,
   mediaUrl,
+  eggheadLessonId,
 }: {
   videoResourceId: string
   moduleSlug?: string
   mediaUrl: string
+  eggheadLessonId?: string
 }) {
   const utteranceSpiltThreshold = 0.5
 
   const callbackParams = new URLSearchParams({
     videoResourceId,
     ...(moduleSlug && {moduleSlug}),
+    ...(eggheadLessonId && {eggheadLessonId}),
   })
 
   // just weird URL differences between dev and prod
