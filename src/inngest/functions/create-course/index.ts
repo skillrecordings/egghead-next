@@ -90,26 +90,36 @@ export let createCourse = inngest.createFunction(
       return await createCourseInRails(sanityBody)
     })
 
-    await step.run('add-lessons-to-course', async () => {
-      return await addLessonsToCourse(
-        sanityBody.lessonIds,
-        courseObject.data.id,
-      )
-    })
+    // await step.run('add-lessons-to-course', async () => {
+    //   return await addLessonsToCourse(
+    //     sanityBody.lessonIds,
+    //     courseObject.data.id,
+    //   )
+    // })
 
-    await step.run('update-owner-to-instructor', async () => {
-      return await updateOwnerToInstructor(
-        sanityBody.instructor.eggheadInstructorId,
-        courseObject.data.id,
-      )
-    })
+    // await step.run('update-owner-to-instructor', async () => {
+    //   return await updateOwnerToInstructor(
+    //     sanityBody.instructor.eggheadInstructorId,
+    //     courseObject.data.id,
+    //   )
+    // })
 
     await step.run('add-rails-id-to-sanity', async () => {
       return await saveCourseDataToSanity(sanityBody, courseObject.data)
     })
 
     await step.run('upsert-course-to-typesense', async () => {
-      return await upsertCourseToTypesense(courseObject.data)
+      if (sanityBody.searchIndexingState !== 'indexed') {
+        let message = `Course is not indexed, skipping upsert to Typesense. Course: ${sanityBody.title}`
+        console.log(message)
+        return message
+      } else if (sanityBody.productionProcessState !== 'published') {
+        let message = `Course is not published, skipping upsert to Typesense. Course: ${sanityBody.title}`
+        console.log(message)
+        return message
+      } else {
+        return await upsertCourseToTypesense(courseObject.data)
+      }
     })
   },
 )
