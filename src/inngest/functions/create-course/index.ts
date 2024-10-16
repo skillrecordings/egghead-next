@@ -2,6 +2,7 @@ import {inngest} from '@/inngest/inngest.server'
 import {SANITY_COURSE_DOCUMENT_CREATED} from '@/inngest/events/sanity-course-document-created'
 import axios from 'axios'
 import {createClient} from '@sanity/client'
+import {upsertCourseToTypesense} from './upsertCourseToTypesense'
 
 const AXIOS_PARAMS = {
   baseURL: process.env.NEXT_PUBLIC_AUTH_DOMAIN || '',
@@ -89,22 +90,36 @@ export let createCourse = inngest.createFunction(
       return await createCourseInRails(sanityBody)
     })
 
-    await step.run('add-lessons-to-course', async () => {
-      return await addLessonsToCourse(
-        sanityBody.lessonIds,
-        courseObject.data.id,
-      )
-    })
+    // await step.run('add-lessons-to-course', async () => {
+    //   return await addLessonsToCourse(
+    //     sanityBody.lessonIds,
+    //     courseObject.data.id,
+    //   )
+    // })
 
-    await step.run('update-owner-to-instructor', async () => {
-      return await updateOwnerToInstructor(
-        sanityBody.instructor.eggheadInstructorId,
-        courseObject.data.id,
-      )
-    })
+    // await step.run('update-owner-to-instructor', async () => {
+    //   return await updateOwnerToInstructor(
+    //     sanityBody.instructor.eggheadInstructorId,
+    //     courseObject.data.id,
+    //   )
+    // })
 
     await step.run('add-rails-id-to-sanity', async () => {
       return await saveCourseDataToSanity(sanityBody, courseObject.data)
+    })
+
+    await step.run('upsert-course-to-typesense', async () => {
+      if (sanityBody.searchIndexingState !== 'indexed') {
+        let message = `Course is not indexed, skipping upsert to Typesense. Course: ${sanityBody.title}`
+        console.log(message)
+        return message
+      } else if (sanityBody.productionProcessState !== 'published') {
+        let message = `Course is not published, skipping upsert to Typesense. Course: ${sanityBody.title}`
+        console.log(message)
+        return message
+      } else {
+        return await upsertCourseToTypesense(courseObject.data)
+      }
     })
   },
 )
