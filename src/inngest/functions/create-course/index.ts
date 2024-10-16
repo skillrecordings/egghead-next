@@ -2,6 +2,7 @@ import {inngest} from '@/inngest/inngest.server'
 import {SANITY_COURSE_DOCUMENT_CREATED} from '@/inngest/events/sanity-course-document-created'
 import axios from 'axios'
 import {createClient} from '@sanity/client'
+import {upsertCourseToTypesense} from './upsertCourseToTypesense'
 
 const AXIOS_PARAMS = {
   baseURL: process.env.NEXT_PUBLIC_AUTH_DOMAIN || '',
@@ -105,6 +106,10 @@ export let createCourse = inngest.createFunction(
 
     await step.run('add-rails-id-to-sanity', async () => {
       return await saveCourseDataToSanity(sanityBody, courseObject.data)
+    })
+
+    await step.run('upsert-course-to-typesense', async () => {
+      return await upsertCourseToTypesense(courseObject.data)
     })
   },
 )
