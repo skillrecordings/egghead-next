@@ -5,6 +5,7 @@ import axios from 'axios'
 import AWS from 'aws-sdk'
 import {v4 as uuidv4} from 'uuid'
 import {createClient} from '@sanity/client'
+import {orderDeepgramTranscript} from '@/lib/deepgram-order-transcript'
 
 const EGGHEAD_AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN || ''
 const railsToken = process.env.EGGHEAD_ADMIN_TOKEN || ''
@@ -163,6 +164,18 @@ export let createLesson = inngest.createFunction(
         videoUrl: event.data.body.videoResource.videoFile.url,
       })
     })
+
+    const {deepgram} = await step.run(
+      'Order Transcript [Deepgram]',
+      async () => {
+        return await orderDeepgramTranscript({
+          moduleSlug: event.data.body._id,
+          mediaUrl: event.data.body.videoResource.videoFile.url,
+          videoResourceId: event.data.body.videoResource._id,
+          eggheadLessonId: lessonObject.id,
+        })
+      },
+    )
 
     await step.run('post-signed-url-to-lesson', async () => {
       return await postSignedUrlToLesson({lesson: lessonObject, signedUrl})
