@@ -458,12 +458,12 @@ const CollectionPageLayout: React.FunctionComponent<
                         {lessons.length + playlistLessons.length} lessons
                       </span>
                       {courseProgress?.completed_lesson_count &&
-                        courseProgress?.completed_lesson_count <
-                          courseProgress.lesson_count && (
-                          <span className="text-gray-700 dark:text-gray-400">
-                            ({courseProgress?.completed_lesson_count} watched)
-                          </span>
-                        )}
+                      courseProgress?.completed_lesson_count <
+                        courseProgress?.lesson_count ? (
+                        <span className="text-gray-700 dark:text-gray-400">
+                          ({courseProgress?.completed_lesson_count} watched)
+                        </span>
+                      ) : null}
                     </div>
                   </div>
                 </div>
