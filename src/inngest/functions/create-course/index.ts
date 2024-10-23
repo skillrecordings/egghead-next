@@ -37,7 +37,7 @@ export let createCourse = inngest.createFunction(
 
     if (
       courseObject.data.state === 'published' &&
-      courseObject.data.visibilityState === 'indexed'
+      courseObject.data.visibility_state === 'indexed'
     ) {
       await step.run('upsert-course-to-typesense', async () => {
         return await upsertCourseToTypesense(courseObject.data)
