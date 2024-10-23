@@ -1,6 +1,6 @@
 import {inngest} from '@/inngest/inngest.server'
 import {SANITY_COURSE_DOCUMENT_CREATED} from '@/inngest/events/sanity-course-document-created'
-import {upsertCourseToTypesense} from './upsertCourseToTypesense'
+import {upsertCourseToTypesense} from './utils/upsertCourseToTypesense'
 import {createCourseInRails} from './utils/createCourseInRails'
 import {addLessonsToCourse} from './utils/addLessonsToCourse'
 import {updateOwnerToInstructor} from './utils/updateOwnerToInstructor'
