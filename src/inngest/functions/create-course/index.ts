@@ -1,84 +1,11 @@
 import {inngest} from '@/inngest/inngest.server'
 import {SANITY_COURSE_DOCUMENT_CREATED} from '@/inngest/events/sanity-course-document-created'
-import axios from 'axios'
-import {createClient} from '@sanity/client'
 import {upsertCourseToTypesense} from './upsertCourseToTypesense'
-
-const AXIOS_PARAMS = {
-  baseURL: process.env.NEXT_PUBLIC_AUTH_DOMAIN || '',
-  headers: {
-    Authorization: `Bearer ${process.env.EGGHEAD_ADMIN_TOKEN || ''}`,
-  },
-}
-
-const createEggAxios = () => {
-  return axios.create(AXIOS_PARAMS)
-}
-
-let createCourseInRails = async (sanityBody: any) => {
-  let {title, topicList, description} = sanityBody
-
-  let eggAxios = createEggAxios()
-
-  let courseParams = {
-    'playlist[title]': title ?? '',
-    'playlist[topic_list]': topicList.toString() ?? '',
-    'playlist[description]': description ?? '',
-    'playlist[published]': 'false' ?? '',
-  }
-
-  let body = new URLSearchParams(courseParams)
-
-  return await eggAxios.post('/api/v1/playlists', body)
-}
-
-let addLessonsToCourse = async (lessonIds: number[], courseId: number) => {
-  let eggAxios = createEggAxios()
-
-  let createTracklistParams = async (lessonId: number) => {
-    await eggAxios.put(
-      `/api/v1/playlists/${courseId}/items/add`,
-      new URLSearchParams({
-        'tracklistable[tracklistable_type]': 'lesson',
-        'tracklistable[tracklistable_id]': String(lessonId),
-      }),
-    )
-  }
-
-  for (let lessonId of lessonIds) {
-    await createTracklistParams(lessonId)
-  }
-}
-
-let updateOwnerToInstructor = async (
-  instructorId: number,
-  courseId: number,
-) => {
-  let eggAxios = createEggAxios()
-
-  let params = new URLSearchParams({
-    'playlist[instructor_id]': String(instructorId),
-  })
-
-  return await eggAxios.put(`/api/v1/playlists/${courseId}`, params)
-}
-
-let saveCourseDataToSanity = async (sanityCourse: any, railsCourse: any) => {
-  let sanityClient = createClient({
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? '',
-    dataset: 'production',
-    useCdn: false,
-    apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
-    token: process.env.SANITY_EDITOR_TOKEN,
-  })
-
-  return await sanityClient
-    .patch(sanityCourse._id)
-    .set({
-      railsCourseId: railsCourse.id,
-    })
-    .commit()
-}
+import {createCourseInRails} from './utils/createCourseInRails'
+import {addLessonsToCourse} from './utils/addLessonsToCourse'
+import {updateOwnerToInstructor} from './utils/updateOwnerToInstructor'
+import {saveCourseDataToSanity} from './utils/saveCourseDataToSanity'
+import {deleteDocument} from '../typesense/delete-document'
 
 export let createCourse = inngest.createFunction(
   {id: 'create-course', name: 'Create Course'},
@@ -108,18 +35,21 @@ export let createCourse = inngest.createFunction(
       return await saveCourseDataToSanity(sanityBody, courseObject.data)
     })
 
-    await step.run('upsert-course-to-typesense', async () => {
-      if (sanityBody.searchIndexingState !== 'indexed') {
-        let message = `Course is not indexed, skipping upsert to Typesense. Course: ${sanityBody.title}`
-        console.log(message)
-        return message
-      } else if (sanityBody.productionProcessState !== 'published') {
-        let message = `Course is not published, skipping upsert to Typesense. Course: ${sanityBody.title}`
-        console.log(message)
-        return message
-      } else {
+    if (
+      courseObject.data.state === 'published' &&
+      courseObject.data.visibilityState === 'indexed'
+    ) {
+      await step.run('upsert-course-to-typesense', async () => {
         return await upsertCourseToTypesense(courseObject.data)
-      }
-    })
+      })
+    } else {
+      await step.invoke('delete-document-from-typesense', {
+        function: deleteDocument,
+        data: {
+          courseId: courseObject.data.id,
+          reason: 'Course is not published or indexed',
+        },
+      })
+    }
   },
 )

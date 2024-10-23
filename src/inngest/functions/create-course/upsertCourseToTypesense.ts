@@ -1,7 +1,6 @@
 import Typesense from 'typesense'
 import z from 'zod'
 import {NonRetriableError} from 'inngest'
-import {Label} from '@radix-ui/react-label'
 
 let client = new Typesense.Client({
   nodes: [
