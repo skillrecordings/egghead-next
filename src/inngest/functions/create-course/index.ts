@@ -90,19 +90,19 @@ export let createCourse = inngest.createFunction(
       return await createCourseInRails(sanityBody)
     })
 
-    // await step.run('add-lessons-to-course', async () => {
-    //   return await addLessonsToCourse(
-    //     sanityBody.lessonIds,
-    //     courseObject.data.id,
-    //   )
-    // })
+    await step.run('add-lessons-to-course', async () => {
+      return await addLessonsToCourse(
+        sanityBody.lessonIds,
+        courseObject.data.id,
+      )
+    })
 
-    // await step.run('update-owner-to-instructor', async () => {
-    //   return await updateOwnerToInstructor(
-    //     sanityBody.instructor.eggheadInstructorId,
-    //     courseObject.data.id,
-    //   )
-    // })
+    await step.run('update-owner-to-instructor', async () => {
+      return await updateOwnerToInstructor(
+        sanityBody.instructor.eggheadInstructorId,
+        courseObject.data.id,
+      )
+    })
 
     await step.run('add-rails-id-to-sanity', async () => {
       return await saveCourseDataToSanity(sanityBody, courseObject.data)
