@@ -84,10 +84,6 @@ const Forever: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
               When you're ready to lean another skill, egghead is here to
               support your journey, now for the rest of your life.
             </p>
-            <p>
-              For the price of 2 years of egghead, you get a membership{' '}
-              <em>forever</em>.
-            </p>
           </article>
         </header>
         <main className="container flex flex-col items-center">
