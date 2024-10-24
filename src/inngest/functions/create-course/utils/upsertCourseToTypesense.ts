@@ -14,52 +14,56 @@ let client = new Typesense.Client({
   connectionTimeoutSeconds: 2,
 })
 
-const courseSchema = z.object({
+export const courseSchema = z.object({
   id: z.number(),
-  slug: z.string(),
-  state: z.string(),
-  visibility_state: z.string(),
-  summary: z.string(),
-  free_forever: z.boolean(),
-  type: z.literal('playlist'),
-  created_at: z.string(),
-  published: z.boolean(),
-  rating_out_of_5: z.number(),
-  square_cover_url: z.string(),
-  topic_list: z.array(z.string()),
   updated_at: z.string(),
-  instructor: z.object({
-    id: z.number(),
-    full_name: z.string(),
-  }),
-  tags: z.array(
-    z.object({
-      name: z.string(),
-      slug: z.string(),
-      label: z.string(),
-      image_url: z.string(),
-      http_url: z.string(),
-      description: z.string(),
-    }),
-  ),
   title: z.string(),
-  description: z.string(),
-  path: z.string(),
+  description: z.string().optional(),
+  slug: z.string().optional(),
+  path: z.string().optional(),
+  state: z.string().optional(),
+  visibility_state: z.string().optional(),
+  summary: z.string().optional(),
+  free_forever: z.boolean().optional(),
+  type: z.literal('playlist').optional(),
+  created_at: z.string().optional(),
+  published: z.boolean().optional(),
+  rating_out_of_5: z.number().optional(),
+  square_cover_url: z.string().optional(),
+  topic_list: z.array(z.string()).optional(),
+  instructor: z
+    .object({
+      id: z.number(),
+      full_name: z.string(),
+    })
+    .optional(),
+  tags: z
+    .array(
+      z.object({
+        name: z.string(),
+        slug: z.string(),
+        label: z.string(),
+        image_url: z.string(),
+        http_url: z.string(),
+        description: z.string(),
+      }),
+    )
+    .optional(),
 })
 
-function transformCourseData(data: any) {
+export function transformCourseData(data: any) {
   return {
     ...data,
     id: String(data.id),
     published_at_timestamp: new Date(data.updated_at).getTime(),
     objectID: String(data.id),
-    instructor_name: data.instructor.full_name,
+    instructor_name: data.instructor.full_name || '',
     resource_type: 'course',
     name: data.title,
   }
 }
 
-function syncToTypeSense(data: any) {
+export function syncToTypeSense(data: any) {
   return client
     .collections(process.env.TYPESENSE_COLLECTION_NAME!)
     .documents()
