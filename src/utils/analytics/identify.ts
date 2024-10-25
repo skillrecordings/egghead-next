@@ -36,7 +36,7 @@ export const identify = async (data: Viewer, properties?: any) => {
       mixpanel.opt_out_tracking()
     }
   } catch (e) {
-    console.error('caught error in identify', e)
+    // console.error('caught error in identify', e)
     return Promise.resolve(false)
   }
 

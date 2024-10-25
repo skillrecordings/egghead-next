@@ -55,6 +55,7 @@ export const CioProvider: React.FunctionComponent<
         setSubscriber(data)
         cioIdentify(data.id)
       })
+      .catch(() => {})
       .finally(() => setLoadingSubscriber(false))
   }, [])
 

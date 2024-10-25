@@ -155,6 +155,8 @@ export async function loadPlaylist(slug: string, token?: string) {
         published_at
         access_state
         visibility_state
+        toggle_favorite_url
+        favorited
         state
         tags {
           name
@@ -293,6 +295,8 @@ export async function loadPlaylist(slug: string, token?: string) {
   const variables = {
     slug: slug,
   }
+
+  console.log('query', token)
 
   const graphQLClient = getGraphQLClient(token)
 

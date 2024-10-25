@@ -118,7 +118,12 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
   try {
-    const course = params && (await loadPlaylist(params.course as string))
+    const course =
+      params &&
+      (await loadPlaylist(
+        params.course as string,
+        req.cookies[ACCESS_TOKEN_KEY],
+      ))
 
     const courseSlug = getSlugFromPath(course?.path)
     if (course && courseSlug !== params?.course) {

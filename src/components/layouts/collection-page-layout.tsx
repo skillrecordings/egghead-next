@@ -495,9 +495,9 @@ const CollectionPageLayout: React.FunctionComponent<
 
               {/* TODO: fix bookmarks feature EGG-294 */}
               {/* Start of action buttons block */}
-              {/* <div className="flex items-center justify-center mt-4 space-x-2 dark:text-gray-900 md:justify-start"> */}
-              {/* Bookmark button */}
-              {/* {toggle_favorite_url ? (
+              <div className="flex items-center justify-center mt-4 space-x-2 dark:text-gray-900 md:justify-start">
+                {/* Bookmark button */}
+                {toggle_favorite_url ? (
                   <button
                     onClick={() => {
                       if (clickable) {
@@ -559,10 +559,10 @@ const CollectionPageLayout: React.FunctionComponent<
                       </p>
                     </LoginForm>
                   </DialogButton>
-                )} */}
+                )}
 
-              {/* RSS button */}
-              {/* {rss_url ? (
+                {/* RSS button */}
+                {/* {rss_url ? (
                   <Link
                     href={rss_url}
                     onClick={() => {
@@ -592,7 +592,7 @@ const CollectionPageLayout: React.FunctionComponent<
                     </MembershipDialogButton>
                   </a>
                 )} */}
-              {/* </div> */}
+              </div>
               {/* End of action buttons block */}
 
               <div className="flex items-center justify-center w-full mt-5 md:hidden">

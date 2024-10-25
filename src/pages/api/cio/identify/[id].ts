@@ -34,11 +34,13 @@ const cioIdentify = async (req: NextApiRequest, res: NextApiResponse) => {
         Authorization: `Basic ${ENCODED_CUSTOMER_IO_TRACKING_API_CREDENTIALS}`,
       }
 
-      await axios.put(
-        `https://track.customer.io/api/v1/customers/${id}`,
-        {...options, _update: true},
-        {headers},
-      )
+      await axios
+        .put(
+          `https://track.customer.io/api/v1/customers/${id}`,
+          {...options, _update: true},
+          {headers},
+        )
+        .catch(() => {})
 
       const cioCookie = serverCookie.serialize(CIO_IDENTIFIER_KEY, id, {
         secure: process.env.NODE_ENV === 'production',
