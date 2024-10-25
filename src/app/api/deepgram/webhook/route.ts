@@ -12,6 +12,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const url = new URL(req.url)
   const videoResourceId = url.searchParams.get('videoResourceId')
   const moduleSlug = url.searchParams.get('moduleSlug')
+  const eggheadLessonId = url.searchParams.get('eggheadLessonId')
   const {results}: {results: any} = await req.json()
 
   if (!results) {
@@ -28,6 +29,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       moduleSlug,
       srt,
       transcript,
+      eggheadLessonId,
     },
   })
 
