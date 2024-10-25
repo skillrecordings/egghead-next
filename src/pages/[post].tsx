@@ -19,6 +19,10 @@ import {cn} from '@/ui/utils'
 import MuxPlayerElement from '@mux/mux-player'
 import {MaxResolution, MinResolution} from '@mux/playback-core'
 import serializeMDX from '@/markdown/serialize-mdx'
+import Link from 'next/link'
+import Share from '@/components/share'
+import TweetResource from '@/components/tweet-resource'
+import CopyToClipboard from '@/components/copy-resource'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -271,7 +275,7 @@ export default function PostPage({
       )}
       <div className="container mx-auto w-fit">
         <header className="pb-6 pt-7 sm:pb-18 sm:pt-16 space-y-4 ">
-          <h1 className="max-w-screen-md font-extrabold lg:text-6xl md:text-5xl sm:text-4xl text-2xl leading-tighter w-fit">
+          <h1 className="max-w-screen-md font-extrabold sm:text-4xl text-2xl leading-tighter w-fit">
             {post.fields.title}
           </h1>
           <div>
@@ -307,6 +311,34 @@ export default function PostPage({
               PodcastLinks,
             }}
           />
+          <div className="flex justify-between sm:items-center items-start sm:flex-row  flex-col sm:space-y-0 space-y-2">
+            {post.fields.github && (
+              <Link
+                className="flex items-center gap-2 rounded-md  font-medium leading-tight transition not-prose text-base"
+                href={post.fields.github}
+              >
+                <GitHubIcon /> Code
+              </Link>
+            )}
+            <div>
+              <span className="text-sm not-prose">Share with a coworker</span>
+              <h2 className="sr-only">Social Share Links</h2>
+              <div className="flex flex-col sm:items-center items-start gap-2 md:flex-row">
+                <TweetResource
+                  className="not-prose"
+                  resource={{
+                    title: post.fields.title,
+                    type: post.fields.postType,
+                    path: `/${post.fields.slug}`,
+                  }}
+                  instructor={instructor}
+                />
+                <CopyToClipboard
+                  stringToCopy={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/${post.fields.slug}`}
+                />
+              </div>
+            </div>
+          </div>
           {videoResource && (
             <section>
               <h2 className="text-xl font-bold">Transcript</h2>
@@ -328,6 +360,28 @@ const defaultPlayerProps = {
   playbackRates: [0.75, 1, 1.25, 1.5, 1.75, 2],
   maxResolution: MaxResolution.upTo2160p,
   minResolution: MinResolution.noLessThan540p,
+}
+
+function GitHubIcon() {
+  return (
+    <>
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 16 16"
+        aria-hidden="true"
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          fill="currentColor"
+          d="M8,0.2c-4.4,0-8,3.6-8,8c0,3.5,2.3,6.5,5.5,7.6 C5.9,15.9,6,15.6,6,15.4c0-0.2,0-0.7,0-1.4C3.8,14.5,3.3,13,3.3,13c-0.4-0.9-0.9-1.2-0.9-1.2c-0.7-0.5,0.1-0.5,0.1-0.5 c0.8,0.1,1.2,0.8,1.2,0.8C4.4,13.4,5.6,13,6,12.8c0.1-0.5,0.3-0.9,0.5-1.1c-1.8-0.2-3.6-0.9-3.6-4c0-0.9,0.3-1.6,0.8-2.1 c-0.1-0.2-0.4-1,0.1-2.1c0,0,0.7-0.2,2.2,0.8c0.6-0.2,1.3-0.3,2-0.3c0.7,0,1.4,0.1,2,0.3c1.5-1,2.2-0.8,2.2-0.8 c0.4,1.1,0.2,1.9,0.1,2.1c0.5,0.6,0.8,1.3,0.8,2.1c0,3.1-1.9,3.7-3.7,3.9C9.7,12,10,12.5,10,13.2c0,1.1,0,1.9,0,2.2 c0,0.2,0.1,0.5,0.6,0.4c3.2-1.1,5.5-4.1,5.5-7.6C16,3.8,12.4,0.2,8,0.2z"
+        ></path>
+      </svg>
+    </>
+  )
 }
 
 function PostPlayer({

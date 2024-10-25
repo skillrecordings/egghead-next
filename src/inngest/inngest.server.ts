@@ -44,6 +44,10 @@ import {
   LIFETIME_PURCHASE_EVENT,
   LifetimePurchase,
 } from './events/lifetime-purchase'
+import {
+  COURSE_UNPUBLISHED_EVENT,
+  CourseUnpublished,
+} from './events/course-unpublished-event'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
@@ -61,7 +65,7 @@ type Events = {
   [RECEIVED_TRANSLOADIT_NOTIFICATION_EVENT]: ReceivedTransloaditNotification
   [VERIFIED_TRANSLOADIT_NOTIFICATION_EVENT]: VerifiedTransloaditNotification
   [SANITY_COURSE_DOCUMENT_CREATED]: SanityCourseDocumentCreated
-
+  [COURSE_UNPUBLISHED_EVENT]: CourseUnpublished
   test: {
     name: 'test'
     data: {}

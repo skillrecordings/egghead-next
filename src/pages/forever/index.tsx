@@ -48,13 +48,9 @@ const Forever: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
             egghead lifetime membership
           </h2>
           <h1 className="max-w-screen-lg text-2xl font-extrabold md:text-4xl leading-tighter">
-            Stay Current with{' '}
-            <span className="text-blue-600 dark:text-yellow-300">
-              Modern Full-Stack Courses
-            </span>{' '}
-            for Professional Web Developers
+            Stay Current with Modern Full-Stack Courses for Professional Web Developers
           </h1>
-          <h2 className="max-w-2xl pt-8 text-lg font-light leading-tight text-gray-700 dark:text-gray-200">
+          <h2 className="max-w-2xl pt-8 text-xl font-light leading-tight text-gray-700 dark:text-gray-200">
             Learn the skills you and your team need to build real-world business
             focused professional web applications.
           </h2>
@@ -77,16 +73,12 @@ const Forever: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
               build the application you've been dreaming of.
             </p>
             <p>
-              This lets you start buildingsooner which means your learning will
+              This lets you start building sooner which means your learning will
               truly stick, no more spinning your wheels on more tutorials.
             </p>
             <p>
               When you're ready to lean another skill, egghead is here to
               support your journey, now for the rest of your life.
-            </p>
-            <p>
-              For the price of 2 years of egghead, you get a membership{' '}
-              <em>forever</em>.
             </p>
           </article>
         </header>
