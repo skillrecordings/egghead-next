@@ -1,9 +1,18 @@
 .cueplayer-react .cueplayer-react-video-wrapper {
-  display: flex;
-  justify-content: center;
+  position: relative;
+  padding-top: 56.25%; /* 16:9 aspect ratio (9/16 = 0.5625) */
+  width: 100%;
+  height: 0; /* Height is controlled by padding */
+  max-width: 100vw;
+}
+
+/* Position video element absolutely within the wrapper */
+.cueplayer-react .cueplayer-react-video-wrapper video {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  max-width: 100vw;
 }
 
 .cueplayer-react-controls-holder {
