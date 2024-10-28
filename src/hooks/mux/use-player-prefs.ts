@@ -58,10 +58,10 @@ export const getPlayerPrefs = () => {
   if (typeof window === 'undefined') {
     return defaultPlayerPreferences
   }
-  return (
+  const cookiePrefs =
     cookies.get(PLAY_PREFS_KEY) ||
     cookies.set(PLAY_PREFS_KEY, defaultPlayerPreferences)
-  )
+  return cookiePrefs || defaultPlayerPreferences
 }
 
 export const savePlayerPrefs = (options: any) => {
