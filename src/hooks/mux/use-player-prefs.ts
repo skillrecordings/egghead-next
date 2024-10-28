@@ -4,7 +4,7 @@ import cookies from '@/utils/cookies'
 
 const PLAY_PREFS_KEY = 'muxplayer-react-prefs'
 
-export const defaultSubtitlePreference = {
+export const defaultSubtitlePreference: Subtitle = {
   id: null,
   kind: null,
   label: null,
@@ -54,14 +54,14 @@ const defaultPlayerPreferences: PlayerPrefs = {
   activeSidebarTab: 0,
 }
 
-export const getPlayerPrefs = () => {
+export const getPlayerPrefs = (): PlayerPrefs => {
   if (typeof window === 'undefined') {
     return defaultPlayerPreferences
   }
   const cookiePrefs =
     cookies.get(PLAY_PREFS_KEY) ||
     cookies.set(PLAY_PREFS_KEY, defaultPlayerPreferences)
-  return cookiePrefs || defaultPlayerPreferences
+  return cookiePrefs ?? defaultPlayerPreferences
 }
 
 export const savePlayerPrefs = (options: any) => {
@@ -105,7 +105,7 @@ export const setPreferredTextTrack = (
   if (muxPlayerRef.current) {
     let player = muxPlayerRef.current
     let preferredTextTrack = player.textTracks?.getTrackById(
-      getPlayerPrefs().subtitle.id,
+      getPlayerPrefs()?.subtitle.id ?? '',
     )
     if (preferredTextTrack && getPlayerPrefs().subtitle.mode === 'showing') {
       preferredTextTrack.mode = 'showing'
