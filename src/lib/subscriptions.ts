@@ -36,8 +36,10 @@ export async function getLastChargeForActiveSubscription(
     join account_subscriptions on accounts.id = account_subscriptions.account_id
     where (users.email = lower('${email}') ${
     eggheadUser?.id ? `OR users.id = ${eggheadUser?.id}` : ''
-  }) AND account_subscriptions.status = 'active'
-    LIMIT 1`)
+  }) 
+    and account_subscriptions.status = 'active'
+    and account_subscriptions.stripe_subscription_id not like '%sub_gift_not_in_stripe%'
+    limit 1`)
 
   let amountPaid = 0
 
