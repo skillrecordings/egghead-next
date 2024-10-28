@@ -153,8 +153,8 @@ dependencies:
     specifier: ^2.2.1
     version: 2.2.1
   '@skillrecordings/player':
-    specifier: ^1.1.6
-    version: 1.1.7(@types/react@18.3.3)(@xstate/react@3.2.2)(lodash@4.17.21)(react-dom@18.3.1)(react@18.3.1)(xstate@4.38.3)
+    specifier: ^1.1.8
+    version: 1.1.8(@types/react@18.3.3)(@xstate/react@3.2.2)(lodash@4.17.21)(react-dom@18.3.1)(react@18.3.1)(xstate@4.38.3)
   '@skillrecordings/time':
     specifier: ^0.0.13
     version: 0.0.13
@@ -6685,8 +6685,8 @@ packages:
       '@sinonjs/commons': 1.8.6
     dev: true
 
-  /@skillrecordings/player@1.1.7(@types/react@18.3.3)(@xstate/react@3.2.2)(lodash@4.17.21)(react-dom@18.3.1)(react@18.3.1)(xstate@4.38.3):
-    resolution: {integrity: sha512-7D/x6S7+gIZLf7x+0XiyW942Sb3Mh0AoaWcH758xCorm6NrrugCUj8RD1Y+vt4a0Z9++XLR/Cf07yoFoBZBtEw==}
+  /@skillrecordings/player@1.1.8(@types/react@18.3.3)(@xstate/react@3.2.2)(lodash@4.17.21)(react-dom@18.3.1)(react@18.3.1)(xstate@4.38.3):
+    resolution: {integrity: sha512-he+yjVOSsEyAvp90b15TbHlIgTkly88I1F6JroMW7mGF+S5MHzDBuUISS/jLHJE5DA9rjnDqhbMock01qNCbgA==}
     peerDependencies:
       '@xstate/react': ^1.5.1 < 2
       lodash: ^4.17.21
