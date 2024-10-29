@@ -327,7 +327,7 @@ export default function PostPage({
           </div>
         )}
         <header className="pb-6 pt-7 sm:pb-18 sm:pt-16 space-y-4 ">
-          <h1 className="max-w-screen-md font-extrabold sm:text-4xl text-2xl leading-tighter w-fit">
+          <h1 className="max-w-screen-md font-extrabold sm:text-4xl text-2xl leading-tighter w-fit pb-6">
             {post.fields.title}
           </h1>
           <InstructorProfile instructor={instructor} />
