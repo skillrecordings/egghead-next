@@ -340,7 +340,6 @@ export default function PostPage({
               ...mdxComponents,
               PodcastLinks,
             }}
-            lazy
           />
           <div className="flex justify-between sm:items-center items-start sm:flex-row  flex-col sm:space-y-0 space-y-2">
             {post.fields.github && (

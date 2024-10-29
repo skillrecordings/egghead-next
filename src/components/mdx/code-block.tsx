@@ -113,7 +113,9 @@ export default CodeBlock
 
 const Line: FunctionComponent<
   React.PropsWithChildren<{highlight?: boolean}>
-> = ({highlight, children}) => children
+> = ({highlight, children}) => (
+  <span className={highlight ? 'bg-gray-700' : ''}>{children}</span>
+)
 
 const Number: FunctionComponent<React.PropsWithChildren<unknown>> = ({
   children,
