@@ -12,3 +12,7 @@
   opacity: 100%;
   max-width: 100vw;
 }
+
+.cueplayer-react [data-reach-slider-track][data-orientation=horizontal]:before {
+  height: 6px;
+}
