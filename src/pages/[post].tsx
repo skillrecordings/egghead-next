@@ -320,8 +320,8 @@ export default function PostPage({
       )}
       <div className="container mx-auto w-fit">
         {post.fields.state === 'draft' && (
-          <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded-b-md flex justify-center">
-            <p className="text-gray-600 text-sm">
+          <div className="bg-gray-100 dark:bg-gray-800 p-1 rounded-b-lg flex justify-center">
+            <p className="text-gray-600 dark:text-gray-400 text-xs">
               This post is a draft and not published yet.
             </p>
           </div>
