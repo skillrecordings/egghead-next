@@ -8,7 +8,7 @@ import {MDXRemote} from 'next-mdx-remote'
 import mdxComponents from '@/components/mdx'
 import 'highlight.js/styles/night-owl.css'
 import {serialize} from 'next-mdx-remote/serialize'
-import {truncate} from 'lodash'
+import {isEmpty, truncate} from 'lodash'
 import removeMarkdown from 'remove-markdown'
 import ReactMarkdown from 'react-markdown'
 import {trpc} from '@/app/_trpc/client'
@@ -23,6 +23,7 @@ import Link from 'next/link'
 import Share from '@/components/share'
 import TweetResource from '@/components/tweet-resource'
 import CopyToClipboard from '@/components/copy-resource'
+import {track} from '@/utils/analytics'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -210,6 +211,7 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
         }),
       },
       videoResource: convertToSerializeForNextResponse(videoResource),
+      tags: lesson?.tags || [],
     },
     revalidate: 60,
   }
@@ -258,6 +260,7 @@ export default function PostPage({
   videoResource,
   instructor,
   mdxSource,
+  tags,
 }: {
   mdxSource: any
   post: any
@@ -267,6 +270,7 @@ export default function PostPage({
     path?: string
   }
   videoResource: any
+  tags: any
 }) {
   const imageParams = new URLSearchParams()
   imageParams.set('title', post.fields.title)
@@ -330,7 +334,14 @@ export default function PostPage({
           <h1 className="max-w-screen-md font-extrabold sm:text-4xl text-2xl leading-tighter w-fit pb-6">
             {post.fields.title}
           </h1>
-          <InstructorProfile instructor={instructor} />
+          <div className="flex items-center justify-between gap-2">
+            <div>
+              <InstructorProfile instructor={instructor} />
+            </div>
+            <div>
+              <TagList tags={tags} resourceSlug={post.fields.slug} />
+            </div>
+          </div>
         </header>
 
         <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-3xl dark:prose-a:text-blue-300 prose-a:text-blue-500 pt-4 pb-8 mx-auto">
@@ -543,5 +554,53 @@ function PodcastLinks() {
         </a>
       ))}
     </div>
+  )
+}
+
+const TagList = ({
+  tags,
+  resourceSlug,
+  className = 'flex justify-center md:justify-start flex-wrap items-center',
+}: {
+  tags: any
+  resourceSlug: string
+  className?: string
+}) => {
+  return (
+    <>
+      {!isEmpty(tags) && (
+        <ul className={className}>
+          {tags.map((tag: any, index: number) => (
+            <li key={index} className="inline-flex items-center mr-4 mt-0">
+              <Link
+                href={`/q/${tag.name}`}
+                onClick={() => {
+                  track(`clicked view topic`, {
+                    resource: resourceSlug,
+                    topic: tag.name,
+                  })
+                }}
+                className="inline-flex items-center hover:underline"
+              >
+                <Image
+                  src={tag.image_url}
+                  alt={tag.name}
+                  width={18}
+                  height={18}
+                  className="flex-shrink-0"
+                  quality={100}
+                />
+                <span className="ml-1">{tag.label}</span>
+              </Link>
+              {tag.version && (
+                <div className="ml-2 opacity-70">
+                  <code>{tag.version}</code>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
   )
 }
