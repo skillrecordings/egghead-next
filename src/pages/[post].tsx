@@ -203,13 +203,54 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
       mdxSource,
       post: convertToSerializeForNextResponse(post),
       instructor: {
-        full_name: post.name,
-        avatar_url: post.image,
+        full_name: lesson?.instructor?.full_name || post.name,
+        avatar_url: lesson?.instructor?.avatar_64_url || post.image,
+        ...(lesson?.instructor?.slug && {
+          path: `/q/resources-by-${lesson?.instructor?.slug}`,
+        }),
       },
       videoResource: convertToSerializeForNextResponse(videoResource),
     },
     revalidate: 60,
   }
+}
+
+function InstructorProfile({
+  instructor,
+}: {
+  instructor: {
+    full_name: string
+    avatar_url: string
+    path?: string
+  }
+}) {
+  const content = (
+    <div className="flex flex-shrink-0 items-center">
+      {instructor?.avatar_url ? (
+        <Image
+          className="rounded-full flex-shrink-0 bg-cover"
+          src={`${instructor.avatar_url}`}
+          alt={instructor.full_name}
+          width={40}
+          height={40}
+        />
+      ) : (
+        <Eggo className="mr-1 sm:w-10 w-8" />
+      )}
+      <div className="ml-2 flex flex-col justify-center">
+        <span className="text-gray-700 dark:text-gray-400 text-sm leading-tighter">
+          Instructor
+        </span>
+        <h2 className="font-semibold text-base">{instructor.full_name}</h2>
+      </div>
+    </div>
+  )
+
+  return instructor.path ? (
+    <Link href={instructor.path}>{content}</Link>
+  ) : (
+    content
+  )
 }
 
 export default function PostPage({
@@ -220,7 +261,11 @@ export default function PostPage({
 }: {
   mdxSource: any
   post: any
-  instructor: any
+  instructor: {
+    full_name: string
+    avatar_url: string
+    path?: string
+  }
   videoResource: any
 }) {
   const imageParams = new URLSearchParams()
@@ -274,33 +319,18 @@ export default function PostPage({
         </div>
       )}
       <div className="container mx-auto w-fit">
+        {post.fields.state === 'draft' && (
+          <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded-b-md flex justify-center">
+            <p className="text-gray-600 text-sm">
+              This post is a draft and not published yet.
+            </p>
+          </div>
+        )}
         <header className="pb-6 pt-7 sm:pb-18 sm:pt-16 space-y-4 ">
           <h1 className="max-w-screen-md font-extrabold sm:text-4xl text-2xl leading-tighter w-fit">
             {post.fields.title}
           </h1>
-          <div>
-            <div className="flex flex-shrink-0 items-center">
-              {instructor?.avatar_url ? (
-                <Image
-                  className="rounded-full flex-shrink-0 bg-cover"
-                  src={`https:${instructor.avatar_url}`}
-                  alt={instructor.full_name}
-                  width={40}
-                  height={40}
-                />
-              ) : (
-                <Eggo className="mr-1 sm:w-10 w-8" />
-              )}
-              <div className="ml-2 flex flex-col justify-center">
-                <span className="text-gray-700 dark:text-gray-400 text-sm leading-tighter">
-                  Instructor
-                </span>
-                <h2 className="font-semibold text-base">
-                  {instructor.full_name}
-                </h2>
-              </div>
-            </div>
-          </div>
+          <InstructorProfile instructor={instructor} />
         </header>
 
         <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-3xl dark:prose-a:text-blue-300 prose-a:text-blue-500 pt-4 pb-8 mx-auto">
@@ -310,6 +340,7 @@ export default function PostPage({
               ...mdxComponents,
               PodcastLinks,
             }}
+            lazy
           />
           <div className="flex justify-between sm:items-center items-start sm:flex-row  flex-col sm:space-y-0 space-y-2">
             {post.fields.github && (

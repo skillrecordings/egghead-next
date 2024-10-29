@@ -88,6 +88,7 @@ const CodeBlock: FunctionComponent<React.PropsWithChildren<CodeBlockProps>> = ({
               border-radius: 0 !important;
               margin: 0 !important;
               padding: 0 !important;
+              tab-size: 2 !important;
             }
             @media only screen and (max-width: 640px) {
               pre {
@@ -112,9 +113,7 @@ export default CodeBlock
 
 const Line: FunctionComponent<
   React.PropsWithChildren<{highlight?: boolean}>
-> = ({highlight, children}) => (
-  <div className={highlight ? 'bg-gray-700' : ''}>{children}</div>
-)
+> = ({highlight, children}) => children
 
 const Number: FunctionComponent<React.PropsWithChildren<unknown>> = ({
   children,
