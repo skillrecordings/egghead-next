@@ -159,17 +159,13 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
         ...resource,
         published_at_timestamp: post.updatedAt.getTime(),
       })
-      .catch((err) => {
-        console.error(err)
-      })
+      .catch((err) => {})
   } else {
     await client
       .collections(process.env.TYPESENSE_COLLECTION_NAME!)
       .documents()
       .delete(resource.id)
-      .catch((err) => {
-        console.error(err)
-      })
+      .catch((err) => {})
   }
 
   const mdxSource = await serializeMDX(post.fields.body, {
