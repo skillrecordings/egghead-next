@@ -108,14 +108,21 @@ export default class Auth {
   }
 
   requestSignInEmail(email: string) {
-    return http.post(
-      `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/send_token`,
-      {
+    return http
+      .post(`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/send_token`, {
         email,
         client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
         redirect_uri: AUTH_REDIRECT_URL,
-      },
-    )
+      })
+      .then((response) => {
+        if (response.data.redirect_url) {
+          try {
+            window.location.href = response.data.redirect_url
+          } catch (error) {
+            console.error('Error redirecting to', response.data.redirect_url)
+          }
+        }
+      })
   }
 
   login() {
