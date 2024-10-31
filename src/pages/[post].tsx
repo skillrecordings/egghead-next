@@ -7,7 +7,7 @@ import * as React from 'react'
 import {MDXRemote} from 'next-mdx-remote'
 import mdxComponents from '@/components/mdx'
 import 'highlight.js/styles/night-owl.css'
-import {serialize} from 'next-mdx-remote/serialize'
+
 import {isEmpty, truncate} from 'lodash'
 import removeMarkdown from 'remove-markdown'
 import ReactMarkdown from 'react-markdown'
@@ -20,10 +20,11 @@ import MuxPlayerElement from '@mux/mux-player'
 import {MaxResolution, MinResolution} from '@mux/playback-core'
 import serializeMDX from '@/markdown/serialize-mdx'
 import Link from 'next/link'
-import Share from '@/components/share'
+
 import TweetResource from '@/components/tweet-resource'
 import CopyToClipboard from '@/components/copy-resource'
 import {track} from '@/utils/analytics'
+import {LikeButton} from '@/components/LikeButton'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -326,15 +327,18 @@ export default function PostPage({
             </p>
           </div>
         )}
-        <header className="pb-6 pt-7 sm:pb-18 sm:pt-16 space-y-4 ">
-          <h1 className="max-w-screen-md font-extrabold sm:text-4xl text-2xl leading-tighter w-fit pb-6">
+        <header className="pb-6 pt-7 sm:pb-18 sm:pt-16 space-y-4">
+          <h1 className="max-w-screen-md font-extrabold sm:text-4xl text-2xl leading-tighter">
             {post.fields.title}
           </h1>
-          <div className="flex items-center justify-between gap-2">
-            <div>
-              <InstructorProfile instructor={instructor} />
+          <div className="flex items-center gap-2">
+            <div className="ml-auto">
+              <LikeButton postId={post.fields.eggheadLessonId} />
             </div>
-            <div>
+          </div>
+          <div className="flex items-center gap-2">
+            <InstructorProfile instructor={instructor} />
+            <div className="ml-auto">
               <TagList tags={tags} resourceSlug={post.fields.slug} />
             </div>
           </div>
