@@ -224,7 +224,9 @@ export const ViewerProvider: FunctionComponent<
   const values = useAuthedViewer()
 
   return (
-    <ViewerContext.Provider value={{...values}}>
+    <ViewerContext.Provider
+      value={{...values, authenticated: values.isAuthenticated()}}
+    >
       {children}
     </ViewerContext.Provider>
   )

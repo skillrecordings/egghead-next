@@ -60,11 +60,11 @@ export function LikeButton({postId, className}: LikeButtonProps) {
   }, [likeCount])
 
   const isLoading =
-    countStatus === 'loading' || likedStatus === 'loading' || viewerLoading
+    countStatus !== 'success' || likedStatus !== 'success' || viewerLoading
 
   return (
     <button
-      onClick={() => authenticated && toggleLike({postId})}
+      onClick={() => !viewerLoading && toggleLike({postId})}
       disabled={isLoading}
       className={cn(
         'flex items-center gap-1.5 text-sm transition-colors',
