@@ -77,7 +77,7 @@ const Forever: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
               truly stick, no more spinning your wheels on more tutorials.
             </p>
             <p>
-              When you're ready to lean another skill, egghead is here to
+              When you're ready to learn another skill, egghead is here to
               support your journey, now for the rest of your life.
             </p>
           </article>
