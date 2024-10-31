@@ -1,4 +1,5 @@
 import {trpc} from '@/app/_trpc/client'
+import {useViewer} from '@/context/viewer-context'
 import {cn} from '@/ui/utils'
 import {ThumbsUp} from 'lucide-react'
 import {useEffect, useState} from 'react'
@@ -13,6 +14,7 @@ export function LikeButton({postId, className}: LikeButtonProps) {
   const [mounted, setMounted] = useState(false)
   const [optimisticLiked, setOptimisticLiked] = useState(false)
   const [optimisticCount, setOptimisticCount] = useState<number | null>(null)
+  const {authenticated, loading: viewerLoading} = useViewer()
 
   const {
     data: likeCount,
@@ -57,11 +59,12 @@ export function LikeButton({postId, className}: LikeButtonProps) {
     if (likeCount !== undefined) setOptimisticCount(likeCount)
   }, [likeCount])
 
-  const isLoading = countStatus === 'loading' || likedStatus === 'loading'
+  const isLoading =
+    countStatus === 'loading' || likedStatus === 'loading' || viewerLoading
 
   return (
     <button
-      onClick={() => toggleLike({postId})}
+      onClick={() => authenticated && toggleLike({postId})}
       disabled={isLoading}
       className={cn(
         'flex items-center gap-1.5 text-sm transition-colors',
