@@ -109,10 +109,6 @@ const UpcomingSale = () => {
           </div>
         </div>
       </div>
-      <div className="flex sm:flex-row flex-col items-center py-24 sm:space-x-5 sm:space-y-0 space-y-5">
-        <PoweredByStripe />
-        <div className="text-sm">30 day money back guarantee</div>
-      </div>
     </div>
   )
 }
