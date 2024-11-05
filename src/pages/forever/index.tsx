@@ -4,7 +4,7 @@ import {track} from '@/utils/analytics'
 import {useRouter} from 'next/router'
 import Testimonials from '@/components/pricing/testimonials'
 import testimonialsData from '@/components/pricing/testimonials/data'
-import LifetimePricingWidget from '@/components/pricing/lifetime-pricing-widget'
+import LifetimePricingWidget from '@/components/pricing/lifetime/lifetime-pricing-widget'
 import Layout from '@/components/app/layout'
 import {NextSeo} from 'next-seo'
 import {GetServerSideProps} from 'next'
@@ -48,7 +48,8 @@ const Forever: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
             egghead lifetime membership
           </h2>
           <h1 className="max-w-screen-lg text-2xl font-extrabold md:text-4xl leading-tighter">
-            Stay Current with Modern Full-Stack Courses for Professional Web Developers
+            Stay Current with Modern Full-Stack Courses for Professional Web
+            Developers
           </h1>
           <h2 className="max-w-2xl pt-8 text-xl font-light leading-tight text-gray-700 dark:text-gray-200">
             Learn the skills you and your team need to build real-world business
