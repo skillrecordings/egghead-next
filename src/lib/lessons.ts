@@ -18,14 +18,12 @@ const lessonQuery = groq`
    "id": railsLessonId,
   'slug': slug.current,
   description,
-  resource->_type == 'videoResource' => {
-    ...(resource-> {
-      'media_url': hlsUrl,
-      'transcript': transcriptBody,
-      'transcript_url': transcriptUrl,
-      duration,
-      'subtitles_url': subtitlesUrl,
-    })
+  ...resources[@->["_type"] == "videoResource"][0]->{
+    "hls_url": mediaUrls.hlsUrl,
+    "dash_url": mediaUrls.dashUrl,
+    "media_url": mediaUrls.hlsUrl,
+    "transcript": transcript.text,
+    duration,
   },
   'free_forever': isCommunityResource,
   'path': '/lessons/' + slug.current,
@@ -169,13 +167,15 @@ export async function loadLesson(
     lessonMetadataFromSanity,
   )
 
+  console.log('lessonMetadata', lessonMetadataFromSanity)
+
   // if we aren't able to find Lesson metadata at either source, throw an
   // error.
   if (isEmpty(lessonMetadata.slug)) {
     throw new Error(`Unable to lookup lesson metadata (slug: ${slug})`)
   }
 
-  return {...lessonMetadata, comments} as LessonResource
+  return {...lessonMetadata, comments, collection: ''} as LessonResource
 }
 
 // values in the graphql that are being skipped/ignored by Sanity
