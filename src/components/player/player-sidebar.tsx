@@ -102,9 +102,17 @@ const LessonListTab: React.FC<
   }>
 > = ({videoResource, lessonView, onActiveTab}) => {
   const collectionIsEmpty: boolean = isEmpty(videoResource.collection)
+
+  // accounts for data coming from either GraphQL or Sanity. Sometimes there will be an array of tags instead of a single primary tag
+  const primaryTag = videoResource.primary_tag
+    ? videoResource.primary_tag
+    : videoResource.tags
+    ? videoResource.tags[0]
+    : null
+
   const {data: lessonsFromTag} = collectionIsEmpty
     ? trpc.lesson.getAssociatedLessonsByTag.useQuery({
-        tag: videoResource.primary_tag.name,
+        tag: primaryTag?.name,
         currentLessonSlug: videoResource.slug,
       })
     : {data: null}
@@ -120,10 +128,10 @@ const LessonListTab: React.FC<
             />
           </div>
         )}
-        {collectionIsEmpty && videoResource?.primary_tag && (
+        {collectionIsEmpty && primaryTag?.name && (
           <div className="flex-shrink-0 p-4 border-gray-100 sm:border-b dark:border-gray-800">
             <TagHeader
-              tag={videoResource.primary_tag}
+              tag={primaryTag}
               currentLessonSlug={videoResource.slug}
             />
           </div>
