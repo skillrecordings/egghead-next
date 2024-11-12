@@ -10,6 +10,7 @@ import {
   deriveDataFromBaseValues,
 } from '@/utils/lesson-metadata'
 import compactedMerge from '@/utils/compacted-merge'
+import {convertUndefinedValuesToNull} from '@/utils/convert-undefined-values-to-null'
 
 // code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`
@@ -162,10 +163,12 @@ export async function loadLesson(
    * Merge All Lesson Metadata Together
    * ***********************************/
   // with preference for data coming from Sanity
-  const lessonMetadata = mergeLessonMetadata(
+  let lessonMetadata = mergeLessonMetadata(
     lessonMetadataFromGraphQL,
     lessonMetadataFromSanity,
   )
+
+  lessonMetadata = convertUndefinedValuesToNull(lessonMetadata)
 
   // if we aren't able to find Lesson metadata at either source, throw an
   // error.
