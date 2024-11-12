@@ -52,7 +52,7 @@ export type LessonResource = Resource & {
   instructor: any
   hls_url?: string
   dash_url?: string
-  collection?: Resource & {lessons: any[]}
+  collection: Resource & {lessons: any[]}
   staff_notes_url?: string
   download_url?: string
   scrimba: {
