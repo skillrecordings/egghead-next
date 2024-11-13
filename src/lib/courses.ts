@@ -23,6 +23,21 @@ const courseQuery = groq`
     "duration": resource->duration,
     "path": "/lessons/" + slug.current
   },
+  "lessons": resources[]->{
+    title,
+    "type": "lesson",
+    "tags": softwareLibraries[] {
+      ...(library->{
+        name,
+        'label': slug.current,
+        'http_url': url,
+        'image_url': image.url
+      })
+    },
+    "primary_tag": softwareLibraries[0].library->name,
+    "duration": resource->duration,
+    "path": "/lessons/" + slug.current
+  },
   "instructor": collaborators[0]->{
     "avatar_url": person->image.url,
     "full_name": person->name,

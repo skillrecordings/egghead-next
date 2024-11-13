@@ -816,9 +816,13 @@ const CollectionPageLayout: React.FunctionComponent<
 
               <div>
                 <ul>
-                  {lessons.map((lesson: LessonResource, index: number) => {
+                  {lessons.map((lesson: any, index: number) => {
                     if (lesson?.published_at === null) return null
-                    const tagImageUrl = `https://res.cloudinary.com/dg3gyk0gu/image/upload/w_72,h_72/v1683914713/tags/${lesson?.primary_tag?.name}.png`
+
+                    const tagImageUrl =
+                      lesson?.tags?.[0]?.image_url ||
+                      `https://res.cloudinary.com/dg3gyk0gu/image/upload/w_72,h_72/v1683914713/tags/${lesson?.primary_tag?.name}.png`
+
                     const isComplete = completedLessonSlugs?.includes(
                       lesson.slug,
                     )
@@ -843,8 +847,10 @@ const CollectionPageLayout: React.FunctionComponent<
                               <div className="flex items-center flex-shrink-0 w-8">
                                 <Image
                                   src={tagImageUrl}
+                                  alt={lesson.primary_tag.name}
                                   width={24}
                                   height={24}
+                                  quality={100}
                                 />
                               </div>
                             )}
