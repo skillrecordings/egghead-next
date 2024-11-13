@@ -37,7 +37,6 @@ const defaultComment = {
   
   Vague question? Vague answer. Any details and context you can provide will lure more interesting answers!`,
   state: 'published',
-  created_at: Date.now(),
   is_commentable_owner: false,
   user: {
     full_name: 'egghead',
