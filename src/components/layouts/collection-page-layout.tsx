@@ -816,7 +816,7 @@ const CollectionPageLayout: React.FunctionComponent<
 
               <div>
                 <ul>
-                  {lessons.map((lesson: any, index: number) => {
+                  {lessons.map((lesson: LessonResource, index: number) => {
                     if (lesson?.published_at === null) return null
 
                     const tagImageUrl =
