@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {isEmpty} from 'lodash'
 import axios from '@/utils/configured-axios'
-import {loadRatings} from '@/lib/ratings'
 import FiveStars from '@/components/five-stars'
 import friendlyTime from 'friendly-time'
 import Image from 'next/legacy/image'
@@ -13,26 +12,20 @@ import {
   useShareCourseReview,
 } from '@/hooks/use-share-course-review'
 import {useRouter} from 'next/router'
+import {trpc} from '@/app/_trpc/client'
 
 const LearnerRatings: React.FunctionComponent<
   React.PropsWithChildren<{collection: any}>
 > = ({collection}) => {
   const router = useRouter()
-  const [ratings, setRatings] = React.useState(
-    collection?.ratings_with_comment?.data || [],
-  )
-  const [loadingRatings, setLoadingRatings] = React.useState(true)
   const {type, slug} = collection
-  const {viewer} = useViewer()
 
-  React.useEffect(() => {
-    if (ratings.length === 0) {
-      loadRatings(slug, type).then((ratings: any) => {
-        setLoadingRatings(false)
-        setRatings(ratings)
-      })
-    }
-  }, [slug, type, loadingRatings, ratings])
+  const {data: ratings} = trpc.course.getRatings.useQuery({
+    slug,
+    type,
+  })
+
+  const {viewer} = useViewer()
 
   const {reviewImageUrl} = useShareCourseReview(ratings, collection)
 
@@ -105,9 +98,7 @@ const LearnerRatings: React.FunctionComponent<
                       className="flex flex-row items-center px-2 py-1 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 "
                       onClick={() => {
                         rating.hidden = true
-                        axios.post(comment.hide_url).then(() => {
-                          setLoadingRatings(true)
-                        })
+                        axios.post(comment.hide_url)
                       }}
                     >
                       Hide
