@@ -52,39 +52,22 @@ const lessonQuery = groq`
       'image_url': image.url
     }),
   },
-   'collection':*[_type == 'section' && references(^._id)][0] {
+  'collection': *[_type == 'course' && references(^._id)][0]{
     "lessons": resources[]->{
-        title,
-        "type": _type,
-        "icon_url": softwareLibraries[0].library->image.url,
-        "duration": resource->duration,
-        "path": "/lessons/" + slug.current,
-        'slug': slug.current,
-        'scrimba': resources[_type == 'scrimbaResource'][0],
-      },
-    ...*[_type == 'course' && references(^._id)][0] {
-    title,
+      title,
+      "type": _type,
+      "icon_url": softwareLibraries[0].library->image.url,
+      "duration": resource->duration,
+      "path": "/lessons/" + slug.current,
+      'slug': slug.current,
+      'scrimba': resources[_type == 'scrimbaResource'][0],
+    },
     "id": railsCourseId,
     'slug': slug.current,
     'type': 'playlist',
     'square_cover_480_url': coalesce(image, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
     'path': '/courses/' + slug.current,
-    "sections": resources[]->{
-      _type,
-      _id,
-      title,
-      'slug': slug.current,
-      "lessons": resources[]->{
-        title,
-        "type": _type,
-        "icon_url": softwareLibraries[0].library->image.url,
-        "duration": resource->duration,
-        "path": "/lessons/" + slug.current,
-        'slug': slug.current,
-        'scrimba': resources[_type == 'scrimbaResource'][0],
-      },
-    }
-    }
+    'title': title,
   }
 }`
 
@@ -169,6 +152,8 @@ export async function loadLesson(
   )
 
   lessonMetadata = convertUndefinedValuesToNull(lessonMetadata)
+
+  console.log('lessonMetadata', lessonMetadata)
 
   // if we aren't able to find Lesson metadata at either source, throw an
   // error.
