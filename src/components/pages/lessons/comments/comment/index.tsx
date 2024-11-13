@@ -6,7 +6,7 @@ import Image from 'next/legacy/image'
 type CommentProps = {
   comment: string
   state: string
-  createdAt: any
+  createdAt?: any
   isCommentableOwner: boolean
   user: {
     avatar_url: string
@@ -56,9 +56,11 @@ const Comment: React.FunctionComponent<
               </span>
             )}
           </div>
-          <div className="sm:ml-2 whitespace-nowrap text-xs text-gray-400 dark:text-gray-500">
-            ~ {friendlyTime(new Date(createdAt))}
-          </div>
+          {createdAt && (
+            <div className="sm:ml-2 whitespace-nowrap text-xs text-gray-400 dark:text-gray-500">
+              ~ {friendlyTime(new Date(createdAt))}
+            </div>
+          )}
         </div>
         <style jsx>{`
           & > :first-child {

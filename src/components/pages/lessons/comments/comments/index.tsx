@@ -86,7 +86,6 @@ const Comments: React.FunctionComponent<
           key={defaultComment.id}
           comment={defaultComment.comment}
           state={defaultComment.state}
-          createdAt={defaultComment.created_at}
           isCommentableOwner={defaultComment.is_commentable_owner}
           user={defaultComment.user}
         />
