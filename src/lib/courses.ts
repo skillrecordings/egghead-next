@@ -23,7 +23,7 @@ const courseQuery = groq`
     "duration": resource->duration,
     "path": "/lessons/" + slug.current
   },
-  "lessons": resources[]->{
+  "lessons": resources[@->["_type"] == "lesson"]->{
     title,
     "type": "lesson",
     "tags": softwareLibraries[] {
