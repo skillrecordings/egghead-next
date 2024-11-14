@@ -113,7 +113,7 @@ const cioTopicScore = async (req: NextApiRequest, res: NextApiResponse) => {
 
         res.status(200).end()
       } else {
-        console.error('no subscriber was loaded')
+        console.debug('no subscriber was loaded')
         res.status(200).end()
       }
     } catch (error) {

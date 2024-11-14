@@ -113,7 +113,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         // res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
         res.status(200).json(subscriber)
       } else {
-        console.error('no subscriber was loaded')
+        console.debug('no subscriber was loaded')
         res.status(200).end()
       }
     } catch (error: any) {
