@@ -31,9 +31,9 @@ const TweetResource: FunctionComponent<React.PropsWithChildren<any>> = ({
       target="_blank"
       rel="noopener noreferrer"
       href={encodeTweetUrl()}
+      aria-label="Share on X"
     >
       <IconTwitter className="w-5" />
-      <span>Send Tweet</span>
     </a>
   ) : null
 }

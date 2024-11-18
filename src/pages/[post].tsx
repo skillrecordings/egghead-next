@@ -25,6 +25,7 @@ import TweetResource from '@/components/tweet-resource'
 import CopyToClipboard from '@/components/copy-resource'
 import {track} from '@/utils/analytics'
 import {LikeButton} from '@/components/LikeButton'
+import BlueskyLink from '@/components/share-bluesky'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -364,7 +365,16 @@ export default function PostPage({
             <div>
               <span className="text-sm not-prose">Share with a coworker</span>
               <h2 className="sr-only">Social Share Links</h2>
-              <div className="flex flex-col sm:items-center items-start gap-2 md:flex-row">
+              <div className="flex sm:items-center items-start sm:justify-center gap-2">
+                <BlueskyLink
+                  className="not-prose"
+                  resource={{
+                    title: post.fields.title,
+                    type: post.fields.postType,
+                    path: `/${post.fields.slug}`,
+                  }}
+                  instructor={instructor}
+                />
                 <TweetResource
                   className="not-prose"
                   resource={{
