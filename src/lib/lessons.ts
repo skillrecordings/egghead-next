@@ -11,6 +11,7 @@ import {
 } from '@/utils/lesson-metadata'
 import compactedMerge from '@/utils/compacted-merge'
 import {convertUndefinedValuesToNull} from '@/utils/convert-undefined-values-to-null'
+import fetchEggheadUser from '@/api/egghead/users/from-token'
 
 // code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`
@@ -26,7 +27,7 @@ const lessonQuery = groq`
     "transcript": transcript.text,
     duration,
   },
-  'free_forever': isCommunityResource,
+  'free_forever': accessLevel == 'free',
   'path': '/lessons/' + slug.current,
   'thumb_url': thumbnailUrl,
   'icon_url': coalesce(softwareLibraries[0].library->image.url, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
@@ -121,6 +122,8 @@ export async function loadLesson(
 ): Promise<LessonResource> {
   token = token || getAccessTokenFromCookie()
 
+  const eggheadViewer = await fetchEggheadUser(token as string, true)
+
   /******************************************
    * Primary Lesson Metadata GraphQL Request
    * ****************************************/
@@ -153,7 +156,10 @@ export async function loadLesson(
 
   lessonMetadata = convertUndefinedValuesToNull(lessonMetadata)
 
-  console.log('lessonMetadata', lessonMetadata)
+  if (!eggheadViewer.is_pro && !lessonMetadata.free_forever) {
+    delete lessonMetadata.hls_url
+    delete lessonMetadata.dash_url
+  }
 
   // if we aren't able to find Lesson metadata at either source, throw an
   // error.
