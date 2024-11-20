@@ -23,7 +23,8 @@ const TagList: FunctionComponent<
           {tags.map((tag: any, index: number) => (
             <li key={index} className="inline-flex items-center mr-4 mt-0">
               <Link
-                href={`/q/${tag.name}`}
+                // slug is coming from sanity, name is coming from graphql
+                href={`/q/${tag.slug || tag.name}`}
                 onClick={() => {
                   track(`clicked view topic`, {
                     course: courseSlug,
@@ -40,7 +41,8 @@ const TagList: FunctionComponent<
                   className="flex-shrink-0"
                   quality={100}
                 />
-                <span className="ml-1">{tag.label}</span>
+                {/* label would only come from graphql, name can come from either sanity or graphql */}
+                <span className="ml-1">{tag.label || tag.name}</span>
               </Link>
               {tag.version && (
                 <div className="ml-2 opacity-70">
