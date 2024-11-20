@@ -54,6 +54,7 @@ export type LessonResource = Resource & {
   dash_url?: string
   collection: Resource & {lessons: any[]}
   staff_notes_url?: string
+  free_forever?: boolean
   download_url?: string
   scrimba: {
     url: string
