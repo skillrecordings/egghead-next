@@ -156,10 +156,10 @@ export async function loadLesson(
 
   lessonMetadata = convertUndefinedValuesToNull(lessonMetadata)
 
-  if (!eggheadViewer.is_pro && !lessonMetadata.free_forever) {
-    delete lessonMetadata.hls_url
-    delete lessonMetadata.dash_url
-  }
+  // if (!eggheadViewer.is_pro && !lessonMetadata.free_forever) {
+  //   delete lessonMetadata.hls_url
+  //   delete lessonMetadata.dash_url
+  // }
 
   // if we aren't able to find Lesson metadata at either source, throw an
   // error.
