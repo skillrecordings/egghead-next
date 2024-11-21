@@ -49,6 +49,7 @@ const Comments: React.FunctionComponent<
   React.PropsWithChildren<CommentsProps>
 > = ({lesson}: CommentsProps) => {
   const {viewer} = useViewer()
+  const [mounted, setMounted] = React.useState(false)
   const [comments, setComments] = React.useState(lesson.comments)
   const {slug} = lesson
   const commentsAvailable =
@@ -62,10 +63,11 @@ const Comments: React.FunctionComponent<
   }
 
   React.useEffect(() => {
+    setMounted(true)
     setComments(lesson.comments)
   }, [lesson])
 
-  return (
+  return mounted ? (
     <div className={commentsAvailable ? 'space-y-10' : 'space-y-6'}>
       {commentsAvailable ? (
         comments.map((comment: any) => {
@@ -115,7 +117,7 @@ const Comments: React.FunctionComponent<
         </div>
       )}
     </div>
-  )
+  ) : null
 }
 
 export default Comments

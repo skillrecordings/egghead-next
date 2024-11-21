@@ -580,7 +580,11 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
               </>
             ) : (
               <>
-                <div className={cx({hidden: !playerVisible})}>
+                <div
+                  className={cx('aspect-[16/9] relative', {
+                    hidden: !playerVisible,
+                  })}
+                >
                   <Player
                     canAddNotes={
                       isEmpty(viewer) || !notesEnabled ? false : !isFullscreen
@@ -623,11 +627,11 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                 />
               </>
             )}
-            {/* <div
-            className={cx('aspect-w-16 aspect-h-9', {
-              hidden: mounted,
-            })}
-          /> */}
+            <div
+              className={cx('aspect-[16/9]', {
+                hidden: mounted,
+              })}
+            />
           </div>
           {withSidePanel && (
             <div className="flex flex-col col-span-3 dark:bg-gray-800 bg-gray-50">
