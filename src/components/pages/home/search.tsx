@@ -32,7 +32,7 @@ const Search = () => {
         {({values, handleChange}) => {
           return (
             <Form role="search" className="w-full">
-              <h1 className="text-center lg:text-3xl text-balance sm:text-2xl text-2xl font-bold leading-tighter sm:pb-8 pb-5">
+              <h1 className="text-center lg:text-3xl text-balance max-w-3xl mx-auto sm:text-2xl text-2xl font-bold leading-tighter sm:pb-20 pb-10">
                 Bite-Sized Screencasts for Web Developers that Hate Long Boring
                 Videos
               </h1>
