@@ -33,7 +33,8 @@ const Search = () => {
           return (
             <Form role="search" className="w-full">
               <h1 className="text-center lg:text-3xl text-balance sm:text-2xl text-2xl font-bold leading-tighter sm:pb-8 pb-5">
-                What are you going to learn today?
+                Bite-Sized Screencasts for Web Developers that Hate Long Boring
+                Videos
               </h1>
               <div className="max-w-2xl w-full mx-auto relative flex items-center shadow-smooth rounded-lg">
                 <input
