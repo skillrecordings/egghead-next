@@ -11,7 +11,6 @@ import {
 } from '@/utils/lesson-metadata'
 import compactedMerge from '@/utils/compacted-merge'
 import {convertUndefinedValuesToNull} from '@/utils/convert-undefined-values-to-null'
-import fetchEggheadUser from '@/api/egghead/users/from-token'
 
 // code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`
@@ -21,7 +20,6 @@ const lessonQuery = groq`
   'slug': slug.current,
   description,
   ...resources[@->["_type"] == "videoResource"][0]->{
-    "hls_url": mediaUrls.hlsUrl,
     "dash_url": mediaUrls.dashUrl,
     "media_url": mediaUrls.hlsUrl,
     "transcript": transcript.text,
@@ -47,8 +45,8 @@ const lessonQuery = groq`
   },
   'tags': softwareLibraries[] {
     ...(library-> {
-       name,
-      'label': slug.current,
+      'name': slug.current,
+      'label': name,
       'http_url': url,
       'image_url': image.url
     }),
@@ -122,8 +120,6 @@ export async function loadLesson(
 ): Promise<LessonResource> {
   token = token || getAccessTokenFromCookie()
 
-  const eggheadViewer = await fetchEggheadUser(token as string, true)
-
   /******************************************
    * Primary Lesson Metadata GraphQL Request
    * ****************************************/
@@ -131,6 +127,8 @@ export async function loadLesson(
     slug,
     token,
   )
+
+  console.log('lessonMetadataFromGraphQL', lessonMetadataFromGraphQL)
 
   /**********************************************
    * Load comments from separate GraphQL Request
@@ -145,6 +143,8 @@ export async function loadLesson(
   // this will be used to override values from graphql
   const lessonMetadataFromSanity = await loadLessonMetadataFromSanity(slug)
 
+  console.log('lessonMetadataFromSanity', lessonMetadataFromSanity)
+
   /*************************************
    * Merge All Lesson Metadata Together
    * ***********************************/
@@ -155,6 +155,8 @@ export async function loadLesson(
   )
 
   lessonMetadata = convertUndefinedValuesToNull(lessonMetadata)
+
+  console.log('lessonMetadata', lessonMetadata)
 
   // if (!eggheadViewer.is_pro && !lessonMetadata.free_forever) {
   //   delete lessonMetadata.hls_url
