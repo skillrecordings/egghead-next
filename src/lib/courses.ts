@@ -28,8 +28,8 @@ const courseQuery = groq`
     "type": "lesson",
     "tags": softwareLibraries[] {
       ...(library->{
-        name,
-        'label': slug.current,
+        'name': slug.current,
+        'label': name,
         'http_url': url,
         'image_url': image.url
       })
