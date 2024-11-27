@@ -23,7 +23,6 @@ const lessonQuery = groq`
     "transcript": transcript.text,
     duration,
   },
-  'free_forever': accessLevel == 'free',
   'path': '/lessons/' + slug.current,
   'thumb_url': thumbnailUrl,
   'icon_url': coalesce(softwareLibraries[0].library->image.url, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
