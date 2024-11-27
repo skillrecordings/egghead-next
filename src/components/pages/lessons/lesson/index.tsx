@@ -768,14 +768,16 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col items-center mt-4 text-sm opacity-80 md:items-start">
-                {created_at && (
-                  <PublishedAt date={friendlyTime(new Date(created_at))} />
-                )}
-                {updated_at && (
-                  <UpdatedAt date={friendlyTime(new Date(updated_at))} />
-                )}
-              </div>
+              {mounted && (
+                <div className="flex flex-col items-center mt-4 text-sm opacity-80 md:items-start">
+                  {created_at && (
+                    <PublishedAt date={friendlyTime(new Date(created_at))} />
+                  )}
+                  {updated_at && (
+                    <UpdatedAt date={friendlyTime(new Date(updated_at))} />
+                  )}
+                </div>
+              )}
               {description && (
                 <Markdown className="font-medium prose prose-lg dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none text-gray-1000 dark:text-white">
                   {description}

@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
   try {
     const initialLesson: LessonResource | undefined =
-      params && (await loadLesson(params.slug as string))
+      params && (await loadLesson(params.slug as string, undefined, false))
 
     if (initialLesson && initialLesson?.slug !== params?.slug) {
       return {

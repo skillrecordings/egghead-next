@@ -20,8 +20,6 @@ const lessonQuery = groq`
   'slug': slug.current,
   description,
   ...resources[@->["_type"] == "videoResource"][0]->{
-    "dash_url": mediaUrls.dashUrl,
-    "media_url": mediaUrls.hlsUrl,
     "transcript": transcript.text,
     duration,
   },
@@ -117,8 +115,9 @@ export async function loadLessonMetadataFromGraphQL(
 export async function loadLesson(
   slug: string,
   token?: string,
+  useAuth?: boolean,
 ): Promise<LessonResource> {
-  token = token || getAccessTokenFromCookie()
+  token = useAuth ? token || getAccessTokenFromCookie() : undefined
 
   /******************************************
    * Primary Lesson Metadata GraphQL Request
@@ -224,7 +223,6 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
       hls_url
       dash_url
       http_url
-      media_url
       lesson_view_url
       thumb_url
       icon_url
@@ -258,7 +256,6 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
             completed
             duration
             thumb_url
-            media_url
           }
         }
         ... on Course {
@@ -276,7 +273,6 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
             completed
             duration
             thumb_url
-            media_url
           }
         }
       }
