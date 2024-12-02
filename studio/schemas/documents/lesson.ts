@@ -13,6 +13,7 @@ export default defineType({
       type: 'string',
       title: 'Title',
       description: 'Titles should be catchy, descriptive, and not too long',
+      readOnly: true,
       validation: (Rule) =>
         Rule.custom((field, context) =>
           context?.document?.status &&
@@ -26,6 +27,7 @@ export default defineType({
       name: 'slug',
       type: 'slug',
       title: 'Slug',
+      readOnly: true,
       validation: (Rule) => Rule.required(),
       description:
         'Some frontends will require a slug to be set to be able to show the post',
@@ -37,6 +39,7 @@ export default defineType({
     defineField({
       title: 'Rails Lesson ID',
       description: 'Rails lesson id',
+      readOnly: true,
       name: 'railsLessonId',
       type: 'number',
     }),
@@ -100,6 +103,7 @@ export default defineType({
       title: 'Status',
       name: 'status',
       type: 'string',
+      readOnly: true,
       options: {
         list: [
           {title: 'Needs Review', value: 'needs-review'},
@@ -113,6 +117,7 @@ export default defineType({
       title: 'Access Level',
       name: 'accessLevel',
       type: 'string',
+      readOnly: true,
       options: {
         list: [
           {title: 'Free', value: 'free'},
