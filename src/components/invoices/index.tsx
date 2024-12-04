@@ -1,7 +1,8 @@
+'use client'
+
 import * as React from 'react'
-import axios from '@/utils/configured-axios'
-import {isEmpty} from 'lodash'
 import {format, parseISO} from 'date-fns'
+import {trpc} from '@/app/_trpc/client'
 
 type HeadingProps = React.ComponentPropsWithoutRef<any> & {
   headingAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
@@ -10,31 +11,18 @@ type HeadingProps = React.ComponentPropsWithoutRef<any> & {
 const Invoices: React.FunctionComponent<
   React.PropsWithChildren<HeadingProps>
 > = ({headingAs}) => {
-  const [transactions, setTransactions] = React.useState([])
-  const [transactionsLoading, setTransactionsLoading] = React.useState(true)
+  const {data: transactions, status} =
+    trpc.user.transactionsForCurrent.useQuery()
 
   const Heading = headingAs ?? 'p'
 
-  React.useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/transactions`)
-      .then(({data}) => {
-        setTransactionsLoading(false)
-        setTransactions(data)
-      })
-  }, [])
-
   return (
     <main className="mt-16">
-      {transactionsLoading ? (
+      {status === 'loading' ? (
         <div></div>
       ) : (
         <div>
-          {isEmpty(transactions) ? (
-            <Heading className="text-lg font-medium md:font-normal md:text-xl leading-none">
-              No Transactions
-            </Heading>
-          ) : (
+          {!transactions ? null : (
             <div className="flex flex-col space-y-8">
               <Heading className="text-lg font-medium md:font-normal md:text-xl leading-none">
                 Transactions

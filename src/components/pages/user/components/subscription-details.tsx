@@ -201,7 +201,7 @@ const SubscriptionDetails: React.FunctionComponent<
   }
 
   return (
-    <div className="w-full">
+    <div>
       {subscriptionName ? (
         <div className="md:w-[75ch] mx-auto">
           <div className="w-full leading-relaxed mt-4 text-center space-y-4">
@@ -228,7 +228,7 @@ const SubscriptionDetails: React.FunctionComponent<
           </div>
         </div>
       ) : (
-        <div className="w-full">
+        <div>
           {(viewer.is_pro || viewer.is_instructor) && (
             <p>
               You still have access to a Pro Membership. If you feel this is in
