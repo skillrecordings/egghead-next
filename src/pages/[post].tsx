@@ -592,14 +592,16 @@ const TagList = ({
                 }}
                 className="inline-flex items-center hover:underline"
               >
-                <Image
-                  src={tag.image_url}
-                  alt={tag.name}
-                  width={18}
-                  height={18}
-                  className="flex-shrink-0"
-                  quality={100}
-                />
+                {tag.image_url && (
+                  <Image
+                    src={tag.image_url}
+                    alt={tag.name}
+                    width={18}
+                    height={18}
+                    className="flex-shrink-0"
+                    quality={100}
+                  />
+                )}
                 <span className="ml-1">{tag.label}</span>
               </Link>
               {tag.version && (
