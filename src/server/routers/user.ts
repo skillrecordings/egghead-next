@@ -52,6 +52,11 @@ export const userRouter = router({
         },
       ).then((res) => res.json())) || []
 
+    if (transactions?.error) {
+      console.error('error fetching transactions: ', transactions.error)
+      return null
+    }
+
     return transactionsSchema.parse(transactions)
   }),
   accountsForCurrent: baseProcedure.query(async ({input, ctx}) => {

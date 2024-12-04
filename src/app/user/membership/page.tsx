@@ -111,15 +111,10 @@ const Membership = () => {
       )
     case hasStripeAccount:
       return (
-        <div className="w-full">
-          <ItemWrapper title="Membership">
-            <SubscriptionDetails
-              stripeCustomerId={account.stripe_customer_id}
-              slug={account.slug}
-            />
-          </ItemWrapper>
-          <Invoices headingAs="h3" />
-        </div>
+        <SubscriptionDetails
+          stripeCustomerId={account.stripe_customer_id}
+          slug={account.slug}
+        />
       )
     case isTeamMember:
       return (

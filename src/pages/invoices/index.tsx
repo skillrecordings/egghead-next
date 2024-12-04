@@ -7,7 +7,9 @@ const InvoicesPage: React.FunctionComponent<
 > = () => {
   return (
     <LoginRequired>
-      <Invoices headingAs="h1" />
+      <div className="min-h-[75vh] mx-auto">
+        <Invoices headingAs="h1" />
+      </div>
     </LoginRequired>
   )
 }
