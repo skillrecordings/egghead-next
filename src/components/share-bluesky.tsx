@@ -24,7 +24,7 @@ const BlueskyLink: FunctionComponent<React.PropsWithChildren<any>> = ({
   }
   return get(resource, 'title') && get(resource, 'path') ? (
     <a
-      className={`group flex text-sm items-center space-x-1 rounded-md p-2 bg-gray-50 dark:bg-gray-800 text-black dark:text-white dark:hover:bg-gray-700 hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-300 ${className}`}
+      className={`group flex text-sm items-center space-x-1 rounded-md p-2 bg-gray-50 dark:bg-gray-800 text-black dark:text-white dark:hover:bg-gray-700 hover:bg-blue-100 dark:hover:text-blue-500 hover:text-blue-600 transition-colors ease-in-out duration-300 ${className}`}
       target="_blank"
       rel="noopener noreferrer"
       href={encodeBlueskyUrl()}
@@ -42,7 +42,7 @@ export const IconBluesky: FunctionComponent<
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 64 57"
-    className={`w-5 transition-colors group-hover:text-[#1185FE] ${className}`}
+    className={`w-5 ${className}`}
   >
     <path
       fill="currentColor"
