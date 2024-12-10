@@ -24,7 +24,7 @@ import Link from 'next/link'
 import TweetResource from '@/components/tweet-resource'
 import CopyToClipboard from '@/components/copy-resource'
 import {track} from '@/utils/analytics'
-import {LikeButton} from '@/components/LikeButton'
+import {LikeButton} from '@/components/like-button'
 import BlueskyLink from '@/components/share-bluesky'
 
 const access: ConnectionOptions = {
@@ -241,13 +241,17 @@ function InstructorProfile({
         <span className="text-gray-700 dark:text-gray-400 text-sm leading-tighter">
           Instructor
         </span>
-        <h2 className="font-semibold text-base">{instructor.full_name}</h2>
+        <h2 className="font-semibold text-base group-hover:underline">
+          {instructor.full_name}
+        </h2>
       </div>
     </div>
   )
 
   return instructor.path ? (
-    <Link href={instructor.path}>{content}</Link>
+    <Link className="group" href={instructor.path}>
+      {content}
+    </Link>
   ) : (
     content
   )
@@ -300,25 +304,10 @@ export default function PostPage({
         }}
       />
       {videoResource && (
-        <div className="relative z-10 flex items-center justify-center">
-          <div className="flex w-full max-w-screen-lg flex-col">
-            <div className="relative aspect-[16/9]">
-              <div
-                className={cn(
-                  'flex items-center justify-center  overflow-hidden',
-                  {
-                    hidden: false,
-                  },
-                )}
-              >
-                <PostPlayer
-                  playbackId={videoResource.fields.muxPlaybackId}
-                  eggheadLessonId={post.fields.eggheadLessonId}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <PostPlayer
+          playbackId={videoResource.fields.muxPlaybackId}
+          eggheadLessonId={post.fields.eggheadLessonId}
+        />
       )}
       <div className="container mx-auto w-fit">
         {post.fields.state === 'draft' && (
@@ -328,72 +317,77 @@ export default function PostPage({
             </p>
           </div>
         )}
-        <header className="pb-6 pt-7 sm:pb-18 sm:pt-16 space-y-4">
-          <h1 className="max-w-screen-md font-extrabold sm:text-4xl text-2xl leading-tighter">
+        <header className="flex flex-col gap-5 sm:pt-8 pt-5 max-w-4xl mb-5">
+          <h1 className="font-bold sm:text-2xl text-xl leading-tighter tracking-tight">
             {post.fields.title}
           </h1>
-          <div className="flex items-center gap-2">
-            <div className="ml-auto">
+          <div className="flex md:items-center justify-between md:flex-row flex-col w-full gap-5">
+            <div className="flex items-center gap-6">
+              <InstructorProfile instructor={instructor} />
               <LikeButton postId={post.fields.eggheadLessonId} />
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <InstructorProfile instructor={instructor} />
-            <div className="ml-auto">
+            <div className="flex items-center gap-5">
+              {post.fields.github && (
+                <Link
+                  className="flex items-center gap-1 hover:underline rounded-md leading-tight transition not-prose text-base"
+                  href={post.fields.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    track('clicked view source code', {
+                      resource: post.fields.slug,
+                      resourceType: 'post',
+                    })
+                  }}
+                >
+                  <GitHubIcon /> Code
+                </Link>
+              )}
               <TagList tags={tags} resourceSlug={post.fields.slug} />
             </div>
           </div>
         </header>
 
-        <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-3xl dark:prose-a:text-blue-300 prose-a:text-blue-500 pt-4 pb-8 mx-auto">
-          <MDXRemote
-            {...mdxSource}
-            components={{
-              ...mdxComponents,
-              PodcastLinks,
-            }}
-          />
-          <div className="flex justify-between sm:items-center items-start sm:flex-row  flex-col sm:space-y-0 space-y-2">
-            {post.fields.github && (
-              <Link
-                className="flex items-center gap-2 rounded-md  font-medium leading-tight transition not-prose text-base"
-                href={post.fields.github}
-              >
-                <GitHubIcon /> Code
-              </Link>
-            )}
-            <div>
-              <span className="text-sm not-prose">Share with a coworker</span>
-              <h2 className="sr-only">Social Share Links</h2>
-              <div className="flex sm:items-center items-start sm:justify-center gap-2">
-                <BlueskyLink
-                  className="not-prose"
-                  resource={{
-                    title: post.fields.title,
-                    type: post.fields.postType,
-                    path: `/${post.fields.slug}`,
-                  }}
-                  instructor={instructor}
-                />
-                <TweetResource
-                  className="not-prose"
-                  resource={{
-                    title: post.fields.title,
-                    type: post.fields.postType,
-                    path: `/${post.fields.slug}`,
-                  }}
-                  instructor={instructor}
-                />
-                <CopyToClipboard
-                  stringToCopy={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/${post.fields.slug}`}
-                />
-              </div>
+        <main className="max-w-4xl mx-auto w-full pt-4 pb-16">
+          <article className="prose dark:prose-dark dark:prose-p:text-gray-200 dark:prose-li:text-gray-200 sm:prose-lg lg:prose-lg max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500">
+            <MDXRemote
+              {...mdxSource}
+              components={{
+                ...mdxComponents,
+                PodcastLinks,
+              }}
+            />
+          </article>
+          <div className="py-6 bg-transparent dark:border-gray-800/50 border-y border-gray-100 my-10 flex justify-center gap-5 flex-wrap items-center">
+            <span className="text-sm">Share with a coworker</span>
+            <div className="flex sm:items-center items-start sm:justify-center gap-2">
+              <CopyToClipboard
+                stringToCopy={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/${post.fields.slug}`}
+              />
+              <BlueskyLink
+                resource={{
+                  title: post.fields.title,
+                  type: post.fields.postType,
+                  path: `/${post.fields.slug}`,
+                }}
+                instructor={instructor}
+              />
+              <TweetResource
+                resource={{
+                  title: post.fields.title,
+                  type: post.fields.postType,
+                  path: `/${post.fields.slug}`,
+                }}
+                instructor={instructor}
+              />
             </div>
           </div>
           {videoResource && (
             <section>
-              <h2 className="text-xl font-bold">Transcript</h2>
-              <ReactMarkdown className="prose text-gray-800 dark:prose-dark max-w-none">
+              <h2 className="text-xl tracking-tight font-bold mb-3">
+                Transcript
+              </h2>
+              <ReactMarkdown className="prose dark:prose-p:text-gray-200 lg:prose-base prose-sm dark:prose-dark max-w-none">
                 {videoResource.fields.transcript}
               </ReactMarkdown>
             </section>
@@ -417,8 +411,9 @@ function GitHubIcon() {
   return (
     <>
       <svg
-        width="24"
-        height="24"
+        className="w-5 h-5"
+        // width="24"
+        // height="24"
         viewBox="0 0 16 16"
         aria-hidden="true"
         role="img"
@@ -489,6 +484,7 @@ function PostPlayer({
         })
         setWritingProgress(false)
       }}
+      className="relative z-10 flex items-center max-h-[calc(100vh-240px)] h-full bg-black justify-center"
     />
   )
 }
@@ -570,7 +566,7 @@ function PodcastLinks() {
 const TagList = ({
   tags,
   resourceSlug,
-  className = 'flex justify-center md:justify-start flex-wrap items-center',
+  className,
 }: {
   tags: any
   resourceSlug: string
@@ -579,9 +575,14 @@ const TagList = ({
   return (
     <>
       {!isEmpty(tags) && (
-        <ul className={className}>
+        <ul
+          className={cn(
+            'flex justify-center md:justify-start flex-wrap gap-5 items-center',
+            className,
+          )}
+        >
           {tags.map((tag: any, index: number) => (
-            <li key={index} className="inline-flex items-center mr-4 mt-0">
+            <li key={index} className="inline-flex items-center mt-0">
               <Link
                 href={`/q/${tag.name}`}
                 onClick={() => {

@@ -22,7 +22,7 @@ const CopyToClipboard: FunctionComponent<
       <button
         type="button"
         onClick={handleCopyToClipboard}
-        className={`group flex text-sm items-center space-x-1 rounded-md p-2 bg-gray-50 dark:bg-gray-800 text-black dark:text-white dark:hover:bg-gray-700 hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-300 ${className}`}
+        className={`group flex text-sm items-center space-x-1 rounded-md p-2 bg-gray-50 dark:bg-gray-800 text-black dark:text-white dark:hover:bg-gray-700 hover:bg-blue-100 dark:hover:text-blue-500 hover:text-blue-600 transition-colors ease-in-out duration-300 ${className}`}
         aria-label="Copy link"
       >
         <IconLink className="w-5" />

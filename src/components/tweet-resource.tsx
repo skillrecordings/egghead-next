@@ -25,7 +25,7 @@ const TweetResource: FunctionComponent<React.PropsWithChildren<any>> = ({
   return get(resource, 'title') && get(resource, 'path') ? (
     <a
       className={twMerge(
-        `group flex text-sm items-center space-x-1 rounded-md p-2 bg-gray-50 dark:bg-gray-800 text-black dark:text-white dark:hover:bg-gray-700 hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-300`,
+        `group flex text-sm items-center space-x-1 rounded-md p-2 bg-gray-50 dark:bg-gray-800 text-black dark:text-white dark:hover:bg-gray-700 dark:hover:text-blue-500 hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-300`,
         className,
       )}
       target="_blank"
@@ -46,7 +46,7 @@ export const IconTwitter: FunctionComponent<
       <path
         className="fill-current"
         d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-      ></path>
+      />
     </g>
   </svg>
 )
