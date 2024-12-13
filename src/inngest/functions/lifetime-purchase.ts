@@ -3,9 +3,14 @@ import {LIFETIME_PURCHASE_EVENT} from '@/inngest/events/lifetime-purchase'
 import {stripe} from '@/utils/stripe'
 import {NonRetriableError} from 'inngest'
 import axios from 'axios'
-import {z} from 'zod'
+import * as z from 'zod'
+import {TrackClient, RegionUS} from 'customerio-node'
+import {getContactByEmail} from '@/lib/contact-query'
 
-const LIFETIME_PRICE_ID = 'price_1P1Dip2nImeJXwdJCCqfTViv'
+const siteId = process.env.NEXT_PUBLIC_CUSTOMER_IO_SITE_ID || ''
+const apiKey = process.env.CUSTOMER_IO_TRACK_API_BASIC || ''
+
+const cio = new TrackClient(siteId, apiKey, {region: RegionUS})
 
 const railsToken = process.env.EGGHEAD_SUPPORT_BOT_TOKEN || ''
 const EGGHEAD_AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN || ''
@@ -26,9 +31,6 @@ export const lifetimePurchase = inngest.createFunction(
     event: LIFETIME_PURCHASE_EVENT,
   },
   async ({event, step}) => {
-    console.log(event.data)
-
-    // Look up the user
     const customer = await step.run('get stripe customer', async () => {
       const customer = await stripe.customers.retrieve(event.data.customerId)
 
@@ -45,7 +47,6 @@ export const lifetimePurchase = inngest.createFunction(
 
     const email = customer.email
 
-    // Find or create the user with Lifetime Subscription
     const {user, active_subscription_stripe_ids, is_new_user} = await step.run(
       'create user with lifetime subscription',
       async () => {
@@ -70,7 +71,6 @@ export const lifetimePurchase = inngest.createFunction(
       },
     )
 
-    // Cancel any active subscriptions for the user
     const cancelledSubscriptions = await step.run(
       'cancel active subscriptions',
       async () => {
@@ -88,6 +88,28 @@ export const lifetimePurchase = inngest.createFunction(
         }
 
         return cancelledSubscriptions
+      },
+    )
+
+    await step.run(
+      'update customer.io with lifetime purchase date',
+      async () => {
+        const email = 'cree+test@egghead.io'
+        const now = Math.floor(Date.now() / 1000) // Convert to seconds
+
+        if (!email) {
+          throw new Error('Customer email not found')
+        }
+
+        const contact = await getContactByEmail(email)
+
+        if (!contact.guid) {
+          throw new Error('contact_id not found')
+        }
+
+        return await cio.identify(contact.guid, {
+          purchased_lifetime_at: now,
+        })
       },
     )
 
