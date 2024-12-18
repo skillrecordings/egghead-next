@@ -107,6 +107,96 @@ SELECT *
   }
 }
 
+interface ParsedSlug {
+  hashFromSlug: string
+  originalSlug: string
+}
+
+function parseSlugForHash(rawSlug: string | string[]): ParsedSlug {
+  if (!rawSlug) {
+    throw new Error('Slug is required')
+  }
+
+  const slug = String(rawSlug)
+
+  // Try to get hash from tilde-separated slug first
+  const tildeSegments = slug.split('~')
+  if (tildeSegments.length > 1) {
+    return {
+      hashFromSlug: tildeSegments[tildeSegments.length - 1],
+      originalSlug: slug,
+    }
+  }
+
+  // Fallback to dash-separated slug
+  const dashSegments = slug.split('-')
+  if (dashSegments.length === 0) {
+    throw new Error('Invalid slug format')
+  }
+
+  return {
+    hashFromSlug: dashSegments[dashSegments.length - 1],
+    originalSlug: slug,
+  }
+}
+
+interface PostQueryResult {
+  videoResource: RowDataPacket
+  post: Post
+}
+
+async function getPost(slug: string) {
+  const {hashFromSlug, originalSlug} = parseSlugForHash(slug)
+
+  const conn = await mysql.createConnection(access)
+
+  try {
+    // Get video resource
+    const [videoResourceRows] = await conn.execute<RowDataPacket[]>(
+      `
+      SELECT *
+      FROM egghead_ContentResource cr_lesson
+      JOIN egghead_ContentResourceResource crr ON cr_lesson.id = crr.resourceOfId
+      JOIN egghead_ContentResource cr_video ON crr.resourceId = cr_video.id
+      WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ? OR cr_lesson.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?)
+      AND cr_video.type = 'videoResource'
+      LIMIT 1
+    `,
+      [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`],
+    )
+
+    // Get post data
+    const [postRows] = await conn.execute<RowDataPacket[]>(
+      `
+      SELECT cr_lesson.*, egh_user.name, egh_user.image
+      FROM egghead_ContentResource cr_lesson
+      LEFT JOIN egghead_User egh_user ON cr_lesson.createdById = egh_user.id
+      WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ? OR cr_lesson.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?)
+      LIMIT 1
+    `,
+      [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`],
+    )
+
+    const videoResource = videoResourceRows[0]
+    const postRow = postRows[0]
+
+    const postData = PostSchema.safeParse(postRow)
+    if (!postData.success) {
+      throw new Error('Invalid post data')
+    }
+
+    return {
+      videoResource,
+      post: postData.data,
+    }
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    await conn.end()
+  }
+}
+
 export const getStaticProps: GetServerSideProps = async function ({params}) {
   if (!params?.post) {
     return {
@@ -114,42 +204,15 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
     }
   }
 
-  let hashFromSlug: string
-  let splitOnTilde = String(params.post).split('~')
+  const result = await getPost(params.post as string)
 
-  if (splitOnTilde.length > 1) {
-    hashFromSlug = splitOnTilde[splitOnTilde.length - 1]
-  } else {
-    let splitOnDash = String(params.post).split('-')
-    hashFromSlug = splitOnDash[splitOnDash.length - 1]
-  }
-
-  const conn = await mysql.createConnection(access)
-  const [videoResourceRows] = await conn.execute<RowDataPacket[]>(`
-SELECT *
-		FROM egghead_ContentResource cr_lesson
-		JOIN egghead_ContentResourceResource crr ON cr_lesson.id = crr.resourceOfId
-		JOIN egghead_ContentResource cr_video ON crr.resourceId = cr_video.id
-		WHERE (cr_lesson.id = '${params.post}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}' OR cr_lesson.id LIKE '%${hashFromSlug}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE '%${hashFromSlug}')
-			AND cr_video.type = 'videoResource'
-		LIMIT 1`)
-  const [postRows] = await conn.execute<RowDataPacket[]>(`
-SELECT cr_lesson.*, egh_user.name, egh_user.image
-    FROM egghead_ContentResource cr_lesson
-    LEFT JOIN egghead_User egh_user ON cr_lesson.createdById = egh_user.id
-    WHERE (cr_lesson.id = '${params.post}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}' OR cr_lesson.id LIKE '%${hashFromSlug}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE '%${hashFromSlug}')
-    LIMIT 1`)
-  await conn.end()
-
-  const videoResource = videoResourceRows[0]
-  const post = postRows[0]
-
-  if (!post) {
+  if (!result) {
     return {
       notFound: true,
     }
   }
 
+  const {post, videoResource} = result
   const lesson = await fetch(
     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.eggheadLessonId}`,
   ).then((res) => res.json())
