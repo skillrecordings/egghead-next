@@ -26,6 +26,39 @@ import CopyToClipboard from '@/components/copy-resource'
 import {track} from '@/utils/analytics'
 import {LikeButton} from '@/components/like-button'
 import BlueskyLink from '@/components/share-bluesky'
+import {z} from 'zod'
+import GoProCtaOverlay from '@/components/pages/lessons/overlay/go-pro-cta-overlay'
+
+export const FieldsSchema = z.object({
+  body: z.string().optional(),
+  slug: z.string().optional(),
+  state: z.string().optional(),
+  title: z.string().optional(),
+  access: z.string().optional(),
+  github: z.string().optional(),
+  gitpod: z.string().optional(),
+  postType: z.string().optional(),
+  visibility: z.string().optional(),
+  description: z.string().optional(),
+  eggheadLessonId: z.number().optional(),
+})
+export type Fields = z.infer<typeof FieldsSchema>
+
+export const PostSchema = z.object({
+  id: z.string().optional(),
+  type: z.string().optional(),
+  createdById: z.string().optional(),
+  fields: FieldsSchema,
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  deletedAt: z.date().nullish(),
+  currentVersionId: z.string().optional(),
+  organizationId: z.string().nullish(),
+  createdByOrganizationMembershipId: z.string().nullish(),
+  name: z.string().optional(),
+  image: z.string().optional(),
+})
+export type Post = z.infer<typeof PostSchema>
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -74,6 +107,96 @@ SELECT *
   }
 }
 
+interface ParsedSlug {
+  hashFromSlug: string
+  originalSlug: string
+}
+
+function parseSlugForHash(rawSlug: string | string[]): ParsedSlug {
+  if (!rawSlug) {
+    throw new Error('Slug is required')
+  }
+
+  const slug = String(rawSlug)
+
+  // Try to get hash from tilde-separated slug first
+  const tildeSegments = slug.split('~')
+  if (tildeSegments.length > 1) {
+    return {
+      hashFromSlug: tildeSegments[tildeSegments.length - 1],
+      originalSlug: slug,
+    }
+  }
+
+  // Fallback to dash-separated slug
+  const dashSegments = slug.split('-')
+  if (dashSegments.length === 0) {
+    throw new Error('Invalid slug format')
+  }
+
+  return {
+    hashFromSlug: dashSegments[dashSegments.length - 1],
+    originalSlug: slug,
+  }
+}
+
+interface PostQueryResult {
+  videoResource: RowDataPacket
+  post: Post
+}
+
+async function getPost(slug: string) {
+  const {hashFromSlug, originalSlug} = parseSlugForHash(slug)
+
+  const conn = await mysql.createConnection(access)
+
+  try {
+    // Get video resource
+    const [videoResourceRows] = await conn.execute<RowDataPacket[]>(
+      `
+      SELECT *
+      FROM egghead_ContentResource cr_lesson
+      JOIN egghead_ContentResourceResource crr ON cr_lesson.id = crr.resourceOfId
+      JOIN egghead_ContentResource cr_video ON crr.resourceId = cr_video.id
+      WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ? OR cr_lesson.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?)
+      AND cr_video.type = 'videoResource'
+      LIMIT 1
+    `,
+      [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`],
+    )
+
+    // Get post data
+    const [postRows] = await conn.execute<RowDataPacket[]>(
+      `
+      SELECT cr_lesson.*, egh_user.name, egh_user.image
+      FROM egghead_ContentResource cr_lesson
+      LEFT JOIN egghead_User egh_user ON cr_lesson.createdById = egh_user.id
+      WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ? OR cr_lesson.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?)
+      LIMIT 1
+    `,
+      [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`],
+    )
+
+    const videoResource = videoResourceRows[0]
+    const postRow = postRows[0]
+
+    const postData = PostSchema.safeParse(postRow)
+    if (!postData.success) {
+      throw new Error('Invalid post data')
+    }
+
+    return {
+      videoResource,
+      post: postData.data,
+    }
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    await conn.end()
+  }
+}
+
 export const getStaticProps: GetServerSideProps = async function ({params}) {
   if (!params?.post) {
     return {
@@ -81,42 +204,15 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
     }
   }
 
-  let hashFromSlug: string
-  let splitOnTilde = String(params.post).split('~')
+  const result = await getPost(params.post as string)
 
-  if (splitOnTilde.length > 1) {
-    hashFromSlug = splitOnTilde[splitOnTilde.length - 1]
-  } else {
-    let splitOnDash = String(params.post).split('-')
-    hashFromSlug = splitOnDash[splitOnDash.length - 1]
-  }
-
-  const conn = await mysql.createConnection(access)
-  const [videoResourceRows] = await conn.execute<RowDataPacket[]>(`
-SELECT *
-		FROM egghead_ContentResource cr_lesson
-		JOIN egghead_ContentResourceResource crr ON cr_lesson.id = crr.resourceOfId
-		JOIN egghead_ContentResource cr_video ON crr.resourceId = cr_video.id
-		WHERE (cr_lesson.id = '${params.post}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}' OR cr_lesson.id LIKE '%${hashFromSlug}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE '%${hashFromSlug}')
-			AND cr_video.type = 'videoResource'
-		LIMIT 1`)
-  const [postRows] = await conn.execute<RowDataPacket[]>(`
-SELECT cr_lesson.*, egh_user.name, egh_user.image
-    FROM egghead_ContentResource cr_lesson
-    LEFT JOIN egghead_User egh_user ON cr_lesson.createdById = egh_user.id
-    WHERE (cr_lesson.id = '${params.post}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = '${params.post}' OR cr_lesson.id LIKE '%${hashFromSlug}' OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE '%${hashFromSlug}')
-    LIMIT 1`)
-  await conn.end()
-
-  const videoResource = videoResourceRows[0]
-  const post = postRows[0]
-
-  if (!post) {
+  if (!result) {
     return {
       notFound: true,
     }
   }
 
+  const {post, videoResource} = result
   const lesson = await fetch(
     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.eggheadLessonId}`,
   ).then((res) => res.json())
@@ -170,7 +266,7 @@ SELECT cr_lesson.*, egh_user.name, egh_user.image
       .catch((err) => {})
   }
 
-  const mdxSource = await serializeMDX(post.fields.body, {
+  const mdxSource = await serializeMDX(post.fields?.body ?? '', {
     useShikiTwoslash: true,
     syntaxHighlighterOptions: {
       authorization: process.env.SHIKI_AUTH_TOKEN!,
@@ -226,17 +322,7 @@ function InstructorProfile({
 }) {
   const content = (
     <div className="flex flex-shrink-0 items-center">
-      {instructor?.avatar_url ? (
-        <Image
-          className="rounded-full flex-shrink-0 bg-cover"
-          src={`${instructor.avatar_url}`}
-          alt={instructor.full_name}
-          width={40}
-          height={40}
-        />
-      ) : (
-        <Eggo className="mr-1 sm:w-10 w-8" />
-      )}
+      {instructor?.avatar_url ? null : <Eggo className="mr-1 sm:w-10 w-8" />}
       <div className="ml-2 flex flex-col justify-center">
         <span className="text-gray-700 dark:text-gray-400 text-sm leading-tighter">
           Instructor
@@ -265,7 +351,7 @@ export default function PostPage({
   tags,
 }: {
   mdxSource: any
-  post: any
+  post: Post
   instructor: {
     full_name: string
     avatar_url: string
@@ -275,7 +361,7 @@ export default function PostPage({
   tags: any
 }) {
   const imageParams = new URLSearchParams()
-  imageParams.set('title', post.fields.title)
+  imageParams.set('title', post.fields?.title ?? '')
 
   return (
     <div>
@@ -307,6 +393,7 @@ export default function PostPage({
         <PostPlayer
           playbackId={videoResource.fields.muxPlaybackId}
           eggheadLessonId={post.fields.eggheadLessonId}
+          post={post}
         />
       )}
       <div className="container mx-auto w-fit">
@@ -324,7 +411,7 @@ export default function PostPage({
           <div className="flex md:items-center justify-between md:flex-row flex-col w-full gap-5">
             <div className="flex items-center gap-6">
               <InstructorProfile instructor={instructor} />
-              <LikeButton postId={post.fields.eggheadLessonId} />
+              <LikeButton postId={post.fields.eggheadLessonId ?? 0} />
             </div>
             <div className="flex items-center gap-5">
               {post.fields.github && (
@@ -343,7 +430,7 @@ export default function PostPage({
                   <GitHubIcon /> Code
                 </Link>
               )}
-              <TagList tags={tags} resourceSlug={post.fields.slug} />
+              <TagList tags={tags} resourceSlug={post.fields.slug ?? ''} />
             </div>
           </div>
         </header>
@@ -435,10 +522,12 @@ function PostPlayer({
   playbackId,
   eggheadLessonId,
   playerProps = defaultPlayerProps,
+  post,
 }: {
   playbackId: string
   eggheadLessonId?: number | null
   playerProps?: MuxPlayerProps
+  post: Post
 }) {
   const [writingProgress, setWritingProgress] = React.useState<Boolean>(false)
   const {mutate: markLessonComplete} =
@@ -446,6 +535,12 @@ function PostPlayer({
 
   const {mutateAsync: addProgressToLesson} =
     trpc.progress.addProgressToLesson.useMutation()
+
+  const {data: viewer} = trpc.user.current.useQuery()
+
+  const isPro = post.fields.access === 'pro'
+  const canView =
+    !isPro || (isPro && Boolean(viewer) && Boolean(viewer?.is_pro))
 
   async function writeProgressToLesson({
     currentTime,
@@ -465,28 +560,34 @@ function PostPlayer({
   }
 
   return (
-    <MuxPlayer
-      {...playerProps}
-      playbackId={playbackId}
-      onEnded={() => {
-        if (eggheadLessonId) {
-          markLessonComplete({
-            lessonId: eggheadLessonId,
-          })
-        }
-      }}
-      onTimeUpdate={async (e: any) => {
-        const muxPlayer = (e?.currentTarget as MuxPlayerElement) || null
-        if (!muxPlayer || writingProgress) return
-        setWritingProgress(true)
-        await writeProgressToLesson({
-          currentTime: muxPlayer.currentTime,
-          lessonId: eggheadLessonId,
-        })
-        setWritingProgress(false)
-      }}
-      className="relative z-10 flex items-center max-h-[calc(100vh-240px)] h-full bg-black justify-center"
-    />
+    <>
+      {canView ? (
+        <MuxPlayer
+          {...playerProps}
+          playbackId={playbackId}
+          onEnded={() => {
+            if (eggheadLessonId) {
+              markLessonComplete({
+                lessonId: eggheadLessonId,
+              })
+            }
+          }}
+          onTimeUpdate={async (e: any) => {
+            const muxPlayer = (e?.currentTarget as MuxPlayerElement) || null
+            if (!muxPlayer || writingProgress) return
+            setWritingProgress(true)
+            await writeProgressToLesson({
+              currentTime: muxPlayer.currentTime,
+              lessonId: eggheadLessonId,
+            })
+            setWritingProgress(false)
+          }}
+          className="relative z-10 flex items-center max-h-[calc(100vh-240px)] h-full bg-black justify-center"
+        />
+      ) : (
+        <GoProCtaOverlay lesson={{slug: post.fields.slug ?? ''}} />
+      )}
+    </>
   )
 }
 

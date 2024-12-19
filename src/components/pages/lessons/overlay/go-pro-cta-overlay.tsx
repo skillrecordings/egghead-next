@@ -22,9 +22,15 @@ import ConfirmMembership from './confirm-membership'
 import {useRouter} from 'next/router'
 import noop from '@/utils/noop'
 import OverlayWrapper from '@/components/pages/lessons/overlay/wrapper'
+import {usePathname} from 'next/navigation'
 
 type JoinCTAProps = {
-  lesson: LessonResource
+  lesson: {
+    slug: string
+    collection?: {
+      title: string
+    }
+  }
   viewLesson?: Function
 }
 
@@ -35,9 +41,8 @@ type FormikValues = {
 const GoProCtaOverlay: FunctionComponent<
   React.PropsWithChildren<JoinCTAProps>
 > = ({lesson}) => {
-  // useRouter's `asPath` can include query params, so using
-  // `window.location.pathname` instead.
-  const cleanPath = window?.location?.pathname
+  const pathname = usePathname()
+  const {collection} = lesson
 
   const {viewer, authToken} = useViewer()
   const {state, send, priceId, quantity, availableCoupons, currentPlan} =
@@ -165,7 +170,7 @@ const GoProCtaOverlay: FunctionComponent<
           authToken,
           quantity,
           coupon: state.context.couponToApply?.couponCode,
-          successPath: cleanPath,
+          successPath: pathname ?? undefined,
         })
 
         leaveSpinningForRedirect = true
@@ -186,8 +191,8 @@ const GoProCtaOverlay: FunctionComponent<
   }
 
   switch (true) {
-    case !isEmpty(lesson.collection):
-      primaryCtaText = `Level up with ${lesson.collection.title} right now.`
+    case !isEmpty(collection):
+      primaryCtaText = `Level up with ${collection?.title} right now.`
       break
     default:
       primaryCtaText = 'Ready to take your career to the next level?'
