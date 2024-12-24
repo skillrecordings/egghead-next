@@ -560,9 +560,7 @@ function PostPlayer({
   }
 
   return (
-    <>
-      {canView ? (
-        <MuxPlayer
+     <MuxPlayer
           {...playerProps}
           playbackId={playbackId}
           onEnded={() => {
@@ -584,10 +582,6 @@ function PostPlayer({
           }}
           className="relative z-10 flex items-center max-h-[calc(100vh-240px)] h-full bg-black justify-center"
         />
-      ) : (
-        <GoProCtaOverlay lesson={{slug: post.fields.slug ?? ''}} />
-      )}
-    </>
   )
 }
 
