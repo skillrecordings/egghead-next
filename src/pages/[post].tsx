@@ -41,6 +41,7 @@ export const FieldsSchema = z.object({
   visibility: z.string().optional(),
   description: z.string().optional(),
   eggheadLessonId: z.number().optional(),
+  primaryTagId: z.string().nullish(),
 })
 export type Fields = z.infer<typeof FieldsSchema>
 
@@ -55,7 +56,7 @@ export const PostSchema = z.object({
   currentVersionId: z.string().optional(),
   organizationId: z.string().nullish(),
   createdByOrganizationMembershipId: z.string().nullish(),
-  name: z.string().optional(),
+  name: z.string().nullish(),
   image: z.string().optional(),
 })
 export type Post = z.infer<typeof PostSchema>
@@ -182,7 +183,9 @@ async function getPost(slug: string) {
 
     const postData = PostSchema.safeParse(postRow)
     if (!postData.success) {
-      throw new Error('Invalid post data')
+      throw new Error('Invalid post data', {
+        cause: postData.error.message,
+      })
     }
 
     return {
@@ -560,28 +563,28 @@ function PostPlayer({
   }
 
   return (
-     <MuxPlayer
-          {...playerProps}
-          playbackId={playbackId}
-          onEnded={() => {
-            if (eggheadLessonId) {
-              markLessonComplete({
-                lessonId: eggheadLessonId,
-              })
-            }
-          }}
-          onTimeUpdate={async (e: any) => {
-            const muxPlayer = (e?.currentTarget as MuxPlayerElement) || null
-            if (!muxPlayer || writingProgress) return
-            setWritingProgress(true)
-            await writeProgressToLesson({
-              currentTime: muxPlayer.currentTime,
-              lessonId: eggheadLessonId,
-            })
-            setWritingProgress(false)
-          }}
-          className="relative z-10 flex items-center max-h-[calc(100vh-240px)] h-full bg-black justify-center"
-        />
+    <MuxPlayer
+      {...playerProps}
+      playbackId={playbackId}
+      onEnded={() => {
+        if (eggheadLessonId) {
+          markLessonComplete({
+            lessonId: eggheadLessonId,
+          })
+        }
+      }}
+      onTimeUpdate={async (e: any) => {
+        const muxPlayer = (e?.currentTarget as MuxPlayerElement) || null
+        if (!muxPlayer || writingProgress) return
+        setWritingProgress(true)
+        await writeProgressToLesson({
+          currentTime: muxPlayer.currentTime,
+          lessonId: eggheadLessonId,
+        })
+        setWritingProgress(false)
+      }}
+      className="relative z-10 flex items-center max-h-[calc(100vh-240px)] h-full bg-black justify-center"
+    />
   )
 }
 
