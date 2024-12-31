@@ -31,6 +31,7 @@ const HitComponent: FunctionComponent<
     instructor_name,
     instructor,
     instructor_avatar_url,
+    primary_tag_image_url,
   } = hit
 
   const hasImage = image !== 'https://d2eip9sf3oo6c2.cloudfront.net/logo.svg'
@@ -42,7 +43,7 @@ const HitComponent: FunctionComponent<
       resource={{
         ...hit,
         name: type === 'playlist' ? 'course' : type,
-        image,
+        image: primary_tag_image_url ?? image,
         instructor: {
           name: instructor_name,
           url: instructor_url,
