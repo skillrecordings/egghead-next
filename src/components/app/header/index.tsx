@@ -31,7 +31,6 @@ import {
 import SaleHeaderBanner from '@/components/cta/sale/header-banner'
 import analytics from '@/utils/analytics'
 import {twMerge} from 'tailwind-merge'
-import {useClickAway} from 'react-use'
 import {ChevronDown} from 'lucide-react'
 import clsx from 'clsx'
 import {cn} from '@/ui/utils'
@@ -566,15 +565,10 @@ const MobileNavigation = () => {
       ),
     )
 
-  const mobileNavRef = React.useRef(null)
   const router = useRouter()
   React.useEffect(() => {
     setOpen(false)
   }, [router])
-
-  // useClickAway(mobileNavRef, () => {
-  //   setOpen(false)
-  // })
 
   return (
     <>
@@ -597,10 +591,7 @@ const MobileNavigation = () => {
       </div>
       {isOpen ? (
         <>
-          <div
-            ref={mobileNavRef}
-            className="absolute top-12 w-full shadow-xl dark:bg-gray-900 border-b dark:border-white/5 border-white/40 bg-white z-50 left-0 lg:hidden block flex-col"
-          >
+          <div className="absolute top-12 w-full shadow-xl dark:bg-gray-900 border-b dark:border-white/5 border-white/40 bg-white z-50 left-0 lg:hidden block flex-col">
             <SearchBar className="px-2 border-b" />
             <div className="flex flex-col h-full justify-between">
               <div className="flex flex-col w-full text-base">
