@@ -86,7 +86,7 @@ const Icons = {
   ),
   Email: () => (
     <>
-      <g clip-path="url(#a)">
+      <g clipPath="url(#a)">
         <path
           fill="none"
           stroke="currentColor"

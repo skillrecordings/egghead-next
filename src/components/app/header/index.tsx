@@ -36,6 +36,7 @@ import {ChevronDown} from 'lucide-react'
 import clsx from 'clsx'
 import {cn} from '@/ui/utils'
 import LifetimeSaleHeaderBanner from '@/components/cta/sale/lifetime-header-banner'
+import {useRouter} from 'next/router'
 
 type NavLinkProps = {
   name: string
@@ -334,9 +335,9 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
         pathname !== '/forever' && <LifetimeSaleHeaderBanner />}
       <nav
         aria-label="header"
-        className="relative h-12 text-sm border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000"
+        className="h-12 text-sm border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000"
       >
-        <div className="container flex items-center justify-between w-full h-full relative">
+        <div className="container flex items-center justify-between w-full h-full">
           <div className="flex h-full relative z-50">
             <Logo />
             <div className="hidden items-center h-full md:flex">
@@ -566,10 +567,14 @@ const MobileNavigation = () => {
     )
 
   const mobileNavRef = React.useRef(null)
-
-  useClickAway(mobileNavRef, () => {
+  const router = useRouter()
+  React.useEffect(() => {
     setOpen(false)
-  })
+  }, [router])
+
+  // useClickAway(mobileNavRef, () => {
+  //   setOpen(false)
+  // })
 
   return (
     <>
@@ -591,143 +596,141 @@ const MobileNavigation = () => {
         </button>
       </div>
       {isOpen ? (
-        <div
-          ref={mobileNavRef}
-          className="absolute pt-12 top-0 w-full shadow-xl dark:bg-gray-900 border-b dark:border-white/5 border-white/40 bg-white z-40 left-0 lg:hidden block flex-col"
-        >
-          <div className="bg-blue-600 flex w-full items-center justify-center gap-2 p-2">
-            {navLinks?.slice(1, navLinks.length)?.map((item) =>
-              item.href ? (
-                <NextLink
-                  className="flex items-center justify-center aspect-square flex-col p-4 rounded dark:bg-gray-900 bg-white w-full h-full gap-2 text-base"
-                  href={item.href}
-                  key={item.name}
-                  onClick={() =>
-                    analytics.events.activityInternalLinkClick(
-                      'page',
-                      'mobile header',
-                      item.href,
-                    )
-                  }
-                >
-                  {item.image &&
-                    item.image({className: 'w-6 h-6 text-blue-500'})}
-                  {item.name}
-                </NextLink>
-              ) : null,
-            )}
-          </div>
-          <SearchBar className="px-2" />
-          <div className="flex flex-col h-full justify-between">
-            <div className="flex flex-col w-full text-base">
-              <MobileTopicsList />
-              {!isEmpty(viewer) && (
-                <div className="flex flex-col w-full">
-                  <FeedbackInput
-                    user={viewer}
-                    className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
-                  >
-                    Feedback
-                  </FeedbackInput>
-                  <Link href={`/user/membership`}>
-                    <a
-                      onClick={() =>
+        <>
+          <div
+            ref={mobileNavRef}
+            className="absolute top-12 w-full shadow-xl dark:bg-gray-900 border-b dark:border-white/5 border-white/40 bg-white z-50 left-0 lg:hidden block flex-col"
+          >
+            <SearchBar className="px-2 border-b" />
+            <div className="flex flex-col h-full justify-between">
+              <div className="flex flex-col w-full text-base">
+                {navLinks.slice(1, navLinks.length).map((item) =>
+                  item.href ? (
+                    <NextLink
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => {
                         analytics.events.activityInternalLinkClick(
                           'page',
                           'mobile header',
-                          'membership',
-                          '/user/membership',
+                          item.href,
                         )
-                      }
-                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                      }}
+                      className="flex justify-between font-medium items-center px-5 py-4 w-full"
                     >
-                      Membership
-                    </a>
-                  </Link>
-                  {showTeamNavLink && <Team />}
-                  <Link href={`/user/profile`}>
-                    <a
-                      onClick={() =>
-                        analytics.events.activityInternalLinkClick(
-                          'page',
-                          'mobile header',
-                          'profile',
-                          '/user/profile',
-                        )
-                      }
-                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
-                    >
-                      Profile
-                    </a>
-                  </Link>
-                  <Link href={`/user/activity`}>
-                    <a
-                      onClick={() =>
-                        analytics.events.activityInternalLinkClick(
-                          'page',
-                          'mobile header',
-                          'activity',
-                          '/user/activity',
-                        )
-                      }
-                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
-                    >
-                      Activity
-                    </a>
-                  </Link>
-                  <Link href={`/bookmarks`}>
-                    <a
-                      onClick={() =>
-                        analytics.events.activityInternalLinkClick(
-                          'page',
-                          'mobile header',
-                          'bookmarks',
-                          '/bookmarks',
-                        )
-                      }
-                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
-                    >
-                      Bookmarks
-                    </a>
-                  </Link>
-                  <Link href={`/logout`}>
-                    <a
-                      onClick={() =>
-                        analytics.events.activityInternalLinkClick(
-                          'logout',
-                          'mobile header',
-                          'logout',
-                        )
-                      }
-                      className="flex text-base items-center justify-start px-5 py-4 font-semibold transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
-                    >
-                      Log Out
-                    </a>
-                  </Link>
-                </div>
-              )}
-              <div>
-                {showEnrollNow && (
-                  <Link href={`/pricing`}>
-                    <a
-                      onClick={() =>
-                        analytics.events.activityInternalLinkClick(
-                          'page',
-                          'mobile header',
-                          'pricing',
-                          '/pricing',
-                        )
-                      }
-                      className="flex text-base font-medium items-center justify-start px-5 py-4 transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth bg-blue-500"
-                    >
-                      Enroll Now
-                    </a>
-                  </Link>
+                      {item.name}
+                    </NextLink>
+                  ) : null,
                 )}
+                <MobileTopicsList />
+                {!isEmpty(viewer) && (
+                  <div className="flex flex-col w-full">
+                    <FeedbackInput
+                      user={viewer}
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                    >
+                      Feedback
+                    </FeedbackInput>
+                    <Link href={`/user/membership`}>
+                      <a
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'page',
+                            'mobile header',
+                            'membership',
+                            '/user/membership',
+                          )
+                        }
+                        className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                      >
+                        Membership
+                      </a>
+                    </Link>
+                    {showTeamNavLink && <Team />}
+                    <Link href={`/user/profile`}>
+                      <a
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'page',
+                            'mobile header',
+                            'profile',
+                            '/user/profile',
+                          )
+                        }
+                        className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                      >
+                        Profile
+                      </a>
+                    </Link>
+                    <Link href={`/user/activity`}>
+                      <a
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'page',
+                            'mobile header',
+                            'activity',
+                            '/user/activity',
+                          )
+                        }
+                        className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                      >
+                        Activity
+                      </a>
+                    </Link>
+                    <Link href={`/bookmarks`}>
+                      <a
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'page',
+                            'mobile header',
+                            'bookmarks',
+                            '/bookmarks',
+                          )
+                        }
+                        className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                      >
+                        Bookmarks
+                      </a>
+                    </Link>
+                    <Link href={`/logout`}>
+                      <a
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'logout',
+                            'mobile header',
+                            'logout',
+                          )
+                        }
+                        className="flex text-base items-center justify-start px-5 py-4 font-semibold transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
+                      >
+                        Log Out
+                      </a>
+                    </Link>
+                  </div>
+                )}
+                <div>
+                  {showEnrollNow && (
+                    <Link href={`/pricing`}>
+                      <a
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'page',
+                            'mobile header',
+                            'pricing',
+                            '/pricing',
+                          )
+                        }
+                        className="flex text-base text-white font-medium items-center justify-start px-5 py-4 transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth bg-blue-500"
+                      >
+                        Enroll Now
+                      </a>
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       ) : null}
     </>
   )
@@ -737,7 +740,7 @@ const MobileTopicsList = () => {
   return (
     <Accordion
       type="multiple"
-      className="font-medium border-y border-gray-200 dark:border-opacity-10 border-opacity-40 w-full "
+      className="font-medium border-y border-gray-200/40 dark:border-gray-800 w-full"
     >
       <AccordionItem value="topics">
         <AccordionTrigger className="flex justify-between items-center px-5 py-4 w-full">
@@ -747,7 +750,7 @@ const MobileTopicsList = () => {
             aria-hidden="true"
           />
         </AccordionTrigger>
-        <AccordionContent className="dark:bg-gray-700 bg-gray-100 w-full transition overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+        <AccordionContent className="dark:bg-gray-900 bg-gray-100 w-full transition overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
           <div className="py-2 flex flex-col w-full">
             {navLinks[0]?.items?.map((item) => (
               <a
@@ -788,7 +791,7 @@ const MobileTopicsList = () => {
                     '/topics',
                   )
                 }}
-                className="flex items-center w-full px-5 py-3 font-medium leading-tight transition duration-150 ease-in-out rounded-sm lg:col-span-2 lg:px-5 sm:px-3 group hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth justify-between border-t border-gray-100"
+                className="flex items-center w-full px-5 py-3 font-medium leading-tight transition duration-150 ease-in-out rounded-sm lg:col-span-2 lg:px-5 sm:px-3 group hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth justify-between border-t dark:border-gray-800 border-gray-100"
               >
                 Browse all topics{' '}
                 <span

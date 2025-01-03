@@ -325,7 +325,15 @@ function InstructorProfile({
 }) {
   const content = (
     <div className="flex flex-shrink-0 items-center">
-      {instructor?.avatar_url ? null : <Eggo className="mr-1 sm:w-10 w-8" />}
+      {instructor?.avatar_url ? (
+        <Image
+          src={instructor.avatar_url}
+          width={40}
+          height={40}
+          alt={instructor.full_name}
+          className="rounded-full"
+        />
+      ) : null}
       <div className="ml-2 flex flex-col justify-center">
         <span className="text-gray-700 dark:text-gray-400 text-sm leading-tighter">
           Instructor
@@ -732,7 +740,7 @@ const PoweredByMuxBadge = () => {
           aria-label="Video Powered by Mux"
           fill="none"
         >
-          <g fill="currentColor" opacity={0.8} clip-path="url(#a)">
+          <g fill="currentColor" opacity={0.8} clipPath="url(#a)">
             <path
               fillRule="evenodd"
               d="m167.881 9-5.131 5.16a2.26 2.26 0 0 0 0 3.181c.873.878 2.29.878 3.164 0l5.131-5.16 5.132 5.16c.873.878 2.29.878 3.164 0a2.26 2.26 0 0 0 0-3.181L174.209 9l5.132-5.16a2.26 2.26 0 0 0 0-3.181 2.23 2.23 0 0 0-3.164 0l-5.132 5.16-5.131-5.16a2.23 2.23 0 0 0-3.164 0 2.26 2.26 0 0 0 0 3.181zm-9.929-9a2.243 2.243 0 0 0-2.237 2.25V9c0 2.482-2.008 4.501-4.476 4.501s-4.477-2.02-4.477-4.501V2.25A2.244 2.244 0 0 0 144.525 0a2.244 2.244 0 0 0-2.237 2.25V9c0 4.963 4.016 9 8.951 9s8.951-4.037 8.951-9V2.25A2.244 2.244 0 0 0 157.953 0zm-21.874.659a2.23 2.23 0 0 1 2.438-.487h.001a2.25 2.25 0 0 1 1.38 2.078v13.5A2.243 2.243 0 0 1 137.66 18a2.244 2.244 0 0 1-2.237-2.25V7.68l-2.894 2.91a2.23 2.23 0 0 1-3.164 0l-2.895-2.91v8.07a2.243 2.243 0 0 1-2.237 2.25 2.244 2.244 0 0 1-2.237-2.25V2.25c0-.91.545-1.73 1.381-2.078a2.23 2.23 0 0 1 2.438.487l5.131 5.16z"

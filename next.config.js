@@ -33,11 +33,7 @@ const appUrl = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 const IMAGE_HOST_DOMAINS = compact([
   {
     protocol: 'https',
-    hostname: `d2eip9sf3oo6c2.cloudfront.net`,
-  },
-  {
-    protocol: 'https',
-    hostname: `dcv19h61vib2d.cloudfront.net`,
+    hostname: `*.cloudfront.net`,
   },
   {
     protocol: 'https',
