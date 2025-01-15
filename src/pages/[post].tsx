@@ -565,6 +565,12 @@ function PostPlayer({
   return (
     <MuxPlayer
       {...playerProps}
+      metadata={{
+        video_id: post.id,
+        video_title: post.fields.title,
+        view_user_id: viewer?.id,
+        video_category: post.fields.primaryTagId,
+      }}
       playbackId={playbackId}
       onEnded={() => {
         if (eggheadLessonId) {
