@@ -47,6 +47,7 @@ const confirmationDialogMachine = createMachine<
   ConfirmationDialogMachineEvent
 >(
   {
+    predictableActionArguments: true,
     id: 'confirmationDialog',
     initial: 'closed',
     context: {

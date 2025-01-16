@@ -17,6 +17,7 @@ const POLLING_LIMIT = 5
 
 export const authTokenPollingMachine = createMachine<Context, Event>(
   {
+    predictableActionArguments: true,
     initial: 'pending',
     context: {
       stripeCheckoutSessionId: undefined,

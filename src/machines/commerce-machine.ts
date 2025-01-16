@@ -76,6 +76,7 @@ export const commerceMachine = createMachine<
   CommerceMachineEvent
 >(
   {
+    predictableActionArguments: true,
     id: 'commerce',
     context: {
       pricingData: {} as PricingData,
