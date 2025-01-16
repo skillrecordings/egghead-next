@@ -150,6 +150,7 @@ interface PostQueryResult {
 type MDXSource = {
   compiledSource: string
   scope?: Record<string, unknown>
+  frontmatter: Record<string, unknown>
 }
 
 // Type for tags
@@ -321,6 +322,7 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
       authorization: process.env.SHIKI_AUTH_TOKEN!,
       endpoint: process.env.SHIKI_ENDPOINT!,
     },
+    frontmatter: {},
   })
 
   // const mdxSource = await serialize(post.fields.body, {
