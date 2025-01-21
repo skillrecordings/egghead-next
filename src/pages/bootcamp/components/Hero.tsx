@@ -4,6 +4,7 @@ import {motion, AnimatePresence} from 'framer-motion'
 import {fadeInUp, scaleIn} from './animations'
 import {useState, useEffect} from 'react'
 import '../styles.css'
+import {ArrowCircleDownIcon} from '@heroicons/react/solid'
 
 const phrases = [
   'Level Up Your Skills With',
@@ -27,6 +28,11 @@ const AnimatedPhrase = ({text}: {text: string}) => (
     {text}
   </motion.span>
 )
+
+function scrollToSignup(e: React.MouseEvent<HTMLAnchorElement>) {
+  e.preventDefault()
+  document.querySelector('#signup')?.scrollIntoView({behavior: 'smooth'})
+}
 
 export default function Hero() {
   const [phraseIndex, setPhraseIndex] = useState(0)
@@ -84,9 +90,13 @@ export default function Hero() {
         >
           <Link
             href="#signup"
-            className="group relative inline-flex items-center justify-center rounded-md bg-[var(--accent-9)] px-8 py-3 text-base font-semibold text-black dark:text-white transition-all duration-200 hover:bg-[var(--accent-10)] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[var(--accent-9)] focus:ring-offset-2 focus:ring-offset-gray-900"
+            onClick={scrollToSignup}
+            className="group flex flex-col items-center justify-center w-fit mx-auto hover:cursor-pointer"
           >
-            Join the Waitlist
+            <p className="relative inline-flex items-center justify-center rounded-md bg-[var(--accent-9)] px-8 py-3 text-base font-semibold text-black dark:text-white transition-all duration-200 group-hover:bg-[var(--accent-10)] group-hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[var(--accent-9)] focus:ring-offset-2 focus:ring-offset-gray-900">
+              Join the Waitlist
+            </p>
+            <ArrowCircleDownIcon className="group-hover:scale-105 w-8 h-8 transition-all duration-200" />
           </Link>
         </motion.div>
       </motion.div>
