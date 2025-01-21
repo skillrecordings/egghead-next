@@ -4,13 +4,21 @@ import {useState} from 'react'
 import {Button} from './ui/button'
 import {Input} from './ui/input'
 import {motion} from 'framer-motion'
-import {nanoid} from 'nanoid'
 import useCio from '@/hooks/use-cio'
+import {trpc} from '@/app/_trpc/client'
 
 export default function SignUpForm() {
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const {cioIdentify} = useCio()
+  const {subscriber} = useCio()
+  const identify = trpc.customerIO.identify.useMutation({
+    onSuccess: (data) => {
+      console.log('IDENTIFY', data)
+    },
+    onError: (error) => {
+      console.log('ERROR', error)
+    },
+  })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -18,15 +26,24 @@ export default function SignUpForm() {
     if (isSubmitting) return
 
     setIsSubmitting(true)
-    const subscriberId = nanoid()
+    let subscriberId = subscriber?.id
 
     try {
       console.log('Submitting email:', email)
-      await cioIdentify(subscriberId, {
-        email,
-        created_at: Math.floor(Date.now() / 1000),
-        source: 'landing_page_waitlist',
-      })
+
+      const currentDateTime = Math.floor(Date.now() * 0.001) // Customer.io uses seconds with their UNIX epoch timestamps
+
+      if (!subscriberId) {
+        identify.mutateAsync({
+          email,
+          selectedInterests: {ai_bootcamp_waitlist: currentDateTime},
+        })
+      } else {
+        identify.mutateAsync({
+          id: subscriberId,
+          selectedInterests: {ai_bootcamp_waitlist: currentDateTime},
+        })
+      }
 
       setEmail('')
       console.log('Successfully submitted email')
