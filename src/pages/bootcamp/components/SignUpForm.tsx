@@ -69,7 +69,7 @@ export default function SignUpForm() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-[var(--accent-9)] hover:bg-[var(--accent-10)] text-black font-semibold transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-gray-50 dark:bg-gray-800/50  dark:text-white text-black font-semibold transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Joining...' : 'Join Waitlist'}
               </Button>
