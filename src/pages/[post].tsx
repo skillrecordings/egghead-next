@@ -322,7 +322,6 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
       authorization: process.env.SHIKI_AUTH_TOKEN!,
       endpoint: process.env.SHIKI_ENDPOINT!,
     },
-    frontmatter: {},
   })
 
   // const mdxSource = await serialize(post.fields.body, {
@@ -484,6 +483,7 @@ export default function PostPage({
                 ...mdxComponents,
                 PodcastLinks,
               }}
+              scope={mdxSource.scope}
             />
           </article>
           <div className="py-6 bg-transparent dark:border-gray-800/50 border-y border-gray-100 my-10 flex justify-center gap-5 flex-wrap items-center">
@@ -516,7 +516,7 @@ export default function PostPage({
                 Transcript
               </h2>
               <ReactMarkdown className="prose dark:prose-p:text-gray-200 lg:prose-base prose-sm dark:prose-dark max-w-none">
-                {videoResource.fields.transcript}
+                {videoResource.fields.transcript || ''}
               </ReactMarkdown>
             </section>
           )}
