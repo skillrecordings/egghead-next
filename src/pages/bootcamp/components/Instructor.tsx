@@ -27,7 +27,7 @@ export default function Instructor() {
                 helping others succeed, John will provide the clarity and
                 support you need to master AI development.
               </p>
-              <p className="text-md text-gray-500 text-left bg-white dark:bg-gray-900/80">
+              <p className="text-md text-gray-400 text-left bg-white dark:bg-gray-900/80">
                 Join John and a supportive community of developers as you build
                 the skills needed to create impactful AI solutions.
               </p>
