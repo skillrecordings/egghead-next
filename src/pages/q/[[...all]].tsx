@@ -170,11 +170,11 @@ SearchIndex.getLayout = (Page: any, pageProps: any) => {
 
 export default SearchIndex
 
-export const getServerSideProps: GetServerSideProps = async function ({
+export const getServerSideProps: GetServerSideProps = async ({
   req,
   query,
   res,
-}) {
+}) => {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const {all = [], ...rest} = query
@@ -185,8 +185,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const pageTitle = titleFromPath(all as string[])
   const path = req.url
 
-  console.log('mypath', path)
-
+  // Get server state and sanitize it for serialization
   const serverState = await getServerState(
     <SearchIndex initialSearchState={initialSearchState} />,
     {
@@ -194,11 +193,17 @@ export const getServerSideProps: GetServerSideProps = async function ({
     },
   )
 
-  // Maps the InitialResults record to an array and gets the first (and only) result.
-  // From there you have access to the state and result which matches what we expected before the upgrade to react-instantsearch v7
-  const resultsState = Object.keys(serverState.initialResults).map((key) => {
-    return serverState.initialResults[key]
-  })[0]
+  // Sanitize the serverState to remove undefined values
+  const sanitizedServerState = JSON.parse(
+    JSON.stringify(serverState, (_, value) =>
+      value === undefined ? null : value,
+    ),
+  )
+
+  // Rest of the code remains the same...
+  const resultsState = Object.keys(sanitizedServerState.initialResults).map(
+    (key) => sanitizedServerState.initialResults[key],
+  )[0]
 
   const {results, state} = resultsState
 
@@ -245,7 +250,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
     props: {
       initialSearchState,
       path,
-      serverState,
+      serverState: sanitizedServerState, // Use sanitized version
       pageTitle,
       noIndexInitial,
       initialInstructor,

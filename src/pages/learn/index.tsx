@@ -1,6 +1,6 @@
-import React, {FunctionComponent} from 'react'
 import {loadHolidayCourses, saleOn} from '@/lib/sale'
 import {sanityClient} from '@/utils/sanity-client'
+import type {FunctionComponent} from 'react'
 import Home from '@/components/pages/home'
 import {NextSeo} from 'next-seo'
 import find from 'lodash/find'
@@ -12,11 +12,11 @@ import {getServerState} from 'react-instantsearch'
 import TheFeed from '@/components/pages/home/the-feed'
 import {renderToString} from 'react-dom/server'
 
-const LearnPage: FunctionComponent<React.PropsWithChildren<any>> = ({
-  data,
-  holidayCourses,
-  searchServerState,
-}) => {
+const LearnPage: FunctionComponent<{
+  data: CuratedHomePageDataType
+  holidayCourses: Record<string, unknown>
+  searchServerState: unknown
+}> = ({data, holidayCourses, searchServerState}) => {
   const location = 'curated home landing'
   const jumbotron = find(data.sections, {slug: 'jumbotron'})
   const ogImage = get(
@@ -147,18 +147,34 @@ const CuratedHomePageData = z.object({
 export type CuratedHomePageDataType = z.infer<typeof CuratedHomePageData>
 
 export async function getStaticProps() {
+  console.log('Fetching homepage data...')
   const data = await sanityClient.fetch(homepageQuery)
+  console.log('Homepage data fetched:', {
+    title: data?.title,
+    sectionCount: data?.sections?.length,
+  })
+
   const holidayCourses = saleOn ? await loadHolidayCourses() : {}
+  console.log('Holiday courses loaded:', {
+    courseCount: Object.keys(holidayCourses).length,
+  })
 
   const searchServerState = await getServerState(<TheFeed />, {
     renderToString,
   })
 
+  const sanitizedSearchState = JSON.parse(
+    JSON.stringify(searchServerState, (_, value) =>
+      value === undefined ? null : value,
+    ),
+  )
+  console.log('Search state sanitized')
+
   return {
     props: {
       holidayCourses,
       data,
-      searchServerState,
+      searchServerState: sanitizedSearchState,
     },
   }
 }
