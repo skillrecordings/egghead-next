@@ -5,6 +5,8 @@ import {fadeInUp, scaleIn} from './animations'
 import {useState, useEffect} from 'react'
 import '../styles.css'
 import {ArrowCircleDownIcon} from '@heroicons/react/solid'
+import {useTheme} from 'next-themes'
+import {cn} from '@/ui/utils'
 
 const phrases = [
   'Level Up Your Skills With',
@@ -35,6 +37,7 @@ function scrollToSignup(e: React.MouseEvent<HTMLAnchorElement>) {
 }
 
 export default function Hero() {
+  const {theme} = useTheme()
   const [phraseIndex, setPhraseIndex] = useState(0)
 
   useEffect(() => {
@@ -46,11 +49,17 @@ export default function Hero() {
 
   return (
     <section className="py-12 md:py-20 text-center relative overflow-hidden">
-      <div className="absolute inset-0 pattern-dots" />
+      <div
+        className={cn(
+          'absolute inset-0',
+          theme === 'light' && 'pattern-dots-light',
+          theme === 'dark' && 'pattern-dots',
+        )}
+      />
       <motion.div {...scaleIn} className="relative max-w-4xl mx-auto px-4">
         <motion.h1
           {...fadeInUp}
-          className="relative mb-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl leading-tight"
+          className="relative mb-6 text-4xl font-extrabold tracking-tight dark:text-white sm:text-5xl md:text-6xl leading-tight"
         >
           <span className="relative h-[1.2em] block mb-2">
             <AnimatePresence mode="wait">
@@ -69,15 +78,20 @@ export default function Hero() {
         <motion.p
           {...fadeInUp}
           transition={{delay: 0.1}}
-          className="relative mb-8 text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
+          className="relative mb-8 text-lg md:text-xl text-gray-500 max-w-3xl mx-auto leading-relaxed"
         >
-          Join <span className="emphasis-text">John Lindquist</span>, founder of{' '}
-          egghead.io, for an immersive, hands-on program that will revolutionize
-          your dev workflow. In just{' '}
-          <span className="emphasis-text">20 days</span>, you&apos;ll master
-          building real-world AI applications that automate the tedious, amplify
-          your capabilities, and{' '}
-          <span className="emphasis-text">
+          Join{' '}
+          <span className="text-gray-900 dark:text-white font-medium">
+            John Lindquist
+          </span>
+          , founder of egghead.io, for an immersive, hands-on program that will
+          revolutionize your dev workflow. In just{' '}
+          <span className="text-gray-900 dark:text-white font-medium">
+            20 days
+          </span>
+          , you&apos;ll master building real-world AI applications that automate
+          the tedious, amplify your capabilities, and{' '}
+          <span className="text-gray-900 dark:text-white font-medium">
             transform how your team ships software
           </span>
           .

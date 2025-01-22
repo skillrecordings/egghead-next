@@ -63,10 +63,10 @@ export default function SignUpForm() {
           viewport={{once: true}}
           className="max-w-2xl mx-auto"
         >
-          <h2 className="mb-4 text-3xl font-bold text-center text-white">
+          <h2 className="mb-4 text-3xl font-bold text-center dark:text-white text-gray-900">
             Ready to Build a Team of AI Devs?
           </h2>
-          <p className="mb-8 text-center text-gray-400 mx-auto">
+          <p className="mb-8 text-center text-gray-500 dark:text-gray-400 mx-auto">
             Secure your spot in this unique, 20-day cohort-based workshop.
             You&apos;ll learn alongside a supportive community of developers,
             all on the same journey to master AI. Enter your email below and be
@@ -81,12 +81,12 @@ export default function SignUpForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isSubmitting}
-                className="flex-grow bg-[#0A0A0A] border-gray-800 text-white placeholder:text-gray-500"
+                className="flex-grow bg-gray-50 dark:bg-gray-800/50 dark:border-gray-800 border-gray-200 text-gray-900 dark:text-white placeholder:text-gray-500"
               />
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-gray-50 dark:bg-gray-800/50  dark:text-white text-black font-semibold transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-blue-500  text-white  font-semibold transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Joining...' : 'Join Waitlist'}
               </Button>

@@ -74,13 +74,15 @@ export default function Features() {
                 className="group relative bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-800 rounded-lg p-6 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors drop-shadow-lg"
               >
                 <div className="relative">
-                  <div className="inline-flex items-center justify-center w-12 h-12 mb-4">
+                  <div className="flex items-center mb-4 gap-2">
                     <Icon className="w-6 h-6 text-[var(--accent-9)]" />
+                    <h3 className="text-lg font-semibold dark:text-white text-gray-900">
+                      {feature.title}
+                    </h3>
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-400">{feature.description}</p>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    {feature.description}
+                  </p>
                 </div>
               </motion.div>
             )

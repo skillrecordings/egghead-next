@@ -5,8 +5,11 @@ import Instructor from './components/Instructor'
 import SignUpForm from './components/SignUpForm'
 import {motion} from 'framer-motion'
 import type {NextPage} from 'next'
+import {cn} from '@/ui/utils'
+import {useTheme} from 'next-themes'
 
 const BootcampPage: NextPage = () => {
+  const {theme} = useTheme()
   console.log(
     '[BootcampPage] Rendering on',
     typeof window === 'undefined' ? 'server' : 'client',
@@ -26,7 +29,11 @@ const BootcampPage: NextPage = () => {
 
         <div className="relative bg-[#111111]">
           <div
-            className={`absolute inset-0 bg-white dark:bg-gray-900 pattern-dots-dense`}
+            className={cn(
+              'absolute inset-0 bg-white dark:bg-gray-900',
+              theme === 'dark' && 'pattern-dots-dense',
+              theme === 'light' && 'pattern-dots-dense-light',
+            )}
           />
           <Features />
         </div>
@@ -37,7 +44,11 @@ const BootcampPage: NextPage = () => {
 
         <div className="relative bg-[#111111]">
           <div
-            className={`absolute inset-0 bg-white dark:bg-gray-900 pattern-dots-dense`}
+            className={cn(
+              'absolute inset-0 bg-white dark:bg-gray-900',
+              theme === 'dark' && 'pattern-dots-dense',
+              theme === 'light' && 'pattern-dots-dense-light',
+            )}
           />
           <Instructor />
         </div>

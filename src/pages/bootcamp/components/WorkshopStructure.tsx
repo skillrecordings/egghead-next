@@ -59,10 +59,12 @@ export default function WorkshopStructure() {
               <div className="text-[var(--accent-9)] font-medium mb-2">
                 {week.week}
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">
+              <h3 className="text-lg font-semibold dark:text-white text-gray-900 mb-2">
                 {week.title}
               </h3>
-              <p className="text-gray-300">{week.description}</p>
+              <p className="text-gray-500 dark:text-gray-400">
+                {week.description}
+              </p>
             </motion.div>
           ))}
         </motion.div>

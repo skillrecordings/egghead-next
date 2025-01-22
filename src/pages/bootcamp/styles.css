@@ -21,8 +21,22 @@
   background-position: 0 0, 15px 15px;
 }
 
+.pattern-dots-light {
+  background-image: 
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(rgba(0, 0, 0, 0.1) 2px, transparent 2px);
+  background-size: 100% 100%, 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
 .pattern-dots-dense {
   background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: 8px 8px;
+}
+
+.pattern-dots-dense-light {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1px, transparent 1px);
   background-size: 16px 16px;
   background-position: 8px 8px;
 }
