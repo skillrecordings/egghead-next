@@ -69,7 +69,8 @@ export default function SignUpForm() {
             Secure your seat in this 5-day, hands-on bootcamp designed to level
             up your development process. Overcome the frustration of complex
             integrations, learn to handle failures gracefully, and discover
-            powerful strategies to keep you shipping code with confidence.
+            powerful planning strategies to keep you shipping code with
+            confidence.
           </p>
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">
             <div className="flex space-x-2">

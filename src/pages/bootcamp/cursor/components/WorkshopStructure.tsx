@@ -6,37 +6,37 @@ const days = [
   {
     id: 'day-1',
     day: 'Day 1:',
-    title: 'Rapid Project Spinning & Multi-Scaffolding',
+    title: 'Rapid Project Spinning, Multi-Scaffolding',
     description:
-      'Learn how to generate multiple small projects in minutes using Chat and Composer. Focus on speed over perfection and discover when to switch from open-ended Chat brainstorming to targeted Composer scaffolding.',
+      'Learn how to generate multiple small projects in minutes using Chat and Composer. Focus on speed over perfection, and discover when to switch from open-ended Chat brainstorming to targeted Composer scaffolding.',
   },
   {
     id: 'day-2',
     day: 'Day 2:',
-    title: 'Documentation, Cursor Rules & Customization',
+    title: 'Planning, Cursor Rules, Customization',
     description:
-      'Deepen your use of Chat for architectural discussions. Implement or refine `cursor-rules` for consistent code style and doc standards, and learn how to generate thorough documentation with Composer.',
+      'Deepen your use of Chat for architectural discussions. Implement or refine cursor-rules for consistent code style, and create step-by-step project plans that keep you aligned from start to finish.',
   },
   {
     id: 'day-3',
     day: 'Day 3:',
-    title: 'GitIngest, Logging & Bugfinding',
+    title: 'Bulk Code Analysis, Logging, Bugfinding',
     description:
-      'Embrace errors and learn to feed real-time logs into Bugfinding. Understand when to harness Chat, Composer, or Bugfinding to isolate problems, and use GitIngest to provide the AI full context of your codebase.',
+      'Embrace errors and learn to feed real-time logs into Bugfinding. Understand when to harness Chat, Composer, or Bugfinding to isolate problems—even across large sets of files—and refine your entire workflow.',
   },
   {
     id: 'day-4',
     day: 'Day 4:',
-    title: 'Refactoring, UI Checks & Code Quality',
+    title: 'Refactoring, UI Checks, Code Quality',
     description:
-      'Refine existing projects for maintainability and design consistency. Feed screenshots and test outputs back into AI, and turn repeated failures into improved Cursor Rules for next-level code cleanliness.',
+      'Refine existing projects for maintainability and design consistency. Feed screenshots or test outputs back into AI, and turn repeated failures into improved Cursor Rules for next-level code cleanliness.',
   },
   {
     id: 'day-5',
     day: 'Day 5:',
-    title: 'GitHub CLI, Actions & Advanced Automation',
+    title: 'Advanced Composer, Custom Agents, Automation',
     description:
-      'Automate your entire workflow with GitHub CLI and Actions. From pre-commit hooks to continuous deployment, learn to chain tasks so that repeated friction points become a thing of the past.',
+      'Elevate your workflow by configuring Composer to run specialized tasks you’d usually do in the terminal. Set up custom agents that chain multiple steps, so you can handle complex actions without manual intervention.',
   },
 ]
 

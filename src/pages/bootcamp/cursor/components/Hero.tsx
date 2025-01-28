@@ -13,7 +13,6 @@ const phrases = [
   'Turn Failures into Fuel with',
   'Accelerate Your Workflow Using',
   'Master Composer in',
-  'Overcome Frustration & Unlock Potential with',
 ]
 
 const AnimatedPhrase = ({text}: {text: string}) => (
@@ -87,8 +86,8 @@ export default function Hero() {
           <span className="text-gray-900 dark:text-white font-medium">
             Chat, Composer, and Bugfinding
           </span>{' '}
-          workflows—plus advanced techniques like GitIngest. Streamline your
-          development cycle and unlock Cursor’s full potential.
+          workflows—plus powerful strategies for multi-file analysis. Streamline
+          your development cycle and unlock Cursor’s full potential.
         </motion.p>
 
         <motion.div

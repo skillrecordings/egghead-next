@@ -1,6 +1,6 @@
 'use client'
 import {motion} from 'framer-motion'
-import {Cpu, Database, Users, Calendar, Shield, Cloud} from 'lucide-react' // Re-using icons; feel free to swap them as needed.
+import {Cpu, Database, Users, Calendar, Shield, Cloud} from 'lucide-react'
 import {fadeInUp, staggerContainer, staggerItem} from './animations'
 
 const features = [
@@ -8,42 +8,42 @@ const features = [
     id: 'rapid-spinning',
     title: 'Rapid Project Spinning & Multi-Scaffolding',
     description:
-      'Quickly generate multiple project types—CLI tools, web apps, more—within minutes using Chat and Composer, so you never lose momentum.',
+      'Generate multiple projects—CLI tools, web apps, and more—in minutes using Chat and Composer, so you never lose momentum.',
     icon: Cpu,
   },
   {
-    id: 'docs-rules',
-    title: 'Documentation & Cursor Rules',
+    id: 'planning-cursor-rules',
+    title: 'Planning & Cursor Rules',
     description:
-      'Refine your workflows with custom rules, generate in-code docs automatically, and keep your projects fully documented at all times.',
+      'Refine your workflows with custom rules, and master step-by-step planning for smooth project execution from start to finish.',
     icon: Database,
   },
   {
-    id: 'bugfinding-gitingest',
-    title: 'Bugfinding & GitIngest',
+    id: 'bulk-analysis-bugfinding',
+    title: 'Bulk Code Analysis & Bugfinding',
     description:
-      'Leverage specialized debugging tools to isolate errors fast, and ingest entire repositories for deeper AI-driven context and solutions.',
+      'Leverage specialized debugging tools to isolate errors fast, and analyze large sets of files for deeper AI-driven insights.',
     icon: Users,
   },
   {
     id: 'logging-feedback',
     title: 'Logging & Feedback Loops',
     description:
-      'Pipe error logs and test outputs into Chat or Composer, turning failures into teachable moments that refine both your code and your AI prompts.',
+      'Pipe error logs and test outputs directly into Chat or Composer. Transform each failure into a valuable lesson that refines your projects and AI prompts.',
     icon: Calendar,
   },
   {
     id: 'refactoring-ui',
     title: 'Refactoring & UI Checks',
     description:
-      'Use AI to systematically review your code quality and front-end design, reducing friction and ensuring consistent user experiences.',
+      'Use AI to systematically review your code quality and front-end design, ensuring consistency and reducing friction at every step.',
     icon: Shield,
   },
   {
-    id: 'ci-automation',
-    title: 'GitHub CLI & Advanced Automation',
+    id: 'advanced-composer-agents',
+    title: 'Advanced Composer with Custom Tooling',
     description:
-      'Automate your entire workflow—pull requests, actions, deployments—to ensure that frustration never halts your team’s progress.',
+      'Create specialized Composer workflows and agents that automate tasks you’d typically run in the terminal—speeding up your entire dev process.',
     icon: Cloud,
   },
 ]

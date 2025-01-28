@@ -14,9 +14,9 @@ export default function Conclusion() {
             Don’t let frustration hold you back. Secure your spot in an
             immersive program focused on turning setbacks into breakthroughs.
             Over 5 action-packed days, you’ll harness Chat, Composer,
-            Bugfinding, and more—building real-world confidence that you can
-            apply to any project. Enter your email below to join the waitlist
-            and transform your entire dev workflow.
+            Bugfinding, and multi-file analysis—building real-world confidence
+            you can apply to any project. Enter your email below to join the
+            waitlist and transform your entire dev workflow.
           </p>
         </motion.div>
       </div>
