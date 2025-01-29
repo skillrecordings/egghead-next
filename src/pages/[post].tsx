@@ -218,7 +218,6 @@ async function getPost(slug: string) {
     `,
       [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`],
     )
-    console.log('Post rows:', postRows)
 
     const videoResource = videoResourceRows[0]
     const postRow = postRows[0]
