@@ -15,11 +15,12 @@ export interface SignUpFormRef {
 const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const {subscriber} = useCio()
   const emailInputRef = useRef<HTMLInputElement>(null)
   const identify = trpc.customerIO.identify.useMutation({
     onSuccess: (data) => {
-      console.log('IDENTIFY', data)
+      setIsSuccess(true)
     },
     onError: (error) => {
       console.log('ERROR', error)
@@ -74,40 +75,60 @@ const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
           transition={fadeInUp.transition}
           className="max-w-2xl mx-auto"
         >
-          <h2 className="mb-4 text-3xl font-bold text-center dark:text-white text-gray-900">
-            Ready to Transform Your Cursor Workflow?
-          </h2>
-          <p className="mb-8 text-center text-gray-500 dark:text-gray-400 mx-auto">
-            Secure your seat in this 5-day, hands-on workshop designed to level
-            up your development process. Overcome the frustration of complex
-            integrations, learn to handle failures gracefully, and discover
-            powerful planning strategies to keep you shipping code with
-            confidence.
-          </p>
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-            <div className="flex space-x-2">
-              <Input
-                ref={emailInputRef}
-                type="email"
-                placeholder="Enter your email to join the waitlist"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={isSubmitting}
-                className="flex-grow bg-gray-50 dark:bg-gray-800/50 dark:border-gray-800 border-gray-200 text-gray-900 dark:text-white placeholder:text-gray-500"
-              />
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="bg-blue-500 text-white font-semibold transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? 'Joining...' : 'Join Waitlist'}
-              </Button>
-            </div>
-          </form>
-          <p className="mt-4 text-center text-sm text-gray-500">
-            We&apos;ll only send you essential info about the course—no spam.
-          </p>
+          {isSuccess ? (
+            <motion.div
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.5}}
+              className="flex flex-col justify-center items-center p-6 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-900 min-h-[333px]"
+            >
+              <h2 className="text-2xl font-bold text-green-800 dark:text-green-200 mb-2">
+                Thanks for Joining!
+              </h2>
+              <p className="text-green-700 dark:text-green-400 text-balance text-center">
+                We'll keep you updated about the workshop. Check your inbox for
+                a confirmation email.
+              </p>
+            </motion.div>
+          ) : (
+            <>
+              <h2 className="mb-4 text-3xl font-bold text-center dark:text-white text-gray-900">
+                Ready to Transform Your Cursor Workflow?
+              </h2>
+              <p className="mb-8 text-center text-gray-500 dark:text-gray-400 mx-auto">
+                Secure your seat in this 5-day, hands-on workshop designed to
+                level up your development process. Overcome the frustration of
+                complex integrations, learn to handle failures gracefully, and
+                discover powerful planning strategies to keep you shipping code
+                with confidence.
+              </p>
+              <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+                <div className="flex space-x-2">
+                  <Input
+                    ref={emailInputRef}
+                    type="email"
+                    placeholder="Enter your email to join the waitlist"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    disabled={isSubmitting}
+                    className="flex-grow bg-gray-50 dark:bg-gray-800/50 dark:border-gray-800 border-gray-200 text-gray-900 dark:text-white placeholder:text-gray-500"
+                  />
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="bg-blue-500 text-white font-semibold transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? 'Joining...' : 'Join Waitlist'}
+                  </Button>
+                </div>
+              </form>
+              <p className="mt-4 text-center text-sm text-gray-500">
+                We&apos;ll only send you essential info about the course—no
+                spam.
+              </p>
+            </>
+          )}
         </motion.div>
       </div>
     </section>
