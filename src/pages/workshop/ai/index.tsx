@@ -8,10 +8,10 @@ import type {NextPage} from 'next'
 import {cn} from '@/ui/utils'
 import {useTheme} from 'next-themes'
 
-const BootcampPage: NextPage = () => {
+const WorkshopPage: NextPage = () => {
   const {theme} = useTheme()
   console.log(
-    '[BootcampPage] Rendering on',
+    '[WorkshopPage] Rendering on',
     typeof window === 'undefined' ? 'server' : 'client',
   )
 
@@ -29,11 +29,13 @@ const BootcampPage: NextPage = () => {
 
         <div className="relative bg-[#111111]">
           <div
-            className={cn(
-              'absolute inset-0 bg-white dark:bg-gray-900',
-              theme === 'dark' && 'pattern-dots-dense',
-              theme === 'light' && 'pattern-dots-dense-light',
-            )}
+            className={`absolute inset-0 bg-white dark:bg-gray-900 ${
+              theme === undefined
+                ? ''
+                : theme === 'light'
+                ? 'pattern-dots-dense-light'
+                : 'pattern-dots-dense'
+            }`}
           />
           <Features />
         </div>
@@ -44,11 +46,13 @@ const BootcampPage: NextPage = () => {
 
         <div className="relative bg-[#111111]">
           <div
-            className={cn(
-              'absolute inset-0 bg-white dark:bg-gray-900',
-              theme === 'dark' && 'pattern-dots-dense',
-              theme === 'light' && 'pattern-dots-dense-light',
-            )}
+            className={`absolute inset-0 bg-white dark:bg-gray-900 ${
+              theme === undefined
+                ? ''
+                : theme === 'light'
+                ? 'pattern-dots-dense-light'
+                : 'pattern-dots-dense'
+            }`}
           />
           <Instructor />
         </div>
@@ -62,4 +66,4 @@ const BootcampPage: NextPage = () => {
   )
 }
 
-export default BootcampPage
+export default WorkshopPage

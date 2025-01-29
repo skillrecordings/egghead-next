@@ -1,17 +1,4 @@
-.bootcamp {
-  /* Base colors from Tailwind dark mode */
-  --accent-1: rgb(17, 24, 39); /* gray-900 */
-  --accent-2: rgb(31, 41, 55); /* gray-800 */
-  --accent-9: #61DAFB;
-  --accent-10: #82E6FF;
-  
-  /* Gradient backgrounds */
-  --gradient-subtle: linear-gradient(
-    180deg,
-    rgb(17, 24, 39, 0.05),
-    rgb(31, 41, 55, 0.01)
-  );
-}
+
 
 .pattern-dots {
   background-image: 

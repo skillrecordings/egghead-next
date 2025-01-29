@@ -8,15 +8,14 @@ export default function Conclusion() {
       <div className="container mx-auto px-4 text-center relative z-10">
         <motion.div {...fadeInUp} className="max-w-3xl mx-auto">
           <h2 className="mb-4 text-3xl font-bold text-center text-white">
-            Ready to Join the 5-Day Cursor Mastery Bootcamp?
+            Ready to Join Our AI Mastery Workshop?
           </h2>
           <p className="mb-8 text-center text-gray-400 mx-auto">
-            Don’t let frustration hold you back. Secure your spot in an
-            immersive program focused on turning setbacks into breakthroughs.
-            Over 5 action-packed days, you’ll harness Chat, Composer,
-            Bugfinding, and multi-file analysis—building real-world confidence
-            you can apply to any project. Enter your email below to join the
-            waitlist and transform your entire dev workflow.
+            Secure your spot in this unique, 20-day immersive training
+            experience. You&apos;ll learn alongside a focused cohort of
+            developers, all committed to mastering practical AI implementation.
+            Enter your email below to be first in line when registration opens
+            for our next intensive.
           </p>
         </motion.div>
       </div>

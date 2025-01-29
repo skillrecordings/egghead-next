@@ -37,12 +37,12 @@ export default function SignUpForm() {
       if (!subscriberId) {
         identify.mutateAsync({
           email,
-          selectedInterests: {ai_bootcamp_waitlist: currentDateTime},
+          selectedInterests: {ai_workshop_waitlist: currentDateTime},
         })
       } else {
         identify.mutateAsync({
           id: subscriberId,
-          selectedInterests: {ai_bootcamp_waitlist: currentDateTime},
+          selectedInterests: {ai_workshop_waitlist: currentDateTime},
         })
       }
 
