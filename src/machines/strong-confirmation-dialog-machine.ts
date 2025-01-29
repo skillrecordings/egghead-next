@@ -42,6 +42,7 @@ const strongConfirmationDialogMachine = createMachine<
   StrongConfirmationDialogMachineEvent
 >(
   {
+    predictableActionArguments: true,
     id: 'confirmationDialog',
     initial: 'closed',
     context: {
