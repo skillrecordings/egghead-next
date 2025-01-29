@@ -1,6 +1,6 @@
 export const fadeInUp = {
   initial: {opacity: 1, y: 20},
-  whileInView: {opacity: 1, y: 0},
+  animate: {opacity: 1, y: 0},
   viewport: {once: true},
   transition: {duration: 0.5},
 }
@@ -22,7 +22,7 @@ export const staggerItem = {
 
 export const scaleIn = {
   initial: {opacity: 1, scale: 0.95},
-  whileInView: {opacity: 1, scale: 1},
+  animate: {opacity: 1, scale: 1},
   viewport: {once: true},
   transition: {duration: 0.5},
 }

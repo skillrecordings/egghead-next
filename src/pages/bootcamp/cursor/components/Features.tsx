@@ -61,8 +61,7 @@ export default function Features() {
         <motion.div
           variants={staggerContainer}
           initial="hidden"
-          whileInView="show"
-          viewport={{once: true}}
+          animate="show"
           className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
         >
           {features.map((feature) => {

@@ -6,6 +6,7 @@ import {Input} from './ui/input'
 import {motion} from 'framer-motion'
 import useCio from '@/hooks/use-cio'
 import {trpc} from '@/app/_trpc/client'
+import {fadeInUp} from './animations'
 
 export default function SignUpForm() {
   const [email, setEmail] = useState('')
@@ -58,9 +59,9 @@ export default function SignUpForm() {
     <section id="signup" className="py-32 relative">
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{opacity: 1, y: 20}}
-          whileInView={{opacity: 1, y: 0}}
-          viewport={{once: true}}
+          initial={fadeInUp.initial}
+          animate={fadeInUp.animate}
+          transition={fadeInUp.transition}
           className="max-w-2xl mx-auto"
         >
           <h2 className="mb-4 text-3xl font-bold text-center dark:text-white text-gray-900">
