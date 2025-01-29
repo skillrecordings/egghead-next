@@ -57,7 +57,7 @@ export const PostSchema = z.object({
   organizationId: z.string().nullish(),
   createdByOrganizationMembershipId: z.string().nullish(),
   name: z.string().nullish(),
-  image: z.string().optional(),
+  image: z.string().nullish(),
 })
 export type Post = z.infer<typeof PostSchema>
 
