@@ -196,6 +196,7 @@
     "react-scroll-tracker": "^1.7.0",
     "react-syntax-highlighter": "^15.5.0",
     "react-textfit": "^1.1.1",
+    "react-tweet": "^3.2.1",
     "react-twitter-embed": "^3.0.3",
     "react-use": "^17.2.4",
     "react-use-clipboard": "1.0.7",

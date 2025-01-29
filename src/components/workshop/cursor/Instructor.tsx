@@ -2,6 +2,7 @@
 import {motion} from 'framer-motion'
 import Image from 'next/image'
 import {fadeInUp} from './animations'
+import {Tweet} from 'react-tweet'
 
 export default function Instructor() {
   return (
@@ -22,19 +23,35 @@ export default function Instructor() {
                 John Lindquist is your guide through the complexities of
                 AI-driven development. As the founder of egghead.io, he has
                 helped thousands of developers navigate new technologies with
-                clarity and confidence. Now, he’s here to show you exactly how
+                clarity and confidence. Now, he's here to show you exactly how
                 to transform frustrating moments into opportunities for deeper
-                learning and success—using the full power of Cursor’s Chat,
+                learning and success—using the full power of Cursor's Chat,
                 Composer, and Bugfinding modes.
               </p>
             </div>
-            <Image
-              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683164538/assets/john.webp"
-              alt="John Lindquist"
-              width={300}
-              height={300}
-              className="rounded-lg"
-            />
+            <div className="flex flex-col items-center gap-8">
+              <Image
+                src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683164538/assets/john.webp"
+                alt="John Lindquist"
+                width={300}
+                height={300}
+                className="rounded-lg"
+              />
+              <style jsx global>{`
+                .tweet-actions_actions__9KOQD,
+                .tweet-replies_replies__Ig_qi,
+                [data-tweet-actions],
+                [data-testid='tweet-actions'],
+                .tweet-actions,
+                .tweet-replies {
+                  display: none !important;
+                }
+                .tweet-info_info__OeQ4g {
+                  padding-top: 0.75rem !important;
+                }
+              `}</style>
+              <Tweet id="1884674424374214692" />
+            </div>
           </div>
         </motion.div>
       </div>
