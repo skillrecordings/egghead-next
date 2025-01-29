@@ -10,7 +10,7 @@ import type {SignUpFormRef} from './SignUpForm'
 const phrases = [
   'Conquer the Complexity of',
   'Turn Failures into Fuel with',
-  'Accelerate Your Workflow with',
+  'Accelerate Your Workflow in',
   'Master Composer in',
 ]
 
@@ -57,7 +57,8 @@ export default function Hero({formRef}: HeroProps) {
       <motion.div {...scaleIn} className="relative max-w-4xl mx-auto px-4">
         <motion.h1
           {...fadeInUp}
-          className="relative mb-6 text-4xl font-extrabold tracking-tight dark:text-white sm:text-5xl md:text-6xl leading-tight"
+          className="relative mb-6 font-extrabold tracking-tight dark:text-white leading-tight"
+          style={{fontSize: 'clamp(1.5rem, 4vw + 1rem, 3.75rem)'}}
         >
           <span className="relative h-[1.2em] block mb-2">
             <div key={phraseIndex}>
