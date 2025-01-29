@@ -6,11 +6,8 @@ import Instructor from '@/components/workshop/cursor/Instructor'
 import SignUpForm from '@/components/workshop/cursor/SignUpForm'
 import {motion} from 'framer-motion'
 import type {NextPage} from 'next'
-import {cn} from '@/ui/utils'
-import {useTheme} from 'next-themes'
 
 const WorkshopPage: NextPage = () => {
-  const {resolvedTheme} = useTheme()
   console.log(
     '[WorkshopPage] Rendering on',
     typeof window === 'undefined' ? 'server' : 'client',
@@ -20,7 +17,7 @@ const WorkshopPage: NextPage = () => {
     <motion.main
       initial={{opacity: 0}}
       animate={{opacity: 1}}
-      className={`min-h-screen relative bg-white dark:bg-gray-900`}
+      className="min-h-screen relative bg-white dark:bg-gray-900"
     >
       {/* Content */}
       <div className="relative">
@@ -29,13 +26,7 @@ const WorkshopPage: NextPage = () => {
         </div>
 
         <div className="relative bg-[#111111]">
-          <div
-            className={`absolute inset-0 bg-white dark:bg-gray-900 ${
-              resolvedTheme === 'light'
-                ? 'pattern-dots-dense-light'
-                : 'pattern-dots-dense'
-            }`}
-          />
+          <div className="absolute inset-0 bg-gray-100 dark:bg-gray-900" />
           <Features />
         </div>
 
@@ -44,18 +35,12 @@ const WorkshopPage: NextPage = () => {
         </div>
 
         <div className="relative bg-[#111111]">
-          <div
-            className={`absolute inset-0 bg-white dark:bg-gray-900 ${
-              resolvedTheme === 'light'
-                ? 'pattern-dots-dense-light'
-                : 'pattern-dots-dense'
-            }`}
-          />
+          <div className="absolute inset-0 bg-gray-100 dark:bg-gray-900" />
           <Instructor />
         </div>
 
         <div className="relative bg-[#111111]">
-          <div className={'absolute inset-0 bg-white dark:bg-gray-900'} />
+          <div className="absolute inset-0 bg-gray-300 dark:bg-gray-950" />
           <SignUpForm />
         </div>
       </div>

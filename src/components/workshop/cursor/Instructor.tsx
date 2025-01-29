@@ -5,7 +5,7 @@ import {fadeInUp} from './animations'
 
 export default function Instructor() {
   return (
-    <section className="py-32 relative">
+    <section className="py-24 relative">
       <div className="container mx-auto px-4 text-center relative z-10">
         <motion.div {...fadeInUp} className="max-w-3xl mx-auto">
           <div className="mx-auto flex w-full max-w-3xl flex-col-reverse items-center justify-between gap-10 px-6 sm:gap-20 md:flex-row">
@@ -18,7 +18,7 @@ export default function Instructor() {
                   John Lindquist
                 </span>
               </h2>
-              <p className="mb-8 text-lg text-gray-500 dark:text-gray-400 text-left bg-white dark:bg-gray-900/80">
+              <p className="mb-8 text-lg text-gray-500 dark:text-gray-400 text-left">
                 John Lindquist is your guide through the complexities of
                 AI-driven development. As the founder of egghead.io, he has
                 helped thousands of developers navigate new technologies with
@@ -26,11 +26,6 @@ export default function Instructor() {
                 to transform frustrating moments into opportunities for deeper
                 learning and success—using the full power of Cursor’s Chat,
                 Composer, and Bugfinding modes.
-              </p>
-              <p className="text-md text-gray-500 dark:text-gray-400 text-left bg-white dark:bg-gray-900/80">
-                Join John and a dedicated community of learners to streamline
-                your workflow, accelerate your projects, and master the art of
-                turning failures into stepping stones for growth.
               </p>
             </div>
             <Image

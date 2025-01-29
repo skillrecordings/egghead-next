@@ -32,7 +32,6 @@ function scrollToSignup(e: React.MouseEvent<HTMLAnchorElement>) {
 }
 
 export default function Hero() {
-  const {resolvedTheme} = useTheme()
   const [phraseIndex, setPhraseIndex] = useState(0)
 
   useEffect(() => {
@@ -44,11 +43,7 @@ export default function Hero() {
 
   return (
     <section className="py-12 md:py-20 text-center relative overflow-hidden">
-      <div
-        className={`absolute inset-0 ${
-          resolvedTheme === 'light' ? 'pattern-dots-light' : 'pattern-dots'
-        }`}
-      />
+      <div className="absolute inset-0 pattern-dots" />
       <motion.div {...scaleIn} className="relative max-w-4xl mx-auto px-4">
         <motion.h1
           {...fadeInUp}

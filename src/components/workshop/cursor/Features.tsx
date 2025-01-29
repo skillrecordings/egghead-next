@@ -50,11 +50,11 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="py-32 relative">
+    <section className="py-24 relative">
       <div className="container mx-auto px-4 relative z-10">
         <motion.h2
           {...fadeInUp}
-          className="mb-16 text-3xl font-bold text-center text-white"
+          className="mb-16 text-3xl font-bold text-center dark:text-white"
         >
           What You&apos;ll Master
         </motion.h2>

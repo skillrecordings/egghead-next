@@ -42,11 +42,11 @@ const days = [
 
 export default function WorkshopStructure() {
   return (
-    <section className="py-32 relative">
+    <section className="py-24 relative">
       <div className="container mx-auto px-4 relative z-10">
         <motion.h2
           {...fadeInUp}
-          className="mb-16 text-3xl font-bold text-center text-white"
+          className="mb-16 text-3xl font-bold text-center dark:text-white"
         >
           5-Day Workshop Structure
         </motion.h2>
