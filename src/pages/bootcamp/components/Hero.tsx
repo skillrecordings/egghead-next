@@ -62,9 +62,9 @@ export default function Hero() {
           className="relative mb-6 text-4xl font-extrabold tracking-tight dark:text-white sm:text-5xl md:text-6xl leading-tight"
         >
           <span className="relative h-[1.2em] block mb-2">
-            <AnimatePresence mode="wait">
-              <AnimatedPhrase key={phraseIndex} text={phrases[phraseIndex]} />
-            </AnimatePresence>
+            <div key={phraseIndex}>
+              <AnimatedPhrase text={phrases[phraseIndex]} />
+            </div>
           </span>
           <span className="dark:text-gray-400 text-gray-800 drop-shadow-lg dark:drop-shadow-lg">
             AI

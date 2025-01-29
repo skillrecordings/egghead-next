@@ -11,7 +11,7 @@ import {cn} from '@/ui/utils'
 const phrases = [
   'Conquer the Complexity of',
   'Turn Failures into Fuel with',
-  'Accelerate Your Workflow Using',
+  'Accelerate Your Workflow with',
   'Master Composer in',
 ]
 
@@ -58,9 +58,9 @@ export default function Hero() {
           className="relative mb-6 text-4xl font-extrabold tracking-tight dark:text-white sm:text-5xl md:text-6xl leading-tight"
         >
           <span className="relative h-[1.2em] block mb-2">
-            <AnimatePresence mode="wait">
-              <AnimatedPhrase key={phraseIndex} text={phrases[phraseIndex]} />
-            </AnimatePresence>
+            <div key={phraseIndex}>
+              <AnimatedPhrase text={phrases[phraseIndex]} />
+            </div>
           </span>
           <span className="dark:text-gray-400 text-gray-800 drop-shadow-lg dark:drop-shadow-lg">
             Cursor
@@ -82,12 +82,12 @@ export default function Hero() {
           </span>
           , founder of egghead.io, for an immersive 5-day bootcamp designed to
           help you conquer the frustration of getting stuck with complex AI
-          tools. You’ll learn how to turn failures into successes by mastering{' '}
+          tools. You'll learn how to turn failures into successes by mastering{' '}
           <span className="text-gray-900 dark:text-white font-medium">
             Chat, Composer, and Bugfinding
           </span>{' '}
           workflows—plus powerful strategies for multi-file analysis. Streamline
-          your development cycle and unlock Cursor’s full potential.
+          your development cycle and unlock Cursor's full potential.
         </motion.p>
 
         <motion.div

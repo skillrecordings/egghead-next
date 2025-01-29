@@ -53,7 +53,9 @@ export default function Features() {
     <section className="py-32 relative">
       <div className="container mx-auto px-4 relative z-10">
         <motion.h2
-          {...fadeInUp}
+          initial={fadeInUp.initial}
+          animate={fadeInUp.animate}
+          transition={fadeInUp.transition}
           className="mb-16 text-3xl font-bold text-center text-white"
         >
           What You&apos;ll Learn
@@ -61,8 +63,7 @@ export default function Features() {
         <motion.div
           variants={staggerContainer}
           initial="hidden"
-          whileInView="show"
-          viewport={{once: true}}
+          animate="show"
           className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
         >
           {features.map((feature) => {
