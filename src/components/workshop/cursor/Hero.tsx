@@ -1,12 +1,11 @@
 'use client'
 import Link from 'next/link'
-import {motion, AnimatePresence} from 'framer-motion'
+import {motion} from 'framer-motion'
 import {fadeInUp, scaleIn} from './animations'
 import {useState, useEffect} from 'react'
 import './styles.css'
 import {ArrowCircleDownIcon} from '@heroicons/react/solid'
 import {useTheme} from 'next-themes'
-import {cn} from '@/ui/utils'
 
 const phrases = [
   'Conquer the Complexity of',
@@ -33,7 +32,7 @@ function scrollToSignup(e: React.MouseEvent<HTMLAnchorElement>) {
 }
 
 export default function Hero() {
-  const {theme} = useTheme()
+  const {resolvedTheme} = useTheme()
   const [phraseIndex, setPhraseIndex] = useState(0)
 
   useEffect(() => {
@@ -47,11 +46,7 @@ export default function Hero() {
     <section className="py-12 md:py-20 text-center relative overflow-hidden">
       <div
         className={`absolute inset-0 ${
-          theme === undefined
-            ? ''
-            : theme === 'light'
-            ? 'pattern-dots-light'
-            : 'pattern-dots'
+          resolvedTheme === 'light' ? 'pattern-dots-light' : 'pattern-dots'
         }`}
       />
       <motion.div {...scaleIn} className="relative max-w-4xl mx-auto px-4">

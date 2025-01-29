@@ -10,7 +10,7 @@ import {cn} from '@/ui/utils'
 import {useTheme} from 'next-themes'
 
 const WorkshopPage: NextPage = () => {
-  const {theme} = useTheme()
+  const {resolvedTheme} = useTheme()
   console.log(
     '[WorkshopPage] Rendering on',
     typeof window === 'undefined' ? 'server' : 'client',
@@ -31,9 +31,7 @@ const WorkshopPage: NextPage = () => {
         <div className="relative bg-[#111111]">
           <div
             className={`absolute inset-0 bg-white dark:bg-gray-900 ${
-              theme === undefined
-                ? ''
-                : theme === 'light'
+              resolvedTheme === 'light'
                 ? 'pattern-dots-dense-light'
                 : 'pattern-dots-dense'
             }`}
@@ -48,9 +46,7 @@ const WorkshopPage: NextPage = () => {
         <div className="relative bg-[#111111]">
           <div
             className={`absolute inset-0 bg-white dark:bg-gray-900 ${
-              theme === undefined
-                ? ''
-                : theme === 'light'
+              resolvedTheme === 'light'
                 ? 'pattern-dots-dense-light'
                 : 'pattern-dots-dense'
             }`}
