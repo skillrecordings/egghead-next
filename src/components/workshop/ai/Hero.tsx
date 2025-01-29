@@ -3,16 +3,20 @@ import Link from 'next/link'
 import {motion, AnimatePresence} from 'framer-motion'
 import {fadeInUp, scaleIn} from './animations'
 import {useState, useEffect} from 'react'
-import '../../styles.css'
+import './styles.css'
 import {ArrowCircleDownIcon} from '@heroicons/react/solid'
 import {useTheme} from 'next-themes'
 import {cn} from '@/ui/utils'
 
 const phrases = [
-  'Conquer the Complexity of',
-  'Turn Failures into Fuel with',
-  'Accelerate Your Workflow with',
-  'Master Composer in',
+  'Level Up Your Skills With',
+  'Join Our AI Deep Dive Using',
+  'Master Real-World Apps With',
+  'Transform Projects Using',
+  'Start Your AI Journey With',
+  'Join Our Hands-On Lab Using',
+  'Build Production Apps With',
+  'Power Your Future Using',
 ]
 
 const AnimatedPhrase = ({text}: {text: string}) => (
@@ -65,11 +69,11 @@ export default function Hero() {
             </div>
           </span>
           <span className="dark:text-gray-400 text-gray-800 drop-shadow-lg dark:drop-shadow-lg">
-            Cursor
+            AI
           </span>{' '}
           in Just{' '}
           <span className="dark:text-gray-400 text-gray-800 drop-shadow-lg dark:drop-shadow-lg">
-            5 Days
+            20 Days
           </span>
         </motion.h1>
 
@@ -82,14 +86,17 @@ export default function Hero() {
           <span className="text-gray-900 dark:text-white font-medium">
             John Lindquist
           </span>
-          , founder of egghead.io, for an immersive 5-day workshop designed to
-          help you conquer the frustration of getting stuck with complex AI
-          tools. You'll learn how to turn failures into successes by mastering{' '}
+          , founder of egghead.io, for an immersive, hands-on program that will
+          revolutionize your dev workflow. In just{' '}
           <span className="text-gray-900 dark:text-white font-medium">
-            Chat, Composer, and Bugfinding
-          </span>{' '}
-          workflows—plus powerful strategies for multi-file analysis. Streamline
-          your development cycle and unlock Cursor's full potential.
+            20 days
+          </span>
+          , you&apos;ll master building real-world AI applications that automate
+          the tedious, amplify your capabilities, and{' '}
+          <span className="text-gray-900 dark:text-white font-medium">
+            transform how your team ships software
+          </span>
+          .
         </motion.p>
 
         <motion.div
