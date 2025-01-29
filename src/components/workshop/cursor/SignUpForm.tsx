@@ -1,6 +1,6 @@
 'use client'
 
-import {useState} from 'react'
+import {useState, useRef, forwardRef, useImperativeHandle} from 'react'
 import {Button} from './ui/button'
 import {Input} from './ui/input'
 import {motion} from 'framer-motion'
@@ -8,10 +8,15 @@ import useCio from '@/hooks/use-cio'
 import {trpc} from '@/app/_trpc/client'
 import {fadeInUp} from './animations'
 
-export default function SignUpForm() {
+export interface SignUpFormRef {
+  focus: () => void
+}
+
+const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const {subscriber} = useCio()
+  const emailInputRef = useRef<HTMLInputElement>(null)
   const identify = trpc.customerIO.identify.useMutation({
     onSuccess: (data) => {
       console.log('IDENTIFY', data)
@@ -54,6 +59,12 @@ export default function SignUpForm() {
     }
   }
 
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      emailInputRef.current?.focus()
+    },
+  }))
+
   return (
     <section id="signup" className="py-32 relative">
       <div className="container mx-auto px-4 relative z-10">
@@ -76,6 +87,7 @@ export default function SignUpForm() {
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">
             <div className="flex space-x-2">
               <Input
+                ref={emailInputRef}
                 type="email"
                 placeholder="Enter your email to join the waitlist"
                 value={email}
@@ -100,4 +112,8 @@ export default function SignUpForm() {
       </div>
     </section>
   )
-}
+})
+
+SignUpForm.displayName = 'SignUpForm'
+
+export default SignUpForm

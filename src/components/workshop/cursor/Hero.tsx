@@ -5,7 +5,7 @@ import {fadeInUp, scaleIn} from './animations'
 import {useState, useEffect} from 'react'
 import './styles.css'
 import {ArrowCircleDownIcon} from '@heroicons/react/solid'
-import {useTheme} from 'next-themes'
+import type {SignUpFormRef} from './SignUpForm'
 
 const phrases = [
   'Conquer the Complexity of',
@@ -26,12 +26,22 @@ const AnimatedPhrase = ({text}: {text: string}) => (
   </motion.span>
 )
 
-function scrollToSignup(e: React.MouseEvent<HTMLAnchorElement>) {
+function scrollToSignup(
+  e: React.MouseEvent<HTMLAnchorElement>,
+  formRef: React.RefObject<SignUpFormRef>,
+) {
   e.preventDefault()
   document.querySelector('#signup')?.scrollIntoView({behavior: 'smooth'})
+  setTimeout(() => {
+    formRef.current?.focus()
+  }, 500)
 }
 
-export default function Hero() {
+interface HeroProps {
+  formRef: React.RefObject<SignUpFormRef>
+}
+
+export default function Hero({formRef}: HeroProps) {
   const [phraseIndex, setPhraseIndex] = useState(0)
 
   useEffect(() => {
@@ -89,7 +99,7 @@ export default function Hero() {
         >
           <Link
             href="#signup"
-            onClick={scrollToSignup}
+            onClick={(e) => scrollToSignup(e, formRef)}
             className="group flex flex-col items-center justify-center w-fit mx-auto hover:cursor-pointer"
           >
             <p className="relative inline-flex items-center justify-center rounded-md bg-[var(--accent-9)] px-8 py-3 text-base font-semibold text-black dark:text-white transition-all duration-200 group-hover:bg-[var(--accent-10)] group-hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[var(--accent-9)] focus:ring-offset-2 focus:ring-offset-gray-900">
