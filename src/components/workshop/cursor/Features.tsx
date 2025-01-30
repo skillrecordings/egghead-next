@@ -6,9 +6,9 @@ import {fadeInUp, staggerContainer, staggerItem} from './animations'
 const features = [
   {
     id: 'rapid-spinning',
-    title: 'Rapid Project Spinning & Multi-Scaffolding',
+    title: 'Project Generation Mastery',
     description:
-      'Generate multiple projects—CLI tools, web apps, and more—in minutes using Chat and Composer, so you never lose momentum.',
+      'Accelerate from zero to structured codebase. Quickly generate projects set up with best practices and solid foundations.',
     icon: Cpu,
   },
   {
@@ -41,7 +41,7 @@ const features = [
   },
   {
     id: 'advanced-composer-agents',
-    title: 'Advanced Composer with Custom Tooling',
+    title: 'Composer Toolchain Pipelines',
     description:
       'Create specialized Composer workflows and agents that automate tasks you’d typically run in the terminal—speeding up your entire dev process.',
     icon: Cloud,

@@ -6,9 +6,9 @@ const days = [
   {
     id: 'day-1',
     day: 'Day 1:',
-    title: 'Rapid Project Spinning, Multi-Scaffolding',
+    title: 'Rapid-Fire Project Generation',
     description:
-      'Learn how to generate multiple small projects in minutes using Chat and Composer. Focus on speed over perfection, and discover when to switch from open-ended Chat brainstorming to targeted Composer scaffolding.',
+      'Take your ideas and turn them into a projects in minutes. Spin up variations and iterate quickly to your taste. Set up for success by starting with solid foundations while still focusing on rapid development.',
   },
   {
     id: 'day-2',
@@ -34,7 +34,7 @@ const days = [
   {
     id: 'day-5',
     day: 'Day 5:',
-    title: 'Advanced Composer, Custom Agents, Automation',
+    title: 'Composer Power Tools',
     description:
       'Elevate your workflow by configuring Composer to run specialized tasks you’d usually do in the terminal. Set up custom agents that chain multiple steps, so you can handle complex actions without manual intervention.',
   },
