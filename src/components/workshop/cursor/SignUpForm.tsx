@@ -96,7 +96,7 @@ const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
                 Ready to Transform Your Cursor Workflow?
               </h2>
               <p className="mb-8 text-center text-gray-500 dark:text-gray-400 mx-auto">
-                Secure your seat in this 5-day, hands-on workshop designed to
+                Request a seat in this 5-day, hands-on workshop designed to
                 level up your development process. Overcome the frustration of
                 complex integrations, learn to handle failures gracefully, and
                 discover powerful planning strategies to keep you shipping code
