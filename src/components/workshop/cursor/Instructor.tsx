@@ -37,7 +37,7 @@ export default function Instructor() {
                 height={300}
                 className="rounded-lg"
               />
-              <style jsx global>{`
+              <style jsx>{`
                 div[class^='tweet-actions'],
                 div[class^='tweet-replies'] {
                   display: none !important;
