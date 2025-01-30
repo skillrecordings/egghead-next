@@ -80,3 +80,14 @@
   background: none !important;
   -webkit-text-fill-color: red !important;
 } 
+
+div[class^='tweet-actions'],
+div[class^='tweet-replies'] {
+  display: none !important;
+}
+
+div[class^='tweet-info'] {
+  margin-top: 0.75rem !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
