@@ -38,16 +38,14 @@ export default function Instructor() {
                 className="rounded-lg"
               />
               <style jsx global>{`
-                .tweet-actions_actions__9KOQD,
-                .tweet-replies_replies__Ig_qi,
-                [data-tweet-actions],
-                [data-testid='tweet-actions'],
-                .tweet-actions,
-                .tweet-replies {
+                div[class^='tweet-actions'],
+                div[class^='tweet-replies'] {
                   display: none !important;
                 }
-                .tweet-info_info__OeQ4g {
-                  padding-top: 0.75rem !important;
+                div[class^='tweet-info'] {
+                  margin-top: 0.75rem !important;
+                  justify-content: center !important;
+                  align-items: center !important;
                 }
               `}</style>
               <Tweet id="1884674424374214692" />
