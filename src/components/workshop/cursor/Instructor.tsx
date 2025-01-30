@@ -37,17 +37,6 @@ export default function Instructor() {
                 height={300}
                 className="rounded-lg"
               />
-              <style jsx>{`
-                div[class^='tweet-actions'],
-                div[class^='tweet-replies'] {
-                  display: none !important;
-                }
-                div[class^='tweet-info'] {
-                  margin-top: 0.75rem !important;
-                  justify-content: center !important;
-                  align-items: center !important;
-                }
-              `}</style>
               <Tweet id="1884674424374214692" />
             </div>
           </div>
