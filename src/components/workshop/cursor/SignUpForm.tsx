@@ -30,7 +30,7 @@ const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
             confidence.
           </p>
           <div className="aspect-[16/9] w-full">
-            <Widget id="Qe8W3N2B" className="w-full h-48" />
+            <Widget id="Qe8W3N2B" className="w-full h-52" />
           </div>
         </motion.div>
       </div>
