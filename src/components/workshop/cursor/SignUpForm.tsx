@@ -1,8 +1,7 @@
 'use client'
 
-import {forwardRef} from 'react'
+import {forwardRef, useEffect} from 'react'
 import {motion} from 'framer-motion'
-import {Widget} from '@typeform/embed-react'
 import {fadeInUp} from './animations'
 
 export interface SignUpFormRef {
@@ -10,6 +9,17 @@ export interface SignUpFormRef {
 }
 
 const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = '//embed.typeform.com/next/embed.js'
+    script.async = true
+    document.body.appendChild(script)
+
+    return () => {
+      document.body.removeChild(script)
+    }
+  }, [])
+
   return (
     <section id="signup" className="py-32 relative">
       <div className="container mx-auto px-4 relative z-10">
@@ -30,7 +40,11 @@ const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
             confidence.
           </p>
           <div className="aspect-[16/9] w-full">
-            <Widget id="Qe8W3N2B" className="w-full h-52" />
+            <div
+              data-tf-widget="Qe8W3N2B"
+              data-tf-inline-on-mobile
+              className="w-full h-52"
+            />
           </div>
         </motion.div>
       </div>
