@@ -15,10 +15,11 @@ export const customerIORouter = router({
     )
     .mutation(async ({input, ctx}) => {
       const {email, selectedInterests} = input
-      if (!email || (email && !emailIsValid(email))) return null
+      if (!email || (email && !emailIsValid(email)))
+        return new Error('Invalid email')
 
       const token = ctx?.userToken || process.env.EGGHEAD_SUPPORT_BOT_TOKEN
-      if (!token) return null
+      if (!token) return new Error('No token found')
 
       await inngest.send({
         name: CUSTOMER_IO_IDENTIFY_EVENT,
