@@ -20,7 +20,7 @@ const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
           className="max-w-2xl mx-auto"
         >
           <h2 className="mb-4 text-3xl font-bold text-center dark:text-white text-gray-900">
-            Ready to Transform Your Cursor Workflow?
+            Ready to Master Cursor?
           </h2>
           <p className="mb-8 text-center text-gray-500 dark:text-gray-400 mx-auto">
             Request a seat in this 5-day, hands-on workshop designed to level up
