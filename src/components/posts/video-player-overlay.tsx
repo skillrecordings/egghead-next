@@ -122,7 +122,13 @@ function CursorCTAOverlay({
             </p>
           </div>
         </CardContent>
-        <CardFooter className="flex gap-2 items-center justify-center p-0">
+        <CardFooter className="flex flex-row-reverse sm:flex-col gap-2 sm:gap-4 items-center justify-center p-0">
+          <Link href={signUpLink} className="">
+            <Button className="w-full max-w-xs bg-blue-500 hover:bg-blue-600">
+              Join Waitlist
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
           <Button
             variant="outline"
             onClick={onReplay}
@@ -131,12 +137,6 @@ function CursorCTAOverlay({
             <RefreshCw className="mr-2 h-4 w-4" />
             Watch again
           </Button>
-          <Link href={signUpLink} className="">
-            <Button className="w-full max-w-xs bg-blue-500 hover:bg-blue-600">
-              Join Waitlist
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
         </CardFooter>
       </Card>
     </div>
