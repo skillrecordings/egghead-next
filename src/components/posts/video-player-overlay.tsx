@@ -112,11 +112,11 @@ function CursorCTAOverlay({
                 height={80}
                 className="hidden sm:block"
               />
-              <h2 className="text-md sm:text-2xl font-bold sm:mb-4">
-                Reliably Build Software with AI through Cursor
+              <h2 className="text-md sm:text-2xl font-bold sm:mb-4 text-balance">
+                Take Cursor to the Next Level with Live Training
               </h2>
             </div>
-            <p className="text-center mb-2 sm:mb-6 text-muted-foreground">
+            <p className="text-center mb-2 sm:mb-6 text-muted-foreground text-balance">
               John Lindquist is teaching a workshop on how to use Cursor to it's
               fullest abilities. Get notified when the workshop is released.
             </p>
