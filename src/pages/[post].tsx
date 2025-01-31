@@ -263,55 +263,6 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.eggheadLessonId}`,
   ).then((res) => res.json())
 
-  const resource = {
-    id: `${post.fields.eggheadLessonId}`,
-    externalId: post.id,
-    title: post.fields.title,
-    slug: post.fields.slug,
-    summary: post.fields.description,
-    description: post.fields.body,
-    name: post.fields.title,
-    path: `/${post.fields.slug}`,
-    type: post.fields.postType,
-    ...(lesson && {
-      instructor_name: lesson.instructor?.full_name,
-      instructor: lesson.instructor,
-      image: lesson.image_480_url,
-    }),
-  }
-
-  let client = new Typesense.Client({
-    nodes: [
-      {
-        host: process.env.NEXT_PUBLIC_TYPESENSE_HOST!,
-        port: 443,
-        protocol: 'https',
-      },
-    ],
-    apiKey: process.env.TYPESENSE_WRITE_API_KEY!,
-    connectionTimeoutSeconds: 2,
-  })
-
-  if (
-    post.fields.state === 'published' &&
-    post.fields.visibility === 'public'
-  ) {
-    await client
-      .collections(process.env.TYPESENSE_COLLECTION_NAME!)
-      .documents()
-      .upsert({
-        ...resource,
-        published_at_timestamp: post.updatedAt.getTime(),
-      })
-      .catch((err) => {})
-  } else {
-    await client
-      .collections(process.env.TYPESENSE_COLLECTION_NAME!)
-      .documents()
-      .delete(resource.id)
-      .catch((err) => {})
-  }
-
   const mdxSource = await serializeMDX(post.fields?.body ?? '', {
     useShikiTwoslash: true,
     syntaxHighlighterOptions: {
@@ -319,25 +270,6 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
       endpoint: process.env.SHIKI_ENDPOINT!,
     },
   })
-
-  // const mdxSource = await serialize(post.fields.body, {
-  //   mdxOptions: {
-  //     remarkPlugins: [
-  //       require(`remark-slug`),
-  //       require(`remark-footnotes`),
-  //       require(`remark-code-titles`),
-  //     ],
-  //     rehypePlugins: [
-  //       [
-  //         require(`rehype-shiki`),
-  //         {
-  //           theme: `./src/styles/material-theme-dark.json`,
-  //           useBackground: false,
-  //         },
-  //       ],
-  //     ],
-  //   },
-  // })
 
   return {
     props: {
