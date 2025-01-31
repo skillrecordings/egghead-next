@@ -1,5 +1,8 @@
 import {GetServerSideProps, GetStaticPaths} from 'next'
-import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
+import MuxPlayer, {
+  type MuxPlayerProps,
+  type MuxPlayerRefAttributes,
+} from '@mux/mux-player-react'
 import * as mysql from 'mysql2/promise'
 import {ConnectionOptions, RowDataPacket} from 'mysql2/promise'
 import {NextSeo} from 'next-seo'
@@ -28,6 +31,12 @@ import {LikeButton} from '@/components/like-button'
 import BlueskyLink from '@/components/share-bluesky'
 import {z} from 'zod'
 import GoProCtaOverlay from '@/components/pages/lessons/overlay/go-pro-cta-overlay'
+import {
+  VideoPlayerOverlayProvider,
+  useVideoPlayerOverlay,
+} from '@/hooks/mux/use-video-player-overlay'
+import VideoPlayerOverlay from '@/components/posts/video-player-overlay'
+import {MuxPlayerProvider, useMuxPlayer} from '@/hooks/use-mux-player'
 
 export const FieldsSchema = z.object({
   body: z.string().optional(),
@@ -231,9 +240,29 @@ async function getPost(slug: string) {
       throw new Error(`Invalid post data: ${postData.error.message}`)
     }
 
+    // Get tags for a post
+    const [tagRows] = await conn.execute<RowDataPacket[]>(
+      `
+      SELECT 
+        egh_tag.id, 
+        JSON_UNQUOTE(JSON_EXTRACT(egh_tag.fields, '$.name')) AS name, 
+        JSON_UNQUOTE(JSON_EXTRACT(egh_tag.fields, '$.slug')) AS slug, 
+        JSON_UNQUOTE(JSON_EXTRACT(egh_tag.fields, '$.label')) AS label,
+        JSON_UNQUOTE(JSON_EXTRACT(egh_tag.fields, '$.image_url')) AS image_url
+      FROM egghead_ContentResourceTag crt
+      LEFT JOIN egghead_Tag egh_tag ON crt.tagId = egh_tag.id
+      WHERE crt.contentResourceId = ?
+      `,
+      [postData.data.id],
+    )
+    const tags = tagRows
+
+    console.log('tags', tags)
+
     return {
       videoResource,
       post: postData.data,
+      tags,
     }
   } catch (error) {
     console.error('Error in getPost:', error)
@@ -258,7 +287,7 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
     }
   }
 
-  const {post, videoResource} = result
+  const {post, videoResource, tags} = result
   const lesson = await fetch(
     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.eggheadLessonId}`,
   ).then((res) => res.json())
@@ -283,7 +312,7 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
         }),
       },
       videoResource: convertToSerializeForNextResponse(videoResource),
-      tags: lesson?.tags || [],
+      tags,
     },
     revalidate: 60,
   }
@@ -357,13 +386,25 @@ export default function PostPage({
           ],
         }}
       />
+
       {videoResource && (
-        <PostPlayer
-          playbackId={videoResource.fields.muxPlaybackId}
-          eggheadLessonId={post.fields.eggheadLessonId}
-          post={post}
-        />
+        <div>
+          <MuxPlayerProvider>
+            <VideoPlayerOverlayProvider>
+              <div className="relative h-full w-full">
+                <VideoPlayerOverlay resource={post} />
+                <PostPlayer
+                  playbackId={videoResource.fields.muxPlaybackId}
+                  eggheadLessonId={post.fields.eggheadLessonId}
+                  post={post}
+                  postTags={tags}
+                />
+              </div>
+            </VideoPlayerOverlayProvider>
+          </MuxPlayerProvider>
+        </div>
       )}
+
       <div className="container mx-auto w-fit">
         {post.fields.state === 'draft' && (
           <div className="bg-gray-100 dark:bg-gray-800 p-1 rounded-b-lg flex justify-center">
@@ -492,11 +533,13 @@ function PostPlayer({
   eggheadLessonId,
   playerProps = defaultPlayerProps,
   post,
+  postTags,
 }: {
   playbackId: string
   eggheadLessonId?: number | null
   playerProps?: MuxPlayerProps
   post: Post
+  postTags: Tag[]
 }) {
   const [writingProgress, setWritingProgress] = React.useState<Boolean>(false)
   const {mutate: markLessonComplete} =
@@ -508,6 +551,10 @@ function PostPlayer({
   const {data: viewer} = trpc.user.current.useQuery()
 
   const isPro = post.fields.access === 'pro'
+  const {setMuxPlayerRef} = useMuxPlayer()
+  const playerRef = React.useRef<MuxPlayerRefAttributes>(null)
+  const {dispatch: dispatchVideoPlayerOverlay} = useVideoPlayerOverlay()
+
   const canView =
     !isPro || (isPro && Boolean(viewer) && Boolean(viewer?.is_pro))
 
@@ -538,8 +585,22 @@ function PostPlayer({
         video_category: post.fields.primaryTagId,
       }}
       playbackId={playbackId}
+      ref={playerRef}
+      onLoadedData={() => {
+        dispatchVideoPlayerOverlay({type: 'HIDDEN'})
+        setMuxPlayerRef(playerRef)
+      }}
       onEnded={() => {
         if (eggheadLessonId) {
+          if (postTags.some((tag) => tag.name === 'cursor')) {
+            dispatchVideoPlayerOverlay({
+              type: 'COMPLETED',
+              playerRef,
+              cta: 'cursor_workshop',
+            })
+          } else {
+            dispatchVideoPlayerOverlay({type: 'COMPLETED', playerRef})
+          }
           markLessonComplete({
             lessonId: eggheadLessonId,
           })
@@ -664,7 +725,7 @@ const TagList = ({
                 }}
                 className="inline-flex items-center hover:underline"
               >
-                {tag.image_url && (
+                {tag?.image_url && tag?.image_url !== 'null' && (
                   <Image
                     src={tag.image_url}
                     alt={tag.name}
@@ -704,7 +765,7 @@ const PoweredByMuxBadge = () => {
           aria-label="Video Powered by Mux"
           fill="none"
         >
-          <g fill="currentColor" opacity={0.8} clip-path="url(#a)">
+          <g fill="currentColor" opacity={0.8} clipPath="url(#a)">
             <path
               fillRule="evenodd"
               d="m167.881 9-5.131 5.16a2.26 2.26 0 0 0 0 3.181c.873.878 2.29.878 3.164 0l5.131-5.16 5.132 5.16c.873.878 2.29.878 3.164 0a2.26 2.26 0 0 0 0-3.181L174.209 9l5.132-5.16a2.26 2.26 0 0 0 0-3.181 2.23 2.23 0 0 0-3.164 0l-5.132 5.16-5.131-5.16a2.23 2.23 0 0 0-3.164 0 2.26 2.26 0 0 0 0 3.181zm-9.929-9a2.243 2.243 0 0 0-2.237 2.25V9c0 2.482-2.008 4.501-4.476 4.501s-4.477-2.02-4.477-4.501V2.25A2.244 2.244 0 0 0 144.525 0a2.244 2.244 0 0 0-2.237 2.25V9c0 4.963 4.016 9 8.951 9s8.951-4.037 8.951-9V2.25A2.244 2.244 0 0 0 157.953 0zm-21.874.659a2.23 2.23 0 0 1 2.438-.487h.001a2.25 2.25 0 0 1 1.38 2.078v13.5A2.243 2.243 0 0 1 137.66 18a2.244 2.244 0 0 1-2.237-2.25V7.68l-2.894 2.91a2.23 2.23 0 0 1-3.164 0l-2.895-2.91v8.07a2.243 2.243 0 0 1-2.237 2.25 2.244 2.244 0 0 1-2.237-2.25V2.25c0-.91.545-1.73 1.381-2.078a2.23 2.23 0 0 1 2.438.487l5.131 5.16z"
