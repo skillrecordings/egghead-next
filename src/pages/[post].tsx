@@ -185,9 +185,7 @@ type MuxTimeUpdateEvent = {
 }
 
 async function getPost(slug: string) {
-  console.log('Getting post for slug:', slug)
   const {hashFromSlug, originalSlug} = parseSlugForHash(slug)
-  console.log('Parsed slug:', {hashFromSlug, originalSlug})
 
   const conn = await mysql.createConnection(access)
 
@@ -205,7 +203,6 @@ async function getPost(slug: string) {
     `,
       [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`],
     )
-    console.log('Video resource rows:', videoResourceRows)
 
     // Get post data with proper type checking
     const [postRows] = await conn.execute<RowDataPacket[]>(
