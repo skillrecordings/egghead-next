@@ -257,8 +257,6 @@ async function getPost(slug: string) {
     )
     const tags = tagRows
 
-    console.log('tags', tags)
-
     return {
       videoResource,
       post: postData.data,
