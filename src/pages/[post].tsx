@@ -327,7 +327,15 @@ function InstructorProfile({
 }) {
   const content = (
     <div className="flex flex-shrink-0 items-center">
-      {instructor?.avatar_url ? null : <Eggo className="mr-1 sm:w-10 w-8" />}
+      {instructor?.avatar_url ? (
+        <Image
+          src={instructor.avatar_url}
+          width={40}
+          height={40}
+          alt={instructor.full_name}
+          className="rounded-full"
+        />
+      ) : null}
       <div className="ml-2 flex flex-col justify-center">
         <span className="text-gray-700 dark:text-gray-400 text-sm leading-tighter">
           Instructor
