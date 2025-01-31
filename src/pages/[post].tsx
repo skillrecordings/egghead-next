@@ -310,7 +310,7 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
         }),
       },
       videoResource: convertToSerializeForNextResponse(videoResource),
-      tags || [],
+      tags: tags || [],
     },
     revalidate: 60,
   }
