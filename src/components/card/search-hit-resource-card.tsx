@@ -53,7 +53,7 @@ const SearchHitResourceCard: React.FC<
       className={className}
     >
       <Card {...props} resource={resource} className={defaultClassName}>
-        <CardContent className="flex items-center sm:space-x-5 space-x-3 sm:px-5 px-3 py-2 w-full">
+        <CardContent className="flex justify-center items-center sm:space-x-5 space-x-3 sm:px-5 px-3 py-2 w-full">
           {resource.image && (
             <CardHeader
               className={`flex items-center justify-center flex-shrink-0`}
@@ -89,7 +89,7 @@ const SearchHitResourceCard: React.FC<
                 throttle={1000}
               > */}
             <h3
-              className="lg:h-[60px] md:h-[55px] sm:h-[50px] h-[36px] font-medium leading-tight flex items-center"
+              className="lg:h-[60px] md:h-[55px] sm:h-[50px] h-[36px] font-medium leading-tight flex items-center max-w-[285px]"
               style={{fontSize}}
               ref={ref}
             >
