@@ -52,8 +52,12 @@ export default function Hero({formRef}: HeroProps) {
   }, [])
 
   return (
-    <section className="py-12 md:py-20 text-center relative overflow-hidden">
+    <section className="py-12  bg-white dark:bg-gray-900 md:py-20 text-center relative overflow-hidden">
       <div className="absolute inset-0 pattern-dots" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full bg-gradient-to-b dark:from-gray-900 dark:to-transparent from-gray-50 to-transparent"
+      />
       <motion.div {...scaleIn} className="relative max-w-4xl mx-auto px-4">
         <motion.h1
           {...fadeInUp}
@@ -77,7 +81,7 @@ export default function Hero({formRef}: HeroProps) {
         <motion.p
           {...fadeInUp}
           transition={{delay: 0.1}}
-          className="relative mb-8 text-lg md:text-xl text-gray-500 max-w-3xl mx-auto leading-relaxed"
+          className="relative mb-8 text-lg md:text-xl dark:text-gray-200 text-gray-800 max-w-3xl mx-auto leading-relaxed"
         >
           Join{' '}
           <span className="text-gray-900 dark:text-white font-medium">

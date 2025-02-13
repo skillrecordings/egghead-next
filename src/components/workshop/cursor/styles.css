@@ -2,9 +2,9 @@
   /* Base colors from Tailwind dark mode */
   --accent-1: rgb(17, 24, 39); /* gray-900 */
   --accent-2: rgb(31, 41, 55); /* gray-800 */
-  --accent-9: #61DAFB;
-  --accent-10: #82E6FF;
-  
+  --accent-9: #61dafb;
+  --accent-10: #82e6ff;
+
   /* Gradient backgrounds */
   --gradient-subtle: linear-gradient(
     180deg,
@@ -15,31 +15,39 @@
 
 .pattern-dots {
   @apply bg-white dark:bg-gray-900;
-  background-image: 
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.9), transparent),
+  background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.9),
+      transparent
+    ),
     radial-gradient(rgba(0, 0, 0, 0.1) 2px, transparent 2px);
   background-size: 100% 100%, 30px 30px;
   background-position: 0 0, 15px 15px;
 }
 
 .dark .pattern-dots {
-  background-image: 
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.15), transparent),
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), transparent),
     radial-gradient(rgba(255, 255, 255, 0.15) 2px, transparent 2px);
   background-size: 100% 100%, 30px 30px;
   background-position: 0 0, 15px 15px;
 }
 
 .pattern-dots-light {
-  background-image: 
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.9), transparent),
+  background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.9),
+      transparent
+    ),
     radial-gradient(rgba(0, 0, 0, 0.1) 2px, transparent 2px);
   background-size: 100% 100%, 30px 30px;
   background-position: 0 0, 15px 15px;
 }
 
 .pattern-dots-dense {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.2) 1px,
+    transparent 1px
+  );
   background-size: 16px 16px;
   background-position: 8px 8px;
 }
@@ -52,7 +60,7 @@
 
 .gradient-text {
   /* Temporarily remove gradient for testing */
-  color: #61DAFB;
+  color: #61dafb;
   font-weight: bold;
   /* Add spacing for visibility */
   padding: 0 4px;
@@ -79,7 +87,7 @@
   color: red !important;
   background: none !important;
   -webkit-text-fill-color: red !important;
-} 
+}
 
 div[class^='tweet-actions'],
 div[class^='tweet-replies'] {

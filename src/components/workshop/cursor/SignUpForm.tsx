@@ -39,11 +39,16 @@ const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
             powerful planning strategies to keep you shipping code with
             confidence.
           </p>
-          <div className="aspect-[16/9] w-full">
+          <div className=" w-full">
             <div
               data-tf-widget="Qe8W3N2B"
               data-tf-inline-on-mobile
-              className="w-full h-52"
+              data-tf-hide-headers
+              data-tf-hide-footer="true"
+              data-tf-auto-resize="true"
+              // data-tf-height="400px"
+              // data-tf-opacity="0"
+              className="w-full overflow-hidden"
             />
           </div>
         </motion.div>

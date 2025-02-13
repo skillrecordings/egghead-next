@@ -25,7 +25,7 @@ const WorkshopPage: NextPage = () => {
     >
       {/* Content */}
       <div className="relative">
-        <div className="relative bg-white dark:bg-gray-800">
+        <div className="relative">
           <Hero formRef={formRef} />
         </div>
 
