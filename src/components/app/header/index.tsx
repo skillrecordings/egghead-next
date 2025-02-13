@@ -35,7 +35,6 @@ import {ChevronDown} from 'lucide-react'
 import clsx from 'clsx'
 import {cn} from '@/ui/utils'
 import LifetimeSaleHeaderBanner from '@/components/cta/sale/lifetime-header-banner'
-import {useRouter} from 'next/router'
 
 type NavLinkProps = {
   name: string
@@ -564,11 +563,6 @@ const MobileNavigation = () => {
           account.account_capacity === 'team',
       ),
     )
-
-  const router = useRouter()
-  React.useEffect(() => {
-    setOpen(false)
-  }, [router])
 
   return (
     <>
