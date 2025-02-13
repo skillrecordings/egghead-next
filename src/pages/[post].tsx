@@ -37,7 +37,7 @@ import {
 } from '@/hooks/mux/use-video-player-overlay'
 import VideoPlayerOverlay from '@/components/posts/video-player-overlay'
 import {MuxPlayerProvider, useMuxPlayer} from '@/hooks/use-mux-player'
-import {redirect} from 'next/navigation'
+import router from 'next/router'
 
 export const PostTypeSchema = z.union([
   z.literal('article'),
@@ -313,15 +313,6 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
 
   const {post, videoResource, tags} = result
 
-  if (post.fields.postType === 'course') {
-    return {
-      redirect: {
-        destination: `/courses/${post.fields.slug}`,
-        permanent: true,
-      },
-    }
-  }
-
   const lesson = await fetch(
     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.eggheadLessonId}`,
   ).then((res) => res.json())
@@ -401,6 +392,16 @@ export default function PostPage({
 }: PostPageProps) {
   const imageParams = new URLSearchParams()
   imageParams.set('title', post.fields?.title ?? '')
+
+  React.useEffect(() => {
+    if (post.fields.postType === 'course') {
+      router.replace(`/courses/${post.fields.slug}`)
+    }
+  }, [post.fields.postType, post.fields.slug, router])
+
+  if (post.fields.postType === 'course') {
+    return null
+  }
 
   return (
     <div>
