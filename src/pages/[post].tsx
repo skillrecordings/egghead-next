@@ -37,19 +37,45 @@ import {
 } from '@/hooks/mux/use-video-player-overlay'
 import VideoPlayerOverlay from '@/components/posts/video-player-overlay'
 import {MuxPlayerProvider, useMuxPlayer} from '@/hooks/use-mux-player'
+import {redirect} from 'next/navigation'
+
+export const PostTypeSchema = z.union([
+  z.literal('article'),
+  z.literal('lesson'),
+  z.literal('podcast'),
+  z.literal('tip'),
+  z.literal('course'),
+])
+
+export const PostStateSchema = z.union([
+  z.literal('draft'),
+  z.literal('published'),
+  z.literal('archived'),
+  z.literal('deleted'),
+])
+
+export const PostVisibilitySchema = z.union([
+  z.literal('public'),
+  z.literal('private'),
+  z.literal('unlisted'),
+])
+
+export const PostAccessSchema = z.union([z.literal('free'), z.literal('pro')])
 
 export const FieldsSchema = z.object({
-  body: z.string().optional(),
-  slug: z.string().optional(),
-  state: z.string().optional(),
-  title: z.string().optional(),
-  access: z.string().optional(),
-  github: z.string().optional(),
-  gitpod: z.string().optional(),
-  postType: z.string().optional(),
-  visibility: z.string().optional(),
-  description: z.string().optional(),
-  eggheadLessonId: z.number().optional(),
+  title: z.string(),
+  postType: PostTypeSchema.default('lesson'),
+  summary: z.string().optional().nullable(),
+  body: z.string().nullable().optional(),
+  state: PostStateSchema.default('draft'),
+  visibility: PostVisibilitySchema.default('public'),
+  access: PostAccessSchema.default('pro'),
+  eggheadLessonId: z.number().nullish(),
+  eggheadPlaylistId: z.number().nullish(),
+  slug: z.string(),
+  description: z.string().nullish(),
+  github: z.string().nullish(),
+  gitpod: z.string().nullish(),
   primaryTagId: z.string().nullish(),
 })
 export type Fields = z.infer<typeof FieldsSchema>
@@ -370,7 +396,7 @@ export default function PostPage({
     <div>
       <NextSeo
         title={post.fields.title}
-        description={post.fields.description}
+        description={post.fields.description ?? ''}
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/${post.fields.slug}`}
         twitter={{
           cardType: 'summary_large_image',
