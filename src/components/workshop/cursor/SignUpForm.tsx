@@ -21,7 +21,7 @@ const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
   }, [])
 
   return (
-    <section id="signup" className="py-32 relative">
+    <section id="signup" className="py-16 relative">
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={fadeInUp.initial}
@@ -29,21 +29,24 @@ const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
           transition={fadeInUp.transition}
           className="max-w-2xl mx-auto"
         >
-          <h2 className="mb-4 text-3xl font-bold text-center dark:text-white text-gray-900">
+          <h2 className="mb-4 lg:text-4xl sm:text-3xl text-2xl font-bold text-center dark:text-white text-gray-900">
             Ready to Master Cursor?
           </h2>
-          <p className="mb-8 text-center text-gray-500 dark:text-gray-400 mx-auto">
-            Request a seat in this 5-day, hands-on workshop designed to level up
-            your development process. Overcome the frustration of complex
+          <p className="mb-8 text-center text-lg opacity-80 mx-auto">
+            Request a seat in this hands-on workshop designed to level up your
+            development process. Overcome the frustration of complex
             integrations, learn to handle failures gracefully, and discover
             powerful planning strategies to keep you shipping code with
             confidence.
           </p>
-          <div className="aspect-[16/9] w-full">
+          <div className=" w-full">
             <div
               data-tf-widget="Qe8W3N2B"
               data-tf-inline-on-mobile
-              className="w-full h-52"
+              data-tf-hide-headers
+              data-tf-hide-footer="true"
+              data-tf-auto-resize="true"
+              className="w-full overflow-hidden"
             />
           </div>
         </motion.div>

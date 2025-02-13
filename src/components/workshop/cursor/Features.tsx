@@ -42,27 +42,26 @@ const features = [
   {
     id: 'advanced-composer-agents',
     title: 'Composer Toolchain Pipelines',
-    description:
-      'Create specialized Composer workflows and agents that automate tasks you’d typically run in the terminal—speeding up your entire dev process.',
+    description: `Create specialized Composer workflows and agents that automate tasks you'd typically run in the terminal—speeding up your entire dev process`,
     icon: Cloud,
   },
 ]
 
 export default function Features() {
   return (
-    <section className="py-24 relative">
-      <div className="container mx-auto px-4 relative z-10">
+    <section className="py-10 relative">
+      <div className="container mx-auto px-6 sm:px-8 relative z-10">
         <motion.h2
           {...fadeInUp}
-          className="mb-16 text-3xl font-bold text-center dark:text-white"
+          className="mb-5 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white"
         >
-          What You&apos;ll Master
+          Essential Skills You'll Develop
         </motion.h2>
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate="show"
-          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+          className="grid md:gap-8 gap-5 md:grid-cols-2 lg:grid-cols-3"
         >
           {features.map((feature) => {
             const Icon = feature.icon
@@ -70,7 +69,7 @@ export default function Features() {
               <motion.div
                 key={feature.id}
                 variants={staggerItem}
-                className="group relative bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-800 rounded-lg p-6 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors drop-shadow-lg"
+                className="group relative bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-800 rounded-lg p-6 drop-shadow-lg"
               >
                 <div className="relative">
                   <div className="flex items-center mb-4 gap-2">
