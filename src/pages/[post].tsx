@@ -312,6 +312,16 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
   }
 
   const {post, videoResource, tags} = result
+
+  if (post.fields.postType === 'course') {
+    return {
+      redirect: {
+        destination: `/courses/${post.fields.slug}`,
+        permanent: true,
+      },
+    }
+  }
+
   const lesson = await fetch(
     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.eggheadLessonId}`,
   ).then((res) => res.json())
