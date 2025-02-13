@@ -1,15 +1,8 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
-import {getAttributes} from '@/lib/customer-io'
+import {inngest} from '@/inngest/inngest.server'
+import {CUSTOMER_IO_IDENTIFY_EVENT} from '@/inngest/events/identify-customer-io'
 import emailIsValid from '@/utils/email-is-valid'
-import {getContactId} from '@/lib/users'
-import {ACCESS_TOKEN_KEY} from '@/utils/auth'
-
-const {TrackClient, RegionUS} = require('customerio-node')
-const siteId = process.env.NEXT_PUBLIC_CUSTOMER_IO_SITE_ID
-const apiKey = process.env.CUSTOMER_IO_TRACK_API_BASIC
-const cio = new TrackClient(siteId, apiKey, {region: RegionUS})
-const date = Math.floor(Date.now() * 0.001)
 
 export const customerIORouter = router({
   identify: baseProcedure
@@ -17,41 +10,29 @@ export const customerIORouter = router({
       z.object({
         email: z.string().optional(),
         id: z.string().optional(),
-        selectedInterests: z.object({
-          article_cta_portfolio: z.number().optional(),
-        }),
+        selectedInterests: z.record(z.number().optional()),
       }),
     )
     .mutation(async ({input, ctx}) => {
       const {email, selectedInterests} = input
-      if (!email || (email && !emailIsValid(email))) return null
+      if (!email || (email && !emailIsValid(email)))
+        return new Error('Invalid email')
 
       const token = ctx?.userToken || process.env.EGGHEAD_SUPPORT_BOT_TOKEN
-      if (!token) return null
+      if (!token) return new Error('No token found')
 
-      const user_contact = await getContactId({token, email})
-
-      const customer = await getAttributes(user_contact)
-
-      if (customer) {
-        await cio.identify(user_contact, {
-          ...(!customer?.attributes.signed_up_for_newsletter && {
-            signed_up_for_newsletter: date,
-          }),
-          ...(!customer?.attributes.article_cta_portfolio && {
-            article_cta_portfolio: selectedInterests.article_cta_portfolio,
-          }),
-        })
-        return customer
-      } else {
-        await cio.identify(user_contact, {
+      await inngest.send({
+        name: CUSTOMER_IO_IDENTIFY_EVENT,
+        data: {
           email,
-          id: user_contact,
-          ...selectedInterests,
-          pro: false,
-          created_at: date, // Customer.io uses seconds with their UNIX epoch timestamps
-          signed_up_for_newsletter: date,
-        })
+          selectedInterests,
+          userToken: token,
+        },
+      })
+
+      return {
+        email,
+        selectedInterests,
       }
     }),
 })

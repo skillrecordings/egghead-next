@@ -15,6 +15,7 @@ import {handleTransloaditNotification} from '@/inngest/functions/handle-transloa
 import {createCourse} from '@/inngest/functions/create-course'
 import {stripeWebhookCheckoutSessionCompleted} from './functions/stripe-webhook-handlers'
 import {lifetimePurchase} from '@/inngest/functions/lifetime-purchase'
+import {identifyCustomerIo} from '@/inngest/functions/identify-customer-io'
 
 const test = inngest.createFunction(
   {id: `test`, name: 'Test'},
@@ -47,5 +48,6 @@ export const inngestConfig = {
     test,
     ...stripeWebhookFunctions,
     lifetimePurchase,
+    identifyCustomerIo,
   ],
 }

@@ -48,6 +48,10 @@ import {
   COURSE_UNPUBLISHED_EVENT,
   CourseUnpublished,
 } from './events/course-unpublished-event'
+import {
+  CUSTOMER_IO_IDENTIFY_EVENT,
+  CustomerIoIdentify,
+} from './events/identify-customer-io'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
@@ -66,6 +70,7 @@ type Events = {
   [VERIFIED_TRANSLOADIT_NOTIFICATION_EVENT]: VerifiedTransloaditNotification
   [SANITY_COURSE_DOCUMENT_CREATED]: SanityCourseDocumentCreated
   [COURSE_UNPUBLISHED_EVENT]: CourseUnpublished
+  [CUSTOMER_IO_IDENTIFY_EVENT]: CustomerIoIdentify
   test: {
     name: 'test'
     data: {}

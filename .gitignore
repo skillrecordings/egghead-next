@@ -48,3 +48,5 @@ prisma/generated.schema.prisma
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+# Not allowed by vercel, but auto-switches pnpm to the correct node version
+.npmrc

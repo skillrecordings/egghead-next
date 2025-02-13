@@ -41,12 +41,6 @@ const CustomHits = (props: UseHitsProps) => {
 
   const [firstHit, ...restHits] = hits
 
-  function truncateDescription(description: string) {
-    if (!description) return ''
-    const cleanedDescription = description.replace(/\n/g, ' ').trim()
-    return `${cleanedDescription.split('.')[0].substring(0, 120)}...`
-  }
-
   function getInstructorName(instructor: any) {
     if (!instructor) return ''
 
@@ -59,9 +53,9 @@ const CustomHits = (props: UseHitsProps) => {
 
   const resource = {
     title: firstHit?.title,
-    image: firstHit?.primary_tag_image_url ?? firstHit?.image,
+    image: firstHit?.primary_tag_image_url ?? undefined,
     path: firstHit?.path,
-    description: truncateDescription(firstHit?.summary),
+    description: firstHit?.summary,
     instructor: {
       id: firstHit?.instructor?.id,
       name: getInstructorName(firstHit?.instructor),

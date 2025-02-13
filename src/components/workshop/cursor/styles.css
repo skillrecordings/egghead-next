@@ -1,0 +1,93 @@
+.bootcamp {
+  /* Base colors from Tailwind dark mode */
+  --accent-1: rgb(17, 24, 39); /* gray-900 */
+  --accent-2: rgb(31, 41, 55); /* gray-800 */
+  --accent-9: #61DAFB;
+  --accent-10: #82E6FF;
+  
+  /* Gradient backgrounds */
+  --gradient-subtle: linear-gradient(
+    180deg,
+    rgb(17, 24, 39, 0.05),
+    rgb(31, 41, 55, 0.01)
+  );
+}
+
+.pattern-dots {
+  @apply bg-white dark:bg-gray-900;
+  background-image: 
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(rgba(0, 0, 0, 0.1) 2px, transparent 2px);
+  background-size: 100% 100%, 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+.dark .pattern-dots {
+  background-image: 
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.15), transparent),
+    radial-gradient(rgba(255, 255, 255, 0.15) 2px, transparent 2px);
+  background-size: 100% 100%, 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+.pattern-dots-light {
+  background-image: 
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(rgba(0, 0, 0, 0.1) 2px, transparent 2px);
+  background-size: 100% 100%, 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+.pattern-dots-dense {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: 8px 8px;
+}
+
+.pattern-dots-dense-light {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: 8px 8px;
+}
+
+.gradient-text {
+  /* Temporarily remove gradient for testing */
+  color: #61DAFB;
+  font-weight: bold;
+  /* Add spacing for visibility */
+  padding: 0 4px;
+  /* Debug */
+  outline: 1px solid red;
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+.emphasis-box {
+  background: var(--gradient-subtle);
+  border: 1px solid rgb(31, 41, 55, 0.1); /* gray-800 with opacity */
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+}
+
+.emphasis-text {
+  @apply text-gray-900 dark:text-white;
+  font-weight: bold;
+}
+
+/* Add a debug class to test basic visibility */
+.debug-text {
+  color: red !important;
+  background: none !important;
+  -webkit-text-fill-color: red !important;
+} 
+
+div[class^='tweet-actions'],
+div[class^='tweet-replies'] {
+  display: none !important;
+}
+
+div[class^='tweet-info'] {
+  margin-top: 0.75rem !important;
+  justify-content: center !important;
+  align-items: center !important;
+}

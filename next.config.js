@@ -55,13 +55,32 @@ const IMAGE_HOST_DOMAINS = compact([
     protocol: 'https',
     hostname: `image.mux.com`,
   },
+  {
+    protocol: 'https',
+    hostname: `pbs.twimg.com`,
+  },
 ])
 
 const nextConfig = {
-  transpilePackages: ['unist-util-visit'],
+  transpilePackages: ['unist-util-visit', 'react-tweet'],
   reactStrictMode: true,
   images: {
     remotePatterns: IMAGE_HOST_DOMAINS,
+    domains: [
+      'res.cloudinary.com',
+      'avatars.githubusercontent.com',
+      'pbs.twimg.com',
+      'abs.twimg.com',
+      'images.unsplash.com',
+      'image.mux.com',
+      'dl.airtable.com',
+      'og-image-react-egghead.now.sh',
+      'www.gravatar.com',
+      'files.stripe.com',
+      'media.giphy.com',
+      'media.cleanshot.cloud',
+      'egghead.io',
+    ],
   },
   async redirects() {
     return [
