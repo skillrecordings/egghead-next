@@ -43,7 +43,7 @@ const days = [
 export default function WorkshopStructure() {
   return (
     <section className="py-24 relative">
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="max-w-xl mx-auto px-4 relative z-10">
         <motion.h2
           {...fadeInUp}
           className="mb-16 text-3xl font-bold text-center dark:text-white"
@@ -53,7 +53,7 @@ export default function WorkshopStructure() {
         <motion.div
           initial={staggerContainer.hidden}
           animate={staggerContainer.show}
-          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+          className="flex flex-col gap-8"
         >
           {days.map((day) => (
             <motion.div
