@@ -8,6 +8,8 @@ import groq from 'groq'
 import {getServerState} from 'react-instantsearch'
 import {renderToString} from 'react-dom/server'
 import TheFeed from '@/components/pages/home/the-feed'
+import {typsenseAdapterConfig} from '@/utils/typesense'
+import {typesenseAdapter} from './q/[[...all]]'
 
 const HomePage: FunctionComponent<React.PropsWithChildren<any>> = ({
   data,
@@ -86,6 +88,13 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
 
 export async function getStaticProps() {
   const data = await sanityClient.fetch(homepageQuery)
+
+  typesenseAdapter.updateConfiguration({
+    ...typsenseAdapterConfig,
+    additionalSearchParameters: {
+      preset: 'the_feed',
+    },
+  })
 
   const searchServerState = await getServerState(<TheFeed />, {
     renderToString,

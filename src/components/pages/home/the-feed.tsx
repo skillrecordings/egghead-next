@@ -8,7 +8,14 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import Pagination from '@/components/search/pagination'
 import PresetOptions from '@/components/search/components/preset-options'
 import {usePagination} from 'react-instantsearch'
+import {typsenseAdapterConfig} from '@/utils/typesense'
 
+typesenseAdapter.updateConfiguration({
+  ...typsenseAdapterConfig,
+  additionalSearchParameters: {
+    preset: 'the_feed',
+  },
+})
 const searchClient = typesenseAdapter.searchClient
 const queryClient = new QueryClient()
 
