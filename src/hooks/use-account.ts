@@ -32,9 +32,15 @@ export const useAccount = () => {
 
   const account =
     isAccountOwner &&
-    userAccounts?.find((account: {owner: {id: number}}) => {
-      return account.owner?.id === viewer.id
-    })
+    userAccounts?.find(
+      (account: {owner: {id: number}; subscriptions: {status: string}[]}) => {
+        const activeSubscription = account?.subscriptions?.find(
+          (sub) => sub.status === 'active',
+        )
+
+        return account.owner?.id === viewer.id && activeSubscription
+      },
+    )
 
   const giftExpiration = account?.subscriptions?.[0]?.current_period_end
   const isGiftExpired = isPast(new Date(giftExpiration))
