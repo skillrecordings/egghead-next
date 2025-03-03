@@ -392,6 +392,69 @@ export const ConfirmLifetimeMembership: React.FC<
   )
 }
 
+export const ConfirmWorkshop: React.FC<
+  React.PropsWithChildren<ConfirmMembershipProps>
+> = ({session_id}) => {
+  // TODO: can this line be deleted?
+  const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
+
+  if (!session_id) {
+    return null
+  }
+
+  const {data, status: postCheckoutStatus} =
+    trpc.stripe.postCheckoutDetails.useQuery({
+      checkoutSessionId: session_id as string,
+    })
+
+  if (!data) {
+    return null
+  }
+
+  return (
+    <div className="w-full max-w-screen-lg mx-auto space-y-16 text-gray-900 dark:text-white">
+      <Header
+        heading={<>Thank you so much for your workshop purchase!</>}
+        primaryMessage={
+          <>
+            <p className="text-lg text-center">
+              We've charged your credit card{' '}
+              <strong>
+                ${(data?.session?.amount_total || 0) / 100} for your live
+                workshop purchase
+              </strong>{' '}
+              and sent a receipt to <strong>{data.customer.email}</strong>.
+            </p>
+
+            <p className="text-lg text-center mt-4">
+              You will receive an email with details about the upcoming
+              workshop.
+            </p>
+
+            <div className="py-16 border-y border-gray-100 dark:border-gray-800 mt-16">
+              <div className="max-w-[400px] mx-auto">
+                <h4 className="pb-3 text-lg font-bold">Support</h4>
+                <p className="prose dark:prose-dark">
+                  If you have any issues, please email support{' '}
+                  <strong>
+                    <a
+                      className="prose dark:prose-dark"
+                      href="mailto:support@egghead.io"
+                    >
+                      support@egghead.io
+                    </a>
+                  </strong>{' '}
+                  and we will help you as soon as possible.
+                </p>
+              </div>
+            </div>
+          </>
+        }
+      />
+    </div>
+  )
+}
+
 const topics: Topic[] = [
   {
     title: 'React',

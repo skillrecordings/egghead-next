@@ -5,9 +5,13 @@ import {fadeInUp, scaleIn} from './animations'
 import {useState, useEffect} from 'react'
 import './styles.css'
 import {ArrowCircleDownIcon} from '@heroicons/react/solid'
-import type {SignUpFormRef} from './SignUpForm'
 import Image from 'next/image'
 import {Button} from '@/ui'
+import {Calendar, Clock, MapPin} from 'lucide-react'
+
+export interface SignUpFormRef {
+  focus: () => void
+}
 
 const phrases = [
   'Conquer the Complexity of',
@@ -41,9 +45,10 @@ function scrollToSignup(
 
 interface HeroProps {
   formRef: React.RefObject<SignUpFormRef>
+  saleisActive: boolean
 }
 
-export default function Hero({formRef}: HeroProps) {
+export default function Hero({formRef, saleisActive}: HeroProps) {
   const [phraseIndex, setPhraseIndex] = useState(0)
 
   useEffect(() => {
@@ -114,16 +119,34 @@ export default function Hero({formRef}: HeroProps) {
           transition={{delay: 0.3, type: 'spring', stiffness: 200}}
           className="relative"
         >
-          <Button
-            asChild
-            size="lg"
-            className=" sm:mt-5 dark:bg-white dark:text-black bg-black text-white font-semibold"
-          >
-            <Link href="#signup" onClick={(e) => scrollToSignup(e, formRef)}>
-              Join the Waitlist
-              {/* <ArrowCircleDownIcon className="group-hover:scale-105 w-8 h-8 transition-all duration-200" /> */}
-            </Link>
-          </Button>
+          <div className="flex flex-col gap-4 justify-center items-center">
+            <Button
+              asChild
+              size="lg"
+              className=" sm:mt-5 dark:bg-white dark:text-black bg-black text-white font-semibold w-fit"
+            >
+              <Link href="#signup" onClick={(e) => scrollToSignup(e, formRef)}>
+                Register Now
+                {/* <ArrowCircleDownIcon className="group-hover:scale-105 w-8 h-8 transition-all duration-200" /> */}
+              </Link>
+            </Button>
+            {saleisActive && (
+              <div className="flex flex-col gap-2 text-sm text-muted-foreground md:flex-row md:gap-6">
+                <div className="flex items-center gap-1">
+                  <Calendar className="h-4 w-4" />
+                  <span>March 11, 2025</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Clock className="h-4 w-4" />
+                  <span>9:00 AM - 2:00 PM (PST)</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <MapPin className="h-4 w-4" />
+                  <span>Zoom</span>
+                </div>
+              </div>
+            )}
+          </div>
         </motion.div>
       </motion.div>
     </section>
