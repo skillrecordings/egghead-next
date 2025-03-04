@@ -1,4 +1,5 @@
 import {Button} from '@/ui/button'
+import {Calendar, Clock, MapPin} from 'lucide-react'
 import Link from 'next/link'
 
 const CheckIcon = () => {
@@ -54,6 +55,21 @@ const ActiveSale = ({
               powerful planning strategies to keep you shipping code with
               confidence.
             </p>
+
+            <div className="flex flex-col gap-2 text-sm text-muted-foreground md:flex-row md:gap-6">
+              <div className="flex items-center gap-1">
+                <Calendar className="h-4 w-4" />
+                <span>March 11, 2025</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Clock className="h-4 w-4" />
+                <span>9:00 AM - 2:00 PM (PST)</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <MapPin className="h-4 w-4" />
+                <span>Zoom</span>
+              </div>
+            </div>
           </div>
           <div className="mx-auto max-w-lg py-12">
             <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-800 rounded-lg text-card-foreground shadow-sm">
