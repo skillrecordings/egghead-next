@@ -44,11 +44,15 @@ const ActiveSale = ({
       >
         <div className="container px-4 md:px-6">
           <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Workshop Pricing
+            <h2 className="mb-4 lg:text-4xl sm:text-3xl text-2xl font-bold text-center dark:text-white text-gray-900">
+              Ready to Take Advantage of AI Development with Cursor?
             </h2>
-            <p className="max-w-[85%] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Streamline your development cycle with Cursor
+            <p className="mb-8 text-center text-lg opacity-80 mx-auto">
+              Claim a seat in this hands-on workshop designed to level up your
+              development process. Overcome the frustration of complex
+              integrations, learn to handle failures gracefully, and discover
+              powerful planning strategies to keep you shipping code with
+              confidence.
             </p>
           </div>
           <div className="mx-auto max-w-lg py-12">
