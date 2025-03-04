@@ -22,8 +22,8 @@ const extractPricesFromPricingData = (pricingData: PricingData): Prices => {
     interval_count: 3,
   })
 
-  if (!annualPrice?.stripe_price_id)
-    throw new Error('no annual price to load 😭')
+  // if (!annualPrice?.stripe_price_id)
+  //   throw new Error('no annual price to load 😭')
 
   return pickBy({annualPrice, quarterlyPrice, monthlyPrice})
 }

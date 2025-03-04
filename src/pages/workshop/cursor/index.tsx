@@ -10,35 +10,24 @@ import type {GetServerSideProps, NextPage} from 'next'
 import {useRef} from 'react'
 import {NextSeo} from 'next-seo'
 import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
+import ActiveSale from '@/components/workshop/cursor/active-sale'
 
 import CtaSection from '@/components/workshop/cursor/cta-section'
-import ActiveSale from '@/components/pricing/workshop/active-sale'
+import {useViewer} from '@/context/viewer-context'
+import {Scale} from 'lucide-react'
 
-const WorkshopPage = ({
-  getLayout,
-  lastCharge,
-}: {
-  getLayout: any
-  lastCharge: {
-    amountPaid: number
-    stripeCustomerId: string
-    accountId: string
-    userId: string
-  }
-}) => {
+const WorkshopPage = () => {
   const formRef = useRef<SignUpFormRef>(null)
+  const {viewer} = useViewer()
+  const isPro = viewer?.is_pro
 
   const saleisActive = true
-  const LIVE_WORKSHOP_STRIPE_PRICE_ID =
-    process.env.NEXT_PUBLIC_LIVE_WORKSHOP_STRIPE_PRICE_ID!
-  const LIVE_WORKSHOP_TITLE = 'Accelerate your workflow with Cursor'
-  const LIVE_WORKSHOP_PLAN = {
-    price: 149,
-    price_discounted: 90,
-  }
+
   const LIVE_WORKSHOP_FEATURES = [
     'Live Q&A with John Lindquist',
-    'Prompt and .cursorrules used by John Lindquist',
+    'Learn to Prompt for developers',
+    'Effective .cursorrules used',
+    'Build context for Agents',
     'Full day of intensive training',
     'Hour long break for lunch',
     'Access to the workshop recording',
@@ -59,10 +48,7 @@ const WorkshopPage = ({
           SaleClosedUi={<SignUpForm />}
           ActiveSaleUi={
             <ActiveSale
-              lastCharge={lastCharge}
-              priceId={LIVE_WORKSHOP_STRIPE_PRICE_ID}
-              title={LIVE_WORKSHOP_TITLE}
-              plan={LIVE_WORKSHOP_PLAN}
+              isPro={isPro}
               workshopFeatures={LIVE_WORKSHOP_FEATURES}
             />
           }
