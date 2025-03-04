@@ -5,25 +5,54 @@ import Features from '@/components/workshop/cursor/Features'
 import WorkshopStructure from '@/components/workshop/cursor/WorkshopStructure'
 import Instructor from '@/components/workshop/cursor/Instructor'
 import SignUpForm from '@/components/workshop/cursor/SignUpForm'
-import type {SignUpFormRef} from '@/components/workshop/cursor/SignUpForm'
-import type {NextPage} from 'next'
+import type {SignUpFormRef} from '@/components/workshop/cursor/Hero'
+import type {GetServerSideProps, NextPage} from 'next'
 import {useRef} from 'react'
 import {NextSeo} from 'next-seo'
+import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
+import ActiveSale from '@/components/workshop/cursor/active-sale'
 
-const WorkshopPage = ({getLayout}: {getLayout: any}) => {
+import CtaSection from '@/components/workshop/cursor/cta-section'
+import {useViewer} from '@/context/viewer-context'
+import {Scale} from 'lucide-react'
+
+const WorkshopPage = () => {
   const formRef = useRef<SignUpFormRef>(null)
+  const {viewer} = useViewer()
+  const isPro = viewer?.is_pro
+
+  const saleisActive = true
+
+  const LIVE_WORKSHOP_FEATURES = [
+    'Live Q&A with John Lindquist',
+    'Learn to Prompt for developers',
+    'Effective .cursorrules used',
+    'Build context for Agents',
+    'Full day of intensive training',
+    'Hour long break for lunch',
+    'Access to the workshop recording',
+  ]
 
   return (
     <main className="min-h-screen relative bg-white dark:bg-gray-900">
       <div className="relative">
         <div className="relative">
-          <Hero formRef={formRef} />
+          <Hero formRef={formRef} saleisActive={saleisActive} />
           <Features />
         </div>
         {/* <WorkshopStructure /> */}
-        <div className="relative">
-          <SignUpForm ref={formRef} />
-        </div>
+
+        <CtaSection
+          saleisActive={saleisActive}
+          ref={formRef}
+          SaleClosedUi={<SignUpForm />}
+          ActiveSaleUi={
+            <ActiveSale
+              isPro={isPro}
+              workshopFeatures={LIVE_WORKSHOP_FEATURES}
+            />
+          }
+        />
         <div className="relative">
           <Instructor />
         </div>
@@ -52,6 +81,25 @@ WorkshopPage.getLayout = (Page: any, pageProps: any) => {
       <Page {...pageProps} />
     </Layout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const ehUser = JSON.parse(ctx.req.cookies.eh_user || '{}')
+  const authToken = ctx.req.cookies['eh_token_2020_11_22']
+  console.log('ehUser', ehUser)
+
+  if (!authToken) return {props: {}}
+
+  const lastCharge = await getLastChargeForActiveSubscription(
+    ehUser.email,
+    authToken,
+  )
+
+  return {
+    props: {
+      lastCharge: lastCharge || null,
+    },
+  }
 }
 
 export default WorkshopPage

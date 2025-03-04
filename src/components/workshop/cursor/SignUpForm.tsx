@@ -4,11 +4,7 @@ import {forwardRef, useEffect} from 'react'
 import {motion} from 'framer-motion'
 import {fadeInUp} from './animations'
 
-export interface SignUpFormRef {
-  focus: () => void
-}
-
-const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
+const SignUpForm = () => {
   useEffect(() => {
     const script = document.createElement('script')
     script.src = '//embed.typeform.com/next/embed.js'
@@ -53,8 +49,6 @@ const SignUpForm = forwardRef<SignUpFormRef>((props, ref) => {
       </div>
     </section>
   )
-})
-
-SignUpForm.displayName = 'SignUpForm'
+}
 
 export default SignUpForm
