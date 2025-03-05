@@ -3,6 +3,7 @@ import {isEmpty} from 'lodash'
 
 import InProgressResource from '@/components/pages/users/dashboard/activity/in-progress-resource'
 import Spinner from '@/components/spinner'
+import {ErrorBoundary} from 'react-error-boundary'
 
 const ContinueLearning: React.FC<
   React.PropsWithChildren<{
@@ -21,14 +22,17 @@ const ContinueLearning: React.FC<
       ) : isEmpty(continueLearningData) ? (
         <span>You aren't learning anything right now</span>
       ) : (
-        continueLearningData.map((item: any) => {
-          return (
-            <InProgressResource
-              key={item.collection.title}
-              resource={item.collection}
-            />
-          )
-        })
+        <ErrorBoundary fallback={<span>Error while loading</span>}>
+          {continueLearningData.map((item: any) => {
+            if (!item?.collection || !item?.collection?.title) return null
+            return (
+              <InProgressResource
+                key={item?.collection?.title}
+                resource={item?.collection}
+              />
+            )
+          })}
+        </ErrorBoundary>
       )}
     </>
   )
