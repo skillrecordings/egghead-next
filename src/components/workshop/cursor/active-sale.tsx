@@ -1,5 +1,5 @@
 import {Button} from '@/ui/button'
-import {Calendar, Clock, MapPin} from 'lucide-react'
+import {Calendar, Clock, MapPin, AsteriskIcon} from 'lucide-react'
 import Link from 'next/link'
 
 const CheckIcon = () => {
@@ -82,8 +82,9 @@ const ActiveSale = ({
                     <div className="flex items-center justify-center gap-4">
                       <p className="text-5xl font-bold">$119</p>
                       <div>
-                        <p className="text-sm font-semibold text-yellow-500">
+                        <p className="flex text-sm font-semibold text-yellow-500">
                           SAVE 20%
+                          <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
                         </p>
                         <p className="text-2xl text-muted-foreground line-through opacity-70">
                           $149
@@ -91,7 +92,10 @@ const ActiveSale = ({
                       </div>
                     </div>
                   ) : (
-                    <p className="text-5xl font-bold">$149</p>
+                    <p className="flex justify-center text-5xl font-bold ">
+                      $149
+                      <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
+                    </p>
                   )}
                 </div>
               </div>
@@ -112,9 +116,20 @@ const ActiveSale = ({
                 >
                   Register Now
                 </a>
-                <p className="text-xs text-center text-muted-foreground">
-                  Limited spots available. Secure yours today!
-                </p>
+                <div>
+                  <p className="text-xs text-center text-muted-foreground">
+                    Limited spots available. Secure yours today!
+                  </p>
+                  {!isPro ? (
+                    <p className="mt-1 text-xs text-center text-muted-foreground underline font-medium">
+                      *<Link href="/pricing">Pro users get a 20% discount</Link>
+                    </p>
+                  ) : (
+                    <p className="mt-1 text-xs text-center text-yellow-500 font-medium opacity-90">
+                      *Pro discount applied at checkout
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
