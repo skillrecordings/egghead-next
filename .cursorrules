@@ -1,0 +1,80 @@
+<AllowedPackages>
+# Core Framework & Runtime
+next - React framework for production applications with SSR, routing, and API functionality
+react - Core UI library for building component-based interfaces
+react-dom - React's DOM rendering layer
+
+# UI Components & Design
+
+@headlessui/react - Unstyled, accessible UI components
+@heroicons/react - SVG icon collection for consistent UI design
+@radix-ui/_ - Low-level, accessible UI component primitives
+@reach/_ - Accessible UI components and utilities
+tailwindcss - Utility-first CSS framework
+@tailwindcss/\* - Official Tailwind CSS plugins and extensions
+framer-motion - Animation library for React
+lucide-react - Modern icon set for React applications
+
+# Data Management & API
+
+@prisma/client - Type-safe database client
+@tanstack/react-query - Data fetching and caching library
+@trpc/\* - End-to-end typesafe APIs
+zod - TypeScript-first schema validation
+superjson - JSON serialization with rich data types
+
+# Authentication & Security
+
+@casl/ability - Authorization library for user permissions
+@stripe/react-stripe-js - Stripe payment integration
+@stripe/stripe-js - Stripe JavaScript SDK
+
+# Content & MDX
+
+@mdx-js/_ - Markdown and JSX processing
+@code-hike/mdx - Code presentation in MDX
+next-mdx-remote - MDX rendering in Next.js
+@sanity/_ - Headless CMS integration
+groq - Query language for Sanity
+
+# Media & Player
+
+@mux/\* - Video streaming and playback
+
+# Analytics & Monitoring
+
+mixpanel - Product analytics
+posthog-js - Product analytics and feature flags
+logrocket - Session replay and monitoring
+
+# Email & Communication
+
+@react-email/\* - Email template components
+discord.js - Discord bot integration
+@slack/web-api - Slack integration
+
+# Development & Testing
+
+@types/\* - TypeScript type definitions
+typescript - JavaScript with syntax for types
+jest - Testing framework
+cypress - End-to-end testing
+eslint - Code linting
+prettier - Code formatting
+prisma - Database ORM and migration tool
+
+# Utilities
+
+date-fns - Date manipulation library
+lodash - Utility functions
+nanoid - Unique ID generation
+uuid - UUID generation
+clsx - CSS class name utilities
+class-variance-authority - Dynamic class variance utilities
+
+# Performance & Optimization
+
+sharp - Image processing
+@vercel/edge-config - Edge configuration
+next-themes - Dark/light theme management
+</AllowedPackages>
