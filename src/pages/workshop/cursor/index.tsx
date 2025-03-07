@@ -30,7 +30,6 @@ const WorkshopPage = () => {
     'Build context for Agents',
     'Full day of intensive training',
     'Hour long break for lunch',
-    'Access to the workshop recording',
   ]
 
   return (
