@@ -17,7 +17,7 @@ export type SpecificProductEmailProps = {
   customerName?: string
   customerEmail: string
   productId: string
-  productDescription: string
+  productName: string
   purchaseDate: string
   body?: string
   preview?: string
