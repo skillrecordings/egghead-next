@@ -28,7 +28,7 @@ const Custom500Page: React.FC = () => {
           <div className="flex flex-col max-w-md">
             <h1 className="font-extrabold text-7xl md:text-9xl mb-4">500</h1>
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Well shit, something broke on our end.
+              Well dang, something broke on our end.
             </h2>
             <p className="mb-6 text-lg">
               Our search service is currently having a moment. This isn't your
