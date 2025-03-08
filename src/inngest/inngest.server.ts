@@ -52,11 +52,16 @@ import {
   CUSTOMER_IO_IDENTIFY_EVENT,
   CustomerIoIdentify,
 } from './events/identify-customer-io'
+import {
+  SPECIFIC_PRODUCT_PURCHASE_EVENT,
+  SpecificProductPurchase,
+} from './events/specific-product-purchase'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
   [STRIPE_WEBHOOK_EVENT]: StripeWebhook
   [LIFETIME_PURCHASE_EVENT]: LifetimePurchase
+  [SPECIFIC_PRODUCT_PURCHASE_EVENT]: SpecificProductPurchase
   [DEEPGRAM_WEBHOOK_EVENT]: DeepgramWebhook
   [TRANSCRIPT_READY_EVENT]: TranscriptReady
   [VIDEO_UPLOADED_EVENT]: VideoUploaded

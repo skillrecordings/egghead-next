@@ -16,6 +16,7 @@ import {createCourse} from '@/inngest/functions/create-course'
 import {stripeWebhookCheckoutSessionCompleted} from './functions/stripe-webhook-handlers'
 import {lifetimePurchase} from '@/inngest/functions/lifetime-purchase'
 import {identifyCustomerIo} from '@/inngest/functions/identify-customer-io'
+import {sendSpecificProductEmail} from '@/inngest/functions/send-specific-product-email'
 
 const test = inngest.createFunction(
   {id: `test`, name: 'Test'},
@@ -49,5 +50,6 @@ export const inngestConfig = {
     ...stripeWebhookFunctions,
     lifetimePurchase,
     identifyCustomerIo,
+    sendSpecificProductEmail,
   ],
 }
