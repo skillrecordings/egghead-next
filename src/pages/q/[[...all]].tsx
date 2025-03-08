@@ -82,48 +82,41 @@ const SearchIndex: any = ({
 
   if (error) {
     return (
-      <>
-        <Header />
-        <Main>
-          <div className="min-h-[60vh] flex flex-col items-center justify-center p-5">
-            <div className="flex flex-col md:flex-row items-center max-w-4xl mx-auto gap-8">
-              <div className="w-48 h-48 relative">
-                <Image
-                  src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1659039546/eggodex/basic_eggo.png"
-                  alt="egghead search error"
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </div>
-              <div className="text-center md:text-left">
-                <h1 className="text-3xl md:text-4xl font-bold mb-4">
-                  Search is temporarily unavailable
-                </h1>
-                <p className="text-lg mb-6">{error}</p>
-                <p className="mb-6">
-                  Don't worry, our team is working on it. In the meantime, you
-                  can:
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                  <Link
-                    href="/"
-                    className="py-3 px-5 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors text-center"
-                  >
-                    Go to homepage
-                  </Link>
-                  <button
-                    onClick={() => window.location.reload()}
-                    className="py-3 px-5 rounded-md border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    Try again
-                  </button>
-                </div>
-              </div>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center p-5">
+        <div className="flex flex-col md:flex-row items-center max-w-4xl mx-auto gap-8">
+          <div className="w-48 h-48 relative">
+            <Image
+              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1659039546/eggodex/basic_eggo.png"
+              alt="egghead search error"
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
+          <div className="text-center md:text-left">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">
+              Search is temporarily unavailable
+            </h1>
+            <p className="text-lg mb-6">{error}</p>
+            <p className="mb-6">
+              Don't worry, our team is working on it. In the meantime, you can:
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <Link
+                href="/"
+                className="py-3 px-5 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors text-center"
+              >
+                Go to homepage
+              </Link>
+              <button
+                onClick={() => window.location.reload()}
+                className="py-3 px-5 rounded-md border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                Try again
+              </button>
             </div>
           </div>
-        </Main>
-        <Footer />
-      </>
+        </div>
+      </div>
     )
   }
 
