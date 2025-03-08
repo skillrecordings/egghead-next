@@ -7,7 +7,7 @@ import Stripe from 'stripe'
 import {NonRetriableError} from 'inngest'
 
 const LIFETIME_PRICE_ID = process.env.STRIPE_LIFETIME_MEMBERSHIP_PRICE_ID
-const SPECIFIC_PRODUCT_ID = process.env.WORKSHOP_PRODUCT_ID
+const SPECIFIC_PRODUCT_ID = process.env.WORKSHOP_PRODUCT_ID || ''
 const PRICE_ID_ALLOW_LIST = [LIFETIME_PRICE_ID]
 
 /**
