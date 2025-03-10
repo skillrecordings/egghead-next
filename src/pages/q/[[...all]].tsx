@@ -1,5 +1,5 @@
 import * as React from 'react'
-import singletonRouter, {useRouter} from 'next/router'
+import singletonRouter from 'next/router'
 import Image from 'next/image'
 import Search from '@/components/search'
 import {NextSeo} from 'next-seo'
@@ -25,6 +25,7 @@ import {
   typesenseInstantsearchAdapter,
 } from '@/utils/typesense'
 import nameToSlug from '@/lib/name-to-slug'
+import Link from 'next/link'
 
 const tracer = getTracer('search-page')
 
@@ -81,14 +82,40 @@ const SearchIndex: any = ({
 
   if (error) {
     return (
-      <div className="h-screen flex items-center justify-center gap-4">
-        <Image
-          src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1659039546/eggodex/basic_eggo.png"
-          alt="egghead search error"
-          width={200}
-          height={200}
-        />
-        <p className="prose dark:prose-dark text-xl">{error}</p>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center p-5">
+        <div className="flex flex-col md:flex-row items-center max-w-4xl mx-auto gap-8">
+          <div className="w-48 h-48 relative">
+            <Image
+              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1659039546/eggodex/basic_eggo.png"
+              alt="egghead search error"
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
+          <div className="text-center md:text-left">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">
+              Search is temporarily unavailable
+            </h1>
+            <p className="text-lg mb-6">{error}</p>
+            <p className="mb-6">
+              Don't worry, our team is working on it. In the meantime, you can:
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <Link
+                href="/"
+                className="py-3 px-5 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors text-center"
+              >
+                Go to homepage
+              </Link>
+              <button
+                onClick={() => window.location.reload()}
+                className="py-3 px-5 rounded-md border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                Try again
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
@@ -185,77 +212,108 @@ export const getServerSideProps: GetServerSideProps = async ({
   const pageTitle = titleFromPath(all as string[])
   const path = req.url
 
-  // Get server state and sanitize it for serialization
-  const serverState = await getServerState(
-    <SearchIndex initialSearchState={initialSearchState} />,
-    {
-      renderToString,
-    },
-  )
+  try {
+    // Set a timeout for the getServerState call
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => {
+        reject(new Error('Typesense request timed out'))
+      }, 5000) // 5 second timeout
+    })
 
-  // Sanitize the serverState to remove undefined values
-  const sanitizedServerState = JSON.parse(
-    JSON.stringify(serverState, (_, value) =>
-      value === undefined ? null : value,
-    ),
-  )
+    // Get server state and sanitize it for serialization
+    const serverStatePromise = getServerState(
+      <SearchIndex initialSearchState={initialSearchState} />,
+      {
+        renderToString,
+      },
+    )
 
-  // Rest of the code remains the same...
-  const resultsState = Object.keys(sanitizedServerState.initialResults).map(
-    (key) => sanitizedServerState.initialResults[key],
-  )[0]
+    // Race between the timeout and the actual request
+    const serverState = await Promise.race([serverStatePromise, timeoutPromise])
 
-  const {results, state} = resultsState
+    // Sanitize the serverState to remove undefined values
+    const sanitizedServerState = JSON.parse(
+      JSON.stringify(serverState, (_, value) =>
+        value === undefined ? null : value,
+      ),
+    )
 
-  let initialInstructor = null
-  let initialTopicGraphqlData = null
-  let initialTopicSanityData = null
+    // Rest of the code remains the same...
+    const resultsState = Object.keys(sanitizedServerState.initialResults).map(
+      (key) => sanitizedServerState.initialResults[key],
+    )[0]
 
-  const noHits = isEmpty(get(first(results), 'hits'))
-  const queryParamsPresent = !isEmpty(rest)
-  const userQueryPresent = !isEmpty(state?.query)
+    const {results, state} = resultsState
 
-  const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
+    let initialInstructor = null
+    let initialTopicGraphqlData = null
+    let initialTopicSanityData = null
 
-  const selectedInstructors = getInstructorsFromSearchState(initialSearchState)
+    const noHits = isEmpty(get(first(results), 'hits'))
+    const queryParamsPresent = !isEmpty(rest)
+    const userQueryPresent = !isEmpty(state?.query)
 
-  const selectedTopics = topicExtractor(initialSearchState)
+    const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
-  if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
-    const topic = first<string>(selectedTopics)
+    const selectedInstructors =
+      getInstructorsFromSearchState(initialSearchState)
 
-    try {
-      if (topic) {
-        initialTopicGraphqlData = await loadTag(topic)
-        initialTopicSanityData = await sanityClient.fetch(topicQuery, {
-          slug: topic,
-        })
+    const selectedTopics = topicExtractor(initialSearchState)
+
+    if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
+      const topic = first<string>(selectedTopics)
+
+      try {
+        if (topic) {
+          initialTopicGraphqlData = await loadTag(topic)
+          initialTopicSanityData = await sanityClient.fetch(topicQuery, {
+            slug: topic,
+          })
+        }
+      } catch (error) {
+        console.error(error)
       }
-    } catch (error) {
-      console.error(error)
     }
-  }
 
-  if (selectedInstructors.length === 1) {
-    const instructorSlug =
-      getInstructorSlugFromInstructorList(selectedInstructors)
-    try {
-      initialInstructor = await loadInstructor(instructorSlug)
-    } catch (error) {
-      console.error(error)
+    if (selectedInstructors.length === 1) {
+      const instructorSlug =
+        getInstructorSlugFromInstructorList(selectedInstructors)
+      try {
+        initialInstructor = await loadInstructor(instructorSlug)
+      } catch (error) {
+        console.error(error)
+      }
     }
-  }
 
-  return {
-    props: {
-      initialSearchState,
-      path,
-      serverState: sanitizedServerState, // Use sanitized version
-      pageTitle,
-      noIndexInitial,
-      initialInstructor,
-      ...(!!initialTopicGraphqlData && {initialTopicGraphqlData}),
-      ...(!!initialTopicSanityData && {initialTopicSanityData}),
-    },
+    return {
+      props: {
+        initialSearchState,
+        path,
+        serverState: sanitizedServerState, // Use sanitized version
+        pageTitle,
+        noIndexInitial,
+        initialInstructor,
+        ...(!!initialTopicGraphqlData && {initialTopicGraphqlData}),
+        ...(!!initialTopicSanityData && {initialTopicSanityData}),
+      },
+    }
+  } catch (error) {
+    console.error('Search error:', error)
+
+    // Return minimal props with error information
+    // This allows the component to render but in a fallback state
+    return {
+      props: {
+        error: 'Search service unavailable',
+        initialSearchState,
+        path,
+        serverState: null,
+        pageTitle,
+        noIndexInitial: true,
+        initialInstructor: null,
+        initialTopicGraphqlData: null,
+        initialTopicSanityData: null,
+      },
+    }
   }
 }

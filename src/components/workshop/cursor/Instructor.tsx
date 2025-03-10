@@ -22,11 +22,11 @@ export default function Instructor() {
               {/* <Tweet id="1884674424374214692" /> */}
             </div>
             <div>
-              <h2 className="mb-8 text-3xl font-bold dark:text-white flex flex-col items-center md:items-start">
+              <h2 className="mb-8 text-2xl font-bold dark:text-white flex flex-col items-center md:items-start">
                 <span className="opacity-80 text-xs uppercase">
                   Your Instructor
                 </span>
-                <span className="font-heading text-3xl font-semibold sm:text-4xl">
+                <span className="font-heading text-2xl font-semibold sm:text-3xl">
                   John Lindquist
                 </span>
               </h2>
@@ -42,10 +42,10 @@ export default function Instructor() {
             </div>
           </div>
           <blockquote className="my-16">
-            <p className="text-xl font-semibold tracking-tight italic">
+            <p className="text-lg font-semibold tracking-tight italic">
               "John is the cursor god"
             </p>
-            <div className="opacity-50">— Sunil Pai</div>
+            <div className="opacity-50 text-md">— Sunil Pai</div>
           </blockquote>
         </motion.div>
       </div>

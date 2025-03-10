@@ -93,7 +93,7 @@ export const purchaseSubscriptionUpgraded = ({
   subscriptionInterval,
   currentPeriodStart,
   currentPeriodEnd,
-}: any) =>
+}: MixpanelData) =>
   mixpanel.track('Subscription Upgrade', {
     distinct_id,
     subscriptionType,
@@ -144,27 +144,54 @@ function checkForUpgrade(
 }
 
 async function getCIO(email: string) {
-  return await cioAxios
-    .get(`/customers`, {
+  if (!email) {
+    console.warn('No email provided to getCIO')
+    return {id: 'unknown-user'}
+  }
+
+  try {
+    const response = await cioAxios.get(`/customers`, {
       params: {email},
       headers: {
         Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
       },
     })
-    .then(({data}: {data: any}) => data.results[0])
-    .catch((error: any) => {
-      console.error(error)
-      return {}
-    })
+
+    const {data} = response
+
+    if (data.results && data.results.length > 0) {
+      return data.results[0]
+    } else {
+      console.warn(`No customer found in CustomerIO for email: ${email}`)
+      return {id: 'unknown-user'}
+    }
+  } catch (error: any) {
+    console.error(`Error fetching customer from CustomerIO: ${error.message}`)
+    return {id: 'unknown-user'}
+  }
 }
 
 function getCustomerEmail(
-  stripeCustomer: Stripe.Response<Stripe.Customer | Stripe.DeletedCustomer>,
+  stripeCustomer:
+    | Stripe.Response<Stripe.Customer | Stripe.DeletedCustomer>
+    | any,
 ) {
-  // use Zod for type-safe extraction of email from Stripe Customer object
-  const result = z.object({email: z.string().email()}).safeParse(stripeCustomer)
+  // Check if this is a checkout session with customer_details
+  if (stripeCustomer.customer_details?.email) {
+    return stripeCustomer.customer_details.email
+  }
 
-  if (result.success) {
+  // Check if customer is deleted
+  if (stripeCustomer.deleted) {
+    throw new Error('Customer has been deleted')
+  }
+
+  // use Zod for type-safe extraction of email from Stripe Customer object
+  const result = z
+    .object({email: z.string().email().optional()})
+    .safeParse(stripeCustomer)
+
+  if (result.success && result.data.email) {
     return result.data.email
   }
 
@@ -205,18 +232,29 @@ const stripeWebhookHandler = async (
       console.info(`Received from Stripe: ${event.type} [${event.id}]`)
 
       if (Object.values(handledEvents).includes(event.type)) {
-        // This is where the Stripe handling happens for this app.
-        // Only known events are processed.
-        const message = await processAcceptedEvent(event)
-
-        res.status(200).send(message)
+        try {
+          // This is where the Stripe handling happens for this app.
+          // Only known events are processed.
+          const message = await processAcceptedEvent(event)
+          res.status(200).send(message)
+        } catch (processError: any) {
+          console.error(
+            `Error processing Stripe event ${event.type} [${event.id}]:`,
+            processError,
+          )
+          // Still return 200 to Stripe so they don't retry
+          res
+            .status(200)
+            .send(`Error processing event: ${processError.message}`)
+        }
       } else {
         // Make sure Stripe gets a 200 response for anything we are
         // opting out of processing here
-        res.status(200).send(`not-handled`)
+        console.info(`Ignoring unhandled event type: ${event.type}`)
+        res.status(200).send(`not-handled: ${event.type}`)
       }
     } catch (err: any) {
-      console.error(err)
+      console.error(`Webhook Error: ${err.message}`)
       res.status(400).send(`Webhook Error: ${err.message}`)
       return
     }
@@ -230,6 +268,12 @@ const processAcceptedEvent = async (unparsedEvent: Stripe.Event) => {
   let event = StripeWebhookEventSchema.parse(unparsedEvent)
 
   if (event.type === handledEvents.CHECKOUT_SESSION_COMPLETED) {
+    // For checkout.session.completed events, we'll let Inngest handle the processing
+    // since it has more comprehensive logic for these events
+    console.info(
+      `Sending checkout.session.completed event to Inngest: ${event.id}`,
+    )
+
     const result = await inngest.send({
       name: STRIPE_WEBHOOK_EVENT,
       data: {
@@ -242,6 +286,13 @@ const processAcceptedEvent = async (unparsedEvent: Stripe.Event) => {
     const stripeSubscription = await stripe.subscriptions.retrieve(
       event.data.object.id,
     )
+
+    // Check if customer exists before proceeding
+    if (!event.data.object.customer) {
+      console.warn(`No customer found for subscription ${event.data.object.id}`)
+      return 'No customer found, skipping processing'
+    }
+
     const stripeCustomer = await stripe.customers.retrieve(
       event.data.object.customer,
     )
@@ -313,6 +364,12 @@ const processAcceptedEvent = async (unparsedEvent: Stripe.Event) => {
     const subscriptionInterval =
       stripeSubscription.items.data[0].plan?.interval || ''
 
+    // Check if customer exists before proceeding
+    if (!event.data.object.customer) {
+      console.warn(`No customer found for subscription ${event.data.object.id}`)
+      return 'No customer found, skipping processing'
+    }
+
     const stripeCustomer = await stripe.customers.retrieve(
       event.data.object.customer,
     )
@@ -327,6 +384,13 @@ const processAcceptedEvent = async (unparsedEvent: Stripe.Event) => {
     const stripeSubscription = await stripe.subscriptions.retrieve(
       event.data.object.id,
     )
+
+    // Check if customer exists before proceeding
+    if (!event.data.object.customer) {
+      console.warn(`No customer found for subscription ${event.data.object.id}`)
+      return 'No customer found, skipping processing'
+    }
+
     const stripeCustomer = await stripe.customers.retrieve(
       event.data.object.customer,
     )
