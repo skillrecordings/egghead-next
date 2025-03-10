@@ -119,33 +119,33 @@ export default function Hero({formRef, saleisActive}: HeroProps) {
           transition={{delay: 0.3, type: 'spring', stiffness: 200}}
           className="relative"
         >
-          <div className="flex flex-col gap-4 justify-center items-center">
+          <div className="mt-12 flex flex-col gap-4 justify-center items-center">
+            {saleisActive && (
+              <div className="flex flex-col gap-2 text-sm text-muted-foreground md:flex-row md:gap-6">
+                <div className="flex items-center gap-1 ">
+                  <Calendar className="h-6 w-6" />
+                  <span className="text-lg">March 11, 2025</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Clock className="h-6 w-6" />
+                  <span className="text-lg">9:00 AM - 2:00 PM (PST)</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <MapPin className="h-6 w-6" />
+                  <span className="text-lg">Zoom</span>
+                </div>
+              </div>
+            )}
             <Button
               asChild
               size="lg"
-              className=" sm:mt-5 dark:bg-white dark:text-black bg-black text-white font-semibold w-fit"
+              className=" sm:mt-5 dark:bg-white dark:text-black bg-black text-white text-lg font-semibold w-fit"
             >
               <Link href="#signup" onClick={(e) => scrollToSignup(e, formRef)}>
                 Register Now
                 {/* <ArrowCircleDownIcon className="group-hover:scale-105 w-8 h-8 transition-all duration-200" /> */}
               </Link>
             </Button>
-            {saleisActive && (
-              <div className="flex flex-col gap-2 text-sm text-muted-foreground md:flex-row md:gap-6">
-                <div className="flex items-center gap-1">
-                  <Calendar className="h-4 w-4" />
-                  <span>March 11, 2025</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" />
-                  <span>9:00 AM - 2:00 PM (PST)</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <MapPin className="h-4 w-4" />
-                  <span>Zoom</span>
-                </div>
-              </div>
-            )}
           </div>
         </motion.div>
       </motion.div>

@@ -36,7 +36,6 @@ const ActiveSale = ({
       : ''
   }`
 
-  console.log(paymentLink)
   return (
     <div>
       <section
@@ -45,31 +44,16 @@ const ActiveSale = ({
       >
         <div className="container px-4 md:px-6">
           <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
-            <h2 className="mb-4 lg:text-4xl sm:text-3xl text-2xl font-bold text-center dark:text-white text-gray-900">
+            <h2 className="mb-4 lg:text-3xl sm:text-2xl text-xl font-bold text-center dark:text-white text-gray-900 max-w-[25ch]">
               Ready to Take Advantage of AI Development with Cursor?
             </h2>
-            <p className="mb-8 text-center text-lg opacity-80 mx-auto">
+            <p className="mb-8 text-center sm:text-lg md:text-xl opacity-80 mx-auto">
               Claim a seat in this hands-on workshop designed to level up your
               development process. Overcome the frustration of complex
               integrations, learn to handle failures gracefully, and discover
               powerful planning strategies to keep you shipping code with
               confidence.
             </p>
-
-            <div className="flex flex-col gap-2 text-sm text-muted-foreground md:flex-row md:gap-6">
-              <div className="flex items-center gap-1">
-                <Calendar className="h-4 w-4" />
-                <span>March 11, 2025</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                <span>9:00 AM - 2:00 PM (PST)</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <MapPin className="h-4 w-4" />
-                <span>Zoom</span>
-              </div>
-            </div>
           </div>
           <div className="mx-auto max-w-lg py-12">
             <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-800 rounded-lg text-card-foreground shadow-sm">
@@ -82,7 +66,7 @@ const ActiveSale = ({
                     <div className="flex items-center justify-center gap-4">
                       <p className="text-5xl font-bold">$119</p>
                       <div>
-                        <p className="flex text-sm font-semibold text-yellow-500">
+                        <p className="flex text-sm font-semibold">
                           SAVE 20%
                           <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
                         </p>
@@ -99,8 +83,9 @@ const ActiveSale = ({
                   )}
                 </div>
               </div>
+              <TimeAndLocation />
               <div className="p-6 pt-0 grid gap-4">
-                <ul className="flex flex-col gap-2 w-fit mx-auto">
+                <ul className="flex flex-col gap-2 w-fit mx-auto text-md">
                   {workshopFeatures.map((feature) => (
                     <li className="flex items-center gap-2">
                       <CheckIcon />
@@ -125,7 +110,7 @@ const ActiveSale = ({
                       *<Link href="/pricing">Pro users get a 20% discount</Link>
                     </p>
                   ) : (
-                    <p className="mt-1 text-xs text-center text-yellow-500 font-medium opacity-90">
+                    <p className="mt-1 text-xs text-center font-medium opacity-90">
                       *Pro discount applied at checkout
                     </p>
                   )}
@@ -135,6 +120,25 @@ const ActiveSale = ({
           </div>
         </div>
       </section>
+    </div>
+  )
+}
+
+const TimeAndLocation = () => {
+  return (
+    <div className="px-6 pb-4 flex flex-col  text-md text-muted-foreground  md:gap-2 opacity-80 items-center justify-center">
+      <div className="flex items-center gap-1">
+        <Calendar className="h-5 w-5" />
+        <span>March 11, 2025</span>
+      </div>
+      <div className="flex items-center gap-1">
+        <Clock className="h-5 w-5" />
+        <span>9:00 AM - 2:00 PM (PST)</span>
+      </div>
+      <div className="flex items-center gap-1">
+        <MapPin className="h-5 w-5" />
+        <span>Zoom</span>
+      </div>
     </div>
   )
 }
