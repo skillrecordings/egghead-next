@@ -36,8 +36,6 @@ const ActiveSale = ({
       : ''
   }`
 
-  isPro = true
-
   return (
     <div>
       <section
