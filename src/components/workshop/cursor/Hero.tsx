@@ -124,11 +124,11 @@ export default function Hero({formRef, saleisActive}: HeroProps) {
               <div className="flex flex-col gap-2 text-sm text-muted-foreground md:flex-row md:gap-6">
                 <div className="flex items-center gap-1 ">
                   <Calendar className="h-6 w-6" />
-                  <span className="text-lg">March 11, 2025</span>
+                  <span className="text-lg">March 20, 2025</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Clock className="h-6 w-6" />
-                  <span className="text-lg">9:00 AM - 2:00 PM (PST)</span>
+                  <span className="text-lg">9:00 AM - 2:00 PM (PDT)</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <MapPin className="h-6 w-6" />

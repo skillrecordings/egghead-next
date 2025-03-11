@@ -129,11 +129,11 @@ const TimeAndLocation = () => {
     <div className="px-6 pb-4 flex flex-col  text-md text-muted-foreground  md:gap-2 opacity-80 items-center justify-center">
       <div className="flex items-center gap-1">
         <Calendar className="h-5 w-5" />
-        <span>March 11, 2025</span>
+        <span>March 20, 2025</span>
       </div>
       <div className="flex items-center gap-1">
         <Clock className="h-5 w-5" />
-        <span>9:00 AM - 2:00 PM (PST)</span>
+        <span>9:00 AM - 2:00 PM (PDT)</span>
       </div>
       <div className="flex items-center gap-1">
         <MapPin className="h-5 w-5" />
