@@ -125,7 +125,7 @@ function CursorCTAOverlay({
         <CardFooter className="flex flex-row-reverse sm:flex-col gap-2 sm:gap-4 items-center justify-center p-0">
           <Link href={signUpLink} className="">
             <Button className="w-full max-w-xs bg-blue-500 hover:bg-blue-600">
-              Level up Cursor
+              Claim your spot
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
