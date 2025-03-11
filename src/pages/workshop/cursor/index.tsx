@@ -21,7 +21,7 @@ const WorkshopPage = () => {
   const {viewer} = useViewer()
   const isPro = viewer?.is_pro
 
-  const saleisActive = true
+  const saleisActive = false
 
   const LIVE_WORKSHOP_FEATURES = [
     'Live Q&A with John Lindquist',
