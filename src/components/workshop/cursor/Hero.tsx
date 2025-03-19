@@ -4,10 +4,9 @@ import {motion} from 'framer-motion'
 import {fadeInUp, scaleIn} from './animations'
 import {useState, useEffect} from 'react'
 import './styles.css'
-import {ArrowCircleDownIcon} from '@heroicons/react/solid'
 import Image from 'next/image'
 import {Button} from '@/ui'
-import {Calendar, Clock, MapPin} from 'lucide-react'
+import TimeAndLocation from './time-and-location'
 
 export interface SignUpFormRef {
   focus: () => void
@@ -46,9 +45,13 @@ function scrollToSignup(
 interface HeroProps {
   formRef: React.RefObject<SignUpFormRef>
   saleisActive: boolean
+  dateAndTime: {
+    date: string
+    time: string
+  }
 }
 
-export default function Hero({formRef, saleisActive}: HeroProps) {
+export default function Hero({formRef, saleisActive, dateAndTime}: HeroProps) {
   const [phraseIndex, setPhraseIndex] = useState(0)
 
   useEffect(() => {
@@ -121,19 +124,13 @@ export default function Hero({formRef, saleisActive}: HeroProps) {
         >
           <div className="mt-12 flex flex-col gap-4 justify-center items-center">
             {saleisActive && (
-              <div className="flex flex-col gap-2 text-sm text-muted-foreground md:flex-row md:gap-6">
-                <div className="flex items-center gap-1 ">
-                  <Calendar className="h-6 w-6" />
-                  <span className="text-lg">March 20, 2025</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Clock className="h-6 w-6" />
-                  <span className="text-lg">9:00 AM - 2:00 PM (PDT)</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <MapPin className="h-6 w-6" />
-                  <span className="text-lg">Zoom</span>
-                </div>
+              <div className="">
+                <TimeAndLocation
+                  date={dateAndTime.date}
+                  time={dateAndTime.time}
+                  iconSize={6}
+                  className="text-lg gap-2 text-muted-foreground flex md:flex-row md:gap-6"
+                />
               </div>
             )}
             <Button
