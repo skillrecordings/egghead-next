@@ -2,11 +2,10 @@
 import Layout from '@/components/app/layout'
 import Hero from '@/components/workshop/cursor/Hero'
 import Features from '@/components/workshop/cursor/Features'
-import WorkshopStructure from '@/components/workshop/cursor/WorkshopStructure'
 import Instructor from '@/components/workshop/cursor/Instructor'
 import SignUpForm from '@/components/workshop/cursor/SignUpForm'
 import type {SignUpFormRef} from '@/components/workshop/cursor/Hero'
-import type {GetServerSideProps, NextPage} from 'next'
+import type {GetServerSideProps} from 'next'
 import {useRef} from 'react'
 import {NextSeo} from 'next-seo'
 import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
@@ -14,7 +13,6 @@ import ActiveSale from '@/components/workshop/cursor/active-sale'
 
 import CtaSection from '@/components/workshop/cursor/cta-section'
 import {useViewer} from '@/context/viewer-context'
-import {Scale} from 'lucide-react'
 
 const WorkshopPage = () => {
   const formRef = useRef<SignUpFormRef>(null)
@@ -32,11 +30,20 @@ const WorkshopPage = () => {
     'Hour long break for lunch',
   ]
 
+  const dateAndTime = {
+    date: 'March 27, 2025',
+    time: '9:00 AM - 2:00 PM (PDT)',
+  }
+
   return (
     <main className="min-h-screen relative bg-white dark:bg-gray-900">
       <div className="relative">
         <div className="relative">
-          <Hero formRef={formRef} saleisActive={saleisActive} />
+          <Hero
+            formRef={formRef}
+            saleisActive={saleisActive}
+            dateAndTime={dateAndTime}
+          />
           <Features />
         </div>
         {/* <WorkshopStructure /> */}
@@ -49,6 +56,7 @@ const WorkshopPage = () => {
             <ActiveSale
               isPro={isPro}
               workshopFeatures={LIVE_WORKSHOP_FEATURES}
+              dateAndTime={dateAndTime}
             />
           }
         />

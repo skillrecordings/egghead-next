@@ -1,7 +1,6 @@
-import {Button} from '@/ui/button'
-import {Calendar, Clock, MapPin, AsteriskIcon} from 'lucide-react'
+import {AsteriskIcon} from 'lucide-react'
 import Link from 'next/link'
-
+import TimeAndLocation from './time-and-location'
 const CheckIcon = () => {
   return (
     <svg
@@ -24,9 +23,14 @@ const CheckIcon = () => {
 const ActiveSale = ({
   isPro,
   workshopFeatures,
+  dateAndTime,
 }: {
   isPro: boolean
   workshopFeatures: string[]
+  dateAndTime: {
+    date: string
+    time: string
+  }
 }) => {
   const paymentLink = `${
     process.env.NEXT_PUBLIC_LIVE_WORKSHOP_STRIPE_PAYMENT_LINK
@@ -83,7 +87,10 @@ const ActiveSale = ({
                   )}
                 </div>
               </div>
-              <TimeAndLocation />
+              <TimeAndLocation
+                date={dateAndTime.date}
+                time={dateAndTime.time}
+              />
               <div className="p-6 pt-0 grid gap-4">
                 <ul className="flex flex-col gap-2 w-fit mx-auto text-md">
                   {workshopFeatures.map((feature) => (
@@ -120,25 +127,6 @@ const ActiveSale = ({
           </div>
         </div>
       </section>
-    </div>
-  )
-}
-
-const TimeAndLocation = () => {
-  return (
-    <div className="px-6 pb-4 flex flex-col  text-md text-muted-foreground  md:gap-2 opacity-80 items-center justify-center">
-      <div className="flex items-center gap-1">
-        <Calendar className="h-5 w-5" />
-        <span>March 20, 2025</span>
-      </div>
-      <div className="flex items-center gap-1">
-        <Clock className="h-5 w-5" />
-        <span>9:00 AM - 2:00 PM (PDT)</span>
-      </div>
-      <div className="flex items-center gap-1">
-        <MapPin className="h-5 w-5" />
-        <span>Zoom</span>
-      </div>
     </div>
   )
 }
