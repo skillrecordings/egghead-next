@@ -38,6 +38,7 @@ import {
 import VideoPlayerOverlay from '@/components/posts/video-player-overlay'
 import {MuxPlayerProvider, useMuxPlayer} from '@/hooks/use-mux-player'
 import router from 'next/router'
+import {CourseLessonCta} from '@/components/posts/course-lesson-cta'
 
 export const PostTypeSchema = z.union([
   z.literal('article'),
@@ -94,6 +95,20 @@ export const PostSchema = z.object({
   name: z.string().nullish(),
   image: z.string().nullish(),
 })
+
+export const CourseSchema = z
+  .object({
+    title: z.string(),
+    slug: z.string(),
+    image: z.string(),
+    description: z.string(),
+    id: z.string(),
+    position: z.number(),
+    totalLessons: z.number(),
+  })
+  .nullish()
+
+export type Course = z.infer<typeof CourseSchema>
 export type Post = z.infer<typeof PostSchema>
 
 const access: ConnectionOptions = {
@@ -200,6 +215,7 @@ type Tag = {
 interface PostPageProps {
   mdxSource: MDXSource
   post: Post
+  course: Course
   instructor: {
     full_name: string
     avatar_url: string
@@ -259,6 +275,41 @@ async function getPost(slug: string) {
       return null
     }
 
+    const [courseRows] = await conn.execute<RowDataPacket[]>(
+      `
+      SELECT 
+        JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.title')) AS title,
+        JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) AS slug,
+        JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.image')) AS image,
+        JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.description')) AS description,
+        -- Optionally include the course ID itself if needed
+        cr_course.id AS id,
+        crr.position AS position,
+        (
+          SELECT COUNT(*)
+          FROM egghead_ContentResourceResource lesson_crr
+          WHERE lesson_crr.resourceOfId = cr_course.id
+        ) as totalLessons
+      FROM 
+          egghead_ContentResourceResource crr -- Start with the linking table
+      INNER JOIN 
+          egghead_ContentResource cr_course ON crr.resourceOfId = cr_course.id -- Join to get the details of the course (resourceOf)
+      WHERE 
+          crr.resourceId = ? -- Filter by the ID of the specific post/lesson you have
+      LIMIT 1; -- Assuming a lesson belongs to only one course
+      `,
+      [postRow.id],
+    )
+
+    const courseRow = courseRows[0]
+    const courseData = CourseSchema.safeParse(courseRow)
+    if (!courseData.success) {
+      console.error('Course validation failed:', courseData.error)
+      throw new Error(`Invalid course data: ${courseData.error.message}`)
+    }
+
+    console.log('courseRow', courseRow, slug)
+
     // Validate post data against schema
     const postData = PostSchema.safeParse(postRow)
     if (!postData.success) {
@@ -287,6 +338,7 @@ async function getPost(slug: string) {
       videoResource,
       post: postData.data,
       tags,
+      course: courseData.data,
     }
   } catch (error) {
     console.error('Error in getPost:', error)
@@ -311,7 +363,7 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
     }
   }
 
-  const {post, videoResource, tags} = result
+  const {post, videoResource, tags, course} = result
 
   const lesson = await fetch(
     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.eggheadLessonId}`,
@@ -329,6 +381,7 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
     props: {
       mdxSource,
       post: convertToSerializeForNextResponse(post),
+      course: convertToSerializeForNextResponse(course),
       instructor: {
         full_name: lesson?.instructor?.full_name || post.name,
         avatar_url: lesson?.instructor?.avatar_64_url || post.image,
@@ -389,6 +442,7 @@ export default function PostPage({
   instructor,
   mdxSource,
   tags,
+  course,
 }: PostPageProps) {
   const imageParams = new URLSearchParams()
   imageParams.set('title', post.fields?.title ?? '')
@@ -498,6 +552,7 @@ export default function PostPage({
               scope={mdxSource.scope}
             />
           </article>
+          {course && <CourseLessonCta course={course} />}
           <div className="py-6 bg-transparent dark:border-gray-800/50 border-y border-gray-100 my-10 flex justify-center gap-5 flex-wrap items-center">
             <span className="text-sm">Share with a coworker</span>
             <div className="flex sm:items-center items-start sm:justify-center gap-2">
@@ -561,8 +616,8 @@ function GitHubIcon() {
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           fill="currentColor"
           d="M8,0.2c-4.4,0-8,3.6-8,8c0,3.5,2.3,6.5,5.5,7.6 C5.9,15.9,6,15.6,6,15.4c0-0.2,0-0.7,0-1.4C3.8,14.5,3.3,13,3.3,13c-0.4-0.9-0.9-1.2-0.9-1.2c-0.7-0.5,0.1-0.5,0.1-0.5 c0.8,0.1,1.2,0.8,1.2,0.8C4.4,13.4,5.6,13,6,12.8c0.1-0.5,0.3-0.9,0.5-1.1c-1.8-0.2-3.6-0.9-3.6-4c0-0.9,0.3-1.6,0.8-2.1 c-0.1-0.2-0.4-1,0.1-2.1c0,0,0.7-0.2,2.2,0.8c0.6-0.2,1.3-0.3,2-0.3c0.7,0,1.4,0.1,2,0.3c1.5-1,2.2-0.8,2.2-0.8 c0.4,1.1,0.2,1.9,0.1,2.1c0.5,0.6,0.8,1.3,0.8,2.1c0,3.1-1.9,3.7-3.7,3.9C9.7,12,10,12.5,10,13.2c0,1.1,0,1.9,0,2.2 c0,0.2,0.1,0.5,0.6,0.4c3.2-1.1,5.5-4.1,5.5-7.6C16,3.8,12.4,0.2,8,0.2z"
         ></path>
