@@ -16,7 +16,7 @@ interface CourseLessonCtaProps {
     slug: string
     title: string
     description: string
-    image: string
+    image?: string | null
     totalLessons: number
     position: number
   }
@@ -26,14 +26,16 @@ export function CourseLessonCta({course}: CourseLessonCtaProps) {
   return (
     <Card className="border-muted-foreground/50 my-6 w-fit mx-auto">
       <div className="flex flex-col md:flex-row justify-center items-center gap-2 w-fit py-4 px-4 sm:px-6">
-        <div>
-          <Image
-            src={course.image}
-            alt={course.title}
-            height={100}
-            width={100}
-          />
-        </div>
+        {course.image && (
+          <div>
+            <Image
+              src={course.image}
+              alt={course.title}
+              height={100}
+              width={100}
+            />
+          </div>
+        )}
         <div className="flex-1 max-w-[600px]">
           <CardHeader className="space-y-2">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
