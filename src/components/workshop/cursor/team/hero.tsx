@@ -70,8 +70,8 @@ export default function Hero({formRef}: HeroProps) {
   }, [])
 
   return (
-    <section className="sm:py-12 py-8 bg-white dark:bg-gray-900 md:py-10 text-center  overflow-hidden">
-      <div className="absolute inset-0 pattern-dots" />
+    <section className="sm:py-12 py-8 bg-white dark:bg-gray-900 md:py-10 text-center  overflow-hidden mb-20">
+      <div className="absolute inset-0 pattern-dots z-0" />
       <div
         aria-hidden="true"
         className="absolute inset-0 w-full h-full bg-gradient-to-b dark:from-gray-900/90 dark:to-gray-900/70 from-gray-50 to-transparent"
@@ -137,7 +137,7 @@ export default function Hero({formRef}: HeroProps) {
               className=" sm:mt-5 dark:bg-white dark:text-black bg-black text-white text-lg font-semibold w-fit"
             >
               <Link href="#contact" onClick={(e) => scrollTo(e, formRef)}>
-                Request Quote
+                Contact Us
                 {/* <ArrowCircleDownIcon className="group-hover:scale-105 w-8 h-8 transition-all duration-200" /> */}
               </Link>
             </Button>
