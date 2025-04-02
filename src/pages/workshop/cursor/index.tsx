@@ -30,6 +30,14 @@ const WorkshopPage = () => {
     'Hour long break for lunch',
   ]
 
+  const TEAM_WORKSHOP_FEATURES = [
+    'Flexible scheduling',
+    'Live Q&A with John Lindquist',
+    'Learn to Prompt for developers',
+    'Effective .cursorrules across teams and projects',
+    'Build context for Agents',
+  ]
+
   const dateAndTime = {
     date: 'April 3, 2025',
     time: '9:00 AM - 2:00 PM (PDT)',
@@ -56,6 +64,7 @@ const WorkshopPage = () => {
             <ActiveSale
               isPro={isPro}
               workshopFeatures={LIVE_WORKSHOP_FEATURES}
+              teamWorkshopFeatures={TEAM_WORKSHOP_FEATURES}
               dateAndTime={dateAndTime}
             />
           }
