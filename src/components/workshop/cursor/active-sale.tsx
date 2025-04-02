@@ -3,7 +3,7 @@ import Link from 'next/link'
 import TimeAndLocation from './time-and-location'
 import {useState} from 'react'
 import {Switch} from '@/components/ui/switch'
-import {cn} from '@/lib/utils'
+import {cn} from '@/ui/utils'
 
 const CheckIcon = () => {
   return (
