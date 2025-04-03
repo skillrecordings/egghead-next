@@ -3,26 +3,24 @@ import {Users, UserCog, Code, Laptop} from 'lucide-react'
 export function WorkshopAudience() {
   const audienceItems = [
     {
-      icon: <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />,
+      icon: <Users className="h-5 w-5 text-black dark:text-white" />,
       title: 'Development Teams:',
       description:
         'Seeking practical, shared strategies to boost productivity with AI.',
     },
     {
-      icon: (
-        <UserCog className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-      ),
+      icon: <UserCog className="h-5 w-5 text-black dark:text-white" />,
       title: 'Tech Leads & Engineering Managers:',
       description: 'Looking to implement effective AI workflows and standards.',
     },
     {
-      icon: <Code className="h-5 w-5 text-green-600 dark:text-green-400" />,
+      icon: <Code className="h-5 w-5 text-black dark:text-white" />,
       title: 'Senior & Mid-Level Engineers:',
       description:
         'Wanting to master AI tools for complex tasks and improve efficiency.',
     },
     {
-      icon: <Laptop className="h-5 w-5 text-amber-600 dark:text-amber-400" />,
+      icon: <Laptop className="h-5 w-5 text-black dark:text-white" />,
       title: 'Teams using or considering Cursor:',
       description: 'Eager to unlock its full potential reliably.',
     },

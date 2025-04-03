@@ -3,32 +3,30 @@ import {Target, Shield, RefreshCw, Hammer, Award} from 'lucide-react'
 export function WorkshopValue() {
   const valueItems = [
     {
-      icon: <Target className="h-5 w-5 text-blue-600 dark:text-blue-400" />,
+      icon: <Target className="h-5 w-5 text-black dark:text-white" />,
       title: 'Focus on Practicality:',
       description:
         'No abstract theory – just actionable workflows you can implement immediately.',
     },
     {
-      icon: <Shield className="h-5 w-5 text-green-600 dark:text-green-400" />,
+      icon: <Shield className="h-5 w-5 text-black dark:text-white" />,
       title: 'Emphasis on Control & Reliability:',
       description: 'Learn to direct the AI, not be frustrated by it.',
     },
     {
-      icon: (
-        <RefreshCw className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-      ),
+      icon: <RefreshCw className="h-5 w-5 text-black dark:text-white" />,
       title: 'Up-to-Date Insights:',
       description:
         'Covers the latest tool updates (Cursor Rules fixes, Gemini 2.5) and best practices.',
     },
     {
-      icon: <Hammer className="h-5 w-5 text-amber-600 dark:text-amber-400" />,
+      icon: <Hammer className="h-5 w-5 text-black dark:text-white" />,
       title: 'Hands-On Project:',
       description:
         'Solidify learning by building a real-world multi-part application during the workshop.',
     },
     {
-      icon: <Award className="h-5 w-5 text-red-600 dark:text-red-400" />,
+      icon: <Award className="h-5 w-5 text-black dark:text-white" />,
       title: 'Expert Instructor:',
       description:
         'Learn directly from John Lindquist, who actively develops AI tools and workflows.',
