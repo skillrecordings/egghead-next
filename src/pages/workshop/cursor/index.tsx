@@ -39,7 +39,7 @@ const WorkshopPage = () => {
   ]
 
   const dateAndTime = {
-    date: 'April 3, 2025',
+    date: 'April 10, 2025',
     time: '9:00 AM - 2:00 PM (PDT)',
   }
 
