@@ -1,6 +1,64 @@
 import {AsteriskIcon} from 'lucide-react'
 import Link from 'next/link'
 import TimeAndLocation from './time-and-location'
+import {useCommerceMachine} from '@/hooks/use-commerce-machine'
+import {get, isEmpty} from 'lodash'
+import WorkshopParityCouponMessage from '@/components/workshop/cursor/parity-coupon-message'
+import {Coupon} from '@/types'
+import {useState} from 'react'
+
+interface UseWorkshopCouponProps {
+  isPro: boolean
+}
+
+interface UseWorkshopCouponReturn {
+  couponToApply: string
+  isPPPApplied: boolean
+  pppCouponAvailable: boolean
+  countryName: string | undefined
+  parityCoupon: Coupon | undefined
+  onApplyParityCoupon: () => void
+  onDismissParityCoupon: () => void
+}
+
+function useWorkshopCoupon({
+  isPro,
+}: UseWorkshopCouponProps): UseWorkshopCouponReturn {
+  const {availableCoupons} = useCommerceMachine()
+  const defaultIsProCoupon = isPro
+    ? `?prefilled_promo_code=${process.env.NEXT_PUBLIC_LIVE_WORKSHOP_PROMO_CODE}`
+    : ''
+  const [isPPPApplied, setIsPPPApplied] = useState(false)
+  const [couponToApply, setCouponToApply] = useState(defaultIsProCoupon)
+
+  const parityCoupon = availableCoupons?.['ppp']
+  const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
+  const countryName = get(parityCoupon, 'coupon_region_restricted_to_name')
+
+  const pppCouponAvailable =
+    !isEmpty(countryName) && !isEmpty(countryCode) && !isEmpty(parityCoupon)
+
+  const onApplyParityCoupon = () => {
+    setIsPPPApplied(true)
+    setCouponToApply(`?prefilled_promo_code=${parityCoupon?.coupon_code}`)
+  }
+
+  const onDismissParityCoupon = () => {
+    setIsPPPApplied(false)
+    setCouponToApply(defaultIsProCoupon)
+  }
+
+  return {
+    couponToApply,
+    isPPPApplied,
+    pppCouponAvailable,
+    countryName,
+    parityCoupon,
+    onApplyParityCoupon,
+    onDismissParityCoupon,
+  }
+}
+
 const CheckIcon = () => {
   return (
     <svg
@@ -32,20 +90,21 @@ const ActiveSale = ({
     time: string
   }
 }) => {
-  const paymentLink = `${
-    process.env.NEXT_PUBLIC_LIVE_WORKSHOP_STRIPE_PAYMENT_LINK
-  }${
-    isPro
-      ? `?prefilled_promo_code=${process.env.NEXT_PUBLIC_LIVE_WORKSHOP_PROMO_CODE}`
-      : ''
-  }`
+  const {
+    couponToApply,
+    isPPPApplied,
+    pppCouponAvailable,
+    countryName,
+    parityCoupon,
+    onApplyParityCoupon,
+    onDismissParityCoupon,
+  } = useWorkshopCoupon({isPro})
+
+  const paymentLink = `${process.env.NEXT_PUBLIC_LIVE_WORKSHOP_STRIPE_PAYMENT_LINK}${couponToApply}`
 
   return (
-    <div>
-      <section
-        id="pricing"
-        className="w-full py-12 md:py-24 lg:py-32 bg-muted/50"
-      >
+    <div className="py-12 md:py-24 lg:py-32 ">
+      <section id="pricing" className="w-full bg-muted/50">
         <div className="container px-4 md:px-6">
           <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
             <h2 className="mb-4 lg:text-3xl sm:text-2xl text-xl font-bold text-center dark:text-white text-gray-900 max-w-[25ch]">
@@ -127,6 +186,18 @@ const ActiveSale = ({
           </div>
         </div>
       </section>
+
+      {pppCouponAvailable && (
+        <div className="max-w-screen-md pb-5 mx-auto mt-4">
+          <WorkshopParityCouponMessage
+            coupon={parityCoupon as Coupon}
+            countryName={countryName as string}
+            onApply={onApplyParityCoupon}
+            onDismiss={onDismissParityCoupon}
+            isPPP={isPPPApplied}
+          />
+        </div>
+      )}
     </div>
   )
 }
