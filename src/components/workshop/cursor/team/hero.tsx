@@ -71,10 +71,10 @@ export default function Hero({formRef}: HeroProps) {
 
   return (
     <section className="sm:py-12 py-8 bg-white dark:bg-gray-900 md:py-10 text-center  overflow-hidden mb-20">
-      <div className="absolute inset-0 pattern-dots z-0" />
+      <div className="absolute inset-0 pattern-dots z-0 max-h-[1000px]" />
       <div
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full bg-gradient-to-b dark:from-gray-900/90 dark:to-gray-900/70 from-gray-50 to-transparent"
+        className="absolute inset-0 w-full h-full bg-gradient-to-b dark:from-gray-900/90 dark:to-gray-900/70 from-gray-50 to-transparent max-h-[1000px]"
       />
       <motion.div {...scaleIn} className="relative max-w-4xl mx-auto px-6">
         <Image

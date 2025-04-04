@@ -14,6 +14,15 @@ import ActiveSale from '@/components/workshop/cursor/active-sale'
 import CtaSection from '@/components/workshop/cursor/cta-section'
 import {useViewer} from '@/context/viewer-context'
 
+export const TEAM_WORKSHOP_FEATURES = [
+  'Flexible scheduling',
+  'Live Q&A with John Lindquist',
+  'Scope and plan work',
+  'When and how to use MCP',
+  'Effective cursor rules across teams and projects',
+  'Build context for Agents',
+]
+
 const WorkshopPage = () => {
   const formRef = useRef<SignUpFormRef>(null)
   const {viewer} = useViewer()
@@ -23,19 +32,11 @@ const WorkshopPage = () => {
 
   const LIVE_WORKSHOP_FEATURES = [
     'Live Q&A with John Lindquist',
-    'Learn to Prompt for developers',
-    'Effective .cursorrules used',
+    'Learn to prompt for developers',
+    'Effective cursor rules used',
     'Build context for Agents',
-    'Full day of intensive training',
+    'When and how to use MCP',
     'Hour long break for lunch',
-  ]
-
-  const TEAM_WORKSHOP_FEATURES = [
-    'Flexible scheduling',
-    'Live Q&A with John Lindquist',
-    'Learn to Prompt for developers',
-    'Effective .cursorrules across teams and projects',
-    'Build context for Agents',
   ]
 
   const dateAndTime = {

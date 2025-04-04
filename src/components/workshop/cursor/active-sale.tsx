@@ -4,6 +4,7 @@ import TimeAndLocation from './time-and-location'
 import {useState} from 'react'
 import {Switch} from '@/components/ui/switch'
 import {cn} from '@/ui/utils'
+import {ContactForm} from '@/components/workshop/cursor/team/contact-form'
 
 const CheckIcon = () => {
   return (
@@ -41,131 +42,41 @@ const ActiveSale = ({
   const [teamToggleState, setTeamToggleState] = useState(false)
 
   return (
-    <>
-      {teamToggleState ? (
-        <TeamPurchaseUI
-          isPro={isPro}
-          workshopFeatures={teamWorkshopFeatures}
-          dateAndTime={dateAndTime}
-          teamToggle={
-            <TeamToggle
-              teamToggleState={teamToggleState}
-              setTeamToggleState={setTeamToggleState}
-            />
-          }
-        />
-      ) : (
-        <SinglePurchaseUI
-          isPro={isPro}
-          workshopFeatures={workshopFeatures}
-          dateAndTime={dateAndTime}
-          teamToggle={
-            <TeamToggle
-              teamToggleState={teamToggleState}
-              setTeamToggleState={setTeamToggleState}
-            />
-          }
-        />
-      )}
-    </>
-  )
-}
-
-const TeamToggle = ({
-  teamToggleState,
-  setTeamToggleState,
-}: {
-  teamToggleState: boolean
-  setTeamToggleState: (state: boolean) => void
-}) => {
-  return (
-    <div className="flex items-center justify-center gap-3 py-6 px-4 transition-all duration-300">
-      <div className="flex items-center gap-2">
-        <Switch
-          id="team-mode"
-          checked={teamToggleState}
-          onCheckedChange={setTeamToggleState}
-          className={cn(
-            'dark:bg-gray-800 bg-gray-300 data-[state=checked]:bg-blue-500 ',
-          )}
-        />
-        <label
-          htmlFor="team-mode"
-          className="text-base font-medium leading-none text-gray-700 dark:text-gray-200 select-none cursor-pointer"
-        >
-          Team Training
-        </label>
-      </div>
-    </div>
-  )
-}
-
-function TeamPurchaseUI({
-  isPro,
-  workshopFeatures,
-  teamToggle,
-}: {
-  isPro: boolean
-  workshopFeatures: string[]
-  dateAndTime: {
-    date: string
-    time: string
-  }
-  teamToggle: React.ReactNode
-}) {
-  return (
-    <div>
-      <section
-        id="pricing"
-        className="w-full py-12 md:py-24 lg:py-32 bg-muted/50"
-      >
-        <div className="container px-4 md:px-6">
-          <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
-            <h2 className="mb-4 lg:text-3xl sm:text-2xl text-xl font-bold text-center dark:text-white text-gray-900 max-w-[25ch]">
-              Ready to Take Advantage of AI Development with Cursor?
-            </h2>
-            <p className="mb-8 text-center sm:text-lg md:text-xl opacity-80 mx-auto">
-              Claim a seat in this hands-on workshop designed to level up your
-              development process. Overcome the frustration of complex
-              integrations, learn to handle failures gracefully, and discover
-              powerful planning strategies to keep you shipping code with
-              confidence.
-            </p>
-          </div>
-          <div className="mx-auto max-w-lg py-12">
-            <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-800 rounded-lg text-card-foreground shadow-sm">
-              <div className="flex flex-col pt-6 pb-4 px-6 space-y-2 text-center">
-                <h3 className="text-2xl font-bold text-balance">
-                  Become More Productive with Cursor
-                </h3>
-                <p className="text-2xl h-[91.55px] flex items-center justify-center">
-                  CUSTOM PRICING
-                </p>
-              </div>
-              {teamToggle}
-              <div className="p-6 pt-0 grid gap-4">
-                <ul className="flex flex-col gap-2 w-fit mx-auto text-md">
-                  {workshopFeatures.map((feature) => (
-                    <li className="flex items-center gap-2">
-                      <CheckIcon />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/workshop/cursor/team"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative inline-flex items-center justify-center rounded-md text-base transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background h-10 py-2 px-4 w-full bg-blue-500 text-white font-semibold"
-                >
-                  Contact Us
-                </Link>
-              </div>
-            </div>
-          </div>
+    <section
+      id="pricing"
+      className="w-full py-12 md:py-24 lg:py-32 bg-muted/50"
+    >
+      <div className="container px-4 md:px-6">
+        <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
+          <h2 className="mb-4 lg:text-3xl sm:text-2xl text-xl font-bold text-center dark:text-white text-gray-900 max-w-[25ch]">
+            Ready to Take Advantage of AI Development with Cursor?
+          </h2>
+          <p className="mb-8 text-center sm:text-lg md:text-xl opacity-80 mx-auto">
+            Claim a seat in this hands-on workshop designed to level up your
+            development process. Overcome the frustration of complex
+            integrations, learn to handle failures gracefully, and discover
+            powerful planning strategies to keep you shipping code with
+            confidence.
+          </p>
         </div>
-      </section>
-    </div>
+        {teamToggleState ? (
+          <ContactForm
+            className=" border-2 border-gray-200 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-800"
+            teamWorkshopFeatures={teamWorkshopFeatures}
+          />
+        ) : (
+          <SinglePurchaseUI
+            isPro={isPro}
+            workshopFeatures={workshopFeatures}
+            dateAndTime={dateAndTime}
+          />
+        )}
+      </div>
+      <TeamPurchaseSwitch
+        teamToggleState={teamToggleState}
+        setTeamToggleState={setTeamToggleState}
+      />
+    </section>
   )
 }
 
@@ -173,7 +84,6 @@ function SinglePurchaseUI({
   isPro,
   workshopFeatures,
   dateAndTime,
-  teamToggle,
 }: {
   isPro: boolean
   workshopFeatures: string[]
@@ -181,7 +91,6 @@ function SinglePurchaseUI({
     date: string
     time: string
   }
-  teamToggle: React.ReactNode
 }) {
   const paymentLink = `${
     process.env.NEXT_PUBLIC_LIVE_WORKSHOP_STRIPE_PAYMENT_LINK
@@ -192,93 +101,108 @@ function SinglePurchaseUI({
   }`
 
   return (
-    <div>
-      <section
-        id="pricing"
-        className="w-full py-12 md:py-24 lg:py-32 bg-muted/50"
-      >
-        <div className="container px-4 md:px-6">
-          <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
-            <h2 className="mb-4 lg:text-3xl sm:text-2xl text-xl font-bold text-center dark:text-white text-gray-900 max-w-[25ch]">
-              Ready to Take Advantage of AI Development with Cursor?
-            </h2>
-            <p className="mb-8 text-center sm:text-lg md:text-xl opacity-80 mx-auto">
-              Claim a seat in this hands-on workshop designed to level up your
-              development process. Overcome the frustration of complex
-              integrations, learn to handle failures gracefully, and discover
-              powerful planning strategies to keep you shipping code with
-              confidence.
-            </p>
-          </div>
-          <div className="mx-auto max-w-lg py-12">
-            <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-800 rounded-lg text-card-foreground shadow-sm">
-              <div className="flex flex-col pt-6 pb-4 px-6 space-y-2 text-center">
-                <h3 className="text-2xl font-bold text-balance">
-                  Become More Productive with Cursor
-                </h3>
-                <div className="space-y-1">
-                  {isPro ? (
-                    <div className="flex items-center justify-center gap-4">
-                      <p className="text-5xl font-bold">$119</p>
-                      <div>
-                        <p className="flex text-sm font-semibold">
-                          SAVE 20%
-                          <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
-                        </p>
-                        <p className="text-2xl text-muted-foreground line-through opacity-70">
-                          $149
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
-                    <p className="flex justify-center text-5xl font-bold ">
+    <div className="container px-4 md:px-6">
+      <div className="mx-auto max-w-lg pt-12">
+        <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-800 rounded-lg text-card-foreground shadow-sm">
+          <div className="flex flex-col pt-6 pb-4 px-6 space-y-2 text-center">
+            <h3 className="text-2xl font-bold text-balance">
+              Become More Productive with Cursor
+            </h3>
+            <div className="space-y-1">
+              {isPro ? (
+                <div className="flex items-center justify-center gap-4">
+                  <p className="text-5xl font-bold">$119</p>
+                  <div>
+                    <p className="flex text-sm font-semibold">
+                      SAVE 20%
+                      <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
+                    </p>
+                    <p className="text-2xl text-muted-foreground line-through opacity-70">
                       $149
-                      <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
                     </p>
-                  )}
+                  </div>
                 </div>
-              </div>
-              {teamToggle}
-              <TimeAndLocation
-                date={dateAndTime.date}
-                time={dateAndTime.time}
-              />
-              <div className="p-6 pt-0 grid gap-4">
-                <ul className="flex flex-col gap-2 w-fit mx-auto text-md">
-                  {workshopFeatures.map((feature) => (
-                    <li className="flex items-center gap-2">
-                      <CheckIcon />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href={paymentLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative inline-flex items-center justify-center rounded-md text-base transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background h-10 py-2 px-4 w-full bg-blue-500 text-white font-semibold"
-                >
-                  Register Now
-                </a>
-                <div>
-                  <p className="text-xs text-center text-muted-foreground">
-                    Limited spots available. Secure yours today!
-                  </p>
-                  {!isPro ? (
-                    <p className="mt-1 text-xs text-center text-muted-foreground underline font-medium">
-                      *<Link href="/pricing">Pro users get a 20% discount</Link>
-                    </p>
-                  ) : (
-                    <p className="mt-1 text-xs text-center font-medium opacity-90">
-                      *Pro discount applied at checkout
-                    </p>
-                  )}
-                </div>
-              </div>
+              ) : (
+                <p className="flex justify-center text-5xl font-bold ">
+                  $149
+                  <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
+                </p>
+              )}
+            </div>
+          </div>
+          <TimeAndLocation date={dateAndTime.date} time={dateAndTime.time} />
+          <div className="p-6 pt-0 grid gap-4">
+            <ul className="flex flex-col gap-2 w-fit mx-auto text-md">
+              {workshopFeatures.map((feature) => (
+                <li className="flex items-center gap-2" key={feature}>
+                  <CheckIcon />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              href={paymentLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative inline-flex items-center justify-center rounded-md text-base transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background h-10 py-2 px-4 w-full bg-blue-500 text-white font-semibold"
+            >
+              Register Now
+            </a>
+            <div>
+              <p className="text-xs text-center text-muted-foreground">
+                Limited spots available. Secure yours today!
+              </p>
+              {!isPro ? (
+                <p className="mt-1 text-xs text-center text-muted-foreground underline font-medium">
+                  *<Link href="/pricing">Pro users get a 20% discount</Link>
+                </p>
+              ) : (
+                <p className="mt-1 text-xs text-center font-medium opacity-90">
+                  *Pro discount applied at checkout
+                </p>
+              )}
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  )
+}
+
+const TeamPurchaseSwitch = ({
+  teamToggleState,
+  setTeamToggleState,
+}: {
+  teamToggleState: boolean
+  setTeamToggleState: (state: boolean) => void
+}) => {
+  return (
+    <div className="max-w-screen-md p-8 m-8 sm:mx-auto text-left bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-800 ">
+      <h2 className="text-lg font-bold">Need team training?</h2>
+      <p className="inline-block mt-5 text-base">
+        Learn repeatable, pratcical strategies for shipping code with AI in a
+        team setting. Your team will learn how to properly scope and plan work
+        to get the most out of AI using real-world examples you can apply
+        immediately.
+      </p>
+      <div className="flex flex-col items-center mt-4">
+        <label
+          className={`inline-flex items-center px-4 py-3 rounded-md  transition-all ease-in-out duration-150 cursor-pointer border hover:bg-gray-100 dark:hover:bg-gray-700 border-opacity-40 ${
+            teamToggleState ? 'border-blue-500' : ' border-gray-300'
+          }`}
+        >
+          <input
+            className="form-checkbox"
+            name="isTeamTraining"
+            type="checkbox"
+            checked={teamToggleState}
+            onChange={() => setTeamToggleState(!teamToggleState)}
+          />
+          <span className="ml-4 font-semibold leading-4">
+            Activate to contact us about team training
+          </span>
+        </label>
+      </div>
     </div>
   )
 }

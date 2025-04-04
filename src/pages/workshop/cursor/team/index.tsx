@@ -10,12 +10,14 @@ import Hero, {
   SignUpFormRef,
   scrollTo,
 } from '@/components/workshop/cursor/team/hero'
+import {TEAM_WORKSHOP_FEATURES} from '@/pages/workshop/cursor'
 import {useRef} from 'react'
 
 export default function Home() {
   const formRef = useRef<SignUpFormRef>(null)
+
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-slate-900 dark:text-white">
+    <div className="bg-white dark:bg-gray-900 text-slate-900 dark:text-white">
       {/* Hero Section */}
       <Hero formRef={formRef} />
 
@@ -86,37 +88,9 @@ export default function Home() {
       <section className="py-16">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="max-w-md mx-auto bg-white dark:bg-gray-900 p-8 rounded-lg border border-gray-200 dark:border-gray-800 shadow-md">
-            <h2 className="text-2xl font-bold mb-2 text-center">
-              Become More Productive with Cursor
-            </h2>
-
-            <div className="flex flex-col mb-8 gap-3 w-fit mx-auto">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-black dark:text-white" />
-                <span className="text-sm text-gray-700 dark:text-gray-300 text-md">
-                  Flexible scheduling for your team
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-black dark:text-white" />
-                <span className="text-sm text-gray-700 dark:text-gray-300 text-md">
-                  Full day of immersive training
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-black dark:text-white" />
-                <span className="text-sm text-gray-700 dark:text-gray-300 text-md">
-                  Remote on Zoom
-                </span>
-              </div>
-            </div>
-
             {/* Contact Form */}
             <div id="contact">
-              <h3 className="text-md font-bold mb-4">
-                Fill out the form below to request a quote for your team:
-              </h3>
-              <ContactForm />
+              <ContactForm teamWorkshopFeatures={TEAM_WORKSHOP_FEATURES} />
             </div>
           </div>
         </div>
