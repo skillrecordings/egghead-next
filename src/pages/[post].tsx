@@ -282,7 +282,6 @@ async function getPost(slug: string) {
         JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) AS slug,
         JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.image')) AS image,
         JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.description')) AS description,
-        -- Optionally include the course ID itself if needed
         cr_course.id AS id,
         crr.position AS position,
         (
@@ -293,10 +292,10 @@ async function getPost(slug: string) {
       FROM 
           egghead_ContentResourceResource crr -- Start with the linking table
       INNER JOIN 
-          egghead_ContentResource cr_course ON crr.resourceOfId = cr_course.id -- Join to get the details of the course (resourceOf)
+          egghead_ContentResource cr_course ON crr.resourceOfId = cr_course.id
       WHERE 
-          crr.resourceId = ? -- Filter by the ID of the specific post/lesson you have
-      LIMIT 1; -- Assuming a lesson belongs to only one course
+          crr.resourceId = ?
+      LIMIT 1
       `,
       [postRow.id],
     )
