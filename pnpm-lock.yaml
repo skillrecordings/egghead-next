@@ -99,7 +99,7 @@ dependencies:
     specifier: ^1.0.2
     version: 1.0.2(@types/react@18.3.3)(react@18.3.1)
   '@radix-ui/react-switch':
-    specifier: ^1.0.1
+    specifier: ^1.0.3
     version: 1.0.3(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
   '@radix-ui/react-tooltip':
     specifier: ^1.0.6
@@ -249,7 +249,7 @@ dependencies:
     specifier: ^4.3.3
     version: 4.3.3
   clsx:
-    specifier: ^2.0.0
+    specifier: ^2.1.1
     version: 2.1.1
   cookie:
     specifier: ^0.4.1
@@ -567,7 +567,7 @@ dependencies:
     specifier: ^0.5.5
     version: 0.5.7(react@18.3.1)
   tailwind-merge:
-    specifier: ^1.12.0
+    specifier: ^1.14.0
     version: 1.14.0
   tailwindcss:
     specifier: ^3.4.1
