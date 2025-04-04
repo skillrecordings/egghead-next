@@ -61,6 +61,7 @@ We won't be sharing the recording. But we will be handing out all the materials 
             productId,
             productName,
             purchaseDate,
+            stripeChargeIdentifier,
             body: emailBody,
             preview: 'Thank you for your purchase!',
             messageType: 'transactional',
