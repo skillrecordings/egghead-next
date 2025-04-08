@@ -19,6 +19,7 @@ export type SpecificProductEmailProps = {
   productId: string
   productName: string
   purchaseDate: string
+  stripeChargeIdentifier: string
   body?: string
   preview?: string
   messageType?: 'transactional' | 'broadcast'
@@ -31,6 +32,7 @@ export const SpecificProductEmail = ({
   productId,
   purchaseDate,
   productName,
+  stripeChargeIdentifier,
   body = `Thank you for your purchase of our product!`,
   preview = `Thank you for your purchase`,
   messageType = 'transactional',
@@ -58,6 +60,15 @@ export const SpecificProductEmail = ({
                   support@egghead.io
                 </Link>
               </Text>
+              <Text style={paragraph}>
+                You can view your purchase details by clicking the link below:
+              </Text>
+              <Link
+                href={`${process.env.NEXT_PUBLIC_URL}/workshop/cursor/invoice/${stripeChargeIdentifier}`}
+                style={link}
+              >
+                View purchase details
+              </Link>
               <Text style={paragraph}>Happy learning!</Text>
               <Text style={paragraph}>The egghead team</Text>
             </Column>
