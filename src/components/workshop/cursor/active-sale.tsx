@@ -2,9 +2,8 @@ import {AsteriskIcon} from 'lucide-react'
 import Link from 'next/link'
 import TimeAndLocation from './time-and-location'
 import {useState} from 'react'
-import {Switch} from '@/components/ui/switch'
-import {cn} from '@/ui/utils'
 import {ContactForm} from '@/components/workshop/cursor/team/contact-form'
+import {WorkshopDateAndTime} from '@/types'
 
 const CheckIcon = () => {
   return (
@@ -34,10 +33,7 @@ const ActiveSale = ({
   isPro: boolean
   workshopFeatures: string[]
   teamWorkshopFeatures: string[]
-  dateAndTime: {
-    date: string
-    time: string
-  }
+  dateAndTime: WorkshopDateAndTime
 }) => {
   const [teamToggleState, setTeamToggleState] = useState(false)
 
@@ -87,10 +83,7 @@ function SinglePurchaseUI({
 }: {
   isPro: boolean
   workshopFeatures: string[]
-  dateAndTime: {
-    date: string
-    time: string
-  }
+  dateAndTime: WorkshopDateAndTime
 }) {
   const paymentLink = `${
     process.env.NEXT_PUBLIC_LIVE_WORKSHOP_STRIPE_PAYMENT_LINK
@@ -130,7 +123,14 @@ function SinglePurchaseUI({
               )}
             </div>
           </div>
-          <TimeAndLocation date={dateAndTime.date} time={dateAndTime.time} />
+          {dateAndTime && (
+            <TimeAndLocation
+              date={dateAndTime.date}
+              startTime={dateAndTime.startTime}
+              timeZone={dateAndTime.timeZone}
+              endTime={dateAndTime.endTime}
+            />
+          )}
           <div className="p-6 pt-0 grid gap-4">
             <ul className="flex flex-col gap-2 w-fit mx-auto text-md">
               {workshopFeatures.map((feature) => (

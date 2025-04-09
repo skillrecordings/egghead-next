@@ -13,6 +13,7 @@ import ActiveSale from '@/components/workshop/cursor/active-sale'
 
 import CtaSection from '@/components/workshop/cursor/cta-section'
 import {useViewer} from '@/context/viewer-context'
+import {trpc} from '@/app/_trpc/client'
 
 export const TEAM_WORKSHOP_FEATURES = [
   'Flexible scheduling',
@@ -25,6 +26,10 @@ export const TEAM_WORKSHOP_FEATURES = [
 
 const WorkshopPage = () => {
   const formRef = useRef<SignUpFormRef>(null)
+  const {data: workshopDateAndTime} =
+    trpc.featureFlag.getWorkshopDateAndTime.useQuery({
+      flag: 'featureFlagCursorWorkshopSale',
+    })
   const {viewer} = useViewer()
   const isPro = viewer?.is_pro
 
@@ -39,11 +44,6 @@ const WorkshopPage = () => {
     'Hour long break for lunch',
   ]
 
-  const dateAndTime = {
-    date: 'April 10, 2025',
-    time: '9:00 AM - 2:00 PM (PDT)',
-  }
-
   return (
     <main className="min-h-screen relative bg-white dark:bg-gray-900">
       <div className="relative">
@@ -51,7 +51,7 @@ const WorkshopPage = () => {
           <Hero
             formRef={formRef}
             saleisActive={saleisActive}
-            dateAndTime={dateAndTime}
+            dateAndTime={workshopDateAndTime}
           />
           <Features />
         </div>
@@ -66,7 +66,7 @@ const WorkshopPage = () => {
               isPro={isPro}
               workshopFeatures={LIVE_WORKSHOP_FEATURES}
               teamWorkshopFeatures={TEAM_WORKSHOP_FEATURES}
-              dateAndTime={dateAndTime}
+              dateAndTime={workshopDateAndTime}
             />
           }
         />

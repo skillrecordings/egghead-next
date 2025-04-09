@@ -13,7 +13,7 @@ import {tipsRouter} from './tips'
 import {lessonRouter} from './lesson'
 import {likesRouter} from './likes'
 import {courseRouter} from './course'
-
+import {featureFlagRouter} from './feature-flag'
 export const appRouter = router({
   healthcheck: baseProcedure.query(() => 'yay!'),
   user: userRouter,
@@ -27,6 +27,7 @@ export const appRouter = router({
   lesson: lessonRouter,
   likes: likesRouter,
   course: courseRouter,
+  featureFlag: featureFlagRouter,
 })
 
 export type AppRouter = typeof appRouter
