@@ -1,23 +1,15 @@
 import * as React from 'react'
 import Link from 'next/link'
 import analytics from '@/utils/analytics'
-
-import {getSaleBannerFeatureFlag} from '@/lib/feature-flags'
 import {usePathname} from 'next/navigation'
+import {trpc} from '@/app/_trpc/client'
 
 const LifetimeSaleHeaderBanner = () => {
-  const [isSaleBannerEnabled, setIsSaleBannerEnabled] =
-    React.useState<boolean>(false)
+  const {data: isSaleBannerEnabled} =
+    trpc.featureFlag.isLiveWorkshopSale.useQuery({
+      flag: 'featureFlagLifetimeSale',
+    })
   const pathname = usePathname()
-
-  React.useEffect(() => {
-    getSaleBannerFeatureFlag('featureFlagLifetimeSale', 'saleBanner').then(
-      (result) => {
-        setIsSaleBannerEnabled(result ?? false)
-        console.log('isSaleBannerEnabled', result)
-      },
-    )
-  }, [])
 
   return isSaleBannerEnabled ? (
     <Link

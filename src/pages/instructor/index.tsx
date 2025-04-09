@@ -4,7 +4,7 @@ import {InstructorTabContent} from '@/components/pages/user'
 import {GetServerSideProps} from 'next/types'
 import {getAbilityFromToken} from '@/server/ability'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
-import {getDraftFeatureFlag} from '@/lib/feature-flags'
+import {getFeatureFlag} from '@/lib/feature-flags'
 import {loadCurrentViewerRoles} from '@/lib/viewer'
 
 const Instructor = ({canViewDraftCourses}: {canViewDraftCourses: boolean}) => {
@@ -57,7 +57,7 @@ Instructor.getLayout = function getLayout(Page: any, pageProps: any) {
 export const getServerSideProps: GetServerSideProps = async function ({req}) {
   const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
   const roles = await loadCurrentViewerRoles(req.cookies[ACCESS_TOKEN_KEY])
-  const draftCourseRole = await getDraftFeatureFlag(
+  const draftCourseRole = await getFeatureFlag(
     'featureFlagDraftCourse',
     'allowedRoles',
   )

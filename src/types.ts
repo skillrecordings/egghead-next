@@ -1,3 +1,16 @@
+import {z} from 'zod'
+
+export const WorkshopDateAndTimeSchema = z
+  .object({
+    date: z.string(),
+    startTime: z.string(),
+    timeZone: z.string(),
+    utcOffset: z.string(),
+    endTime: z.string(),
+  })
+  .optional()
+export type WorkshopDateAndTime = z.infer<typeof WorkshopDateAndTimeSchema>
+
 export type Resource = {
   title: string
   slug: string

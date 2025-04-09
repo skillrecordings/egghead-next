@@ -7,6 +7,7 @@ import './styles.css'
 import Image from 'next/image'
 import {Button} from '@/ui'
 import TimeAndLocation from './time-and-location'
+import {WorkshopDateAndTime} from '@/types'
 
 export interface SignUpFormRef {
   focus: () => void
@@ -45,10 +46,7 @@ function scrollToSignup(
 interface HeroProps {
   formRef: React.RefObject<SignUpFormRef>
   saleisActive: boolean
-  dateAndTime: {
-    date: string
-    time: string
-  }
+  dateAndTime: WorkshopDateAndTime
 }
 
 export default function Hero({formRef, saleisActive, dateAndTime}: HeroProps) {
@@ -123,11 +121,13 @@ export default function Hero({formRef, saleisActive, dateAndTime}: HeroProps) {
           className="relative"
         >
           <div className="mt-12 flex flex-col gap-4 justify-center items-center">
-            {saleisActive && (
+            {saleisActive && dateAndTime && (
               <div className="">
                 <TimeAndLocation
                   date={dateAndTime.date}
-                  time={dateAndTime.time}
+                  startTime={dateAndTime.startTime}
+                  timeZone={dateAndTime.timeZone}
+                  endTime={dateAndTime.endTime}
                   iconSize={6}
                   className="text-lg gap-2 text-muted-foreground flex md:flex-row md:gap-6"
                 />

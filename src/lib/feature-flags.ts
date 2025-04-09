@@ -3,15 +3,13 @@ import {createClient} from '@vercel/edge-config'
 interface FeatureFlags {
   allowedRoles?: string[]
   saleBanner?: string[]
+  workshopDateAndTime?: string[]
 }
 
 // We use prefixes to avoid mixing up the flags with other Edge Config values
 const prefixKey = (prefix: string, key: string) => `${prefix}_${key}`
 
-export async function getDraftFeatureFlag(
-  prefix: string,
-  key: keyof FeatureFlags,
-) {
+export async function getFeatureFlag(prefix: string, key: keyof FeatureFlags) {
   if (!process.env.FEATURE_FLAGS_EDGE_CONFIG) return false
   const prefixedKey = prefixKey(prefix, key)
   const edgeConfig = createClient(process.env.FEATURE_FLAGS_EDGE_CONFIG)
