@@ -3,12 +3,16 @@ import {cn} from '@/ui/utils'
 
 const TimeAndLocation = ({
   date,
-  time,
+  startTime,
+  timeZone,
+  endTime,
   className,
   iconSize,
 }: {
   date: string
-  time: string
+  startTime: string
+  timeZone: string
+  endTime: string
   className?: string
   iconSize?: number
 }) => {
@@ -29,7 +33,9 @@ const TimeAndLocation = ({
         <Clock
           className={cn('h-5 w-5', iconSize && `h-${iconSize} w-${iconSize}`)}
         />
-        <span>{time}</span>
+        <span>
+          {startTime} - {endTime} ({timeZone})
+        </span>
       </div>
       <div className="flex items-center gap-1">
         <MapPin
