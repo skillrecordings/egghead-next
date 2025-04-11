@@ -41,12 +41,22 @@ export default function Instructor() {
               </p>
             </div>
           </div>
-          <blockquote className="my-16">
-            <p className="text-lg font-semibold tracking-tight italic">
-              "John is the cursor god"
-            </p>
-            <div className="opacity-50 text-md">— Sunil Pai</div>
-          </blockquote>
+          <div className="flex flex-col items-center justify-center gap-8 my-16">
+            <blockquote className="">
+              <p className="text-lg font-semibold tracking-tight italic">
+                "John is the cursor god"
+              </p>
+              <div className="opacity-50 text-md">— Sunil Pai</div>
+            </blockquote>
+            <blockquote className="">
+              <p className="text-lg font-semibold tracking-tight italic text-balance max-w-xl">
+                "Thanks John! This workshop was great. I used the skills you
+                taught me to effectively one-shot OAuth issuer support in the
+                Epic Stack. So cool!"
+              </p>
+              <div className="opacity-50 text-md">— Kent C. Dodds</div>
+            </blockquote>
+          </div>
         </motion.div>
       </div>
     </section>

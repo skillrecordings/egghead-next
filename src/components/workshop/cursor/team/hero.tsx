@@ -1,22 +1,22 @@
 'use client'
 import Link from 'next/link'
 import {motion} from 'framer-motion'
-import {fadeInUp, scaleIn} from './animations'
+import {fadeInUp, scaleIn} from '../animations'
 import {useState, useEffect} from 'react'
-import './styles.css'
+import '../styles.css'
 import Image from 'next/image'
 import {Button} from '@/ui'
-import TimeAndLocation from './time-and-location'
-import {WorkshopDateAndTime} from '@/types'
 
 export interface SignUpFormRef {
   focus: () => void
 }
 
 const phrases = [
+  'Supercharge Your Team with',
+  'Build Reliable AI Workflows for',
   'Conquer the Complexity of',
   'Turn Failures into Fuel with',
-  'Accelerate Your Workflow in',
+  'Accelerate Your Team with',
   'Master Agents in',
 ]
 
@@ -32,24 +32,34 @@ const AnimatedPhrase = ({text}: {text: string}) => (
   </motion.span>
 )
 
-function scrollToSignup(
+export function scrollTo(
   e: React.MouseEvent<HTMLAnchorElement>,
   formRef: React.RefObject<SignUpFormRef>,
 ) {
   e.preventDefault()
-  document.querySelector('#signup')?.scrollIntoView({behavior: 'smooth'})
-  setTimeout(() => {
-    formRef.current?.focus()
-  }, 500)
+  const contactElement = document.querySelector('#contact')
+  if (contactElement) {
+    const headerOffset = 80 // Adjust this value based on your header height
+    const elementPosition = contactElement.getBoundingClientRect().top
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    })
+
+    // Focus the form after scrolling
+    setTimeout(() => {
+      formRef.current?.focus()
+    }, 500)
+  }
 }
 
 interface HeroProps {
   formRef: React.RefObject<SignUpFormRef>
-  saleisActive: boolean
-  dateAndTime: WorkshopDateAndTime
 }
 
-export default function Hero({formRef, saleisActive, dateAndTime}: HeroProps) {
+export default function Hero({formRef}: HeroProps) {
   const [phraseIndex, setPhraseIndex] = useState(0)
 
   useEffect(() => {
@@ -60,11 +70,11 @@ export default function Hero({formRef, saleisActive, dateAndTime}: HeroProps) {
   }, [])
 
   return (
-    <section className="sm:py-12 py-8 bg-white dark:bg-gray-900 md:py-10 text-center  overflow-hidden">
-      <div className="absolute inset-0 pattern-dots" />
+    <section className="sm:py-12 py-8 bg-white dark:bg-gray-900 md:py-10 text-center  overflow-hidden mb-20">
+      <div className="absolute inset-0 pattern-dots z-0 max-h-[1000px]" />
       <div
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full bg-gradient-to-b dark:from-gray-900/90 dark:to-gray-900/70 from-gray-50 to-transparent"
+        className="absolute inset-0 w-full h-full bg-gradient-to-b dark:from-gray-900/90 dark:to-gray-900/70 from-gray-50 to-transparent max-h-[1000px]"
       />
       <motion.div {...scaleIn} className="relative max-w-4xl mx-auto px-6">
         <Image
@@ -106,8 +116,8 @@ export default function Hero({formRef, saleisActive, dateAndTime}: HeroProps) {
             John Lindquist
           </span>
           , founder of egghead.io, for an immersive workshop designed to help
-          you conquer the frustration of getting stuck with complex AI tools.
-          You'll learn how to turn failures into successes by mastering{' '}
+          your team conquer the frustration of getting stuck with complex AI
+          tools. You'll learn how to turn failures into successes by mastering{' '}
           <span className="text-gray-900 dark:text-white font-medium">
             Agents, Ask, and Custom Modes
           </span>{' '}
@@ -121,25 +131,13 @@ export default function Hero({formRef, saleisActive, dateAndTime}: HeroProps) {
           className="relative"
         >
           <div className="mt-12 flex flex-col gap-4 justify-center items-center">
-            {saleisActive && dateAndTime && (
-              <div className="">
-                <TimeAndLocation
-                  date={dateAndTime.date}
-                  startTime={dateAndTime.startTime}
-                  timeZone={dateAndTime.timeZone}
-                  endTime={dateAndTime.endTime}
-                  iconSize={6}
-                  className="text-lg gap-2 text-muted-foreground flex md:flex-row md:gap-6"
-                />
-              </div>
-            )}
             <Button
               asChild
               size="lg"
               className=" sm:mt-5 dark:bg-white dark:text-black bg-black text-white text-lg font-semibold w-fit"
             >
-              <Link href="#signup" onClick={(e) => scrollToSignup(e, formRef)}>
-                Register Now
+              <Link href="#contact" onClick={(e) => scrollTo(e, formRef)}>
+                Contact Us
                 {/* <ArrowCircleDownIcon className="group-hover:scale-105 w-8 h-8 transition-all duration-200" /> */}
               </Link>
             </Button>

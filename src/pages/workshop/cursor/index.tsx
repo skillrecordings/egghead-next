@@ -13,9 +13,23 @@ import ActiveSale from '@/components/workshop/cursor/active-sale'
 
 import CtaSection from '@/components/workshop/cursor/cta-section'
 import {useViewer} from '@/context/viewer-context'
+import {trpc} from '@/app/_trpc/client'
+
+export const TEAM_WORKSHOP_FEATURES = [
+  'Flexible scheduling',
+  'Live Q&A with John Lindquist',
+  'Scope and plan work',
+  'When and how to use MCP',
+  'Effective cursor rules across teams and projects',
+  'Build context for Agents',
+]
 
 const WorkshopPage = () => {
   const formRef = useRef<SignUpFormRef>(null)
+  const {data: workshopDateAndTime} =
+    trpc.featureFlag.getWorkshopDateAndTime.useQuery({
+      flag: 'featureFlagCursorWorkshopSale',
+    })
   const {viewer} = useViewer()
   const isPro = viewer?.is_pro
 
@@ -23,17 +37,12 @@ const WorkshopPage = () => {
 
   const LIVE_WORKSHOP_FEATURES = [
     'Live Q&A with John Lindquist',
-    'Learn to Prompt for developers',
-    'Effective .cursorrules used',
+    'Learn to prompt for developers',
+    'Effective cursor rules used',
     'Build context for Agents',
-    'Full day of intensive training',
+    'When and how to use MCP',
     'Hour long break for lunch',
   ]
-
-  const dateAndTime = {
-    date: 'April 3, 2025',
-    time: '9:00 AM - 2:00 PM (PDT)',
-  }
 
   return (
     <main className="min-h-screen relative bg-white dark:bg-gray-900">
@@ -42,7 +51,7 @@ const WorkshopPage = () => {
           <Hero
             formRef={formRef}
             saleisActive={saleisActive}
-            dateAndTime={dateAndTime}
+            dateAndTime={workshopDateAndTime}
           />
           <Features />
         </div>
@@ -56,7 +65,8 @@ const WorkshopPage = () => {
             <ActiveSale
               isPro={isPro}
               workshopFeatures={LIVE_WORKSHOP_FEATURES}
-              dateAndTime={dateAndTime}
+              teamWorkshopFeatures={TEAM_WORKSHOP_FEATURES}
+              dateAndTime={workshopDateAndTime}
             />
           }
         />
