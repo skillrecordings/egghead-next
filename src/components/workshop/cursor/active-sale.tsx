@@ -132,6 +132,8 @@ const ActiveSale = ({
               workshopFeatures={workshopFeatures}
               dateAndTime={dateAndTime}
               paymentLink={paymentLink}
+              parityCoupon={parityCoupon}
+              isPPPApplied={isPPPApplied}
             />
           )}
         </div>
@@ -155,16 +157,69 @@ const ActiveSale = ({
   )
 }
 
+const Price = ({
+  isPro,
+  parityCoupon,
+  isPPPApplied,
+}: {
+  isPro: boolean
+  parityCoupon: Coupon | undefined
+  isPPPApplied: boolean
+}) => {
+  switch (true) {
+    case isPPPApplied:
+      const discount = parityCoupon?.coupon_discount ?? 0
+      const price = (149 - 149 * discount).toFixed(2)
+      return (
+        <div className="flex items-center justify-center gap-4">
+          <p className="text-5xl font-bold">${price}</p>
+          <div>
+            <p className="flex text-sm font-semibold">SAVE {discount * 100}%</p>
+            <p className="text-2xl text-muted-foreground line-through opacity-70">
+              $149
+            </p>
+          </div>
+        </div>
+      )
+    case isPro:
+      return (
+        <div className="flex items-center justify-center gap-4">
+          <p className="text-5xl font-bold">$119</p>
+          <div>
+            <p className="flex text-sm font-semibold">
+              SAVE 20%
+              <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
+            </p>
+            <p className="text-2xl text-muted-foreground line-through opacity-70">
+              $149
+            </p>
+          </div>
+        </div>
+      )
+    default:
+      return (
+        <p className="flex justify-center text-5xl font-bold ">
+          $149
+          <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
+        </p>
+      )
+  }
+}
+
 function SinglePurchaseUI({
   isPro,
   workshopFeatures,
   dateAndTime,
   paymentLink,
+  parityCoupon,
+  isPPPApplied,
 }: {
   isPro: boolean
   workshopFeatures: string[]
   dateAndTime: WorkshopDateAndTime
   paymentLink: string
+  parityCoupon: Coupon | undefined
+  isPPPApplied: boolean
 }) {
   return (
     <div className="container px-4 md:px-6">
@@ -174,27 +229,11 @@ function SinglePurchaseUI({
             <h3 className="text-2xl font-bold text-balance">
               Become More Productive with Cursor
             </h3>
-            <div className="space-y-1">
-              {isPro ? (
-                <div className="flex items-center justify-center gap-4">
-                  <p className="text-5xl font-bold">$119</p>
-                  <div>
-                    <p className="flex text-sm font-semibold">
-                      SAVE 20%
-                      <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
-                    </p>
-                    <p className="text-2xl text-muted-foreground line-through opacity-70">
-                      $149
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <p className="flex justify-center text-5xl font-bold ">
-                  $149
-                  <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
-                </p>
-              )}
-            </div>
+            <Price
+              isPro={isPro}
+              parityCoupon={parityCoupon}
+              isPPPApplied={isPPPApplied}
+            />
           </div>
           {dateAndTime && (
             <TimeAndLocation
