@@ -57,18 +57,7 @@ export const useCommerceMachine = (
     : {annualPrice: placeholderAnnualPlan}
   const quantity = state.context.quantity
   const priceId = state.context.priceId
-  const availableCoupons = {
-    ppp: {
-      coupon_discount: 0.75,
-      coupon_code: '50IBUI9P',
-      coupon_expires_at: 1744451495,
-      default: false,
-      price_message: 'Restricted Regional Pricing (IN)',
-      coupon_region_restricted: true,
-      coupon_region_restricted_to: 'IN',
-      coupon_region_restricted_to_name: 'India',
-    },
-  }
+  const availableCoupons = state?.context?.pricingData?.available_coupons
 
   // keep track of the selected plan type (annual, quarterly, monthly)
   const defaultPlanKey = initialPlan
