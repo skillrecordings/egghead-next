@@ -7,6 +7,7 @@ export const WorkshopDateAndTimeSchema = z
     timeZone: z.string(),
     utcOffset: z.string(),
     endTime: z.string(),
+    isEuFriendly: z.boolean(),
   })
   .optional()
 export type WorkshopDateAndTime = z.infer<typeof WorkshopDateAndTimeSchema>
