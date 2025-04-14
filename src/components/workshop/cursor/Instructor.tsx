@@ -41,7 +41,7 @@ export default function Instructor() {
               </p>
             </div>
           </div>
-          <div className="flex items-center justify-center gap-8 my-16">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 my-16">
             <Testimonial
               name="Kent C. Dodds"
               image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/kent.jpg"
