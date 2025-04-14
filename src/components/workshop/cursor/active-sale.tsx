@@ -1,9 +1,65 @@
 import {AsteriskIcon} from 'lucide-react'
 import Link from 'next/link'
 import TimeAndLocation from './time-and-location'
+import {useCommerceMachine} from '@/hooks/use-commerce-machine'
+import {get, isEmpty} from 'lodash'
+import WorkshopParityCouponMessage from '@/components/workshop/cursor/parity-coupon-message'
+import {Coupon} from '@/types'
 import {useState} from 'react'
 import {ContactForm} from '@/components/workshop/cursor/team/contact-form'
 import {WorkshopDateAndTime} from '@/types'
+
+interface UseWorkshopCouponProps {
+  isPro: boolean
+}
+
+interface UseWorkshopCouponReturn {
+  couponToApply: string
+  isPPPApplied: boolean
+  pppCouponAvailable: boolean
+  countryName: string | undefined
+  parityCoupon: Coupon | undefined
+  onApplyParityCoupon: () => void
+  onDismissParityCoupon: () => void
+}
+
+function useWorkshopCoupon({
+  isPro,
+}: UseWorkshopCouponProps): UseWorkshopCouponReturn {
+  const {availableCoupons} = useCommerceMachine()
+  const defaultIsProCoupon = isPro
+    ? `?prefilled_promo_code=${process.env.NEXT_PUBLIC_LIVE_WORKSHOP_PROMO_CODE}`
+    : ''
+  const [isPPPApplied, setIsPPPApplied] = useState(false)
+  const [couponToApply, setCouponToApply] = useState(defaultIsProCoupon)
+
+  const parityCoupon = availableCoupons?.['ppp']
+  const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
+  const countryName = get(parityCoupon, 'coupon_region_restricted_to_name')
+
+  const pppCouponAvailable =
+    !isEmpty(countryName) && !isEmpty(countryCode) && !isEmpty(parityCoupon)
+
+  const onApplyParityCoupon = () => {
+    setIsPPPApplied(true)
+    setCouponToApply(`?prefilled_promo_code=${parityCoupon?.coupon_code}`)
+  }
+
+  const onDismissParityCoupon = () => {
+    setIsPPPApplied(false)
+    setCouponToApply(defaultIsProCoupon)
+  }
+
+  return {
+    couponToApply,
+    isPPPApplied,
+    pppCouponAvailable,
+    countryName,
+    parityCoupon,
+    onApplyParityCoupon,
+    onDismissParityCoupon,
+  }
+}
 
 const CheckIcon = () => {
   return (
@@ -35,64 +91,136 @@ const ActiveSale = ({
   teamWorkshopFeatures: string[]
   dateAndTime: WorkshopDateAndTime
 }) => {
+  const {
+    couponToApply,
+    isPPPApplied,
+    pppCouponAvailable,
+    countryName,
+    parityCoupon,
+    onApplyParityCoupon,
+    onDismissParityCoupon,
+  } = useWorkshopCoupon({isPro})
+
+  const paymentLink = `${process.env.NEXT_PUBLIC_LIVE_WORKSHOP_STRIPE_PAYMENT_LINK}${couponToApply}`
+
   const [teamToggleState, setTeamToggleState] = useState(false)
 
   return (
-    <section
-      id="pricing"
-      className="w-full py-12 md:py-24 lg:py-32 bg-muted/50"
-    >
-      <div className="container px-4 md:px-6">
-        <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
-          <h2 className="mb-4 lg:text-3xl sm:text-2xl text-xl font-bold text-center dark:text-white text-gray-900 max-w-[25ch]">
-            Ready to Take Advantage of AI Development with Cursor?
-          </h2>
-          <p className="mb-8 text-center sm:text-lg md:text-xl opacity-80 mx-auto">
-            Claim a seat in this hands-on workshop designed to level up your
-            development process. Overcome the frustration of complex
-            integrations, learn to handle failures gracefully, and discover
-            powerful planning strategies to keep you shipping code with
-            confidence.
-          </p>
+    <div className="py-12 md:py-24 lg:py-32">
+      <section id="pricing" className="w-full bg-muted/50">
+        <div className="container px-4 md:px-6">
+          <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
+            <h2 className="mb-4 lg:text-3xl sm:text-2xl text-xl font-bold text-center dark:text-white text-gray-900 max-w-[25ch]">
+              Ready to Take Advantage of AI Development with Cursor?
+            </h2>
+            <p className="mb-8 text-center sm:text-lg md:text-xl opacity-80 mx-auto">
+              Claim a seat in this hands-on workshop designed to level up your
+              development process. Overcome the frustration of complex
+              integrations, learn to handle failures gracefully, and discover
+              powerful planning strategies to keep you shipping code with
+              confidence.
+            </p>
+          </div>
+          {teamToggleState ? (
+            <ContactForm
+              className=" border-2 border-gray-200 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-800"
+              teamWorkshopFeatures={teamWorkshopFeatures}
+            />
+          ) : (
+            <SinglePurchaseUI
+              isPro={isPro}
+              workshopFeatures={workshopFeatures}
+              dateAndTime={dateAndTime}
+              paymentLink={paymentLink}
+              parityCoupon={parityCoupon}
+              isPPPApplied={isPPPApplied}
+            />
+          )}
         </div>
-        {teamToggleState ? (
-          <ContactForm
-            className=" border-2 border-gray-200 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-800"
-            teamWorkshopFeatures={teamWorkshopFeatures}
+        <TeamPurchaseSwitch
+          teamToggleState={teamToggleState}
+          setTeamToggleState={setTeamToggleState}
+        />
+      </section>
+      {pppCouponAvailable && (
+        <div className="max-w-screen-md pb-5 mx-auto mt-4">
+          <WorkshopParityCouponMessage
+            coupon={parityCoupon as Coupon}
+            countryName={countryName as string}
+            onApply={onApplyParityCoupon}
+            onDismiss={onDismissParityCoupon}
+            isPPP={isPPPApplied}
           />
-        ) : (
-          <SinglePurchaseUI
-            isPro={isPro}
-            workshopFeatures={workshopFeatures}
-            dateAndTime={dateAndTime}
-          />
-        )}
-      </div>
-      <TeamPurchaseSwitch
-        teamToggleState={teamToggleState}
-        setTeamToggleState={setTeamToggleState}
-      />
-    </section>
+        </div>
+      )}
+    </div>
   )
+}
+
+const Price = ({
+  isPro,
+  parityCoupon,
+  isPPPApplied,
+}: {
+  isPro: boolean
+  parityCoupon: Coupon | undefined
+  isPPPApplied: boolean
+}) => {
+  switch (true) {
+    case isPPPApplied:
+      const discount = parityCoupon?.coupon_discount ?? 0
+      const price = (149 - 149 * discount).toFixed(2)
+      return (
+        <div className="flex items-center justify-center gap-4">
+          <p className="text-5xl font-bold">${price}</p>
+          <div>
+            <p className="flex text-sm font-semibold">SAVE {discount * 100}%</p>
+            <p className="text-2xl text-muted-foreground line-through opacity-70">
+              $149
+            </p>
+          </div>
+        </div>
+      )
+    case isPro:
+      return (
+        <div className="flex items-center justify-center gap-4">
+          <p className="text-5xl font-bold">$119</p>
+          <div>
+            <p className="flex text-sm font-semibold">
+              SAVE 20%
+              <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
+            </p>
+            <p className="text-2xl text-muted-foreground line-through opacity-70">
+              $149
+            </p>
+          </div>
+        </div>
+      )
+    default:
+      return (
+        <p className="flex justify-center text-5xl font-bold ">
+          $149
+          <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
+        </p>
+      )
+  }
 }
 
 function SinglePurchaseUI({
   isPro,
   workshopFeatures,
   dateAndTime,
+  paymentLink,
+  parityCoupon,
+  isPPPApplied,
 }: {
   isPro: boolean
   workshopFeatures: string[]
   dateAndTime: WorkshopDateAndTime
+  paymentLink: string
+  parityCoupon: Coupon | undefined
+  isPPPApplied: boolean
 }) {
-  const paymentLink = `${
-    process.env.NEXT_PUBLIC_LIVE_WORKSHOP_STRIPE_PAYMENT_LINK
-  }${
-    isPro
-      ? `?prefilled_promo_code=${process.env.NEXT_PUBLIC_LIVE_WORKSHOP_PROMO_CODE}`
-      : ''
-  }`
-
   return (
     <div className="container px-4 md:px-6">
       <div className="mx-auto max-w-lg pt-12">
@@ -101,27 +229,11 @@ function SinglePurchaseUI({
             <h3 className="text-2xl font-bold text-balance">
               Become More Productive with Cursor
             </h3>
-            <div className="space-y-1">
-              {isPro ? (
-                <div className="flex items-center justify-center gap-4">
-                  <p className="text-5xl font-bold">$119</p>
-                  <div>
-                    <p className="flex text-sm font-semibold">
-                      SAVE 20%
-                      <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
-                    </p>
-                    <p className="text-2xl text-muted-foreground line-through opacity-70">
-                      $149
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <p className="flex justify-center text-5xl font-bold ">
-                  $149
-                  <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
-                </p>
-              )}
-            </div>
+            <Price
+              isPro={isPro}
+              parityCoupon={parityCoupon}
+              isPPPApplied={isPPPApplied}
+            />
           </div>
           {dateAndTime && (
             <TimeAndLocation
