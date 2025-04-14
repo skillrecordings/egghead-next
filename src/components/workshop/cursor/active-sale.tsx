@@ -241,6 +241,8 @@ function SinglePurchaseUI({
               startTime={dateAndTime.startTime}
               timeZone={dateAndTime.timeZone}
               endTime={dateAndTime.endTime}
+              showEuTooltip={true}
+              isEuFriendly={dateAndTime.isEuFriendly}
             />
           )}
           <div className="p-6 pt-0 grid gap-4">
