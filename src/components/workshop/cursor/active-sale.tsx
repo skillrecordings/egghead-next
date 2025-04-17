@@ -169,14 +169,14 @@ const Price = ({
   switch (true) {
     case isPPPApplied:
       const discount = parityCoupon?.coupon_discount ?? 0
-      const price = (149 - 149 * discount).toFixed(2)
+      const price = (249 - 249 * discount).toFixed(2)
       return (
         <div className="flex items-center justify-center gap-4">
           <p className="text-5xl font-bold">${price}</p>
           <div>
             <p className="flex text-sm font-semibold">SAVE {discount * 100}%</p>
             <p className="text-2xl text-muted-foreground line-through opacity-70">
-              $149
+              $249
             </p>
           </div>
         </div>
@@ -184,14 +184,14 @@ const Price = ({
     case isPro:
       return (
         <div className="flex items-center justify-center gap-4">
-          <p className="text-5xl font-bold">$119</p>
+          <p className="text-5xl font-bold">$149</p>
           <div>
             <p className="flex text-sm font-semibold">
-              SAVE 20%
+              SAVE 40%
               <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
             </p>
             <p className="text-2xl text-muted-foreground line-through opacity-70">
-              $149
+              $249
             </p>
           </div>
         </div>
@@ -199,7 +199,7 @@ const Price = ({
     default:
       return (
         <p className="flex justify-center text-5xl font-bold ">
-          $149
+          $249
           <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
         </p>
       )
