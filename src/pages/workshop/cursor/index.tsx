@@ -61,7 +61,7 @@ const WorkshopPage = () => {
             <Markdown className="prose dark:text-white  text-lg leading-snug mx-auto">
               {`The AI development landscape shifts daily.
 
-New models drop (Gemini 2.5-flash, o3) every week along side new agent-powered IDEs, new tools, and new 'best practices'.
+New models drop (Gemini 2.5-flash, o3/04-mini) every week along side new agent-powered IDEs, new tools, and new 'best practices'.
 
 It feels impossible to keep up, let alone know if you're using these powerful tools effectively.
 
