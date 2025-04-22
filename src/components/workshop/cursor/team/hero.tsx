@@ -121,8 +121,8 @@ export default function Hero({formRef}: HeroProps) {
           <span className="text-gray-900 dark:text-white font-medium">
             Agents, Ask, and Custom Modes
           </span>{' '}
-          workflows—plus powerful strategies for multi-file analysis. Streamline
-          your development cycle and unlock Cursor's full potential.
+          —plus powerful strategies for multi-file analysis. Streamline your
+          development cycle and unlock Cursor's full potential.
         </motion.p>
 
         <motion.div

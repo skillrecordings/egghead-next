@@ -14,7 +14,8 @@ import ActiveSale from '@/components/workshop/cursor/active-sale'
 import CtaSection from '@/components/workshop/cursor/cta-section'
 import {useViewer} from '@/context/viewer-context'
 import {trpc} from '@/app/_trpc/client'
-
+import Markdown from '@/components/markdown'
+import Image from 'next/image'
 export const TEAM_WORKSHOP_FEATURES = [
   'Flexible scheduling',
   'Live Q&A with John Lindquist',
@@ -53,6 +54,66 @@ const WorkshopPage = () => {
             saleisActive={saleisActive}
             dateAndTime={workshopDateAndTime}
           />
+          <section className="z-10 relative">
+            <h2 className="mb-5 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center">
+              Keeping Up with Rapid AI Tool Changes is Exhausting
+            </h2>
+            <Markdown className="prose dark:text-white  text-lg leading-snug mx-auto">
+              {`The AI development landscape shifts daily.
+
+New models drop (Gemini 2.5-flash, o3) every week along side new agent-powered IDEs, new tools, and new 'best practices'.
+
+It feels impossible to keep up, let alone know if you're using these powerful tools effectively.
+
+Whether you use Cursor, WindSurf, GitHub Copilot Workspace, Codeium or the next hot thing, you want to make certain you are using your tools to the best of their ability.           
+            `}
+            </Markdown>
+            <h2 className="my-5 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center">
+              Don't Learn Tools, Learn the Right Workflows
+            </h2>
+            <Markdown className="prose dark:text-white  text-lg leading-snug mx-auto">
+              {`This workshop takes into account the rapid changes in AI development.
+
+You learn the fundamental principles and repeatable workflows that John has used to successfully build with AI regardless of the tool you use.
+
+You will understand agent behavior, tool calls, and context limitations which are the building blocks that explain why tools succeed or fail, independent of updates.
+
+We've all had AI tools fail unexpectedly or get stuck in a loop wasting time (and your prompt credits) debugging an error it has no business touching or no idea how to solve.
+
+You'll learn to identify signals that your tools are stuck in a loop and failing and proactively prevent these from happening through thought-out plans and the right amount of context for the task at hand.
+
+After the workshop, you'll have a clear, sustainable process for leveraging AI coding tools effectively, saving you time and reducing the anxiety of constantly needing to 'catch up'.
+
+This workshop is taught using Cursor, but the principles and workflows taught are applicable to any AI coding tool.
+            `}
+            </Markdown>
+            <Image
+              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1745339467/cursor-workshop/cursor-workshop-screenshot.png"
+              className="w-full lg:max-w-screen-lg max-w-[90vw] mx-auto py-10"
+              loading="eager"
+              quality={100}
+              alt="Total TypeScript screenshots"
+              width={3825}
+              height={2511}
+            />
+            <h2 className="my-5 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center">
+              Productive AI Development on a Team
+            </h2>
+            <Markdown className="prose dark:text-white  text-lg leading-snug mx-auto">
+              {`Trying to use Cursor or other AI tools on your team projects feels daunting, even impossible. 
+
+You know you need to feed Cursor enough context to be useful but inevitably you end up pasting thousands of lines of code or hitting token limit. 
+
+Just asking your tools to 'fix bug #1234' or 'add the new reporting feature' in a massive codebase results in garbage output, irrelevant changes, and the AI confidently modifying completely unrelated files.
+
+You'll learn how to curate agent context to pinpoint the exact code you need for specific tasks as well as how to use Git with AI to revert any changes that get out of hand.
+
+For larger features, refactors, or fixes, you'll learn how to build acceptance criteria for the AI to build a plan around to effectively implement the task at hand.
+
+By the end of the workshop, you'll gain the skills needed to confidently use AI for targeted refactors, feature implementation, and bug fixes.
+            `}
+            </Markdown>
+          </section>
           <Features />
         </div>
         {/* <WorkshopStructure /> */}

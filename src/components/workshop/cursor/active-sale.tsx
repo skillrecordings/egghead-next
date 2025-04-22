@@ -113,7 +113,10 @@ const ActiveSale = ({
             <h2 className="mb-4 lg:text-3xl sm:text-2xl text-xl font-bold text-center dark:text-white text-gray-900 max-w-[25ch]">
               Ready to Take Advantage of AI Development with Cursor?
             </h2>
-            <p className="mb-8 text-center sm:text-lg md:text-xl opacity-80 mx-auto">
+            <h3 className="sm:text-lg md:text-xl dark:text-gray-200 text-gray-700 max-w-3xl mx-auto leading-relaxed">
+              Chosen by 150+ Developers Who Improved their AI Dev Workflows
+            </h3>
+            <p className="mb-8 text-center text-lg opacity-80 mx-auto">
               Claim a seat in this hands-on workshop designed to level up your
               development process. Overcome the frustration of complex
               integrations, learn to handle failures gracefully, and discover
