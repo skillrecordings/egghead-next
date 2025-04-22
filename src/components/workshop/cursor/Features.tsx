@@ -53,7 +53,7 @@ export default function Features() {
       <div className="container mx-auto px-6 sm:px-8 relative z-10">
         <motion.h2
           {...fadeInUp}
-          className="mb-5 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white"
+          className="mb-5 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center"
         >
           Essential Skills You'll Develop
         </motion.h2>
