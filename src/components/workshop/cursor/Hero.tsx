@@ -201,7 +201,7 @@ export default function Hero({formRef, saleisActive, dateAndTime}: HeroProps) {
         <motion.p
           {...fadeInUp}
           transition={{delay: 0.1}}
-          className="relative mb-8 sm:text-lg md:text-xl dark:text-gray-200 text-gray-700 max-w-3xl mx-auto leading-relaxed"
+          className="relative mb-8 sm:text-lg md:text-lg dark:text-gray-200 text-gray-700 max-w-3xl mx-auto leading-relaxed "
         >
           Join{' '}
           <span className="text-gray-900 pl-2 inline-flex items-baseline md:gap-2 gap-1 dark:text-white font-medium">
