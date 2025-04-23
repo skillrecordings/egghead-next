@@ -106,14 +106,14 @@ const ActiveSale = ({
   const [teamToggleState, setTeamToggleState] = useState(false)
 
   return (
-    <div className="py-12 md:py-24 lg:py-32">
+    <div className="lg:py-20">
       <section id="pricing" className="w-full bg-muted/50">
         <div className="container px-4 md:px-6">
           <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
-            <h2 className="mb-4 lg:text-3xl sm:text-2xl text-xl font-bold text-center dark:text-white text-gray-900 max-w-[25ch]">
+            <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               Ready to Take Advantage of AI Development with Cursor?
             </h2>
-            <h3 className="sm:text-lg md:text-xl dark:text-gray-200 text-gray-700 max-w-3xl mx-auto leading-relaxed">
+            <h3 className="text-lg md:text-xl dark:text-gray-200 text-gray-700 max-w-3xl mx-auto leading-relaxed font-medium">
               Chosen by 150+ Developers Who Improved their AI Dev Workflows
             </h3>
             <p className="mb-8 text-center text-lg opacity-80 mx-auto">
