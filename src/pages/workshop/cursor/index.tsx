@@ -62,7 +62,7 @@ const WorkshopPage = () => {
             dateAndTime={workshopDateAndTime}
           />
           <section className="z-10 relative">
-            <h2 className="mb-5 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center">
+            <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               Keeping Up with Rapid AI Tool Changes is Exhausting
             </h2>
             <Markdown className="prose-base w-full sm:prose-lg md:prose-xl marker:text-blue-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:text-balance prose-headings:px-5 prose-headings:font-text prose-headings:font-semibold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-normal prose-p:text-foreground prose-a:text-blue-300 prose-strong:font-semibold prose-strong:text-white prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:translate-x-1 prose-ul:list-disc hover:prose-a:underline md:prose-h2:text-5xl">
@@ -75,7 +75,7 @@ It feels impossible to keep up, let alone know if you're using these powerful to
 Whether you use Cursor, WindSurf, GitHub Copilot Workspace, Codeium or the next hot thing, you want to make certain you are using your tools to the best of their ability.           
             `}
             </Markdown>
-            <h2 className="my-5 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center">
+            <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               Don't Learn Tools, Learn the Right Workflows
             </h2>
             <Markdown className="prose-base w-full sm:prose-lg md:prose-xl marker:text-blue-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:text-balance prose-headings:px-5 prose-headings:font-text prose-headings:font-semibold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-normal prose-p:text-foreground prose-a:text-blue-300 prose-strong:font-semibold prose-strong:text-white prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:translate-x-1 prose-ul:list-disc hover:prose-a:underline md:prose-h2:text-5xl">
@@ -97,7 +97,7 @@ This workshop is taught using Cursor, but the principles and workflows taught ar
             {mounted && theme === 'light' && (
               <Image
                 src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1745339467/cursor-workshop/cursor-workshop-screenshot.png"
-                className="w-full lg:max-w-screen-lg max-w-[90vw] mx-auto py-10"
+                className="w-full lg:max-w-screen-lg max-w-[90vw] mx-auto my-20"
                 loading="eager"
                 quality={100}
                 alt="cursor workshop screenshots"
@@ -108,7 +108,7 @@ This workshop is taught using Cursor, but the principles and workflows taught ar
             {mounted && theme === 'dark' && (
               <Image
                 src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1745443115/cursor-workshop/cursor-workshop-screenshot-dark.png"
-                className="w-full lg:max-w-screen-lg max-w-[90vw] mx-auto py-10"
+                className="w-full lg:max-w-screen-lg max-w-[90vw] mx-auto my-20"
                 loading="eager"
                 quality={100}
                 alt="cursor workshop screenshots"
@@ -116,7 +116,7 @@ This workshop is taught using Cursor, but the principles and workflows taught ar
                 height={2511}
               />
             )}
-            <h2 className="my-5 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center">
+            <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               Productive AI Development on a Team
             </h2>
             <Markdown className="prose-base w-full sm:prose-lg md:prose-xl marker:text-blue-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:text-balance prose-headings:px-5 prose-headings:font-text prose-headings:font-semibold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-normal prose-p:text-foreground prose-a:text-blue-300 prose-strong:font-semibold prose-strong:text-white prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:translate-x-1 prose-ul:list-disc hover:prose-a:underline md:prose-h2:text-5xl">
