@@ -7,7 +7,7 @@ import './styles.css'
 import Image from 'next/image'
 import {Button} from '@/ui'
 import TimeAndLocation from './time-and-location'
-import {WorkshopDateAndTime} from '@/types'
+import {LiveWorkshop} from '@/types'
 
 export interface SignUpFormRef {
   focus: () => void
@@ -141,10 +141,10 @@ function scrollToSignup(
 interface HeroProps {
   formRef: React.RefObject<SignUpFormRef>
   saleisActive: boolean
-  dateAndTime: WorkshopDateAndTime
+  workshop: LiveWorkshop
 }
 
-export default function Hero({formRef, saleisActive, dateAndTime}: HeroProps) {
+export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
   const [phraseIndex, setPhraseIndex] = useState(0)
   const [flagIndex, setFlagIndex] = useState(0)
 
@@ -162,8 +162,8 @@ export default function Hero({formRef, saleisActive, dateAndTime}: HeroProps) {
   }, [])
 
   // Calculate European times
-  const workshopDateObj = dateAndTime
-    ? parseDateTimeWithOffset(dateAndTime.date, dateAndTime.startTime, -7)
+  const workshopDateObj = workshop
+    ? parseDateTimeWithOffset(workshop.date, workshop.startTime, -7)
     : null
   const londonTime = workshopDateObj
     ? formatTimeInTimeZone(workshopDateObj, 'Europe/London')
@@ -232,17 +232,17 @@ export default function Hero({formRef, saleisActive, dateAndTime}: HeroProps) {
           className="relative"
         >
           <div className="mt-12 flex flex-col gap-4 justify-center items-center">
-            {saleisActive && dateAndTime && (
+            {saleisActive && workshop && (
               <div className="">
                 <TimeAndLocation
-                  date={dateAndTime.date}
-                  startTime={dateAndTime.startTime}
-                  timeZone={dateAndTime.timeZone}
-                  endTime={dateAndTime.endTime}
+                  date={workshop.date}
+                  startTime={workshop.startTime}
+                  timeZone={workshop.timeZone}
+                  endTime={workshop.endTime}
                   iconSize={6}
                   className="text-lg gap-2 text-muted-foreground flex md:flex-row md:gap-6"
                 />
-                {dateAndTime.isEuFriendly && (
+                {workshop.isEuFriendly && (
                   <div className="relative mb-8 max-w-md mx-auto">
                     <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg p-4 shadow-lg transform rotate-0 hover:rotate-1 transition-transform">
                       <div className="flex items-center gap-3">

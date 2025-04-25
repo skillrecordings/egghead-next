@@ -28,18 +28,23 @@ export const TEAM_WORKSHOP_FEATURES = [
 
 const WorkshopPage = () => {
   const formRef = useRef<SignUpFormRef>(null)
-  const {data: workshopDateAndTime} =
-    trpc.featureFlag.getWorkshopDateAndTime.useQuery({
+  const {data: liveWorkshop, isLoading: isLiveWorkshopLoading} =
+    trpc.featureFlag.getLiveWorkshop.useQuery({
       flag: 'featureFlagCursorWorkshopSale',
     })
+
   const {viewer} = useViewer()
   const {theme} = useTheme()
   const [mounted, setMounted] = useState(false)
 
+  const {data: subscription} = trpc.stripe.getSubscription.useQuery({
+    subscriptionId: viewer?.accounts[0].subscriptions[0].stripe_subscription_id,
+  })
+  const islifeTimeSubscriber = viewer?.roles?.includes('lifetime_subscriber')
+  const isyearlyPro = subscription?.items.data[0].plan.interval === 'year'
+
   // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), [])
-
-  const isPro = viewer?.is_pro
 
   const saleisActive = true
 
@@ -59,7 +64,7 @@ const WorkshopPage = () => {
           <Hero
             formRef={formRef}
             saleisActive={saleisActive}
-            dateAndTime={workshopDateAndTime}
+            workshop={liveWorkshop}
           />
           <section className="z-10 relative">
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
@@ -144,10 +149,11 @@ By the end of the workshop, you'll gain the skills needed to confidently use AI 
           SaleClosedUi={<SignUpForm />}
           ActiveSaleUi={
             <ActiveSale
-              isPro={isPro}
+              hasProDiscount={islifeTimeSubscriber || isyearlyPro}
               workshopFeatures={LIVE_WORKSHOP_FEATURES}
               teamWorkshopFeatures={TEAM_WORKSHOP_FEATURES}
-              dateAndTime={workshopDateAndTime}
+              workshop={liveWorkshop}
+              isLiveWorkshopLoading={isLiveWorkshopLoading}
             />
           }
         />
@@ -184,7 +190,6 @@ WorkshopPage.getLayout = (Page: any, pageProps: any) => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const ehUser = JSON.parse(ctx.req.cookies.eh_user || '{}')
   const authToken = ctx.req.cookies['eh_token_2020_11_22']
-  console.log('ehUser', ehUser)
 
   if (!authToken) return {props: {}}
 
