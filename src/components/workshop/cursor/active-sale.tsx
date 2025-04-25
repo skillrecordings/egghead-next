@@ -5,16 +5,26 @@ import {useCommerceMachine} from '@/hooks/use-commerce-machine'
 import {get, isEmpty} from 'lodash'
 import WorkshopParityCouponMessage from '@/components/workshop/cursor/parity-coupon-message'
 import {Coupon} from '@/types'
-import {useState} from 'react'
+import {useState, useMemo, useEffect} from 'react'
 import {ContactForm} from '@/components/workshop/cursor/team/contact-form'
-import {WorkshopDateAndTime} from '@/types'
+import {LiveWorkshop} from '@/types'
+import Spinner from '@/components/spinner'
 
 interface UseWorkshopCouponProps {
-  isPro: boolean
+  hasProDiscount: boolean
+  workshop: LiveWorkshop
 }
 
 interface UseWorkshopCouponReturn {
-  couponToApply: string
+  couponToApply: {
+    queryParam: string
+    type:
+      | 'earlyBird-member'
+      | 'earlyBird-non-member'
+      | 'member'
+      | 'non-member'
+      | 'ppp'
+  }
   isPPPApplied: boolean
   pppCouponAvailable: boolean
   countryName: string | undefined
@@ -24,14 +34,57 @@ interface UseWorkshopCouponReturn {
 }
 
 function useWorkshopCoupon({
-  isPro,
+  hasProDiscount,
+  workshop,
 }: UseWorkshopCouponProps): UseWorkshopCouponReturn {
   const {availableCoupons} = useCommerceMachine()
-  const defaultIsProCoupon = isPro
-    ? `?prefilled_promo_code=${process.env.NEXT_PUBLIC_LIVE_WORKSHOP_PROMO_CODE}`
-    : ''
+
+  const baseCoupon = useMemo(() => {
+    switch (true) {
+      case hasProDiscount && workshop?.isEarlyBird:
+        return {
+          queryParam: `?prefilled_promo_code=${workshop?.stripeEarlyBirdMemberCouponCode}`,
+          type: 'earlyBird-member' as const,
+        }
+      case workshop?.isEarlyBird:
+        return {
+          queryParam: `?prefilled_promo_code=${workshop?.stripeEarlyBirdCouponCode}`,
+          type: 'earlyBird-non-member' as const,
+        }
+      case hasProDiscount:
+        return {
+          queryParam: `?prefilled_promo_code=${workshop?.stripeMemberCouponCode}`,
+          type: 'member' as const,
+        }
+      default:
+        return {
+          queryParam: ``,
+          type: 'non-member' as const,
+        }
+    }
+  }, [
+    hasProDiscount,
+    workshop?.isEarlyBird,
+    workshop?.stripeEarlyBirdMemberCouponCode,
+    workshop?.stripeEarlyBirdCouponCode,
+    workshop?.stripeMemberCouponCode,
+  ])
+
   const [isPPPApplied, setIsPPPApplied] = useState(false)
-  const [couponToApply, setCouponToApply] = useState(defaultIsProCoupon)
+  const [couponToApply, setCouponToApply] =
+    useState<UseWorkshopCouponReturn['couponToApply']>(baseCoupon)
+
+  useEffect(() => {
+    if (!isPPPApplied) {
+      console.log(
+        'Effect running: Updating couponToApply based on new baseCoupon',
+        baseCoupon,
+      )
+      setCouponToApply(baseCoupon)
+    } else {
+      console.log('Effect running: PPP is applied, not updating couponToApply')
+    }
+  }, [baseCoupon, isPPPApplied])
 
   const parityCoupon = availableCoupons?.['ppp']
   const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
@@ -42,12 +95,15 @@ function useWorkshopCoupon({
 
   const onApplyParityCoupon = () => {
     setIsPPPApplied(true)
-    setCouponToApply(`?prefilled_promo_code=${parityCoupon?.coupon_code}`)
+    setCouponToApply({
+      queryParam: `?prefilled_promo_code=${parityCoupon?.coupon_code}`,
+      type: 'ppp' as const,
+    })
   }
 
   const onDismissParityCoupon = () => {
     setIsPPPApplied(false)
-    setCouponToApply(defaultIsProCoupon)
+    setCouponToApply(baseCoupon)
   }
 
   return {
@@ -81,15 +137,17 @@ const CheckIcon = () => {
 }
 
 const ActiveSale = ({
-  isPro,
+  hasProDiscount,
   workshopFeatures,
   teamWorkshopFeatures,
-  dateAndTime,
+  workshop,
+  isLiveWorkshopLoading,
 }: {
-  isPro: boolean
+  hasProDiscount: boolean
   workshopFeatures: string[]
   teamWorkshopFeatures: string[]
-  dateAndTime: WorkshopDateAndTime
+  workshop: LiveWorkshop
+  isLiveWorkshopLoading: boolean
 }) => {
   const {
     couponToApply,
@@ -99,9 +157,9 @@ const ActiveSale = ({
     parityCoupon,
     onApplyParityCoupon,
     onDismissParityCoupon,
-  } = useWorkshopCoupon({isPro})
+  } = useWorkshopCoupon({hasProDiscount, workshop})
 
-  const paymentLink = `${process.env.NEXT_PUBLIC_LIVE_WORKSHOP_STRIPE_PAYMENT_LINK}${couponToApply}`
+  const paymentLink = `${workshop?.stripePaymentLink}${couponToApply.queryParam}`
 
   const [teamToggleState, setTeamToggleState] = useState(false)
 
@@ -131,12 +189,12 @@ const ActiveSale = ({
             />
           ) : (
             <SinglePurchaseUI
-              isPro={isPro}
+              couponToApply={couponToApply}
               workshopFeatures={workshopFeatures}
-              dateAndTime={dateAndTime}
+              workshop={workshop}
               paymentLink={paymentLink}
               parityCoupon={parityCoupon}
-              isPPPApplied={isPPPApplied}
+              isLiveWorkshopLoading={isLiveWorkshopLoading}
             />
           )}
         </div>
@@ -161,42 +219,124 @@ const ActiveSale = ({
 }
 
 const Price = ({
-  isPro,
+  isLiveWorkshopLoading,
   parityCoupon,
-  isPPPApplied,
+  couponToApply,
+  workshop,
 }: {
-  isPro: boolean
   parityCoupon: Coupon | undefined
-  isPPPApplied: boolean
+  couponToApply: {
+    queryParam: string
+    type: string
+  }
+  workshop: LiveWorkshop
+  isLiveWorkshopLoading: boolean
 }) => {
+  if (isLiveWorkshopLoading) {
+    return (
+      <div className="flex items-center justify-center gap-4">
+        <Spinner size={12} className="text-black dark:text-white" />
+      </div>
+    )
+  }
   switch (true) {
-    case isPPPApplied:
+    case couponToApply.type === 'ppp':
       const discount = parityCoupon?.coupon_discount ?? 0
       const price = (249 - 249 * discount).toFixed(2)
       return (
-        <div className="flex items-center justify-center gap-4">
-          <p className="text-5xl font-bold">${price}</p>
-          <div>
-            <p className="flex text-sm font-semibold">SAVE {discount * 100}%</p>
-            <p className="text-2xl text-muted-foreground line-through opacity-70">
-              $249
-            </p>
+        <div className="flex flex-col items-center justify-center gap-1">
+          <div className="flex items-center justify-center gap-4">
+            <p className="text-5xl font-bold">${price}</p>
+            <div>
+              <p className="flex text-sm font-semibold">
+                SAVE {discount * 100}%
+              </p>
+              <p className="text-2xl text-muted-foreground line-through opacity-70">
+                $249
+              </p>
+            </div>
           </div>
+          <p className="text-xs font-medium text-green-600 dark:text-green-400 flex items-center gap-1">
+            <CheckIcon /> Purchasing Power Parity Discount Applied
+          </p>
         </div>
       )
-    case isPro:
+    case couponToApply.type === 'earlyBird-member':
+      const earlyBirdMemberPrice = (
+        249 - Number(workshop?.stripeEarlyBirdMemberDiscount)
+      ).toFixed(2)
+      const earlyBirdMemberDiscount = Math.round(
+        (Number(workshop?.stripeEarlyBirdMemberDiscount) / 249) * 100,
+      )
       return (
-        <div className="flex items-center justify-center gap-4">
-          <p className="text-5xl font-bold">$149</p>
-          <div>
-            <p className="flex text-sm font-semibold">
-              SAVE 40%
-              <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
-            </p>
-            <p className="text-2xl text-muted-foreground line-through opacity-70">
-              $249
-            </p>
+        <div className="flex flex-col items-center justify-center gap-1">
+          <div className="flex items-center justify-center gap-4">
+            <p className="text-5xl font-bold">${earlyBirdMemberPrice}</p>
+            <div>
+              <p className="flex text-sm font-semibold">
+                SAVE {earlyBirdMemberDiscount}%
+                <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
+              </p>
+              <p className="text-2xl text-muted-foreground line-through opacity-70">
+                $249
+              </p>
+            </div>
           </div>
+          <p className="text-xs font-medium text-green-600 dark:text-green-400 flex items-center gap-1">
+            <CheckIcon /> Early Bird Member Discount Applied
+          </p>
+        </div>
+      )
+    case couponToApply.type === 'earlyBird-non-member':
+      const earlyBirdNonMemberPrice = (
+        249 - Number(workshop?.stripeEarlyBirdNonMemberDiscount)
+      ).toFixed(2)
+      const earlyBirdNonMemberDiscount = Math.round(
+        (Number(workshop?.stripeEarlyBirdNonMemberDiscount) / 249) * 100,
+      )
+      return (
+        <div className="flex flex-col items-center justify-center gap-1">
+          <div className="flex items-center justify-center gap-4">
+            <p className="text-5xl font-bold">${earlyBirdNonMemberPrice}</p>
+            <div>
+              <p className="flex text-sm font-semibold">
+                SAVE {earlyBirdNonMemberDiscount}%
+                <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
+              </p>
+              <p className="text-2xl text-muted-foreground line-through opacity-70">
+                $249
+              </p>
+            </div>
+          </div>
+          <p className="text-xs font-medium text-green-600 dark:text-green-400 flex items-center gap-1">
+            <CheckIcon /> Early Bird Discount Applied
+          </p>
+        </div>
+      )
+    case couponToApply.type === 'member':
+      const memberPrice = (
+        249 - Number(workshop?.stripeMemberDiscount)
+      ).toFixed(2)
+      const memberDiscount = Math.round(
+        (Number(workshop?.stripeMemberDiscount) / 249) * 100,
+      )
+      return (
+        <div className="flex flex-col items-center justify-center gap-1">
+          <div className="flex items-center justify-center gap-4">
+            <p className="text-5xl font-bold">${memberPrice}</p>
+            <div>
+              <p className="flex text-sm font-semibold">
+                SAVE {memberDiscount}%
+                <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
+              </p>
+              <p className="text-2xl text-muted-foreground line-through opacity-70">
+                $249
+              </p>
+            </div>
+          </div>
+          <p className="text-xs font-medium text-green-600 dark:text-green-400 flex items-center gap-1">
+            <CheckIcon /> Member Discount Applied
+          </p>
         </div>
       )
     default:
@@ -210,19 +350,22 @@ const Price = ({
 }
 
 function SinglePurchaseUI({
-  isPro,
+  couponToApply,
   workshopFeatures,
-  dateAndTime,
+  workshop,
   paymentLink,
   parityCoupon,
-  isPPPApplied,
+  isLiveWorkshopLoading,
 }: {
-  isPro: boolean
+  couponToApply: {
+    queryParam: string
+    type: string
+  }
   workshopFeatures: string[]
-  dateAndTime: WorkshopDateAndTime
+  workshop: LiveWorkshop
   paymentLink: string
   parityCoupon: Coupon | undefined
-  isPPPApplied: boolean
+  isLiveWorkshopLoading: boolean
 }) {
   return (
     <div className="container px-4 md:px-6">
@@ -233,19 +376,20 @@ function SinglePurchaseUI({
               Become More Productive with Cursor
             </h3>
             <Price
-              isPro={isPro}
+              isLiveWorkshopLoading={isLiveWorkshopLoading}
               parityCoupon={parityCoupon}
-              isPPPApplied={isPPPApplied}
+              couponToApply={couponToApply}
+              workshop={workshop}
             />
           </div>
-          {dateAndTime && (
+          {workshop && (
             <TimeAndLocation
-              date={dateAndTime.date}
-              startTime={dateAndTime.startTime}
-              timeZone={dateAndTime.timeZone}
-              endTime={dateAndTime.endTime}
+              date={workshop.date}
+              startTime={workshop.startTime}
+              timeZone={workshop.timeZone}
+              endTime={workshop.endTime}
               showEuTooltip={true}
-              isEuFriendly={dateAndTime.isEuFriendly}
+              isEuFriendly={workshop.isEuFriendly}
             />
           )}
           <div className="p-6 pt-0 grid gap-4">
@@ -269,13 +413,9 @@ function SinglePurchaseUI({
               <p className="text-xs text-center text-muted-foreground">
                 Limited spots available. Secure yours today!
               </p>
-              {!isPro ? (
-                <p className="mt-1 text-xs text-center text-muted-foreground underline font-medium">
-                  *<Link href="/pricing">Pro users get a 20% discount</Link>
-                </p>
-              ) : (
+              {couponToApply.type !== 'non-member' && (
                 <p className="mt-1 text-xs text-center font-medium opacity-90">
-                  *Pro discount applied at checkout
+                  *Discount applied at checkout
                 </p>
               )}
             </div>

@@ -12,9 +12,9 @@ import {
 } from '@/inngest/utils/specific-product-helpers'
 import {LIFETIME_PURCHASE_EVENT} from '@/inngest/events/lifetime-purchase'
 import {SPECIFIC_PRODUCT_PURCHASE_EVENT} from '@/inngest/events/specific-product-purchase'
-
+import {getFeatureFlag} from '@/lib/feature-flags'
+import {LiveWorkshopSchema} from '@/types'
 const LIFETIME_PRICE_ID = process.env.STRIPE_LIFETIME_MEMBERSHIP_PRICE_ID
-const SPECIFIC_PRODUCT_ID = process.env.WORKSHOP_PRODUCT_ID || ''
 
 /**
  * Retrieves customer details from a checkout session
@@ -38,6 +38,17 @@ export const handleSpecificProductPurchase = async (
   const checkoutSessionId = checkoutSession.id
   const customerId = getCustomerId(checkoutSession.customer, checkoutSession)
   const priceId = checkoutSession.line_items?.data[0]?.price?.id || ''
+  const workshop = await getFeatureFlag(
+    'featureFlagCursorWorkshopSale',
+    'workshop',
+  )
+  const parsedWorkshop = LiveWorkshopSchema.parse(workshop)
+
+  if (!parsedWorkshop) {
+    console.warn('No workshop found')
+    return
+  }
+  const productId = parsedWorkshop.productId
 
   // Step 1: Retrieve charge ID
   const chargeId = await step.run(
@@ -67,7 +78,7 @@ export const handleSpecificProductPurchase = async (
     data: {
       provider: 'stripe' as const,
       checkoutSessionId,
-      productId: SPECIFIC_PRODUCT_ID,
+      productId,
       productName,
       priceId,
       customerId,

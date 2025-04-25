@@ -1,7 +1,7 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {getFeatureFlag, getSaleBannerFeatureFlag} from '@/lib/feature-flags'
-import {WorkshopDateAndTimeSchema} from '@/types'
+import {LiveWorkshopSchema} from '@/types'
 
 export const featureFlagRouter = router({
   isLiveWorkshopSale: baseProcedure
@@ -13,20 +13,25 @@ export const featureFlagRouter = router({
     .query(async ({input, ctx}) => {
       return getSaleBannerFeatureFlag(input.flag, 'saleBanner')
     }),
-  getWorkshopDateAndTime: baseProcedure
+  isEarlyBirdWorkshopSale: baseProcedure
     .input(
       z.object({
         flag: z.string(),
       }),
     )
     .query(async ({input, ctx}) => {
-      const workshopDateAndTime = await getFeatureFlag(
-        input.flag,
-        'workshopDateAndTime',
-      )
+      return getSaleBannerFeatureFlag(input.flag, 'earlyBirdBanner')
+    }),
+  getLiveWorkshop: baseProcedure
+    .input(
+      z.object({
+        flag: z.string(),
+      }),
+    )
+    .query(async ({input, ctx}) => {
+      const workshop = await getFeatureFlag(input.flag, 'workshop')
 
-      const parsedDateAndTime =
-        WorkshopDateAndTimeSchema.parse(workshopDateAndTime)
-      return parsedDateAndTime
+      const parsedWorkshop = LiveWorkshopSchema.parse(workshop)
+      return parsedWorkshop
     }),
 })

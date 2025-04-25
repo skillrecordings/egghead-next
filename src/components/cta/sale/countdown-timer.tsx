@@ -1,9 +1,9 @@
 'use client'
 import * as React from 'react'
-import {WorkshopDateAndTime} from '@/types'
+import {LiveWorkshop} from '@/types'
 
 interface CountdownTimerProps {
-  targetDate: WorkshopDateAndTime
+  targetDate: LiveWorkshop
 }
 
 interface TimeLeft {

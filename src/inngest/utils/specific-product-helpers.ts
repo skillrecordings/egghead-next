@@ -1,7 +1,7 @@
 import Stripe from 'stripe'
 import {stripe} from '@/utils/stripe'
-
-const SPECIFIC_PRODUCT_ID = process.env.WORKSHOP_PRODUCT_ID || ''
+import {getFeatureFlag} from '@/lib/feature-flags'
+import {LiveWorkshopSchema} from '@/types'
 
 /**
  * Checks if a checkout session contains our specific product.
@@ -21,11 +21,18 @@ export async function containsSpecificProduct(
   checkoutSession: Stripe.Checkout.Session,
 ): Promise<boolean> {
   try {
-    // First check if the specific product ID is defined
-    if (!SPECIFIC_PRODUCT_ID) {
-      console.warn('WORKSHOP_PRODUCT_ID environment variable is not set')
+    const workshop = await getFeatureFlag(
+      'featureFlagCursorWorkshopSale',
+      'workshop',
+    )
+    const parsedWorkshop = LiveWorkshopSchema.parse(workshop)
+
+    if (!parsedWorkshop) {
+      console.warn('No workshop found')
       return false
     }
+
+    const SPECIFIC_PRODUCT_ID = parsedWorkshop.productId
 
     // Create a local variable to store the session data
     let sessionData = checkoutSession
@@ -96,7 +103,18 @@ export async function containsSpecificProduct(
  */
 export async function getSpecificProductName(): Promise<string> {
   try {
-    const product = await stripe.products.retrieve(SPECIFIC_PRODUCT_ID)
+    const workshop = await getFeatureFlag(
+      'featureFlagCursorWorkshopSale',
+      'workshop',
+    )
+    const parsedWorkshop = LiveWorkshopSchema.parse(workshop)
+
+    if (!parsedWorkshop) {
+      console.warn('No workshop found')
+      return ''
+    }
+
+    const product = await stripe.products.retrieve(parsedWorkshop.productId)
     return product.name || ''
   } catch (error) {
     console.error(`Error retrieving specific product name: ${error}`)

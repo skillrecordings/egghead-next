@@ -5,28 +5,22 @@ import Link from 'next/link'
 import analytics from '@/utils/analytics'
 import {usePathname} from 'next/navigation'
 import {trpc} from '@/app/_trpc/client'
-import CountdownTimer from './countdown-timer'
 
-const WorkshopSaleHeaderBanner: React.FC = () => {
-  const {data: workshopDateAndTime} = trpc.featureFlag.getLiveWorkshop.useQuery(
-    {
-      flag: 'featureFlagCursorWorkshopSale',
-    },
-  )
-  const {data: isSaleBannerEnabled} =
-    trpc.featureFlag.isLiveWorkshopSale.useQuery({
+const WorkshopEarlyBirdHeaderBanner: React.FC = () => {
+  const {data: isEarlyBirdSaleBannerEnabled} =
+    trpc.featureFlag.isEarlyBirdWorkshopSale.useQuery({
       flag: 'featureFlagCursorWorkshopSale',
     })
   const pathname = usePathname()
 
-  return isSaleBannerEnabled ? (
+  return isEarlyBirdSaleBannerEnabled ? (
     <Link
       href="/workshop/cursor"
       onClick={() => {
         analytics.events.activityInternalLinkClick(
           'sale',
           pathname ?? '',
-          'workshop-sale-banner',
+          'workshop-early-bird-sale-banner',
         )
       }}
       className="group"
@@ -37,14 +31,7 @@ const WorkshopSaleHeaderBanner: React.FC = () => {
             <span role="img" aria-hidden="true">
               🌟
             </span>{' '}
-            {workshopDateAndTime ? (
-              <div className="flex  items-center gap-1">
-                <span>Sale ends in</span>{' '}
-                <CountdownTimer targetDate={workshopDateAndTime} />
-              </div>
-            ) : (
-              'Sale:'
-            )}{' '}
+            Early Bird Discount Available:
           </div>
           <span>Live Cursor Workshop with John Lindquist</span>
         </div>
@@ -59,4 +46,4 @@ const WorkshopSaleHeaderBanner: React.FC = () => {
   ) : null
 }
 
-export default WorkshopSaleHeaderBanner
+export default WorkshopEarlyBirdHeaderBanner

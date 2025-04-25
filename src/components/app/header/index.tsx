@@ -36,6 +36,7 @@ import clsx from 'clsx'
 import {cn} from '@/ui/utils'
 import LifetimeSaleHeaderBanner from '@/components/cta/sale/lifetime-header-banner'
 import WorkshopSaleHeaderBanner from '@/components/cta/sale/workshop-header-banner'
+import WorkshopEarlyBirdHeaderBanner from '@/components/cta/sale/workshop-early-bird-header-banner'
 
 type NavLinkProps = {
   name: string
@@ -333,6 +334,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
         pathname !== '/pricing' &&
         pathname !== '/forever' && <LifetimeSaleHeaderBanner />}
       {pathname !== '/workshop/cursor' && <WorkshopSaleHeaderBanner />}
+      {pathname !== '/workshop/cursor' && <WorkshopEarlyBirdHeaderBanner />}
       <nav
         aria-label="header"
         className="h-12 text-sm border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000"
