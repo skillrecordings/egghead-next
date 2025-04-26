@@ -38,7 +38,8 @@ const WorkshopPage = () => {
   const [mounted, setMounted] = useState(false)
 
   const {data: subscription} = trpc.stripe.getSubscription.useQuery({
-    subscriptionId: viewer?.accounts[0].subscriptions[0].stripe_subscription_id,
+    subscriptionId:
+      viewer?.accounts[0]?.subscriptions[0]?.stripe_subscription_id,
   })
   const islifeTimeSubscriber = viewer?.roles?.includes('lifetime_subscriber')
   const isyearlyPro = subscription?.items.data[0].plan.interval === 'year'
