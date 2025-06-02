@@ -3,6 +3,7 @@ import {motion} from 'framer-motion'
 import Image from 'next/image'
 import {fadeInUp} from './animations'
 import {Tweet} from 'react-tweet'
+import Testimonial from './testimonial'
 
 export default function Instructor() {
   return (
@@ -56,34 +57,5 @@ export default function Instructor() {
         </motion.div>
       </div>
     </section>
-  )
-}
-
-const Testimonial = ({
-  name,
-  image,
-  quote,
-}: {
-  name: string
-  image: string
-  quote: string
-}) => {
-  return (
-    <blockquote className="">
-      <p className="text-lg font-semibold tracking-tight italic text-balance max-w-lg w-fit">
-        {quote}
-      </p>
-      <div className="flex items-center justify-center gap-2 opacity-80">
-        <span className="opacity-80">—</span>
-        <Image
-          src={image}
-          alt={name}
-          width={32}
-          height={32}
-          className="rounded-full"
-        />
-        <div className="opacity-50 text-md">{name}</div>
-      </div>
-    </blockquote>
   )
 }
