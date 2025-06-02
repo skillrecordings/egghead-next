@@ -4,9 +4,10 @@ import {zodResolver} from '@hookform/resolvers/zod'
 import {z} from 'zod'
 import {trpc} from '@/app/_trpc/client'
 import {track} from '@/utils/analytics'
-import useCio from '@/hooks/use-cio'
+import {trackNewsletterSignup} from '@/utils/analytics/ai-dev-essentials'
 import {useViewer} from '@/context/viewer-context'
 import {requestSignInEmail} from '@/utils/request-signin-email'
+import {requestContactGuid} from '@/utils/request-contact-guid'
 
 const newsletterSignupSchema = z.object({
   email: z
@@ -20,12 +21,14 @@ type NewsletterSignupFormData = z.infer<typeof newsletterSignupSchema>
 
 interface NewsletterSignupFormProps {
   className?: string
+  source?: 'hero' | 'footer' | 'inline'
   onSuccess?: (email: string) => void
   onError?: (error: string) => void
 }
 
 export default function NewsletterSignupForm({
   className = '',
+  source = 'inline',
   onSuccess,
   onError,
 }: NewsletterSignupFormProps) {
@@ -33,8 +36,8 @@ export default function NewsletterSignupForm({
   const [submitMessage, setSubmitMessage] = React.useState('')
   const [submitError, setSubmitError] = React.useState('')
 
-  const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
+  const customerIOIdentify = trpc.customerIO.identify.useMutation()
 
   const {
     register,
@@ -55,30 +58,62 @@ export default function NewsletterSignupForm({
 
       const {email, name} = data
 
-      // Get or create contact ID
-      let id = subscriber?.id || viewer?.contact_id
+      // Track signup attempt
+      trackNewsletterSignup('attempt', {
+        email,
+        name,
+        source,
+      })
 
-      if (!id) {
-        console.log('INFO: Creating new contact for newsletter subscription')
-        const {contact_id} = await requestSignInEmail(email)
-        id = contact_id
-      }
-
-      // Identify user with Customer.io
+      // Identify user with Customer.io via Inngest
       const currentDateTime = Math.floor(Date.now() * 0.001) // Customer.io uses seconds
 
-      await cioIdentify(id, {
-        email: subscriber?.email || viewer?.email || email,
-        ...(name && {first_name: name}),
+      const selectedInterests = {
         ai_dev_essentials_newsletter: currentDateTime,
-        newsletter_signup_source: 'ai_dev_essentials_landing_page',
-      })
+        newsletter_signup_source: currentDateTime, // Using timestamp as value for consistency with Inngest function
+      }
+
+      try {
+        await customerIOIdentify.mutateAsync({
+          email,
+          selectedInterests,
+        })
+      } catch (trpcError) {
+        console.error(
+          'TRPC call failed, falling back to direct API:',
+          trpcError,
+        )
+
+        // Fallback to direct API call
+        const response = await fetch('/api/newsletter/subscribe', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email,
+            name,
+            source: 'ai_dev_essentials_landing_page',
+          }),
+        })
+
+        if (!response.ok) {
+          throw new Error('Newsletter subscription failed')
+        }
+      }
 
       // Track analytics event
       track('newsletter signup', {
         email,
         source: 'ai_dev_essentials_landing_page',
         timestamp: currentDateTime,
+      })
+
+      // Track signup success
+      trackNewsletterSignup('success', {
+        email,
+        name,
+        source,
       })
 
       setIsSubmitted(true)
