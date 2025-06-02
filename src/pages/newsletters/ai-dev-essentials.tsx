@@ -50,7 +50,7 @@ export default function AIDevEssentialsPage({posts}: AIDevEssentialsPageProps) {
   return (
     <AIDevEssentialsErrorBoundary>
       <NextSeo
-        title="AI Dev Essentials Newsletter | egghead.io"
+        title="AI Dev Essentials Newsletter"
         description="Stay up-to-date with the latest AI development tools, techniques, and best practices. Join thousands of developers learning AI essentials."
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/newsletters/ai-dev-essentials`}
         openGraph={{
@@ -92,12 +92,8 @@ export default function AIDevEssentialsPage({posts}: AIDevEssentialsPageProps) {
                 </div>
               </div>
 
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-slate-200 to-slate-300 bg-clip-text text-transparent">
+              <h1 className="mt-16 w-full max-w-[14ch] font-heading text-4xl font-bold leading-[1.25] drop-shadow-md sm:mt-0 sm:text-5xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.15] xl:text-6xl xl:leading-[1.15] mb-6 bg-gradient-to-r from-white via-slate-200 to-slate-300 bg-clip-text text-transparent mx-auto">
                 AI Dev Essentials
-                <br />
-                <span className="text-blue-400">
-                  Your Weekly Edge in AI Development
-                </span>
               </h1>
 
               <p className="text-xl md:text-2xl mb-12 max-w-4xl mx-auto text-slate-300 leading-relaxed">
@@ -136,14 +132,14 @@ export default function AIDevEssentialsPage({posts}: AIDevEssentialsPageProps) {
         <section className="py-24 bg-white dark:bg-slate-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
+              <h2 className="mt-16 w-full max-w-[14ch] font-heading text-3xl font-bold leading-[1.25] drop-shadow-md sm:mt-0 sm:text-5xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.15] xl:text-6xl xl:leading-[1.15] mb-6 bg-clip-text mx-auto md:text-5xl text-slate-900 dark:text-white text-balance">
                 The AI landscape is moving at breakneck speed
               </h2>
               <p className="text-xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto">
-                Keeping up can feel like a full-time job. With AI Dev
-                Essentials, you'll receive a curated weekly digest that cuts
-                through the noise, delivering only the most relevant and
-                actionable intelligence directly to your inbox.
+                Keeping up can feel like a full-time job. That's why John has
+                curated this weekly digest that cuts through the noise,
+                delivering only the most relevant and actionable AI news
+                directly to your inbox.
               </p>
             </div>
 
@@ -156,9 +152,9 @@ export default function AIDevEssentialsPage({posts}: AIDevEssentialsPageProps) {
                   Deep Dives & Real-World Experiences
                 </h3>
                 <p className="text-slate-600 dark:text-slate-300">
-                  Learn from candid accounts of pushing the boundaries with the
-                  latest AI models, understanding their quirks, costs, and true
-                  capabilities.
+                  Learn from others in the community pushing the boundaries with
+                  the latest AI models, understanding their quirks, costs, and
+                  true capabilities.
                 </p>
               </div>
 
@@ -184,8 +180,8 @@ export default function AIDevEssentialsPage({posts}: AIDevEssentialsPageProps) {
                   Essential Developer Tool Insights
                 </h3>
                 <p className="text-slate-600 dark:text-slate-300">
-                  Discover new AI-powered tools from Microsoft, Vercel, and
-                  innovative startups to optimize your workflow.
+                  Discover new AI-powered tools from Microsoft, Vercel, Google,
+                  and others to optimize your developer workflows.
                 </p>
               </div>
 
@@ -211,8 +207,8 @@ export default function AIDevEssentialsPage({posts}: AIDevEssentialsPageProps) {
                   Practical Learning & Workshops
                 </h3>
                 <p className="text-slate-600 dark:text-slate-300">
-                  Access new egghead.io lessons with hands-on guidance for
-                  integrating AI into your development practices.
+                  Get notified about the latest egghead.io lessons working with
+                  AI for planning and executing your projects.
                 </p>
               </div>
 
@@ -236,12 +232,12 @@ export default function AIDevEssentialsPage({posts}: AIDevEssentialsPageProps) {
         <section className="py-24 bg-slate-50 dark:bg-slate-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
-                Stop sifting through endless feeds and start building smarter
+              <h2 className="mt-16 w-full max-w-[14ch] font-heading text-3xl font-bold leading-[1.25] drop-shadow-md sm:mt-0 sm:text-5xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.15] xl:text-6xl xl:leading-[1.15] mb-6 bg-clip-text mx-auto md:text-5xl text-slate-900 dark:text-white text-balance">
+                Browse the latest AI Dev Essentials posts
               </h2>
               <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
-                Join a community of developers who are not just watching the
-                future of AI unfold, but actively building it.
+                Missed a post? No problem. You can browse the latest posts
+                below.
               </p>
             </div>
 
@@ -265,7 +261,7 @@ export default function AIDevEssentialsPage({posts}: AIDevEssentialsPageProps) {
         {/* Newsletter CTA Section */}
         <section className="py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="mt-16 w-full max-w-[14ch] font-heading text-3xl font-bold leading-[1.25] drop-shadow-md sm:mt-0 sm:text-5xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.15] xl:text-6xl xl:leading-[1.15] mb-6 bg-clip-text mx-auto md:text-5xl text-white text-balance">
               Sign up for AI Dev Essentials today
               <br />
               <span className="text-blue-400">
@@ -282,16 +278,21 @@ export default function AIDevEssentialsPage({posts}: AIDevEssentialsPageProps) {
       </div>
 
       {/* Performance Monitor */}
-      {process.env.NODE_ENV === 'development' && (
+      {/* {process.env.NODE_ENV === 'development' && (
         <PerformanceMonitor pageName="ai-dev-essentials-newsletter" />
-      )}
+      )} */}
     </AIDevEssentialsErrorBoundary>
   )
 }
 
 function PostCard({post, position}: {post: Post; position?: number}) {
   const {fields, createdAt, name, image} = post
-  const {title, summary, slug, description} = fields
+  let {title, summary, slug, description} = fields
+
+  // Extract number and clean title
+  let numberMatch = title.match(/^AI Dev Essentials\s*#?(\d+):?\s*/i)
+  let postNumber = numberMatch ? numberMatch[1] : null
+  title = title.replace(/^AI Dev Essentials\s*#?\d+:?\s*/i, '')
 
   const postDescription = summary || description || ''
   const truncatedDescription = truncate(removeMarkdown(postDescription), {
@@ -317,7 +318,13 @@ function PostCard({post, position}: {post: Post; position?: number}) {
   }
 
   return (
-    <article className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-slate-200 dark:border-slate-700 overflow-hidden group">
+    <article className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-slate-200 dark:border-slate-700 overflow-hidden group relative">
+      {/* Number badge */}
+      {postNumber && (
+        <div className="absolute top-4 right-4 dark:text-white rounded-md px-3 py-1 text-xs font-bold border border-slate-200 dark:border-slate-700 z-10">
+          {postNumber}
+        </div>
+      )}
       <div className="p-8">
         <div className="flex items-center mb-6">
           {image && (
