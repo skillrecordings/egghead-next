@@ -17,6 +17,7 @@ import {trpc} from '@/app/_trpc/client'
 import Markdown from '@/components/markdown'
 import Image from 'next/image'
 import {useTheme} from 'next-themes'
+import Testimonial from '@/components/workshop/cursor/testimonial'
 export const TEAM_WORKSHOP_FEATURES = [
   'Flexible scheduling',
   'Live Q&A with John Lindquist',
@@ -81,6 +82,16 @@ It feels impossible to keep up, let alone know if you're using these powerful to
 Whether you use Cursor, WindSurf, GitHub Copilot Workspace, Codeium or the next hot thing, you want to make certain you are using your tools to the best of their ability.           
             `}
             </Markdown>
+            <div className="flex justify-center items-center my-10">
+              <Testimonial
+                name="David Wells"
+                image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1748905126/assets/david-wells.jpg"
+                quote={`Take Johns cursor workshop it is 🔥
+
+HIGHLY Recommend`}
+                link="https://x.com/DavidWells/status/1929612201436094583"
+              />
+            </div>
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               Don't Learn Tools, Learn the Right Workflows
             </h2>
