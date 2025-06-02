@@ -141,8 +141,9 @@ export function PerformanceMonitor({
         const fidObserver = new PerformanceObserver((list) => {
           const entries = list.getEntries()
           entries.forEach((entry) => {
+            const event = entry as PerformanceEventTiming
             console.log(
-              `[Performance] FID: ${entry.processingStart - entry.startTime}ms`,
+              `[Performance] FID: ${event.processingStart - event.startTime}ms`,
             )
           })
         })
