@@ -57,7 +57,13 @@ export default async function handler(
     const selectedInterests = {
       ai_dev_essentials_newsletter: currentDateTime,
       newsletter_signup_source: source,
-      ...(name && {first_name: name}),
+    }
+
+    if (!process.env.EGGHEAD_SUPPORT_BOT_TOKEN) {
+      return res.status(500).json({
+        error: 'Subscription failed',
+        message: 'Internal server error',
+      })
     }
 
     // Send to Customer.io via Inngest
@@ -67,6 +73,7 @@ export default async function handler(
         email,
         selectedInterests,
         userToken: process.env.EGGHEAD_SUPPORT_BOT_TOKEN,
+        ...(name && {first_name: name}),
       },
     })
 

@@ -6,29 +6,36 @@ import {z} from 'zod'
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
 }
-
-function convertToSerializeForNextResponse(result: any) {
+function convertToSerializeForNextResponse(result: any): any {
   if (!result) return null
 
-  for (const resultKey in result) {
-    if (result[resultKey] instanceof Date) {
-      result[resultKey] = result[resultKey].toISOString()
-    } else if (
-      result[resultKey]?.constructor?.name === 'Decimal' ||
-      result[resultKey]?.constructor?.name === 'i'
-    ) {
-      result[resultKey] = result[resultKey].toNumber()
-    } else if (result[resultKey]?.constructor?.name === 'BigInt') {
-      result[resultKey] = Number(result[resultKey])
-    } else if (result[resultKey] instanceof Object) {
-      result[resultKey] = convertToSerializeForNextResponse(result[resultKey])
+  // Create a shallow copy to avoid mutating the original
+  const serialized = Array.isArray(result) ? [...result] : {...result}
+
+  for (const resultKey in serialized) {
+    if (serialized[resultKey] instanceof Date) {
+      serialized[resultKey] = serialized[resultKey].toISOString()
+    } else if (serialized[resultKey]?.constructor?.name === 'Decimal') {
+      serialized[resultKey] = serialized[resultKey].toNumber()
+    } else if (typeof serialized[resultKey] === 'bigint') {
+      serialized[resultKey] = Number(serialized[resultKey])
+    } else if (serialized[resultKey] instanceof Object) {
+      serialized[resultKey] = convertToSerializeForNextResponse(
+        serialized[resultKey],
+      )
     }
   }
 
-  return result
+  return serialized
 }
 
 export async function getAIDevEssentialsPosts(): Promise<Post[]> {
+  if (!process.env.COURSE_BUILDER_DATABASE_URL) {
+    throw new Error(
+      'COURSE_BUILDER_DATABASE_URL environment variable is required',
+    )
+  }
+
   const conn = await mysql.createConnection(access)
 
   try {

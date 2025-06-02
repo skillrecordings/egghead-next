@@ -5,7 +5,7 @@ export const CUSTOMER_IO_IDENTIFY_EVENT = 'customer.io/identify'
 export const customerIoIdentifySchema = z.object({
   email: z.string().optional(),
   id: z.string().optional(),
-  selectedInterests: z.record(z.number().optional()),
+  selectedInterests: z.record(z.union([z.number(), z.string()])),
   userToken: z.string().optional(),
 })
 

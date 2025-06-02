@@ -6,8 +6,6 @@ import {trpc} from '@/app/_trpc/client'
 import {track} from '@/utils/analytics'
 import {trackNewsletterSignup} from '@/utils/analytics/ai-dev-essentials'
 import {useViewer} from '@/context/viewer-context'
-import {requestSignInEmail} from '@/utils/request-signin-email'
-import {requestContactGuid} from '@/utils/request-contact-guid'
 
 const newsletterSignupSchema = z.object({
   email: z

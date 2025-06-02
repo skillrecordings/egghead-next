@@ -33,7 +33,9 @@ export default function AIDevEssentialsList({
     const newUrl = `${router.pathname}${
       query.toString() ? `?${query.toString()}` : ''
     }`
-    router.replace(newUrl, undefined, {shallow: true})
+    if (newUrl !== router.asPath) {
+      router.replace(newUrl, undefined, {shallow: true, scroll: false})
+    }
   }, [searchTerm, sortBy, currentPage, router])
 
   // Initialize from URL params
