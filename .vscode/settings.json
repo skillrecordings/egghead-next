@@ -1,4 +1,24 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["badass", "eggheadio"]
+  "cSpell.words": ["badass", "eggheadio"],
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#ef445d",
+    "activityBar.background": "#ef445d",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#34eb14",
+    "activityBarBadge.foreground": "#15202b",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#ef445d",
+    "statusBar.background": "#eb1534",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#ef445d",
+    "statusBarItem.remoteBackground": "#eb1534",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#eb1534",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#eb153499",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#eb1534"
 }

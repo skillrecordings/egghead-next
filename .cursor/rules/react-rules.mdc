@@ -1,0 +1,44 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+
+# React: Apply `useEffect` Dependency Best Practices
+
+**Your task: When using `useEffect` in React components, ensure dependency arrays are correctly managed to prevent infinite loops and optimize performance.**
+
+## Guiding Principle
+
+To avoid infinite loops with `useEffect`, **DO NOT** include functions in the dependency array if they are redefined on every render. For effects that should only run on component mount and unmount, use an empty dependency array (`[]`).
+
+If a function *must* be a dependency because its identity or behavior changes and should trigger the effect, **ALWAYS** memoize it using `useCallback`.
+
+### Examples
+
+**Incorrect (Potential Infinite Loop):**
+```tsx
+useEffect(() => {
+  fetchNotes();
+}, [fetchNotes]); // PROBLEM: fetchNotes is typically re-created every render, causing an infinite loop if not memoized.
+```
+
+**Correct (Runs Only on Mount):**
+```tsx
+useEffect(() => {
+  fetchNotes();
+}, []); // INTENT: Effect runs once after initial render.
+```
+
+**Correct (Function as a Memoized Dependency):**
+```tsx
+const fetchNotes = useCallback(() => { 
+  // ... logic for fetching notes ...
+}, []); // useCallback memoizes fetchNotes, its identity is stable unless its own dependencies change.
+
+useEffect(() => {
+  fetchNotes();
+}, [fetchNotes]); // CORRECT: Effect re-runs only if fetchNotes (due to its own useCallback dependencies) changes.
+```
+
+**REMEMBER: Always critically evaluate `useEffect` dependencies. Use an empty array `[]` for mount-only effects. If a function is a dependency, ensure it's stable by wrapping it in `useCallback`.**

@@ -1,0 +1,23 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Improve the User's Prompt Following the Patterns Below
+
+> Practical prompt patterns to help anyone get clearer, more reliable answers from an AI agent.
+
+| # | Pattern                       | Why It Matters                                                          | Template                                                                 | Example Prompt                                                                                             |
+|---|-------------------------------|-------------------------------------------------------------------------|--------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| 1 | Lead with the ask             | The model reads top-down; putting the goal first stops it wandering.    | `Do X. [context]`                                                        | "Summarize this PDF in 5 bullet points. The text is below: ..."                                            |
+| 2 | Repeat the key ask at the end | Long contexts sometimes truncate; an end-cap protects you.              | `...[detail]... REMEMBER: Do X.`                                         | "List pros & cons, keep it balanced. REMEMBER: 5 pros, 5 cons."                                             |
+| 3 | Specify output shape          | Dictating format cuts revision loops.                                   | `Return as: 1) short title, 2) table (CSV).`                             | "Give 3 holiday ideas. Format: destination, flight-time-hrs, avg cost."                                    |
+| 4 | Use clear delimiters          | Backticks/headings/XML keep sections from blending.                     | `TEXT TO ANALYSE`                                                        | "Rate the style of the text between the fences."                                                            |
+| 5 | Induce step-by-step thinking  | Planning first boosts multi-step accuracy.                              | `Think step-by-step then answer.`                                        | "Solve this puzzle. Think step-by-step before giving the final move."                                      |
+| 6 | Ask it to plan its workflow   | For big jobs, AI outlines tasks before doing them.                      | `First draft a plan, wait, then execute.`                                | "We're writing an e-book. ❶ Outline chapters. ❷ Wait. ❸ When I say 'go', draft chapter 1."              |
+| 7 | Limit or widen knowledge sources | Controls hallucination.                                               | `Use only the info below. / Combine basic knowledge + this context.`     | "Using only the product sheet below, write FAQs."                                                          |
+| 8 | Guide information retrieval   | Helps AI pick the right docs before answering.                          | `List which docs look relevant, then answer.`                            | "30 sales memos attached. 1) Name the 5 most relevant. 2) Summarise their common points."                 |
+| 9 | Show a style/example          | Anchors tone, length, vocabulary.                                       | `Match the style of: <example>`                                          | "Review this gadget in the style of the sample below: 'Short, witty, 3 key facts...'"                      |
+| 10| Set correction handles        | One-line fixes let you steer quickly.                                   | `If length > 150 words, shorten.`                                        | "Describe blockchain to a child. If your answer is >150 words, cut it in half."                            |
+| 11| Tell it when to stop or loop  | Prevents half-finished lists or runaway essays.                         | `Keep going until you list 20 ideas, then stop.`                         | "Brainstorm webinar titles. Give exactly 12, then finish."                                                  |
+| 12| Request the hidden reasoning  | Good for audits; otherwise omit to keep it short.                       | `After the answer, include a brief reasoning section.`                   | "Which of these stocks looks over-valued? Answer first; add a 2-sentence rationale below a divider."        |
