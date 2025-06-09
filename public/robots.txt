@@ -4,10 +4,32 @@ Disallow:
 
 # ClaudeBot
 User-agent: ClaudeBot
+Crawl-delay: 10
 Disallow: /q
 
 # GPTBot
 User-agent: GPTBot
+Disallow: /q
+
+User-agent: DataForSeoBot
+Disallow: /q
+
+User-agent: Amazonbot
+Disallow: /q
+
+User-agent: YandexBot
+Disallow: /q
+
+User-agent: BLEXBot
+Disallow: /q
+
+User-agent: ClaudeBot
+Disallow: /q
+
+User-agent: bingbot
+Disallow: /q
+
+User-agent: DuckAssistBot
 Disallow: /q
 
 User-agent: Google-Extended
@@ -18,8 +40,6 @@ Disallow: /q
 User-agent: anthropic-ai
 Disallow: /q
 
-User-agent: ClaudeBot
-Disallow: /q
 User-agent: Omgilibot
 Disallow: /q
 
