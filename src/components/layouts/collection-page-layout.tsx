@@ -280,6 +280,8 @@ const CollectionPageLayout: React.FunctionComponent<
       trackText: string
     }>
   > = ({path, size, trackText}) => {
+    if (!image_url) return null
+
     return path ? (
       <Link
         href={path}
@@ -843,7 +845,7 @@ const CollectionPageLayout: React.FunctionComponent<
                                 index + 1
                               )}
                             </div>
-                            {lesson.primary_tag && (
+                            {lesson.primary_tag && tagImageUrl && (
                               <div className="flex items-center flex-shrink-0 w-8">
                                 <Image
                                   src={tagImageUrl}

@@ -270,7 +270,6 @@ function HitCardNoImage({
 function truncateDescription(description: string) {
   if (!description) return ''
   const cleanedDescription = description.replace(/\n/g, ' ').trim()
-  console.log({cleanedDescription})
   return `${cleanedDescription.split('.')[0].substring(0, 120)}...`
 }
 

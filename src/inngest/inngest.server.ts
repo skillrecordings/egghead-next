@@ -56,6 +56,10 @@ import {
   SPECIFIC_PRODUCT_PURCHASE_EVENT,
   SpecificProductPurchase,
 } from './events/specific-product-purchase'
+import {
+  WORKSHOP_QUOTE_REQUEST_EVENT,
+  WorkshopQuoteRequest,
+} from './events/workshop-quote-request'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
@@ -76,6 +80,7 @@ type Events = {
   [SANITY_COURSE_DOCUMENT_CREATED]: SanityCourseDocumentCreated
   [COURSE_UNPUBLISHED_EVENT]: CourseUnpublished
   [CUSTOMER_IO_IDENTIFY_EVENT]: CustomerIoIdentify
+  [WORKSHOP_QUOTE_REQUEST_EVENT]: WorkshopQuoteRequest
   test: {
     name: 'test'
     data: {}

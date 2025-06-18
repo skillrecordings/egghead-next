@@ -33,14 +33,22 @@ export const identifyCustomerIo = inngest.createFunction(
 
     if (customer) {
       await step.run('update_existing_customer', async () => {
-        await cio.identify(contact_id, {
-          ...(!customer?.attributes.signed_up_for_newsletter && {
-            signed_up_for_newsletter: date,
-          }),
-          ...(!customer?.attributes.article_cta_portfolio && {
-            article_cta_portfolio: selectedInterests.article_cta_portfolio,
-          }),
+        // Build update object with only new attributes
+        const updateAttributes: Record<string, any> = {}
+
+        // Handle general newsletter signup
+        if (!customer?.attributes.signed_up_for_newsletter) {
+          updateAttributes.signed_up_for_newsletter = date
+        }
+
+        // Handle specific interests from selectedInterests
+        Object.entries(selectedInterests).forEach(([key, value]) => {
+          if (!customer?.attributes[key]) {
+            updateAttributes[key] = value
+          }
         })
+
+        await cio.identify(contact_id, updateAttributes)
       })
     } else {
       try {

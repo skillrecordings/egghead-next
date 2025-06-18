@@ -1,3 +1,26 @@
+import {z} from 'zod'
+
+export const LiveWorkshopSchema = z
+  .object({
+    date: z.string(),
+    startTime: z.string(),
+    timeZone: z.string(),
+    utcOffset: z.string(),
+    endTime: z.string(),
+    isEuFriendly: z.boolean(),
+    isEarlyBird: z.boolean(),
+    productId: z.string(),
+    stripePaymentLink: z.string(),
+    stripeEarlyBirdMemberCouponCode: z.string(),
+    stripeMemberCouponCode: z.string(),
+    stripeEarlyBirdCouponCode: z.string(),
+    stripeEarlyBirdMemberDiscount: z.string(),
+    stripeMemberDiscount: z.string(),
+    stripeEarlyBirdNonMemberDiscount: z.string(),
+  })
+  .optional()
+export type LiveWorkshop = z.infer<typeof LiveWorkshopSchema>
+
 export type Resource = {
   title: string
   slug: string

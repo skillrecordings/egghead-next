@@ -117,15 +117,15 @@ function CursorCTAOverlay({
               </h2>
             </div>
             <p className="text-center mb-2 sm:mb-6 text-muted-foreground text-balance">
-              John Lindquist is teaching a workshop on how to use Cursor to it's
-              fullest abilities. Get notified when the workshop is released.
+              John Lindquist is teaching workshops on how to use Cursor to it's
+              fullest abilities. Sign up today to become a Cursor Pro.
             </p>
           </div>
         </CardContent>
         <CardFooter className="flex flex-row-reverse sm:flex-col gap-2 sm:gap-4 items-center justify-center p-0">
           <Link href={signUpLink} className="">
             <Button className="w-full max-w-xs bg-blue-500 hover:bg-blue-600">
-              Join Waitlist
+              Claim your spot
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>

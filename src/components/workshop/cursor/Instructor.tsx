@@ -3,6 +3,7 @@ import {motion} from 'framer-motion'
 import Image from 'next/image'
 import {fadeInUp} from './animations'
 import {Tweet} from 'react-tweet'
+import Testimonial from './testimonial'
 
 export default function Instructor() {
   return (
@@ -41,12 +42,18 @@ export default function Instructor() {
               </p>
             </div>
           </div>
-          <blockquote className="my-16">
-            <p className="text-lg font-semibold tracking-tight italic">
-              "John is the cursor god"
-            </p>
-            <div className="opacity-50 text-md">— Sunil Pai</div>
-          </blockquote>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 my-16">
+            <Testimonial
+              name="Kent C. Dodds"
+              image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/kent.jpg"
+              quote="Thanks John! This workshop was great. I used the skills you taught me to effectively one-shot OAuth issuer support in the Epic Stack. So cool!"
+            />
+            <Testimonial
+              name="Sunil Pai"
+              image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1744410010/assets/sunil.jpg"
+              quote="John is the cursor god"
+            />
+          </div>
         </motion.div>
       </div>
     </section>

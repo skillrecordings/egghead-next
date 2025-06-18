@@ -105,4 +105,17 @@ export const stripeRouter = router({
 
       return charge
     }),
+  getSubscription: baseProcedure
+    .input(
+      z.object({
+        subscriptionId: z.string().optional(),
+      }),
+    )
+    .query(async ({input, ctx}) => {
+      if (!input.subscriptionId) return null
+      const subscription = await stripe.subscriptions.retrieve(
+        input.subscriptionId,
+      )
+      return subscription
+    }),
 })

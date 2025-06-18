@@ -12,10 +12,18 @@ export const useAccount = () => {
   const isLifetimeMember = viewer?.roles?.includes('lifetime_subscriber')
 
   const isActiveAccountMember = userAccounts?.some(
-    (account: {members: {id: number}[]}) => {
-      return account.members?.find((member: {id: number}) => {
-        return member.id === viewer.id
-      })
+    (account: {members: {id: number}[]; subscriptions: {status: string}[]}) => {
+      const accountMemberFound = account.members?.find(
+        (member: {id: number}) => {
+          return member.id === viewer.id
+        },
+      )
+
+      const accountIsActive = account.subscriptions?.some(
+        (subscription: {status: string}) => subscription.status === 'active',
+      )
+
+      return accountMemberFound && accountIsActive
     },
   )
   const isAccountOwner = userAccounts?.some(
