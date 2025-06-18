@@ -33,14 +33,16 @@ const TagList: FunctionComponent<
                 }}
                 className="inline-flex items-center hover:underline"
               >
-                <Image
-                  src={tag.image_url}
-                  alt={tag.name}
-                  width={18}
-                  height={18}
-                  className="flex-shrink-0"
-                  quality={100}
-                />
+                {tag.image_url && (
+                  <Image
+                    src={tag.image_url}
+                    alt={tag.name}
+                    width={18}
+                    height={18}
+                    className="flex-shrink-0"
+                    quality={100}
+                  />
+                )}
                 {/* label would only come from graphql, name can come from either sanity or graphql */}
                 <span className="ml-1">{tag.label || tag.name}</span>
               </Link>
