@@ -2,6 +2,7 @@ import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 import friendlyTime from 'friendly-time'
 import Image from 'next/legacy/image'
+import CodeBlockWithCopy from '@/components/ui/code-block-with-copy'
 
 type CommentProps = {
   comment: string
@@ -71,7 +72,29 @@ const Comment: React.FunctionComponent<
           }
         `}</style>
         <div className="comment-container prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none mt-1">
-          <ReactMarkdown>{comment}</ReactMarkdown>
+          <ReactMarkdown
+            components={{
+              pre({node, ...props}) {
+                return <>{props.children}</>
+              },
+              code({node, inline, className, children, ...props}) {
+                const match = /language-(\w+)/.exec(className || '')
+
+                return !inline && match ? (
+                  <CodeBlockWithCopy
+                    code={String(children).replace(/\n$/, '')}
+                    language={match[1] as string}
+                  />
+                ) : (
+                  <code {...props} className={className}>
+                    {children}
+                  </code>
+                )
+              },
+            }}
+          >
+            {comment}
+          </ReactMarkdown>
         </div>
       </div>
     </div>
