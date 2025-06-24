@@ -47,7 +47,7 @@ export const sendSpecificProductEmail = inngest.createFunction(
     const emailBody = `
 You will get an invite to the calendar event shortly. 
 
-We won't be sharing the recording. But we will be handing out all the materials and follow up with a summary of all the steps/questions/answers from the transcript.
+We will share the recording after the event and follow up with a summary of all the steps/questions/answers from the transcript.
 `
 
     const sendEmail = await step.run(
