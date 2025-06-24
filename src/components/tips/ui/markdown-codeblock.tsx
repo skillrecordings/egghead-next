@@ -1,7 +1,7 @@
 'use client'
 
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
-import {atomDark} from 'react-syntax-highlighter/dist/esm/styles/prism'
+import {nightOwl} from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import {ReactMarkdown} from 'react-markdown/lib/react-markdown'
 
 const MarkdownCodeblock = ({tip, ...props}: {tip: string}) => {
@@ -19,7 +19,7 @@ const MarkdownCodeblock = ({tip, ...props}: {tip: string}) => {
               className="prose-none"
               {...props}
               children={String(children).replace(/\n$/, '')}
-              style={atomDark}
+              style={nightOwl}
               language={match[1]}
               showLineNumbers={true}
               PreTag="div"

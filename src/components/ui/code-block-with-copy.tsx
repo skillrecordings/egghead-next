@@ -1,6 +1,6 @@
 import React from 'react'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
-import {nightOwl} from 'react-syntax-highlighter/dist/esm/styles/prism'
+import {nightOwl} from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import ClipboardCopyIcon from '@heroicons/react/outline/ClipboardCopyIcon'
 
 interface CodeBlockWithCopyProps {
