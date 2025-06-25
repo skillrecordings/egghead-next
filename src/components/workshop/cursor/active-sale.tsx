@@ -4,10 +4,10 @@ import TimeAndLocation from './time-and-location'
 import {useCommerceMachine} from '@/hooks/use-commerce-machine'
 import {get, isEmpty} from 'lodash'
 import WorkshopParityCouponMessage from '@/components/workshop/cursor/parity-coupon-message'
-import {Coupon} from '@/types'
+import type {Coupon} from '@/types'
 import {useState, useMemo, useEffect} from 'react'
 import {ContactForm} from '@/components/workshop/cursor/team/contact-form'
-import {LiveWorkshop} from '@/types'
+import type {LiveWorkshop} from '@/types'
 import Spinner from '@/components/spinner'
 
 interface UseWorkshopCouponProps {
@@ -58,7 +58,7 @@ function useWorkshopCoupon({
         }
       default:
         return {
-          queryParam: ``,
+          queryParam: '',
           type: 'non-member' as const,
         }
     }
@@ -86,7 +86,7 @@ function useWorkshopCoupon({
     }
   }, [baseCoupon, isPPPApplied])
 
-  const parityCoupon = availableCoupons?.['ppp']
+  const parityCoupon = availableCoupons?.ppp
   const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
   const countryName = get(parityCoupon, 'coupon_region_restricted_to_name')
 
@@ -130,8 +130,11 @@ const CheckIcon = () => {
       strokeLinecap="round"
       strokeLinejoin="round"
       className="h-4 w-4 text-primary"
+      aria-hidden="true"
+      role="img"
     >
-      <polyline points="20 6 9 17 4 12"></polyline>
+      <title>Check</title>
+      <polyline points="20 6 9 17 4 12" />
     </svg>
   )
 }
@@ -240,7 +243,7 @@ const Price = ({
     )
   }
   switch (true) {
-    case couponToApply.type === 'ppp':
+    case couponToApply.type === 'ppp': {
       const discount = parityCoupon?.coupon_discount ?? 0
       const price = (249 - 249 * discount).toFixed(2)
       return (
@@ -261,7 +264,8 @@ const Price = ({
           </p>
         </div>
       )
-    case couponToApply.type === 'earlyBird-member':
+    }
+    case couponToApply.type === 'earlyBird-member': {
       const earlyBirdMemberPrice = (
         249 - Number(workshop?.stripeEarlyBirdMemberDiscount)
       ).toFixed(2)
@@ -287,7 +291,8 @@ const Price = ({
           </p>
         </div>
       )
-    case couponToApply.type === 'earlyBird-non-member':
+    }
+    case couponToApply.type === 'earlyBird-non-member': {
       const earlyBirdNonMemberPrice = (
         249 - Number(workshop?.stripeEarlyBirdNonMemberDiscount)
       ).toFixed(2)
@@ -313,7 +318,8 @@ const Price = ({
           </p>
         </div>
       )
-    case couponToApply.type === 'member':
+    }
+    case couponToApply.type === 'member': {
       const memberPrice = (
         249 - Number(workshop?.stripeMemberDiscount)
       ).toFixed(2)
@@ -339,13 +345,27 @@ const Price = ({
           </p>
         </div>
       )
-    default:
+    }
+    default: {
+      const memberPriceSuggestion = (
+        249 - Number(workshop?.stripeMemberDiscount)
+      ).toFixed(2)
       return (
-        <p className="flex justify-center text-5xl font-bold ">
-          $249
-          <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
-        </p>
+        <div className="flex flex-col items-center justify-center gap-1">
+          <p className="flex justify-center text-5xl font-bold ">
+            $249
+            <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
+          </p>
+          <p className="text-xs text-muted-foreground font-medium text-center">
+            Annual egghead Members pay only ${memberPriceSuggestion}.{' '}
+            <Link href="/pricing" className="underline">
+              Become a member
+            </Link>
+            .
+          </p>
+        </div>
       )
+    }
   }
 }
 
