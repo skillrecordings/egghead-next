@@ -3,9 +3,27 @@ import {inngest} from '@/inngest/inngest.server'
 import {COURSE_UNPUBLISHED_EVENT} from '@/inngest/events/course-unpublished-event' // Assuming you have an event for course unpublishing
 
 let client = new Typesense.Client({
+  nearestNode: {
+    host: process.env.NEXT_PUBLIC_TYPESENSE_HOST!,
+    port: 443,
+    protocol: 'https',
+  },
   nodes: [
     {
-      host: process.env.NEXT_PUBLIC_TYPESENSE_HOST!,
+      host: `${process.env
+        .NEXT_PUBLIC_TYPESENSE_HOST_HASH!}-1.a1.typesense.net`,
+      port: 443,
+      protocol: 'https',
+    },
+    {
+      host: `${process.env
+        .NEXT_PUBLIC_TYPESENSE_HOST_HASH!}-2.a1.typesense.net`,
+      port: 443,
+      protocol: 'https',
+    },
+    {
+      host: `${process.env
+        .NEXT_PUBLIC_TYPESENSE_HOST_HASH!}-3.a1.typesense.net`,
       port: 443,
       protocol: 'https',
     },

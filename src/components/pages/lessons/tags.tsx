@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Image from 'next/legacy/image'
+import TagImage from '@/components/tag-image'
 import getDependencies from '@/data/courseDependencies'
 import {track} from '@/utils/analytics'
 import {get, isEmpty} from 'lodash'
@@ -62,7 +62,7 @@ const Tags: React.FC<
                     }}
                     className="inline-flex items-center hover:underline"
                   >
-                    <Image
+                    <TagImage
                       src={tagImageUrl}
                       alt={tag.name}
                       width={20}
