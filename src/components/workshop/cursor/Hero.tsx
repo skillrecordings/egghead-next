@@ -1,24 +1,15 @@
 'use client'
 import Link from 'next/link'
-import {motion} from 'framer-motion'
-import {fadeInUp, scaleIn} from './animations'
 import {useState, useEffect} from 'react'
 import './styles.css'
 import Image from 'next/image'
 import {Button} from '@/ui'
 import TimeAndLocation from './time-and-location'
-import {LiveWorkshop} from '@/types'
+import type {LiveWorkshop} from '@/types'
 
 export interface SignUpFormRef {
   focus: () => void
 }
-
-const phrases = [
-  'Conquer the Complexity of',
-  'Turn Failures into Fuel with',
-  'Accelerate Your Workflow in',
-  'Master Agents in',
-]
 
 const flags = ['🇪🇺', '🇬🇧', '🇫🇷', '🇩🇪', '🇪🇸', '🇳🇱', '🇵🇹', '🇧🇪']
 
@@ -114,19 +105,6 @@ export function formatTimeInTimeZone(date: Date, timeZone: string): string {
   }
 }
 
-const AnimatedPhrase = ({text}: {text: string}) => (
-  <motion.span
-    key={text}
-    initial={{opacity: 0, y: -20}}
-    animate={{opacity: [0, 1, 1, 0], y: 0}}
-    exit={{opacity: 0, y: 20}}
-    transition={{duration: 2.5, times: [0, 0.1, 0.9, 1]}}
-    className="absolute left-0 right-0"
-  >
-    {text}
-  </motion.span>
-)
-
 function scrollToSignup(
   e: React.MouseEvent<HTMLAnchorElement>,
   formRef: React.RefObject<SignUpFormRef>,
@@ -145,18 +123,13 @@ interface HeroProps {
 }
 
 export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
-  const [phraseIndex, setPhraseIndex] = useState(0)
   const [flagIndex, setFlagIndex] = useState(0)
 
   useEffect(() => {
-    const phraseTimer = setInterval(() => {
-      setPhraseIndex((current) => (current + 1) % phrases.length)
-    }, 3000)
     const flagTimer = setInterval(() => {
       setFlagIndex((current) => (current + 1) % flags.length)
     }, 2000)
     return () => {
-      clearInterval(phraseTimer)
       clearInterval(flagTimer)
     }
   }, [])
@@ -179,58 +152,25 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
         aria-hidden="true"
         className="absolute inset-0 w-full h-full bg-gradient-to-b dark:from-gray-900/90 dark:to-gray-900/70 from-gray-50 to-transparent"
       />
-      <motion.div {...scaleIn} className="relative max-w-4xl mx-auto px-6">
+      <div className="relative max-w-4xl mx-auto px-6">
         <Image
           className="mx-auto mb-5 sm:px-0 px-10"
           quality={100}
           src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1739447750/cursor-workshop-perspective_2x_h5fvrr.png"
           alt="Cursor IDE"
-          width={1027 / 2.5}
-          height={601 / 2.5}
+          width={1027 / 3.75}
+          height={601 / 3.75}
         />
-        <motion.h1
-          {...fadeInUp}
-          className="lg:text-5xl sm:text-4xl text-xl flex flex-col relative mb-6 font-extrabold tracking-tight dark:text-white leading-tight"
-        >
-          <span className="relative h-[1em] block mb-2">
-            <AnimatedPhrase key={phraseIndex} text={phrases[phraseIndex]} />
-          </span>
-          <span className="">Cursor</span>
-        </motion.h1>
+        <h1 className="lg:text-5xl sm:text-4xl text-xl mb-6 font-extrabold tracking-tight dark:text-white leading-tight">
+          Unlock Cursor's Full Potential for Your Whole Team
+        </h1>
 
-        <motion.p
-          {...fadeInUp}
-          transition={{delay: 0.1}}
-          className="relative mb-8 sm:text-lg md:text-lg dark:text-gray-200 text-gray-700 max-w-3xl mx-auto leading-relaxed "
-        >
-          Join{' '}
-          <span className="text-gray-900 pl-2 inline-flex items-baseline md:gap-2 gap-1 dark:text-white font-medium">
-            <Image
-              src={
-                'https://egghead.io/_next/image?url=https%3A%2F%2Fd2eip9sf3oo6c2.cloudfront.net%2Finstructors%2Favatars%2F000%2F000%2F005%2Fsquare_64%2Favatar-500x500.jpg&w=96&q=75'
-              }
-              alt="John Lindquist"
-              width={40}
-              height={40}
-              className="rounded-full relative md:translate-y-3 translate-y-2 md:w-10 w-7"
-            />{' '}
-            John Lindquist
-          </span>
-          , founder of egghead.io, for an immersive workshop designed to help
-          you conquer the frustration of getting stuck with complex AI tools.
-          You'll learn how to turn failures into successes by mastering{' '}
-          <span className="text-gray-900 dark:text-white font-medium">
-            Agents, Ask, and Custom Modes
-          </span>{' '}
-          —plus powerful strategies for multi-file analysis. Streamline your
-          development cycle and unlock Cursor's full potential.
-        </motion.p>
+        <p className="relative mb-8 sm:text-lg md:text-lg dark:text-gray-200 text-gray-700 max-w-3xl mx-auto leading-relaxed ">
+          In just a single day you'll set up shared rules, optimized workflows,
+          and agent mastery to help you ship AI-generated code with confidence.
+        </p>
 
-        <motion.div
-          {...fadeInUp}
-          transition={{delay: 0.3, type: 'spring', stiffness: 200}}
-          className="relative"
-        >
+        <div className="relative">
           <div className="mt-12 flex flex-col gap-4 justify-center items-center">
             {saleisActive && workshop && (
               <div className="">
@@ -247,15 +187,7 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
                     <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg p-4 shadow-lg transform rotate-0 hover:rotate-1 transition-transform">
                       <div className="flex items-center gap-3">
                         <div className="flex space-x-1 h-[1.5em] items-center min-w-[24px]">
-                          <motion.span
-                            key={flagIndex}
-                            className="text-xl"
-                            initial={{opacity: 0}}
-                            animate={{opacity: [0, 1, 1, 0]}}
-                            transition={{duration: 2, times: [0, 0.2, 0.8, 1]}}
-                          >
-                            {flags[flagIndex]}
-                          </motion.span>
+                          <span className="text-xl">{flags[flagIndex]}</span>
                         </div>
                         <div className="text-left">
                           <p className="font-bold text-white">
@@ -283,8 +215,8 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
               </Link>
             </Button>
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   )
 }
