@@ -17,7 +17,8 @@ import {trpc} from '@/app/_trpc/client'
 import Markdown from '@/components/markdown'
 import Image from 'next/image'
 import {useTheme} from 'next-themes'
-import Testimonial from '@/components/workshop/shared/testimonial'
+import Testimonial from '@/components/workshop/cursor/testimonial'
+import TestimonialBar from '@/components/workshop/cursor/TestimonialBar'
 export const TEAM_WORKSHOP_FEATURES = [
   'Flexible scheduling',
   'Live Q&A with John Lindquist',
@@ -68,6 +69,7 @@ const WorkshopPage = () => {
             saleisActive={saleisActive}
             workshop={liveWorkshop}
           />
+          <TestimonialBar />
           <section className="z-10 relative">
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               Keeping Up with Rapid AI Tool Changes is Exhausting
