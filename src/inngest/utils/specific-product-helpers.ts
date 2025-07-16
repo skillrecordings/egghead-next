@@ -35,10 +35,10 @@ export async function containsSpecificProduct(
 
     const possibleProductIds: string[] = []
 
-    if (parsedCursorWorkshop.success) {
+    if (parsedCursorWorkshop.success && parsedCursorWorkshop.data) {
       possibleProductIds.push(parsedCursorWorkshop.data.productId)
     }
-    if (parsedClaudeWorkshop.success) {
+    if (parsedClaudeWorkshop.success && parsedClaudeWorkshop.data) {
       possibleProductIds.push(parsedClaudeWorkshop.data.productId)
     }
 
