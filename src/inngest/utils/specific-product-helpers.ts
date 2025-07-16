@@ -21,18 +21,31 @@ export async function containsSpecificProduct(
   checkoutSession: Stripe.Checkout.Session,
 ): Promise<boolean> {
   try {
-    const workshop = await getFeatureFlag(
+    const cursorWorkshop = await getFeatureFlag(
       'featureFlagCursorWorkshopSale',
       'workshop',
     )
-    const parsedWorkshop = LiveWorkshopSchema.parse(workshop)
+    const claudeWorkshop = await getFeatureFlag(
+      'featureFlagClaudeCodeWorkshopSale',
+      'workshop',
+    )
 
-    if (!parsedWorkshop) {
+    const parsedCursorWorkshop = LiveWorkshopSchema.safeParse(cursorWorkshop)
+    const parsedClaudeWorkshop = LiveWorkshopSchema.safeParse(claudeWorkshop)
+
+    const possibleProductIds: string[] = []
+
+    if (parsedCursorWorkshop.success) {
+      possibleProductIds.push(parsedCursorWorkshop.data.productId)
+    }
+    if (parsedClaudeWorkshop.success) {
+      possibleProductIds.push(parsedClaudeWorkshop.data.productId)
+    }
+
+    if (possibleProductIds.length === 0) {
       console.warn('No workshop found')
       return false
     }
-
-    const SPECIFIC_PRODUCT_ID = parsedWorkshop.productId
 
     // Create a local variable to store the session data
     let sessionData = checkoutSession
@@ -53,7 +66,7 @@ export async function containsSpecificProduct(
       }
     }
 
-    // Check if any line item contains our specific product
+    // Check if any line item contains one of our specific products
     const lineItems = sessionData.line_items?.data || []
 
     for (const item of lineItems) {
@@ -62,18 +75,22 @@ export async function containsSpecificProduct(
       if (!product) continue
 
       try {
+        let productId: string
+
         // If product is just an ID string
         if (typeof product === 'string') {
           const productDetails = await stripe.products.retrieve(product)
-          if (productDetails.id === SPECIFIC_PRODUCT_ID) {
-            return true
-          }
+          productId = productDetails.id
         }
         // If product is expanded object
         else if (typeof product === 'object' && 'id' in product) {
-          if (product.id === SPECIFIC_PRODUCT_ID) {
-            return true
-          }
+          productId = product.id as string
+        } else {
+          continue
+        }
+
+        if (possibleProductIds.includes(productId)) {
+          return true
         }
       } catch (error) {
         console.error(
