@@ -228,6 +228,7 @@ interface PostPageProps {
     }
   }
   tags: Tag[]
+  primaryTagName?: string | null
 }
 
 // Update event type for MuxPlayer
@@ -326,11 +327,26 @@ async function getPost(slug: string) {
     )
     const tags = tagRows
 
+    // Get primary tag name if primaryTagId exists
+    let primaryTagName = null
+    if (postData.data.fields.primaryTagId) {
+      const [primaryTagRows] = await conn.execute<RowDataPacket[]>(
+        `
+        SELECT JSON_UNQUOTE(JSON_EXTRACT(egh_tag.fields, '$.name')) AS name
+        FROM egghead_Tag egh_tag
+        WHERE egh_tag.id = ?
+        `,
+        [postData.data.fields.primaryTagId],
+      )
+      primaryTagName = primaryTagRows[0]?.name || null
+    }
+
     return {
       videoResource,
       post: postData.data,
       tags,
       course: courseRow,
+      primaryTagName,
     }
   } catch (error) {
     console.error('Error in getPost:', error)
@@ -355,7 +371,7 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
     }
   }
 
-  const {post, videoResource, tags, course} = result
+  const {post, videoResource, tags, course, primaryTagName} = result
 
   const lesson = await fetch(
     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.eggheadLessonId}`,
@@ -383,6 +399,7 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
       },
       videoResource: convertToSerializeForNextResponse(videoResource),
       tags: tags || [],
+      primaryTagName,
     },
     revalidate: 60,
   }
@@ -435,6 +452,7 @@ export default function PostPage({
   mdxSource,
   tags,
   course,
+  primaryTagName,
 }: PostPageProps) {
   const imageParams = new URLSearchParams()
   imageParams.set('title', post.fields?.title ?? '')
@@ -487,6 +505,7 @@ export default function PostPage({
                   eggheadLessonId={post.fields.eggheadLessonId}
                   post={post}
                   postTags={tags}
+                  primaryTagName={primaryTagName}
                 />
               </div>
             </VideoPlayerOverlayProvider>
@@ -624,12 +643,14 @@ function PostPlayer({
   playerProps = defaultPlayerProps,
   post,
   postTags,
+  primaryTagName,
 }: {
   playbackId: string
   eggheadLessonId?: number | null
   playerProps?: MuxPlayerProps
   post: Post
   postTags: Tag[]
+  primaryTagName?: string | null
 }) {
   const [writingProgress, setWritingProgress] = React.useState<Boolean>(false)
   const {mutate: markLessonComplete} =
@@ -682,15 +703,75 @@ function PostPlayer({
       }}
       onEnded={() => {
         if (eggheadLessonId) {
-          if (postTags.some((tag) => tag.name === 'cursor')) {
+          // Determine which CTA to show based on primary tag first, then fallback to any tag
+          let ctaType: string | null = null
+          let overlayShown = 'none'
+
+          // Check primary tag first
+          if (primaryTagName === 'cursor') {
+            ctaType = 'cursor_workshop'
+            overlayShown = 'cursor_workshop'
+            track('overlay decision', {
+              primaryTag: primaryTagName,
+              shown: overlayShown,
+              source: 'primary_tag',
+              resource: post.fields.slug,
+            })
+          } else if (primaryTagName === 'claude-code') {
+            ctaType = 'claude_code_workshop'
+            overlayShown = 'claude_code_workshop'
+            track('overlay decision', {
+              primaryTag: primaryTagName,
+              shown: overlayShown,
+              source: 'primary_tag',
+              resource: post.fields.slug,
+            })
+          } else {
+            // Fallback: check if either tag exists in the tags array
+            const hasCursor = postTags.some((tag) => tag.name === 'cursor')
+            const hasClaudeCode = postTags.some(
+              (tag) => tag.name === 'claude-code',
+            )
+
+            if (hasCursor) {
+              ctaType = 'cursor_workshop'
+              overlayShown = 'cursor_workshop'
+              track('overlay decision', {
+                primaryTag: primaryTagName || 'none',
+                shown: overlayShown,
+                source: 'fallback_tags',
+                resource: post.fields.slug,
+              })
+            } else if (hasClaudeCode) {
+              ctaType = 'claude_code_workshop'
+              overlayShown = 'claude_code_workshop'
+              track('overlay decision', {
+                primaryTag: primaryTagName || 'none',
+                shown: overlayShown,
+                source: 'fallback_tags',
+                resource: post.fields.slug,
+              })
+            } else {
+              track('overlay decision', {
+                primaryTag: primaryTagName || 'none',
+                shown: 'none',
+                source: 'no_relevant_tags',
+                resource: post.fields.slug,
+              })
+            }
+          }
+
+          // Dispatch appropriate overlay
+          if (ctaType) {
             dispatchVideoPlayerOverlay({
               type: 'COMPLETED',
               playerRef,
-              cta: 'cursor_workshop',
+              cta: ctaType,
             })
           } else {
             dispatchVideoPlayerOverlay({type: 'COMPLETED', playerRef})
           }
+
           markLessonComplete({
             lessonId: eggheadLessonId,
           })
