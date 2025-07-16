@@ -3,7 +3,7 @@ import Link from 'next/link'
 import {motion} from 'framer-motion'
 import {fadeInUp, scaleIn} from '../../shared/animations'
 import {useState, useEffect} from 'react'
-import '../styles.css'
+import '../../shared/styles.css'
 import Image from 'next/image'
 import {Button} from '@/ui'
 
