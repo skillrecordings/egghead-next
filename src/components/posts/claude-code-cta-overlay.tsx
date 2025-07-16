@@ -20,7 +20,7 @@ function ClaudeCodeCTAOverlay({
           <div className="sm:px-8 flex flex-col items-center justify-center">
             <div className="flex flex-col items-center gap-2">
               <Image
-                src="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/513/full/claude.png"
+                src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1752698761/claude-code-workshop-logo-square_hopfzn.png"
                 alt="Claude Code"
                 width={80}
                 height={80}
@@ -33,7 +33,7 @@ function ClaudeCodeCTAOverlay({
             <p className="text-center mb-2 sm:mb-6 text-muted-foreground text-balance">
               Join our comprehensive Claude Code workshops to unlock the full
               potential of AI-assisted development. Learn advanced techniques,
-              best practices, and workflows from industry experts.
+              best practices, and workflows from John Lindquist.
             </p>
           </div>
         </CardContent>
