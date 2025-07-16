@@ -190,14 +190,14 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
           width={4016 / 3}
           height={2391 / 3}
         /> */}
-        <div className="mb-5 sm:px-0 px-10 font-mono text-[#ce6246] leading-tight w-fit">
-          <div className="flex flex-col gap-2 scale-50 w-fit self-center bg-[#101114] shadow-[0_0_20px_rgba(255,255,255,0.5)] dark:shadow-black rounded-lg">
+        <div className="flex justify-center items-center mb-5 w-full max-w-full sm:w-fit sm:mx-0 sm:px-0 px-2 font-mono text-[#ce6246] leading-tight">
+          <div className="flex flex-col gap-2 scale-50 bg-[#101114] shadow-[0_0_20px_rgba(255,255,255,0.5)] dark:shadow-black rounded-lg justify-center items-center mx-auto max-w-full">
             <div className="w-full bg-slate-800 h-4 flex items-center pl-2 gap-1">
               <div className="w-2 h-2 rounded-full bg-red-400" />
               <div className="w-2 h-2 rounded-full bg-yellow-400" />
               <div className="w-2 h-2 rounded-full bg-green-400" />
             </div>
-            <div className="w-fit self-center">
+            <div>
               <pre className="text-start w-fit">
                 {` 
 ██████╗ ██╗      █████╗ ██╗   ██╗██████╗ ███████╗
