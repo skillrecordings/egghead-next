@@ -12,6 +12,8 @@ import {ArrowRight} from 'lucide-react'
 import {RefreshCw} from 'lucide-react'
 import {Card, CardContent, CardTitle, CardHeader, CardFooter} from '@/ui/card'
 import {motion} from 'framer-motion'
+import ClaudeCodeCTAOverlay from './claude-code-cta-overlay'
+import {track} from '@/utils/analytics'
 
 type VideoPlayerOverlayProps = {
   resource: Post
@@ -25,6 +27,10 @@ const VideoPlayerOverlay: React.FC<VideoPlayerOverlayProps> = ({resource}) => {
       const {playerRef, cta} = overlayState.action as CompletedAction
 
       if (cta === 'cursor_workshop') {
+        track('cursor overlay', {
+          action: 'displayed',
+          source: 'video_completion_overlay',
+        })
         return (
           <motion.div
             initial={{opacity: 0}}
@@ -35,6 +41,32 @@ const VideoPlayerOverlay: React.FC<VideoPlayerOverlayProps> = ({resource}) => {
           >
             <CursorCTAOverlay
               signUpLink="/workshop/cursor"
+              onReplay={() => {
+                if (playerRef.current) {
+                  playerRef.current.play()
+                }
+                dispatch({type: 'HIDDEN'})
+              }}
+            />
+          </motion.div>
+        )
+      }
+
+      if (cta === 'claude_code_workshop') {
+        track('claude code overlay', {
+          action: 'displayed',
+          source: 'video_completion_overlay',
+        })
+        return (
+          <motion.div
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+            aria-live="polite"
+            className="z-40 bg-background/85 absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center pb-6 backdrop-blur-md sm:pb-16 text-white"
+          >
+            <ClaudeCodeCTAOverlay
+              signUpLink="/workshop/claude-code"
               onReplay={() => {
                 if (playerRef.current) {
                   playerRef.current.play()
