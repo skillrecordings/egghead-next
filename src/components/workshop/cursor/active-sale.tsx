@@ -1,9 +1,9 @@
 import {AsteriskIcon} from 'lucide-react'
 import Link from 'next/link'
-import TimeAndLocation from './time-and-location'
+import TimeAndLocation from '../shared/time-and-location'
 import {useCommerceMachine} from '@/hooks/use-commerce-machine'
 import {get, isEmpty} from 'lodash'
-import WorkshopParityCouponMessage from '@/components/workshop/cursor/parity-coupon-message'
+import WorkshopParityCouponMessage from '@/components/workshop/shared/parity-coupon-message'
 import {Coupon} from '@/types'
 import {useState, useMemo, useEffect} from 'react'
 import {ContactForm} from '@/components/workshop/cursor/team/contact-form'
@@ -172,7 +172,7 @@ const ActiveSale = ({
               Ready to Take Advantage of AI Development with Cursor?
             </h2>
             <h3 className="text-lg md:text-xl dark:text-gray-200 text-gray-700 max-w-3xl mx-auto leading-relaxed font-medium">
-              Chosen by 150+ Developers Who Improved their AI Dev Workflows
+              Chosen by 250+ Developers Who Improved their AI Dev Workflows
             </h3>
             <p className="mb-8 text-center text-lg opacity-80 mx-auto">
               Claim a seat in this hands-on workshop designed to level up your

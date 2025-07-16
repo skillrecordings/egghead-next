@@ -1,12 +1,12 @@
 'use client'
 import Link from 'next/link'
 import {motion} from 'framer-motion'
-import {fadeInUp, scaleIn} from './animations'
+import {fadeInUp, scaleIn} from '../shared/animations'
 import {useState, useEffect} from 'react'
-import './styles.css'
+import '../shared/styles.css'
 import Image from 'next/image'
 import {Button} from '@/ui'
-import TimeAndLocation from './time-and-location'
+import TimeAndLocation from '../shared/time-and-location'
 import {LiveWorkshop} from '@/types'
 
 export interface SignUpFormRef {

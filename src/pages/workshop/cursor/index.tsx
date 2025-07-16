@@ -2,7 +2,7 @@
 import Layout from '@/components/app/layout'
 import Hero from '@/components/workshop/cursor/Hero'
 import Features from '@/components/workshop/cursor/Features'
-import Instructor from '@/components/workshop/cursor/Instructor'
+import Instructor from '@/components/workshop/shared/Instructor'
 import SignUpForm from '@/components/workshop/cursor/SignUpForm'
 import type {SignUpFormRef} from '@/components/workshop/cursor/Hero'
 import type {GetServerSideProps} from 'next'
@@ -11,13 +11,13 @@ import {NextSeo} from 'next-seo'
 import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
 import ActiveSale from '@/components/workshop/cursor/active-sale'
 
-import CtaSection from '@/components/workshop/cursor/cta-section'
+import CtaSection from '@/components/workshop/shared/cta-section'
 import {useViewer} from '@/context/viewer-context'
 import {trpc} from '@/app/_trpc/client'
 import Markdown from '@/components/markdown'
 import Image from 'next/image'
 import {useTheme} from 'next-themes'
-import Testimonial from '@/components/workshop/cursor/testimonial'
+import Testimonial from '@/components/workshop/shared/testimonial'
 export const TEAM_WORKSHOP_FEATURES = [
   'Flexible scheduling',
   'Live Q&A with John Lindquist',
@@ -48,7 +48,7 @@ const WorkshopPage = () => {
   // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), [])
 
-  const saleisActive = true
+  const saleisActive = liveWorkshop?.isSaleLive ?? false
 
   const LIVE_WORKSHOP_FEATURES = [
     'Live Q&A with John Lindquist',
