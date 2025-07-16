@@ -17,7 +17,7 @@ import {trpc} from '@/app/_trpc/client'
 import Markdown from '@/components/markdown'
 import Image from 'next/image'
 import {useTheme} from 'next-themes'
-import Testimonial from '@/components/workshop/cursor/testimonial'
+import Testimonial from '@/components/workshop/shared/testimonial'
 import TestimonialBar from '@/components/workshop/cursor/TestimonialBar'
 export const TEAM_WORKSHOP_FEATURES = [
   'Flexible scheduling',
