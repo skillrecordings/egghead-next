@@ -206,7 +206,7 @@ You're not just using Claude Code—you're building a personalized AI workforce 
    - Playwright integration for full browser automation
    - Speed optimizations using parent/child agent architectures
 
-Plus John's personal collection of battle-tested scripts, keyboard shortcuts, and workflow patterns developed through hundreds of hours of Claude Code usage.`}
+Plus John's personal collection of battle-tested scripts, keyboard shortcuts, and workflow patterns developed through many hours of Claude Code usage. He's used over 1 billion tokens in Claude Code!`}
             </Markdown>
 
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
