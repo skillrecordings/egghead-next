@@ -40,6 +40,12 @@ export const SpecificProductEmail = ({
 }: SpecificProductEmailProps) => {
   const greeting = customerName ? `Hi ${customerName},` : 'Hi there,'
 
+  const productCategory = productName.toLowerCase().includes('claude')
+    ? 'claude-code'
+    : 'cursor'
+
+  const invoiceUrl = `${process.env.NEXT_PUBLIC_URL}/workshop/${productCategory}/invoice/${stripeChargeIdentifier}`
+
   return (
     <Html>
       <Head />
@@ -63,10 +69,7 @@ export const SpecificProductEmail = ({
               <Text style={paragraph}>
                 You can view your purchase details by clicking the link below:
               </Text>
-              <Link
-                href={`${process.env.NEXT_PUBLIC_URL}/workshop/cursor/invoice/${stripeChargeIdentifier}`}
-                style={link}
-              >
+              <Link href={invoiceUrl} style={link}>
                 View purchase details
               </Link>
               <Text style={paragraph}>Happy learning!</Text>

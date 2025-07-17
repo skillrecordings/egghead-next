@@ -42,7 +42,7 @@ const Invoice = ({charge}: {charge: Stripe.Charge}) => {
   const amount = charge.amount / 100
 
   const instructorName = `John Lindquist`
-  const productName = `Live Cursor Workshop by ${instructorName}`
+  const productName = `Live Claude Code Workshop by ${instructorName}`
 
   const emailData = `mailto:?subject=Invoice for ${productName}&body=Invoice for ${productName} purchase: ${`${process.env.NEXT_PUBLIC_URL}/invoices/${charge.id}`}`
 

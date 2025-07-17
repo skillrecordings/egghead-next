@@ -7,6 +7,7 @@ export const LiveWorkshopSchema = z
     timeZone: z.string(),
     utcOffset: z.string(),
     endTime: z.string(),
+    isSaleLive: z.boolean(),
     isEuFriendly: z.boolean(),
     isEarlyBird: z.boolean(),
     productId: z.string(),

@@ -7,21 +7,31 @@ import {usePathname} from 'next/navigation'
 import {trpc} from '@/app/_trpc/client'
 import CountdownTimer from './countdown-timer'
 
-const WorkshopSaleHeaderBanner: React.FC = () => {
+interface WorkshopSaleHeaderBannerProps {
+  flag: string
+  workshopPath: string
+  workshopTitle: string
+}
+
+const WorkshopSaleHeaderBanner: React.FC<WorkshopSaleHeaderBannerProps> = ({
+  flag,
+  workshopPath,
+  workshopTitle,
+}) => {
   const {data: workshopDateAndTime} = trpc.featureFlag.getLiveWorkshop.useQuery(
     {
-      flag: 'featureFlagCursorWorkshopSale',
+      flag,
     },
   )
   const {data: isSaleBannerEnabled} =
     trpc.featureFlag.isLiveWorkshopSale.useQuery({
-      flag: 'featureFlagCursorWorkshopSale',
+      flag,
     })
   const pathname = usePathname()
 
   return isSaleBannerEnabled ? (
     <Link
-      href="/workshop/cursor"
+      href={workshopPath}
       onClick={() => {
         analytics.events.activityInternalLinkClick(
           'sale',
@@ -46,7 +56,7 @@ const WorkshopSaleHeaderBanner: React.FC = () => {
               'Sale:'
             )}{' '}
           </div>
-          <span>Live Cursor Workshop with John Lindquist</span>
+          <span>{workshopTitle}</span>
         </div>
         <div className="flex items-center flex-shrink-0 px-2 py-px text-white underline">
           <span className="pr-1 font-medium">Claim your Spot</span>{' '}

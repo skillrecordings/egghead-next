@@ -14,6 +14,7 @@ import {LIFETIME_PURCHASE_EVENT} from '@/inngest/events/lifetime-purchase'
 import {SPECIFIC_PRODUCT_PURCHASE_EVENT} from '@/inngest/events/specific-product-purchase'
 import {getFeatureFlag} from '@/lib/feature-flags'
 import {LiveWorkshopSchema} from '@/types'
+import {z} from 'zod'
 const LIFETIME_PRICE_ID = process.env.STRIPE_LIFETIME_MEMBERSHIP_PRICE_ID
 
 /**
@@ -38,17 +39,56 @@ export const handleSpecificProductPurchase = async (
   const checkoutSessionId = checkoutSession.id
   const customerId = getCustomerId(checkoutSession.customer, checkoutSession)
   const priceId = checkoutSession.line_items?.data[0]?.price?.id || ''
-  const workshop = await getFeatureFlag(
-    'featureFlagCursorWorkshopSale',
-    'workshop',
-  )
-  const parsedWorkshop = LiveWorkshopSchema.parse(workshop)
 
-  if (!parsedWorkshop) {
-    console.warn('No workshop found')
+  // 1. Define all workshop flag keys in an array for scalability.
+  const workshopFlagKeys = [
+    'featureFlagCursorWorkshopSale',
+    'featureFlagClaudeCodeWorkshopSale',
+    // ✨ To add another workshop, just add its feature flag key here!
+  ]
+
+  // Get the purchased product ID from the checkout session.
+  const purchasedProduct = checkoutSession.line_items?.data[0]?.price?.product
+  let purchasedProductId: string | undefined
+  if (typeof purchasedProduct === 'string') {
+    purchasedProductId = purchasedProduct
+  } else if (purchasedProduct && 'id' in purchasedProduct) {
+    purchasedProductId = purchasedProduct.id
+  }
+
+  if (!purchasedProductId) {
+    console.warn('No product ID found in checkout session')
     return
   }
-  const productId = parsedWorkshop.productId
+
+  // 2. Fetch all feature flags concurrently.
+  const workshopFlags = await Promise.all(
+    workshopFlagKeys.map((key) => getFeatureFlag(key, 'workshop')),
+  )
+
+  let selectedWorkshop: z.infer<typeof LiveWorkshopSchema> | null = null
+
+  // 3. Iterate to find the first valid and matching workshop.
+  for (const flagData of workshopFlags) {
+    const parsedWorkshop = LiveWorkshopSchema.safeParse(flagData)
+    // Check if the workshop data is valid AND its product ID matches the purchased one.
+    if (
+      parsedWorkshop.success &&
+      parsedWorkshop.data?.productId === purchasedProductId
+    ) {
+      selectedWorkshop = parsedWorkshop.data
+      break // Found our match, no need to check the others.
+    }
+  }
+
+  if (!selectedWorkshop) {
+    console.warn(
+      'No matching and valid workshop found for the purchased product.',
+    )
+    return
+  }
+
+  const productId = selectedWorkshop.productId
 
   // Step 1: Retrieve charge ID
   const chargeId = await step.run(
@@ -68,9 +108,10 @@ export const handleSpecificProductPurchase = async (
   )
 
   // Step 4: Get product name
-  const productName = await step.run('get product name', async () =>
-    getSpecificProductName(),
-  )
+  const productName = await step.run('get product name', async () => {
+    const product = await stripe.products.retrieve(productId)
+    return product.name || ''
+  })
 
   // Step 5: Send the specific product purchase event
   await step.sendEvent('trigger specific product purchase event', {
