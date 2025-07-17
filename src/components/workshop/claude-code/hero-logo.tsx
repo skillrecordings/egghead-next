@@ -2,8 +2,6 @@ export default function Logo() {
   return (
     <div
       className="mb-5 sm:mx-0 sm:px-0 px-2 font-mono text-[#24292E] dark:text-[#ce6246]  leading-tight w-full"
-      role="img"
-      aria-label="Claude Code Workshop ASCII Art Logo"
       aria-hidden="true"
     >
       <div className="flex flex-col gap-2 border border-gray-900 dark:border-none bg-white dark:bg-[#111110] shadow-[0_0_20px_rgba(255,255,255,0.5)] dark:shadow-black rounded-lg justify-center items-center w-full ">
