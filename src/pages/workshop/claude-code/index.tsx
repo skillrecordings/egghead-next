@@ -73,29 +73,41 @@ const WorkshopPage = () => {
               Works?
             </h2>
             <Markdown className="prose-base w-full sm:prose-lg md:prose-xl marker:text-blue-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:text-balance prose-headings:px-5 prose-headings:font-text prose-headings:font-semibold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-normal prose-p:text-foreground prose-a:text-blue-300 prose-strong:font-semibold prose-strong:text-white prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:translate-x-1 prose-ul:list-disc hover:prose-a:underline md:prose-h2:text-5xl">
-              {`You’ve seen the impressive demos. You’ve tried using LLMs in your workflow. But when it's time to solve a real-world coding problem, the magic fades.
+              {`You watched the demo.
 
-You find yourself wrestling with an AI that:
-- Hallucinates or fails unpredictably, forcing you to double-check everything and eroding your trust.
-- Doesn't understand your codebase, giving you generic advice that ignores your project's architecture and standards.
-- Requires endless, manual copy-pasting of files, error logs, and instructions just to provide the right context.
-- Feels like a black box you can’t control, customize, or reliably integrate into your automated workflows.
+You clapped.
 
-"Prompt engineering" feels less like engineering and more like a frustrating guessing game. You know there has to be a better way to build with AI, but the path from a simple chat interface to a robust, automated system isn't clear.`}
+You copied the prompt into your own repo… and it barfed.
+
+Suddenly the magic trick feels more like a rigged carnival game.
+
+Every turn costs you time, sanity, and the creeping suspicion that you’re the product being tested.
+
+Here’s what the brochure never mentions:
+- Hallucinations that sound so confident you only notice the bug after it ships.
+- Generic answers that ignore your architecture, your conventions, your actual code.
+- Copy-pasta marathons—files, logs, screenshots, prayers—just to feed the beast.
+- A black box that refuses to be scripted, versioned, or reasoned with.
+
+So you go back to the docs, whisper sweeter prompts, and hope the next release fixes everything.
+
+Spoiler: it won’t.`}
             </Markdown>
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               Building with AI Agents CAN Actually be Reliable.
             </h2>
             <Markdown className="prose-base w-full sm:prose-lg md:prose-xl marker:text-blue-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:text-balance prose-headings:px-5 prose-headings:font-text prose-headings:font-semibold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-normal prose-p:text-foreground prose-a:text-blue-300 prose-strong:font-semibold prose-strong:text-white prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:translate-x-1 prose-ul:list-disc hover:prose-a:underline md:prose-h2:text-5xl">
-              {`What if you could stop whispering prompts and start *architecting* intelligent systems?
+              {`What if you could trade the guessing game for an engineering discipline?
 
-Picture a workflow where your AI coding assistant:
-- Operates with precision and consistency, because you’ve engineered the exact context it needs to succeed.
-- Securely interacts with your entire codebase, APIs, and databases to perform complex, multi-step tasks autonomously.
-- Automatically enforces your project’s coding standards, running formatters and linters without you lifting a finger.
-- Integrates seamlessly into your toolchain, triggered by scripts and custom events, becoming a true extension of your development environment.
+Imagine building an AI teammate that:
+- Knows your codebase cold—imports, styles, tests, the weird legacy folder no one talks about.
+- Executes with precision—no surprises, no ghost dependencies, no “it worked on my machine.”
+- Plays nicely with your toolchain—runs Prettier after every edit, triggers CI when it commits, opens pull requests with human-readable diffs.
+- Fails gracefully—logs, rollbacks, and clear diagnostics instead of cryptic stack traces.
 
-You would move from being a mere *user* of AI to being the *orchestrator* of a powerful, automated system. You’d ship faster, solve bigger problems, and build the kind of resilient, AI-powered tools that others only talk about.`}
+You stop prompting.
+
+You start orchestrating.`}
             </Markdown>
             {/* {mounted && theme === 'light' && (
               <Image
@@ -120,40 +132,43 @@ You would move from being a mere *user* of AI to being the *orchestrator* of a p
               />
             )} */}
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
-              Introducing: The Claude Code Power-User Workshop
+              Enter: the Claude Code Power-User Workshop
             </h2>
             <Markdown className="prose-base w-full sm:prose-lg md:prose-xl marker:text-blue-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:text-balance prose-headings:px-5 prose-headings:font-text prose-headings:font-semibold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-normal prose-p:text-foreground prose-a:text-blue-300 prose-strong:font-semibold prose-strong:text-white prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:translate-x-1 prose-ul:list-disc hover:prose-a:underline md:prose-h2:text-5xl">
-              {`This isn't another prompt engineering guide. This is a hands-on, technical workshop designed to teach you the engineering principles behind building production-grade apps with Claude.
+              {`A single day to turn AI from party trick into production-grade teammate.
 
-We'll teach you how to go beyond simple prompting and master the concepts needed for building effectively with Claude, using TypeScript to script, integrate, and automate.
+What You’ll Actually Build (and take home):
 
-By the end of the workshop, you'll gain the skills needed to confidently use AI for targeted refactors, feature implementation, and bug fixes.`}
+1. Context Engineering That Doesn’t Suck
+   - Dynamic context assembly—pull the exact slices your model needs.
+   - Few-shot examples that evolve with your codebase.
+   - Feedback loops so Claude can self-correct before you even see the diff.
+2. TypeScript SDK Kung-Fu
+   - Stream responses in real time.
+   - Script multi-turn conversations that survive reboots.
+   - Chain file reads, AST walks, and shell commands like Lego.
+3. Claude Hooks—Event-Driven Guardrails
+   - $PreToolUse$ → auto-format.
+   - $PostWrite$ → run tests.
+   - $PreCommit$ → check security policy, block if red flags.
+   - Your rules, your triggers, zero babysitting.
+4. MCP: The Universal Port
+   - Plug Claude into GitHub, Stripe, Sentry, your private APIs—one standard, zero custom glue.
+   - Swap data sources like USB-C cables.
+   - Sleep better knowing the integration isn’t held together with regex and tears.`}
             </Markdown>
 
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
-              What You Will Master in This Workshop:
+              By 5 p.m. (or sooner) you’ll walk out with:
             </h2>
             <Markdown className="prose-base w-full sm:prose-lg md:prose-xl marker:text-blue-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:text-balance prose-headings:px-5 prose-headings:font-text prose-headings:font-semibold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-normal prose-p:text-foreground prose-a:text-blue-300 prose-strong:font-semibold prose-strong:text-white prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:translate-x-1 prose-ul:list-disc hover:prose-a:underline md:prose-h2:text-5xl">
-              {`### 1. Context Engineering: The Science of Reliable Results
-Most AI fails because of poor context, not a "dumb" model. We'll teach you how to architect the perfect environment for Claude.
-* Learn to: Dynamically assemble context from multiple sources (your code, user input, tools, and memory).
-* Master: Structured prompts, few-shot examples, and feedback loops that allow Claude to self-correct and perform complex tasks reliably.
+              {`- A repo template you can clone tomorrow.
+- Scripts that refactor, test, and ship a feature while you grab coffee.
+- The quiet confidence that your AI won’t go rogue at 2 a.m.
 
-### 2. Advanced Scripting with the Anthropic TypeScript SDK
-Leave the web UI behind. Learn to command Claude programmatically to create powerful, automated workflows.
-* Learn to: Use the TypeScript SDK to manage conversations, stream responses for real-time output, and integrate Claude into your existing tools.
-* Master: Writing scripts that process files, orchestrate tool usage, and manage session continuity for complex, multi-turn tasks.
+Seats are limited (because we actually review code together on Zoom, not dump a PDF and ghost you).
 
-### 3. Automation with Claude Hooks: Your AI's Event Triggers
-What if Claude could automatically run Prettier on every file it edits? Or log every shell command for compliance? With Hooks, it can.
-* Learn to: Configure user-defined shell commands that run at specific points in Claude’s lifecycle (e.g., \`$PreToolUse$\`).
-* Master: Creating hooks to auto-format code, validate tool inputs, block risky commands, and trigger external workflows—making Claude adhere to *your* rules.
-
-### 4. Model Context Protocols (MCPs): The Universal Connector for AI
-Stop building bespoke, brittle integrations for every data source. MCP is the open standard for connecting AI to the outside world—like a USB-C port for your models.
-* Learn to: Use pre-built MCP servers to give Claude secure access to tools for GitHub, Stripe, Sentry, and more.
-* Master: The principles of connecting Claude to any external data source or private API in a standardized, secure, and scalable way.
-`}
+Grab yours now—before the next demo lures you back into the almost-works trap.`}
             </Markdown>
           </section>
         </div>
