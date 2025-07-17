@@ -1,6 +1,6 @@
 import {Calendar, Clock, MapPin} from 'lucide-react'
 import {cn} from '@/ui/utils'
-import {parseDateTimeWithOffset, formatTimeInTimeZone} from './Hero'
+import {parseDateTimeWithOffset, formatTimeInTimeZone} from '../cursor/Hero'
 
 const TimeAndLocation = ({
   date,

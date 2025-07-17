@@ -333,7 +333,20 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
       {!viewer?.is_instructor &&
         pathname !== '/pricing' &&
         pathname !== '/forever' && <LifetimeSaleHeaderBanner />}
-      {pathname !== '/workshop/cursor' && <WorkshopSaleHeaderBanner />}
+      {pathname !== '/workshop/cursor' && (
+        <WorkshopSaleHeaderBanner
+          flag="featureFlagCursorWorkshopSale"
+          workshopPath="/workshop/cursor"
+          workshopTitle="Live Cursor Workshop with John Lindquist"
+        />
+      )}
+      {pathname !== '/workshop/claude-code' && (
+        <WorkshopSaleHeaderBanner
+          flag="featureFlagClaudeCodeWorkshopSale"
+          workshopPath="/workshop/claude-code"
+          workshopTitle="Live Claude Code Workshop"
+        />
+      )}
       {pathname !== '/workshop/cursor' && <WorkshopEarlyBirdHeaderBanner />}
       <nav
         aria-label="header"
