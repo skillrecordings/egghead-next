@@ -5,7 +5,7 @@ import {WorkshopAudience} from '@/components/workshop/cursor/team/workshop-audie
 import {WorkshopValue} from '@/components/workshop/cursor/team/workshop-value'
 import {ArrowRight, Calendar, Clock, MapPin} from 'lucide-react'
 import Image from 'next/image'
-import Instructor from '@/components/workshop/cursor/Instructor'
+import Instructor from '@/components/workshop/shared/Instructor'
 import Hero, {
   SignUpFormRef,
   scrollTo,

@@ -4,10 +4,10 @@ import TimeAndLocation from '../shared/time-and-location'
 import {useCommerceMachine} from '@/hooks/use-commerce-machine'
 import {get, isEmpty} from 'lodash'
 import WorkshopParityCouponMessage from '@/components/workshop/shared/parity-coupon-message'
-import type {Coupon} from '@/types'
+import {Coupon} from '@/types'
 import {useState, useMemo, useEffect} from 'react'
-import {ContactForm} from '@/components/workshop/cursor/team/contact-form'
-import type {LiveWorkshop} from '@/types'
+import {ContactForm} from '@/components/workshop/claude-code/contact-form'
+import {LiveWorkshop} from '@/types'
 import Spinner from '@/components/spinner'
 
 interface UseWorkshopCouponProps {
@@ -58,7 +58,7 @@ function useWorkshopCoupon({
         }
       default:
         return {
-          queryParam: '',
+          queryParam: ``,
           type: 'non-member' as const,
         }
     }
@@ -86,7 +86,7 @@ function useWorkshopCoupon({
     }
   }, [baseCoupon, isPPPApplied])
 
-  const parityCoupon = availableCoupons?.ppp
+  const parityCoupon = availableCoupons?.['ppp']
   const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
   const countryName = get(parityCoupon, 'coupon_region_restricted_to_name')
 
@@ -130,11 +130,8 @@ const CheckIcon = () => {
       strokeLinecap="round"
       strokeLinejoin="round"
       className="h-4 w-4 text-primary"
-      aria-hidden="true"
-      role="img"
     >
-      <title>Check</title>
-      <polyline points="20 6 9 17 4 12" />
+      <polyline points="20 6 9 17 4 12"></polyline>
     </svg>
   )
 }
@@ -172,17 +169,20 @@ const ActiveSale = ({
         <div className="container px-4 md:px-6">
           <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
-              Ready to Take Advantage of AI Development with Cursor?
+              Stop Wrestling with Brittle Prompts. <br />
+              Start Engineering AI You Can Command.
             </h2>
             <h3 className="text-lg md:text-xl dark:text-gray-200 text-gray-700 max-w-3xl mx-auto leading-relaxed font-medium">
-              Chosen by 250+ Developers Who Improved their AI Dev Workflows
+              Chosen by 150+ Developers Who Improved their AI Dev Workflows
             </h3>
             <p className="mb-8 text-center text-lg opacity-80 mx-auto">
-              Claim a seat in this hands-on workshop designed to level up your
-              development process. Overcome the frustration of complex
-              integrations, learn to handle failures gracefully, and discover
-              powerful planning strategies to keep you shipping code with
-              confidence.
+              This workshop is for developers and engineers who are ready to move
+              beyond the hype and build real, reliable, and robust systems with
+              AI. If you're comfortable with TypeScript and want to become the
+              AI architect your team needs, this is for you.
+              <br />
+              <br />
+              Your path to building production-grade systems with AI starts here.
             </p>
           </div>
           {teamToggleState ? (
@@ -243,9 +243,9 @@ const Price = ({
     )
   }
   switch (true) {
-    case couponToApply.type === 'ppp': {
+    case couponToApply.type === 'ppp':
       const discount = parityCoupon?.coupon_discount ?? 0
-      const price = (249 - 249 * discount).toFixed(2)
+      const price = (350 - 350 * discount).toFixed(2)
       return (
         <div className="flex flex-col items-center justify-center gap-1">
           <div className="flex items-center justify-center gap-4">
@@ -255,7 +255,7 @@ const Price = ({
                 SAVE {discount * 100}%
               </p>
               <p className="text-2xl text-muted-foreground line-through opacity-70">
-                $249
+                $350
               </p>
             </div>
           </div>
@@ -264,13 +264,12 @@ const Price = ({
           </p>
         </div>
       )
-    }
-    case couponToApply.type === 'earlyBird-member': {
+    case couponToApply.type === 'earlyBird-member':
       const earlyBirdMemberPrice = (
-        249 - Number(workshop?.stripeEarlyBirdMemberDiscount)
+        350 - Number(workshop?.stripeEarlyBirdMemberDiscount)
       ).toFixed(2)
       const earlyBirdMemberDiscount = Math.round(
-        (Number(workshop?.stripeEarlyBirdMemberDiscount) / 249) * 100,
+        (Number(workshop?.stripeEarlyBirdMemberDiscount) / 350) * 100,
       )
       return (
         <div className="flex flex-col items-center justify-center gap-1">
@@ -282,7 +281,7 @@ const Price = ({
                 <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
               </p>
               <p className="text-2xl text-muted-foreground line-through opacity-70">
-                $249
+                $350
               </p>
             </div>
           </div>
@@ -291,13 +290,12 @@ const Price = ({
           </p>
         </div>
       )
-    }
-    case couponToApply.type === 'earlyBird-non-member': {
+    case couponToApply.type === 'earlyBird-non-member':
       const earlyBirdNonMemberPrice = (
-        249 - Number(workshop?.stripeEarlyBirdNonMemberDiscount)
+        350 - Number(workshop?.stripeEarlyBirdNonMemberDiscount)
       ).toFixed(2)
       const earlyBirdNonMemberDiscount = Math.round(
-        (Number(workshop?.stripeEarlyBirdNonMemberDiscount) / 249) * 100,
+        (Number(workshop?.stripeEarlyBirdNonMemberDiscount) / 350) * 100,
       )
       return (
         <div className="flex flex-col items-center justify-center gap-1">
@@ -309,7 +307,7 @@ const Price = ({
                 <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
               </p>
               <p className="text-2xl text-muted-foreground line-through opacity-70">
-                $249
+                $350
               </p>
             </div>
           </div>
@@ -318,13 +316,12 @@ const Price = ({
           </p>
         </div>
       )
-    }
-    case couponToApply.type === 'member': {
+    case couponToApply.type === 'member':
       const memberPrice = (
-        249 - Number(workshop?.stripeMemberDiscount)
+        350 - Number(workshop?.stripeMemberDiscount)
       ).toFixed(2)
       const memberDiscount = Math.round(
-        (Number(workshop?.stripeMemberDiscount) / 249) * 100,
+        (Number(workshop?.stripeMemberDiscount) / 350) * 100,
       )
       return (
         <div className="flex flex-col items-center justify-center gap-1">
@@ -336,7 +333,7 @@ const Price = ({
                 <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
               </p>
               <p className="text-2xl text-muted-foreground line-through opacity-70">
-                $249
+                $350
               </p>
             </div>
           </div>
@@ -345,27 +342,13 @@ const Price = ({
           </p>
         </div>
       )
-    }
-    default: {
-      const memberPriceSuggestion = (
-        249 - Number(workshop?.stripeMemberDiscount)
-      ).toFixed(2)
+    default:
       return (
-        <div className="flex flex-col items-center justify-center gap-1">
-          <p className="flex justify-center text-5xl font-bold ">
-            $249
-            <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
-          </p>
-          <p className="text-xs text-muted-foreground font-medium text-center">
-            Annual egghead Members pay only ${memberPriceSuggestion}.{' '}
-            <Link href="/pricing" className="underline">
-              Become a member
-            </Link>
-            .
-          </p>
-        </div>
+        <p className="flex justify-center text-5xl font-bold ">
+          $350
+          <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
+        </p>
       )
-    }
   }
 }
 
@@ -393,7 +376,7 @@ function SinglePurchaseUI({
         <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-800 rounded-lg text-card-foreground shadow-sm">
           <div className="flex flex-col pt-6 pb-4 px-6 space-y-2 text-center">
             <h3 className="text-2xl font-bold text-balance">
-              Become More Productive with Cursor
+              Build Production-Grade Systems with Claude Code
             </h3>
             <Price
               isLiveWorkshopLoading={isLiveWorkshopLoading}

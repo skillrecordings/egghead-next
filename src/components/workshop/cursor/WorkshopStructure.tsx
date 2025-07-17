@@ -1,6 +1,6 @@
 'use client'
 import {motion} from 'framer-motion'
-import {fadeInUp, staggerContainer, staggerItem} from './animations'
+import {fadeInUp, staggerContainer, staggerItem} from '../shared/animations'
 
 const days = [
   {
