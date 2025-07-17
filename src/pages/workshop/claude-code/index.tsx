@@ -206,20 +206,16 @@ You're not just using Claude Code—you're building a personalized AI workforce 
    - Playwright integration for full browser automation
    - Speed optimizations using parent/child agent architectures
 
-Plus John's personal collection of battle-tested scripts, keyboard shortcuts, and workflow patterns developed through thousands of hours of Claude Code usage.`}
+Plus John's personal collection of battle-tested scripts, keyboard shortcuts, and workflow patterns developed through hundreds of hours of Claude Code usage.`}
             </Markdown>
 
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               By 5 p.m. (or sooner) you’ll walk out with:
             </h2>
             <Markdown className="prose-base w-full sm:prose-lg md:prose-xl marker:text-blue-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:text-balance prose-headings:px-5 prose-headings:font-text prose-headings:font-semibold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-normal prose-p:text-foreground prose-a:text-blue-300 prose-strong:font-semibold prose-strong:text-white prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:translate-x-1 prose-ul:list-disc hover:prose-a:underline md:prose-h2:text-5xl">
-              {`- A repo template you can clone tomorrow.
-- Scripts that refactor, test, and ship a feature while you grab coffee.
-- The quiet confidence that your AI won’t go rogue at 2 a.m.
-
-Seats are limited (because we actually review code together on Zoom, not dump a PDF and ghost you).
-
-Grab yours now—before the next demo lures you back into the almost-works trap.`}
+              {`- TypeScript SDK workflows that automate complex tasks while you sleep
+- Production-ready safety nets with sandboxed execution and proper git practices
+- Advanced CLI features and MCP integrations for team knowledge management`}
             </Markdown>
           </section>
         </div>
