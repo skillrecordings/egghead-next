@@ -176,13 +176,13 @@ const ActiveSale = ({
               Chosen by 150+ Developers Who Improved their AI Dev Workflows
             </h3>
             <p className="mb-8 text-center text-lg opacity-80 mx-auto">
-              This workshop is for developers and engineers who are ready to move
-              beyond the hype and build real, reliable, and robust systems with
-              AI. If you're comfortable with TypeScript and want to become the
-              AI architect your team needs, this is for you.
+              This workshop is for developers and engineers who are ready to
+              move beyond the hype and build real, reliable, and robust systems
+              with AI. If you're comfortable with TypeScript and want to become
+              the AI architect your team needs, this is for you.
               <br />
               <br />
-              Your path to building production-grade systems with AI starts here.
+              Your transformation into a Claude Code power user starts here.
             </p>
           </div>
           {teamToggleState ? (
@@ -376,7 +376,7 @@ function SinglePurchaseUI({
         <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-800 rounded-lg text-card-foreground shadow-sm">
           <div className="flex flex-col pt-6 pb-4 px-6 space-y-2 text-center">
             <h3 className="text-2xl font-bold text-balance">
-              Build Production-Grade Systems with Claude Code
+              Transform into a Claude Code Power User
             </h3>
             <Price
               isLiveWorkshopLoading={isLiveWorkshopLoading}
