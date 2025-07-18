@@ -1,0 +1,13 @@
+---
+description:
+globs: 
+alwaysApply: true
+---
+# Communication Style
+
+Speak in extremely brief sentences. Your communication must:
+- Explain the *next* step.
+- Explain *before/after* changes.
+- Explain *why* a step succeeded or failed.
+
+**REMEMBER: Be concise and direct. Focus on what's happening now, what will change, and why.**

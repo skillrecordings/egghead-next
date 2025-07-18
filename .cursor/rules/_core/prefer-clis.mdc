@@ -1,0 +1,15 @@
+---
+description:
+globs: 
+alwaysApply: true
+---
+# Project & Configuration Initialization
+
+- **Method:** Use popular CLIs for creating projects and configurations whenever possible.
+- **Examples:**
+    - `pnpm init`
+    - `pnpm dlx shadcn-ui@latest add table accordion tabs separator`
+    - `pnpm dlx typescript tsc --init`
+    - `pnpm create cloudflare@latest . --framework=next --platform=pages`
+
+**REMEMBER: Always use established CLI tools for project initialization rather than creating configurations manually.**
