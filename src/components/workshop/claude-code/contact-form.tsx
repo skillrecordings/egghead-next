@@ -72,7 +72,7 @@ export function ContactForm({
   return (
     <div className={cn('max-w-lg sm:mx-auto mx-4', className)}>
       <h3 className="text-2xl font-bold text-center mt-4">
-        Build Production-Grade Systems with Claude Code
+        Transform into a Claude Code Power User
       </h3>
       {teamWorkshopFeatures && (
         <div className="mb-6">

@@ -248,7 +248,7 @@ WorkshopPage.getLayout = (Page: any, pageProps: any) => {
     <Layout>
       <NextSeo
         title="Become a Claude Code Power-User"
-        description="Join John Lindquist for a hands-on, technical workshop to fully understand building production-grade apps with Claude using TypeScript scripting, automation, and integrations."
+        description="Join John Lindquist for a hands-on, technical workshop to transform into a Claude Code power user using TypeScript scripting, automation, and integrations."
         openGraph={{
           images: [
             {

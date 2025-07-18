@@ -193,7 +193,7 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
           {...fadeInUp}
           className="lg:text-5xl sm:text-4xl text-xl flex flex-col relative mb-6 font-extrabold tracking-tight dark:text-white leading-tight"
         >
-          Build Production-Grade Apps with Claude Code
+          Transform into a Claude Code Power User
         </motion.h1>
 
         <motion.p
