@@ -8,6 +8,7 @@ import Image from 'next/image'
 import {Button} from '@/ui'
 import TimeAndLocation from '../shared/time-and-location'
 import {LiveWorkshop} from '@/types'
+import Logo from './hero-logo'
 
 export interface SignUpFormRef {
   focus: () => void
@@ -172,16 +173,13 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
     : 'Error'
 
   return (
-    <section className="sm:py-12 py-8 bg-white dark:bg-gray-900 md:py-10 text-center  overflow-hidden">
+    <section className="sm:py-12 py-8 bg-white dark:bg-gray-900 md:py-10 text-center  overflow-hidden max-w-3xl mx-auto">
       <div className="absolute inset-0 pattern-dots" />
       <div
         aria-hidden="true"
         className="absolute inset-0 w-full h-full bg-gradient-to-b dark:from-gray-900/90 dark:to-gray-900/70 from-gray-50 to-transparent"
       />
-      <motion.div
-        {...scaleIn}
-        className="relative max-w-4xl mx-auto px-6 mt-16"
-      >
+      <motion.div {...scaleIn} className="relative px-6 mt-16">
         {/* <Image
           className="mx-auto mb-5 sm:px-0 px-10 absolute -top-32 "
           quality={100}
@@ -190,63 +188,12 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
           width={4016 / 3}
           height={2391 / 3}
         /> */}
-        <div className="flex justify-center items-center mb-5 w-full max-w-full sm:w-fit sm:mx-0 sm:px-0 px-2 font-mono text-[#ce6246] leading-tight">
-          <div className="flex flex-col gap-2 scale-50 bg-[#101114] shadow-[0_0_20px_rgba(255,255,255,0.5)] dark:shadow-black rounded-lg justify-center items-center mx-auto max-w-full">
-            <div className="w-full bg-slate-800 h-4 flex items-center pl-2 gap-1">
-              <div className="w-2 h-2 rounded-full bg-red-400" />
-              <div className="w-2 h-2 rounded-full bg-yellow-400" />
-              <div className="w-2 h-2 rounded-full bg-green-400" />
-            </div>
-            <div>
-              <pre className="text-start w-fit">
-                {` 
-██████╗ ██╗      █████╗ ██╗   ██╗██████╗ ███████╗
-██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝
-██║     ██║     ███████║██║   ██║██║  ██║█████╗  
-██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝  
-╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗
-╚═════╝╚══════╝╚═╝   ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝
-              `}
-              </pre>
-              <pre className="text-start w-fit">
-                {`
-██████╗ ██████╗ ██████╗ ███████╗ 
-██╔════╝██╔═══██╗██╔══██╗██╔═══╝
-██║     ██║   ██║██║  ██║█████╗
-██║     ██║   ██║██║  ██║██╔══╝
-██████╗╚██████╔╝██████╔╝███████╗
-╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝`}
-              </pre>
-            </div>
-            <div className="flex gap-2 scale-50 w-fit justify-start">
-              <pre className="text-start">
-                {`
-██████╗ ██╗   ██╗ ███████╗
-  ██╔═╝ ██║   ██║ ██╔════╝
-  ██║   ██║██╗██║ █████╗  
-  ██║   ██║══╝██║ ██╔══╝  
-  ██║   ██║   ██║ ███████╗
-  ╚═╝═════╝═════╝ ╚══════╝
-              `}
-              </pre>
-              <pre className="text-start">
-                {`
-██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗███████╗██╗  ██╗ ██████╗ ██████╗
-██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝██╔════╝██║  ██║██╔═══██╗██╔══██╗
-██║ █╗ ██║██║   ██║██████╔╝█████╔╝ ███████╗███████║██║   ██║██████╔╝
-██║███╗██║██║   ██║██╔══██╗██╔═██╗ ╚════██║██╔══██║██║   ██║██╔═══╝
-╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗███████║██║  ██║╚██████╔╝██║
-  ╚══╝╚═╝  ╚═════╝ ╚═╝  ╚═╝ ╚╝   ╚╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝
-              `}
-              </pre>
-            </div>
-          </div>
-        </div>
+        <Logo />
         <motion.h1
           {...fadeInUp}
           className="lg:text-5xl sm:text-4xl text-xl flex flex-col relative mb-6 font-extrabold tracking-tight dark:text-white leading-tight"
         >
-          Build Production-Grade Apps with Claude Code
+          Transform into a Claude Code Power User
         </motion.h1>
 
         <motion.p
