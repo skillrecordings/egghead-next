@@ -21,6 +21,7 @@ import {
 import {LessonResource} from '@/types'
 import TalkPlayer from '@/components/talks/talk-player'
 import PageSEO from '@/components/talks/page-seo'
+import {trpc} from '@/app/_trpc/client'
 
 type LessonProps = {
   initialLesson: any
@@ -35,6 +36,9 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
 }) => {
   const router = useRouter()
   const {viewer} = useViewer()
+  const {data: loadedLesson} = trpc.lesson.getLessonbySlug.useQuery({
+    slug: initialLesson.slug,
+  })
   const [lessonState, send] = useMachine(lessonMachine, {
     context: {
       lesson: initialLesson,
@@ -42,10 +46,6 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
     },
     services: {
       loadLesson: async () => {
-        console.debug('loading video with auth')
-        const loadedLesson = await loadLesson(initialLesson.slug)
-        console.debug('authed video loaded', {video: loadedLesson})
-
         return {
           ...initialLesson,
           ...loadedLesson,
