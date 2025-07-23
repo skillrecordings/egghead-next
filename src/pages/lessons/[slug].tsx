@@ -15,6 +15,7 @@ import type {
 } from '@skillrecordings/player/dist/machines/video-machine'
 import {GenericErrorBoundary} from '@/components/generic-error-boundary'
 import Lesson from '@/components/pages/lessons/lesson'
+import {trpc} from '@/app/_trpc/client'
 
 import {VideoProvider} from '@skillrecordings/player'
 
@@ -39,10 +40,12 @@ export const getServerSideProps: GetServerSideProps = async function ({
         },
       }
     } else {
+      // Get the most up-to-date lesson data from Course Builder database
+
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
       return {
         props: {
-          initialLesson,
+          initialLesson: initialLesson,
         },
       }
     }
@@ -62,6 +65,10 @@ const LessonPage: React.FC<
 > = ({initialLesson, ...props}) => {
   const {viewer} = useViewer()
   const [watchCount, setWatchCount] = React.useState<number>(0)
+  const {data: loadedLesson} = trpc.lesson.getLessonbySlug.useQuery({
+    slug: initialLesson.slug,
+  })
+
   const [lessonState, send] = useMachine(lessonMachine, {
     context: {
       lesson: initialLesson,
@@ -80,10 +87,6 @@ const LessonPage: React.FC<
             ),
           )
         }
-
-        console.debug('loading video with auth')
-        const loadedLesson = await loadLesson(initialLesson.slug)
-        console.debug('authed video loaded', {video: loadedLesson})
 
         return {
           ...initialLesson,
