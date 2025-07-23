@@ -11,6 +11,7 @@ import {
 } from '@/utils/lesson-metadata'
 import compactedMerge from '@/utils/compacted-merge'
 import {convertUndefinedValuesToNull} from '@/utils/convert-undefined-values-to-null'
+import {getCourseBuilderLesson} from '@/lib/get-course-builder-lesson-metadata'
 
 // code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`
@@ -141,6 +142,13 @@ export async function loadLesson(
   // this will be used to override values from graphql
   const lessonMetadataFromSanity = await loadLessonMetadataFromSanity(slug)
 
+  const lessonMetadataFromCourseBuilder = await getCourseBuilderLesson(slug)
+
+  console.log(
+    'lessonMetadataFromCourseBuilder from loadLesson',
+    lessonMetadataFromCourseBuilder,
+  )
+
   console.log('lessonMetadataFromSanity', lessonMetadataFromSanity)
 
   /*************************************
@@ -150,6 +158,7 @@ export async function loadLesson(
   let lessonMetadata = mergeLessonMetadata(
     lessonMetadataFromGraphQL,
     lessonMetadataFromSanity,
+    lessonMetadataFromCourseBuilder,
   )
 
   lessonMetadata = convertUndefinedValuesToNull(lessonMetadata)

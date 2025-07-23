@@ -1,6 +1,6 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
-import {loadAssociatedLessonsByTag} from '@/lib/lessons'
+import {loadAssociatedLessonsByTag, loadLesson} from '@/lib/lessons'
 
 export const lessonRouter = router({
   getAssociatedLessonsByTag: baseProcedure
@@ -21,5 +21,12 @@ export const lessonRouter = router({
         : data
 
       return filteredData
+    }),
+  getLessonbySlug: baseProcedure
+    .input(z.object({slug: z.string()}))
+    .query(async ({input, ctx}) => {
+      const {slug} = input
+      const lesson = await loadLesson(slug)
+      return lesson
     }),
 })

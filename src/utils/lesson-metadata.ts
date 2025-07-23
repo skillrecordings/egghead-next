@@ -3,10 +3,19 @@ import some from 'lodash/some'
 import isEmpty from 'lodash/isEmpty'
 import compactedMerge from '@/utils/compacted-merge'
 import invariant from 'tiny-invariant'
+import {Post} from '@/pages/[post]'
+
+// Type for Course Builder lesson data that includes transcript from video resource
+type CourseBuilderLessonData = {
+  transcript?: string
+  description?: string
+  title?: string
+}
 
 export const mergeLessonMetadata = (
   lessonMetadataFromGraphQL: LessonResource,
   lessonMetadataFromSanity: LessonResource,
+  lessonMetadataFromCourseBuilder: CourseBuilderLessonData | null,
 ): LessonResource => {
   // we can merge most of it together as is, but there are a few nested pieces
   // that need to be handled manually.
@@ -60,7 +69,22 @@ export const mergeLessonMetadata = (
 
   const rest = compactedMerge(secondaryRest, primaryRest)
 
-  return {collection, instructor, tags, ...rest}
+  // Course Builder data takes highest preference - spread last to override other sources
+  const courseBuilderOverrides = lessonMetadataFromCourseBuilder
+    ? {
+        ...(lessonMetadataFromCourseBuilder.title && {
+          title: lessonMetadataFromCourseBuilder.title,
+        }),
+        ...(lessonMetadataFromCourseBuilder.description && {
+          description: lessonMetadataFromCourseBuilder.description,
+        }),
+        ...(lessonMetadataFromCourseBuilder.transcript && {
+          transcript: lessonMetadataFromCourseBuilder.transcript,
+        }),
+      }
+    : {}
+
+  return {collection, instructor, tags, ...rest, ...courseBuilderOverrides}
 }
 
 const collectionIsPresent = (collection: {lessons: any[] | undefined}) => {
