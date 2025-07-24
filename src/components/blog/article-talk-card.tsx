@@ -1,11 +1,10 @@
-import useSwr from 'swr'
-import {loadLesson} from '../../lib/lessons'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
+import {trpc} from '@/app/_trpc/client'
 
 const ArticleTalkCard: React.FC<React.PropsWithChildren<{talk: any}>> = ({
   talk,
 }) => {
-  const {data} = useSwr(talk, loadLesson)
+  const {data} = trpc.lesson.getLessonbySlug.useQuery({slug: talk})
 
   return data ? (
     <div className="my-32">

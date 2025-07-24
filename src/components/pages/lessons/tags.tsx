@@ -33,7 +33,7 @@ const Tags: React.FC<
     : null
   const dependencies = courseDependencies?.dependencies || {}
 
-  const collectionTags: TagWithVersion[] = tags.map((tag: any) => {
+  const collectionTags: TagWithVersion[] = tags?.map((tag: any) => {
     const version = get(dependencies, tag.name)
     return {
       ...tag,
