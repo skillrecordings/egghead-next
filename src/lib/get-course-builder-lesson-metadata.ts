@@ -1,9 +1,24 @@
 import * as mysql from 'mysql2/promise'
-import {ConnectionOptions, RowDataPacket} from 'mysql2/promise'
+import {ConnectionOptions, RowDataPacket, Pool} from 'mysql2/promise'
 import type {Post} from '@/pages/[post]'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
+}
+
+// Create a connection pool for better performance and resource management
+let connectionPool: Pool | null = null
+
+function getConnectionPool(): Pool {
+  if (!connectionPool) {
+    connectionPool = mysql.createPool({
+      ...access,
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0,
+    })
+  }
+  return connectionPool
 }
 
 interface ParsedSlug {
@@ -69,9 +84,11 @@ export async function getCourseBuilderLesson(
   }
 
   const {hashFromSlug} = parseSlugForHash(slug)
-  const conn = await mysql.createConnection(access)
+  const pool = getConnectionPool()
+  let conn
 
   try {
+    conn = await pool.getConnection()
     const sql = `
       SELECT 
         cr_lesson.*,
@@ -143,7 +160,9 @@ export async function getCourseBuilderLesson(
     console.error('Error fetching Course Builder post metadata:', error)
     return null
   } finally {
-    await conn.end()
+    if (conn) {
+      conn.release()
+    }
   }
 }
 
@@ -163,9 +182,11 @@ export async function getCourseBuilderVideoResource(
   }
 
   const {hashFromSlug} = parseSlugForHash(slug)
-  const conn = await mysql.createConnection(access)
+  const pool = getConnectionPool()
+  let conn
 
   try {
+    conn = await pool.getConnection()
     // Get video resource
     const [videoResourceRows] = await conn.execute<RowDataPacket[]>(
       `
@@ -198,6 +219,8 @@ export async function getCourseBuilderVideoResource(
     console.error('Error fetching Course Builder video resource:', error)
     return null
   } finally {
-    await conn.end()
+    if (conn) {
+      conn.release()
+    }
   }
 }
