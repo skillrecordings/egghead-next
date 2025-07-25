@@ -65,9 +65,8 @@ const LessonPage: React.FC<
 > = ({initialLesson, ...props}) => {
   const {viewer} = useViewer()
   const [watchCount, setWatchCount] = React.useState<number>(0)
-  const {data: loadedLesson} = trpc.lesson.getLessonbySlug.useQuery({
-    slug: initialLesson.slug,
-  })
+
+  const utils = trpc.useUtils()
 
   const [lessonState, send] = useMachine(lessonMachine, {
     context: {
@@ -88,9 +87,16 @@ const LessonPage: React.FC<
           )
         }
 
+        await utils.lesson.getLessonbySlug.invalidate({
+          slug: initialLesson.slug,
+        })
+        const freshLesson = await utils.lesson.getLessonbySlug.fetch({
+          slug: initialLesson.slug,
+        })
+
         return {
           ...initialLesson,
-          ...loadedLesson,
+          ...freshLesson,
         }
       },
     },

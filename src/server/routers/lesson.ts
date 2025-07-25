@@ -26,7 +26,7 @@ export const lessonRouter = router({
     .input(z.object({slug: z.string()}))
     .query(async ({input, ctx}) => {
       const {slug} = input
-      const lesson = await loadLesson(slug)
+      const lesson = await loadLesson(slug, ctx?.userToken)
       return lesson
     }),
 })
