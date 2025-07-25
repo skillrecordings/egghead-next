@@ -1,0 +1,13 @@
+---
+description:
+globs: 
+alwaysApply: true
+---
+# Terminal Command Execution
+
+- **CRITICAL:** 
+
+- Avoid newline characters (`\n`) within *single arguments* or *strings* passed to the terminal tool. This prevents parsing errors.
+- Avoid pagers by using `| cat` or `| tee` (for example, `gh run list --limit 5 | cat`).
+
+**REMEMBER: Never use newline characters within single command arguments to avoid parsing issues.**
