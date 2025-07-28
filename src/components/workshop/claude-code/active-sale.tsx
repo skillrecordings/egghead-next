@@ -343,12 +343,7 @@ const Price = ({
         </div>
       )
     default:
-      return (
-        <p className="flex justify-center text-5xl font-bold ">
-          $350
-          <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
-        </p>
-      )
+      return <p className="flex justify-center text-5xl font-bold ">$350</p>
   }
 }
 
