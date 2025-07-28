@@ -1,0 +1,12 @@
+---
+description:
+globs: 
+alwaysApply: true
+---
+# Guiding Principles
+
+1. **Observability:** Add excessive logging.
+2. **Many Small Files:** ALWAYS prefer creating new files over adding to existing ones.
+3. **Micro-Milestones:** Perform work in commit-sized chunks. Optimize for easy rewinding.
+
+**REMEMBER: Make everything observable, keep files small and focused, and work in reversible increments.**

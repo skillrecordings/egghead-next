@@ -1,0 +1,32 @@
+---
+description:
+globs: 
+alwaysApply: true
+---
+# Git Practices
+
+- **Commit Messages:** ALWAYS use `fix:`, `feat:`, or `chore:` prefixes.
+- **Verification:** NEVER use `--no-verify` or bypass pre-commit hooks.
+- **Pushing Code:** NEVER push failing tests to the repository.
+- **Avoid Interactive:** NEVER use `git rebase --continue`, `git commit --amend`, or other interactive commands. You do not have access to the interactive terminal.
+
+**REMEMBER: Use semantic commit prefixes, respect pre-commit hooks, ensure tests pass before pushing, and avoid interactive git commands.**---
+description:
+globs: 
+alwaysApply: true
+---
+# Testing Standards
+
+- **Execution:** Always run tests in single-run mode (no watch mode).
+- **Failure:** Prefer to fail-fast (e.g., "bail=1" or equivalent).
+
+**REMEMBER: Run tests in single-run mode and configure them to fail fast on first error.**---
+description:
+globs: 
+alwaysApply: true
+---
+# Package Managers
+
+- **Default:** Use `pnpm` unless explicitly specified otherwise.
+
+**REMEMBER: Always use pnpm as the default package manager for all operations.**
