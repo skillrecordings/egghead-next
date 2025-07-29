@@ -33,11 +33,11 @@ export default function Instructor() {
               <p className="mb-8 text-lg opacity-90 md:text-left text-center">
                 John Lindquist is your guide through the complexities of
                 AI-driven development. As the founder of egghead.io, he has
-                helped thousands of developers navigate new technologies with
-                clarity and confidence. Now, he's here to show you exactly how
-                to transform frustrating moments into opportunities for deeper
-                learning and success—using the full power of Cursor's Chat,
-                Composer, and Bugfinding modes.
+                helped tens of thousands of developers navigate new technologies
+                with clarity and confidence. Now, he's here to show you exactly
+                how to transform frustrating moments into opportunities for
+                deeper learning and success using AI-powered tools like Cursor,
+                Claude Code, and more.
               </p>
             </div>
           </div>
