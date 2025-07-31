@@ -2,7 +2,7 @@
   "name": "egghead-io-nextjs",
   "version": "0.1.0",
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   },
   "resolutions": {
     "autoprefixer": "10.4.5"
