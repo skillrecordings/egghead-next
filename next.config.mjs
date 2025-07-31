@@ -1,34 +1,27 @@
-/** @type {import('next').NextConfig} */
-const withSvgr = require(`next-svgr`)
-const withBundleAnalyzer = require(`@next/bundle-analyzer`)
-const withPlugins = require(`next-compose-plugins`)
-const rehypeShiki = require(`rehype-shiki`)
-const checkEnv = require(`@47ng/check-env`).default
-const withImages = require(`next-images`)
-const withMDX = require(`@next/mdx`)({
-  extension: /\.mdx?$/,
-  options: {
-    rehypePlugins: [
-      [
-        rehypeShiki,
-        {
-          theme: `./src/styles/material-theme-dark.json`,
-          useBackground: false,
-        },
-      ],
-    ],
-  },
-})
-const compact = require('lodash/compact')
-const {hostname} = require('os')
+import withSvgr from 'next-svgr';
+import withBundleAnalyzer from '@next/bundle-analyzer';
+import withPlugins from 'next-compose-plugins';
+import checkEnv from '@47ng/check-env';
+import withImages from 'next-images';
+import compact from 'lodash/compact.js';
+import {hostname} from 'os';
+import createMDX from '@next/mdx';
+import remarkGfm from 'remark-gfm';
+import remarkSlug from 'remark-slug';
+import remarkFootnotes from 'remark-footnotes';
+import remarkCodeTitles from 'remark-code-titles';
+import rehypeShiki from 'rehype-shiki';
+import rehypeRaw from 'rehype-raw';
+import { remarkCodeHike } from '@code-hike/mdx'
 
-const searchUrlRoot = `/q`
 
-checkEnv({
+const searchUrlRoot = `/q`;
+
+checkEnv.default({
   required: [`NEXT_PUBLIC_DEPLOYMENT_URL`, `NEXT_PUBLIC_AUTH_DOMAIN`],
-})
+});
 
-const appUrl = process.env.NEXT_PUBLIC_AUTH_DOMAIN
+const appUrl = process.env.NEXT_PUBLIC_AUTH_DOMAIN;
 
 const IMAGE_HOST_DOMAINS = compact([
   {
@@ -95,11 +88,12 @@ const IMAGE_HOST_DOMAINS = compact([
     protocol: 'https',
     hostname: 'media.cleanshot.cloud',
   },
-])
+]);
 
 const nextConfig = {
   transpilePackages: ['unist-util-visit', 'react-tweet'],
   reactStrictMode: true,
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   images: {
     remotePatterns: IMAGE_HOST_DOMAINS,
   },
@@ -114,9 +108,9 @@ const nextConfig = {
       ...searchRoutes,
       ...instructorRoutes,
       ...learnRoutes,
-    ]
+    ];
   },
-}
+};
 
 const learnRoutes = [
   {
@@ -184,7 +178,7 @@ const learnRoutes = [
     destination: `/blog/performance-task-patterns`,
     permanent: true,
   },
-]
+];
 
 const instructorRoutes = [
   {
@@ -203,7 +197,7 @@ const instructorRoutes = [
     permanent: true,
   },
   {source: `/instructors`, destination: searchUrlRoot, permanent: true},
-]
+];
 
 const searchRoutes = [
   {source: `/search`, destination: searchUrlRoot, permanent: true},
@@ -212,7 +206,7 @@ const searchRoutes = [
     destination: `${appUrl}/s/:all*`,
     permanent: true,
   },
-]
+];
 
 const legacyRoutes = [
   {
@@ -300,7 +294,7 @@ const legacyRoutes = [
     destination: `${appUrl}/admin/:all*`,
     permanent: true,
   },
-]
+];
 
 const contentIndexRoutes = [
   {
@@ -320,7 +314,7 @@ const contentIndexRoutes = [
   },
   {source: `/browse/:all*`, destination: searchUrlRoot, permanent: true},
   {source: `/browse/:context`, destination: searchUrlRoot, permanent: true},
-]
+];
 
 const apiRoutes = [
   {
@@ -333,7 +327,7 @@ const apiRoutes = [
     destination: `${appUrl}/graphql`,
     permanent: true,
   },
-]
+];
 
 const contentCrudRoutes = [
   {
@@ -356,7 +350,7 @@ const contentCrudRoutes = [
     destination: `${appUrl}/podcasts/:title/:rest`,
     permanent: true,
   },
-]
+];
 
 const teamRoutes = [
   {
@@ -394,7 +388,7 @@ const teamRoutes = [
     destination: `${appUrl}/saml_certificates/:all*`,
     permanent: true,
   },
-]
+];
 
 const rssRoutes = [
   {
@@ -417,30 +411,34 @@ const rssRoutes = [
     destination: `${appUrl}/courses/:id/course_feed`,
     permanent: true,
   },
-
   {
     source: `/playlists/:id/playlist_feed`,
     destination: `${appUrl}/playlists/:id/playlist_feed`,
     permanent: true,
   },
-]
+];
 
-module.exports = withPlugins(
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [
+      remarkGfm,
+      remarkSlug,
+      remarkFootnotes,
+      remarkCodeTitles,
+      [remarkCodeHike, { autoImport: false }],
+    ],
+    rehypePlugins: [rehypeRaw, rehypeShiki],
+  },
+});
+
+export default withPlugins(
   [
     withBundleAnalyzer({
       enabled: process.env.ANALYZE === `true`,
     }),
     withSvgr,
     withImages(),
-    withMDX({
-      pageExtensions: [`ts`, `tsx`, `mdx`],
-      remarkPlugins: [
-        require(`remark-slug`),
-        require(`remark-footnotes`),
-        require(`remark-code-titles`),
-      ],
-      rehypePlugins: [],
-    }),
+    withMDX
   ],
   nextConfig,
-)
+);
