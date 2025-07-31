@@ -66,13 +66,13 @@ const Item: FunctionComponent<
   }>
 > = ({children, path, onClick}) => (
   <li className="py-1 text-base leading-relaxed md:text-sm">
-    <Link href={path} activeClassName="underline">
-      <a
-        onClick={onClick}
-        className="transition-colors duration-150 ease-in-out hover:text-blue-600"
-      >
-        {children}
-      </a>
+    <Link
+      href={path}
+      activeClassName="underline"
+      onClick={onClick}
+      className="transition-colors duration-150 ease-in-out hover:text-blue-600"
+    >
+      {children}
     </Link>
   </li>
 )
@@ -95,15 +95,16 @@ const FooterNavigation: FunctionComponent<
       className="flex flex-col items-center justify-between w-full gap-6 pt-16 pb-16 space-y-6 md:space-y-0 md:flex-row md:items-start md:pt-14 lg:pb-40"
     >
       <div className="flex flex-col items-center h-full space-y-5 md:items-start max-w-[18rem]">
-        <Link href="/">
-          <a className="flex flex-col items-center space-y-3 text-center md:flex-row md:items-start md:text-left md:space-x-2 md:space-y-0">
-            <div className="flex-shrink-0 w-12 md:w-8">
-              <Image src={Eggo} alt="egghead.io logo" />
-            </div>
-            <div className="mt-1 text-lg font-semibold tracking-tight leading-tighter">
-              Expert led courses for professional front-end web developers.
-            </div>
-          </a>
+        <Link
+          href="/"
+          className="flex flex-col items-center space-y-3 text-center md:flex-row md:items-start md:text-left md:space-x-2 md:space-y-0"
+        >
+          <div className="flex-shrink-0 w-12 md:w-8">
+            <Image src={Eggo} alt="egghead.io logo" />
+          </div>
+          <div className="mt-1 text-lg font-semibold tracking-tight leading-tighter">
+            Expert led courses for professional front-end web developers.
+          </div>
         </Link>
       </div>
       <div className="grid items-center w-full grid-cols-1 text-center md:grid-cols-2 lg:pr-6 md:gap-10 md:text-left md:items-start md:w-auto">
@@ -147,15 +148,17 @@ const Footer: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
         {isMounted && <FooterNavigation />}
         <small className="flex items-center justify-center w-full py-6 space-x-6 text-xs text-gray-500 md:justify-end dark:text-gray-300">
           <div>©egghead.io</div>
-          <Link href="/privacy">
-            <a onClick={() => track(`clicked privacy`, {location: 'footer'})}>
-              Terms & Conditions
-            </a>
+          <Link
+            href="/privacy"
+            onClick={() => track(`clicked privacy`, {location: 'footer'})}
+          >
+            Terms & Conditions
           </Link>
-          <Link href="/faq">
-            <a onClick={() => track(`clicked faq`, {location: 'footer'})}>
-              FAQ
-            </a>
+          <Link
+            href="/faq"
+            onClick={() => track(`clicked faq`, {location: 'footer'})}
+          >
+            FAQ
           </Link>
           {isMounted && <DarkModeToggle />}
         </small>

@@ -1,5 +1,12 @@
 import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
-import {Card, CardPreview, CardHeader, CardBody, CardMeta} from './index'
+import {
+  Card,
+  CardPreview,
+  CardHeader,
+  CardBody,
+  CardMeta,
+  CardFooter,
+} from './index'
 import Image from 'next/image'
 import Link from 'next/link'
 import Markdown from '../markdown'
@@ -41,9 +48,7 @@ A Cool Card
         </CardBody>
         <CardMeta>by {simpleResource.byline}</CardMeta>
         <CardFooter>
-          <Link href={simpleResource.path}>
-            <a>This one?</a>
-          </Link>
+          <Link href={simpleResource.path}>This one?</Link>
         </CardFooter>
       </Card>
     </div>

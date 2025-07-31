@@ -1,8 +1,7 @@
 'use client'
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import Link from '../../link'
-import NextLink from 'next/link'
+import Link from '@/components/link'
 import Image from 'next/image'
 import Eggo from '@/components/icons/eggo'
 import {useViewer} from '@/context/viewer-context'
@@ -177,7 +176,7 @@ const NavLink: React.FC<React.PropsWithChildren<NavLinkProps>> = ({
         className={props.className}
       />
     ) : href ? (
-      React.createElement(NextLink, {href, ...props})
+      React.createElement(Link, {href, ...props})
     ) : (
       React.createElement('button', {
         ...props,
@@ -264,23 +263,22 @@ const NavDropdown: React.FC<
                       ))}
                     </div>
                     {href && (
-                      <Link href={href}>
-                        <a
-                          onClick={() => {
-                            track(`clicked All ${name}`, {
-                              location: 'header',
-                            })
-                          }}
-                          className="flex items-center w-full px-5 py-3 font-medium leading-tight transition duration-150 ease-in-out rounded-sm lg:col-span-2 lg:px-5 sm:px-3 group hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth justify-between"
+                      <Link
+                        href={href}
+                        onClick={() => {
+                          track(`clicked All ${name}`, {
+                            location: 'header',
+                          })
+                        }}
+                        className="flex items-center w-full px-5 py-3 font-medium leading-tight transition duration-150 ease-in-out rounded-sm lg:col-span-2 lg:px-5 sm:px-3 group hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth justify-between"
+                      >
+                        All {name}{' '}
+                        <span
+                          className="inline-flex pl-1 transition group-hover:translate-x-1 dark:text-gray-400 text-gray-600"
+                          aria-hidden="true"
                         >
-                          All {name}{' '}
-                          <span
-                            className="inline-flex pl-1 transition group-hover:translate-x-1 dark:text-gray-400 text-gray-600"
-                            aria-hidden="true"
-                          >
-                            &rarr;
-                          </span>
-                        </a>
+                          &rarr;
+                        </span>
                       </Link>
                     )}
                   </div>
@@ -387,20 +385,19 @@ export default Header
 
 const Team = () => {
   return (
-    <Link href={`/user/team`}>
-      <a
-        onClick={() =>
-          analytics.events.activityInternalLinkClick(
-            'page',
-            'header',
-            'team',
-            '/user/team',
-          )
-        }
-        className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
-      >
-        Team
-      </a>
+    <Link
+      href={`/user/team`}
+      onClick={() =>
+        analytics.events.activityInternalLinkClick(
+          'page',
+          'header',
+          'team',
+          '/user/team',
+        )
+      }
+      className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
+    >
+      Team
     </Link>
   )
 }
@@ -471,66 +468,62 @@ const ProfileDropdown: React.FC<
                 <div className="overflow-hidden max-w-[200px] rounded-b-lg shadow-lg ring-1 ring-black ring-opacity-5">
                   <div className="relative bg-white dark:bg-gray-800">
                     <div className="py-2 flex flex-col w-full">
-                      <Link href={`/user/membership`}>
-                        <a
-                          onClick={() =>
-                            analytics.events.activityInternalLinkClick(
-                              'page',
-                              'header',
-                              'membership',
-                              '/user/membership',
-                            )
-                          }
-                          className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
-                        >
-                          Membership
-                        </a>
+                      <Link
+                        href={`/user/membership`}
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'page',
+                            'header',
+                            'membership',
+                            '/user/membership',
+                          )
+                        }
+                        className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
+                      >
+                        Membership
                       </Link>
                       {showTeamNavLink && <Team />}
-                      <Link href={`/user/profile`}>
-                        <a
-                          onClick={() =>
-                            analytics.events.activityInternalLinkClick(
-                              'page',
-                              'header',
-                              'profile',
-                              '/user/profile',
-                            )
-                          }
-                          className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
-                        >
-                          Profile
-                        </a>
+                      <Link
+                        href={`/user/profile`}
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'page',
+                            'header',
+                            'profile',
+                            '/user/profile',
+                          )
+                        }
+                        className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
+                      >
+                        Profile
                       </Link>
-                      <Link href={`/user/activity`}>
-                        <a
-                          onClick={() =>
-                            analytics.events.activityInternalLinkClick(
-                              'page',
-                              'header',
-                              'activity',
-                              '/user/activity',
-                            )
-                          }
-                          className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
-                        >
-                          Activity
-                        </a>
+                      <Link
+                        href={`/user/activity`}
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'page',
+                            'header',
+                            'activity',
+                            '/user/activity',
+                          )
+                        }
+                        className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
+                      >
+                        Activity
                       </Link>
-                      <Link href={`/user/bookmarks`}>
-                        <a
-                          onClick={() =>
-                            analytics.events.activityInternalLinkClick(
-                              'page',
-                              'header',
-                              'bookmarks',
-                              '/user/bookmarks',
-                            )
-                          }
-                          className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
-                        >
-                          Bookmarks
-                        </a>
+                      <Link
+                        href={`/user/bookmarks`}
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'page',
+                            'header',
+                            'bookmarks',
+                            '/user/bookmarks',
+                          )
+                        }
+                        className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
+                      >
+                        Bookmarks
                       </Link>
                       <hr className="opacity-20" />
 
@@ -541,19 +534,18 @@ const ProfileDropdown: React.FC<
                         Feedback
                       </FeedbackInput>
 
-                      <Link href={`/logout`}>
-                        <a
-                          onClick={() =>
-                            analytics.events.activityInternalLinkClick(
-                              'logout',
-                              'header',
-                              'logout',
-                            )
-                          }
-                          className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
-                        >
-                          Log Out
-                        </a>
+                      <Link
+                        href={`/logout`}
+                        onClick={() =>
+                          analytics.events.activityInternalLinkClick(
+                            'logout',
+                            'header',
+                            'logout',
+                          )
+                        }
+                        className="flex items-center justify-start px-5 py-2 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
+                      >
+                        Log Out
                       </Link>
                     </div>
                   </div>
@@ -608,7 +600,7 @@ const MobileNavigation = () => {
               <div className="flex flex-col w-full text-base">
                 {navLinks.slice(1, navLinks.length).map((item) =>
                   item.href ? (
-                    <NextLink
+                    <Link
                       key={item.name}
                       href={item.href}
                       onClick={() => {
@@ -621,7 +613,7 @@ const MobileNavigation = () => {
                       className="flex justify-between font-medium items-center px-5 py-4 w-full"
                     >
                       {item.name}
-                    </NextLink>
+                    </Link>
                   ) : null,
                 )}
                 <MobileTopicsList />
@@ -633,99 +625,93 @@ const MobileNavigation = () => {
                     >
                       Feedback
                     </FeedbackInput>
-                    <Link href={`/user/membership`}>
-                      <a
-                        onClick={() =>
-                          analytics.events.activityInternalLinkClick(
-                            'page',
-                            'mobile header',
-                            'membership',
-                            '/user/membership',
-                          )
-                        }
-                        className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
-                      >
-                        Membership
-                      </a>
+                    <Link
+                      href={`/user/membership`}
+                      onClick={() =>
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'membership',
+                          '/user/membership',
+                        )
+                      }
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                    >
+                      Membership
                     </Link>
                     {showTeamNavLink && <Team />}
-                    <Link href={`/user/profile`}>
-                      <a
-                        onClick={() =>
-                          analytics.events.activityInternalLinkClick(
-                            'page',
-                            'mobile header',
-                            'profile',
-                            '/user/profile',
-                          )
-                        }
-                        className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
-                      >
-                        Profile
-                      </a>
+                    <Link
+                      href={`/user/profile`}
+                      onClick={() =>
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'profile',
+                          '/user/profile',
+                        )
+                      }
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                    >
+                      Profile
                     </Link>
-                    <Link href={`/user/activity`}>
-                      <a
-                        onClick={() =>
-                          analytics.events.activityInternalLinkClick(
-                            'page',
-                            'mobile header',
-                            'activity',
-                            '/user/activity',
-                          )
-                        }
-                        className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
-                      >
-                        Activity
-                      </a>
+                    <Link
+                      href={`/user/activity`}
+                      onClick={() =>
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'activity',
+                          '/user/activity',
+                        )
+                      }
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                    >
+                      Activity
                     </Link>
-                    <Link href={`/bookmarks`}>
-                      <a
-                        onClick={() =>
-                          analytics.events.activityInternalLinkClick(
-                            'page',
-                            'mobile header',
-                            'bookmarks',
-                            '/bookmarks',
-                          )
-                        }
-                        className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
-                      >
-                        Bookmarks
-                      </a>
+                    <Link
+                      href={`/bookmarks`}
+                      onClick={() =>
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'bookmarks',
+                          '/bookmarks',
+                        )
+                      }
+                      className="flex items-center justify-start px-5 py-4 font-medium transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth border-b border-gray-200 border-opacity-40 dark:border-opacity-5"
+                    >
+                      Bookmarks
                     </Link>
-                    <Link href={`/logout`}>
-                      <a
-                        onClick={() =>
-                          analytics.events.activityInternalLinkClick(
-                            'logout',
-                            'mobile header',
-                            'logout',
-                          )
-                        }
-                        className="flex text-base items-center justify-start px-5 py-4 font-semibold transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
-                      >
-                        Log Out
-                      </a>
+                    <Link
+                      href={`/logout`}
+                      onClick={() =>
+                        analytics.events.activityInternalLinkClick(
+                          'logout',
+                          'mobile header',
+                          'logout',
+                        )
+                      }
+                      className="flex text-base items-center justify-start px-5 py-4 font-semibold transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
+                    >
+                      Log Out
                     </Link>
                   </div>
                 )}
                 <div>
                   {showEnrollNow && (
-                    <Link href={`/pricing`}>
-                      <a
-                        onClick={() =>
-                          analytics.events.activityInternalLinkClick(
-                            'page',
-                            'mobile header',
-                            'pricing',
-                            '/pricing',
-                          )
-                        }
-                        className="flex text-base text-white font-medium items-center justify-start px-5 py-4 transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth bg-blue-500"
-                      >
-                        Enroll Now
-                      </a>
+                    <Link
+                      href={`/pricing`}
+                      onClick={() =>
+                        analytics.events.activityInternalLinkClick(
+                          'page',
+                          'mobile header',
+                          'pricing',
+                          '/pricing',
+                        )
+                      }
+                      className="flex text-base text-white font-medium items-center justify-start px-5 py-4 transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth bg-blue-500"
+                    >
+                      Enroll Now
                     </Link>
                   )}
                 </div>
@@ -783,26 +769,25 @@ const MobileTopicsList = () => {
                 </span>
               </a>
             ))}
-            <Link href="/topics">
-              <a
-                onClick={() => {
-                  analytics.events.activityInternalLinkClick(
-                    'search all topics',
-                    'header mobile browse',
-                    'all topics',
-                    '/topics',
-                  )
-                }}
-                className="flex items-center w-full px-5 py-3 font-medium leading-tight transition duration-150 ease-in-out rounded-sm lg:col-span-2 lg:px-5 sm:px-3 group hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth justify-between border-t dark:border-gray-800 border-gray-100"
+            <Link
+              href="/topics"
+              onClick={() => {
+                analytics.events.activityInternalLinkClick(
+                  'search all topics',
+                  'header mobile browse',
+                  'all topics',
+                  '/topics',
+                )
+              }}
+              className="flex items-center w-full px-5 py-3 font-medium leading-tight transition duration-150 ease-in-out rounded-sm lg:col-span-2 lg:px-5 sm:px-3 group hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth justify-between border-t dark:border-gray-800 border-gray-100"
+            >
+              Browse all topics{' '}
+              <span
+                className="inline-flex pl-1 transition group-hover:translate-x-1"
+                aria-hidden="true"
               >
-                Browse all topics{' '}
-                <span
-                  className="inline-flex pl-1 transition group-hover:translate-x-1"
-                  aria-hidden="true"
-                >
-                  &rarr;
-                </span>
-              </a>
+                &rarr;
+              </span>
             </Link>
           </div>
         </AccordionContent>
@@ -813,13 +798,11 @@ const MobileTopicsList = () => {
 
 const Logo = () => {
   return (
-    <Link href="/">
-      <a className="flex items-center pr-2">
-        <Eggo className="mr-1 sm:w-8 w-7" />
-        <span className="inline-block text-base font-semibold sm:text-lg">
-          egghead.io
-        </span>
-      </a>
+    <Link href="/" className="flex items-center pr-2">
+      <Eggo className="mr-1 sm:w-8 w-7" />
+      <span className="inline-block text-base font-semibold sm:text-lg">
+        egghead.io
+      </span>
     </Link>
   )
 }
