@@ -59,6 +59,42 @@ const IMAGE_HOST_DOMAINS = compact([
     protocol: 'https',
     hostname: `pbs.twimg.com`,
   },
+  {
+    protocol: 'https',
+    hostname: 'avatars.githubusercontent.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'abs.twimg.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'images.unsplash.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'dl.airtable.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'og-image-react-egghead.now.sh',
+  },
+  {
+    protocol: 'https',
+    hostname: 'www.gravatar.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'files.stripe.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'media.giphy.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'media.cleanshot.cloud',
+  },
 ])
 
 const nextConfig = {
@@ -66,21 +102,6 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     remotePatterns: IMAGE_HOST_DOMAINS,
-    domains: [
-      'res.cloudinary.com',
-      'avatars.githubusercontent.com',
-      'pbs.twimg.com',
-      'abs.twimg.com',
-      'images.unsplash.com',
-      'image.mux.com',
-      'dl.airtable.com',
-      'og-image-react-egghead.now.sh',
-      'www.gravatar.com',
-      'files.stripe.com',
-      'media.giphy.com',
-      'media.cleanshot.cloud',
-      'egghead.io',
-    ],
   },
   async redirects() {
     return [
