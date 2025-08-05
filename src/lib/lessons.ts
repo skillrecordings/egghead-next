@@ -11,7 +11,7 @@ import {
 } from '@/utils/lesson-metadata'
 import compactedMerge from '@/utils/compacted-merge'
 import {convertUndefinedValuesToNull} from '@/utils/convert-undefined-values-to-null'
-import {getCourseBuilderLesson} from '@/lib/get-course-builder-lesson-metadata'
+import {getCourseBuilderLesson} from '@/lib/get-course-builder-metadata'
 
 // code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`
