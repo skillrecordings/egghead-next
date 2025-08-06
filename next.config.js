@@ -63,10 +63,6 @@ const IMAGE_HOST_DOMAINS = compact([
     protocol: 'https',
     hostname: `builder.egghead.io`,
   },
-  {
-    protocol: 'https',
-    hostname: `zac-egh.ngrok.dev`,
-  },
 ])
 
 const nextConfig = {
