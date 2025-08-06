@@ -56,9 +56,6 @@ export const mergeLessonMetadata = (
    * Determine which value to take for each complex type (`collection`, `tags`,
    * and `instructor`).
    */
-  console.log('primaryCollection', primaryCollection)
-  console.log('secondaryCollection', secondaryCollection)
-  console.log('present?', collectionIsPresent(primaryCollection))
 
   const collection = collectionIsPresent(primaryCollection)
     ? primaryCollection

@@ -6,6 +6,7 @@ describe('mergeLessonMetadata()', () => {
     const graphqlMetadata = {
       title: 'Ultimate React',
       duration: 123,
+      slug: 'ultimate-react',
     } as LessonResource
     const sanityMetadata = {
       title: 'Xtreme React',
@@ -13,12 +14,18 @@ describe('mergeLessonMetadata()', () => {
     } as LessonResource
 
     const expectedResult = {
+      collection: undefined,
+      instructor: undefined,
+      tags: undefined,
       title: 'Xtreme React',
       duration: 123,
       path: '/path/to/lesson',
+      slug: 'ultimate-react',
+      ogImage:
+        'https://og-image-react-egghead.now.sh/lesson/ultimate-react?v=20201027',
     }
 
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata)
+    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
 
     expect(result).toEqual(expectedResult)
   })
@@ -26,6 +33,7 @@ describe('mergeLessonMetadata()', () => {
   test('Sanity tags override graphql tags when present', () => {
     const graphqlMetadata = {
       tags: [{name: 'Vue'}],
+      slug: 'test-lesson',
     } as LessonResource
 
     const sanityMetadata = {
@@ -33,10 +41,15 @@ describe('mergeLessonMetadata()', () => {
     } as LessonResource
 
     const expectedResult = {
+      collection: undefined,
+      instructor: undefined,
       tags: [{name: 'React'}],
+      slug: 'test-lesson',
+      ogImage:
+        'https://og-image-react-egghead.now.sh/lesson/test-lesson?v=20201027',
     }
 
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata)
+    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
 
     expect(result).toEqual(expectedResult)
   })
@@ -44,6 +57,7 @@ describe('mergeLessonMetadata()', () => {
   test('graphql tags override Sanity tags if Sanity tags are not present', () => {
     const graphqlMetadata = {
       tags: [{name: 'Vue'}],
+      slug: 'test-lesson',
     } as LessonResource
 
     const sanityMetadata = {
@@ -51,10 +65,15 @@ describe('mergeLessonMetadata()', () => {
     } as LessonResource
 
     const expectedResult = {
+      collection: undefined,
+      instructor: undefined,
       tags: [{name: 'Vue'}],
+      slug: 'test-lesson',
+      ogImage:
+        'https://og-image-react-egghead.now.sh/lesson/test-lesson?v=20201027',
     }
 
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata)
+    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
 
     expect(result).toEqual(expectedResult)
   })
@@ -62,6 +81,7 @@ describe('mergeLessonMetadata()', () => {
   test('Sanity instructor takes precedence to graphql instructor', () => {
     const graphqlMetadata = {
       instructor: {name: 'Zac Jones'},
+      slug: 'test-lesson',
     } as LessonResource
 
     const sanityMetadata = {
@@ -69,10 +89,15 @@ describe('mergeLessonMetadata()', () => {
     } as LessonResource
 
     const expectedResult = {
+      collection: undefined,
       instructor: {name: 'Ian Jones'},
+      tags: undefined,
+      slug: 'test-lesson',
+      ogImage:
+        'https://og-image-react-egghead.now.sh/lesson/test-lesson?v=20201027',
     }
 
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata)
+    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
 
     expect(result).toEqual(expectedResult)
   })
@@ -80,6 +105,7 @@ describe('mergeLessonMetadata()', () => {
   test('graphql instructor is used when Sanity instructor is not present', () => {
     const graphqlMetadata = {
       instructor: {name: 'Zac Jones'},
+      slug: 'test-lesson',
     } as LessonResource
 
     const sanityMetadata = {
@@ -87,10 +113,15 @@ describe('mergeLessonMetadata()', () => {
     } as LessonResource
 
     const expectedResult = {
+      collection: undefined,
       instructor: {name: 'Zac Jones'},
+      tags: undefined,
+      slug: 'test-lesson',
+      ogImage:
+        'https://og-image-react-egghead.now.sh/lesson/test-lesson?v=20201027',
     }
 
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata)
+    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
 
     expect(result).toEqual(expectedResult)
   })
@@ -98,6 +129,7 @@ describe('mergeLessonMetadata()', () => {
   test('Sanity collection takes precedence to graphql collection', () => {
     const graphqlMetadata = {
       collection: {title: 'Xtreme React Course', lessons: [4, 5, 6]},
+      slug: 'test-lesson',
     } as LessonResource
 
     // a collection needs to include some course metadata and a non-empty list of
@@ -108,9 +140,14 @@ describe('mergeLessonMetadata()', () => {
 
     const expectedResult = {
       collection: {title: 'Ultimate React Course', lessons: [1, 2, 3]},
+      instructor: undefined,
+      tags: undefined,
+      slug: 'test-lesson',
+      ogImage:
+        'https://og-image-react-egghead.now.sh/lesson/test-lesson?v=20201027',
     }
 
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata)
+    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
 
     expect(result).toEqual(expectedResult)
   })
@@ -118,6 +155,7 @@ describe('mergeLessonMetadata()', () => {
   test('graphql collection is used if Sanity collection is not present', () => {
     const graphqlMetadata = {
       collection: {title: 'Xtreme React Course', lessons: [4, 5, 6]},
+      slug: 'test-lesson',
     } as LessonResource
 
     // a collection needs to include some course metadata and a non-empty list of
@@ -128,9 +166,14 @@ describe('mergeLessonMetadata()', () => {
 
     const expectedResult = {
       collection: {title: 'Xtreme React Course', lessons: [4, 5, 6]},
+      instructor: undefined,
+      tags: undefined,
+      slug: 'test-lesson',
+      ogImage:
+        'https://og-image-react-egghead.now.sh/lesson/test-lesson?v=20201027',
     }
 
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata)
+    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
 
     expect(result).toEqual(expectedResult)
   })
