@@ -81,6 +81,7 @@ export type LessonResource = Resource & {
   staff_notes_url?: string
   free_forever?: boolean
   download_url?: string
+  ogImage?: string
   scrimba: {
     url: string
     transcript: string
