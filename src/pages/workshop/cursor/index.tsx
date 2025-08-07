@@ -188,7 +188,7 @@ WorkshopPage.getLayout = (Page: any, pageProps: any) => {
         openGraph={{
           images: [
             {
-              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1739448881/cursor-workshop-card_2x_mibay4.jpg',
+              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1754606095/cursor-workshop-card-v2_hck8ys.jpg',
               width: 1200,
               height: 630,
             },
