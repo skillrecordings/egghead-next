@@ -245,7 +245,10 @@ const Price = ({
   switch (true) {
     case couponToApply.type === 'ppp': {
       const discount = parityCoupon?.coupon_discount ?? 0
-      const price = (249 - 249 * discount).toFixed(2)
+      const price = (
+        Number(workshop?.workshopPrice) -
+        Number(workshop?.workshopPrice) * discount
+      ).toFixed(2)
       return (
         <div className="flex flex-col items-center justify-center gap-1">
           <div className="flex items-center justify-center gap-4">
@@ -255,7 +258,7 @@ const Price = ({
                 SAVE {discount * 100}%
               </p>
               <p className="text-2xl text-muted-foreground line-through opacity-70">
-                $249
+                ${Number(workshop?.workshopPrice)}
               </p>
             </div>
           </div>
@@ -267,10 +270,13 @@ const Price = ({
     }
     case couponToApply.type === 'earlyBird-member': {
       const earlyBirdMemberPrice = (
-        249 - Number(workshop?.stripeEarlyBirdMemberDiscount)
+        Number(workshop?.workshopPrice) -
+        Number(workshop?.stripeEarlyBirdMemberDiscount)
       ).toFixed(2)
       const earlyBirdMemberDiscount = Math.round(
-        (Number(workshop?.stripeEarlyBirdMemberDiscount) / 249) * 100,
+        (Number(workshop?.stripeEarlyBirdMemberDiscount) /
+          Number(workshop?.workshopPrice)) *
+          100,
       )
       return (
         <div className="flex flex-col items-center justify-center gap-1">
@@ -282,7 +288,7 @@ const Price = ({
                 <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
               </p>
               <p className="text-2xl text-muted-foreground line-through opacity-70">
-                $249
+                ${Number(workshop?.workshopPrice)}
               </p>
             </div>
           </div>
@@ -294,10 +300,13 @@ const Price = ({
     }
     case couponToApply.type === 'earlyBird-non-member': {
       const earlyBirdNonMemberPrice = (
-        249 - Number(workshop?.stripeEarlyBirdNonMemberDiscount)
+        Number(workshop?.workshopPrice) -
+        Number(workshop?.stripeEarlyBirdNonMemberDiscount)
       ).toFixed(2)
       const earlyBirdNonMemberDiscount = Math.round(
-        (Number(workshop?.stripeEarlyBirdNonMemberDiscount) / 249) * 100,
+        (Number(workshop?.stripeEarlyBirdNonMemberDiscount) /
+          Number(workshop?.workshopPrice)) *
+          100,
       )
       return (
         <div className="flex flex-col items-center justify-center gap-1">
@@ -309,7 +318,7 @@ const Price = ({
                 <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
               </p>
               <p className="text-2xl text-muted-foreground line-through opacity-70">
-                $249
+                ${Number(workshop?.workshopPrice)}
               </p>
             </div>
           </div>
@@ -321,10 +330,12 @@ const Price = ({
     }
     case couponToApply.type === 'member': {
       const memberPrice = (
-        249 - Number(workshop?.stripeMemberDiscount)
+        Number(workshop?.workshopPrice) - Number(workshop?.stripeMemberDiscount)
       ).toFixed(2)
       const memberDiscount = Math.round(
-        (Number(workshop?.stripeMemberDiscount) / 249) * 100,
+        (Number(workshop?.stripeMemberDiscount) /
+          Number(workshop?.workshopPrice)) *
+          100,
       )
       return (
         <div className="flex flex-col items-center justify-center gap-1">
@@ -336,7 +347,7 @@ const Price = ({
                 <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
               </p>
               <p className="text-2xl text-muted-foreground line-through opacity-70">
-                $249
+                ${Number(workshop?.workshopPrice)}
               </p>
             </div>
           </div>
@@ -348,12 +359,12 @@ const Price = ({
     }
     default: {
       const memberPriceSuggestion = (
-        249 - Number(workshop?.stripeMemberDiscount)
+        Number(workshop?.workshopPrice) - Number(workshop?.stripeMemberDiscount)
       ).toFixed(2)
       return (
         <div className="flex flex-col items-center justify-center gap-1">
           <p className="flex justify-center text-5xl font-bold ">
-            $249
+            ${Number(workshop?.workshopPrice)}
             <AsteriskIcon className="-ml-1 mt-3 w-5 h-5" />
           </p>
           <p className="text-xs text-muted-foreground font-medium text-center">
@@ -393,7 +404,7 @@ function SinglePurchaseUI({
         <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-800 rounded-lg text-card-foreground shadow-sm">
           <div className="flex flex-col pt-6 pb-4 px-6 space-y-2 text-center">
             <h3 className="text-2xl font-bold text-balance">
-              Become More Productive with Cursor
+              Become a Cursor Power User
             </h3>
             <Price
               isLiveWorkshopLoading={isLiveWorkshopLoading}
