@@ -10,6 +10,7 @@ type CourseBuilderLessonData = {
   transcript?: string
   description?: string
   title?: string
+  repo_url?: string
 }
 
 export const mergeLessonMetadata = (
@@ -80,6 +81,10 @@ export const mergeLessonMetadata = (
         }),
         ...(lessonMetadataFromCourseBuilder.transcript && {
           transcript: lessonMetadataFromCourseBuilder.transcript,
+        }),
+        // Allow Course Builder to override GitHub repo url
+        ...(lessonMetadataFromCourseBuilder.repo_url && {
+          repo_url: lessonMetadataFromCourseBuilder.repo_url,
         }),
       }
     : {}
