@@ -11,6 +11,7 @@ export const LiveWorkshopSchema = z
     isEuFriendly: z.boolean(),
     isEarlyBird: z.boolean(),
     productId: z.string(),
+    workshopPrice: z.string(),
     stripePaymentLink: z.string(),
     stripeEarlyBirdMemberCouponCode: z.string(),
     stripeMemberCouponCode: z.string(),
