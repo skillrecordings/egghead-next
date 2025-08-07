@@ -97,7 +97,7 @@ const Comments: React.FunctionComponent<
         <div className="relative flex flex-col dark:text-white">
           <CommentField disabled onSubmit={() => {}} />
 
-          <div className="absolute backdrop-blur-sm bg-gray-50/20 dark:bg-black/20 p-8 w-[105%] h-[105%] -top-1 -right-1 flex flex-col justify-center items-center gap-4">
+          <div className="absolute backdrop-blur-sm bg-gray-50 dark:bg-gray-1000 p-8 w-full h-[105%] -top-1 flex flex-col justify-center items-center gap-4">
             <span className="font-semibold flex gap-2 justify-center">
               <LockClosedIcon height={20} width={20} /> Become a member to join
               the discussion

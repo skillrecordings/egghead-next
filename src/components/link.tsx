@@ -7,9 +7,11 @@ declare type Url = string | UrlObject
 
 type LinkProps = {
   href: Url
-  children: React.ReactElement
+  children: React.ReactNode
   activeClassName?: string
   partialMatch?: boolean
+  className?: string
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
 const Link: FunctionComponent<React.PropsWithChildren<LinkProps>> = ({
@@ -17,23 +19,35 @@ const Link: FunctionComponent<React.PropsWithChildren<LinkProps>> = ({
   children,
   activeClassName,
   partialMatch = false,
+  className = '',
+  onClick,
   ...props
 }) => {
   const pathname = usePathname() || ''
-  let className = children?.props?.className || ''
-  if (partialMatch) {
-    if (pathname.includes(`${href}`)) {
-      className = `${className} ${activeClassName}`
-    }
-  } else {
-    if (pathname === href) {
-      className = `${className} ${activeClassName}`
+  let activeClass = ''
+
+  if (activeClassName) {
+    if (partialMatch) {
+      if (pathname.includes(`${href}`)) {
+        activeClass = activeClassName
+      }
+    } else {
+      if (pathname === href) {
+        activeClass = activeClassName
+      }
     }
   }
 
+  const combinedClassName = [className, activeClass].filter(Boolean).join(' ')
+
   return (
-    <NextLink href={href} {...props} legacyBehavior>
-      {React.cloneElement(children, {className})}
+    <NextLink
+      href={href}
+      className={combinedClassName}
+      onClick={onClick}
+      {...props}
+    >
+      {children}
     </NextLink>
   )
 }
