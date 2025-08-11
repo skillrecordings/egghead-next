@@ -4,9 +4,7 @@ import {format} from 'date-fns'
 
 import {useAccount} from '@/hooks/use-account'
 import SubscriptionDetails from '@/components/pages/user/components/subscription-details'
-import {ItemWrapper} from '@/components/pages/user/components/widget-wrapper'
 import PricingWidget from '@/components/pricing/pricing-widget'
-import Invoices from '@/components/invoices'
 import Spinner from '@/components/spinner'
 
 const Membership = () => {
