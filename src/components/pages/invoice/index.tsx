@@ -49,7 +49,7 @@ const Invoice: React.FunctionComponent<
           <div className="grid md:grid-cols-3 print:grid-cols-3 w-full justify-between items-start">
             <div className="col-span-2 flex items-center">
               <div className="w-10 mr-2">
-                <Image src={Eggo} alt="" />
+                <Image src={Eggo} alt="" width={40} height={40} />
               </div>
               <span className="sm:inline-block hidden text-lg font-semibold">
                 egghead.io

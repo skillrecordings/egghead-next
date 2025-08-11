@@ -100,7 +100,7 @@ const FooterNavigation: FunctionComponent<
           className="flex flex-col items-center space-y-3 text-center md:flex-row md:items-start md:text-left md:space-x-2 md:space-y-0"
         >
           <div className="flex-shrink-0 w-12 md:w-8">
-            <Image src={Eggo} alt="egghead.io logo" />
+            <Image src={Eggo} alt="egghead.io logo" width={60} height={60} />
           </div>
           <div className="mt-1 text-lg font-semibold tracking-tight leading-tighter">
             Expert led courses for professional front-end web developers.
