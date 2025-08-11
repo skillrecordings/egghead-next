@@ -2,6 +2,7 @@ import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {stripe} from '../../utils/stripe'
 import {Stripe} from 'stripe'
+import {findStripeCustomerIdByEmail} from '../../utils/stripe-customer'
 
 export const stripeRouter = router({
   checkoutSessionById: baseProcedure
@@ -145,18 +146,27 @@ export const stripeRouter = router({
         return []
       }
 
-      // Search all recent sessions and filter by customer_details.email
-      // This works for payment link purchases which don't have a customer ID
-      const sessions = await stripe.checkout.sessions.list({
-        limit: 100,
-      })
+      // Try to find a Stripe customer for this email to avoid scanning all sessions
+      const customerId = await findStripeCustomerIdByEmail(user.email)
 
-      // Filter sessions by the user's email in customer_details
-      const userSessions = sessions.data.filter((session) => {
-        return session.customer_details?.email === user.email
-      })
+      let userSessions: Stripe.Checkout.Session[] = []
 
-      console.log('userSessions----', userSessions)
+      if (customerId) {
+        // Directly list sessions for the customer; prefer completed ones
+        const sessionsByCustomer = await stripe.checkout.sessions.list({
+          customer: customerId,
+        })
+
+        userSessions = sessionsByCustomer.data
+      } else {
+        // Fallback: list recent sessions and filter by email in customer_details
+        const sessions = await stripe.checkout.sessions.list({
+          limit: 100,
+        })
+        userSessions = sessions.data.filter(
+          (session) => session.customer_details?.email === user.email,
+        )
+      }
 
       // Filter for completed workshop sessions (payment links or one-time payments)
       const workshopSessions = userSessions.filter((session) => {
