@@ -29,18 +29,7 @@ const WorkshopTransactions: React.FunctionComponent<
   }
 
   if (status === 'loading') {
-    return (
-      <div className="mt-16">
-        <Heading className="text-lg font-medium md:font-normal md:text-xl leading-none mb-4">
-          Workshop Transactions
-        </Heading>
-        <div className="flex justify-center">
-          <div className="animate-pulse text-gray-500">
-            Loading workshop transactions...
-          </div>
-        </div>
-      </div>
-    )
+    return null
   }
 
   if (!workshopTransactions || workshopTransactions.length === 0) {
