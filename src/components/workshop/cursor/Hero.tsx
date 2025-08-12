@@ -107,7 +107,7 @@ export function formatTimeInTimeZone(date: Date, timeZone: string): string {
 
 function scrollToSignup(
   e: React.MouseEvent<HTMLAnchorElement>,
-  formRef: React.RefObject<SignUpFormRef>,
+  formRef: React.RefObject<SignUpFormRef | null>,
 ) {
   e.preventDefault()
   document.querySelector('#signup')?.scrollIntoView({behavior: 'smooth'})
@@ -117,7 +117,7 @@ function scrollToSignup(
 }
 
 interface HeroProps {
-  formRef: React.RefObject<SignUpFormRef>
+  formRef: React.RefObject<SignUpFormRef | null>
   saleisActive: boolean
   workshop: LiveWorkshop
 }

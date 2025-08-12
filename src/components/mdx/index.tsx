@@ -15,7 +15,6 @@ import TopicInterestEmailEntryForm from './topic-interest-form'
 import ArticleSeriesList from './article-series-list'
 // @ts-ignore
 import {TwitterTweetEmbed} from 'react-twitter-embed'
-
 const mdxComponents = {
   Course,
   Link: (props: any) => <Link {...props} />,
