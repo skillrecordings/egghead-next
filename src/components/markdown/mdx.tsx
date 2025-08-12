@@ -6,12 +6,8 @@ import {
   type MDXRemoteProps,
 } from 'next-mdx-remote'
 import mdxComponents from './mdx-components'
-let CH: any
-try {
-  CH = require('@code-hike/mdx/components').CH
-} catch (e) {
-  CH = () => null
-}
+// Simple placeholder for CH component - not needed for basic MDX functionality
+const CH = () => null
 
 const defaultComponents = {
   CH,

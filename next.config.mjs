@@ -13,7 +13,7 @@ import remarkCodeTitles from 'remark-code-titles';
 import rehypeShiki from 'rehype-shiki';
 import rehypeRaw from 'rehype-raw';
 import { nodeTypes } from '@mdx-js/mdx';
-import { remarkCodeHike } from '@code-hike/mdx'
+// Removed @code-hike/mdx import to simplify build - using basic syntax highlighting instead
 
 
 const searchUrlRoot = `/q`;
@@ -426,7 +426,7 @@ const withMDX = createMDX({
       remarkSlug,
       remarkFootnotes,
       remarkCodeTitles,
-      [remarkCodeHike, { autoImport: false }],
+      // Removed remarkCodeHike to simplify build - using rehypeShiki for basic syntax highlighting
     ],
     // Ensure MDX ESM nodes (import/export) are passed through when using rehype-raw
     // to avoid "Cannot compile `mdxjsEsm` node" errors
