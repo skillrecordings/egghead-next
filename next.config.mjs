@@ -12,6 +12,7 @@ import remarkFootnotes from 'remark-footnotes';
 import remarkCodeTitles from 'remark-code-titles';
 import rehypeShiki from 'rehype-shiki';
 import rehypeRaw from 'rehype-raw';
+import { nodeTypes } from '@mdx-js/mdx';
 import { remarkCodeHike } from '@code-hike/mdx'
 
 
@@ -427,7 +428,9 @@ const withMDX = createMDX({
       remarkCodeTitles,
       [remarkCodeHike, { autoImport: false }],
     ],
-    rehypePlugins: [rehypeRaw, rehypeShiki],
+    // Ensure MDX ESM nodes (import/export) are passed through when using rehype-raw
+    // to avoid "Cannot compile `mdxjsEsm` node" errors
+    rehypePlugins: [[rehypeRaw, { passThrough: nodeTypes }], rehypeShiki],
   },
 });
 
