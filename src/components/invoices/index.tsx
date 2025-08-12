@@ -25,7 +25,7 @@ const Invoices: React.FunctionComponent<
           {!transactions ? null : (
             <div className="flex flex-col space-y-8">
               <Heading className="text-lg font-medium md:font-normal md:text-xl leading-none">
-                Transactions
+                Membership Transactions
               </Heading>
               <div>
                 <ul className="space-y-6">

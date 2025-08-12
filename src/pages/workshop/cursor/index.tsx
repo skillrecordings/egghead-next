@@ -77,11 +77,11 @@ const WorkshopPage = () => {
             <Markdown className="prose-base w-full sm:prose-lg md:prose-xl marker:text-blue-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:text-balance prose-headings:px-5 prose-headings:font-text prose-headings:font-semibold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-normal prose-p:text-foreground prose-a:text-blue-300 prose-strong:font-semibold prose-strong:text-white prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:translate-x-1 prose-ul:list-disc hover:prose-a:underline md:prose-h2:text-5xl">
               {`The AI development landscape shifts daily.
 
-New models drop (Gemini 2.5-flash, o3/04-mini) every week along side new agent-powered IDEs, new tools, and new 'best practices'.
+New models drop (GPT-5, Claude 4.1 Opus) every week along side new agent-powered IDEs, new tools, and new 'best practices'.
 
 It feels impossible to keep up, let alone know if you're using these powerful tools effectively.
 
-Whether you use Cursor, WindSurf, GitHub Copilot Workspace, Codeium or the next hot thing, you want to make certain you are using your tools to the best of their ability.           
+Whether you use Cursor, WindSurf, Kiro, Cline or the next hot thing, you want to make certain you are using your tools to the best of their ability.           
             `}
             </Markdown>
             <div className="flex justify-center items-center my-10">
@@ -95,7 +95,7 @@ HIGHLY Recommend`}
               />
             </div>
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
-              Don't Learn Tools, Learn the Right Workflows
+              Don't Just Learn Tools, Learn Workflows Power Users Leverage
             </h2>
             <Markdown className="prose-base w-full sm:prose-lg md:prose-xl marker:text-blue-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:text-balance prose-headings:px-5 prose-headings:font-text prose-headings:font-semibold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-normal prose-p:text-foreground prose-a:text-blue-300 prose-strong:font-semibold prose-strong:text-white prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:translate-x-1 prose-ul:list-disc hover:prose-a:underline md:prose-h2:text-5xl">
               {`This workshop takes into account the rapid changes in AI development.
@@ -104,13 +104,13 @@ You learn the fundamental principles and repeatable workflows that John has used
 
 You will understand agent behavior, tool calls, and context limitations which are the building blocks that explain why tools succeed or fail, independent of updates.
 
-We've all had AI tools fail unexpectedly or get stuck in a loop wasting time (and your prompt credits) debugging an error it has no business touching or no idea how to solve.
+We've all had AI tools fail unexpectedly or get stuck in a loop wasting time (and your credits) debugging an error it has no business touching or no idea how to solve.
 
 You'll learn to identify signals that your tools are stuck in a loop and failing and proactively prevent these from happening through thought-out plans and the right amount of context for the task at hand.
 
 After the workshop, you'll have a clear, sustainable process for leveraging AI coding tools effectively, saving you time and reducing the anxiety of constantly needing to 'catch up'.
 
-This workshop is taught using Cursor, but the principles and workflows taught are applicable to any AI coding tool.
+This workshop is taught using Cursor, but the principles and workflows are applicable to any AI coding tool.
             `}
             </Markdown>
             {mounted && theme === 'light' && (
@@ -183,12 +183,12 @@ WorkshopPage.getLayout = (Page: any, pageProps: any) => {
   return (
     <Layout>
       <NextSeo
-        title="Accelerate your development with Cursor"
+        title="Become a Cursor Power User"
         description="Join John Lindquist for an immersive workshop designed to help you conquer the frustration of getting stuck with complex AI tools."
         openGraph={{
           images: [
             {
-              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1739448881/cursor-workshop-card_2x_mibay4.jpg',
+              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1754606095/cursor-workshop-card-v2_hck8ys.jpg',
               width: 1200,
               height: 630,
             },

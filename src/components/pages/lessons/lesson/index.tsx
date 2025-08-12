@@ -778,11 +778,6 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                   )}
                 </div>
               )}
-              {description && (
-                <Markdown className="font-medium prose prose-lg dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none text-gray-1000 dark:text-white">
-                  {description}
-                </Markdown>
-              )}
               {(lesson?.code_url || lesson?.repo_url) && (
                 <div className="flex flex-col w-full space-y-2 text-sm sm:text-base dark:text-gray-100 sm:pt-2 sm:items-center sm:flex-row sm:space-x-6 sm:space-y-0">
                   {lesson?.code_url && (
@@ -812,6 +807,11 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                     </CodeLink>
                   )}
                 </div>
+              )}
+              {description && (
+                <Markdown className="font-medium prose prose-lg dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none text-gray-1000 dark:text-white">
+                  {description}
+                </Markdown>
               )}
             </div>
             <div>

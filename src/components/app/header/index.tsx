@@ -118,6 +118,19 @@ const navLinks = [
       />
     ),
   },
+  {
+    name: 'Newsletter',
+    href: '/newsletters/ai-dev-essentials',
+    image: (props?: React.SVGProps<SVGSVGElement>) => (
+      <DocumentTextIconOutline
+        strokeWidth={1.5}
+        height={20}
+        width={20}
+        aria-hidden="true"
+        {...props}
+      />
+    ),
+  },
 ]
 
 const NavLink: React.FC<React.PropsWithChildren<NavLinkProps>> = ({

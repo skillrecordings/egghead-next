@@ -162,7 +162,7 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
           height={601 / 3.75}
         />
         <h1 className="lg:text-5xl sm:text-4xl text-xl mb-6 font-extrabold tracking-tight dark:text-white leading-tight">
-          Unlock Cursor's Full Potential for Your Whole Team
+          Become a Cursor Power User
         </h1>
 
         <p className="relative mb-8 sm:text-lg md:text-lg dark:text-gray-200 text-gray-700 max-w-3xl mx-auto leading-relaxed ">

@@ -249,7 +249,10 @@ const Price = ({
   switch (true) {
     case couponToApply.type === 'ppp':
       const discount = parityCoupon?.coupon_discount ?? 0
-      const price = (350 - 350 * discount).toFixed(2)
+      const price = (
+        Number(workshop?.workshopPrice) -
+        Number(workshop?.workshopPrice) * discount
+      ).toFixed(2)
       return (
         <div className="flex flex-col items-center justify-center gap-1">
           <div className="flex items-center justify-center gap-4">
@@ -259,7 +262,7 @@ const Price = ({
                 SAVE {discount * 100}%
               </p>
               <p className="text-2xl text-muted-foreground line-through opacity-70">
-                $350
+                ${Number(workshop?.workshopPrice)}
               </p>
             </div>
           </div>
@@ -270,10 +273,13 @@ const Price = ({
       )
     case couponToApply.type === 'earlyBird-member':
       const earlyBirdMemberPrice = (
-        350 - Number(workshop?.stripeEarlyBirdMemberDiscount)
+        Number(workshop?.workshopPrice) -
+        Number(workshop?.stripeEarlyBirdMemberDiscount)
       ).toFixed(2)
       const earlyBirdMemberDiscount = Math.round(
-        (Number(workshop?.stripeEarlyBirdMemberDiscount) / 350) * 100,
+        (Number(workshop?.stripeEarlyBirdMemberDiscount) /
+          Number(workshop?.workshopPrice)) *
+          100,
       )
       return (
         <div className="flex flex-col items-center justify-center gap-1">
@@ -285,7 +291,7 @@ const Price = ({
                 <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
               </p>
               <p className="text-2xl text-muted-foreground line-through opacity-70">
-                $350
+                ${Number(workshop?.workshopPrice)}
               </p>
             </div>
           </div>
@@ -296,10 +302,13 @@ const Price = ({
       )
     case couponToApply.type === 'earlyBird-non-member':
       const earlyBirdNonMemberPrice = (
-        350 - Number(workshop?.stripeEarlyBirdNonMemberDiscount)
+        Number(workshop?.workshopPrice) -
+        Number(workshop?.stripeEarlyBirdNonMemberDiscount)
       ).toFixed(2)
       const earlyBirdNonMemberDiscount = Math.round(
-        (Number(workshop?.stripeEarlyBirdNonMemberDiscount) / 350) * 100,
+        (Number(workshop?.stripeEarlyBirdNonMemberDiscount) /
+          Number(workshop?.workshopPrice)) *
+          100,
       )
       return (
         <div className="flex flex-col items-center justify-center gap-1">
@@ -311,7 +320,7 @@ const Price = ({
                 <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
               </p>
               <p className="text-2xl text-muted-foreground line-through opacity-70">
-                $350
+                ${Number(workshop?.workshopPrice)}
               </p>
             </div>
           </div>
@@ -322,10 +331,12 @@ const Price = ({
       )
     case couponToApply.type === 'member':
       const memberPrice = (
-        350 - Number(workshop?.stripeMemberDiscount)
+        Number(workshop?.workshopPrice) - Number(workshop?.stripeMemberDiscount)
       ).toFixed(2)
       const memberDiscount = Math.round(
-        (Number(workshop?.stripeMemberDiscount) / 350) * 100,
+        (Number(workshop?.stripeMemberDiscount) /
+          Number(workshop?.workshopPrice)) *
+          100,
       )
       return (
         <div className="flex flex-col items-center justify-center gap-1">
@@ -337,7 +348,7 @@ const Price = ({
                 <AsteriskIcon className="-ml-[2px] -mt-1 w-4 h-4" />
               </p>
               <p className="text-2xl text-muted-foreground line-through opacity-70">
-                $350
+                ${Number(workshop?.workshopPrice)}
               </p>
             </div>
           </div>
@@ -347,7 +358,11 @@ const Price = ({
         </div>
       )
     default:
-      return <p className="flex justify-center text-5xl font-bold ">$350</p>
+      return (
+        <p className="flex justify-center text-5xl font-bold ">
+          ${Number(workshop?.workshopPrice)}
+        </p>
+      )
   }
 }
 
