@@ -13,13 +13,15 @@ export default async function LessonPage({
   searchParams,
   params,
 }: {
-  searchParams: URLSearchParams
-  params: {
+  searchParams: Promise<URLSearchParams>
+  params: Promise<{
     lesson: string
     course: string
-  }
+  }>
 }) {
-  const cookieStore = cookies()
+  const {lesson, course} = await params
+  const resolvedSearchParams = await searchParams
+  const cookieStore = await cookies()
   const userToken = cookieStore?.get(ACCESS_TOKEN_KEY ?? '')?.value
   const ability = await getAbilityFromToken(userToken)
 
@@ -27,8 +29,8 @@ export default async function LessonPage({
     redirect('/')
   }
 
-  const lessonLoader = loadLesson(params.lesson)
-  const courseLoader = loadCourse(params.course)
+  const lessonLoader = loadLesson(lesson)
+  const courseLoader = loadCourse(course)
 
   return (
     <div>

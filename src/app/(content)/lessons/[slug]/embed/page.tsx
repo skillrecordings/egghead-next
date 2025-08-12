@@ -4,11 +4,12 @@ import {VideoResource} from '@/types'
 import Embed from './_components/embed-lesson'
 
 type Props = {
-  params: {slug: string}
+  params: Promise<{slug: string}>
 }
 
 export default async function LessonEmbedPage({params}: Props) {
-  const initialLesson = await loadLesson(params.slug)
+  const {slug} = await params
+  const initialLesson = await loadLesson(slug)
 
   if (!initialLesson) {
     return <div>Lesson not found</div>

@@ -1,5 +1,5 @@
 'use client'
-import {motion} from 'framer-motion'
+import {motion} from 'motion/react'
 import {fadeInUp} from '../shared/animations'
 
 export default function Conclusion() {

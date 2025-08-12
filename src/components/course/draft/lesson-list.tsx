@@ -498,7 +498,7 @@ const SortableLessonList: React.FunctionComponent<
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   )
-  const timeout = React.useRef<any>()
+  const timeout = React.useRef<NodeJS.Timeout | null>(null)
   const updateCourseListOrderMutation =
     trpc.instructor.updateLessonListOrder.useMutation({
       onSuccess: (data) => {
@@ -520,7 +520,9 @@ const SortableLessonList: React.FunctionComponent<
     })
 
   function handleDragEnd(event: any) {
-    clearTimeout(timeout.current)
+    if (timeout.current) {
+      clearTimeout(timeout.current)
+    }
 
     const {active, over} = event
 

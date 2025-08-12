@@ -42,7 +42,7 @@ type VideoContextType = {
   // refetchAbility: () => void
   loadingUserStatus: boolean
   // ability: AppAbility
-  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>
+  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes | null>
   handleContinue: (options: {
     router: NextRouter
     module: Module
@@ -65,7 +65,7 @@ export const VideoContext = React.createContext({} as VideoContextType)
 type VideoProviderProps = {
   exerciseSlug?: string
   path?: string
-  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>
+  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes | null>
   onEnded?: () => Promise<any>
   onModuleEnded?: () => Promise<any>
   onModuleStarted?: () => Promise<any>

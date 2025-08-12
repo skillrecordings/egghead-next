@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import {motion} from 'framer-motion'
+import {motion} from 'motion/react'
 import {fadeInUp, scaleIn} from '../shared/animations'
 import {useState, useEffect} from 'react'
 import '../shared/styles.css'

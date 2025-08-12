@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import {motion} from 'framer-motion'
+import {motion} from 'motion/react'
 import {fadeInUp} from '../shared/animations'
 import GenericNewsletterSignupForm from '@/components/forms/generic-newsletter-signup'
 

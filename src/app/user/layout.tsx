@@ -13,7 +13,7 @@ export default async function UserPageLayout({
 }: {
   children: React.ReactNode
 }) {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const eggheadToken = cookieStore?.get(ACCESS_TOKEN_KEY ?? '')?.value ?? ''
 
   const user = await fetchEggheadUser(eggheadToken, false)

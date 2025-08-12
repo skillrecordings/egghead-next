@@ -4,7 +4,7 @@ import {getAbilityFromToken} from '@/server/ability'
 import {redirect} from 'next/navigation'
 
 const NewTip = async () => {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const userToken = cookieStore?.get(ACCESS_TOKEN_KEY ?? '')?.value
   const ability = await getAbilityFromToken(userToken)
 
