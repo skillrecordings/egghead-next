@@ -4,8 +4,6 @@ import {useViewer} from '@/context/viewer-context'
 import CreateAccount from '../create-account'
 import Join from '../join'
 import Browse from '../browse'
-import HeroBgLight from './hero-bg-light.png'
-import HeroBgDark from './hero-bg-dark.png'
 import Image from 'next/legacy/image'
 import TechLogos from '../tech-logos'
 import title from 'title'
@@ -29,14 +27,17 @@ const Header: React.FC<
       <div className="sm:min-h-[30vh] relative w-full flex flex-col items-center justify-center sm:py-32 py-24 px-5">
         {isMounted && (
           <Image
-            src={resolvedTheme === 'dark' ? HeroBgDark : HeroBgLight}
+            src={
+              resolvedTheme === 'dark'
+                ? '/hero-bg-dark.png'
+                : '/hero-bg-light.png'
+            }
             alt=""
             aria-hidden
             layout="fill"
             objectFit="cover"
             objectPosition="center"
             className="pointer-events-none"
-            placeholder="blur"
             loading="eager"
             priority
           />

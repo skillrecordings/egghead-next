@@ -6,7 +6,7 @@ import {loadUserCompletedCourses, loadUserProgress} from '@/lib/users'
 import {Suspense} from 'react'
 
 const Activity = async () => {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const eggheadToken = cookieStore?.get(ACCESS_TOKEN_KEY ?? '')?.value ?? ''
 
   const user = await fetchEggheadUser(eggheadToken, false)

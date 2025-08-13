@@ -556,10 +556,12 @@ export default function PostPage({
           <article className="prose dark:prose-dark dark:prose-p:text-gray-200 dark:prose-li:text-gray-200 sm:prose-lg lg:prose-lg max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500">
             <MDXRemote
               {...mdxSource}
-              components={{
-                ...mdxComponents,
-                PodcastLinks,
-              }}
+              components={
+                {
+                  ...mdxComponents,
+                  PodcastLinks,
+                } as any
+              }
               scope={mdxSource.scope}
             />
           </article>

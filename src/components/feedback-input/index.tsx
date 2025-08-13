@@ -3,7 +3,7 @@ import {FunctionComponent} from 'react'
 import axios from '@/utils/configured-axios'
 import * as Yup from 'yup'
 import isEmpty from 'lodash/isEmpty'
-import {motion} from 'framer-motion'
+import {motion} from 'motion/react'
 import {useInterval} from 'react-use'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import {DialogOverlay, DialogContent} from '@reach/dialog'
@@ -178,7 +178,7 @@ const EMOJIS = new Map([
 
 type FeedbackProps = {
   className?: string
-  children: React.ReactChild
+  children: React.ReactNode
   user: any
 }
 

@@ -1,6 +1,28 @@
 import * as React from 'react'
 import Image from 'next/legacy/image'
 
+// Static imports for all SVG icons
+import bookmarkIcon from './icons/bookmark.svg'
+import ccIcon from './icons/cc.svg'
+import codeIcon from './icons/code.svg'
+import exercisesIcon from './icons/exercises.svg'
+import offlineIcon from './icons/offline.svg'
+import playerIcon from './icons/player.svg'
+import rssIcon from './icons/rss.svg'
+import supportIcon from './icons/support.svg'
+
+// Icon mapping object
+const iconMap: Record<string, any> = {
+  bookmark: bookmarkIcon,
+  cc: ccIcon,
+  code: codeIcon,
+  exercises: exercisesIcon,
+  offline: offlineIcon,
+  player: playerIcon,
+  rss: rssIcon,
+  support: supportIcon,
+}
+
 const features = [
   {
     icon: 'cc',
@@ -68,10 +90,7 @@ const Column: React.FC<
             key={feature.icon || feature.title}
             title={
               feature.icon ? (
-                <Image
-                  src={require(`./icons/${feature.icon}.svg`)}
-                  alt={feature.icon}
-                />
+                <Image src={iconMap[feature.icon]} alt={feature.icon} />
               ) : (
                 feature.title
               )

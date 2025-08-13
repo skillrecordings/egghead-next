@@ -89,19 +89,18 @@ function CourseHeader({
         <span className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
           Course
         </span>
-        <Link href={course.path}>
-          <a
-            onClick={() => {
-              track(`clicked open course`, {
-                lesson: currentLessonSlug,
-              })
-            }}
-            className="hover:underline"
-          >
-            <h2 className="font-bold leading-tighter 2xl:text-lg">
-              {course.title}
-            </h2>
-          </a>
+        <Link
+          href={course.path}
+          onClick={() => {
+            track(`clicked open course`, {
+              lesson: currentLessonSlug,
+            })
+          }}
+          className="hover:underline"
+        >
+          <h2 className="font-bold leading-tighter 2xl:text-lg">
+            {course.title}
+          </h2>
         </Link>
       </div>
     </div>

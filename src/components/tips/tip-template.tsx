@@ -10,7 +10,7 @@ import MarkdownCodeblock from './ui/markdown-codeblock'
 import RelatedTips from './related-tips'
 import {type Tip} from '@/lib/tips'
 import {VideoProvider} from '@/hooks/mux/use-mux-player'
-import {MuxPlayerRefAttributes} from '@mux/mux-player-react/.'
+import {type MuxPlayerRefAttributes} from '@mux/mux-player-react'
 import {LessonProvider} from '@/hooks/use-lesson'
 import {VideoResourceProvider} from '@/hooks/use-video-resource'
 import {VideoTranscript} from '@/components/video/video-transcript'
@@ -34,7 +34,7 @@ const TipTemplate = ({
 
   const {instructor, tags} = tip
 
-  const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
+  const muxPlayerRef = React.useRef<MuxPlayerRefAttributes | null>(null)
   const handleVideoEnded = async () => {
     if (tip?.eggheadRailsLessonId) {
       await markComplete.mutateAsync({tipId: tip?.eggheadRailsLessonId})
