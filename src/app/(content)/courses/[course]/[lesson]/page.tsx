@@ -8,19 +8,17 @@ import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {getAbilityFromToken} from '@/server/ability'
 import {redirect} from 'next/navigation'
 import {cookies} from 'next/headers'
+import {CopyAsPromptButton} from '@/components/copy-as-prompt-button'
 
 export default async function LessonPage({
-  searchParams,
   params,
 }: {
-  searchParams: Promise<URLSearchParams>
   params: Promise<{
     lesson: string
     course: string
   }>
 }) {
   const {lesson, course} = await params
-  const resolvedSearchParams = await searchParams
   const cookieStore = await cookies()
   const userToken = cookieStore?.get(ACCESS_TOKEN_KEY ?? '')?.value
   const ability = await getAbilityFromToken(userToken)
@@ -61,9 +59,25 @@ const LessonHeader = async ({
   }
 
   return (
-    <div>
-      <h1>{lesson.title}</h1>
-      <p>{lesson.description}</p>
+    <div className="container mx-auto max-w-4xl px-4 py-8">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold mb-4">{lesson.title}</h1>
+        {lesson.description && (
+          <p className="text-gray-700 dark:text-gray-300 mb-6">
+            {lesson.description}
+          </p>
+        )}
+
+        <div className="flex gap-3 items-center">
+          <CopyAsPromptButton
+            title={lesson.title}
+            description={lesson.description}
+            transcript={lesson?.transcript}
+            contentType="lesson"
+            contentId={lesson.id}
+          />
+        </div>
+      </div>
     </div>
   )
 }

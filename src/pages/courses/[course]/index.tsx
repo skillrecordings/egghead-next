@@ -1,6 +1,5 @@
 import * as React from 'react'
-import useSWR from 'swr'
-import {loadPlaylist, loadAuthedPlaylistForUser} from '@/lib/playlists'
+import {loadPlaylist} from '@/lib/playlists'
 import {GetServerSideProps} from 'next'
 import CollectionPageLayout from '@/components/layouts/collection-page-layout'
 import DraftCourseLayout from '@/components/layouts/draft-course-page-layout'
@@ -17,17 +16,18 @@ import {loadDraftSanityCourse} from '@/lib/courses'
 import {getAbilityFromToken} from '@/server/ability'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {useViewer} from '@/context/viewer-context'
-import {useRouter} from 'next/router'
+import {loadResourcesForCourse} from '@/lib/course-resources'
+import type {LessonResource} from '@/types'
 const tracer = getTracer('course-page')
 
 type CourseProps = {
   course: any
   draftCourse: any
+  fullLessons?: LessonResource[]
 }
 
 const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
-  const router = useRouter()
-  const {viewer, loading} = useViewer()
+  const {viewer} = useViewer()
 
   if (props.draftCourse && viewer?.roles.includes('instructor')) {
     return (
@@ -44,11 +44,12 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
 
   const items = get(props.course, 'items', [])
 
-  const courseLessons = isEmpty(lessons)
-    ? filter(items, (item) => {
-        return ['lesson', 'talk'].includes(item.type)
-      })
-    : lessons
+  const courseLessons =
+    props.fullLessons && props.fullLessons.length > 0
+      ? props.fullLessons
+      : isEmpty(lessons)
+      ? filter(items, (item) => ['lesson', 'talk'].includes(item.type))
+      : lessons
 
   const multiModuleCourse = courseDependencies(slug)
 
@@ -125,6 +126,10 @@ export const getServerSideProps: GetServerSideProps = async ({
         req.cookies[ACCESS_TOKEN_KEY],
       ))
 
+    const fullLessons = await loadResourcesForCourse({
+      slug: params?.course as string,
+    })
+
     const courseSlug = getSlugFromPath(course?.path)
     if (course && courseSlug !== params?.course) {
       return {
@@ -138,6 +143,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       return {
         props: {
           course,
+          fullLessons,
         },
       }
     }

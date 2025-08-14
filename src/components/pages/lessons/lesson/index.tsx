@@ -64,6 +64,7 @@ import dynamic from 'next/dynamic'
 import ReactMarkdown from 'react-markdown'
 import CodeBlock from '@/components/code-block'
 import {LessonResource, SectionResource} from '@/types'
+import {CopyAsPromptButton} from '@/components/copy-as-prompt-button'
 
 const Tags = dynamic(() => import('@/components/pages/lessons/tags'), {
   ssr: false,
@@ -764,6 +765,14 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                         type: 'lesson',
                       }}
                       instructor={instructor}
+                    />
+                    <CopyAsPromptButton
+                      title={lesson.title}
+                      description={lesson.description}
+                      transcript={lesson.transcript}
+                      contentType="lesson"
+                      contentId={lesson.id}
+                      className="border-transparent text-sm font-normal text-black hover:bg-blue-100 hover:text-blue-600"
                     />
                   </div>
                 </div>
