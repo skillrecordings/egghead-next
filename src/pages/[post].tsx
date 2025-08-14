@@ -29,6 +29,7 @@ import CopyToClipboard from '@/components/copy-resource'
 import {track} from '@/utils/analytics'
 import {LikeButton} from '@/components/like-button'
 import BlueskyLink from '@/components/share-bluesky'
+import {CopyAsPromptButton} from '@/components/copy-as-prompt-button'
 import {z} from 'zod'
 import GoProCtaOverlay from '@/components/pages/lessons/overlay/go-pro-cta-overlay'
 import {
@@ -47,6 +48,7 @@ export const PostTypeSchema = z.union([
   z.literal('tip'),
   z.literal('course'),
 ])
+export type PostType = z.infer<typeof PostTypeSchema>
 
 export const PostStateSchema = z.union([
   z.literal('draft'),
@@ -548,6 +550,13 @@ export default function PostPage({
                 </Link>
               )}
               <TagList tags={tags} resourceSlug={post.fields.slug ?? ''} />
+              <CopyAsPromptButton
+                title={post.fields.title}
+                description={post.fields.body}
+                transcript={videoResource?.fields?.transcript}
+                contentType={post.fields.postType}
+                contentId={post.fields.eggheadLessonId || post.id}
+              />
             </div>
           </div>
         </header>
@@ -568,7 +577,7 @@ export default function PostPage({
           {course && <CourseLessonCta course={course} />}
           <div className="py-6 bg-transparent dark:border-gray-800/50 border-y border-gray-100 my-10 flex justify-center gap-5 flex-wrap items-center">
             <span className="text-sm">Share with a coworker</span>
-            <div className="flex sm:items-center items-start sm:justify-center gap-2">
+            <div className="flex sm:items-center items-start sm:justify-center gap-2 flex-wrap">
               <CopyToClipboard
                 stringToCopy={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/${post.fields.slug}`}
               />
