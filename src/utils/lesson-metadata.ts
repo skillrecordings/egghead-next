@@ -13,6 +13,7 @@ type CourseBuilderLessonData = {
   title?: string
   ogImage?: string
   slug?: string
+  repo_url?: string
 }
 
 export const mergeLessonMetadata = (
@@ -84,12 +85,16 @@ export const mergeLessonMetadata = (
         ...(lessonMetadataFromCourseBuilder.transcript && {
           transcript: lessonMetadataFromCourseBuilder.transcript,
         }),
+        ...(lessonMetadataFromCourseBuilder.repo_url && {
+          repo_url: lessonMetadataFromCourseBuilder.repo_url,
+        }),
         ogImage:
           lessonMetadataFromCourseBuilder?.ogImage ||
           `${process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN}/api/og?resource=post_${courseBuilderIdSHA}`,
       }
     : {
         ogImage: `https://og-image-react-egghead.now.sh/lesson/${lessonMetadataFromGraphQL.slug}?v=20201027`,
+        // Allow Course Builder to override GitHub repo url
       }
 
   return {collection, instructor, tags, ...rest, ...courseBuilderOverrides}

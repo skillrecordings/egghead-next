@@ -1,3 +1,4 @@
+import type {MuxPlayerRefAttributes} from '@mux/mux-player-react'
 import {hmsToSeconds} from '@skillrecordings/time'
 
 /**
@@ -14,7 +15,7 @@ const getTranscriptComponents = ({
 }: {
   handlePlay: () => void
   canShowVideo: boolean
-  muxPlayerRef: any
+  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes | null>
 }) => {
   return {
     p: ({children}: any) => {

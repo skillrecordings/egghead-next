@@ -11,7 +11,7 @@ import {Button} from '@/ui/button'
 import {ArrowRight} from 'lucide-react'
 import {RefreshCw} from 'lucide-react'
 import {Card, CardContent, CardTitle, CardHeader, CardFooter} from '@/ui/card'
-import {motion} from 'framer-motion'
+import {motion} from 'motion/react'
 import ClaudeCodeCTAOverlay from './claude-code-cta-overlay'
 import {track} from '@/utils/analytics'
 

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import scrimbaLogo from './icons/scrimba-logo.png'
 import Image from 'next/image'
 
 const ScrimbaResource: React.FunctionComponent<{type?: string}> = ({
@@ -11,7 +10,7 @@ const ScrimbaResource: React.FunctionComponent<{type?: string}> = ({
         <div className="w-10 h-10 mr-4 rounded-full flex-shrink-0">
           <Image
             className="w-full h-full rounded-full"
-            src={scrimbaLogo}
+            src="/scrimba-logo.png"
             alt="Scrimba Resource Icon"
           />
         </div>

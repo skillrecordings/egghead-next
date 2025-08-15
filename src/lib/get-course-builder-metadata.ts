@@ -87,6 +87,8 @@ type CourseBuilderLessonData = {
   transcript?: string
   description?: string
   title?: string
+  // Map Course Builder `fields.github` to lesson `repo_url`
+  repo_url?: string
 }
 
 /**
@@ -165,6 +167,11 @@ export async function getCourseBuilderLesson(
     // Get transcript from video resource
     if (videoFields?.transcript) {
       result.transcript = videoFields.transcript
+    }
+
+    // Map GitHub repo URL if present on the lesson fields
+    if (lessonFields?.github) {
+      result.repo_url = lessonFields.github
     }
 
     if (Object.keys(result).length > 0) {

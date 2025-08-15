@@ -5,7 +5,7 @@ import {type MuxPlayerRefAttributes} from '@mux/mux-player-react'
 const ignoredInputs = ['input', 'select', 'button', 'textarea', 'mux-player']
 
 export const useGlobalPlayerShortcuts = (
-  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>,
+  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes | null>,
 ) => {
   const handleUserKeyPress = React.useCallback(
     (e: any) => {

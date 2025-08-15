@@ -1,5 +1,5 @@
 import React from 'react'
-import {motion, AnimatePresence} from 'framer-motion'
+import {motion, AnimatePresence} from 'motion/react'
 
 const QuestionReveal = ({children, question, action = 'Reveal Answer'}) => {
   const [isShown, setShown] = React.useState(false)

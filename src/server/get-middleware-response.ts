@@ -6,6 +6,7 @@ import {
 } from './process-customer-cookies'
 import {Ratelimit} from '@upstash/ratelimit'
 import {kv} from '@vercel/kv'
+import {ipAddress} from '@vercel/functions'
 
 export const SITE_ROOT_PATH = '/'
 export const PRICING_PAGE_PATH = '/pricing'
@@ -69,7 +70,7 @@ export async function getMiddlewareResponse(req: NextRequest) {
         response = NextResponse.next()
         break
       default:
-        const ip = req.ip ?? '127.0.0.1'
+        const ip = ipAddress(req) ?? '127.0.0.1'
         const {blocked} = await checkRateLimit(ip)
         response = blocked
           ? NextResponse.redirect(

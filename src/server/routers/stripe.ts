@@ -2,6 +2,7 @@ import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {stripe} from '../../utils/stripe'
 import {Stripe} from 'stripe'
+import {findStripeCustomerIdByEmail} from '../../utils/stripe-customer'
 
 export const stripeRouter = router({
   checkoutSessionById: baseProcedure
@@ -118,4 +119,113 @@ export const stripeRouter = router({
       )
       return subscription
     }),
+  workshopTransactionsForCurrent: baseProcedure.query(async ({ctx}) => {
+    const token = ctx?.userToken
+
+    if (!token) return []
+
+    try {
+      // Get current user to fetch email
+      const userResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/current`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID as string,
+          },
+        },
+      )
+
+      if (!userResponse.ok) {
+        return []
+      }
+
+      const user = await userResponse.json()
+
+      if (!user?.email) {
+        return []
+      }
+
+      // Try to find a Stripe customer for this email to avoid scanning all sessions
+      const customerId = await findStripeCustomerIdByEmail(user.email)
+
+      let userSessions: Stripe.Checkout.Session[] = []
+
+      if (customerId) {
+        // Directly list sessions for the customer; prefer completed ones
+        const sessionsByCustomer = await stripe.checkout.sessions.list({
+          customer: customerId,
+        })
+
+        userSessions = sessionsByCustomer.data
+      } else {
+        // Fallback: list recent sessions and filter by email in customer_details
+        const sessions = await stripe.checkout.sessions.list({
+          limit: 100,
+        })
+        userSessions = sessions.data.filter(
+          (session) => session.customer_details?.email === user.email,
+        )
+      }
+
+      // Filter for completed workshop sessions (payment links or one-time payments)
+      const workshopSessions = userSessions.filter((session) => {
+        // Only include completed sessions
+        if (session.status !== 'complete') return false
+
+        // Check if this is a workshop purchase:
+        // 1. Has a payment_link (payment links are used for workshops)
+        const hasPaymentLink = !!session.payment_link
+
+        // Include if it has a payment link
+        return hasPaymentLink
+      })
+
+      // Transform to our expected format
+      const workshopTransactions = await Promise.all(
+        workshopSessions.map(async (session) => {
+          // Get the charge details for invoice link
+          let chargeId = null
+          if (
+            session.payment_intent &&
+            typeof session.payment_intent === 'string'
+          ) {
+            try {
+              const paymentIntent = await stripe.paymentIntents.retrieve(
+                session.payment_intent,
+              )
+              chargeId = paymentIntent.charges.data[0]?.id
+            } catch (error) {
+              console.error('Error retrieving payment intent:', error)
+            }
+          }
+
+          // Determine product name based on amount or metadata
+          let productName = 'Workshop'
+          if (session.metadata?.product_name) {
+            productName = session.metadata.product_name
+          } else if (session.amount_total === 35000) {
+            productName = 'Live Claude Code Workshop'
+          } else if (session.amount_total === 29700) {
+            productName = 'Live Cursor Workshop'
+          }
+
+          return {
+            id: session.id,
+            charge_id: chargeId,
+            amount: session.amount_total || 0,
+            created_at: new Date((session as any).created * 1000).toISOString(),
+            customer_email: session.customer_details?.email || user.email,
+            product_name: productName,
+            workshop_type: session.metadata?.workshop_type || 'claude-code',
+          }
+        }),
+      )
+
+      return workshopTransactions.filter((t) => t.charge_id)
+    } catch (error) {
+      console.error('Error fetching workshop transactions:', error)
+      return []
+    }
+  }),
 })

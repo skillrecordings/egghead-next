@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import {motion} from 'framer-motion'
+import {motion} from 'motion/react'
 import {fadeInUp, scaleIn} from '../shared/animations'
 import {useState, useEffect} from 'react'
 import '../shared/styles.css'
@@ -129,7 +129,7 @@ const AnimatedPhrase = ({text}: {text: string}) => (
 
 function scrollToSignup(
   e: React.MouseEvent<HTMLAnchorElement>,
-  formRef: React.RefObject<SignUpFormRef>,
+  formRef: React.RefObject<SignUpFormRef | null>,
 ) {
   e.preventDefault()
   document.querySelector('#signup')?.scrollIntoView({behavior: 'smooth'})
@@ -139,7 +139,7 @@ function scrollToSignup(
 }
 
 interface HeroProps {
-  formRef: React.RefObject<SignUpFormRef>
+  formRef: React.RefObject<SignUpFormRef | null>
   saleisActive: boolean
   workshop: LiveWorkshop
 }
@@ -205,7 +205,7 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
           <span className="text-gray-900 pl-2 inline-flex items-baseline md:gap-2 gap-1 dark:text-white font-medium">
             <Image
               src={
-                'https://egghead.io/_next/image?url=https%3A%2F%2Fd2eip9sf3oo6c2.cloudfront.net%2Finstructors%2Favatars%2F000%2F000%2F005%2Fsquare_64%2Favatar-500x500.jpg&w=96&q=75'
+                'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683164538/assets/john.webp'
               }
               alt="John Lindquist"
               width={40}

@@ -10,11 +10,12 @@ import {cookies} from 'next/headers'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {getAbilityFromToken} from '@/server/ability'
 
-const EditTip = async ({params}: {params: {tipId: string}}) => {
-  const cookieStore = cookies()
+const EditTip = async ({params}: {params: Promise<{tipId: string}>}) => {
+  const {tipId} = await params
+  const cookieStore = await cookies()
   const userToken = cookieStore?.get(ACCESS_TOKEN_KEY ?? '')?.value
   const ability = await getAbilityFromToken(userToken)
-  const tip = await getTip(params.tipId as string)
+  const tip = await getTip(tipId as string)
 
   if (!ability.can('create', 'Content')) {
     redirect('/')

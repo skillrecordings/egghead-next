@@ -1,4 +1,5 @@
 import {hmsToSeconds} from '@skillrecordings/time'
+import type {MuxPlayerRefAttributes} from '@mux/mux-player-react'
 
 /**
  * @name getTranscriptComponents
@@ -12,7 +13,7 @@ const getTranscriptComponents = ({
   muxPlayerRef,
 }: {
   handlePlay: () => void
-  muxPlayerRef: any
+  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes | null>
 }) => {
   return {
     p: ({children}: any) => {

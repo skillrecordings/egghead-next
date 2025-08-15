@@ -52,20 +52,20 @@ const ModernReactS3Uploader = forwardRef<
       signingUrl,
       className,
       getSignedUrl,
-      preprocess = (file, next) => {
+      preprocess = (file: File, next: (file: File) => void) => {
         console.log('Pre-process: ', file.name)
         next(file)
       },
-      onSignedUrl = (signingServerResponse) => {
+      onSignedUrl = (signingServerResponse: any) => {
         console.log('Signing server response: ', signingServerResponse)
       },
-      onProgress = (percent, message, file) => {
+      onProgress = (percent: number, message: string, file: File) => {
         console.log('Upload progress: ', `${percent} % ${message}`)
       },
-      onFinish = (signResult) => {
+      onFinish = (signResult: any) => {
         console.log('Upload finished: ', signResult.publicUrl)
       },
-      onError = (message) => {
+      onError = (message: string) => {
         console.log('Upload error: ', message)
       },
       signingUrlMethod = 'GET',
@@ -75,7 +75,8 @@ const ModernReactS3Uploader = forwardRef<
       uploadRequestHeaders,
       contentDisposition,
       server = '',
-      scrubFilename = (filename) => filename.replace(/[^\w\d_\-\.]+/gi, ''),
+      scrubFilename = (filename: string) =>
+        filename.replace(/[^\w\d_\-\.]+/gi, ''),
       s3path = '',
       autoUpload = true,
       ...props

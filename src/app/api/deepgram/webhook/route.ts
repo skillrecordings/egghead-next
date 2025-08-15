@@ -6,7 +6,7 @@ import {
 } from '@/lib/deepgram-results-processor'
 import {TRANSCRIPT_READY_EVENT} from '@/inngest/events/transcript-requested'
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   // todo: check MUX_WEBHOOK_SIGNING_SECRET to verify the request
 
   const url = new URL(req.url)

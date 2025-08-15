@@ -14,21 +14,33 @@ egghead courses are focused and don't waste your time. There's no meandering, no
 
 <List title={<p className="font-semibold">You can...</p>}>
   <ListItemEmoji
-    emoji={{image: DissapointedFace, alt: 'dissapointed face emoji'}}
+    emoji={{
+      image: '/emojis/dissapointed@2x.png',
+      alt: 'dissapointed face emoji',
+    }}
   >
     Cobble together hours-long videos, docs, tutorials, and forum posts
   </ListItemEmoji>
-  <ListItemEmoji emoji={{image: ConfoundedFace, alt: 'confounded face emoji'}}>
+  <ListItemEmoji
+    emoji={{image: '/emojis/confounded@2x.png', alt: 'confounded face emoji'}}
+  >
     Watch long, unedited videos at 2× speed
   </ListItemEmoji>
-  <ListItemEmoji emoji={{image: TiredFace, alt: 'tired face emoji'}}>
+  <ListItemEmoji
+    emoji={{image: '/emojis/tired@2x.png', alt: 'tired face emoji'}}
+  >
     Dig through the comments when tutorials give you more bugs than working code
   </ListItemEmoji>
-  <ListItemEmoji emoji={{image: CryingFace, alt: 'crying face emoji'}}>
+  <ListItemEmoji
+    emoji={{image: '/emojis/crying@2x.png', alt: 'crying face emoji'}}
+  >
     Read blog post after unreliable blog post
   </ListItemEmoji>
   <ListItemEmoji
-    emoji={{image: LoudlyCryingFace, alt: 'loudly crying face emoji'}}
+    emoji={{
+      image: '/emojis/loudly_crying@2x.png',
+      alt: 'loudly crying face emoji',
+    }}
   >
     Beg for answers on StackOverflow when you hit dead ends
   </ListItemEmoji>
@@ -88,19 +100,26 @@ We're here to keep your skills sharp. We've designed our courses to advance your
   }
   className="sm:p-10 p-5 md:-mx-10 sm:mx-0 -mx-5 sm:rounded-md dark:bg-gray-800 bg-gray-50"
 >
-  <ListItemEmoji emoji={{image: HuggingFace, alt: 'hugging face emoji'}}>
+  <ListItemEmoji
+    emoji={{image: '/emojis/hugging@2x.png', alt: 'hugging face emoji'}}
+  >
     On-demand instant access to hundreds of courses by world-class professional
     instructors
   </ListItemEmoji>
-  <ListItemEmoji emoji={{image: WingingFace, alt: 'winging face emoji'}}>
+  <ListItemEmoji
+    emoji={{image: '/emojis/winging@2x.png', alt: 'winging face emoji'}}
+  >
     Lessons designed to teach you exactly what you need to know, without any of
     the fluff or cruft
   </ListItemEmoji>
-  <ListItemEmoji emoji={{image: NerdFace, alt: 'nerd face emoji'}}>
+  <ListItemEmoji emoji={{image: '/emojis/nerd@2x.png', alt: 'nerd face emoji'}}>
     Code examples and projects to immediately test your knowledge
   </ListItemEmoji>
   <ListItemEmoji
-    emoji={{image: SunglassesFace, alt: 'smiling face with sunglasses emoji'}}
+    emoji={{
+      image: '/emojis/sunglasses@2x.png',
+      alt: 'smiling face with sunglasses emoji',
+    }}
   >
     Professionally produced and edited videos with high-quality sound and
     resolution
@@ -125,7 +144,8 @@ export const ListItemEmoji = ({children, emoji}) => {
         <Image
           src={emoji.image}
           alt={emoji.alt}
-          placeholder="blur"
+          width={24}
+          height={24}
           loading="eager"
         />
       </span>
@@ -172,16 +192,6 @@ export const Spacer = () => {
   return <hr aria-hidden className="bg-none border-none py-8 block" />
 }
 
-import LoudlyCryingFace from './emojis/loudly_crying@2x.png'
-import DissapointedFace from './emojis/dissapointed@2x.png'
-import SunglassesFace from './emojis/sunglasses@2x.png'
-import ConfoundedFace from './emojis/confounded@2x.png'
-import PartyingFace from './emojis/partying@2x.png'
-import WingingFace from './emojis/winging@2x.png'
-import HuggingFace from './emojis/hugging@2x.png'
-import CryingFace from './emojis/crying@2x.png'
-import TiredFace from './emojis/tired@2x.png'
-import NerdFace from './emojis/nerd@2x.png'
 import Image from 'next/image'
 
 export default ({children}) => {

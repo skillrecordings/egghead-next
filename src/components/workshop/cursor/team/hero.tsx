@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import {motion} from 'framer-motion'
+import {motion} from 'motion/react'
 import {fadeInUp, scaleIn} from '../../shared/animations'
 import {useState, useEffect} from 'react'
 import '../../shared/styles.css'
@@ -34,7 +34,7 @@ const AnimatedPhrase = ({text}: {text: string}) => (
 
 export function scrollTo(
   e: React.MouseEvent<HTMLAnchorElement>,
-  formRef: React.RefObject<SignUpFormRef>,
+  formRef: React.RefObject<SignUpFormRef | null>,
 ) {
   e.preventDefault()
   const contactElement = document.querySelector('#contact')
@@ -56,7 +56,7 @@ export function scrollTo(
 }
 
 interface HeroProps {
-  formRef: React.RefObject<SignUpFormRef>
+  formRef: React.RefObject<SignUpFormRef | null>
 }
 
 export default function Hero({formRef}: HeroProps) {
