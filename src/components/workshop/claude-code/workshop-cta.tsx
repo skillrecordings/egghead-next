@@ -26,7 +26,7 @@ const WorkshopCTA: React.FC = () => {
     <div className="px-3 pb-8 max-w-screen-xl mx-auto">
       <Link
         href="/workshop/claude-code"
-        className="group block rounded-lg overflow-hidden bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-200"
+        className="group block rounded-lg overflow-hidden bg-white dark:bg-gray-800 hover:shadow-xl transition-all duration-200"
         onClick={() => {
           analytics.events.activityInternalLinkClick(
             'workshop cta',
