@@ -351,7 +351,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
           workshopTitle="Live Cursor Workshop with John Lindquist"
         />
       )}
-      {pathname !== '/workshop/claude-code' && (
+      {pathname !== '/workshop/claude-code' && pathname !== '/' && (
         <WorkshopSaleHeaderBanner
           flag="featureFlagClaudeCodeWorkshopSale"
           workshopPath="/workshop/claude-code"
