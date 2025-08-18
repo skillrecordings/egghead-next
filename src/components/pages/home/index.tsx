@@ -3,9 +3,8 @@ import {useRouter} from 'next/router'
 import Search from '@/components/pages/home/search'
 import Jumbotron from '@/components/pages/home/jumbotron'
 import Topics from './topics'
-
+import WorkshopCTA from '../../workshop/claude-code/workshop-cta'
 import toast, {Toaster} from 'react-hot-toast'
-import {trpc} from '@/app/_trpc/client'
 import {SanitySectionType, CuratedHomePageDataType} from '@/pages/learn'
 import TheFeed from './the-feed'
 import {InstantSearchSSRProvider} from 'react-instantsearch'
@@ -73,7 +72,6 @@ const Home: React.FC<React.PropsWithChildren<any>> = ({
   searchServerState: any
 }) => {
   const router = useRouter()
-  const {data: completedCourseIds} = trpc.progress.completedCourseIds.useQuery()
 
   React.useEffect(() => {
     const {query} = router
@@ -91,14 +89,13 @@ const Home: React.FC<React.PropsWithChildren<any>> = ({
       router.reload()
     }
   }, [])
-
   return (
     <>
       <main className="">
         <section aria-label="search or browse sections" className="">
           <Search />
-
           <Topics topics={topics} />
+          <WorkshopCTA />
         </section>
         <InstantSearchSSRProvider {...searchServerState}>
           <TheFeed />
