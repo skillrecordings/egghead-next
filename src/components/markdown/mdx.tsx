@@ -5,8 +5,9 @@ import {
   MDXRemoteSerializeResult,
   type MDXRemoteProps,
 } from 'next-mdx-remote'
-import {CH} from '@code-hike/mdx/components'
 import mdxComponents from './mdx-components'
+// Simple placeholder for CH component - not needed for basic MDX functionality
+const CH = () => null
 
 const defaultComponents = {
   CH,

@@ -518,7 +518,9 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
           site_name: 'egghead',
           images: [
             {
-              url: `https://og-image-react-egghead.now.sh/lesson/${slug}?v=20201027`,
+              url:
+                initialLesson.ogImage ??
+                `https://og-image-react-egghead.now.sh/lesson/${lesson.slug}?v=20201027`,
             },
           ],
         }}

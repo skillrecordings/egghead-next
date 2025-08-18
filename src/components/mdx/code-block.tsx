@@ -41,8 +41,8 @@ const CodeBlock: FunctionComponent<React.PropsWithChildren<CodeBlockProps>> = ({
       }
 
       // add content to code
-      if (child && typeof child === 'object') {
-        code += (child as ReactElement).props.children
+      if (child && typeof child === 'object' && 'props' in child) {
+        code += (child as ReactElement<{children: string}>).props.children
       }
     }
   })

@@ -155,22 +155,18 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
                 <div className="flex items-center mt-2">
                   <Link
                     href={`/q/resources-by-${get(instructor, 'slug')}`}
-                    legacyBehavior
+                    className="flex items-center text-base text-gray-800 transition-colors duration-300 ease-in-out dark:text-gray-400 hover:text-blue-600"
                   >
-                    <a className="flex items-center text-base text-gray-800 transition-colors duration-300 ease-in-out dark:text-gray-400 hover:text-blue-600">
-                      {instructor.avatar_url && (
-                        <Image
-                          src={get(instructor, 'avatar_url')}
-                          width={32}
-                          height={32}
-                          alt={get(instructor, 'full_name')}
-                          className="rounded-full"
-                        />
-                      )}
-                      <span className="ml-1">
-                        {get(instructor, 'full_name')}
-                      </span>
-                    </a>
+                    {instructor.avatar_url && (
+                      <Image
+                        src={get(instructor, 'avatar_url')}
+                        width={32}
+                        height={32}
+                        alt={get(instructor, 'full_name')}
+                        className="rounded-full"
+                      />
+                    )}
+                    <span className="ml-1">{get(instructor, 'full_name')}</span>
                   </Link>
                 </div>
               </header>

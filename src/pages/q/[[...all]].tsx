@@ -73,7 +73,7 @@ const SearchIndex: any = ({
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
   const [noIndex, setNoIndex] = React.useState(noIndexInitial)
-  const debouncedState = React.useRef<any>()
+  const debouncedState = React.useRef<any>(null)
   const {loading, topicSanityData, topicGraphqlData} = useLoadTopicData(
     initialTopicGraphqlData,
     initialTopicSanityData,

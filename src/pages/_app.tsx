@@ -120,7 +120,7 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
               <QueryClientProvider client={queryClient}>
                 <TrpcProvider>
                   <PostHogProvider client={posthog}>
-                    <MDXProvider components={mdxComponents}>
+                    <MDXProvider components={mdxComponents as any}>
                       {getLayout(Component, pageProps)}
                     </MDXProvider>
                     <div className="print:hidden">

@@ -6,7 +6,7 @@ import {cookies} from 'next/headers'
 import {redirect} from 'next/navigation'
 
 const TeamPage = async () => {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const eggheadToken = cookieStore?.get(ACCESS_TOKEN_KEY ?? '')?.value ?? ''
 
   const {data: teams = []} = await loadTeams(eggheadToken)

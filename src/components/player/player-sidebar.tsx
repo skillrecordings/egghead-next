@@ -58,30 +58,25 @@ const PlayerSidebar: React.FC<
                       href={
                         content.slug ? `/${content.type}s/${content.slug}` : '#'
                       }
+                      onClick={() => {
+                        track('clicked cta content', {
+                          from: videoResource.slug,
+                          [content.type]: content.slug,
+                          location: 'sidebar',
+                        })
+                      }}
+                      className="flex items-center px-3 py-2 ml-4 space-x-2 transition-colors duration-200 ease-in-out hover:underline"
                     >
-                      <a
-                        onClick={() => {
-                          track('clicked cta content', {
-                            from: videoResource.slug,
-                            [content.type]: content.slug,
-                            location: 'sidebar',
-                          })
-                        }}
-                        className="flex items-center px-3 py-2 ml-4 space-x-2 transition-colors duration-200 ease-in-out hover:underline"
-                      >
-                        <div className="relative flex-shrink-0 w-12 h-12 ">
-                          <Image
-                            src={content.imageUrl}
-                            alt={`illustration of ${content.title} course`}
-                            width="64"
-                            height="64"
-                            layout="fill"
-                          />
-                        </div>
-                        <div className="relative font-bold">
-                          {content.title}
-                        </div>
-                      </a>
+                      <div className="relative flex-shrink-0 w-12 h-12 ">
+                        <Image
+                          src={content.imageUrl}
+                          alt={`illustration of ${content.title} course`}
+                          width="64"
+                          height="64"
+                          layout="fill"
+                        />
+                      </div>
+                      <div className="relative font-bold">{content.title}</div>
                     </Link>
                   )
                 })}
@@ -174,19 +169,18 @@ const CourseHeader: React.FunctionComponent<
         <span className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
           Course
         </span>
-        <Link href={course.path}>
-          <a
-            onClick={() => {
-              track(`clicked open course`, {
-                lesson: currentLessonSlug,
-              })
-            }}
-            className="hover:underline"
-          >
-            <h2 className="font-bold leading-tighter 2xl:text-lg">
-              {course.title}
-            </h2>
-          </a>
+        <Link
+          href={course.path}
+          onClick={() => {
+            track(`clicked open course`, {
+              lesson: currentLessonSlug,
+            })
+          }}
+          className="hover:underline"
+        >
+          <h2 className="font-bold leading-tighter 2xl:text-lg">
+            {course.title}
+          </h2>
         </Link>
       </div>
     </div>
@@ -217,19 +211,18 @@ const TagHeader: React.FunctionComponent<
         <span className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
           Tag
         </span>
-        <Link href={`/q/${tag.name}`}>
-          <a
-            onClick={() => {
-              track(`clicked open tag`, {
-                lesson: currentLessonSlug,
-              })
-            }}
-            className="hover:underline"
-          >
-            <h2 className="font-bold leading-tighter 2xl:text-lg">
-              Lessons Related to {tag.label}
-            </h2>
-          </a>
+        <Link
+          href={`/q/${tag.name}`}
+          onClick={() => {
+            track(`clicked open tag`, {
+              lesson: currentLessonSlug,
+            })
+          }}
+          className="hover:underline"
+        >
+          <h2 className="font-bold leading-tighter 2xl:text-lg">
+            Lessons Related to {tag.label}
+          </h2>
         </Link>
       </div>
     </div>

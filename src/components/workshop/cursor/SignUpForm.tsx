@@ -1,7 +1,7 @@
 'use client'
 
 import {forwardRef, useEffect} from 'react'
-import {motion} from 'framer-motion'
+import {motion} from 'motion/react'
 import {fadeInUp} from '../shared/animations'
 
 const SignUpForm = () => {

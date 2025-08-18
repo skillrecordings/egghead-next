@@ -9,8 +9,8 @@ import {notFound} from 'next/navigation'
 import {Suspense} from 'react'
 
 type Props = {
-  params: {tipId: string}
-  searchParams: {[key: string]: string | string[] | undefined}
+  params: Promise<{tipId: string}>
+  searchParams: Promise<{[key: string]: string | string[] | undefined}>
 }
 
 export async function generateMetadata(
@@ -18,7 +18,9 @@ export async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   // read route params
-  const tip = await getTip(params.tipId as string)
+  const {tipId} = await params
+  const resolvedSearchParams = await searchParams
+  const tip = await getTip(tipId as string)
 
   if (!tip) {
     return {}
@@ -52,15 +54,20 @@ export async function generateMetadata(
   }
 }
 
-export default async function Tip({params}: {params: {tipId: string}}) {
-  const tip = await getTip(params.tipId as string)
+export default async function Tip({
+  params,
+}: {
+  params: Promise<{tipId: string}>
+}) {
+  const {tipId} = await params
+  const tip = await getTip(tipId as string)
 
   if (!tip) {
     return notFound()
   }
 
   const coursesFromTagLoader = serverClient.tips.relatedContent({
-    slug: params.tipId,
+    slug: tipId,
   })
 
   const muxPlaybackId = tip?.muxPlaybackId

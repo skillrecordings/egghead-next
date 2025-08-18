@@ -1,0 +1,447 @@
+import withSvgr from 'next-svgr';
+import withBundleAnalyzer from '@next/bundle-analyzer';
+import withPlugins from 'next-compose-plugins';
+import checkEnv from '@47ng/check-env';
+import withImages from 'next-images';
+import compact from 'lodash/compact.js';
+import {hostname} from 'os';
+import createMDX from '@next/mdx';
+import remarkGfm from 'remark-gfm';
+import remarkSlug from 'remark-slug';
+import remarkFootnotes from 'remark-footnotes';
+import remarkCodeTitles from 'remark-code-titles';
+import rehypeShiki from 'rehype-shiki';
+import rehypeRaw from 'rehype-raw';
+import { nodeTypes } from '@mdx-js/mdx';
+// Removed @code-hike/mdx import to simplify build - using basic syntax highlighting instead
+
+
+const searchUrlRoot = `/q`;
+
+checkEnv.default({
+  required: [`NEXT_PUBLIC_DEPLOYMENT_URL`, `NEXT_PUBLIC_AUTH_DOMAIN`],
+});
+
+const appUrl = process.env.NEXT_PUBLIC_AUTH_DOMAIN;
+
+const IMAGE_HOST_DOMAINS = compact([
+  {
+    protocol: 'https',
+    hostname: `*.cloudfront.net`,
+  },
+  {
+    protocol: 'https',
+    hostname: `image.simplecastcdn.com`,
+  },
+  {
+    protocol: 'https',
+    hostname: `res.cloudinary.com`,
+  },
+  {
+    protocol: 'https',
+    hostname: `app.egghead.io`,
+  },
+  {
+    protocol: 'https',
+    hostname: `gravatar.com`,
+  },
+  {
+    protocol: 'https',
+    hostname: `image.mux.com`,
+  },
+  {
+    protocol: 'https',
+    hostname: `pbs.twimg.com`,
+  },
+  {
+    protocol: 'https',
+    hostname: `builder.egghead.io`,
+  },
+  {
+    protocol: 'https',
+    hostname: 'avatars.githubusercontent.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'abs.twimg.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'images.unsplash.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'dl.airtable.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'og-image-react-egghead.now.sh',
+  },
+  {
+    protocol: 'https',
+    hostname: 'files.stripe.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'media.giphy.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'media.cleanshot.cloud',
+  },
+]);
+
+const nextConfig = {
+  transpilePackages: ['unist-util-visit', 'react-tweet'],
+  reactStrictMode: true,
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  images: {
+    remotePatterns: IMAGE_HOST_DOMAINS,
+  },
+  async redirects() {
+    return [
+      ...teamRoutes,
+      ...rssRoutes,
+      ...contentCrudRoutes,
+      ...apiRoutes,
+      ...contentIndexRoutes,
+      ...legacyRoutes,
+      ...searchRoutes,
+      ...instructorRoutes,
+      ...learnRoutes,
+    ];
+  },
+};
+
+const learnRoutes = [
+  {
+    source: `/learn/data/egghead-content-modeling-with-santity-io`,
+    destination: '/blog/content-modeling-and-data-design-with-sanity-io',
+    permanent: true,
+  },
+  {
+    source: `/learn/gardening/github-issues-powered-blog`,
+    destination: '/blog/github-issues-powered-blog',
+    permanent: true,
+  },
+  {
+    source: `/learn/rails-graphql-typescript-react-apollo`,
+    destination: '/blog/rails-graphql-typescript-react-apollo',
+    permanent: true,
+  },
+  {
+    source: `/learn/next/tailwindcss-dark-mode-nextjs-typography-prose`,
+    destination: '/blog/tailwindcss-dark-mode-nextjs-typography-prose',
+    permanent: true,
+  },
+  {
+    source: `/learn/javascript/codemods-with-babel-plugins`,
+    destination: '/blog/codemods-with-babel-plugins',
+    permanent: true,
+  },
+  {
+    source: `/learn/javascript/use-the-intersection-observer-api-for-analytics-events`,
+    destination: '/blog/use-the-intersection-observer-api-for-analytics-events',
+    permanent: true,
+  },
+  {
+    source: `/learn/javascript/handling-copy-and-paste-in-cypress`,
+    destination: '/blog/handling-copy-and-paste-in-cypress',
+    permanent: true,
+  },
+  {
+    source: `/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity`,
+    destination: `/blog/build-cms-for-ecommerce-store-with-nextjs-and-sanity`,
+    permanent: true,
+  },
+  {
+    source: `/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component`,
+    destination: `/blog/product-images-that-dont-byte-with-the-nextjs-image-component`,
+    permanent: true,
+  },
+  {
+    source: `/learn/javascript/improve-performance-with-the-object-pool-design-pattern-in-javascript`,
+    destination: `/blog/object-pool-design-pattern`,
+    permanent: true,
+  },
+  {
+    source: `/learn/tailwind/utility-css-with-tailwind-sam-selikoff`,
+    destination: `/blog/utility-first-tailwind-css-with-sam-selikoff`,
+    permanent: true,
+  },
+  {
+    source: `/learn/understanding-by-design`,
+    destination: `/blog/understanding-by-design-in-a-nutshell`,
+    permanent: true,
+  },
+  {
+    source: `/learn/understanding-by-design/performance-task-patterns`,
+    destination: `/blog/performance-task-patterns`,
+    permanent: true,
+  },
+];
+
+const instructorRoutes = [
+  {
+    source: `/instructors/:instructor`,
+    destination: `${searchUrlRoot}/resources-by-:instructor`,
+    permanent: true,
+  },
+  {
+    source: `/instructors/:id/feed`,
+    destination: `${appUrl}/instructors/:id/feed`,
+    permanent: true,
+  },
+  {
+    source: `/instructors/:instructor/:rest(.+)`,
+    destination: `${appUrl}/instructors/:instructor/:rest`,
+    permanent: true,
+  },
+  {source: `/instructors`, destination: searchUrlRoot, permanent: true},
+];
+
+const searchRoutes = [
+  {source: `/search`, destination: searchUrlRoot, permanent: true},
+  {
+    source: `/s/:all*`,
+    destination: `${appUrl}/s/:all*`,
+    permanent: true,
+  },
+];
+
+const legacyRoutes = [
+  {
+    source: `/blog/manage-reactive-state-with-solid-js-signals`,
+    destination: `/blog/manage-reactive-state-with-solidjs-signals`,
+    permanent: true,
+  },
+  {
+    source: `/user/subscription`,
+    destination: `/user/membership`,
+    permanent: true,
+  },
+  {
+    source: `/user`,
+    destination: `/user/membership`,
+    permanent: true,
+  },
+  {
+    source: `/membership`,
+    destination: `/user`,
+    permanent: true,
+  },
+  {
+    source: `/update_billing.html`,
+    destination: `${appUrl}/update_billing.html`,
+    permanent: true,
+  },
+  {
+    source: `/sitemap.xml.gz`,
+    destination: `https://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz`,
+    permanent: true,
+  },
+  {
+    source: `/oauth/:all*`,
+    destination: `${appUrl}/oauth/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/production/:all*`,
+    destination: `${appUrl}/production/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/enhanced_transcripts/:all*`,
+    destination: `${appUrl}/enhanced_transcripts/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/articles/:all*`,
+    destination: `${appUrl}/articles/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/transaction_receipt/:all*`,
+    destination: `${appUrl}/transaction_receipt/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/lesson_uploads/:all*`,
+    destination: `${appUrl}/lesson_uploads/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/lessons/new`,
+    destination: `${appUrl}/lessons/new`,
+    permanent: true,
+  },
+  {
+    source: `/watch/:all*`,
+    destination: `${appUrl}/watch/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/users/:all*`,
+    destination: `${appUrl}/users/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/koudoku/:all*`,
+    destination: `${appUrl}/koudoku/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/admin/:all*`,
+    destination: `${appUrl}/admin/:all*`,
+    permanent: true,
+  },
+];
+
+const contentIndexRoutes = [
+  {
+    source: `/podcasts`,
+    destination: `${searchUrlRoot}?type=podcast`,
+    permanent: true,
+  },
+  {
+    source: `/lessons`,
+    destination: `${searchUrlRoot}?type=lesson`,
+    permanent: true,
+  },
+  {
+    source: `/browse/:context/:tag`,
+    destination: `${searchUrlRoot}/:tag`,
+    permanent: true,
+  },
+  {source: `/browse/:all*`, destination: searchUrlRoot, permanent: true},
+  {source: `/browse/:context`, destination: searchUrlRoot, permanent: true},
+];
+
+const apiRoutes = [
+  {
+    source: `/api/v1/:all*`,
+    destination: `${appUrl}/api/v1/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/graphql`,
+    destination: `${appUrl}/graphql`,
+    permanent: true,
+  },
+];
+
+const contentCrudRoutes = [
+  {
+    source: `/downloads/:title/:rest(.+)`,
+    destination: `${appUrl}/downloads/:title/:rest`,
+    permanent: true,
+  },
+  {
+    source: `/playlists/new`,
+    destination: `${appUrl}/playlists/new`,
+    permanent: true,
+  },
+  {
+    source: `/playlists/:title/:rest(.+)`,
+    destination: `${appUrl}/playlists/:title/:rest`,
+    permanent: true,
+  },
+  {
+    source: `/podcasts/:title/:rest(.+)`,
+    destination: `${appUrl}/podcasts/:title/:rest`,
+    permanent: true,
+  },
+];
+
+const teamRoutes = [
+  {
+    source: `/team/:rest(.+)`,
+    destination: `${appUrl}/team/:rest(.+)`,
+    permanent: true,
+  },
+  {
+    source: `/invite/:all*`,
+    destination: `${appUrl}/invite/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/managed_subscriptions/:all*`,
+    destination: `${appUrl}/managed_subscriptions/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/saml-consume/:all*`,
+    destination: `${appUrl}/saml-consume/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/saml-login/:all*`,
+    destination: `${appUrl}/saml-login/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/saml-metadata/:all*`,
+    destination: `${appUrl}/saml-metadata/:all*`,
+    permanent: true,
+  },
+  {
+    source: `/saml_certificates/:all*`,
+    destination: `${appUrl}/saml_certificates/:all*`,
+    permanent: true,
+  },
+];
+
+const rssRoutes = [
+  {
+    source: `/feed`,
+    destination: `${appUrl}/feed`,
+    permanent: true,
+  },
+  {
+    source: `/lessons/pro_feed`,
+    destination: `${appUrl}/lessons/pro_feed`,
+    permanent: true,
+  },
+  {
+    source: `/lessons/feed`,
+    destination: `${appUrl}/lessons/feed`,
+    permanent: true,
+  },
+  {
+    source: `/courses/:id/course_feed`,
+    destination: `${appUrl}/courses/:id/course_feed`,
+    permanent: true,
+  },
+  {
+    source: `/playlists/:id/playlist_feed`,
+    destination: `${appUrl}/playlists/:id/playlist_feed`,
+    permanent: true,
+  },
+];
+
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [
+      remarkGfm,
+      remarkSlug,
+      remarkFootnotes,
+      remarkCodeTitles,
+      // Removed remarkCodeHike to simplify build - using rehypeShiki for basic syntax highlighting
+    ],
+    // Ensure MDX ESM nodes (import/export) are passed through when using rehype-raw
+    // to avoid "Cannot compile `mdxjsEsm` node" errors
+    rehypePlugins: [[rehypeRaw, { passThrough: nodeTypes }], rehypeShiki],
+  },
+});
+
+export default withPlugins(
+  [
+    withBundleAnalyzer({
+      enabled: process.env.ANALYZE === `true`,
+    }),
+    withSvgr,
+    withImages(),
+    withMDX
+  ],
+  nextConfig,
+);

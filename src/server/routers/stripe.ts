@@ -2,6 +2,7 @@ import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {stripe} from '../../utils/stripe'
 import {Stripe} from 'stripe'
+import {findStripeCustomerIdByEmail} from '../../utils/stripe-customer'
 
 import {getFeatureFlag} from '@/lib/feature-flags'
 

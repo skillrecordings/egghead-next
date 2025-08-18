@@ -7,6 +7,69 @@ import {track} from '@/utils/analytics'
 import axios from '@/utils/configured-axios'
 import cookies from '@/utils/cookies'
 
+// Dark theme SVG imports
+import darkA11y from './dark/a11y.svg'
+import darkAngular from './dark/angular.svg'
+import darkAws from './dark/aws.svg'
+import darkCss from './dark/css.svg'
+import darkGatsby from './dark/gatsby.svg'
+import darkGraphql from './dark/graphql.svg'
+import darkHtml from './dark/html.svg'
+import darkJavascript from './dark/javascript.svg'
+import darkNext from './dark/next.svg'
+import darkReact from './dark/react.svg'
+import darkRedux from './dark/redux.svg'
+import darkTypescript from './dark/typescript.svg'
+import darkVue from './dark/vue.svg'
+
+// Light theme SVG imports
+import lightA11y from './light/a11y.svg'
+import lightAngular from './light/angular.svg'
+import lightAws from './light/aws.svg'
+import lightCss from './light/css.svg'
+import lightGatsby from './light/gatsby.svg'
+import lightGraphql from './light/graphql.svg'
+import lightHtml from './light/html.svg'
+import lightJavascript from './light/javascript.svg'
+import lightNext from './light/next.svg'
+import lightReact from './light/react.svg'
+import lightRedux from './light/redux.svg'
+import lightTypescript from './light/typescript.svg'
+import lightVue from './light/vue.svg'
+
+// SVG mapping objects
+const darkLogos = {
+  a11y: darkA11y,
+  angular: darkAngular,
+  aws: darkAws,
+  css: darkCss,
+  gatsby: darkGatsby,
+  graphql: darkGraphql,
+  html: darkHtml,
+  javascript: darkJavascript,
+  next: darkNext,
+  react: darkReact,
+  redux: darkRedux,
+  typescript: darkTypescript,
+  vue: darkVue,
+}
+
+const lightLogos = {
+  a11y: lightA11y,
+  angular: lightAngular,
+  aws: lightAws,
+  css: lightCss,
+  gatsby: lightGatsby,
+  graphql: lightGraphql,
+  html: lightHtml,
+  javascript: lightJavascript,
+  next: lightNext,
+  react: lightReact,
+  redux: lightRedux,
+  typescript: lightTypescript,
+  vue: lightVue,
+}
+
 const useCustomer = () => {
   const [customer, setCustomer] = React.useState()
 
@@ -57,9 +120,11 @@ const TechLogos = () => {
             }}
           >
             <Image
-              src={require(`./${
-                resolvedTheme === 'dark' ? 'dark' : 'light'
-              }/${tech}.svg`)}
+              src={
+                resolvedTheme === 'dark'
+                  ? darkLogos[tech as keyof typeof darkLogos]
+                  : lightLogos[tech as keyof typeof lightLogos]
+              }
               alt={tech}
             />
           </Link>
@@ -76,9 +141,11 @@ const TechLogos = () => {
             }}
           >
             <Image
-              src={require(`./${
-                resolvedTheme === 'dark' ? 'dark' : 'light'
-              }/${tech}.svg`)}
+              src={
+                resolvedTheme === 'dark'
+                  ? darkLogos[tech as keyof typeof darkLogos]
+                  : lightLogos[tech as keyof typeof lightLogos]
+              }
               alt={tech}
             />
           </Link>

@@ -32,6 +32,7 @@ pnpm sanity          # Start Sanity Studio
 ## Architecture Overview
 
 ### Tech Stack
+
 - **Framework**: Next.js 14.2.4 with React 18.3.1
 - **Language**: TypeScript with strict mode
 - **Styling**: Tailwind CSS + CSS Modules
@@ -44,6 +45,7 @@ pnpm sanity          # Start Sanity Studio
 - **Search**: Typesense
 
 ### Directory Structure
+
 ```
 src/
 ├── app/           # Next.js 13+ app directory (new routing)
@@ -86,26 +88,31 @@ src/
 ## Pre-commit Checks
 
 Husky automatically runs:
+
 1. Prettier formatting on all files
 2. ESLint with auto-fix on TypeScript files
 
 ## Common Tasks
 
 ### Adding a New Page
+
 - Use app directory: `src/app/your-page/page.tsx`
 - Follow existing patterns for data fetching and layouts
 
 ### Creating Components
+
 - Check existing components first for patterns
 - Use TypeScript interfaces for props
 - Follow accessibility best practices
 
 ### Working with tRPC
+
 - Routers in `src/server/routers/`
 - Use `trpc.useQuery()` for data fetching
 - Type safety is automatic
 
 ### Sanity CMS
+
 - Studio runs at `/studio`
 - Schema files in `studio/schemas/`
 - Use GROQ queries for data fetching
@@ -117,3 +124,39 @@ Husky automatically runs:
 - Environment variables come from Vercel
 - Backend must be running for most features
 - Check `src/lib/` for existing utilities before creating new ones
+
+## Working with Course Builder Database
+
+The project integrates with a separate Course Builder database for new course content. Key patterns:
+
+### Database Connection
+
+- Uses `mysql2/promise` with connection pooling
+- Connection string from `COURSE_BUILDER_DATABASE_URL` env var
+- Always use the existing `getConnectionPool()` function in `src/lib/get-course-builder-metadata.ts`
+
+### Important Patterns
+
+1. **Server-Side Only**: MySQL connections must run server-side only
+
+   - Create wrapper functions that check `typeof window === 'undefined'`
+   - Use dynamic imports inside the wrapper: `await import('./get-course-builder-metadata')`
+   - Never import mysql2 directly in files that could be bundled for client
+   - See `load-course-builder-metadata-wrapper.ts` for the pattern
+
+2. **Query Patterns**:
+
+   - Content is stored in `egghead_ContentResource` table
+   - Use flexible slug matching: `id = ? OR JSON_UNQUOTE(JSON_EXTRACT(fields, '$.slug')) = ?`
+   - Fields are JSON, parse with: `typeof row.fields === 'string' ? JSON.parse(row.fields) : row.fields`
+
+3. **Content Types**:
+
+   - Posts with `type = 'post'` and `fields.postType = 'course'` are courses
+   - Video resources have `type = 'videoResource'`
+   - Relationships via `egghead_ContentResourceResource` join table
+
+4. **Error Handling**:
+   - Always release connections in finally block: `conn.release()`
+   - Return `null` for missing data, not errors
+   - Log helpful debug messages for troubleshooting

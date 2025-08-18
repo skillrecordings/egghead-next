@@ -5,7 +5,7 @@ import {add} from 'date-fns'
 import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
 
 export async function POST(req: NextRequest) {
-  const allCookies = cookies()
+  const allCookies = await cookies()
   const authToken = allCookies.get('eh_token_2020_11_22')
 
   const {email, successPath, metadata, cancelPath} = await req.json()

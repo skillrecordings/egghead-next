@@ -1,5 +1,8 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": ["badass", "eggheadio"],
-  "search.searchEditor.defaultNumberOfContextLines": 10
+  "search.searchEditor.defaultNumberOfContextLines": 10,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBorder": "#100831"
+  }
 }

@@ -21,7 +21,8 @@ const videoResourceQuery = groq`
 }`
 
 export async function POST(req: NextRequest) {
-  const signature = headers().get('mux-signature') as string
+  const headerStore = await headers()
+  const signature = headerStore.get('mux-signature') as string
   const muxRequestBody = await req.json()
   const isValid = Mux.Webhooks.verifyHeader(
     JSON.stringify(muxRequestBody),
