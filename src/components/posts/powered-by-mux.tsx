@@ -1,12 +1,12 @@
-import Link from 'next/link'
-
 export function PoweredByMuxBadge() {
   return (
     <div className="flex items-center justify-center w-full">
-      <Link
+      <a
         href="https://mux.com?utm_source=egghead.io&utm_campaign=powered-by-mux"
         className="px-4 py-2 rounded hover:bg-gray-400/10 transition mt-16"
         target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Visit Mux website - Video Powered by Mux"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +32,7 @@ export function PoweredByMuxBadge() {
             </clipPath>
           </defs>
         </svg>
-      </Link>
+      </a>
     </div>
   )
 }
