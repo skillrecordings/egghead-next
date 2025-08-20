@@ -2,7 +2,7 @@ import * as React from 'react'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
-import {Post} from '@/pages/[post]'
+import {Post} from '@/schemas/post'
 import {truncate} from 'lodash'
 import removeMarkdown from 'remove-markdown'
 
