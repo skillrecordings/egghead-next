@@ -100,6 +100,7 @@ The remaining 80%? That's where the real productivity gains live—in the advanc
             <Testimonial
               quote="John's workshop revealed that I was barely scratching the surface with Claude Code. I'd used features like agents and hooks before, but never to this extent. It was top notch! Insightful, straight to the point and brilliantly structured. We could have easily carried on for another 5 hours!"
               name="Vitor Correa"
+              image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1755729693/people/vitor.png"
             />
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               The Game-Changing Workflows You're Missing
