@@ -24,7 +24,7 @@ const Share: FunctionComponent<React.PropsWithChildren<ShareProps>> = ({
     <>
       <h2 className="sr-only">Social Share Links</h2>
       <div className={className || 'flex items-center mt-3'}>
-        <div className={'flex items-center space-x-2'}>
+        <div className={'flex items-center gap-2'}>
           <TweetLink resource={resource} instructor={instructor} />
           <CopyToClipboard
             stringToCopy={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${resource.path}`}

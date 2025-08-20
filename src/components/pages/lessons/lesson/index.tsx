@@ -679,7 +679,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
             )}
             <div className="pb-2 space-y-4 sm:pb-8">
               {title && (
-                <div className="flex space-x-2 -ml-7">
+                <div className="flex space-x-2 sm:-ml-7">
                   {lessonCompleted ? (
                     <span className="self-center">
                       <CheckCircleIcon className="h-5 w-5 text-green-500  rounded-full" />
@@ -689,7 +689,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                       <CheckCircleIconOutline className="h-5 w-5 text-gray-300 hover:text-green-500 hover:cursor-pointer " />
                     </span>
                   )}
-                  <h1 className="text-xl font-extrabold leading-tight lg:text-3xl">
+                  <h1 className="text-xl font-extrabold leading-tight lg:text-3xl w-fit">
                     {title}
                   </h1>
                 </div>
@@ -756,7 +756,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                   />
                 )}
                 <div className="flex items-center space-x-8">
-                  <div className="flex flex-col items-center space-y-2 md:flex-row md:space-y-0 md:space-x-2">
+                  <div className="flex sm:flex-col sm:items-center space-y-2 md:flex-row md:space-y-0 gap-2">
                     <Share
                       className="flex flex-col items-end "
                       resource={{
@@ -772,13 +772,13 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                       transcript={lesson.transcript}
                       contentType="lesson"
                       contentId={lesson.id}
-                      className="border-transparent text-sm font-normal text-black hover:bg-blue-100 hover:text-blue-600"
+                      className="border-transparent text-sm font-normal text-black dark:text-white hover:bg-blue-100 hover:text-blue-600 rounded-md p-2 bg-gray-50 dark:bg-gray-800"
                     />
                   </div>
                 </div>
               </div>
               {mounted && (
-                <div className="flex flex-col items-center mt-4 text-sm opacity-80 md:items-start">
+                <div className="flex flex-col mt-4 text-sm opacity-80 items-start">
                   {created_at && (
                     <PublishedAt date={friendlyTime(new Date(created_at))} />
                   )}
