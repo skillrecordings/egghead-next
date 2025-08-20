@@ -1,11 +1,7 @@
-import * as mysql from 'mysql2/promise'
-import {ConnectionOptions, RowDataPacket} from 'mysql2/promise'
+import {RowDataPacket} from 'mysql2/promise'
 import {PostSchema, type Post} from '@/schemas/post'
 import {z} from 'zod'
-
-const access: ConnectionOptions = {
-  uri: process.env.COURSE_BUILDER_DATABASE_URL,
-}
+import {getPool} from './db'
 function convertToSerializeForNextResponse(result: any): any {
   if (!result) return null
 
@@ -36,7 +32,8 @@ export async function getAIDevEssentialsPosts(): Promise<Post[]> {
     )
   }
 
-  const conn = await mysql.createConnection(access)
+  const pool = getPool()
+  const conn = await pool.getConnection()
 
   try {
     console.log('INFO: Fetching AI Dev Essentials posts')
@@ -75,6 +72,6 @@ export async function getAIDevEssentialsPosts(): Promise<Post[]> {
     console.error('Error in getAIDevEssentialsPosts:', error)
     throw error
   } finally {
-    await conn.end()
+    conn.release()
   }
 }

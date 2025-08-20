@@ -1,19 +1,16 @@
 'use server'
 
-import * as mysql from 'mysql2/promise'
-import {ConnectionOptions, RowDataPacket} from 'mysql2/promise'
+import {RowDataPacket} from 'mysql2/promise'
 import {PostSchema, type Post} from '@/schemas/post'
 import {parseSlugForHash} from './utils'
 import {getTagsForPost} from './get-tags'
 import {getCourseForPost} from './get-course'
-
-const access: ConnectionOptions = {
-  uri: process.env.COURSE_BUILDER_DATABASE_URL,
-}
+import {getPool} from '../db'
 
 export async function getPost(slug: string) {
   const {hashFromSlug, originalSlug} = parseSlugForHash(slug)
-  const conn = await mysql.createConnection(access)
+  const pool = getPool()
+  const conn = await pool.getConnection()
 
   try {
     // Get video resource query
@@ -74,21 +71,24 @@ export async function getPost(slug: string) {
     console.error('Error in getPost:', error)
     throw error
   } finally {
-    await conn.end()
+    conn.release()
   }
 }
 
 export async function getAllPostSlugs() {
-  const conn = await mysql.createConnection(access)
+  const pool = getPool()
+  const conn = await pool.getConnection()
 
-  const [postRows] = await conn.execute<RowDataPacket[]>(`
-    SELECT * FROM egghead_ContentResource cr_lesson
-    WHERE (cr_lesson.type = 'post')
-  `)
+  try {
+    const [postRows] = await conn.execute<RowDataPacket[]>(`
+      SELECT * FROM egghead_ContentResource cr_lesson
+      WHERE (cr_lesson.type = 'post')
+    `)
 
-  await conn.end()
-
-  return postRows.map((post: any) => ({
-    slug: post.fields.slug,
-  }))
+    return postRows.map((post: any) => ({
+      slug: post.fields.slug,
+    }))
+  } finally {
+    conn.release()
+  }
 }
