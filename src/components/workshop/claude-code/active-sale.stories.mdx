@@ -1,0 +1,413 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import ActiveSale from './active-sale'
+
+<Meta title="Workshop/Claude Code/Active Sale" />
+
+# `ActiveSale` Component
+
+This component displays the pricing and registration options for the Claude Code workshop with different permutations based on user subscription status and available coupons.
+
+## Scenarios Covered
+
+### Subscription Status
+
+- **Yearly Pro Member**: Has yearly pro discount, shows member pricing
+- **Monthly/Quarterly Member**: Has subscription but not yearly, shows upgrade CTA
+- **Non-Member**: No subscription, shows "Become a Pro member" CTA
+
+### Coupon Types
+
+- **Early Bird + Member**: Both early bird and member discounts
+- **Early Bird Only**: Early bird discount for non-members
+- **Member Only**: Member discount without early bird
+- **Standard**: No discounts
+- **PPP**: Purchasing Power Parity discount
+
+## Mock Data
+
+```jsx
+const mockWorkshop = {
+  date: '2024-01-15',
+  startTime: '10:00 AM',
+  timeZone: 'EST',
+  endTime: '2:00 PM',
+  isEuFriendly: true,
+  isEarlyBird: true,
+  workshopPrice: '400',
+  stripePaymentLink: 'https://buy.stripe.com/test',
+  stripeEarlyBirdMemberCouponCode: 'EARLY_MEMBER_50',
+  stripeMemberCouponCode: 'MEMBER_25',
+  stripeEarlyBirdCouponCode: 'EARLY_25',
+  stripeEarlyBirdMemberDiscount: '150',
+  stripeMemberDiscount: '100',
+  stripeEarlyBirdNonMemberDiscount: '75',
+}
+
+const mockWorkshopFeatures = [
+  '4-hour live workshop with Q&A',
+  'Complete Claude Code mastery guide',
+  'Real-world project templates',
+  'Lifetime access to recordings',
+  'Private community access',
+]
+
+const mockTeamWorkshopFeatures = [
+  'Custom team workshop session',
+  'Team-specific use cases',
+  'Advanced workflow strategies',
+  'Post-workshop support',
+  'Team collaboration guidelines',
+]
+```
+
+<Canvas>
+  <Story name="Yearly Pro Member + Early Bird">
+    <div className="bg-gray-50 min-h-screen">
+      <ActiveSale
+        hasYearlyProDiscount={true}
+        isMonthlyOrQuarterly={false}
+        workshopFeatures={[
+          '4-hour live workshop with Q&A',
+          'Complete Claude Code mastery guide',
+          'Real-world project templates',
+          'Lifetime access to recordings',
+          'Private community access',
+        ]}
+        teamWorkshopFeatures={[
+          'Custom team workshop session',
+          'Team-specific use cases',
+          'Advanced workflow strategies',
+          'Post-workshop support',
+          'Team collaboration guidelines',
+        ]}
+        workshop={{
+          date: '2024-01-15',
+          startTime: '10:00 AM',
+          timeZone: 'EST',
+          endTime: '2:00 PM',
+          isEuFriendly: true,
+          isEarlyBird: true,
+          workshopPrice: '400',
+          stripePaymentLink: 'https://buy.stripe.com/test',
+          stripeEarlyBirdMemberCouponCode: 'EARLY_MEMBER_50',
+          stripeMemberCouponCode: 'MEMBER_25',
+          stripeEarlyBirdCouponCode: 'EARLY_25',
+          stripeEarlyBirdMemberDiscount: '150',
+          stripeMemberDiscount: '100',
+          stripeEarlyBirdNonMemberDiscount: '75',
+        }}
+        isLiveWorkshopLoading={false}
+      />
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Yearly Pro Member (No Early Bird)">
+    <div className="bg-gray-50 min-h-screen">
+      <ActiveSale
+        hasYearlyProDiscount={true}
+        isMonthlyOrQuarterly={false}
+        workshopFeatures={[
+          '4-hour live workshop with Q&A',
+          'Complete Claude Code mastery guide',
+          'Real-world project templates',
+          'Lifetime access to recordings',
+          'Private community access',
+        ]}
+        teamWorkshopFeatures={[
+          'Custom team workshop session',
+          'Team-specific use cases',
+          'Advanced workflow strategies',
+          'Post-workshop support',
+          'Team collaboration guidelines',
+        ]}
+        workshop={{
+          date: '2024-01-15',
+          startTime: '10:00 AM',
+          timeZone: 'EST',
+          endTime: '2:00 PM',
+          isEuFriendly: true,
+          isEarlyBird: false,
+          workshopPrice: '400',
+          stripePaymentLink: 'https://buy.stripe.com/test',
+          stripeEarlyBirdMemberCouponCode: 'EARLY_MEMBER_50',
+          stripeMemberCouponCode: 'MEMBER_25',
+          stripeEarlyBirdCouponCode: 'EARLY_25',
+          stripeEarlyBirdMemberDiscount: '150',
+          stripeMemberDiscount: '100',
+          stripeEarlyBirdNonMemberDiscount: '75',
+        }}
+        isLiveWorkshopLoading={false}
+      />
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Monthly/Quarterly Member + Early Bird">
+    <div className="bg-gray-50 min-h-screen">
+      <ActiveSale
+        hasYearlyProDiscount={false}
+        isMonthlyOrQuarterly={true}
+        workshopFeatures={[
+          '4-hour live workshop with Q&A',
+          'Complete Claude Code mastery guide',
+          'Real-world project templates',
+          'Lifetime access to recordings',
+          'Private community access',
+        ]}
+        teamWorkshopFeatures={[
+          'Custom team workshop session',
+          'Team-specific use cases',
+          'Advanced workflow strategies',
+          'Post-workshop support',
+          'Team collaboration guidelines',
+        ]}
+        workshop={{
+          date: '2024-01-15',
+          startTime: '10:00 AM',
+          timeZone: 'EST',
+          endTime: '2:00 PM',
+          isEuFriendly: true,
+          isEarlyBird: true,
+          workshopPrice: '400',
+          stripePaymentLink: 'https://buy.stripe.com/test',
+          stripeEarlyBirdMemberCouponCode: 'EARLY_MEMBER_50',
+          stripeMemberCouponCode: 'MEMBER_25',
+          stripeEarlyBirdCouponCode: 'EARLY_25',
+          stripeEarlyBirdMemberDiscount: '150',
+          stripeMemberDiscount: '100',
+          stripeEarlyBirdNonMemberDiscount: '75',
+        }}
+        isLiveWorkshopLoading={false}
+      />
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Monthly/Quarterly Member (No Early Bird)">
+    <div className="bg-gray-50 min-h-screen">
+      <ActiveSale
+        hasYearlyProDiscount={false}
+        isMonthlyOrQuarterly={true}
+        workshopFeatures={[
+          '4-hour live workshop with Q&A',
+          'Complete Claude Code mastery guide',
+          'Real-world project templates',
+          'Lifetime access to recordings',
+          'Private community access',
+        ]}
+        teamWorkshopFeatures={[
+          'Custom team workshop session',
+          'Team-specific use cases',
+          'Advanced workflow strategies',
+          'Post-workshop support',
+          'Team collaboration guidelines',
+        ]}
+        workshop={{
+          date: '2024-01-15',
+          startTime: '10:00 AM',
+          timeZone: 'EST',
+          endTime: '2:00 PM',
+          isEuFriendly: true,
+          isEarlyBird: false,
+          workshopPrice: '400',
+          stripePaymentLink: 'https://buy.stripe.com/test',
+          stripeEarlyBirdMemberCouponCode: 'EARLY_MEMBER_50',
+          stripeMemberCouponCode: 'MEMBER_25',
+          stripeEarlyBirdCouponCode: 'EARLY_25',
+          stripeEarlyBirdMemberDiscount: '150',
+          stripeMemberDiscount: '100',
+          stripeEarlyBirdNonMemberDiscount: '75',
+        }}
+        isLiveWorkshopLoading={false}
+      />
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Non-Member + Early Bird">
+    <div className="bg-gray-50 min-h-screen">
+      <ActiveSale
+        hasYearlyProDiscount={false}
+        isMonthlyOrQuarterly={false}
+        workshopFeatures={[
+          '4-hour live workshop with Q&A',
+          'Complete Claude Code mastery guide',
+          'Real-world project templates',
+          'Lifetime access to recordings',
+          'Private community access',
+        ]}
+        teamWorkshopFeatures={[
+          'Custom team workshop session',
+          'Team-specific use cases',
+          'Advanced workflow strategies',
+          'Post-workshop support',
+          'Team collaboration guidelines',
+        ]}
+        workshop={{
+          date: '2024-01-15',
+          startTime: '10:00 AM',
+          timeZone: 'EST',
+          endTime: '2:00 PM',
+          isEuFriendly: true,
+          isEarlyBird: true,
+          workshopPrice: '400',
+          stripePaymentLink: 'https://buy.stripe.com/test',
+          stripeEarlyBirdMemberCouponCode: 'EARLY_MEMBER_50',
+          stripeMemberCouponCode: 'MEMBER_25',
+          stripeEarlyBirdCouponCode: 'EARLY_25',
+          stripeEarlyBirdMemberDiscount: '150',
+          stripeMemberDiscount: '100',
+          stripeEarlyBirdNonMemberDiscount: '75',
+        }}
+        isLiveWorkshopLoading={false}
+      />
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Non-Member (Standard Pricing)">
+    <div className="bg-gray-50 min-h-screen">
+      <ActiveSale
+        hasYearlyProDiscount={false}
+        isMonthlyOrQuarterly={false}
+        workshopFeatures={[
+          '4-hour live workshop with Q&A',
+          'Complete Claude Code mastery guide',
+          'Real-world project templates',
+          'Lifetime access to recordings',
+          'Private community access',
+        ]}
+        teamWorkshopFeatures={[
+          'Custom team workshop session',
+          'Team-specific use cases',
+          'Advanced workflow strategies',
+          'Post-workshop support',
+          'Team collaboration guidelines',
+        ]}
+        workshop={{
+          date: '2024-01-15',
+          startTime: '10:00 AM',
+          timeZone: 'EST',
+          endTime: '2:00 PM',
+          isEuFriendly: true,
+          isEarlyBird: false,
+          workshopPrice: '400',
+          stripePaymentLink: 'https://buy.stripe.com/test',
+          stripeEarlyBirdMemberCouponCode: 'EARLY_MEMBER_50',
+          stripeMemberCouponCode: 'MEMBER_25',
+          stripeEarlyBirdCouponCode: 'EARLY_25',
+          stripeEarlyBirdMemberDiscount: '150',
+          stripeMemberDiscount: '100',
+          stripeEarlyBirdNonMemberDiscount: '75',
+        }}
+        isLiveWorkshopLoading={false}
+      />
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Loading State">
+    <div className="bg-gray-50 min-h-screen">
+      <ActiveSale
+        hasYearlyProDiscount={true}
+        isMonthlyOrQuarterly={false}
+        workshopFeatures={[
+          '4-hour live workshop with Q&A',
+          'Complete Claude Code mastery guide',
+          'Real-world project templates',
+          'Lifetime access to recordings',
+          'Private community access',
+        ]}
+        teamWorkshopFeatures={[
+          'Custom team workshop session',
+          'Team-specific use cases',
+          'Advanced workflow strategies',
+          'Post-workshop support',
+          'Team collaboration guidelines',
+        ]}
+        workshop={{
+          date: '2024-01-15',
+          startTime: '10:00 AM',
+          timeZone: 'EST',
+          endTime: '2:00 PM',
+          isEuFriendly: true,
+          isEarlyBird: true,
+          workshopPrice: '400',
+          stripePaymentLink: 'https://buy.stripe.com/test',
+          stripeEarlyBirdMemberCouponCode: 'EARLY_MEMBER_50',
+          stripeMemberCouponCode: 'MEMBER_25',
+          stripeEarlyBirdCouponCode: 'EARLY_25',
+          stripeEarlyBirdMemberDiscount: '150',
+          stripeMemberDiscount: '100',
+          stripeEarlyBirdNonMemberDiscount: '75',
+        }}
+        isLiveWorkshopLoading={true}
+      />
+    </div>
+  </Story>
+</Canvas>
+
+## PPP (Purchasing Power Parity) Stories
+
+Note: PPP scenarios require the `useCommerceMachine` hook to provide `availableCoupons` data. These stories show how the component would render with PPP coupons available.
+
+<Canvas>
+  <Story name="With PPP Available (Mocked)">
+    <div className="bg-gray-50 min-h-screen">
+      {/* This story would need mock provider for useCommerceMachine hook */}
+      <div className="text-center p-8">
+        <p className="text-lg font-medium">
+          PPP stories require mocking the useCommerceMachine hook
+        </p>
+        <p className="text-sm text-gray-600 mt-2">
+          The component uses `useCommerceMachine()` to get available coupons
+          including PPP. To fully test PPP scenarios, wrap this component with a
+          mock provider that returns:
+        </p>
+        <pre className="text-left mt-4 bg-gray-100 p-4 rounded text-xs">
+          {`{
+  availableCoupons: {
+    ppp: {
+      coupon_code: "PPP_50",
+      coupon_discount: 0.5,
+      coupon_region_restricted: true,
+      coupon_region_restricted_to: "IN",
+      coupon_region_restricted_to_name: "India",
+      coupon_expires_at: Date.now() + 86400000
+    }
+  }
+}`}
+        </pre>
+      </div>
+    </div>
+  </Story>
+</Canvas>
+
+## Usage Notes
+
+### Key Scenarios to Test:
+
+1. **Yearly Pro Member + Early Bird**: Shows member pricing with early bird discount applied
+2. **Yearly Pro Member**: Shows member pricing without early bird
+3. **Monthly/Quarterly + Early Bird**: Shows early bird pricing with "Upgrade to yearly" CTA
+4. **Monthly/Quarterly**: Shows standard pricing with "Upgrade to yearly" CTA
+5. **Non-Member + Early Bird**: Shows early bird pricing with "Become a Pro member" CTA
+6. **Non-Member**: Shows standard pricing with "Become a Pro member" CTA
+7. **Loading State**: Shows spinner while workshop data loads
+8. **PPP Applied**: Shows discounted pricing when PPP coupon is applied
+
+### Expected Behaviors:
+
+- **Pricing Tiers**: Component shows both standard and member pricing side by side
+- **Active Pricing**: User's applicable pricing tier is highlighted
+- **CTAs**: Correct call-to-action based on subscription status
+- **Discounts**: Proper discount calculations and display
+- **Payment Links**: Correct Stripe payment links with coupon codes
+- **Team Toggle**: Ability to switch between individual and team pricing

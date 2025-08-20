@@ -34,7 +34,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
       <DraftCourseLayout
         lessons={props.draftCourse.lessons}
         course={props.draftCourse}
-        ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${props.draftCourse.slug}?v=20201103`}
+        ogImageUrl={props.draftCourse.ogImage}
       />
     )
   }
@@ -59,7 +59,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
         <PhpCollectionPageLayout
           lessons={courseLessons}
           course={props.course}
-          ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
+          ogImageUrl={props.course.ogImage}
         />
       )
     case slug === 'build-ai-apps-with-chatgpt-dall-e-and-gpt-4-9bc61e99':
@@ -68,7 +68,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
           sections={sections}
           lessons={courseLessons}
           course={props.course}
-          ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
+          ogImageUrl={props.course.ogImage}
         />
       )
     case multiModuleCourse?.multiModuleCourse:
@@ -76,7 +76,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
         <MultiModuleCollectionPageLayout
           lessons={courseLessons}
           course={props.course}
-          ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
+          ogImageUrl={props.course.ogImage}
         />
       )
   }
@@ -85,7 +85,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
     <CollectionPageLayout
       lessons={courseLessons}
       course={props.course}
-      ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
+      ogImageUrl={props.course.ogImage}
     />
   )
 }

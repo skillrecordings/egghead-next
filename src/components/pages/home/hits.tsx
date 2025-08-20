@@ -53,7 +53,7 @@ const CustomHits = (props: UseHitsProps) => {
 
   const resource = {
     title: firstHit?.title,
-    image: firstHit?.primary_tag_image_url ?? undefined,
+    image: firstHit?.image ?? firstHit?.primary_tag_image_url ?? undefined,
     path: firstHit?.path,
     description: firstHit?.summary,
     instructor: {

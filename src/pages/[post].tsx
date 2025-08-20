@@ -80,6 +80,7 @@ export const FieldsSchema = z.object({
   github: z.string().nullish(),
   gitpod: z.string().nullish(),
   primaryTagId: z.string().nullish(),
+  ogImage: z.string().nullish(),
 })
 export type Fields = z.infer<typeof FieldsSchema>
 
@@ -469,6 +470,10 @@ export default function PostPage({
     return null
   }
 
+  const ogImage =
+    post.fields.ogImage ??
+    `${process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN}/api/og?resource=${post.fields.slug}`
+
   return (
     <div>
       <NextSeo
@@ -490,7 +495,7 @@ export default function PostPage({
           site_name: 'egghead',
           images: [
             {
-              url: `https://og-image-react-egghead.now.sh/lesson/${post.fields.eggheadLessonId}?v=20201027`,
+              url: ogImage,
             },
           ],
         }}

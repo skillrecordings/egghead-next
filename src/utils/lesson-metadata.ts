@@ -3,6 +3,7 @@ import some from 'lodash/some'
 import isEmpty from 'lodash/isEmpty'
 import compactedMerge from '@/utils/compacted-merge'
 import invariant from 'tiny-invariant'
+import {extractCourseBuilderIdSHA} from '@/lib/course-builder'
 import {Post} from '@/pages/[post]'
 
 // Type for Course Builder lesson data that includes transcript from video resource
@@ -10,6 +11,8 @@ type CourseBuilderLessonData = {
   transcript?: string
   description?: string
   title?: string
+  ogImage?: string
+  slug?: string
   repo_url?: string
 }
 
@@ -54,9 +57,6 @@ export const mergeLessonMetadata = (
    * Determine which value to take for each complex type (`collection`, `tags`,
    * and `instructor`).
    */
-  console.log('primaryCollection', primaryCollection)
-  console.log('secondaryCollection', secondaryCollection)
-  console.log('present?', collectionIsPresent(primaryCollection))
 
   const collection = collectionIsPresent(primaryCollection)
     ? primaryCollection
@@ -71,6 +71,9 @@ export const mergeLessonMetadata = (
   const rest = compactedMerge(secondaryRest, primaryRest)
 
   // Course Builder data takes highest preference - spread last to override other sources
+  const courseBuilderIdSHA = extractCourseBuilderIdSHA(
+    lessonMetadataFromSanity?.slug || '',
+  )
   const courseBuilderOverrides = lessonMetadataFromCourseBuilder
     ? {
         ...(lessonMetadataFromCourseBuilder.title && {
@@ -82,12 +85,17 @@ export const mergeLessonMetadata = (
         ...(lessonMetadataFromCourseBuilder.transcript && {
           transcript: lessonMetadataFromCourseBuilder.transcript,
         }),
-        // Allow Course Builder to override GitHub repo url
         ...(lessonMetadataFromCourseBuilder.repo_url && {
           repo_url: lessonMetadataFromCourseBuilder.repo_url,
         }),
+        ogImage:
+          lessonMetadataFromCourseBuilder?.ogImage ||
+          `${process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN}/api/og?resource=post_${courseBuilderIdSHA}`,
       }
-    : {}
+    : {
+        ogImage: `https://og-image-react-egghead.now.sh/lesson/${lessonMetadataFromGraphQL.slug}?v=20201027`,
+        // Allow Course Builder to override GitHub repo url
+      }
 
   return {collection, instructor, tags, ...rest, ...courseBuilderOverrides}
 }

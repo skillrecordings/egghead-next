@@ -4,12 +4,19 @@ import axios from '@/utils/configured-axios'
 import Image from 'next/legacy/image'
 import analytics from '@/utils/analytics'
 
-const Topics: React.FC<React.PropsWithChildren<{data: any}>> = ({data}) => {
-  const {topics} = data
+const Topics: React.FC<
+  React.PropsWithChildren<{
+    topics: {
+      path: string
+      title: string
+      image: string
+    }[]
+  }>
+> = ({topics}) => {
   return (
     <div className="sm:pt-16 px-3 pt-8 sm:pb-16 pb-8 max-w-screen-xl mx-auto">
       <h2 className="text-center sm:text-lg text-base dark:text-gray-200 text-gray-700 font-normal text-balance leading-tight pb-6">
-        {data.title}
+        Browse Curated Developer Resources on the Best Tools
       </h2>
       <div className="grid lg:grid-cols-8 rounded-lg lg:overflow-visible overflow-hidden divide-x lg:divide-y-0 divide-y dark:divide-gray-900 divide-gray-100 sm:grid-cols-4 grid-cols-2 bg-white dark:bg-gray-800">
         {topics?.map(({path, title, slug, image}: any) => {
@@ -27,7 +34,7 @@ const Topics: React.FC<React.PropsWithChildren<{data: any}>> = ({data}) => {
                   path,
                 )
                 axios.post(`/api/topic`, {
-                  topic: slug,
+                  topic: path.split('/').pop() || '',
                   amount: 1,
                 })
               }}

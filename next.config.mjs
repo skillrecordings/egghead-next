@@ -55,6 +55,10 @@ const IMAGE_HOST_DOMAINS = compact([
   },
   {
     protocol: 'https',
+    hostname: `builder.egghead.io`,
+  },
+  {
+    protocol: 'https',
     hostname: 'avatars.githubusercontent.com',
   },
   {
@@ -72,10 +76,6 @@ const IMAGE_HOST_DOMAINS = compact([
   {
     protocol: 'https',
     hostname: 'og-image-react-egghead.now.sh',
-  },
-  {
-    protocol: 'https',
-    hostname: 'www.gravatar.com',
   },
   {
     protocol: 'https',

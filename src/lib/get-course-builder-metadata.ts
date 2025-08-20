@@ -6,6 +6,27 @@ const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
 }
 
+function convertToSerializeForNextResponse(result: any) {
+  if (!result) return null
+
+  for (const resultKey in result) {
+    if (result[resultKey] instanceof Date) {
+      result[resultKey] = result[resultKey].toISOString()
+    } else if (
+      result[resultKey]?.constructor?.name === 'Decimal' ||
+      result[resultKey]?.constructor?.name === 'i'
+    ) {
+      result[resultKey] = result[resultKey].toNumber()
+    } else if (result[resultKey]?.constructor?.name === 'BigInt') {
+      result[resultKey] = Number(result[resultKey])
+    } else if (result[resultKey] instanceof Object) {
+      result[resultKey] = convertToSerializeForNextResponse(result[resultKey])
+    }
+  }
+
+  return result
+}
+
 // Create a connection pool for better performance and resource management
 let connectionPool: Pool | null = null
 
@@ -224,6 +245,84 @@ export async function getCourseBuilderVideoResource(
     return null
   } catch (error) {
     console.error('Error fetching Course Builder video resource:', error)
+    return null
+  } finally {
+    if (conn) {
+      conn.release()
+    }
+  }
+}
+
+/**
+ * Loads course metadata from the Course Builder database
+ * @param slug - The course slug
+ * @returns Promise<CourseBuilderMetadata | null> - The course metadata if available, null otherwise
+ */
+export async function loadCourseBuilderCourseMetadata(
+  slug: string,
+): Promise<Post | null> {
+  if (!process.env.COURSE_BUILDER_DATABASE_URL) {
+    console.warn(
+      'COURSE_BUILDER_DATABASE_URL not configured, skipping Course Builder metadata lookup',
+    )
+    return null
+  }
+
+  const {hashFromSlug} = parseSlugForHash(slug)
+  const pool = getConnectionPool()
+  let conn
+
+  try {
+    conn = await pool.getConnection()
+
+    // Get course data matching the pattern from [post].tsx
+    const [courseRows] = await conn.execute<RowDataPacket[]>(
+      `
+      SELECT cr_course.*, egh_user.name, egh_user.image
+      FROM egghead_ContentResource cr_course
+      LEFT JOIN egghead_User egh_user ON cr_course.createdById = egh_user.id
+      WHERE (cr_course.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ? OR cr_course.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?)
+      AND cr_course.type = 'post'
+      AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
+      LIMIT 1
+    `,
+      [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`],
+    )
+
+    const courseRow = courseRows[0]
+
+    if (!courseRow) {
+      console.log(`No Course Builder course found for slug: ${slug}`)
+      return null
+    }
+
+    // Parse fields if they are JSON strings
+    const courseFields =
+      typeof courseRow.fields === 'string'
+        ? JSON.parse(courseRow.fields)
+        : courseRow.fields
+
+    // Convert to the Post type structure
+    const post: Post = {
+      id: courseRow.id,
+      type: courseRow.type,
+      createdById: courseRow.createdById,
+      fields: courseFields,
+      createdAt: new Date(courseRow.createdAt),
+      updatedAt: new Date(courseRow.updatedAt),
+      deletedAt: courseRow.deletedAt ? new Date(courseRow.deletedAt) : null,
+      currentVersionId: courseRow.currentVersionId,
+      organizationId: courseRow.organizationId,
+      createdByOrganizationMembershipId:
+        courseRow.createdByOrganizationMembershipId,
+      name: courseRow.name,
+      image: courseRow.image,
+    }
+
+    console.log(`Found Course Builder course metadata for: ${slug}`)
+    return convertToSerializeForNextResponse(post)
+  } catch (error) {
+    console.error('Error fetching Course Builder course metadata:', error)
     return null
   } finally {
     if (conn) {
