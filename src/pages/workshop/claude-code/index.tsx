@@ -41,7 +41,14 @@ const WorkshopPage = () => {
       viewer?.accounts[0]?.subscriptions[0]?.stripe_subscription_id,
   })
   const islifeTimeSubscriber = viewer?.roles?.includes('lifetime_subscriber')
-  const isyearlyPro = subscription?.items.data[0].plan.interval === 'year'
+  const subscriptionInterval = subscription?.items.data[0]?.plan.interval
+  const subscriptionIntervalCount =
+    subscription?.items.data[0]?.plan.interval_count
+  const isyearlyPro = subscriptionInterval === 'year'
+  const isMonthlyorQuarterlyPro =
+    subscriptionInterval === 'month' &&
+    (subscriptionIntervalCount === 1 || subscriptionIntervalCount === 3)
+  const hasYearlyProDiscount = islifeTimeSubscriber || isyearlyPro
 
   // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), [])
@@ -67,7 +74,7 @@ const WorkshopPage = () => {
             saleisActive={saleisActive}
             workshop={liveWorkshop}
           />
-          <section className="z-10 relative">
+          <section className="z-10 relative pb-8">
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               Ready to Unlock the Full Power of Claude Code?
             </h2>
@@ -90,6 +97,10 @@ Most developers are using maybe 20% of Claude Code's capabilities.
 
 The remaining 80%? That's where the real productivity gains live—in the advanced techniques, hidden features, and battle-tested workflows that transform Claude from a helpful assistant into a force multiplier for your entire development process.`}
             </Markdown>
+            <Testimonial
+              quote="John's workshop revealed that I was barely scratching the surface with Claude Code. I'd used features like agents and hooks before, but never to this extent. It was top notch! Insightful, straight to the point and brilliantly structured. We could have easily carried on for another 5 hours!"
+              name="Vitor Correa"
+            />
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               The Game-Changing Workflows You're Missing
             </h2>
@@ -120,6 +131,9 @@ Model Context Protocols aren't just integrations—they're game changers:
 
 These aren't just features—they're force multipliers that transform how you think about development, automation, and team productivity.`}
             </Markdown>
+            <div className="relative">
+              <Instructor />
+            </div>
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               Building with AI Agents CAN Actually be Reliable.
             </h2>
@@ -173,6 +187,12 @@ You're not just using Claude Code—you're building a personalized AI workforce 
                 height={2511}
               />
             )} */}
+
+            <Testimonial
+              quote="You're absolutely right!"
+              name="Opus 4.1"
+              image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1754499088/claude_hfq89e.png"
+            />
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               Enter: the Claude Code Power-User Workshop
             </h2>
@@ -227,7 +247,8 @@ Plus John's personal collection of battle-tested scripts, keyboard shortcuts, an
           SaleClosedUi={<SignUpForm />}
           ActiveSaleUi={
             <ActiveSale
-              hasProDiscount={islifeTimeSubscriber || isyearlyPro}
+              hasYearlyProDiscount={hasYearlyProDiscount}
+              isMonthlyOrQuarterly={isMonthlyorQuarterlyPro}
               workshopFeatures={LIVE_WORKSHOP_FEATURES}
               teamWorkshopFeatures={TEAM_WORKSHOP_FEATURES}
               workshop={liveWorkshop}
@@ -235,9 +256,6 @@ Plus John's personal collection of battle-tested scripts, keyboard shortcuts, an
             />
           }
         />
-        <div className="relative">
-          <Instructor />
-        </div>
       </div>
     </main>
   )
