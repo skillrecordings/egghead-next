@@ -10,7 +10,7 @@ jobs:
       - name: Test using Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '18.x'
+          node-version: '22.x'
       - name: Setup pnpm 8
         uses: pnpm/action-setup@v2
         with:

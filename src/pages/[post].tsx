@@ -37,6 +37,7 @@ import {VideoPlayerOverlayProvider} from '@/hooks/mux/use-video-player-overlay'
 import {MuxPlayerProvider} from '@/hooks/use-mux-player'
 
 import 'highlight.js/styles/night-owl.css'
+import {CopyAsPromptButton} from '@/components/copy-as-prompt-button'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const postSlugs = await getAllPostSlugs()
@@ -204,6 +205,13 @@ export default function PostPage({
                 </Link>
               )}
               <TagList tags={tags} resourceSlug={post.fields.slug ?? ''} />
+              <CopyAsPromptButton
+                title={post.fields.title}
+                description={post.fields.body}
+                transcript={videoResource?.fields?.transcript}
+                contentType={post.fields.postType}
+                contentId={post.fields.eggheadLessonId || post.id}
+              />
             </div>
           </div>
         </header>
@@ -223,7 +231,7 @@ export default function PostPage({
           {/* Share section */}
           <div className="py-6 bg-transparent dark:border-gray-800/50 border-y border-gray-100 my-10 flex justify-center gap-5 flex-wrap items-center">
             <span className="text-sm">Share with a coworker</span>
-            <div className="flex sm:items-center items-start sm:justify-center gap-2">
+            <div className="flex sm:items-center items-start sm:justify-center gap-2 flex-wrap">
               <CopyToClipboard
                 stringToCopy={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/${post.fields.slug}`}
               />

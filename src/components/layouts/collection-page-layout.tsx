@@ -29,6 +29,7 @@ import ExternalTrackedLink from '@/components/external-tracked-link'
 import DialogButton from '../pages/courses/dialog-button'
 import MembershipDialogButton from '../pages/courses/membership-dialog-button'
 import dynamic from 'next/dynamic'
+import {CopyAsPromptButton} from '@/components/copy-as-prompt-button'
 
 import LoginForm from '@/pages/login'
 import {trpc} from '@/app/_trpc/client'
@@ -498,6 +499,27 @@ const CollectionPageLayout: React.FunctionComponent<
               {/* TODO: fix bookmarks feature EGG-294 */}
               {/* Start of action buttons block */}
               <div className="flex items-center justify-center mt-4 space-x-2 dark:text-gray-900 md:justify-start">
+                {/* Copy as Prompt button */}
+                <CopyAsPromptButton
+                  title={title}
+                  description={description}
+                  lessons={
+                    lessons?.map((lesson: any) => {
+                      return {
+                        title: lesson?.title || '',
+                        description: lesson?.description || '',
+                        transcript:
+                          lesson?.transcript ||
+                          lesson?.scrimba?.transcript ||
+                          '',
+                      }
+                    }) || []
+                  }
+                  contentType="course"
+                  contentId={course.id}
+                  requiresPro={true}
+                  className="flex flex-row items-center rounded  px-4 py-2 border transition-all text-sm xs:text-base ease-in-out duration-150 shadow-sm bg-white text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700 border-gray-300  dark:bg-gray-800 dark:border-gray-600"
+                />
                 {/* Bookmark button */}
                 {toggle_favorite_url ? (
                   <button

@@ -168,6 +168,7 @@ export const instructorRouter = router({
           "id":_ref,
           "title": @->title,
           "description": @->description,
+          "transcript": @->resource->transcript.text,
           "type": @-> _type,
           "icon_url": @-> softwareLibraries[0].library->image.url,
           "duration": @-> resource->duration,

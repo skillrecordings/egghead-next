@@ -22,10 +22,9 @@ const Share: FunctionComponent<React.PropsWithChildren<ShareProps>> = ({
 }) => {
   return (
     <>
-      <span className="text-sm">{children || title}</span>
       <h2 className="sr-only">Social Share Links</h2>
       <div className={className || 'flex items-center mt-3'}>
-        <div className={'flex items-center space-x-2'}>
+        <div className={'flex items-center gap-2'}>
           <TweetLink resource={resource} instructor={instructor} />
           <CopyToClipboard
             stringToCopy={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${resource.path}`}
@@ -63,7 +62,7 @@ const TweetLink: FunctionComponent<React.PropsWithChildren<ShareProps>> = ({
       href={encodeTweetUrl()}
     >
       <IconTwitter className="w-5" />
-      <span>Send Tweet</span>
+      <span>Tweet</span>
     </a>
   ) : null
 }

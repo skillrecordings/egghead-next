@@ -70,6 +70,7 @@ export const CourseSchema = z
   .nullish()
 
 // Export types
+export type PostType = z.infer<typeof PostTypeSchema>
 export type Fields = z.infer<typeof FieldsSchema>
 export type Post = z.infer<typeof PostSchema>
 export type Course = z.infer<typeof CourseSchema>
