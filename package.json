@@ -309,7 +309,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-app": "^6.2.2",
     "eslint-plugin-react-hooks": "^4.0.8",
-    "eslint-plugin-storybook": "^9.1.2",
+    "eslint-plugin-storybook": "^0.9.0",
     "eslint-plugin-testing-library": "^4.11.0",
     "globby": "^12.0.1",
     "handlebars": "^4.7.7",
