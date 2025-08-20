@@ -211,6 +211,7 @@ export default function PostPage({
                 transcript={videoResource?.fields?.transcript}
                 contentType={post.fields.postType}
                 contentId={post.fields.eggheadLessonId || post.id}
+                className="shrink-0"
               />
             </div>
           </div>
