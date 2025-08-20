@@ -41,9 +41,9 @@ const WorkshopPage = () => {
       viewer?.accounts[0]?.subscriptions[0]?.stripe_subscription_id,
   })
   const islifeTimeSubscriber = viewer?.roles?.includes('lifetime_subscriber')
-  const subscriptionInterval = subscription?.items.data[0]?.plan.interval
+  const subscriptionInterval = subscription?.items?.data?.[0]?.plan?.interval
   const subscriptionIntervalCount =
-    subscription?.items.data[0]?.plan.interval_count
+    subscription?.items?.data?.[0]?.plan?.interval_count
   const isyearlyPro = subscriptionInterval === 'year'
   const isMonthlyorQuarterlyPro =
     subscriptionInterval === 'month' &&

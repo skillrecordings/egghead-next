@@ -256,21 +256,33 @@ const TieredPricing = ({
   }
 
   // Calculate prices
-  const basePrice = Number(workshop?.workshopPrice) || 400
+  // Calculate prices
+  const basePriceRaw = Number(workshop?.workshopPrice)
+  const basePrice = Number.isFinite(basePriceRaw) ? basePriceRaw : 400
   const isEarlyBird = workshop?.isEarlyBird
 
   // Non-member pricing
+  const nonMemberDiscountRaw = Number(
+    workshop?.stripeEarlyBirdNonMemberDiscount,
+  )
   const nonMemberDiscount = isEarlyBird
-    ? Number(workshop?.stripeEarlyBirdNonMemberDiscount) || 75
+    ? Number.isFinite(nonMemberDiscountRaw)
+      ? nonMemberDiscountRaw
+      : 75
     : 0
   const nonMemberPrice = basePrice - nonMemberDiscount
 
   // Member pricing
+  const earlyMemberRaw = Number(workshop?.stripeEarlyBirdMemberDiscount)
+  const memberRaw = Number(workshop?.stripeMemberDiscount)
   const memberDiscount = isEarlyBird
-    ? Number(workshop?.stripeEarlyBirdMemberDiscount) || 150
-    : Number(workshop?.stripeMemberDiscount) || 100
+    ? Number.isFinite(earlyMemberRaw)
+      ? earlyMemberRaw
+      : 150
+    : Number.isFinite(memberRaw)
+      ? memberRaw
+      : 100
   const memberPrice = basePrice - memberDiscount
-
   // PPP pricing if applicable
   const pppDiscount = parityCoupon?.coupon_discount ?? 0
   const pppCountryName = parityCoupon?.coupon_region_restricted_to_name ?? ''
