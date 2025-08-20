@@ -89,7 +89,8 @@ export const mergeLessonMetadata = (
           repo_url: lessonMetadataFromCourseBuilder.repo_url,
         }),
         ogImage:
-          lessonMetadataFromCourseBuilder?.ogImage ||
+          (lessonMetadataFromCourseBuilder?.ogImage &&
+            lessonMetadataFromCourseBuilder.ogImage.trim()) ||
           `${process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN}/api/og?resource=post_${courseBuilderIdSHA}`,
       }
     : {

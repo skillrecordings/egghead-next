@@ -120,7 +120,7 @@ export default function PostPage({
   }
 
   const ogImage =
-    post.fields.ogImage ??
+    (post.fields.ogImage && post.fields.ogImage.trim()) ||
     `${process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN}/api/og?resource=${post.fields.slug}`
 
   return (
