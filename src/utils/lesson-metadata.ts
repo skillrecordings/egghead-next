@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import compactedMerge from '@/utils/compacted-merge'
 import invariant from 'tiny-invariant'
 import {extractCourseBuilderIdSHA} from '@/lib/course-builder'
-import {Post} from '@/pages/[post]'
+import {Post} from '@/schemas/post'
 
 // Type for Course Builder lesson data that includes transcript from video resource
 type CourseBuilderLessonData = {

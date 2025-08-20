@@ -1,6 +1,6 @@
 import * as mysql from 'mysql2/promise'
 import {ConnectionOptions, RowDataPacket, Pool} from 'mysql2/promise'
-import type {Post} from '@/pages/[post]'
+import type {Post} from '@/schemas/post'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,

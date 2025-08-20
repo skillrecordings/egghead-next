@@ -1,6 +1,6 @@
 import * as mysql from 'mysql2/promise'
 import {ConnectionOptions, RowDataPacket} from 'mysql2/promise'
-import {PostSchema, type Post} from '@/pages/[post]'
+import {PostSchema, type Post} from '@/schemas/post'
 import {z} from 'zod'
 
 const access: ConnectionOptions = {

@@ -40,15 +40,18 @@ export function PostPlayer({
   primaryTagName,
 }: PostPlayerProps) {
   const [writingProgress, setWritingProgress] = React.useState<Boolean>(false)
-  const {mutate: markLessonComplete} = trpc.progress.markLessonComplete.useMutation()
-  const {mutateAsync: addProgressToLesson} = trpc.progress.addProgressToLesson.useMutation()
+  const {mutate: markLessonComplete} =
+    trpc.progress.markLessonComplete.useMutation()
+  const {mutateAsync: addProgressToLesson} =
+    trpc.progress.addProgressToLesson.useMutation()
   const {data: viewer} = trpc.user.current.useQuery()
   const isPro = post.fields.access === 'pro'
   const {setMuxPlayerRef} = useMuxPlayer()
   const playerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {dispatch: dispatchVideoPlayerOverlay} = useVideoPlayerOverlay()
 
-  const canView = !isPro || (isPro && Boolean(viewer) && Boolean(viewer?.is_pro))
+  const canView =
+    !isPro || (isPro && Boolean(viewer) && Boolean(viewer?.is_pro))
 
   async function writeProgressToLesson({
     currentTime,
@@ -110,7 +113,9 @@ export function PostPlayer({
           } else {
             // Fallback: check if either tag exists in the tags array
             const hasCursor = postTags.some((tag) => tag.name === 'cursor')
-            const hasClaudeCode = postTags.some((tag) => tag.name === 'claude-code')
+            const hasClaudeCode = postTags.some(
+              (tag) => tag.name === 'claude-code',
+            )
 
             if (hasCursor) {
               ctaType = 'cursor_workshop'
