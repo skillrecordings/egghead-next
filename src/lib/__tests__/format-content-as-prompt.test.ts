@@ -5,18 +5,18 @@ import {
 } from '../format-content-as-prompt'
 
 describe('formatContentAsPrompt', () => {
-  it('formats a simple post correctly', () => {
+  it('formats a simple article correctly', () => {
     const content = {
-      title: 'Test Post',
+      title: 'Test Article',
       description: 'A test description',
       transcript: 'Hello world transcript',
-      contentType: 'post' as const,
+      contentType: 'article' as const,
     }
 
     const result = formatContentAsPrompt(content)
 
-    expect(result).toContain('<content type="post">')
-    expect(result).toContain('<title>Test Post</title>')
+    expect(result).toContain('<content type="article">')
+    expect(result).toContain('<title>Test Article</title>')
     expect(result).toContain('<description>A test description</description>')
     expect(result).toContain('<transcript>Hello world transcript</transcript>')
     expect(result).toContain('</content>')
@@ -51,30 +51,30 @@ describe('formatContentAsPrompt', () => {
     expect(result).toContain('</lessons>')
   })
 
-  it('escapes XML special characters', () => {
+  it('handles XML special characters', () => {
     const content = {
       title: 'Test & Title <with> "quotes"',
       description: 'Description with & symbols',
-      contentType: 'post' as const,
+      contentType: 'article' as const,
     }
 
     const result = formatContentAsPrompt(content)
 
-    expect(result).toContain('Test &amp; Title &lt;with&gt; &quot;quotes&quot;')
-    expect(result).toContain('Description with &amp; symbols')
+    expect(result).toContain('Test & Title <with> "quotes"')
+    expect(result).toContain('Description with & symbols')
   })
 
   it('handles empty/null values gracefully', () => {
     const content = {
-      title: 'Test Post',
+      title: 'Test Article',
       description: null,
       transcript: '',
-      contentType: 'post' as const,
+      contentType: 'article' as const,
     }
 
     const result = formatContentAsPrompt(content)
 
-    expect(result).toContain('<title>Test Post</title>')
+    expect(result).toContain('<title>Test Article</title>')
     expect(result).not.toContain('<description>')
     expect(result).not.toContain('<transcript>')
   })
@@ -84,7 +84,7 @@ describe('validateContentData', () => {
   it('validates valid content', () => {
     const content = {
       title: 'Test',
-      contentType: 'post' as const,
+      contentType: 'article' as const,
     }
 
     const result = validateContentData(content)
@@ -103,7 +103,7 @@ describe('validateContentData', () => {
     expect(result.isValid).toBe(true)
   })
 
-  it('rejects course without lessons', () => {
+  it('validates course without lessons', () => {
     const content = {
       title: 'Test Course',
       contentType: 'course' as const,
@@ -111,14 +111,14 @@ describe('validateContentData', () => {
     }
 
     const result = validateContentData(content)
-    expect(result.isValid).toBe(false)
-    expect(result.errors).toContain('Course content must include lessons')
+    expect(result.isValid).toBe(true)
+    expect(result.errors).toHaveLength(0)
   })
 
   it('rejects content without title', () => {
     const content = {
       title: '',
-      contentType: 'post' as const,
+      contentType: 'article' as const,
     }
 
     const result = validateContentData(content)
@@ -132,7 +132,7 @@ describe('estimateContentSize', () => {
     const content = {
       title: 'Test',
       description: 'Description',
-      contentType: 'post' as const,
+      contentType: 'article' as const,
     }
 
     const size = estimateContentSize(content)

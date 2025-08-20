@@ -37,6 +37,7 @@ import {VideoPlayerOverlayProvider} from '@/hooks/mux/use-video-player-overlay'
 import {MuxPlayerProvider} from '@/hooks/use-mux-player'
 
 import 'highlight.js/styles/night-owl.css'
+import {CopyAsPromptButton} from '@/components/copy-as-prompt-button'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const postSlugs = await getAllPostSlugs()
