@@ -23,8 +23,8 @@ export function TagList({tags, resourceSlug, className}: TagListProps) {
             className,
           )}
         >
-          {tags.map((tag: Tag, index: number) => (
-            <li key={index} className="inline-flex items-center mt-0">
+          {tags.map((tag: Tag) => (
+            <li key={tag.name} className="inline-flex items-center mt-0">
               <Link
                 href={`/q/${tag.name}`}
                 onClick={() => {

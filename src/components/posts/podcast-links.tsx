@@ -60,6 +60,7 @@ export function PodcastLinks() {
         <a
           key={link}
           title={title}
+          aria-label={title}
           className="flex items-center justify-center w-12 h-12 mr-2 transition-colors duration-300 ease-in-out rounded-full hover:bg-gray-200 dark:hover:bg-gray-800"
           href={link}
           target="_blank"
