@@ -1,4 +1,4 @@
-import type {Post} from '@/pages/[post]'
+import type {Post} from '@/schemas/post'
 
 /**
  * Client-safe wrapper for loadCourseBuilderMetadata

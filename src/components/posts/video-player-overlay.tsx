@@ -5,7 +5,7 @@ import {
   useVideoPlayerOverlay,
   type CompletedAction,
 } from '@/hooks/mux/use-video-player-overlay'
-import {Post} from '@/pages/[post]'
+import {Post} from '@/schemas/post'
 import Spinner from '@/spinner'
 import {Button} from '@/ui/button'
 import {ArrowRight} from 'lucide-react'

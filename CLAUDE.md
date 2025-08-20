@@ -61,12 +61,79 @@ src/
 
 ### Key Patterns
 
-1. **Component Organization**: Feature-based folders (e.g., `components/workshop/claude-code/`)
+1. **Component Organization**: Feature-based folders (e.g., `components/posts/`, `components/workshop/claude-code/`)
 2. **Path Aliases**: Use `@/` for imports from `src/` directory
 3. **Data Fetching**: Use tRPC for type-safe API calls
 4. **Styling**: Prefer Tailwind utilities, use CSS modules for complex styles
 5. **State Machines**: Use XState for complex UI states
 6. **Testing**: Co-locate tests in `__tests__` folders or `*.test.ts` files
+7. **Code Organization**: Follow separation of concerns - extract schemas, database logic, and UI components into separate modules
+
+### Preferred Code Organization Structure
+
+When working with large files or creating new features, follow this separation of concerns pattern:
+
+#### 1. Schemas and Types (`src/schemas/`)
+
+- Extract all Zod schemas and TypeScript types into dedicated schema files
+- Example: `src/schemas/post.ts` for post-related types
+- Export both schemas and inferred types: `export type Post = z.infer<typeof PostSchema>`
+
+#### 2. Database Operations (`src/lib/[feature]/` or `src/lib/[feature]-query.ts`)
+
+- Extract database queries and data fetching logic
+- Use `'use server'` directive for server-side operations
+- Create utility functions for common operations
+- Structure:
+  ```
+  src/lib/posts/
+  ├── get-post.ts      # Main data fetching
+  ├── get-tags.ts      # Related data fetching
+  ├── get-course.ts    # Associated data
+  └── utils.ts         # Utility functions
+  src/lib/posts-query.ts # Main export file
+  ```
+
+#### 3. UI Components (`src/components/[feature]/`)
+
+- Extract reusable UI components into feature folders
+- Keep components focused on single responsibilities
+- Include prop interfaces and proper TypeScript types
+- Structure:
+  ```
+  src/components/posts/
+  ├── post-player.tsx           # Main interactive components
+  ├── instructor-profile.tsx    # Data display components
+  ├── tag-list.tsx             # List components
+  ├── powered-by-mux.tsx       # Utility components
+  └── icons/
+      └── github-icon.tsx      # Icon components
+  ```
+
+#### 4. Main Page/Route Files
+
+- Keep page files focused on orchestration and layout
+- Import from extracted modules rather than inline definitions
+- Target: Reduce page files to ~200-300 lines maximum
+- Handle only: data fetching orchestration, layout, and SEO
+
+**When to apply this structure:**
+
+- Files exceeding 500+ lines
+- Multiple responsibilities in a single file (data fetching + UI + types)
+- Difficulty finding specific functionality
+- Need to reuse components elsewhere
+- Components that could benefit from isolated testing
+
+**Benefits of this approach:**
+
+- **Maintainability**: Each piece has a single responsibility
+- **Testability**: Components and functions can be tested in isolation
+- **Reusability**: Components can be used elsewhere in the app
+- **Performance**: Better code splitting and bundle optimization
+- **Developer Experience**: Easier to find and modify specific functionality
+
+**Real-world example:** The `src/pages/[post].tsx` was refactored from 967 lines to 262 lines following this pattern.
 
 ## Development Setup
 
@@ -101,9 +168,12 @@ Husky automatically runs:
 
 ### Creating Components
 
-- Check existing components first for patterns
+- Check existing components first for patterns (see `src/components/posts/` for reference)
 - Use TypeScript interfaces for props
 - Follow accessibility best practices
+- Extract components into feature-based folders (e.g., `src/components/[feature]/`)
+- Keep components focused on single responsibilities
+- For large page files, extract UI components following the preferred code organization structure
 
 ### Working with tRPC
 
