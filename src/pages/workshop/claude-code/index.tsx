@@ -76,7 +76,7 @@ const WorkshopPage = () => {
           />
           <section className="z-10 relative pb-8">
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
-              Ready to Unlock the Full Power of Claude Code?
+              You're using Claude Code, but are you getting the most out of it?
             </h2>
             <Markdown className="prose-base w-full sm:prose-lg md:prose-xl marker:text-blue-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:text-balance prose-headings:px-5 prose-headings:font-text prose-headings:font-semibold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-normal prose-p:text-foreground prose-a:text-blue-300 prose-strong:font-semibold dark:prose-strong:text-white prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:translate-x-1 prose-ul:list-disc hover:prose-a:underline md:prose-h2:text-5xl">
               {`You've seen the demos.
@@ -103,21 +103,21 @@ The remaining 80%? That's where the real productivity gains live—in the advanc
               image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1755729693/people/vitor.png"
             />
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
-              The Game-Changing Workflows You're Missing
+              Crucial Workflows You're Missing
             </h2>
             <Markdown className="prose-base w-full sm:prose-lg md:prose-xl marker:text-blue-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:text-balance prose-headings:px-5 prose-headings:font-text prose-headings:font-semibold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-normal prose-p:text-foreground prose-a:text-blue-300 prose-strong:font-semibold dark:prose-strong:text-white prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:translate-x-1 prose-ul:list-disc hover:prose-a:underline md:prose-h2:text-5xl">
-              {`**Beyond Basic Prompting: Script Your Way to 10x Productivity**
+              {`**Beyond Basic Prompting: Script Your Way to get more done**
 
 Most developers are typing prompts one at a time. Power users? They're orchestrating entire workflows:
 
-- **Automated Intelligence on Autopilot**: Set up cron jobs where Claude searches the web, analyzes findings, creates files, and commits changes—all while you sleep
-- **TypeScript SDK Mastery**: While plain English works, feeding Claude programmatic results from other tools creates consistency and reliability that manual prompting can't match
-- **Multi-Agent Orchestration**: If you're using one agent at a time, you're leaving massive productivity gains on the table. Learn to coordinate sub-agents for complex tasks
-- **One-Click Complexity**: Compress multi-hour workflows into single scripts or keyboard shortcuts that handle massive orchestrations
+- Set up cron jobs where Claude searches the web, analyzes findings, creates files, and commits changes—all while you sleep
+- While plain English works, feeding Claude programmatic results from other tools creates consistency and reliability that manual prompting can't match
+- If you're using one agent at a time, you're leaving massive productivity gains on the table. Learn to coordinate sub-agents for complex tasks
+- Compress multi-hour workflows into single scripts or keyboard shortcuts that handle massive orchestrations
 
 **MCP: Your Gateway to Connected Intelligence**
 
-Model Context Protocols aren't just integrations—they're game changers:
+Model Context Protocols make a real difference:
 
 - **GitHub Superpowers**: Search across millions of repos, understand entire codebases instantly, find real-world examples in seconds
 - **Team Knowledge Management**: Store, organize, and query information professionally—share institutional knowledge across your entire team
@@ -130,7 +130,7 @@ Model Context Protocols aren't just integrations—they're game changers:
 - **Playwright Automation**: Control browsers programmatically—automate testing, data gathering, and complex web workflows
 - **Sandboxed Execution**: Give Claude full system access safely, preventing catastrophic changes while enabling powerful automation
 
-These aren't just features—they're force multipliers that transform how you think about development, automation, and team productivity.`}
+They're a tool that actually speeds up your work that transform how you think about development, automation, and team productivity.`}
             </Markdown>
             <div className="relative">
               <Instructor />
@@ -148,7 +148,7 @@ When you master these techniques, everything changes:
 - **Conversations become orchestrations**: Complex multi-step processes compress into single commands
 - **Management becomes automation**: Status updates, code reviews, documentation—all handled programmatically
 
-**From Manual to Magical**
+**Stop Doing Things the Hard Way**
 
 Imagine your AI teammate that:
 - Knows your codebase cold—imports, patterns, conventions, even that weird legacy folder
@@ -164,7 +164,7 @@ Every workflow you automate compounds:
 - Month 3: Your entire team operates at a new level of efficiency
 - Month 6: You can't imagine working the old way
 
-You're not just using Claude Code—you're building a personalized AI workforce that grows more powerful with every script, every integration, every workflow you create.`}
+You're not just using Claude Code, you're building a personalized AI workforce that grows more powerful with every script, every integration, every workflow you create.`}
             </Markdown>
             {/* {mounted && theme === 'light' && (
               <Image
