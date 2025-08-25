@@ -41,8 +41,9 @@ const SubscriptionDetails: React.FunctionComponent<
 
   const subscriptionName = subscriptionData?.product?.name
   const subscriptionUnitAmount =
-    subscriptionData?.latestInvoice?.amount_due ||
-    subscriptionData?.price?.unit_amount
+    subscriptionData?.recurringSubscriptionAmount ||
+    subscriptionData?.price?.unit_amount ||
+    subscriptionData?.upcomingInvoice?.amount_due
 
   const currency =
     subscriptionData?.latestInvoice?.currency ||

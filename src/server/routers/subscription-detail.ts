@@ -36,37 +36,63 @@ export const subscriptionDetailsRouter = router({
       const subscription = subscriptions.data[0]
 
       if (subscription) {
-        const price = subscription.items.data[0]?.price
+        const originalPrice = subscription.items.data[0]?.price
         const latestInvoice =
           typeof subscription.latest_invoice === 'string'
             ? await stripe.invoices.retrieve(subscription.latest_invoice)
             : subscription.latest_invoice
-        const billingScheme = price?.billing_scheme || 'per_unit'
+        const billingScheme = originalPrice?.billing_scheme || 'per_unit'
 
         const product =
-          typeof price?.product === 'string'
-            ? await stripe.products.retrieve(price.product)
-            : (price?.product as Stripe.Product)
+          typeof originalPrice?.product === 'string'
+            ? await stripe.products.retrieve(originalPrice.product)
+            : (originalPrice?.product as Stripe.Product)
 
         // Try fetching the upcoming invoice
         let upcomingInvoice: Stripe.Invoice | null = null
-        if (!isEmpty(subscription.canceled_at)) {
+        if (isEmpty(subscription.canceled_at)) {
           // Only retrieve it if the subscription hasn't been cancelled,
           // otherwise it will result in a StripeInvalidRequestError.
-          upcomingInvoice = await stripe.invoices.retrieveUpcoming({
-            customer: stripeCustomerId,
-          })
+          try {
+            upcomingInvoice = await stripe.invoices.retrieveUpcoming({
+              customer: stripeCustomerId,
+              subscription: subscription.id,
+            })
+          } catch (error) {
+            console.error('Error fetching upcoming invoice:', error)
+          }
         }
+        // Get the actual subscription recurring amount from upcoming invoice line items
+        let recurringSubscriptionAmount: number | null = null
+        if (upcomingInvoice?.lines?.data) {
+          // Filter for subscription line items only (exclude one-time charges)
+          const subscriptionLineItems = upcomingInvoice.lines.data.filter(
+            (line) =>
+              line.type === 'subscription' &&
+              line.subscription === subscription.id,
+          )
+          if (subscriptionLineItems.length > 0) {
+            recurringSubscriptionAmount = subscriptionLineItems.reduce(
+              (total, item) => total + (item.amount || 0),
+              0,
+            )
+          }
+        }
+        // Priority: Use recurring amount from upcoming invoice lines, then original
+        const accuratePrice = recurringSubscriptionAmount
+          ? {...originalPrice, unit_amount: recurringSubscriptionAmount}
+          : originalPrice
 
         return {
           portalUrl: session.url,
           billingScheme,
           subscription,
-          price,
+          price: accuratePrice,
           product,
           latestInvoice,
           upcomingInvoice,
           accountBalance: balance,
+          recurringSubscriptionAmount,
         }
       } else {
         return {
