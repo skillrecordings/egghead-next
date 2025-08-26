@@ -92,8 +92,8 @@ const SubscriptionDetails: React.FunctionComponent<
                 <strong>
                   {format(
                     new Date(
-                      (subscriptionData?.subscription?.current_period_end ||
-                        0) * 1000,
+                      (subscriptionData?.subscription?.items?.data[0]
+                        ?.current_period_end || 0) * 1000,
                     ),
                     'PPP',
                   )}
@@ -180,8 +180,8 @@ const SubscriptionDetails: React.FunctionComponent<
                 <strong>
                   {format(
                     new Date(
-                      (subscriptionData?.subscription?.current_period_end ||
-                        0) * 1000,
+                      (subscriptionData?.subscription?.items?.data[0]
+                        ?.current_period_end || 0) * 1000,
                     ),
                     'PPP',
                   )}
