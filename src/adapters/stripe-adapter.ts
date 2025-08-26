@@ -13,7 +13,7 @@ interface PaymentsAdapter {
   getInvoice(invoiceId: string): Promise<Stripe.Invoice>
 }
 
-const STRIPE_VERSION = '2020-08-27'
+const STRIPE_VERSION = '2025-07-30.basil'
 
 class StripePaymentAdapter implements PaymentsAdapter {
   stripe: Stripe

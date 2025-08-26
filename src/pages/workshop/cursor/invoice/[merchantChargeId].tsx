@@ -11,7 +11,7 @@ import {Button, Input} from '@/ui'
 import {redirect} from 'next/navigation'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2020-08-27',
+  apiVersion: '2025-07-30.basil',
 })
 
 export const getServerSideProps = async (props: {
