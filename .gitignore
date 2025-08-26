@@ -4,6 +4,7 @@ repomix-output.txt
 bundles.json
 .claude/
 .vscode/
+.repomix/
 
 # dependencies
 node_modules
