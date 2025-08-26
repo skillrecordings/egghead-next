@@ -50,7 +50,7 @@ const StripeCheckoutSession = async (
         if (!isEmpty(subscription.canceled_at)) {
           // Only retrieve it if the subscription hasn't been cancelled,
           // otherwise it will result in a StripeInvalidRequestError.
-          upcomingInvoice = await stripe.invoices.retrieveUpcoming({
+          upcomingInvoice = await stripe.invoices.createPreview({
             customer: customer_id,
           })
         }
