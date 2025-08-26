@@ -1,7 +1,7 @@
 'use client'
 import Layout from '@/components/app/layout'
 import Hero from '@/components/workshop/claude-code/Hero'
-import Instructor from '@/components/workshop/shared/Instructor'
+import InstructorTerminal from '@/components/workshop/claude-code/instructor-terminal'
 import SignUpForm from '@/components/workshop/claude-code/SignUpForm'
 import type {SignUpFormRef} from '@/components/workshop/claude-code/Hero'
 import type {GetServerSideProps} from 'next'
@@ -15,6 +15,7 @@ import {useViewer} from '@/context/viewer-context'
 import {trpc} from '@/app/_trpc/client'
 import Markdown from '@/components/markdown'
 import Testimonial from '@/components/workshop/shared/testimonial'
+import WorkshopHistory from '@/components/workshop/claude-code/workshop-history'
 
 export const TEAM_WORKSHOP_FEATURES = [
   'Flexible scheduling',
@@ -132,9 +133,7 @@ Model Context Protocols make a real difference:
 
 They're a tool that actually speeds up your work that transform how you think about development, automation, and team productivity.`}
             </Markdown>
-            <div className="relative">
-              <Instructor />
-            </div>
+            <InstructorTerminal />
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               Building with AI Agents CAN Actually be Reliable.
             </h2>
@@ -241,6 +240,8 @@ Plus John's personal collection of battle-tested scripts, keyboard shortcuts, an
           </section>
         </div>
         {/* <WorkshopStructure /> */}
+
+        <WorkshopHistory />
 
         <CtaSection
           saleisActive={saleisActive}
