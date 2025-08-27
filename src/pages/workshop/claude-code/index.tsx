@@ -228,11 +228,19 @@ You're not just using Claude Code, you're building a personalized AI workforce t
 
 Plus John's personal collection of battle-tested scripts, keyboard shortcuts, and workflow patterns developed through many hours of Claude Code usage. He's used over 1 billion tokens in Claude Code!`}
             </Markdown>
-            <Testimonial
-              quote="You're absolutely right!"
-              name="Opus 4.1"
-              image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1754499088/claude_hfq89e.png"
-            />
+            <div className="flex gap-8 justify-center scale-90">
+              <Testimonial
+                quote="JOHN IS SO SMART!"
+                name="Kent C. Dodds"
+                image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/kent.jpg"
+                link="https://x.com/kentcdodds/status/1960833395149431093"
+              />
+              <Testimonial
+                quote="You're absolutely right!"
+                name="Opus 4.1"
+                image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1754499088/claude_hfq89e.png"
+              />
+            </div>
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               By 5 p.m. (or sooner) you’ll walk out with:
             </h2>
