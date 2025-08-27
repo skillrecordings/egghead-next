@@ -187,11 +187,11 @@ You're not just using Claude Code, you're building a personalized AI workforce t
                 height={2511}
               />
             )} */}
-
             <Testimonial
-              quote="You're absolutely right!"
-              name="Opus 4.1"
-              image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1754499088/claude_hfq89e.png"
+              quote="This workshop was a goldmine of practical tips and tools that will take my workflow to the next level."
+              name="Jan"
+              image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1756334503/people/uicoded.png"
+              link="https://x.com/uicoded"
             />
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               Enter: the Claude Code Power-User Workshop
@@ -228,7 +228,11 @@ You're not just using Claude Code, you're building a personalized AI workforce t
 
 Plus John's personal collection of battle-tested scripts, keyboard shortcuts, and workflow patterns developed through many hours of Claude Code usage. He's used over 1 billion tokens in Claude Code!`}
             </Markdown>
-
+            <Testimonial
+              quote="You're absolutely right!"
+              name="Opus 4.1"
+              image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1754499088/claude_hfq89e.png"
+            />
             <h2 className="mt-10 sm:mt-20 mb-10 lg:text-3xl sm:text-2xl text-xl font-bold dark:text-white text-center text-balance">
               By 5 p.m. (or sooner) you’ll walk out with:
             </h2>
