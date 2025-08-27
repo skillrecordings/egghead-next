@@ -349,6 +349,7 @@ export const ConfirmLifetimeMembership: React.FC<
       checkoutSessionId: session_id as string,
     })
 
+  console.log(data)
   if (!data) {
     return null
   }
