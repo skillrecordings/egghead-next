@@ -20,7 +20,7 @@ const SaleHeaderBanner = () => {
       }}
       className="group"
     >
-      <div className="flex justify-center pl-2 text-xs text-white bg-gradient-to-r sm:px-2 sm:text-sm from-blue-500 to-indigo-500">
+      <div className="flex justify-center pl-2 text-xs text-white bg-gradient-to-r sm:px-2 sm:text-sm from-blue-500 to-indigo-500 print:hidden">
         <div className="py-1 pr-3 leading-tight">
           <span role="img" aria-hidden="true">
             🌟

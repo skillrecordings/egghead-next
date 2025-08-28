@@ -25,7 +25,7 @@ const WorkshopEarlyBirdHeaderBanner: React.FC = () => {
       }}
       className="group"
     >
-      <div className="flex flex-col sm:flex-row items-center justify-center pl-2 text-xs text-white bg-gradient-to-r sm:px-2 sm:text-sm from-blue-500 to-indigo-500 py-1">
+      <div className="flex flex-col sm:flex-row items-center justify-center pl-2 text-xs text-white bg-gradient-to-r sm:px-2 sm:text-sm from-blue-500 to-indigo-500 py-1 print:hidden">
         <div className="flex sm:flex-row flex-col items-center gap-1 py-1 leading-tight">
           <div className="flex items-center gap-1">
             <span role="img" aria-hidden="true">
