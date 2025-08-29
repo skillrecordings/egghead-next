@@ -96,6 +96,9 @@ export async function loadUserProgress(
             is_complete
             created_at
             updated_at
+            tags {
+              image_url
+            }
             collection {
               ... on Playlist {
                 title

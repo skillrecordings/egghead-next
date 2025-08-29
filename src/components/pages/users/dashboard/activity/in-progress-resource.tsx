@@ -1,12 +1,12 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {convertTimeWithTitles} from '@/utils/time-utils'
 import {track} from '@/utils/analytics'
 import {first, get, isEmpty} from 'lodash'
 import {LessonResource} from '@/types'
 import {Card} from '@/components/card'
+import SafeImage from '@/components/safe-image'
 
 type InProgressResourceProps = {
   resource: any
@@ -33,6 +33,7 @@ const InProgressResource: FunctionComponent<
     lessons,
     image_128_url,
     items = [],
+    tags,
   } = resource
 
   const definedProgress = resource_progress || progress
@@ -63,6 +64,7 @@ const InProgressResource: FunctionComponent<
   const lessons_left = lesson_count - completed_lesson_count
   const resource_path = current_lesson?.path || path
   const image_url = square_cover_480_url || image_128_url
+  const tag_image_url = tags?.[0]?.image_url
 
   return (
     <Card className={`${small ? 'sm:px-6 sm:py-4' : ''} ${className}`}>
@@ -73,7 +75,7 @@ const InProgressResource: FunctionComponent<
             : 'items-center md:flex-row flex-col md:space-x-4 space-x-0'
         }`}
       >
-        {image_url && resource_path && (
+        {resource_path && (
           <Link
             href={resource_path}
             onClick={() =>
@@ -85,8 +87,9 @@ const InProgressResource: FunctionComponent<
             }
             tabIndex={-1}
           >
-            <Image
-              src={image_url}
+            <SafeImage
+              primarySrc={image_url}
+              fallbackSrc={tag_image_url}
               alt={title}
               width={small ? 72 : square_cover_480_url ? 160 : 48}
               height={small ? 72 : square_cover_480_url ? 160 : 48}
