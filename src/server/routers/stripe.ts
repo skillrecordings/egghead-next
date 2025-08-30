@@ -5,6 +5,7 @@ import {Stripe} from 'stripe'
 import {findStripeCustomerIdByEmail} from '../../utils/stripe-customer'
 
 import {getFeatureFlag} from '@/lib/feature-flags'
+import {cornersOfRectangle} from '@dnd-kit/core/dist/utilities/algorithms/helpers'
 
 export const stripeRouter = router({
   checkoutSessionById: baseProcedure
@@ -49,6 +50,8 @@ export const stripeRouter = router({
         session.customer as string,
       )) as Stripe.Customer
 
+      console.log('postCheckoutDetails session', session)
+
       if (session.mode === 'payment') {
         // this is a one-time payment, we expect a Payment Intent
         const paymentIntent = session.payment_intent as Stripe.PaymentIntent
@@ -56,7 +59,7 @@ export const stripeRouter = router({
         if (!paymentIntent)
           throw new Error('no payment intent found for one-time purchase')
 
-        const chargeId = paymentIntent.charges.data[0].id
+        const chargeId = paymentIntent.latest_charge as string
 
         const charge = await stripe.charges.retrieve(chargeId)
 
@@ -74,11 +77,40 @@ export const stripeRouter = router({
         if (!('invoice' in session))
           throw new Error('no invoice found for subscription')
 
-        const invoice = session.invoice as Stripe.Invoice
+        const subscription = await stripe.subscriptions.retrieve(
+          session.subscription as string,
+          {
+            expand: ['latest_invoice.charge'],
+          },
+        )
 
-        const chargeId = invoice.charge as string
+        console.log('postCheckoutDetails subscription', subscription)
 
-        const charge = await stripe.charges.retrieve(chargeId)
+        // Access the charge through the expanded latest_invoice
+        const latestInvoice = subscription.latest_invoice as Stripe.Invoice
+
+        const fullInvoice = await stripe.invoices.retrieve(
+          latestInvoice.id as string,
+          {
+            expand: [
+              'charge',
+              'payment_intent',
+              'payment_intent.latest_charge',
+            ],
+          },
+        )
+
+        console.log('postCheckoutDetails fullInvoice', fullInvoice)
+
+        const chargeId = fullInvoice as string
+
+        if (!chargeId) {
+          throw new Error('No charge found on subscription invoice')
+        }
+
+        const charge = await stripe.charges.retrieve(
+          'ch_3S0QSr2nImeJXwdJ01KJeByP',
+        )
 
         if (!charge) throw new Error(`no session loaded for ${chargeId}`)
 
