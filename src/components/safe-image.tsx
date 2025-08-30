@@ -18,37 +18,33 @@ const SafeImage: React.FC<SafeImageProps> = ({
   height = 20,
   ...rest
 }) => {
-  const [primaryError, setPrimaryError] = React.useState(false)
-  const [fallbackError, setFallbackError] = React.useState(false)
-
-  const currentSrc = React.useMemo(() => {
-    if (!primaryError && primarySrc) return primarySrc
-    if (!fallbackError && fallbackSrc) return fallbackSrc
-    return null
-  }, [primarySrc, fallbackSrc, primaryError, fallbackError])
+  const [currentImageSrc, setCurrentImageSrc] = React.useState<string | null>(
+    primarySrc || fallbackSrc || null,
+  )
 
   React.useEffect(() => {
-    setPrimaryError(false)
-    setFallbackError(false)
+    // Reset to primary source when props change
+    setCurrentImageSrc(primarySrc || fallbackSrc || null)
   }, [primarySrc, fallbackSrc])
 
-  if (!currentSrc) return null
+  if (!currentImageSrc) return null
 
   return (
     <Image
-      src={currentSrc}
+      src={currentImageSrc}
       alt={alt}
       width={width}
       height={height}
       onError={() => {
-        if (!primaryError && currentSrc === primarySrc) {
-          console.error(`SafeImage: failed to load primary image ${primarySrc}`)
-          setPrimaryError(true)
-        } else if (!fallbackError && currentSrc === fallbackSrc) {
+        if (currentImageSrc === primarySrc && fallbackSrc) {
           console.error(
-            `SafeImage: failed to load fallback image ${fallbackSrc}`,
+            `SafeImage: primary image failed, trying fallback`,
+            primarySrc,
           )
-          setFallbackError(true)
+          setCurrentImageSrc(fallbackSrc)
+        } else {
+          console.error(`SafeImage: image failed to load`, currentImageSrc)
+          setCurrentImageSrc(null)
         }
       }}
       {...rest}

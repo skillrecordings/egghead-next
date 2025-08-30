@@ -96,15 +96,15 @@ export async function loadUserProgress(
             is_complete
             created_at
             updated_at
-            tags {
-              image_url
-            }
             collection {
               ... on Playlist {
                 title
                 square_cover_480_url
                 type
                 path
+                tags {
+                  image_url
+                }
                 progress {
                   lesson_count
                   completed_lesson_count
@@ -143,6 +143,9 @@ export async function loadUserProgress(
                 square_cover_480_url
                 type
                 path
+                tags {
+                  image_url
+                }
                 progress {
                   lesson_count
                   completed_lesson_count
