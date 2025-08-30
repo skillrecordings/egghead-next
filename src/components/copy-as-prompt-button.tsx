@@ -101,7 +101,13 @@ export function CopyAsPromptButton({
 }: CopyAsPromptButtonProps) {
   const {viewer} = useViewer()
   const {copyState, copyContent} = useCopyAsPrompt()
-  const isPro = Boolean(viewer?.is_pro)
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isPro = mounted ? Boolean(viewer?.is_pro) : false
   const canAccess = !requiresPro || isPro
 
   const handleClick = async () => {
@@ -139,8 +145,8 @@ export function CopyAsPromptButton({
     })
   }
 
-  // Pro gate for restricted content
-  if (requiresPro && !isPro) {
+  // Pro gate for restricted content - only render after mount to avoid hydration mismatch
+  if (requiresPro && mounted && !isPro) {
     return (
       <div className="relative group">
         <button
