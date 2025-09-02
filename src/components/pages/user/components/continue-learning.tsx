@@ -23,15 +23,17 @@ const ContinueLearning: React.FC<
         <span>You aren't learning anything right now</span>
       ) : (
         <ErrorBoundary fallback={<span>Error while loading</span>}>
-          {continueLearningData.map((item: any) => {
-            if (!item?.collection || !item?.collection?.title) return null
-            return (
-              <InProgressResource
-                key={item?.collection?.title}
-                resource={item?.collection}
-              />
-            )
-          })}
+          <div className="space-y-4">
+            {continueLearningData.map((item: any) => {
+              if (!item?.collection || !item?.collection?.title) return null
+              return (
+                <InProgressResource
+                  key={item?.collection?.title}
+                  resource={item?.collection}
+                />
+              )
+            })}
+          </div>
         </ErrorBoundary>
       )}
     </>
