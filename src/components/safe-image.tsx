@@ -19,36 +19,57 @@ const SafeImage: React.FC<SafeImageProps> = ({
   height = 20,
   ...rest
 }) => {
-  const [currentImageSrc, setCurrentImageSrc] = React.useState<string | null>(
-    primarySrc || fallbackSrc || null,
-  )
+  const [validImageSrc, setValidImageSrc] = React.useState<string | null>(null)
+  const [isLoading, setIsLoading] = React.useState(true)
 
   React.useEffect(() => {
-    // Reset to primary source when props change
-    setCurrentImageSrc(primarySrc || fallbackSrc || null)
+    setIsLoading(true)
+    setValidImageSrc(null)
+
+    const testImage = (src: string): Promise<string> => {
+      return new Promise((resolve, reject) => {
+        const img = new window.Image()
+        img.onload = () => resolve(src)
+        img.onerror = () => reject(new Error(`Failed to load: ${src}`))
+        img.src = src
+      })
+    }
+
+    const testImages = async () => {
+      const sources = [primarySrc, fallbackSrc].filter(Boolean) as string[]
+
+      if (sources.length === 0) {
+        setIsLoading(false)
+        return
+      }
+
+      for (const src of sources) {
+        try {
+          const validSrc = await testImage(src)
+          setValidImageSrc(validSrc)
+          setIsLoading(false)
+          return
+        } catch (error) {
+          console.error(`SafeImage: failed to load ${src}`)
+        }
+      }
+
+      // All sources failed
+      setIsLoading(false)
+    }
+
+    testImages()
   }, [primarySrc, fallbackSrc])
 
-  if (!currentImageSrc) return null
+  if (isLoading || !validImageSrc) return null
 
   return (
-    <ErrorBoundary fallback={<div className="w-32 px-1"></div>}>
+    <ErrorBoundary fallback={null}>
       <Image
-        src={currentImageSrc}
+        src={validImageSrc}
         alt={alt}
         width={width}
         height={height}
-        onError={() => {
-          if (currentImageSrc === primarySrc && fallbackSrc) {
-            console.error(
-              `SafeImage: primary image failed, trying fallback`,
-              primarySrc,
-            )
-            setCurrentImageSrc(fallbackSrc)
-          } else {
-            console.error(`SafeImage: image failed to load`, currentImageSrc)
-            setCurrentImageSrc(null)
-          }
-        }}
         {...rest}
       />
     </ErrorBoundary>
