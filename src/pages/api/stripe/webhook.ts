@@ -329,7 +329,9 @@ const processAcceptedEvent = async (unparsedEvent: Stripe.Event) => {
       // valid inputs to the checkForUpgrade
       const stripeUpgradeState = checkForUpgrade(...result.data)
 
-      let subscriptionType = !stripeSubscription.discount ? 'pro' : 'ppp'
+      let subscriptionType = !stripeSubscription.discounts?.length
+        ? 'pro'
+        : 'ppp'
 
       let cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
 
@@ -402,7 +404,7 @@ const processAcceptedEvent = async (unparsedEvent: Stripe.Event) => {
 
     // if running sale we would want to check for that but the regular case it's pro or PPP
     // TODO: need to differentiate between other types of discounts (e.g. sales)
-    let subscriptionType = !stripeSubscription.discount ? 'pro' : 'ppp'
+    let subscriptionType = !stripeSubscription.discounts?.length ? 'pro' : 'ppp'
 
     // stripe puts the plan at the top level of the subscription object
     // but it isn't on the type so had to do this
