@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import * as React from 'react'
+import {ErrorBoundary} from 'react-error-boundary'
 
 export interface SafeImageProps
   extends Omit<React.ComponentProps<typeof Image>, 'src' | 'alt'> {
@@ -30,25 +31,27 @@ const SafeImage: React.FC<SafeImageProps> = ({
   if (!currentImageSrc) return null
 
   return (
-    <Image
-      src={currentImageSrc}
-      alt={alt}
-      width={width}
-      height={height}
-      onError={() => {
-        if (currentImageSrc === primarySrc && fallbackSrc) {
-          console.error(
-            `SafeImage: primary image failed, trying fallback`,
-            primarySrc,
-          )
-          setCurrentImageSrc(fallbackSrc)
-        } else {
-          console.error(`SafeImage: image failed to load`, currentImageSrc)
-          setCurrentImageSrc(null)
-        }
-      }}
-      {...rest}
-    />
+    <ErrorBoundary fallback={<div className="w-32 px-1"></div>}>
+      <Image
+        src={currentImageSrc}
+        alt={alt}
+        width={width}
+        height={height}
+        onError={() => {
+          if (currentImageSrc === primarySrc && fallbackSrc) {
+            console.error(
+              `SafeImage: primary image failed, trying fallback`,
+              primarySrc,
+            )
+            setCurrentImageSrc(fallbackSrc)
+          } else {
+            console.error(`SafeImage: image failed to load`, currentImageSrc)
+            setCurrentImageSrc(null)
+          }
+        }}
+        {...rest}
+      />
+    </ErrorBoundary>
   )
 }
 
