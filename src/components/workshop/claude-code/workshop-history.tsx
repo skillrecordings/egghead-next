@@ -7,6 +7,7 @@ const workshops: WorkshopData[] = [
   {date: 'Aug 01, 2025', attendees: 43},
   {date: 'Aug 08, 2025', attendees: 69},
   {date: 'Aug 15, 2025', attendees: 46},
+  {date: 'Sep 12, 2025', attendees: 33},
 ]
 
 export default function WorkshopHistory() {
@@ -77,7 +78,7 @@ export default function WorkshopHistory() {
                     </span>
                   </div>
                   <span className="text-gray-600 dark:text-gray-400 ml-12 sm:ml-0">
-                    40+ developers
+                    avg. 45+ developers
                   </span>
                 </div>
               ))}

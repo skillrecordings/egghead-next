@@ -105,5 +105,6 @@ export async function getStaticProps() {
       data,
       searchServerState,
     },
+    revalidate: 60, // Revalidate every 60 seconds
   }
 }
