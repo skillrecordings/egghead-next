@@ -196,11 +196,18 @@ export const retrieveChargeId = async (
   if (typeof paymentIntent === 'string') {
     const retrievedPaymentIntent = await stripe.paymentIntents.retrieve(
       paymentIntent,
+      {
+        expand: ['latest_charge'],
+      },
     )
-    return retrievedPaymentIntent.charges.data[0].id
+    return typeof retrievedPaymentIntent.latest_charge === 'string'
+      ? retrievedPaymentIntent.latest_charge
+      : retrievedPaymentIntent.latest_charge?.id || ''
   }
 
-  return paymentIntent.charges.data[0].id
+  return typeof paymentIntent.latest_charge === 'string'
+    ? paymentIntent.latest_charge
+    : paymentIntent.latest_charge?.id || ''
 }
 
 /**
