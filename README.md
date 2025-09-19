@@ -1,3 +1,5 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/skillrecordings/egghead-next)
+
 Welcome to the `egghead-next` project—the front-end for [egghead.io](https://egghead.io).
 
 # Development
