@@ -12,7 +12,7 @@ import {InstantSearchSSRProvider} from 'react-instantsearch'
 const topics = [
   {
     image:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1754499088/claude_hfq89e.png',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1754499088/claude-code.png',
     path: '/q/claude-code',
     title: 'Claude Code',
   },
