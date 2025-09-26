@@ -477,7 +477,7 @@ const CollectionPageLayout: React.FunctionComponent<
                       {average_rating_out_of_5 > 0 && (
                         <StarsRating rating={average_rating_out_of_5} />
                       )}
-                      {watched_count > 0 && (
+                      {watched_count > 30 && (
                         <PeopleCompleted count={watched_count} />
                       )}
                     </div>
