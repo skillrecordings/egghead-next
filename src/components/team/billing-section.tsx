@@ -74,10 +74,12 @@ const BillingSection = ({stripeCustomerId}: {stripeCustomerId: string}) => {
   }
 
   const currentPeriodStart = new Date(
-    (subscriptionData.subscription?.current_period_start || 0) * 1000,
+    (subscriptionData.subscription?.items?.data[0]?.current_period_start || 0) *
+      1000,
   )
   const currentPeriodEnd = new Date(
-    (subscriptionData.subscription?.current_period_end || 0) * 1000,
+    (subscriptionData.subscription?.items?.data[0]?.current_period_end || 0) *
+      1000,
   )
 
   const displayCurrentPeriod = [currentPeriodStart, currentPeriodEnd]

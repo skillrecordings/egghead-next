@@ -13,7 +13,7 @@ interface PaymentsAdapter {
   getInvoice(invoiceId: string): Promise<Stripe.Invoice>
 }
 
-const STRIPE_VERSION = '2020-08-27'
+const STRIPE_VERSION = '2025-07-30.basil'
 
 class StripePaymentAdapter implements PaymentsAdapter {
   stripe: Stripe
@@ -34,9 +34,24 @@ class StripePaymentAdapter implements PaymentsAdapter {
     return session.url
   }
   async getSubscription(subscriptionId: string) {
-    return (await this.stripe.subscriptions.retrieve(subscriptionId, {
-      expand: ['latest_invoice.charge'],
-    })) as Stripe.Subscription & {
+    const subscription = await this.stripe.subscriptions.retrieve(
+      subscriptionId,
+      {
+        expand: ['latest_invoice', 'latest_invoice.charge'],
+      },
+    )
+
+    // Handle case where latest_invoice might be a string ID
+    if (typeof subscription.latest_invoice === 'string') {
+      subscription.latest_invoice = await this.stripe.invoices.retrieve(
+        subscription.latest_invoice,
+        {
+          expand: ['charge'],
+        },
+      )
+    }
+
+    return subscription as unknown as Stripe.Subscription & {
       latest_invoice: Stripe.Invoice & {charge: Stripe.Charge}
     }
   }
