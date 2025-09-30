@@ -85,7 +85,9 @@ export async function getLastChargeForActiveSubscription(
 
     console.log('subscription', subscription)
 
-    amountPaid = Number(subscription.latest_invoice.charge.amount) / 100
+    if (subscription?.latest_invoice?.charge?.amount) {
+      amountPaid = Number(subscription.latest_invoice.charge.amount) / 100
+    }
 
     console.log('amountPaid', amountPaid)
 
