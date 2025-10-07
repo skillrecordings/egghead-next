@@ -65,6 +65,7 @@ import ReactMarkdown from 'react-markdown'
 import CodeBlock from '@/components/code-block'
 import {LessonResource, SectionResource} from '@/types'
 import {CopyAsPromptButton} from '@/components/copy-as-prompt-button'
+import {isMember} from '@/utils/is-member'
 
 const Tags = dynamic(() => import('@/components/pages/lessons/tags'), {
   ssr: false,
@@ -481,6 +482,21 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
   const hasScrimbaUrl = initialLesson?.scrimba?.url
   const scrimbaTranscript = initialLesson?.scrimba?.transcript
 
+  // Debug logging for download button
+  React.useEffect(() => {
+    console.log('Download button debug:', {
+      hasDownloadUrl: !!lesson.download_url,
+      downloadUrl: lesson.download_url,
+      isCourseBuildler: lesson.download_url?.startsWith('/api/lessons/'),
+      isMember: isMember(viewer),
+      shouldShowButton:
+        lesson.download_url &&
+        (lesson.download_url.startsWith('/api/lessons/')
+          ? isMember(viewer)
+          : true),
+    })
+  }, [lesson.download_url, viewer])
+
   const iframeRef = React.useRef<HTMLIFrameElement>(null)
 
   const toggleFullscreen = () => {
@@ -595,12 +611,19 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                     className="font-sans"
                     container={fullscreenWrapperRef.current || undefined}
                     controls={
-                      <DownloadControl
-                        key={lesson.download_url}
-                        download_url={lesson.download_url}
-                        slug={lesson.slug}
-                        state={lesson.state}
-                      />
+                      lesson.download_url &&
+                      // Only apply member check to Course Builder lessons (new MUX downloads)
+                      // Old Rails backend lessons have their own access control
+                      (lesson.download_url.startsWith('/api/lessons/')
+                        ? isMember(viewer)
+                        : true) ? (
+                        <DownloadControl
+                          key={lesson.download_url}
+                          download_url={lesson.download_url}
+                          slug={lesson.slug}
+                          state={lesson.state}
+                        />
+                      ) : undefined
                     }
                     // poster={lesson.thumb_url}
                   >

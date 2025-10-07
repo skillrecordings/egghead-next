@@ -14,6 +14,8 @@ type CourseBuilderLessonData = {
   ogImage?: string
   slug?: string
   repo_url?: string
+  download_url?: string
+  muxPlaybackId?: string
 }
 
 export const mergeLessonMetadata = (
@@ -87,6 +89,9 @@ export const mergeLessonMetadata = (
         }),
         ...(lessonMetadataFromCourseBuilder.repo_url && {
           repo_url: lessonMetadataFromCourseBuilder.repo_url,
+        }),
+        ...(lessonMetadataFromCourseBuilder.download_url && {
+          download_url: lessonMetadataFromCourseBuilder.download_url,
         }),
         ogImage:
           (lessonMetadataFromCourseBuilder?.ogImage &&
