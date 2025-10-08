@@ -1,10 +1,10 @@
 'use client'
 import Link from 'next/link'
 import {useState, useEffect} from 'react'
-import '../shared/styles.css'
+// import '../shared/styles.css'
 import Image from 'next/image'
 import {Button} from '@/ui'
-import TimeAndLocation from '../shared/time-and-location'
+import TimeAndLocation from '../../../app/workshops/[slug]/_components/time-and-location'
 import type {LiveWorkshop} from '@/types'
 
 export interface SignUpFormRef {

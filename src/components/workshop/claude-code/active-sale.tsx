@@ -1,18 +1,21 @@
 import {AsteriskIcon} from 'lucide-react'
 import Link from 'next/link'
-import TimeAndLocation from '../shared/time-and-location'
+import TimeAndLocation from '../../../app/workshops/[slug]/_components/time-and-location'
 import {useCommerceMachine} from '@/hooks/use-commerce-machine'
 import {get, isEmpty} from 'lodash'
-import WorkshopParityCouponMessage from '@/components/workshop/shared/parity-coupon-message'
+import WorkshopParityCouponMessage from '@/app/workshops/[slug]/_components/parity-coupon-message'
 import {Coupon} from '@/types'
 import {useState, useMemo, useEffect} from 'react'
 import {ContactForm} from '@/components/workshop/claude-code/contact-form'
-import {LiveWorkshop} from '@/types'
+import type {Event} from '@/schemas/event'
+import type {EventCoupon} from '@/lib/events/get-event-coupons'
 import Spinner from '@/components/spinner'
+import {format, formatInTimeZone} from 'date-fns-tz'
 
 interface UseWorkshopCouponProps {
   hasYearlyProDiscount: boolean
-  workshop: LiveWorkshop
+  event: Event
+  coupons: EventCoupon[]
 }
 
 interface UseWorkshopCouponReturn {
@@ -35,25 +38,39 @@ interface UseWorkshopCouponReturn {
 
 function useWorkshopCoupon({
   hasYearlyProDiscount,
-  workshop,
+  event,
+  coupons,
 }: UseWorkshopCouponProps): UseWorkshopCouponReturn {
   const {availableCoupons} = useCommerceMachine()
 
+  // Get coupon codes by type
+  const earlyBirdMemberCode =
+    coupons.find((c) => c.couponType === 'earlyBirdMember')?.code || ''
+  const memberCode = coupons.find((c) => c.couponType === 'member')?.code || ''
+  const earlyBirdCode =
+    coupons.find((c) => c.couponType === 'earlyBird')?.code || ''
+
+  const isEarlyBird = event.fields.isEarlyBird ?? false
+
   const baseCoupon = useMemo(() => {
     switch (true) {
-      case hasYearlyProDiscount && workshop?.isEarlyBird:
+      case hasYearlyProDiscount && isEarlyBird:
         return {
-          queryParam: `?prefilled_promo_code=${workshop?.stripeEarlyBirdMemberCouponCode}`,
+          queryParam: earlyBirdMemberCode
+            ? `?prefilled_promo_code=${earlyBirdMemberCode}`
+            : '',
           type: 'earlyBird-member' as const,
         }
-      case workshop?.isEarlyBird:
+      case isEarlyBird:
         return {
-          queryParam: `?prefilled_promo_code=${workshop?.stripeEarlyBirdCouponCode}`,
+          queryParam: earlyBirdCode
+            ? `?prefilled_promo_code=${earlyBirdCode}`
+            : '',
           type: 'earlyBird-non-member' as const,
         }
       case hasYearlyProDiscount:
         return {
-          queryParam: `?prefilled_promo_code=${workshop?.stripeMemberCouponCode}`,
+          queryParam: memberCode ? `?prefilled_promo_code=${memberCode}` : '',
           type: 'member' as const,
         }
       default:
@@ -64,10 +81,10 @@ function useWorkshopCoupon({
     }
   }, [
     hasYearlyProDiscount,
-    workshop?.isEarlyBird,
-    workshop?.stripeEarlyBirdMemberCouponCode,
-    workshop?.stripeEarlyBirdCouponCode,
-    workshop?.stripeMemberCouponCode,
+    isEarlyBird,
+    earlyBirdMemberCode,
+    earlyBirdCode,
+    memberCode,
   ])
 
   const [isPPPApplied, setIsPPPApplied] = useState(false)
@@ -141,14 +158,16 @@ const ActiveSale = ({
   isMonthlyOrQuarterly,
   workshopFeatures,
   teamWorkshopFeatures,
-  workshop,
+  event,
+  coupons,
   isLiveWorkshopLoading,
 }: {
   hasYearlyProDiscount: boolean
   isMonthlyOrQuarterly?: boolean
   workshopFeatures: string[]
   teamWorkshopFeatures: string[]
-  workshop: LiveWorkshop
+  event: Event
+  coupons: EventCoupon[]
   isLiveWorkshopLoading: boolean
 }) => {
   const {
@@ -159,9 +178,11 @@ const ActiveSale = ({
     parityCoupon,
     onApplyParityCoupon,
     onDismissParityCoupon,
-  } = useWorkshopCoupon({hasYearlyProDiscount, workshop})
+  } = useWorkshopCoupon({hasYearlyProDiscount, event, coupons})
 
-  const paymentLink = `${workshop?.stripePaymentLink}${couponToApply.queryParam}`
+  const paymentLink = `${event.fields.stripePaymentLink || ''}${
+    couponToApply.queryParam
+  }`
 
   const [teamToggleState, setTeamToggleState] = useState(false)
 
@@ -202,7 +223,8 @@ const ActiveSale = ({
               hasYearlyProDiscount={hasYearlyProDiscount}
               isMonthlyOrQuarterly={isMonthlyOrQuarterly}
               workshopFeatures={workshopFeatures}
-              workshop={workshop}
+              event={event}
+              coupons={coupons}
               paymentLink={paymentLink}
               parityCoupon={parityCoupon}
               isLiveWorkshopLoading={isLiveWorkshopLoading}
@@ -233,7 +255,8 @@ const TieredPricing = ({
   isLiveWorkshopLoading,
   parityCoupon,
   couponToApply,
-  workshop,
+  event,
+  coupons,
   hasYearlyProDiscount,
   isMonthlyOrQuarterly,
 }: {
@@ -242,7 +265,8 @@ const TieredPricing = ({
     queryParam: string
     type: string
   }
-  workshop: LiveWorkshop
+  event: Event
+  coupons: EventCoupon[]
   isLiveWorkshopLoading: boolean
   hasYearlyProDiscount?: boolean
   isMonthlyOrQuarterly?: boolean
@@ -256,32 +280,31 @@ const TieredPricing = ({
   }
 
   // Calculate prices
-  // Calculate prices
-  const basePriceRaw = Number(workshop?.workshopPrice)
+  const basePriceRaw = Number(event.fields.workshopPrice)
   const basePrice = Number.isFinite(basePriceRaw) ? basePriceRaw : 400
-  const isEarlyBird = workshop?.isEarlyBird
+  const isEarlyBird = event.fields.isEarlyBird ?? false
 
-  // Non-member pricing
-  const nonMemberDiscountRaw = Number(
-    workshop?.stripeEarlyBirdNonMemberDiscount,
+  // Get discounts from coupons - convert percentage to dollar amount
+  const earlyBirdNonMemberCoupon = coupons.find(
+    (c) => c.couponType === 'earlyBird',
   )
-  const nonMemberDiscount = isEarlyBird
-    ? Number.isFinite(nonMemberDiscountRaw)
-      ? nonMemberDiscountRaw
-      : 75
-    : 0
+  const nonMemberDiscount =
+    isEarlyBird && earlyBirdNonMemberCoupon
+      ? basePrice * earlyBirdNonMemberCoupon.percentageDiscount
+      : 0
   const nonMemberPrice = basePrice - nonMemberDiscount
 
   // Member pricing
-  const earlyMemberRaw = Number(workshop?.stripeEarlyBirdMemberDiscount)
-  const memberRaw = Number(workshop?.stripeMemberDiscount)
-  const memberDiscount = isEarlyBird
-    ? Number.isFinite(earlyMemberRaw)
-      ? earlyMemberRaw
-      : 150
-    : Number.isFinite(memberRaw)
-      ? memberRaw
-      : 100
+  const earlyMemberCoupon = coupons.find(
+    (c) => c.couponType === 'earlyBirdMember',
+  )
+  const memberCoupon = coupons.find((c) => c.couponType === 'member')
+  const memberDiscount =
+    isEarlyBird && earlyMemberCoupon
+      ? basePrice * earlyMemberCoupon.percentageDiscount
+      : memberCoupon
+      ? basePrice * memberCoupon.percentageDiscount
+      : 0
   const memberPrice = basePrice - memberDiscount
   // PPP pricing if applicable
   const pppDiscount = parityCoupon?.coupon_discount ?? 0
@@ -436,7 +459,8 @@ function SinglePurchaseUI({
   hasYearlyProDiscount,
   isMonthlyOrQuarterly,
   workshopFeatures,
-  workshop,
+  event,
+  coupons,
   paymentLink,
   parityCoupon,
   isLiveWorkshopLoading,
@@ -448,7 +472,8 @@ function SinglePurchaseUI({
   hasYearlyProDiscount?: boolean
   isMonthlyOrQuarterly?: boolean
   workshopFeatures: string[]
-  workshop: LiveWorkshop
+  event: Event
+  coupons: EventCoupon[]
   paymentLink: string
   parityCoupon: Coupon | undefined
   isLiveWorkshopLoading: boolean
@@ -465,19 +490,32 @@ function SinglePurchaseUI({
               isLiveWorkshopLoading={isLiveWorkshopLoading}
               parityCoupon={parityCoupon}
               couponToApply={couponToApply}
-              workshop={workshop}
+              event={event}
+              coupons={coupons}
               hasYearlyProDiscount={hasYearlyProDiscount}
               isMonthlyOrQuarterly={isMonthlyOrQuarterly}
             />
           </div>
-          {workshop && (
+          {event.fields.startsAt && (
             <TimeAndLocation
-              date={workshop.date}
-              startTime={workshop.startTime}
-              timeZone={workshop.timeZone}
-              endTime={workshop.endTime}
+              date={format(new Date(event.fields.startsAt), 'yyyy-MM-dd')}
+              startTime={formatInTimeZone(
+                new Date(event.fields.startsAt),
+                event.fields.timezone,
+                'h:mm a',
+              )}
+              timeZone={event.fields.timezone}
+              endTime={
+                event.fields.endsAt
+                  ? formatInTimeZone(
+                      new Date(event.fields.endsAt),
+                      event.fields.timezone,
+                      'h:mm a',
+                    )
+                  : ''
+              }
               showEuTooltip={true}
-              isEuFriendly={workshop.isEuFriendly}
+              isEuFriendly={false} // TODO: Calculate EU friendly time
               className="items-start ml-7"
             />
           )}

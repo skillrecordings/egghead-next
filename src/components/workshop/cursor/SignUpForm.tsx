@@ -2,7 +2,7 @@
 
 import {forwardRef, useEffect} from 'react'
 import {motion} from 'motion/react'
-import {fadeInUp} from '../shared/animations'
+import {fadeInUp} from '../../../app/workshops/[slug]/_components/animations'
 
 const SignUpForm = () => {
   useEffect(() => {

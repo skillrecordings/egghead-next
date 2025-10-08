@@ -1,21 +1,21 @@
 'use client'
 import Layout from '@/components/app/layout'
-import Hero from '@/components/workshop/claude-code/Hero'
-import InstructorTerminal from '@/components/workshop/claude-code/instructor-terminal'
+import Hero from '@/app/workshops/[slug]/_components/Hero'
+import InstructorTerminal from '@/app/workshops/[slug]/_components/instructor-terminal'
 import SignUpForm from '@/components/workshop/claude-code/SignUpForm'
-import type {SignUpFormRef} from '@/components/workshop/claude-code/Hero'
+import type {SignUpFormRef} from '@/app/workshops/[slug]/_components/Hero'
 import type {GetServerSideProps} from 'next'
 import {useRef, useEffect, useState} from 'react'
 import {NextSeo} from 'next-seo'
 import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
 import ActiveSale from '@/components/workshop/claude-code/active-sale'
 
-import CtaSection from '@/components/workshop/shared/cta-section'
+import CtaSection from '@/app/workshops/[slug]/_components/cta-section'
 import {useViewer} from '@/context/viewer-context'
 import {trpc} from '@/app/_trpc/client'
 import Markdown from '@/components/markdown'
-import Testimonial from '@/components/workshop/shared/testimonial'
-import WorkshopHistory from '@/components/workshop/claude-code/workshop-history'
+import Testimonial from '@/app/workshops/[slug]/_components/testimonial'
+import WorkshopHistory from '@/app/workshops/[slug]/_components/workshop-history'
 
 export const TEAM_WORKSHOP_FEATURES = [
   'Flexible scheduling',
