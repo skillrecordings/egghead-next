@@ -16,10 +16,10 @@ export async function OPTIONS() {
 
 export async function GET(
   request: NextRequest,
-  {params}: {params: {slug: string}},
+  {params}: {params: Promise<{slug: string}>},
 ) {
   try {
-    const {slug} = params
+    const {slug} = await params
 
     // Check if user is a member (pro or instructor)
     const token = request.cookies.get('egghead_token')?.value
