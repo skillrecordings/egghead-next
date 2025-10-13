@@ -257,17 +257,18 @@ export default function PostPage({
 
           {/* Transcript */}
           {videoResource && (
-            <section>
-              <h2 className="text-xl tracking-tight font-bold mb-3">
-                Transcript
-              </h2>
-              <ReactMarkdown className="prose dark:prose-p:text-gray-200 lg:prose-base prose-sm dark:prose-dark max-w-none">
-                {videoResource.fields.transcript || ''}
-              </ReactMarkdown>
-            </section>
+            <>
+              <section>
+                <h2 className="text-xl tracking-tight font-bold mb-3">
+                  Transcript
+                </h2>
+                <ReactMarkdown className="prose dark:prose-p:text-gray-200 lg:prose-base prose-sm dark:prose-dark max-w-none">
+                  {videoResource.fields.transcript || ''}
+                </ReactMarkdown>
+              </section>
+              <PoweredByMuxBadge />
+            </>
           )}
-
-          <PoweredByMuxBadge />
         </main>
       </div>
     </div>
