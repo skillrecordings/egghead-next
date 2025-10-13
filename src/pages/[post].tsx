@@ -185,7 +185,7 @@ export default function PostPage({
           <div className="flex md:items-center justify-between md:flex-row flex-col w-full gap-5">
             <div className="flex items-center gap-6">
               <InstructorProfile instructor={instructor} />
-              <LikeButton postId={post.fields.eggheadLessonId ?? 0} />
+              {/* <LikeButton postId={post.fields.eggheadLessonId ?? 0} /> */}
             </div>
             <div className="flex items-center gap-5">
               {post.fields.github && (
