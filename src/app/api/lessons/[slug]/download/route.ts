@@ -64,8 +64,7 @@ export async function GET(
     }
 
     let downloadUrl = null
-    const filename = `${slug}.mp4`
-
+    const filename = encodeURIComponent(`${slug}.mp4`)
     // Prefer playback ID (works across all environments without API credentials)
     if (muxPlaybackId) {
       downloadUrl = `https://stream.mux.com/${muxPlaybackId}/high.mp4?download=${filename}`
