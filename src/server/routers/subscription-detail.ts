@@ -1,6 +1,6 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
-import {stripe} from '../../utils/stripe'
+import {stripe} from '@/utils/stripe'
 import {Stripe} from 'stripe'
 import isEmpty from 'lodash/isEmpty'
 
@@ -54,7 +54,7 @@ export const subscriptionDetailsRouter = router({
           // Only retrieve it if the subscription hasn't been cancelled,
           // otherwise it will result in a StripeInvalidRequestError.
           try {
-            upcomingInvoice = await stripe.invoices.retrieveUpcoming({
+            upcomingInvoice = await stripe.invoices.createPreview({
               customer: stripeCustomerId,
               subscription: subscription.id,
             })
@@ -68,7 +68,7 @@ export const subscriptionDetailsRouter = router({
           // Filter for subscription line items only (exclude one-time charges)
           const subscriptionLineItems = upcomingInvoice.lines.data.filter(
             (line) =>
-              line.type === 'subscription' &&
+              line.metadata?.type === 'subscription' &&
               line.subscription === subscription.id,
           )
           if (subscriptionLineItems.length > 0) {
