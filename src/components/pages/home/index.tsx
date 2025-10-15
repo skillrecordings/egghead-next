@@ -3,7 +3,7 @@ import {useRouter} from 'next/router'
 import Search from '@/components/pages/home/search'
 import Jumbotron from '@/components/pages/home/jumbotron'
 import Topics from './topics'
-import WorkshopCTA from '../../workshop/claude-code/workshop-cta'
+import WorkshopCTA from '../../workshop/workshop-cta'
 import toast, {Toaster} from 'react-hot-toast'
 import {SanitySectionType, CuratedHomePageDataType} from '@/pages/learn'
 import TheFeed from './the-feed'
@@ -95,7 +95,36 @@ const Home: React.FC<React.PropsWithChildren<any>> = ({
         <section aria-label="search or browse sections" className="">
           <Search />
           <Topics topics={topics} />
-          <WorkshopCTA />
+          <WorkshopCTA
+            workshopLink="/workshop/claude-code"
+            featureFlagName="featureFlagClaudeCodeWorkshopSale"
+            imageUrl="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1752698761/claude-code-workshop-logo-square_hopfzn.png"
+            imageAlt="Claude Code Workshop"
+            title="Transform into a Claude Code Power User"
+            description="Join a hands-on session to unlock advanced Claude Code workflows, automation, and integrations that will transform your development process."
+            featureTags={[
+              'Live Q&A',
+              'TypeScript SDK',
+              'Custom Hooks',
+              'MCP Integration',
+            ]}
+            analyticsLabel="Claude Code Workshop"
+          />
+          <WorkshopCTA
+            workshopLink="/workshop/cursor"
+            featureFlagName="featureFlagCursorWorkshopSale"
+            imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/411/full/cursor.png"
+            imageAlt="Cursor Workshop"
+            title="Become a Cursor Power User"
+            description="Join a hands-on session to unlock advanced Cursor workflows, automation, and integrations that will transform your development process."
+            featureTags={[
+              'Live Q&A',
+              'Cursor CLI',
+              'Custom Hooks',
+              'MCP Integration (Chrome MCP)',
+            ]}
+            analyticsLabel="Claude Code Workshop"
+          />
         </section>
         <InstantSearchSSRProvider {...searchServerState}>
           <TheFeed />
