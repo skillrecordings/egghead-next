@@ -1,14 +1,15 @@
 'use client'
 import Link from 'next/link'
 import {motion} from 'motion/react'
-import {fadeInUp, scaleIn} from '../shared/animations'
+import {fadeInUp, scaleIn} from './animations'
 import {useState, useEffect} from 'react'
-import '../shared/styles.css'
+import './styles.css'
 import Image from 'next/image'
 import {Button} from '@/ui'
-import TimeAndLocation from '../shared/time-and-location'
-import {LiveWorkshop} from '@/types'
-import Logo from './hero-logo'
+import TimeAndLocation from './time-and-location'
+import type {Event} from '@/schemas/event'
+import Logo from './claude-hero-logo'
+import {format, formatInTimeZone} from 'date-fns-tz'
 
 export interface SignUpFormRef {
   focus: () => void
@@ -141,10 +142,30 @@ function scrollToSignup(
 interface HeroProps {
   formRef: React.RefObject<SignUpFormRef | null>
   saleisActive: boolean
-  workshop: LiveWorkshop
+  event: Event
+  // Workshop type to determine logo/image display
+  workshop?: 'claude' | 'cursor' | string
+  // Optional overrides from event fields
+  title?: string
+  description?: string
+  heroImageUrl?: string
+  instructorName?: string
+  instructorImage?: string
+  instructorBio?: string
 }
 
-export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
+export default function Hero({
+  formRef,
+  saleisActive,
+  event,
+  workshop = 'claude',
+  title,
+  description,
+  heroImageUrl,
+  instructorName = 'John Lindquist',
+  instructorImage = 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683164538/assets/john.webp',
+  instructorBio,
+}: HeroProps) {
   const [phraseIndex, setPhraseIndex] = useState(0)
   const [flagIndex, setFlagIndex] = useState(0)
 
@@ -162,65 +183,79 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
   }, [])
 
   // Calculate European times
-  const workshopDateObj = workshop
-    ? parseDateTimeWithOffset(workshop.date, workshop.startTime, -7)
+  const workshopDateObj = event.fields.startsAt
+    ? new Date(event.fields.startsAt)
     : null
   const londonTime = workshopDateObj
-    ? formatTimeInTimeZone(workshopDateObj, 'Europe/London')
+    ? formatInTimeZone(workshopDateObj, 'Europe/London', 'h:mm a')
     : 'Error'
   const parisBerlinTime = workshopDateObj
-    ? formatTimeInTimeZone(workshopDateObj, 'Europe/Paris')
+    ? formatInTimeZone(workshopDateObj, 'Europe/Paris', 'h:mm a')
     : 'Error'
 
   return (
-    <section className="sm:py-12 py-8 bg-white dark:bg-gray-900 md:py-10 text-center  overflow-hidden max-w-3xl mx-auto">
-      <div className="absolute inset-0 pattern-dots" />
-      <div
+    <section className="not-prose sm:py-12 py-8 bg-white dark:bg-gray-900 md:py-10 text-center  overflow-hidden max-w-3xl mx-auto">
+      {/* <div className="absolute inset-0 pattern-dots" /> */}
+      {/* <div
         aria-hidden="true"
         className="absolute inset-0 w-full h-full bg-gradient-to-b dark:from-gray-900/90 dark:to-gray-900/70 from-gray-50 to-transparent"
-      />
+      /> */}
       <motion.div {...scaleIn} className="relative px-6 mt-16">
-        {/* <Image
-          className="mx-auto mb-5 sm:px-0 px-10 absolute -top-32 "
-          quality={100}
-          src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1752612749/claude-code-hero-image_yoyhxp.png"
-          alt="Cursor IDE"
-          width={4016 / 3}
-          height={2391 / 3}
-        /> */}
-        <Logo />
+        {/* Conditional hero image/logo based on workshop type */}
+        {workshop === 'claude' && <Logo />}
+        {workshop === 'cursor' && (
+          <Image
+            className="mx-auto mb-5 sm:px-0 px-10"
+            quality={100}
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1739447750/cursor-workshop-perspective_2x_h5fvrr.png"
+            alt="Cursor IDE"
+            width={1027 / 3.75}
+            height={601 / 3.75}
+          />
+        )}
+        {heroImageUrl && workshop !== 'claude' && workshop !== 'cursor' && (
+          <Image
+            className="mx-auto mb-5 sm:px-0 px-10"
+            quality={100}
+            src={heroImageUrl}
+            alt="Workshop"
+            width={400}
+            height={300}
+          />
+        )}
+
         <motion.h1
           {...fadeInUp}
           className="lg:text-5xl sm:text-4xl text-xl flex flex-col relative mb-6 font-extrabold tracking-tight dark:text-white leading-tight"
         >
-          Transform into a Claude Code Power User
+          {title || event.fields.heroHeadline || event.fields.title}
         </motion.h1>
 
-        <motion.p
-          {...fadeInUp}
-          transition={{delay: 0.1}}
-          className="relative mb-8 sm:text-lg md:text-lg dark:text-gray-200 text-gray-700 max-w-3xl mx-auto leading-relaxed "
-        >
-          Join{' '}
-          <span className="text-gray-900 pl-2 inline-flex items-baseline md:gap-2 gap-1 dark:text-white font-medium">
-            <Image
-              src={
-                'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683164538/assets/john.webp'
-              }
-              alt="John Lindquist"
-              width={40}
-              height={40}
-              className="rounded-full relative md:translate-y-3 translate-y-2 md:w-10 w-7"
-            />{' '}
-            John Lindquist
-          </span>
-          , founder of egghead.io, for an immersive workshop designed to teach
-          you how to effectively use Claude in your development workflow. You'll
-          go beyond simple prompting and master key techniques like context
-          engineering, scripting with the SDK, Claude hooks, and MCPs. By the
-          end, you'll confidently apply AI for targeted refactors, feature
-          implementation, and bug fixes.
-        </motion.p>
+        {(description || event.fields.heroSubheadline || instructorBio) && (
+          <motion.p
+            {...fadeInUp}
+            transition={{delay: 0.1}}
+            className="relative mb-8 sm:text-lg md:text-lg dark:text-gray-200 text-gray-700 max-w-3xl mx-auto leading-relaxed "
+          >
+            {description || event.fields.heroSubheadline || (
+              <>
+                Join{' '}
+                <span className="text-gray-900 pl-2 inline-flex items-baseline md:gap-2 gap-1 dark:text-white font-medium">
+                  <Image
+                    src={instructorImage}
+                    alt={instructorName}
+                    width={40}
+                    height={40}
+                    className="rounded-full relative md:translate-y-3 translate-y-2 md:w-10 w-7"
+                  />{' '}
+                  {instructorName}
+                </span>
+                {instructorBio ||
+                  ', founder of egghead.io, for an immersive workshop designed to teach you how to effectively use AI in your development workflow.'}
+              </>
+            )}
+          </motion.p>
+        )}
 
         <motion.div
           {...fadeInUp}
@@ -228,17 +263,30 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
           className="relative"
         >
           <div className="mt-12 flex flex-col gap-4 justify-center items-center">
-            {saleisActive && workshop && (
+            {saleisActive && event.fields.startsAt && (
               <div className="">
                 <TimeAndLocation
-                  date={workshop.date}
-                  startTime={workshop.startTime}
-                  timeZone={workshop.timeZone}
-                  endTime={workshop.endTime}
+                  date={format(new Date(event.fields.startsAt), 'yyyy-MM-dd')}
+                  startTime={formatInTimeZone(
+                    new Date(event.fields.startsAt),
+                    event.fields.timezone,
+                    'h:mm a',
+                  )}
+                  timeZone={event.fields.timezone}
+                  endTime={
+                    event.fields.endsAt
+                      ? formatInTimeZone(
+                          new Date(event.fields.endsAt),
+                          event.fields.timezone,
+                          'h:mm a',
+                        )
+                      : ''
+                  }
                   iconSize={6}
                   className="text-lg gap-2 text-muted-foreground flex md:flex-row md:gap-6"
                 />
-                {workshop.isEuFriendly && (
+                {/* TODO: Calculate EU friendly time */}
+                {false && (
                   <div className="relative mb-8 max-w-md mx-auto">
                     <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg p-4 shadow-lg transform rotate-0 hover:rotate-1 transition-transform">
                       <div className="flex items-center gap-3">

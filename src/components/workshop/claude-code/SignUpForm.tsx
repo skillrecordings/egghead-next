@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import {motion} from 'motion/react'
-import {fadeInUp} from '../shared/animations'
+import {fadeInUp} from '../../../app/workshops/[slug]/_components/animations'
 import GenericNewsletterSignupForm from '@/components/forms/generic-newsletter-signup'
 
 const SignUpForm = () => {

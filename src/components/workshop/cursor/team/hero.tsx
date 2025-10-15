@@ -1,7 +1,10 @@
 'use client'
 import Link from 'next/link'
 import {motion} from 'motion/react'
-import {fadeInUp, scaleIn} from '../../shared/animations'
+import {
+  fadeInUp,
+  scaleIn,
+} from '../../../../app/workshops/[slug]/_components/animations'
 import {useState, useEffect} from 'react'
 import '../../shared/styles.css'
 import Image from 'next/image'

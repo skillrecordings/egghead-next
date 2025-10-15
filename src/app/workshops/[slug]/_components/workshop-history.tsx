@@ -17,7 +17,7 @@ export default function WorkshopHistory() {
   )
 
   return (
-    <section className="py-16 sm:py-20">
+    <section className="not-prose py-16 sm:py-20">
       <div className="max-w-4xl mx-auto px-5">
         <div className="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 shadow-xl shadow-gray-900/5 dark:shadow-orange-500/5 rounded-lg overflow-hidden">
           {/* Terminal header */}

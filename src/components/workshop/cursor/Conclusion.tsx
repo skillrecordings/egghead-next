@@ -1,6 +1,6 @@
 'use client'
 import {motion} from 'motion/react'
-import {fadeInUp} from '../shared/animations'
+import {fadeInUp} from '../../../app/workshops/[slug]/_components/animations'
 
 export default function Conclusion() {
   return (

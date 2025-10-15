@@ -30,7 +30,7 @@ function convertToSerializeForNextResponse(result: any) {
 // Create a connection pool for better performance and resource management
 let connectionPool: Pool | null = null
 
-function getConnectionPool(): Pool {
+export function getConnectionPool(): Pool {
   if (!connectionPool) {
     connectionPool = mysql.createPool({
       ...access,

@@ -2,7 +2,7 @@
 import Layout from '@/components/app/layout'
 import Hero from '@/components/workshop/cursor/Hero'
 import Features from '@/components/workshop/cursor/Features'
-import Instructor from '@/components/workshop/shared/Instructor'
+import Instructor from '@/app/workshops/[slug]/_components/Instructor'
 import SignUpForm from '@/components/workshop/cursor/SignUpForm'
 import type {SignUpFormRef} from '@/components/workshop/cursor/Hero'
 import type {GetServerSideProps} from 'next'
@@ -11,14 +11,14 @@ import {NextSeo} from 'next-seo'
 import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
 import ActiveSale from '@/components/workshop/cursor/active-sale'
 
-import CtaSection from '@/components/workshop/shared/cta-section'
+import CtaSection from '@/app/workshops/[slug]/_components/cta-section'
 import {useViewer} from '@/context/viewer-context'
 import {trpc} from '@/app/_trpc/client'
 import Markdown from '@/components/markdown'
 import Image from 'next/image'
 import {useTheme} from 'next-themes'
-import Testimonial from '@/components/workshop/shared/testimonial'
-import TestimonialBar from '@/components/workshop/cursor/TestimonialBar'
+import Testimonial from '@/app/workshops/[slug]/_components/testimonial'
+import TestimonialBar from '@/app/workshops/[slug]/_components/TestimonialBar'
 export const TEAM_WORKSHOP_FEATURES = [
   'Flexible scheduling',
   'Live Q&A with John Lindquist',

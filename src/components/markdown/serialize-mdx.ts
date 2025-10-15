@@ -85,6 +85,7 @@ const serializeMDX = async (
       mdxOptions: {
         development: false,
         useDynamicImport: true,
+        format: 'mdx',
         remarkPlugins: [
           [
             remarkCodeHike,
@@ -100,6 +101,7 @@ const serializeMDX = async (
           ],
         ],
       },
+      parseFrontmatter: false,
     })
     return mdxContent
   }
