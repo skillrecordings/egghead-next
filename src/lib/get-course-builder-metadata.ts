@@ -79,6 +79,7 @@ interface VideoResourceWithTranscript {
   fields: {
     transcript?: string
     muxPlaybackId?: string
+    muxAssetId?: string
   }
 }
 
@@ -89,6 +90,12 @@ type CourseBuilderLessonData = {
   title?: string
   // Map Course Builder `fields.github` to lesson `repo_url`
   repo_url?: string
+  // MUX asset ID for generating download URLs
+  muxAssetId?: string
+  // MUX playback ID for streaming/downloading
+  muxPlaybackId?: string
+  // Download URL for MUX videos
+  download_url?: string
 }
 
 /**
@@ -172,6 +179,18 @@ export async function getCourseBuilderLesson(
     // Map GitHub repo URL if present on the lesson fields
     if (lessonFields?.github) {
       result.repo_url = lessonFields.github
+    }
+
+    // Extract MUX playback ID and asset ID for MUX videos
+    if (videoFields?.muxPlaybackId || videoFields?.muxAssetId) {
+      if (videoFields?.muxPlaybackId) {
+        result.muxPlaybackId = videoFields.muxPlaybackId
+      }
+      if (videoFields?.muxAssetId) {
+        result.muxAssetId = videoFields.muxAssetId
+      }
+      // Generate download URL pointing to our API endpoint (relative URL to avoid CORS issues)
+      result.download_url = `/api/lessons/${slug}/download`
     }
 
     if (Object.keys(result).length > 0) {

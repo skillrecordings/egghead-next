@@ -31,9 +31,20 @@ const DownloadButtonWithTooltip: FunctionComponent<
               onClick={(e) => {
                 e.preventDefault()
                 if (download_url) {
-                  axios.get(download_url).then(({data}) => {
-                    window.location.href = data
-                  })
+                  axios
+                    .get(download_url)
+                    .then(({data}) => {
+                      window.location.href = data
+                    })
+                    .catch((error) => {
+                      if (error.response?.status === 403) {
+                      } else {
+                        console.error('Download failed:', error)
+                        alert(
+                          'Failed to download video. Please try again later.',
+                        )
+                      }
+                    })
                 }
                 analytics.events.activityCtaClick('lesson download', slug)
               }}
@@ -74,7 +85,7 @@ class DownloadControlErrorBoundary extends React.Component {
     this.state = {hasError: false}
   }
 
-  static getDerivedStateFromError(error: any) {
+  static getDerivedStateFromError(_error: any) {
     // Update state so the next render will show the fallback UI.
     return {hasError: true}
   }
