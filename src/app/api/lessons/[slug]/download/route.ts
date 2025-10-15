@@ -22,7 +22,12 @@ export async function GET(
     const {slug} = await params
 
     // Check if user is a member (pro or instructor)
-    const token = request.cookies.get('egghead_token')?.value
+    let token = request.cookies.get('egghead_token')?.value
+    // Allow token via Authorization header for cross-origin requests
+    const authHeader = request.headers.get('authorization')
+    if (!token && authHeader?.toLowerCase().startsWith('bearer ')) {
+      token = authHeader.slice(7).trim()
+    }
     let viewer = null
 
     if (token) {
