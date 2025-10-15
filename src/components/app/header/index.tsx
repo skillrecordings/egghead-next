@@ -344,7 +344,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
       {!viewer?.is_instructor &&
         pathname !== '/pricing' &&
         pathname !== '/forever' && <LifetimeSaleHeaderBanner />}
-      {pathname !== '/workshop/cursor' && (
+      {pathname !== '/workshop/cursor' && pathname !== '/' && (
         <WorkshopSaleHeaderBanner
           flag="featureFlagCursorWorkshopSale"
           workshopPath="/workshop/cursor"

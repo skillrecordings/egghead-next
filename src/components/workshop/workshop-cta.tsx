@@ -4,10 +4,30 @@ import {trpc} from '@/app/_trpc/client'
 import analytics from '@/utils/analytics'
 import Image from 'next/legacy/image'
 
-const WorkshopCTA: React.FC = () => {
+export interface WorkshopCTAProps {
+  workshopLink: string
+  featureFlagName: string
+  imageUrl: string
+  imageAlt: string
+  title: string
+  description: string
+  featureTags: string[]
+  analyticsLabel: string
+}
+
+const WorkshopCTA: React.FC<WorkshopCTAProps> = ({
+  workshopLink,
+  featureFlagName,
+  imageUrl,
+  imageAlt,
+  title,
+  description,
+  featureTags,
+  analyticsLabel,
+}) => {
   const {data: liveWorkshop, isLoading: isLiveWorkshopLoading} =
     trpc.featureFlag.getLiveWorkshop.useQuery({
-      flag: 'featureFlagClaudeCodeWorkshopSale',
+      flag: featureFlagName,
     })
 
   const isSaleLive = liveWorkshop?.isSaleLive ?? false
@@ -25,14 +45,14 @@ const WorkshopCTA: React.FC = () => {
   return (
     <div className="px-3 pb-8 max-w-screen-xl mx-auto">
       <Link
-        href="/workshop/claude-code"
+        href={workshopLink}
         className="group block rounded-lg overflow-hidden bg-white dark:bg-gray-800 hover:shadow-xl transition-all duration-200"
         onClick={() => {
           analytics.events.activityInternalLinkClick(
             'workshop cta',
             'home page',
-            'Claude Code Workshop',
-            '/workshop/claude-code',
+            analyticsLabel,
+            workshopLink,
           )
         }}
       >
@@ -40,8 +60,8 @@ const WorkshopCTA: React.FC = () => {
           <div className="sm:w-1/3 lg:w-1/4 bg-[#0b0b0b] flex items-center justify-center p-8">
             <div className="relative w-full max-w-[200px] aspect-square">
               <Image
-                src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1752698761/claude-code-workshop-logo-square_hopfzn.png"
-                alt="Claude Code Workshop"
+                src={imageUrl}
+                alt={imageAlt}
                 layout="fill"
                 objectFit="contain"
                 priority
@@ -58,7 +78,7 @@ const WorkshopCTA: React.FC = () => {
 
             {/* Main Title - Dominant hierarchy */}
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 leading-tight">
-              Transform into a Claude Code Power User
+              {title}
             </h3>
 
             {/* Workshop Details - Reduced prominence */}
@@ -88,25 +108,19 @@ const WorkshopCTA: React.FC = () => {
 
             {/* Description - Clear hierarchy */}
             <p className="text-base text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              Join a hands-on session to unlock advanced Claude Code workflows,
-              automation, and integrations that will transform your development
-              process.
+              {description}
             </p>
 
             {/* Feature Tags - Consistent styling */}
             <div className="flex flex-wrap gap-2 mb-6">
-              <span className="text-xs px-2.5 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-gray-700 dark:text-gray-300 font-medium">
-                Live Q&A
-              </span>
-              <span className="text-xs px-2.5 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-gray-700 dark:text-gray-300 font-medium">
-                TypeScript SDK
-              </span>
-              <span className="text-xs px-2.5 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-gray-700 dark:text-gray-300 font-medium">
-                Custom Hooks
-              </span>
-              <span className="text-xs px-2.5 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-gray-700 dark:text-gray-300 font-medium">
-                MCP Integration
-              </span>
+              {featureTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs px-2.5 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-gray-700 dark:text-gray-300 font-medium"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
 
             {/* Call to Action - Clear visual weight */}

@@ -131,7 +131,7 @@ export default function PostPage({
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/${post.fields.slug}`}
         twitter={{
           cardType: 'summary_large_image',
-          site: 'eggheadio',
+          site: '@eggheadio',
           handle: '@eggheadio',
         }}
         openGraph={{
