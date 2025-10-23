@@ -148,6 +148,7 @@ const LessonListTab: React.FC<
 const CourseHeader: React.FunctionComponent<
   React.PropsWithChildren<{
     course: {
+      id: number
       title: string
       square_cover_480_url: string
       slug: string
@@ -156,11 +157,17 @@ const CourseHeader: React.FunctionComponent<
     currentLessonSlug: string
   }>
 > = ({course, currentLessonSlug}) => {
+  const {data: fullCourse} = trpc.course.getCourse.useQuery({
+    id: course.id,
+    slug: course.slug,
+  })
+
+  console.log('course', fullCourse)
   return course ? (
     <div className="flex items-center">
       <div className="relative flex-shrink-0 block w-12 h-12 lg:w-16 lg:h-16 xl:w-20 xl:h-20">
         <Image
-          src={course.square_cover_480_url}
+          src={fullCourse?.square_cover_480_url || course.square_cover_480_url}
           alt={`illustration for ${course.title}`}
           layout="fill"
         />
