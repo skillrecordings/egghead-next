@@ -1,6 +1,10 @@
 'use client'
 import {motion} from 'motion/react'
-import {fadeInUp, staggerContainer, staggerItem} from '../shared/animations'
+import {
+  fadeInUp,
+  staggerContainer,
+  staggerItem,
+} from '../../../app/workshops/[slug]/_components/animations'
 
 const days = [
   {

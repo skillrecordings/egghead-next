@@ -8,7 +8,7 @@ interface Testimonial {
   avatar: string
 }
 
-const testimonials: Testimonial[] = [
+const defaultTestimonials: Testimonial[] = [
   {
     name: 'Kent C. Dodds',
     quote: 'One‑shot OAuth in minutes.',
@@ -29,13 +29,19 @@ const testimonials: Testimonial[] = [
   },
 ]
 
-export default function TestimonialBar() {
+interface TestimonialBarProps {
+  testimonials?: Testimonial[]
+}
+
+export default function TestimonialBar({
+  testimonials = defaultTestimonials,
+}: TestimonialBarProps) {
   return (
     <motion.section
       initial={{opacity: 0, y: 20}}
       animate={{opacity: 1, y: 0}}
       transition={{delay: 0.4, duration: 0.5}}
-      className="relative bg-gray-50 dark:bg-gray-800/50 py-6 px-4 overflow-hidden"
+      className="not-prose relative bg-gray-50 dark:bg-gray-800/50 py-6 px-4 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 text-center md:text-left">

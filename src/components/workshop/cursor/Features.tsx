@@ -1,7 +1,11 @@
 'use client'
 import {motion} from 'motion/react'
 import {Cpu, Database, Users, Calendar, Shield, Cloud} from 'lucide-react'
-import {fadeInUp, staggerContainer, staggerItem} from '../shared/animations'
+import {
+  fadeInUp,
+  staggerContainer,
+  staggerItem,
+} from '../../../app/workshops/[slug]/_components/animations'
 
 const features = [
   {

@@ -5,7 +5,7 @@ import NextLink from 'next/link'
 import {Slot} from '@radix-ui/react-slot'
 import {format} from 'date-fns'
 
-import type {Purchase} from '@/components/workshop/shared/invoices/types'
+import type {Purchase} from '@/app/workshops/[slug]/_components/invoices/types'
 import {cn} from '@/ui/utils'
 
 type InvoiceTeaserContextType = {

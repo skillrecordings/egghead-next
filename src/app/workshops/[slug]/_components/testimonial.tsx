@@ -12,7 +12,7 @@ export default function Testimonial({
   link?: string
 }) {
   return (
-    <blockquote className="flex flex-col items-center my-12 sm:my-16 lg:my-20 px-6 sm:px-8 py-8 sm:py-10 relative bg-gradient-to-b from-primary/[0.02] to-transparent rounded-xl">
+    <blockquote className="not-prose flex flex-col items-center my-12 sm:my-16 lg:my-20 px-6 sm:px-8 py-8 sm:py-10 relative bg-gradient-to-b from-primary/[0.02] to-transparent rounded-xl">
       {/* <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-5xl sm:text-6xl lg:text-7xl text-primary/[0.06] font-serif select-none pointer-events-none" aria-hidden="true">"</div> */}
       <p className="prose-base md:prose-xl font-semibold leading-relaxed tracking-normal text-balance max-w-3xl mx-auto text-center whitespace-pre-wrap relative z-10 text-gray-800 dark:text-gray-200 italic">
         {quote}
