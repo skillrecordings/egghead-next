@@ -1,6 +1,6 @@
 import * as mysql from 'mysql2/promise'
-import {ConnectionOptions, RowDataPacket, Pool} from 'mysql2/promise'
-import type {Post} from '@/schemas/post'
+import { ConnectionOptions, RowDataPacket, Pool } from 'mysql2/promise'
+import type { Post } from '@/schemas/post'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -113,7 +113,7 @@ export async function getCourseBuilderLesson(
     return null
   }
 
-  const {hashFromSlug} = parseSlugForHash(slug)
+  const { hashFromSlug } = parseSlugForHash(slug)
   const pool = getConnectionPool()
   let conn
 
@@ -228,7 +228,7 @@ export async function getCourseBuilderVideoResource(
     return null
   }
 
-  const {hashFromSlug} = parseSlugForHash(slug)
+  const { hashFromSlug } = parseSlugForHash(slug)
   const pool = getConnectionPool()
   let conn
 
@@ -287,7 +287,7 @@ export async function loadCourseBuilderCourseMetadata(
     return null
   }
 
-  const {hashFromSlug} = parseSlugForHash(slug)
+  const { hashFromSlug } = parseSlugForHash(slug)
   const pool = getConnectionPool()
   let conn
 
@@ -366,7 +366,7 @@ export async function getCourseBuilderLessonStates(
     return null
   }
 
-  const {hashFromSlug} = parseSlugForHash(courseSlug)
+  const { hashFromSlug } = parseSlugForHash(courseSlug)
   const pool = getConnectionPool()
   let conn
 
@@ -446,7 +446,7 @@ export async function getCourseBuilderCourseLessons(
     return null
   }
 
-  const {hashFromSlug} = parseSlugForHash(courseSlug)
+  const { hashFromSlug } = parseSlugForHash(courseSlug)
   const pool = getConnectionPool()
   let conn
 

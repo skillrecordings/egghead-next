@@ -1,8 +1,8 @@
-import {request} from 'graphql-request'
+import { request } from 'graphql-request'
 import getAccessTokenFromCookie from '@/utils/get-access-token-from-cookie'
-import {getGraphQLClient} from '../utils/configured-graphql-client'
+import { getGraphQLClient } from '../utils/configured-graphql-client'
 import config from './config'
-import {loadCourseMetadata} from './courses'
+import { loadCourseMetadata } from './courses'
 import {
   loadCourseBuilderMetadata,
   getCourseBuilderLessonStates,
@@ -47,7 +47,7 @@ export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
 
     while (hasNextPage) {
       const {
-        playlists: {data, count},
+        playlists: { data, count },
       } = await request(config.graphQLEndpoint, query, {
         page: currentPage,
         per_page: 25,
@@ -100,7 +100,7 @@ export async function loadAllPlaylists() {
     }
   `
   const graphQLClient = getGraphQLClient()
-  const {all_playlists} = await graphQLClient.request(query)
+  const { all_playlists } = await graphQLClient.request(query)
 
   return all_playlists
 }
@@ -127,7 +127,7 @@ export async function loadAuthedPlaylistForUser(
     slug: slug,
   }
 
-  const {playlist} = await graphQLClient.request(query, variables)
+  const { playlist } = await graphQLClient.request(query, variables)
   return playlist
 }
 
@@ -303,7 +303,7 @@ export async function loadPlaylist(slug: string, token?: string) {
 
   const graphQLClient = getGraphQLClient(token)
 
-  const {playlist} = await graphQLClient.request(query, variables)
+  const { playlist } = await graphQLClient.request(query, variables)
   const courseMeta = await loadCourseMetadata(playlist.id, playlist.slug)
   const courseBuilderMetadata = await loadCourseBuilderMetadata(playlist.slug)
   const lessonStates = await getCourseBuilderLessonStates(playlist.slug)
