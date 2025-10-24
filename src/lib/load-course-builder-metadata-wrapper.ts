@@ -1,4 +1,4 @@
-import type { Post } from '@/schemas/post'
+import type {Post} from '@/schemas/post'
 
 /**
  * Client-safe wrapper for loadCourseBuilderMetadata
@@ -10,7 +10,7 @@ export async function loadCourseBuilderMetadata(
 ): Promise<Post | null> {
   // Only load on server-side to avoid mysql2 client bundle issues
   if (typeof window === 'undefined') {
-    const { loadCourseBuilderCourseMetadata: loadMetadata } = await import(
+    const {loadCourseBuilderCourseMetadata: loadMetadata} = await import(
       './get-course-builder-metadata'
     )
     return loadMetadata(slug)
@@ -29,7 +29,7 @@ export async function getCourseBuilderLessonStates(
 ): Promise<Map<string, string> | null> {
   // Only load on server-side to avoid mysql2 client bundle issues
   if (typeof window === 'undefined') {
-    const { getCourseBuilderLessonStates: getStates } = await import(
+    const {getCourseBuilderLessonStates: getStates} = await import(
       './get-course-builder-metadata'
     )
     return getStates(slug)
@@ -46,7 +46,7 @@ export type CourseBuilderLesson = {
   slug: string
   type: string
   path: string
-  duration?: number
+  duration?: number | null
   state?: string
 }
 
@@ -60,7 +60,7 @@ export async function getCourseBuilderCourseLessons(
 ): Promise<CourseBuilderLesson[] | null> {
   // Only load on server-side to avoid mysql2 client bundle issues
   if (typeof window === 'undefined') {
-    const { getCourseBuilderCourseLessons: getLessons } = await import(
+    const {getCourseBuilderCourseLessons: getLessons} = await import(
       './get-course-builder-metadata'
     )
     return getLessons(slug)
