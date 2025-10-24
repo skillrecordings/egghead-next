@@ -39,17 +39,30 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
     )
   }
 
-  const {slug, sections, lessons}: {slug: string; sections: any; lessons: any} =
-    props.course
+  const {
+    slug,
+    sections,
+    lessons,
+    courseBuilderLessons,
+  }: {
+    slug: string
+    sections: any
+    lessons: any
+    courseBuilderLessons?: any
+  } = props.course
 
   const items = get(props.course, 'items', [])
 
+  // Prefer Course Builder lessons (new source) over Sanity, then fallback to fullLessons, then items
+  // Course Builder is the authoritative source for new courses
   const courseLessons =
-    props.fullLessons && props.fullLessons.length > 0
+    courseBuilderLessons && courseBuilderLessons.length > 0
+      ? courseBuilderLessons
+      : lessons && lessons.length > 0
+      ? lessons
+      : props.fullLessons && props.fullLessons.length > 0
       ? props.fullLessons
-      : isEmpty(lessons)
-      ? filter(items, (item) => ['lesson', 'talk'].includes(item.type))
-      : lessons
+      : filter(items, (item) => ['lesson', 'talk'].includes(item.type))
 
   const multiModuleCourse = courseDependencies(slug)
 
@@ -115,7 +128,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   res,
   req,
   params,
-  query,
 }) => {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
   try {

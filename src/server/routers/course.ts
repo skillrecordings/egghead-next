@@ -1,7 +1,7 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {loadRatings} from '@/lib/ratings'
-import {loadCourseMetadata} from '@/lib/courses'
+import {loadCourse} from '@/lib/courses'
 
 export const courseRouter = router({
   getRatings: baseProcedure
@@ -10,8 +10,8 @@ export const courseRouter = router({
       return loadRatings(input.slug, input.type)
     }),
   getCourse: baseProcedure
-    .input(z.object({slug: z.string(), id: z.number()}))
-    .query(async ({input}) => {
-      return loadCourseMetadata(input.id, input.slug)
+    .input(z.object({slug: z.string()}))
+    .query(async ({input, ctx}) => {
+      return loadCourse(input.slug, ctx.userToken)
     }),
 })

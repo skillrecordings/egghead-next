@@ -349,3 +349,161 @@ export async function loadCourseBuilderCourseMetadata(
     }
   }
 }
+
+/**
+ * Gets lesson states from Course Builder for a course
+ * Returns a map of lesson slugs to their state
+ * @param courseSlug - The course slug
+ * @returns Promise<Map<string, string> | null> - Map of lesson slug to state
+ */
+export async function getCourseBuilderLessonStates(
+  courseSlug: string,
+): Promise<Map<string, string> | null> {
+  if (!process.env.COURSE_BUILDER_DATABASE_URL) {
+    console.warn(
+      'COURSE_BUILDER_DATABASE_URL not configured, skipping lesson state lookup',
+    )
+    return null
+  }
+
+  const {hashFromSlug} = parseSlugForHash(courseSlug)
+  const pool = getConnectionPool()
+  let conn
+
+  try {
+    conn = await pool.getConnection()
+
+    // Get all lessons for the course
+    const [lessonRows] = await conn.execute<RowDataPacket[]>(
+      `
+      SELECT
+        JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) AS slug,
+        JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) AS state
+      FROM egghead_ContentResource cr_course
+      JOIN egghead_ContentResourceResource crr ON cr_course.id = crr.resourceOfId
+      JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
+      WHERE (cr_course.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ? OR cr_course.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?)
+      AND cr_course.type = 'post'
+      AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
+      AND cr_lesson.type = 'post'
+    `,
+      [courseSlug, courseSlug, `%${hashFromSlug}`, `%${hashFromSlug}`],
+    )
+
+    if (lessonRows.length === 0) {
+      console.log(
+        `No Course Builder lessons found for course slug: ${courseSlug}`,
+      )
+      return null
+    }
+
+    const lessonStateMap = new Map<string, string>()
+    for (const row of lessonRows) {
+      if (row.slug) {
+        lessonStateMap.set(row.slug, row.state || 'draft')
+      }
+    }
+
+    console.log(
+      `Found ${lessonStateMap.size} Course Builder lessons for course: ${courseSlug}`,
+    )
+    return lessonStateMap
+  } catch (error) {
+    console.error('Error fetching Course Builder lesson states:', error)
+    return null
+  } finally {
+    if (conn) {
+      conn.release()
+    }
+  }
+}
+
+/**
+ * Type for Course Builder lesson data
+ */
+type CourseBuilderLesson = {
+  title: string
+  slug: string
+  type: string
+  path: string
+  duration: number | null
+  state: string | null
+}
+
+/**
+ * Gets full lesson data from Course Builder for a course
+ * Returns lessons in the order they appear in the course
+ * @param courseSlug - The course slug
+ * @returns Promise<CourseBuilderLesson[] | null> - Array of lessons if available, null otherwise
+ */
+export async function getCourseBuilderCourseLessons(
+  courseSlug: string,
+): Promise<CourseBuilderLesson[] | null> {
+  if (!process.env.COURSE_BUILDER_DATABASE_URL) {
+    console.warn(
+      'COURSE_BUILDER_DATABASE_URL not configured, skipping Course Builder lessons lookup',
+    )
+    return null
+  }
+
+  const {hashFromSlug} = parseSlugForHash(courseSlug)
+  const pool = getConnectionPool()
+  let conn
+
+  try {
+    conn = await pool.getConnection()
+
+    // Get all published lessons for the course with their order
+    const [lessonRows] = await conn.execute<RowDataPacket[]>(
+      `
+      SELECT
+        cr_lesson.id,
+        cr_lesson.fields,
+        crr.position
+      FROM egghead_ContentResource cr_course
+      JOIN egghead_ContentResourceResource crr ON cr_course.id = crr.resourceOfId
+      JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
+      WHERE (cr_course.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ? OR cr_course.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?)
+      AND cr_course.type = 'post'
+      AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
+      AND cr_lesson.type = 'post'
+      AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+      ORDER BY crr.position ASC
+    `,
+      [courseSlug, courseSlug, `%${hashFromSlug}`, `%${hashFromSlug}`],
+    )
+
+    if (lessonRows.length === 0) {
+      console.log(
+        `No Course Builder lessons found for course slug: ${courseSlug}`,
+      )
+      return null
+    }
+
+    const lessons: CourseBuilderLesson[] = lessonRows.map((row) => {
+      const fields =
+        typeof row.fields === 'string' ? JSON.parse(row.fields) : row.fields
+
+      return {
+        title: fields.title || 'Untitled',
+        slug: fields.slug || row.id,
+        type: 'lesson',
+        path: `/lessons/${fields.slug || row.id}`,
+        duration: fields.duration ?? null,
+        state: fields.state ?? null,
+      }
+    })
+
+    console.log(
+      `Found ${lessons.length} published Course Builder lessons for course: ${courseSlug}`,
+    )
+    return lessons
+  } catch (error) {
+    console.error('Error fetching Course Builder course lessons:', error)
+    return null
+  } finally {
+    if (conn) {
+      conn.release()
+    }
+  }
+}

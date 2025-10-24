@@ -148,7 +148,6 @@ const LessonListTab: React.FC<
 const CourseHeader: React.FunctionComponent<
   React.PropsWithChildren<{
     course: {
-      id: number
       title: string
       square_cover_480_url: string
       slug: string
@@ -158,7 +157,6 @@ const CourseHeader: React.FunctionComponent<
   }>
 > = ({course, currentLessonSlug}) => {
   const {data: fullCourse} = trpc.course.getCourse.useQuery({
-    id: course.id,
     slug: course.slug,
   })
 

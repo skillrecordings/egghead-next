@@ -3,9 +3,11 @@ import getAccessTokenFromCookie from '@/utils/get-access-token-from-cookie'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import config from './config'
 import {loadCourseMetadata} from './courses'
-import groq from 'groq'
-import {sanityClient} from '@/utils/sanity-client'
-import {loadCourseBuilderMetadata} from './load-course-builder-metadata-wrapper'
+import {
+  loadCourseBuilderMetadata,
+  getCourseBuilderLessonStates,
+  getCourseBuilderCourseLessons,
+} from './load-course-builder-metadata-wrapper'
 
 export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
   const query = /* GraphQL */ `
@@ -304,6 +306,24 @@ export async function loadPlaylist(slug: string, token?: string) {
   const {playlist} = await graphQLClient.request(query, variables)
   const courseMeta = await loadCourseMetadata(playlist.id, playlist.slug)
   const courseBuilderMetadata = await loadCourseBuilderMetadata(playlist.slug)
+  const lessonStates = await getCourseBuilderLessonStates(playlist.slug)
+  const courseBuilderLessons = await getCourseBuilderCourseLessons(
+    playlist.slug,
+  )
+
+  // Filter out unpublished lessons only for Course Builder-managed courses
+  let filteredItems = playlist.items
+  if (courseBuilderMetadata && lessonStates && lessonStates.size > 0) {
+    filteredItems = playlist.items?.filter((item: any) => {
+      // Only filter lessons that exist in Course Builder
+      if (item.slug && lessonStates.has(item.slug)) {
+        const state = lessonStates.get(item.slug)
+        return state === 'published'
+      }
+      // Keep items that don't exist in Course Builder (legacy lessons)
+      return true
+    })
+  }
 
   const courseBuilderOverrides = {
     ogImage:
@@ -312,7 +332,15 @@ export async function loadPlaylist(slug: string, token?: string) {
       `https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`,
     description: courseBuilderMetadata?.fields?.body || playlist.description,
     title: courseBuilderMetadata?.fields?.title || playlist.title,
+    // Include Course Builder lessons in the response
+    courseBuilderLessons: courseBuilderLessons,
   }
 
-  return {...playlist, ...courseMeta, ...courseBuilderOverrides, slug}
+  return {
+    ...playlist,
+    ...courseMeta,
+    ...courseBuilderOverrides,
+    items: filteredItems,
+    slug,
+  }
 }
