@@ -9,6 +9,7 @@ import {useState, useMemo, useEffect} from 'react'
 import {ContactForm} from '@/components/workshop/claude-code/contact-form'
 import {LiveWorkshop} from '@/types'
 import Spinner from '@/components/spinner'
+import {isEarlyBirdActive} from '@/utils/workshop'
 
 interface UseWorkshopCouponProps {
   hasYearlyProDiscount: boolean
@@ -39,14 +40,16 @@ function useWorkshopCoupon({
 }: UseWorkshopCouponProps): UseWorkshopCouponReturn {
   const {availableCoupons} = useCommerceMachine()
 
+  const isEarlyBird = isEarlyBirdActive(workshop)
+
   const baseCoupon = useMemo(() => {
     switch (true) {
-      case hasYearlyProDiscount && workshop?.isEarlyBird:
+      case hasYearlyProDiscount && isEarlyBird:
         return {
           queryParam: `?prefilled_promo_code=${workshop?.stripeEarlyBirdMemberCouponCode}`,
           type: 'earlyBird-member' as const,
         }
-      case workshop?.isEarlyBird:
+      case isEarlyBird:
         return {
           queryParam: `?prefilled_promo_code=${workshop?.stripeEarlyBirdCouponCode}`,
           type: 'earlyBird-non-member' as const,
@@ -64,7 +67,7 @@ function useWorkshopCoupon({
     }
   }, [
     hasYearlyProDiscount,
-    workshop?.isEarlyBird,
+    isEarlyBird,
     workshop?.stripeEarlyBirdMemberCouponCode,
     workshop?.stripeEarlyBirdCouponCode,
     workshop?.stripeMemberCouponCode,
@@ -256,10 +259,9 @@ const TieredPricing = ({
   }
 
   // Calculate prices
-  // Calculate prices
   const basePriceRaw = Number(workshop?.workshopPrice)
   const basePrice = Number.isFinite(basePriceRaw) ? basePriceRaw : 400
-  const isEarlyBird = workshop?.isEarlyBird
+  const isEarlyBird = isEarlyBirdActive(workshop)
 
   // Non-member pricing
   const nonMemberDiscountRaw = Number(
@@ -280,8 +282,8 @@ const TieredPricing = ({
       ? earlyMemberRaw
       : 150
     : Number.isFinite(memberRaw)
-      ? memberRaw
-      : 100
+    ? memberRaw
+    : 100
   const memberPrice = basePrice - memberDiscount
   // PPP pricing if applicable
   const pppDiscount = parityCoupon?.coupon_discount ?? 0

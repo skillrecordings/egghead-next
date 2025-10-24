@@ -9,6 +9,7 @@ import {useState, useMemo, useEffect} from 'react'
 import {ContactForm} from '@/components/workshop/cursor/team/contact-form'
 import type {LiveWorkshop} from '@/types'
 import Spinner from '@/components/spinner'
+import {isEarlyBirdActive} from '@/utils/workshop'
 
 interface UseWorkshopCouponProps {
   hasProDiscount: boolean
@@ -39,14 +40,16 @@ function useWorkshopCoupon({
 }: UseWorkshopCouponProps): UseWorkshopCouponReturn {
   const {availableCoupons} = useCommerceMachine()
 
+  const isEarlyBird = isEarlyBirdActive(workshop)
+
   const baseCoupon = useMemo(() => {
     switch (true) {
-      case hasProDiscount && workshop?.isEarlyBird:
+      case hasProDiscount && isEarlyBird:
         return {
           queryParam: `?prefilled_promo_code=${workshop?.stripeEarlyBirdMemberCouponCode}`,
           type: 'earlyBird-member' as const,
         }
-      case workshop?.isEarlyBird:
+      case isEarlyBird:
         return {
           queryParam: `?prefilled_promo_code=${workshop?.stripeEarlyBirdCouponCode}`,
           type: 'earlyBird-non-member' as const,
@@ -64,7 +67,7 @@ function useWorkshopCoupon({
     }
   }, [
     hasProDiscount,
-    workshop?.isEarlyBird,
+    isEarlyBird,
     workshop?.stripeEarlyBirdMemberCouponCode,
     workshop?.stripeEarlyBirdCouponCode,
     workshop?.stripeMemberCouponCode,

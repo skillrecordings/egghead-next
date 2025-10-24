@@ -6,6 +6,7 @@ import analytics from '@/utils/analytics'
 import {usePathname} from 'next/navigation'
 import {trpc} from '@/app/_trpc/client'
 import CountdownTimer from './countdown-timer'
+import {isEarlyBirdActive} from '@/utils/workshop'
 
 interface WorkshopSaleHeaderBannerProps {
   flag: string
@@ -29,6 +30,18 @@ const WorkshopSaleHeaderBanner: React.FC<WorkshopSaleHeaderBannerProps> = ({
     })
   const pathname = usePathname()
 
+  const isEarlyBird = isEarlyBirdActive(workshopDateAndTime)
+
+  // Create modified workshop object for early bird countdown
+  const countdownData =
+    isEarlyBird && workshopDateAndTime?.earlyBirdEndDate
+      ? {
+          ...workshopDateAndTime,
+          date: workshopDateAndTime.earlyBirdEndDate,
+          startTime: '11:59 PM',
+        }
+      : workshopDateAndTime
+
   return isSaleBannerEnabled ? (
     <Link
       href={workshopPath}
@@ -44,13 +57,20 @@ const WorkshopSaleHeaderBanner: React.FC<WorkshopSaleHeaderBannerProps> = ({
       <div className="flex flex-col sm:flex-row items-center justify-center pl-2 text-xs text-white bg-gradient-to-r sm:px-2 sm:text-sm from-blue-500 to-indigo-500 py-1 print:hidden">
         <div className="flex sm:flex-row flex-col items-center gap-1 py-1 leading-tight">
           <div className="flex items-center gap-1">
-            <span role="img" aria-hidden="true">
-              🌟
-            </span>{' '}
-            {workshopDateAndTime ? (
+            {isEarlyBird && workshopDateAndTime?.earlyBirdBannerMessage ? (
+              <div className="flex items-center gap-1">
+                <span>{workshopDateAndTime.earlyBirdBannerMessage}</span>{' '}
+                <CountdownTimer targetDate={countdownData} />
+              </div>
+            ) : workshopDateAndTime?.bannerMessage ? (
+              <div className="flex items-center gap-1">
+                <span>{workshopDateAndTime.bannerMessage}</span>{' '}
+                <CountdownTimer targetDate={countdownData} />
+              </div>
+            ) : workshopDateAndTime ? (
               <div className="flex  items-center gap-1">
                 <span>Sale ends in</span>{' '}
-                <CountdownTimer targetDate={workshopDateAndTime} />
+                <CountdownTimer targetDate={countdownData} />
               </div>
             ) : (
               'Sale:'

@@ -10,6 +10,7 @@ export const LiveWorkshopSchema = z
     isSaleLive: z.boolean(),
     isEuFriendly: z.boolean(),
     isEarlyBird: z.boolean(),
+    earlyBirdEndDate: z.string().optional(),
     productId: z.string(),
     workshopPrice: z.string(),
     stripePaymentLink: z.string(),
@@ -19,6 +20,8 @@ export const LiveWorkshopSchema = z
     stripeEarlyBirdMemberDiscount: z.string(),
     stripeMemberDiscount: z.string(),
     stripeEarlyBirdNonMemberDiscount: z.string(),
+    bannerMessage: z.string().optional(),
+    earlyBirdBannerMessage: z.string().optional(),
   })
   .optional()
 export type LiveWorkshop = z.infer<typeof LiveWorkshopSchema>
