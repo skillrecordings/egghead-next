@@ -1,8 +1,8 @@
-import { request } from 'graphql-request'
+import {request} from 'graphql-request'
 import getAccessTokenFromCookie from '@/utils/get-access-token-from-cookie'
-import { getGraphQLClient } from '../utils/configured-graphql-client'
+import {getGraphQLClient} from '../utils/configured-graphql-client'
 import config from './config'
-import { loadCourseMetadata } from './courses'
+import {loadCourseMetadata} from './courses'
 import {
   loadCourseBuilderMetadata,
   getCourseBuilderLessonStates,
@@ -47,7 +47,7 @@ export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
 
     while (hasNextPage) {
       const {
-        playlists: { data, count },
+        playlists: {data, count},
       } = await request(config.graphQLEndpoint, query, {
         page: currentPage,
         per_page: 25,
@@ -100,7 +100,7 @@ export async function loadAllPlaylists() {
     }
   `
   const graphQLClient = getGraphQLClient()
-  const { all_playlists } = await graphQLClient.request(query)
+  const {all_playlists} = await graphQLClient.request(query)
 
   return all_playlists
 }
@@ -127,7 +127,7 @@ export async function loadAuthedPlaylistForUser(
     slug: slug,
   }
 
-  const { playlist } = await graphQLClient.request(query, variables)
+  const {playlist} = await graphQLClient.request(query, variables)
   return playlist
 }
 
@@ -303,7 +303,7 @@ export async function loadPlaylist(slug: string, token?: string) {
 
   const graphQLClient = getGraphQLClient(token)
 
-  const { playlist } = await graphQLClient.request(query, variables)
+  const {playlist} = await graphQLClient.request(query, variables)
   const courseMeta = await loadCourseMetadata(playlist.id, playlist.slug)
   const courseBuilderMetadata = await loadCourseBuilderMetadata(playlist.slug)
   const lessonStates = await getCourseBuilderLessonStates(playlist.slug)
@@ -313,7 +313,10 @@ export async function loadPlaylist(slug: string, token?: string) {
 
   // Filter out unpublished lessons only for Course Builder-managed courses
   let filteredItems = playlist.items
+  let filteredSections = playlist.sections
+
   if (courseBuilderMetadata && lessonStates && lessonStates.size > 0) {
+    // Filter top-level items
     filteredItems = playlist.items?.filter((item: any) => {
       // Only filter lessons that exist in Course Builder
       if (item.slug && lessonStates.has(item.slug)) {
@@ -323,6 +326,23 @@ export async function loadPlaylist(slug: string, token?: string) {
       // Keep items that don't exist in Course Builder (legacy lessons)
       return true
     })
+
+    // Filter lessons within sections
+    if (playlist.sections && playlist.sections.length > 0) {
+      filteredSections = playlist.sections.map((section: any) => ({
+        ...section,
+        lessons:
+          section.lessons?.filter((lesson: any) => {
+            // Only filter lessons that exist in Course Builder
+            if (lesson.slug && lessonStates.has(lesson.slug)) {
+              const state = lessonStates.get(lesson.slug)
+              return state === 'published'
+            }
+            // Keep lessons that don't exist in Course Builder (legacy lessons)
+            return true
+          }) || [],
+      }))
+    }
   }
 
   const courseBuilderOverrides = {
@@ -341,6 +361,7 @@ export async function loadPlaylist(slug: string, token?: string) {
     ...courseMeta,
     ...courseBuilderOverrides,
     items: filteredItems,
+    sections: filteredSections,
     slug,
   }
 }

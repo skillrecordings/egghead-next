@@ -34,9 +34,7 @@ const PlayerSidebar: React.FC<
         >
           {notesEnabled && (
             <TabList className="relative z-[1] flex-shrink-0">
-              {videoResourceHasCollection && (
-                <Tab onClick={(e) => console.log('e')}>Lessons</Tab>
-              )}
+              {videoResourceHasCollection && <Tab>Lessons</Tab>}
             </TabList>
           )}
           <TabPanels className="relative flex-grow">
@@ -97,6 +95,7 @@ const LessonListTab: React.FC<
   }>
 > = ({videoResource, lessonView, onActiveTab}) => {
   const collectionIsEmpty: boolean = isEmpty(videoResource.collection)
+  const [filteredCourse, setFilteredCourse] = React.useState<any>(null)
 
   // accounts for data coming from either GraphQL or Sanity. Sometimes there will be an array of tags instead of a single primary tag
   const primaryTag = videoResource.primary_tag
@@ -112,6 +111,17 @@ const LessonListTab: React.FC<
       })
     : {data: null}
 
+  // Memoize the callback to prevent infinite loops
+  const handleCourseLoaded = React.useCallback((fullCourse: any) => {
+    setFilteredCourse(fullCourse)
+  }, [])
+
+  // Only use filtered course data once it's loaded to avoid showing unpublished lessons
+  // For non-collection lessons (lessonsFromTag), use immediately
+  const courseToDisplay = collectionIsEmpty
+    ? videoResource.collection
+    : filteredCourse
+
   return !collectionIsEmpty || lessonsFromTag ? (
     <div className="w-full h-full bg-gray-100 dark:bg-gray-1000">
       <div className="flex flex-col h-full">
@@ -120,6 +130,7 @@ const LessonListTab: React.FC<
             <CourseHeader
               course={videoResource.collection}
               currentLessonSlug={videoResource.slug}
+              onCourseLoaded={handleCourseLoaded}
             />
           </div>
         )}
@@ -133,7 +144,7 @@ const LessonListTab: React.FC<
         )}
         <div className="flex-grow overflow-hidden">
           <CollectionLessonsList
-            course={videoResource.collection}
+            course={courseToDisplay}
             currentLessonSlug={videoResource.slug}
             progress={lessonView?.collection_progress}
             lessons={lessonsFromTag}
@@ -154,11 +165,39 @@ const CourseHeader: React.FunctionComponent<
       path: string
     }
     currentLessonSlug: string
+    onCourseLoaded?: (fullCourse: any) => void
   }>
-> = ({course, currentLessonSlug}) => {
+> = ({course, currentLessonSlug, onCourseLoaded}) => {
   const {data: fullCourse} = trpc.course.getCourse.useQuery({
     slug: course.slug,
   })
+
+  React.useEffect(() => {
+    if (fullCourse && onCourseLoaded) {
+      // Don't transform if course has sections - sections contain their own lessons
+      if (fullCourse.sections && fullCourse.sections.length > 0) {
+        onCourseLoaded(fullCourse)
+        return
+      }
+
+      // For non-sectioned courses, prefer courseBuilderLessons (filtered), then lessons, then filter items
+      const transformedCourse = {
+        ...fullCourse,
+        lessons:
+          fullCourse.courseBuilderLessons &&
+          fullCourse.courseBuilderLessons.length > 0
+            ? fullCourse.courseBuilderLessons
+            : fullCourse.lessons && fullCourse.lessons.length > 0
+            ? fullCourse.lessons
+            : fullCourse.items?.filter((item: any) =>
+                ['lesson', 'talk'].includes(item.type),
+              ) || [],
+      }
+      onCourseLoaded(transformedCourse)
+    }
+    // Only depend on fullCourse, not onCourseLoaded (which is memoized)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fullCourse])
 
   console.log('course', fullCourse)
   return course ? (

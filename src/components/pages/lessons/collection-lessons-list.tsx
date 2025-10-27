@@ -111,15 +111,18 @@ const CollectionLessonsList: FunctionComponent<
 
   React.useEffect(() => {
     setActiveElement(currentLessonSlug)
-    scrollableNodeRef.current.id = 'scrollable-container'
-    if (onActiveTab) {
-      scroller.scrollTo(activeElement, {
-        duration: 0,
-        delay: 0,
-        containerId: 'scrollable-container',
-      })
+    if (scrollableNodeRef.current) {
+      scrollableNodeRef.current.id = 'scrollable-container'
+      if (onActiveTab) {
+        scroller.scrollTo(activeElement, {
+          duration: 0,
+          delay: 0,
+          containerId: 'scrollable-container',
+        })
+      }
     }
-  }, [activeElement, setActiveElement, currentLessonSlug])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeElement, setActiveElement, currentLessonSlug, onActiveTab])
 
   return lessonList ? (
     <div className="h-full overflow-hidden">
