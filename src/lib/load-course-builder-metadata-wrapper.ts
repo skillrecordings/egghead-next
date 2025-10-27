@@ -47,7 +47,7 @@ export type CourseBuilderLesson = {
   type: string
   path: string
   duration?: number | null
-  state?: string
+  state?: string | null
 }
 
 /**
