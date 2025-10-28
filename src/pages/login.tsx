@@ -8,6 +8,11 @@ import {IconGithub} from '@/components/pages/lessons/code-link'
 import ExternalTrackedLink from '../components/external-tracked-link'
 import SamlSignInForm from '../components/users/saml-sign-in-form'
 import analytics from '@/utils/analytics'
+import {
+  getRememberedEmail,
+  setRememberedEmail,
+  clearRememberedEmail,
+} from '@/utils/remember-email'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -51,6 +56,16 @@ const LoginForm: FunctionComponent<React.PropsWithChildren<LoginFormProps>> = ({
   const {requestSignInEmail} = useViewer()
 
   const [active, setActive] = React.useState(false)
+  const [rememberEmail, setRememberEmail] = React.useState(false)
+  const [initialEmail, setInitialEmail] = React.useState('')
+
+  React.useEffect(() => {
+    const remembered = getRememberedEmail()
+    if (remembered) {
+      setInitialEmail(remembered)
+      setRememberEmail(true)
+    }
+  }, [])
 
   React.useEffect(() => {
     if (!active) {
@@ -105,11 +120,19 @@ const LoginForm: FunctionComponent<React.PropsWithChildren<LoginFormProps>> = ({
           <div className="mt-4 sm:mt-6 sm:mx-auto sm:w-full sm:max-w-xl">
             {!isSubmitted && !isError && (
               <Formik
-                initialValues={{email: ''}}
+                initialValues={{email: initialEmail}}
+                enableReinitialize
                 validationSchema={loginSchema}
-                onSubmit={(values) => {
+                onSubmit={(values: {email: string}) => {
                   setIsSubmitted(true)
                   if (isFunction(track)) track(values.email)
+
+                  if (rememberEmail) {
+                    setRememberedEmail(values.email)
+                  } else {
+                    clearRememberedEmail()
+                  }
+
                   requestSignInEmail(values.email)
                     .then(() => {})
                     .catch(() => {
@@ -182,6 +205,28 @@ const LoginForm: FunctionComponent<React.PropsWithChildren<LoginFormProps>> = ({
                             />
                           </div>
                         )}
+
+                        <div className="flex items-center mt-3">
+                          <input
+                            id="remember-email"
+                            type="checkbox"
+                            checked={rememberEmail}
+                            onChange={(e) => {
+                              const checked = e.target.checked
+                              setRememberEmail(checked)
+                              if (!checked) {
+                                clearRememberedEmail()
+                              }
+                            }}
+                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                          />
+                          <label
+                            htmlFor="remember-email"
+                            className="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                          >
+                            Remember my email
+                          </label>
+                        </div>
 
                         <div className="flex flex-col space-y-2">
                           <div className="flex items-center justify-center w-full">
