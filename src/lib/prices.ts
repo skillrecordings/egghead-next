@@ -45,12 +45,16 @@ export async function loadPricingData(
   } = {quantity: 1},
   mock: boolean = false,
 ): Promise<PricingData> {
-  let {data: pricingData} = await axios.get(
-    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/next/pricing`,
-    {
-      params,
-    },
-  )
+  // Use the Next.js API proxy when running client-side to forward geolocation headers
+  // for PPP (Purchasing Power Parity) pricing
+  const isClientSide = typeof window !== 'undefined'
+  const endpoint = isClientSide
+    ? '/api/pricing'
+    : `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/next/pricing`
+
+  let {data: pricingData} = await axios.get(endpoint, {
+    params,
+  })
 
   return pricingData
 }
@@ -63,12 +67,16 @@ export async function loadPrices(
   } = {quantity: 1},
   mock: boolean = false,
 ): Promise<Prices> {
-  let {data: pricingData} = await axios.get(
-    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/next/pricing`,
-    {
-      params,
-    },
-  )
+  // Use the Next.js API proxy when running client-side to forward geolocation headers
+  // for PPP (Purchasing Power Parity) pricing
+  const isClientSide = typeof window !== 'undefined'
+  const endpoint = isClientSide
+    ? '/api/pricing'
+    : `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/next/pricing`
+
+  let {data: pricingData} = await axios.get(endpoint, {
+    params,
+  })
   if (mock) {
     pricingData = mockPrices
   }

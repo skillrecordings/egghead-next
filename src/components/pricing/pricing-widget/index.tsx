@@ -6,8 +6,8 @@ import {redirectToSubscriptionCheckout} from '@/api/stripe/stripe-checkout-redir
 import emailIsValid from '@/utils/email-is-valid'
 import {track} from '@/utils/analytics'
 import {useCommerceMachine} from '@/hooks/use-commerce-machine'
-import {first, get} from 'lodash'
-import {Coupon, StripeAccount} from '@/types'
+import {get} from 'lodash'
+import {Coupon} from '@/types'
 import {useRouter, useSearchParams} from 'next/navigation'
 import SelectPlanNew from '@/components/pricing/select-plan-new'
 import PoweredByStripe from '@/components/pricing/powered-by-stripe'
@@ -15,6 +15,11 @@ import ParityCouponMessage from '@/components/pricing/parity-coupon-message'
 import isEmpty from 'lodash/isEmpty'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import countries from 'i18n-iso-countries'
+import enLocale from 'i18n-iso-countries/langs/en.json'
+
+// Register English locale for country name lookups
+countries.registerLocale(enLocale)
 
 const PricingWidget: FunctionComponent<React.PropsWithChildren<{}>> = () => {
   const {viewer, authToken} = useViewer()
@@ -55,8 +60,16 @@ const PricingWidget: FunctionComponent<React.PropsWithChildren<{}>> = () => {
   const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
   const countryName = get(parityCoupon, 'coupon_region_restricted_to_name')
 
+  // Fallback: If countryName is missing but we have a countryCode, use i18n-iso-countries to get the name
+  const displayCountryName =
+    countryName ||
+    (countryCode && countries.getName(countryCode, 'en')) ||
+    countryCode
+
   const pppCouponAvailable =
-    !isEmpty(countryName) && !isEmpty(countryCode) && !isEmpty(parityCoupon)
+    !isEmpty(displayCountryName) &&
+    !isEmpty(countryCode) &&
+    !isEmpty(parityCoupon)
   const pppCouponEligible = quantity === 1
 
   const appliedCoupon = get(state.context.pricingData, 'applied_coupon')
@@ -72,7 +85,7 @@ const PricingWidget: FunctionComponent<React.PropsWithChildren<{}>> = () => {
 
   const onClickCheckout = async () => {
     if (!priceId) return
-    await track('checkout: selected plan', {
+    track('checkout: selected plan', {
       priceId: priceId,
     })
 
@@ -97,10 +110,10 @@ const PricingWidget: FunctionComponent<React.PropsWithChildren<{}>> = () => {
       }
 
       // the user doesn't have pro access, proceed to checkout
-      await track('checkout: valid email present', {
+      track('checkout: valid email present', {
         priceId: priceId,
       })
-      await track('checkout: redirect to stripe', {
+      track('checkout: redirect to stripe', {
         priceId,
       })
       redirectToSubscriptionCheckout({
@@ -111,7 +124,7 @@ const PricingWidget: FunctionComponent<React.PropsWithChildren<{}>> = () => {
         coupon: state.context.couponToApply?.couponCode,
       })
     } else {
-      await track('checkout: get email', {
+      track('checkout: get email', {
         priceId: priceId,
       })
 
@@ -156,7 +169,7 @@ const PricingWidget: FunctionComponent<React.PropsWithChildren<{}>> = () => {
         <div className="max-w-screen-md pb-5 mx-auto mt-4">
           <ParityCouponMessage
             coupon={parityCoupon as Coupon}
-            countryName={countryName as string}
+            countryName={displayCountryName as string}
             onApply={onApplyParityCoupon}
             onDismiss={onDismissParityCoupon}
             isPPP={pppCouponIsApplied}
