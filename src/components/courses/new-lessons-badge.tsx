@@ -19,7 +19,7 @@ export function NewLessonsBadge({
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 ${className}`}
+      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300 tracking-wide uppercase ${className}`}
     >
       {/* <svg
         className="mr-1 h-3 w-3"

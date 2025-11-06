@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import {getLatestCourses, LatestCourse} from '@/lib/courses-query'
 import {CourseCard} from './course-card'
 
@@ -86,12 +87,23 @@ export async function LatestCoursesFeed({
 
   // Success state - display courses
   return (
-    <div
-      className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ${className}`}
-    >
-      {courses.map((course) => (
-        <CourseCard key={course.id} course={course} />
-      ))}
+    <div className={className}>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          Latest Courses
+        </h2>
+        <Link
+          href="/q?type=playlist"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+        >
+          Browse all courses
+        </Link>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {courses.map((course) => (
+          <CourseCard key={course.id} course={course} />
+        ))}
+      </div>
     </div>
   )
 }

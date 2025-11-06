@@ -10,13 +10,19 @@ interface CourseCardProps {
 
 export function CourseCard({course}: CourseCardProps) {
   return (
-    <article className="flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+    <article className="relative flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden py-6">
       <Link
         href={`/courses/${course.slug}`}
         className="group flex flex-col h-full"
       >
+        <div className="absolute top-2 right-2">
+          <NewLessonsBadge
+            courseCreatedAt={course.createdAt}
+            recentLessonsCount={course.recentLessonsCount}
+          />
+        </div>
         {/* Course Image */}
-        <div className="relative flex items-center justify-center p-6 pb-0">
+        <div className="flex items-center justify-center p-6 pb-0">
           {course.image ? (
             <>
               <Image
@@ -24,15 +30,9 @@ export function CourseCard({course}: CourseCardProps) {
                 alt={course.title}
                 width={150}
                 height={150}
-                className="object-contain"
+                className="object-contain rounded-lg"
               />
               {/* Badge overlay */}
-              <div className="absolute top-2 right-2">
-                <NewLessonsBadge
-                  courseCreatedAt={course.createdAt}
-                  recentLessonsCount={course.recentLessonsCount}
-                />
-              </div>
             </>
           ) : (
             <>
@@ -62,7 +62,7 @@ export function CourseCard({course}: CourseCardProps) {
         </div>
 
         {/* Course Content */}
-        <div className="flex flex-col flex-1 p-4">
+        <div className="flex flex-col flex-1 px-4 py-10">
           {/* Title */}
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 mb-3 text-center">
             {course.title}

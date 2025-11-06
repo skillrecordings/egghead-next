@@ -68,34 +68,36 @@ export async function getLatestCourses(
     )
 
     // Transform the database rows into our LatestCourse type
-    const courses: LatestCourse[] = courseRows.map((row: LatestCourseRow) => {
-      // Parse fields if they are JSON strings
-      const fields =
-        typeof row.fields === 'string' ? JSON.parse(row.fields) : row.fields
+    const courses: LatestCourse[] = (courseRows as LatestCourseRow[]).map(
+      (row) => {
+        // Parse fields if they are JSON strings
+        const fields =
+          typeof row.fields === 'string' ? JSON.parse(row.fields) : row.fields
 
-      return {
-        id: row.id,
-        title: row.title || fields.title || 'Untitled Course',
-        slug: row.slug || fields.slug || row.id,
-        description: row.description || fields.description || null,
-        image: row.image || fields.image || null,
-        createdAt: new Date(row.createdAt),
-        updatedAt: new Date(row.updatedAt),
-        totalLessons: Number(row.total_lessons) || 0,
-        recentLessonsCount: Number(row.recent_lessons_count) || 0,
-        latestLessonDate: row.latest_lesson_date
-          ? new Date(row.latest_lesson_date)
-          : null,
-        lastActivityDate: new Date(row.last_activity_date),
-        instructor:
-          row.name || row.user_image
-            ? {
-                name: row.name || 'Unknown Instructor',
-                image: row.user_image || null,
-              }
+        return {
+          id: row.id,
+          title: row.title || fields.title || 'Untitled Course',
+          slug: row.slug || fields.slug || row.id,
+          description: row.description || fields.description || null,
+          image: row.image || fields.image || null,
+          createdAt: new Date(row.createdAt),
+          updatedAt: new Date(row.updatedAt),
+          totalLessons: Number(row.total_lessons) || 0,
+          recentLessonsCount: Number(row.recent_lessons_count) || 0,
+          latestLessonDate: row.latest_lesson_date
+            ? new Date(row.latest_lesson_date)
             : null,
-      }
-    })
+          lastActivityDate: new Date(row.last_activity_date),
+          instructor:
+            row.name || row.user_image
+              ? {
+                  name: row.name || 'Unknown Instructor',
+                  image: row.user_image || null,
+                }
+              : null,
+        }
+      },
+    )
 
     console.log(`Found ${courses.length} latest courses with activity tracking`)
 
