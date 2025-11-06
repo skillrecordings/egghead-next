@@ -59,12 +59,16 @@ const WorkshopSaleHeaderBanner: React.FC<WorkshopSaleHeaderBannerProps> = ({
           <div className="flex items-center gap-1">
             {isEarlyBird && workshopDateAndTime?.earlyBirdBannerMessage ? (
               <div className="flex items-center gap-1">
-                <span>{workshopDateAndTime.earlyBirdBannerMessage}</span>{' '}
+                <span className="text-balance w-fit">
+                  {workshopDateAndTime.earlyBirdBannerMessage}
+                </span>{' '}
                 <CountdownTimer targetDate={countdownData} />
               </div>
             ) : workshopDateAndTime?.bannerMessage ? (
-              <div className="flex items-center gap-1">
-                <span>{workshopDateAndTime.bannerMessage}</span>{' '}
+              <div className="flex flex-col sm:flex-row items-center gap-1">
+                <span className="text-balance w-fit">
+                  {workshopDateAndTime.bannerMessage}
+                </span>{' '}
                 <CountdownTimer targetDate={countdownData} />
               </div>
             ) : workshopDateAndTime ? (
@@ -76,7 +80,6 @@ const WorkshopSaleHeaderBanner: React.FC<WorkshopSaleHeaderBannerProps> = ({
               'Sale:'
             )}{' '}
           </div>
-          <span>{workshopTitle}</span>
         </div>
         <div className="flex items-center flex-shrink-0 px-2 py-px text-white underline">
           <span className="pr-1 font-medium">Claim your Spot</span>{' '}
