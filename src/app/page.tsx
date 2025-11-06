@@ -148,7 +148,7 @@ export default async function HomePage() {
                 'Custom Hooks',
                 'MCP Integration (Chrome MCP)',
               ]}
-              analyticsLabel="Claude Code Workshop"
+              analyticsLabel="Cursor Workshop"
             />
           </Suspense>
         </section>
