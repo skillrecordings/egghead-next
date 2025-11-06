@@ -62,10 +62,47 @@ const topics = [
 ]
 
 export const metadata = {
-  title: 'Home - App Router',
-  robots: {
-    index: false,
-    follow: false,
+  title: 'egghead.io - Learn Web Development from Expert Developers',
+  description:
+    'Learn modern web development with expert-led courses, tutorials, and workshops. Master React, TypeScript, Next.js, AI tools like Claude Code and Cursor, and more with hands-on video lessons.',
+  keywords: [
+    'web development',
+    'React',
+    'TypeScript',
+    'Next.js',
+    'JavaScript',
+    'Claude Code',
+    'Cursor',
+    'AI SDK',
+    'TanStack',
+    'online courses',
+    'programming tutorials',
+  ],
+  openGraph: {
+    title: 'egghead.io - Learn Web Development from Expert Developers',
+    description:
+      'Master modern web development with expert-led courses and tutorials on React, TypeScript, Next.js, and AI-powered development tools.',
+    url: 'https://egghead.io',
+    siteName: 'egghead.io',
+    type: 'website',
+    images: [
+      {
+        url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632239045/og-image-assets/egghead-og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'egghead.io',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@eggheadio',
+    title: 'egghead.io - Learn Web Development from Expert Developers',
+    description:
+      'Master modern web development with expert-led courses and tutorials on React, TypeScript, Next.js, and AI-powered development tools.',
+    images: [
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632239045/og-image-assets/egghead-og-image.png',
+    ],
   },
 }
 
