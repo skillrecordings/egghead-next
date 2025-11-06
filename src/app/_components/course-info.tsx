@@ -17,6 +17,19 @@ const CourseInfo: React.FC<CourseInfoProps> = ({
   belongsToResourceTitle,
   belongsToResourceSlug,
 }) => {
+  // Otherwise fall back to fetching via tRPC
+  const queryResourceId = belongsToResource ? String(belongsToResource) : null
+
+  // Only fetch if there's a belongsToResource field
+  const {data: course, isLoading} = trpc.course.getCourseByResourceId.useQuery(
+    {resourceId: queryResourceId!},
+    {
+      enabled: !!queryResourceId,
+      staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+      cacheTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
+    },
+  )
+
   // If we already have the title and slug from hits, use them directly
   if (belongsToResourceTitle && belongsToResourceSlug) {
     return (
@@ -30,19 +43,6 @@ const CourseInfo: React.FC<CourseInfoProps> = ({
       </div>
     )
   }
-
-  // Otherwise fall back to fetching via tRPC
-  const queryResourceId = belongsToResource ? String(belongsToResource) : null
-
-  // Only fetch if there's a belongsToResource field
-  const {data: course, isLoading} = trpc.course.getCourseByResourceId.useQuery(
-    {resourceId: queryResourceId!},
-    {
-      enabled: !!queryResourceId,
-      staleTime: 5 * 60 * 1000, // Cache for 5 minutes
-      cacheTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
-    },
-  )
 
   if (!belongsToResource) {
     return null
