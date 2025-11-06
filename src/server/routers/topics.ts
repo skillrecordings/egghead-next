@@ -17,6 +17,9 @@ export const topicRouter = router({
         .optional(),
     )
     .query(async ({input, ctx}) => {
+      if (!searchClient?.initIndex) {
+        throw new Error('Search client not initialized')
+      }
       const index = searchClient.initIndex(TYPESENSE_COLLECTION_NAME)
       // top 10 free playlists for a topic
       const filters = `access_state:free AND type:playlist ${
