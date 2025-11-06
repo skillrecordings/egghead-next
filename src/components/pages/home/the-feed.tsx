@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import {TYPESENSE_COLLECTION_NAME} from '@/utils/typesense'
 import {Configure, InstantSearch} from 'react-instantsearch'
