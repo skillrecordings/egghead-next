@@ -1,18 +1,21 @@
 'use client'
 
 import React from 'react'
-import {TYPESENSE_COLLECTION_NAME} from '@/utils/typesense'
+import {
+  TYPESENSE_COLLECTION_NAME,
+  typsenseAdapterConfig,
+  typesenseInstantsearchAdapter,
+} from '@/utils/typesense'
 import {Configure, InstantSearch} from 'react-instantsearch'
-import {typesenseAdapter} from '@/pages/q/[[...all]]'
 import {Element as ScrollElement} from 'react-scroll'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import Pagination from '@/components/search/pagination'
 import {usePagination} from 'react-instantsearch'
-import {typsenseAdapterConfig} from '@/utils/typesense'
 import CompactHits from './compact-hits'
 
-// Configure to show all posts (including lessons in courses)
-typesenseAdapter.updateConfiguration({
+// Create dedicated adapter for compact feed with feed-specific config
+const compactFeedAdapter = typesenseInstantsearchAdapter()
+compactFeedAdapter.updateConfiguration({
   ...typsenseAdapterConfig,
   additionalSearchParameters: {
     // Show all content with basic query configuration
@@ -23,7 +26,7 @@ typesenseAdapter.updateConfiguration({
     per_page: 25,
   },
 })
-const searchClient = typesenseAdapter.searchClient
+const searchClient = compactFeedAdapter.searchClient
 const queryClient = new QueryClient()
 
 function ConfigureHitsPerPage() {
