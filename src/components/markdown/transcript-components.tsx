@@ -1,5 +1,7 @@
 import {hmsToSeconds} from '@skillrecordings/time'
 import type {MuxPlayerRefAttributes} from '@mux/mux-player-react'
+import type {Components} from 'react-markdown'
+import type React from 'react'
 
 /**
  * @name getTranscriptComponents

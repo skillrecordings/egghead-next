@@ -1,5 +1,6 @@
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
+import type {CodeProps} from 'react-markdown/lib/ast-to-react'
 import friendlyTime from 'friendly-time'
 import Image from 'next/legacy/image'
 import CodeBlockWithCopy from '@/components/ui/code-block-with-copy'
@@ -74,10 +75,13 @@ const Comment: React.FunctionComponent<
         <div className="comment-container prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none mt-1">
           <ReactMarkdown
             components={{
-              pre({node, ...props}) {
-                return <>{props.children}</>
-              },
-              code({node, inline, className, children, ...props}) {
+              code: ({
+                node,
+                inline,
+                className,
+                children,
+                ...props
+              }: CodeProps) => {
                 const match = /language-(\w+)/.exec(className || '')
 
                 return !inline && match ? (

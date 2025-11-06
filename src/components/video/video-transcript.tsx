@@ -27,7 +27,7 @@ export const VideoTranscript: React.FC<{
         {typeof transcript === 'string' ? (
           <ReactMarkdown
             className="prose dark:prose-dark"
-            components={transcriptMarkdownComponent}
+            components={transcriptMarkdownComponent as any}
           >
             {transcript}
           </ReactMarkdown>
