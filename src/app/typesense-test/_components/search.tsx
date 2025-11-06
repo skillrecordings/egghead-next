@@ -14,6 +14,7 @@ import PresetOptions from '@/components/search/components/preset-options'
 import {usePagination} from 'react-instantsearch'
 import {ErrorBoundary, FallbackProps} from 'react-error-boundary'
 import {useQueryState} from 'nuqs'
+import {NuqsAdapter} from 'nuqs/adapters/next/app'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 
 // Configure Typesense adapter for "the feed" preset
@@ -43,9 +44,11 @@ const ErrorFallback = ({error}: FallbackProps) => (
 
 function SearchWithErrorBoundary() {
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Search />
-    </ErrorBoundary>
+    <NuqsAdapter>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Search />
+      </ErrorBoundary>
+    </NuqsAdapter>
   )
 }
 
