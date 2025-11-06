@@ -7,17 +7,35 @@ import {trpc} from '@/app/_trpc/client'
 interface CourseInfoProps {
   resourceId: string | number
   belongsToResource?: string | number
+  belongsToResourceTitle?: string
+  belongsToResourceSlug?: string
 }
 
 const CourseInfo: React.FC<CourseInfoProps> = ({
   resourceId,
   belongsToResource,
+  belongsToResourceTitle,
+  belongsToResourceSlug,
 }) => {
-  // Use the belongsToResource value to find what course this resource belongs to
+  // If we already have the title and slug from hits, use them directly
+  if (belongsToResourceTitle && belongsToResourceSlug) {
+    return (
+      <div className="min-h-4">
+        <Link
+          href={`/courses/${belongsToResourceSlug}`}
+          className="text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+        >
+          {belongsToResourceTitle}
+        </Link>
+      </div>
+    )
+  }
+
+  // Otherwise fall back to fetching via tRPC
   const queryResourceId = belongsToResource ? String(belongsToResource) : null
 
   // Only fetch if there's a belongsToResource field
-  const {data: course} = trpc.course.getCourseByResourceId.useQuery(
+  const {data: course, isLoading} = trpc.course.getCourseByResourceId.useQuery(
     {resourceId: queryResourceId!},
     {
       enabled: !!queryResourceId,
@@ -26,17 +44,31 @@ const CourseInfo: React.FC<CourseInfoProps> = ({
     },
   )
 
-  if (!belongsToResource || !course) {
+  if (!belongsToResource) {
+    return null
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-4">
+        <div className="h-3 w-60 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+      </div>
+    )
+  }
+
+  if (!course) {
     return null
   }
 
   return (
-    <Link
-      href={`/courses/${course.slug}`}
-      className="text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-    >
-      {course.title}
-    </Link>
+    <div className="min-h-4">
+      <Link
+        href={`/courses/${course.slug}`}
+        className="text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+      >
+        {course.title}
+      </Link>
+    </div>
   )
 }
 

@@ -42,7 +42,7 @@ const CompactHits = () => {
               className={cn(
                 'group relative',
                 index !== hits.length - 1 &&
-                  'border-b dark:border-gray-700 border-gray-200',
+                  'border-b dark:border-gray-700/50 border-gray-200/50',
               )}
             >
               <div className="block px-4 py-3">
@@ -83,6 +83,8 @@ const CompactHits = () => {
                     <CourseInfo
                       resourceId={hit._id || hit.objectID}
                       belongsToResource={hit.belongs_to_resource}
+                      belongsToResourceTitle={hit.belongs_to_resource_title}
+                      belongsToResourceSlug={hit.belongs_to_resource_slug}
                     />
 
                     {/* Instructor and Type Badge - Mobile */}
