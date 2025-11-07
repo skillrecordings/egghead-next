@@ -42,6 +42,9 @@ yarn-error.log*
 
 .vercel
 .idea
+
+# playwright
+.playwright-mcp/
 .env
 prisma/generated.schema.prisma
 /tsconfig.tsbuildinfo

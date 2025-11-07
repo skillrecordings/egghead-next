@@ -45,10 +45,6 @@ export async function getMiddlewareResponse(req: NextRequest) {
   const {user, customer, isMember, isLoggedInMember} =
     await getCookiesForRequest(req)
 
-  if (req.nextUrl.pathname === SITE_ROOT_PATH) {
-    response = rewriteToPath('learn', req)
-  }
-
   if (req.nextUrl.pathname.startsWith(PRICING_PAGE_PATH)) {
     switch (true) {
       case isLoggedInMember:

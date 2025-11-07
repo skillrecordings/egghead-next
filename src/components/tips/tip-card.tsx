@@ -11,6 +11,7 @@ import {trpc} from '@/app/_trpc/client'
 import isEmpty from 'lodash/isEmpty'
 import {convertTimeWithTitles} from '@/utils/time-utils'
 import ReactMarkdown from 'react-markdown'
+import type {Components} from 'react-markdown'
 import analytics from '@/utils/analytics'
 import {ClockIcon} from '@heroicons/react/solid'
 
@@ -144,10 +145,22 @@ const TipCard: React.FC<{tip: Tip; i: number}> = ({tip, i}) => {
         {tip?.description && (
           <ReactMarkdown
             className="prose dark:prose-dark dark:prose-dark-sm dark:prose-a:text-blue-300 prose-a:text-blue-500 prose-sm line-clamp-2 pt-2"
-            components={{
-              a: (props) => <span>{props.children}</span>,
-              p: (props) => <p className="text-balance">{props.children}</p>,
-            }}
+            components={
+              {
+                a: ({
+                  node,
+                  ...props
+                }: React.ComponentPropsWithoutRef<'a'> & {node?: any}) => (
+                  <span>{props.children}</span>
+                ),
+                p: ({
+                  node,
+                  ...props
+                }: React.ComponentPropsWithoutRef<'p'> & {node?: any}) => (
+                  <p className="text-balance">{props.children}</p>
+                ),
+              } as Partial<Components>
+            }
           >
             {tip.description}
           </ReactMarkdown>

@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react'
 import Link from 'next/link'
 import axios from '@/utils/configured-axios'

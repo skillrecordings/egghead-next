@@ -1,6 +1,7 @@
+'use client'
 import * as React from 'react'
 import {track} from '@/utils/analytics'
-import {useRouter} from 'next/router'
+import {useRouter} from 'next/navigation'
 import isEmpty from 'lodash/isEmpty'
 import {Form, Formik} from 'formik'
 import Image from 'next/legacy/image'
