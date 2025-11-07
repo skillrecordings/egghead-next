@@ -7,6 +7,7 @@ import {
   typesenseInstantsearchAdapter,
 } from '@/utils/typesense'
 import {Configure, InstantSearch} from 'react-instantsearch'
+import {InstantSearchNext} from 'react-instantsearch-nextjs'
 import {Element as ScrollElement} from 'react-scroll'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import Pagination from '@/components/search/pagination'
@@ -45,7 +46,7 @@ const CompactFeed = () => {
 
   return (
     <div className="dark:bg-gray-900 bg-gray-50 relative">
-      <InstantSearch
+      <InstantSearchNext
         indexName={TYPESENSE_COLLECTION_NAME}
         searchClient={searchClient}
         future={{
@@ -71,7 +72,7 @@ const CompactFeed = () => {
             </main>
           </div>
         </div>
-      </InstantSearch>
+      </InstantSearchNext>
     </div>
   )
 }
