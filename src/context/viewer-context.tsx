@@ -171,21 +171,35 @@ function useAuthedViewer() {
       })
     }
 
+    // This effect handles the auth flow.
+    // The `viewAsUser` flow is for admins assuming a user identity.
+    // The `authToken` flow is when we already have a cookie.
+    // The `handleAuthentication` flow is when we have a fresh OAuth return (hash fragment).
+    // The `viewerIsPresent` check is so we don't re-run auth logic if we are already logged in.
+
     if (viewAsUser && effectiveAccessToken) {
       loadBecomeViewer()
     } else if (authToken) {
       loadViewerFromToken()
     } else if (viewerIsPresent) {
+      // If we are already logged in, we can safely clear the token from the URL to clean it up.
+      // We do this AFTER confirming we have the viewer, so we don't clear it mid-auth.
       loadViewerFromStorage()
       clearAccessToken()
     } else if (noAccessTokenFound) {
+      // If no token in URL and no cookie, we monitor for a login (e.g. if it happens in another tab).
       viewerMonitorIntervalId = auth.monitor(setViewerOnInterval)
       setLoading(() => false)
     } else {
+      // This is the critical path for the initial OAuth callback.
+      // We have a token in the URL (effectiveAccessToken), but no viewer yet.
       auth
         .handleAuthentication()
         .then((viewer: any) => {
           setViewer(viewer)
+          // We only clear the token AFTER a successful auth handshake.
+          // Doing it earlier might cancel the pending API requests on some browsers (Safari).
+          clearAccessToken()
           setLoading(() => false)
         })
         .catch((error) => {
