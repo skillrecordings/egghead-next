@@ -238,14 +238,22 @@ export default class Auth {
     return !expired
   }
 
-  refreshUser(minimalUser = true) {
+  refreshUser(minimalUser = true, accessToken?: string) {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
         reject('no local storage')
       }
 
+      const token = accessToken || getAccessTokenFromCookie()
+      const headers: any = {}
+      if (token) {
+        headers.Authorization = `Bearer ${token}`
+      }
+
       http
-        .get(`/api/users/current?minimal=${minimalUser}`, {})
+        .get(`/api/users/current?minimal=${minimalUser}`, {
+          headers,
+        })
         .then(({data}) => {
           if (!this.isAuthenticated()) {
             return reject('not authenticated')
@@ -286,7 +294,7 @@ export default class Auth {
         expires: expiresInDays,
         domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
       })
-      resolve(this.refreshUser())
+      resolve(this.refreshUser(true, accessToken))
     })
   }
 
