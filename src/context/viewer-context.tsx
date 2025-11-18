@@ -72,7 +72,12 @@ function useAuthedViewer() {
     const viewAsUser = get(querySearch, 'show-as-user')
     const queryHash = queryString.parse(window.location.hash)
     const accessToken = get(queryHash, 'access_token')
-    const noAccessTokenFound = isEmpty(accessToken)
+    // In some cases (mobile safari) the access_token might be a query param instead of a hash
+    // if the redirect didn't preserve the hash or was converted by the browser/proxy
+    const queryAccessToken = get(querySearch, 'access_token')
+    const effectiveAccessToken = accessToken || queryAccessToken
+
+    const noAccessTokenFound = isEmpty(effectiveAccessToken)
     const viewerIsPresent = !isEmpty(viewerId)
     const authToken = getAccessTokenFromCookie()
 
@@ -88,6 +93,13 @@ function useAuthedViewer() {
     }
 
     let viewerMonitorIntervalId: number | undefined
+
+    const clearUserMonitorInterval = () => {
+      const intervalPresentForClearing = !isEmpty(viewerMonitorIntervalId)
+      if (intervalPresentForClearing) {
+        window.clearInterval(viewerMonitorIntervalId)
+      }
+    }
 
     const loadViewerFromStorage = async () => {
       const localViewer = auth.getLocalUser()
@@ -108,7 +120,7 @@ function useAuthedViewer() {
     }
 
     const clearAccessToken = () => {
-      if (!isEmpty(accessToken)) {
+      if (!isEmpty(effectiveAccessToken)) {
         window.history.replaceState({}, document.title, '.')
       }
     }
@@ -120,7 +132,17 @@ function useAuthedViewer() {
       }
     }
 
-    const clearUserMonitorInterval = () => {
+    console.log('[ViewerDebug] useEffect check', {
+      viewAsUser,
+      hasAccessToken: !!accessToken,
+      hasQueryAccessToken: !!queryAccessToken,
+      effectiveAccessToken: !!effectiveAccessToken,
+      hasAuthToken: !!authToken,
+      viewerIsPresent,
+      noAccessTokenFound,
+    })
+
+    if (loggingOut) {
       const intervalPresentForClearing = !isEmpty(viewerMonitorIntervalId)
       if (intervalPresentForClearing) {
         window.clearInterval(viewerMonitorIntervalId)
@@ -143,13 +165,13 @@ function useAuthedViewer() {
     }
 
     const loadBecomeViewer = async () => {
-      auth.becomeUser(viewAsUser, accessToken)?.then((viewer) => {
+      auth.becomeUser(viewAsUser, effectiveAccessToken)?.then((viewer) => {
         setViewer(viewer)
         setLoading(() => false)
       })
     }
 
-    if (viewAsUser && accessToken) {
+    if (viewAsUser && effectiveAccessToken) {
       loadBecomeViewer()
     } else if (authToken) {
       loadViewerFromToken()
@@ -160,10 +182,16 @@ function useAuthedViewer() {
       viewerMonitorIntervalId = auth.monitor(setViewerOnInterval)
       setLoading(() => false)
     } else {
-      auth.handleAuthentication().then((viewer: any) => {
-        setViewer(viewer)
-        setLoading(() => false)
-      })
+      auth
+        .handleAuthentication()
+        .then((viewer: any) => {
+          setViewer(viewer)
+          setLoading(() => false)
+        })
+        .catch((error) => {
+          console.error('Authentication failed', error)
+          setLoading(() => false)
+        })
     }
 
     return clearUserMonitorInterval
