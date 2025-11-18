@@ -174,10 +174,12 @@ export default class Auth {
   handleAuthentication() {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
+        console.log('[AuthDebug] handleAuthentication: no localstorage')
         reject('no localstorage')
       }
       if (typeof window !== 'undefined') {
         const uri = window.location.href
+        console.log('[AuthDebug] handleAuthentication: starting', {uri})
         window.history.pushState(
           '',
           document.title,
@@ -185,14 +187,18 @@ export default class Auth {
         )
         this.eggheadAuth.token.getToken(uri).then(
           (authResult) => {
+            console.log('[AuthDebug] handleAuthentication: getToken success', {
+              accessToken: authResult.accessToken ? 'present' : 'missing',
+              expiresIn: authResult.data.expires_in,
+            })
             const user = this.handleNewSession(
               authResult.accessToken,
-              authResult.data.expires_in,
+              authResult.data.expires_in || SIXTY_DAYS_IN_SECONDS,
             )
             resolve(user)
           },
           (error) => {
-            console.error(error)
+            console.error('[AuthDebug] handleAuthentication: error', error)
             this.logout().then(() => reject(error))
           },
         )
@@ -239,8 +245,13 @@ export default class Auth {
   }
 
   refreshUser(minimalUser = true, accessToken?: string) {
+    console.log('[AuthDebug] refreshUser: called', {
+      minimalUser,
+      accessTokenProvided: !!accessToken,
+    })
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
+        console.log('[AuthDebug] refreshUser: no localstorage')
         reject('no local storage')
       }
 
@@ -250,12 +261,22 @@ export default class Auth {
         headers.Authorization = `Bearer ${token}`
       }
 
+      console.log('[AuthDebug] refreshUser: making request', {
+        hasToken: !!token,
+      })
+
       http
         .get(`/api/users/current?minimal=${minimalUser}`, {
           headers,
         })
         .then(({data}) => {
+          console.log('[AuthDebug] refreshUser: success', {
+            data: data ? 'present' : 'missing',
+          })
           if (!this.isAuthenticated()) {
+            console.log(
+              '[AuthDebug] refreshUser: not authenticated after success',
+            )
             return reject('not authenticated')
           }
           if (data) analytics.identify(data)
@@ -275,15 +296,32 @@ export default class Auth {
   }
 
   setSession(accessToken: string, expiresInSeconds: string) {
+    console.log('[AuthDebug] setSession: called', {
+      accessToken: accessToken ? 'present' : 'missing',
+      expiresInSeconds,
+    })
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
+        console.log('[AuthDebug] setSession: no localstorage')
         reject('localStorage is not defined')
       }
 
       const now: number = new Date().getTime()
 
       const millisecondsInASecond = 1000
-      const expiresAt = Number(expiresInSeconds) * millisecondsInASecond + now
+      const expiresIn = Number(expiresInSeconds)
+      const safeExpiresIn =
+        !isNaN(expiresIn) && expiresIn > 0
+          ? expiresIn
+          : Number(SIXTY_DAYS_IN_SECONDS)
+
+      console.log('[AuthDebug] setSession: calculation', {
+        expiresIn,
+        safeExpiresIn,
+        now,
+      })
+
+      const expiresAt = safeExpiresIn * millisecondsInASecond + now
 
       const millisecondsInADay = 60 * 60 * 24 * 1000
       const expiresInDays = Math.floor((expiresAt - now) / millisecondsInADay)
