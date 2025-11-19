@@ -268,6 +268,7 @@ export default class Auth {
       http
         .get(`/api/users/current?minimal=${minimalUser}`, {
           headers,
+          withCredentials: true,
         })
         .then(({data}) => {
           console.log('[AuthDebug] refreshUser: success', {
