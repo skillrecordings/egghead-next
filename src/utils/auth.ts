@@ -247,7 +247,7 @@ export default class Auth {
 
   isAuthenticated() {
     if (typeof localStorage === 'undefined' || typeof window === 'undefined') {
-      return false
+      return
     }
     const storedExpiration = localStorage.getItem(EXPIRES_AT_KEY) || '0'
     const expiresAt = JSON.parse(storedExpiration)
@@ -262,11 +262,10 @@ export default class Auth {
       diff: expiresAt - now,
     })
 
-    // CRITICAL: Do NOT auto-logout here
-    // This method is called frequently during renders and can create race conditions
-    // Let the API endpoints handle auth failures with 401/403 responses
-    // The logout will be triggered by refreshUser() on actual auth failures
-
+    if (expiresAt > 0 && expired) {
+      console.log('[AuthDebug] isAuthenticated: token expired, logging out')
+      this.logout()
+    }
     return !expired
   }
 
@@ -279,19 +278,12 @@ export default class Auth {
       if (typeof localStorage === 'undefined') {
         console.log('[AuthDebug] refreshUser: no localstorage')
         reject('no local storage')
-        return
       }
 
       const token = accessToken || getAccessTokenFromCookie()
-
-      if (!token) {
-        console.log('[AuthDebug] refreshUser: no token available')
-        reject('no token available')
-        return
-      }
-
-      const headers: any = {
-        Authorization: `Bearer ${token}`,
+      const headers: any = {}
+      if (token) {
+        headers.Authorization = `Bearer ${token}`
       }
 
       console.log('[AuthDebug] refreshUser: making request', {
@@ -324,14 +316,13 @@ export default class Auth {
         })
         .catch((error) => {
           console.error('[AuthDebug] refreshUser: API failure', error)
-          // Only logout on 401/403, not network errors or aborts
+          // Only logout on 401/403, not network errors
           if (
             error.response &&
             (error.response.status === 401 || error.response.status === 403)
           ) {
             this.logout().then(() => reject(error))
           } else {
-            // Don't logout on network errors - could be transient
             reject(error)
           }
         })
@@ -347,7 +338,6 @@ export default class Auth {
       if (typeof localStorage === 'undefined') {
         console.log('[AuthDebug] setSession: no localstorage')
         reject('localStorage is not defined')
-        return
       }
 
       const now: number = new Date().getTime()
@@ -370,32 +360,13 @@ export default class Auth {
       const millisecondsInADay = 60 * 60 * 24 * 1000
       const expiresInDays = Math.floor((expiresAt - now) / millisecondsInADay)
 
-      // Write to localStorage - this should be synchronous but Safari ITP can interfere
       localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
       localStorage.setItem(EXPIRES_AT_KEY, JSON.stringify(expiresAt))
-
-      // Verify the write actually worked (Safari ITP can silently fail)
-      const verifyToken = localStorage.getItem(ACCESS_TOKEN_KEY)
-      const verifyExpiry = localStorage.getItem(EXPIRES_AT_KEY)
-
-      console.log('[AuthDebug] setSession: localStorage verification', {
-        tokenWritten: verifyToken === accessToken,
-        expiryWritten: verifyExpiry === JSON.stringify(expiresAt),
-        verifyExpiry,
-        expectedExpiry: JSON.stringify(expiresAt),
-      })
-
-      // Set cookie as fallback (more reliable on Safari)
       cookie.set(ACCESS_TOKEN_KEY, accessToken, {
         expires: expiresInDays,
         domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
       })
-
-      // Use setTimeout to ensure localStorage writes are flushed
-      // Safari can delay/block synchronous localStorage writes
-      setTimeout(() => {
-        resolve(this.refreshUser(true, accessToken))
-      }, 50)
+      resolve(this.refreshUser(true, accessToken))
     })
   }
 
