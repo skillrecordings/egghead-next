@@ -180,30 +180,21 @@ export default class Auth {
       if (typeof localStorage === 'undefined') {
         console.log('[AuthDebug] handleAuthentication: no localstorage')
         reject('no localstorage')
-        return
       }
       if (typeof window !== 'undefined') {
         const uri = window.location.href
         console.log('[AuthDebug] handleAuthentication: starting', {uri})
-
-        // Don't clear the hash yet - do it after successfully extracting the token
-        // This prevents race conditions on mobile Safari where the hash might be needed
-        // for retry attempts or debugging if token parsing fails
-
+        window.history.pushState(
+          '',
+          document.title,
+          window.location.pathname + window.location.search,
+        )
         this.eggheadAuth.token.getToken(uri).then(
           (authResult) => {
             console.log('[AuthDebug] handleAuthentication: getToken success', {
               accessToken: authResult.accessToken ? 'present' : 'missing',
               expiresIn: authResult.data.expires_in,
             })
-
-            // Only clear hash after successfully extracting the token
-            window.history.pushState(
-              '',
-              document.title,
-              window.location.pathname + window.location.search,
-            )
-
             const user = this.handleNewSession(
               authResult.accessToken,
               authResult.data.expires_in || SIXTY_DAYS_IN_SECONDS,
@@ -212,7 +203,6 @@ export default class Auth {
           },
           (error) => {
             console.error('[AuthDebug] handleAuthentication: error', error)
-            // Hash remains in URL for debugging if token extraction fails
             this.logout().then(() => reject(error))
           },
         )
