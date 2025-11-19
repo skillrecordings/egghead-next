@@ -4,8 +4,8 @@ import {getTokenFromCookieHeaders, AUTH_DOMAIN} from '@/utils/auth'
 import fetchEggheadUser from '../../../api/egghead/users/from-token'
 
 const current = async (req: NextApiRequest, res: NextApiResponse) => {
-  // Set CORS headers for Safari ITP cross-subdomain compatibility
-  // Safari blocks XHR from egghead.io after redirect from app.egghead.io
+  // Set CORS headers for Safari ITP compatibility
+  // Safari blocks XHR with withCredentials after OAuth redirect
   const origin = req.headers.origin
   const allowedOrigins = [
     'https://egghead.io',
@@ -13,8 +13,19 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
     'https://app.egghead.io',
   ]
 
-  if (origin && allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin)
+  // For same-origin requests, origin header may be missing
+  // Set CORS headers based on origin if present, or host if not
+  if (origin) {
+    if (allowedOrigins.includes(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin)
+      res.setHeader('Access-Control-Allow-Credentials', 'true')
+    }
+  } else {
+    // Same-origin request - allow credentials
+    const host = req.headers.host
+    const protocol = req.headers['x-forwarded-proto'] || 'https'
+    const currentOrigin = `${protocol}://${host}`
+    res.setHeader('Access-Control-Allow-Origin', currentOrigin)
     res.setHeader('Access-Control-Allow-Credentials', 'true')
   }
 

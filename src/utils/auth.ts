@@ -263,6 +263,9 @@ export default class Auth {
 
       console.log('[AuthDebug] refreshUser: making request', {
         hasToken: !!token,
+        url: `/api/users/current?minimal=${minimalUser}`,
+        headers: Object.keys(headers),
+        withCredentials: true,
       })
 
       http
@@ -291,6 +294,11 @@ export default class Auth {
           resolve(data)
         })
         .catch((error) => {
+          console.error('[AuthDebug] refreshUser: failed', {
+            message: error.message,
+            status: error.response?.status,
+            url: error.config?.url,
+          })
           this.logout().then(() => reject(error))
         })
     })
