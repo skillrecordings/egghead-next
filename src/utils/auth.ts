@@ -81,7 +81,7 @@ export default class Auth {
           },
         },
       )
-      .then(async ({data}) => {
+      .then(({data}) => {
         const expiresAt = JSON.stringify(
           data.access_token.expires_in * 1000 + new Date().getTime(),
         )
@@ -91,10 +91,6 @@ export default class Auth {
         localStorage.setItem(EXPIRES_AT_KEY, expiresAt)
         localStorage.setItem(USER_KEY, JSON.stringify(user))
         localStorage.setItem(VIEWING_AS_USER_KEY, get(user, 'email'))
-
-        // Force a tiny delay to ensure local storage is committed before cookie set
-        // This is superstitious but safe
-        await new Promise((r) => setTimeout(r, 10))
 
         if (user.contact_id) {
           cookie.set(CIO_IDENTIFIER_KEY, user.contact_id)
@@ -241,19 +237,8 @@ export default class Auth {
     }
     const storedExpiration = localStorage.getItem(EXPIRES_AT_KEY) || '0'
     const expiresAt = JSON.parse(storedExpiration)
-    const now = new Date().getTime()
-    const expired = now > expiresAt
-
-    console.log('[AuthDebug] isAuthenticated check', {
-      storedExpiration,
-      expiresAt,
-      now,
-      expired,
-      diff: expiresAt - now,
-    })
-
+    const expired = new Date().getTime() > expiresAt
     if (expiresAt > 0 && expired) {
-      console.log('[AuthDebug] isAuthenticated: token expired, logging out')
       this.logout()
     }
     return !expired
@@ -288,12 +273,12 @@ export default class Auth {
           console.log('[AuthDebug] refreshUser: success', {
             data: data ? 'present' : 'missing',
           })
-          // CRITICAL: Do not check isAuthenticated() here.
-          // The token was just validated by the API call itself.
-          // If the API returns 200 OK, the token is valid, period.
-          // Checking localStorage expiration here is prone to race conditions
-          // where the write hasn't propagated yet.
-
+          if (!this.isAuthenticated()) {
+            console.log(
+              '[AuthDebug] refreshUser: not authenticated after success',
+            )
+            return reject('not authenticated')
+          }
           if (data) analytics.identify(data)
           if (data.contact_id) {
             cookie.set(CIO_IDENTIFIER_KEY, data.contact_id)
@@ -305,16 +290,7 @@ export default class Auth {
           resolve(data)
         })
         .catch((error) => {
-          console.error('[AuthDebug] refreshUser: API failure', error)
-          // Only logout on 401/403, not network errors
-          if (
-            error.response &&
-            (error.response.status === 401 || error.response.status === 403)
-          ) {
-            this.logout().then(() => reject(error))
-          } else {
-            reject(error)
-          }
+          this.logout().then(() => reject(error))
         })
     })
   }
