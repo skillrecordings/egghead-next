@@ -22,35 +22,33 @@ const phrases = [
 
 const flags = ['🇪🇺', '🇬🇧', '🇫🇷', '🇩🇪', '🇪🇸', '🇳🇱', '🇵🇹', '🇧🇪']
 
+function parseUtcOffsetToHours(utcOffset: string): number | null {
+  const match = utcOffset.match(/^([+-])(\d{2}):(\d{2})$/)
+  if (!match) {
+    console.error(`Invalid utcOffset format: ${utcOffset}`)
+    return null
+  }
+
+  const sign = match[1] === '-' ? -1 : 1
+  const hours = parseInt(match[2], 10)
+  const minutes = parseInt(match[3], 10)
+
+  return sign * (hours + minutes / 60)
+}
+
 // Helper function to parse date/time string with a specific offset
-// Assumes dateStr is like "Month Day, Year"
+// Assumes dateStr is like "YYYY-MM-DD"
 // Assumes timeStr is like "H:mm AM/PM"
-// Assumes inputTimeZoneOffset is like -7 (for UTC-7)
+// Assumes inputTimeZoneOffset is hours difference from UTC (e.g. -5 for UTC-5)
 export function parseDateTimeWithOffset(
   dateStr: string,
   timeStr: string,
   inputTimeZoneOffset: number,
 ): Date | null {
-  // Combine date and time for initial parsing (might guess local timezone initially)
-  const initialDate = new Date(`${dateStr} ${timeStr}`)
-  if (isNaN(initialDate.getTime())) {
-    console.error(
-      'Could not parse initial date/time string:',
-      `${dateStr} ${timeStr}`,
-    )
-    return null // Invalid date/time format
-  }
-
-  // Extract date components (use UTC methods to avoid local timezone influence)
-  const year = initialDate.getFullYear() // Use getFullYear assuming the date string is correct
-  const month = initialDate.getMonth() // Use getMonth assuming the date string is correct
-  const day = initialDate.getDate() // Use getDate assuming the date string is correct
-
-  // Parse time components again to be sure
   const timeMatch = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
   if (!timeMatch) {
     console.error('Could not parse time string format:', timeStr)
-    return null // Handle invalid time format
+    return null
   }
 
   let hours = parseInt(timeMatch[1], 10)
@@ -58,29 +56,23 @@ export function parseDateTimeWithOffset(
   const ampm = timeMatch[3].toUpperCase()
 
   if (ampm === 'PM' && hours < 12) hours += 12
-  if (ampm === 'AM' && hours === 12) hours = 0 // Midnight case
+  if (ampm === 'AM' && hours === 12) hours = 0
 
-  // Format offset correctly (+HH:mm or -HH:mm)
   const offsetSign = inputTimeZoneOffset >= 0 ? '+' : '-'
   const absOffsetHours = Math.abs(Math.trunc(inputTimeZoneOffset))
-  const absOffsetMinutes = Math.abs(Math.round((inputTimeZoneOffset % 1) * 60)) // Use round for minutes
+  const absOffsetMinutes = Math.abs(Math.round((inputTimeZoneOffset % 1) * 60))
   const formattedOffset = `${offsetSign}${String(absOffsetHours).padStart(
     2,
     '0',
   )}:${String(absOffsetMinutes).padStart(2, '0')}`
 
-  // Construct the full ISO string using extracted components and the explicit offset
-  const isoString = `${year}-${String(month + 1).padStart(2, '0')}-${String(
-    day,
-  ).padStart(2, '0')}T${String(hours).padStart(2, '0')}:${String(
+  const isoString = `${dateStr}T${String(hours).padStart(2, '0')}:${String(
     minutes,
   ).padStart(2, '0')}:00${formattedOffset}`
 
   try {
-    // Create the final Date object from the ISO string with the correct offset
     const finalDate = new Date(isoString)
     if (isNaN(finalDate.getTime())) {
-      // Double check final date
       console.error(
         'Failed to create final Date object from ISO string:',
         isoString,
@@ -162,9 +154,13 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
   }, [])
 
   // Calculate European times
-  const workshopDateObj = workshop
-    ? parseDateTimeWithOffset(workshop.date, workshop.startTime, -7)
+  const offsetHours = workshop?.utcOffset
+    ? parseUtcOffsetToHours(workshop.utcOffset)
     : null
+  const workshopDateObj =
+    workshop && offsetHours !== null
+      ? parseDateTimeWithOffset(workshop.date, workshop.startTime, offsetHours)
+      : null
   const londonTime = workshopDateObj
     ? formatTimeInTimeZone(workshopDateObj, 'Europe/London')
     : 'Error'
