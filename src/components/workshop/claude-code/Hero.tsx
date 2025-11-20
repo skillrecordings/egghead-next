@@ -291,10 +291,14 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
   const offsetHours = workshop?.utcOffset
     ? parseUtcOffsetToHours(workshop.utcOffset)
     : null
-  const workshopDateObj =
-    workshop && offsetHours !== null
-      ? parseDateTimeWithOffset(workshop.date, workshop.startTime, offsetHours)
-      : null
+  const workshopDateObj = workshop
+    ? parseDateTimeWithOffset(
+        workshop.date,
+        workshop.startTime,
+        offsetHours ?? 0,
+        workshop.timeZone,
+      )
+    : null
   const londonTime = workshopDateObj
     ? formatTimeInTimeZone(workshopDateObj, 'Europe/London')
     : 'Error'
