@@ -22,35 +22,172 @@ const phrases = [
 
 const flags = ['🇪🇺', '🇬🇧', '🇫🇷', '🇩🇪', '🇪🇸', '🇳🇱', '🇵🇹', '🇧🇪']
 
+function parseUtcOffsetToHours(utcOffset: string): number | null {
+  // Supports "-05:00", "+5", "UTC-7", "UTC+07:30", etc.
+  const match = utcOffset
+    .trim()
+    .match(/^(?:UTC)?\s*([+-])?(\d{1,2})(?::?(\d{2}))?$/i)
+  if (!match) {
+    console.error(`Invalid utcOffset format: ${utcOffset}`)
+    return null
+  }
+
+  const sign = match[1] === '-' ? -1 : 1
+  const hours = parseInt(match[2], 10)
+  const minutes = parseInt(match[3] || '0', 10)
+
+  return sign * (hours + minutes / 60)
+}
+
+function parseDateParts(dateStr: string) {
+  const isoMatch = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+  if (isoMatch) {
+    return {
+      year: parseInt(isoMatch[1], 10),
+      month: parseInt(isoMatch[2], 10),
+      day: parseInt(isoMatch[3], 10),
+    }
+  }
+
+  const longMatch = dateStr.match(/^([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})$/)
+  if (longMatch) {
+    const monthNames = [
+      'january',
+      'february',
+      'march',
+      'april',
+      'may',
+      'june',
+      'july',
+      'august',
+      'september',
+      'october',
+      'november',
+      'december',
+    ]
+    const monthIndex = monthNames.indexOf(longMatch[1].toLowerCase())
+    if (monthIndex >= 0) {
+      return {
+        year: parseInt(longMatch[3], 10),
+        month: monthIndex + 1,
+        day: parseInt(longMatch[2], 10),
+      }
+    }
+  }
+
+  console.error('Could not parse date string format:', dateStr)
+  return null
+}
+
+function mapTimeZoneLabelToIana(timeZone?: string): string | null {
+  if (!timeZone) return null
+  const normalized = timeZone.replace(/[()]/g, '').trim()
+  if (normalized.includes('/')) return normalized // already IANA
+
+  const lower = normalized.toLowerCase()
+  const mapping: Record<string, string> = {
+    pdt: 'America/Los_Angeles',
+    pst: 'America/Los_Angeles',
+    pt: 'America/Los_Angeles',
+    edt: 'America/New_York',
+    est: 'America/New_York',
+    et: 'America/New_York',
+    cdt: 'America/Chicago',
+    cst: 'America/Chicago',
+    ct: 'America/Chicago',
+    mdt: 'America/Denver',
+    mst: 'America/Denver',
+    mt: 'America/Denver',
+    bst: 'Europe/London',
+    gmt: 'Europe/London',
+    cet: 'Europe/Paris',
+    cest: 'Europe/Paris',
+  }
+
+  return mapping[lower] || null
+}
+
+function parseOffsetFromTzName(tzName?: string): number | null {
+  if (!tzName) return null
+  const match = tzName.match(/(?:GMT|UTC)?\s*([+-])(\d{1,2})(?::(\d{2}))?/)
+  if (!match) return null
+
+  const sign = match[1] === '-' ? -1 : 1
+  const hours = parseInt(match[2], 10)
+  const minutes = parseInt(match[3] || '0', 10)
+
+  return sign * (hours + minutes / 60)
+}
+
+function deriveOffsetHoursFromIana(
+  dateParts: {year: number; month: number; day: number},
+  timeParts: {hours: number; minutes: number},
+  ianaTimeZone: string,
+): number | null {
+  try {
+    const utcDate = new Date(
+      Date.UTC(
+        dateParts.year,
+        dateParts.month - 1,
+        dateParts.day,
+        timeParts.hours,
+        timeParts.minutes,
+      ),
+    )
+
+    const baseOptions = {
+      timeZone: ianaTimeZone,
+      hour12: false,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    } as const
+
+    const tzNamesToTry: Array<Intl.DateTimeFormatOptions['timeZoneName']> = [
+      'shortOffset',
+      'longOffset',
+      'short',
+      'long',
+    ]
+
+    for (const tzNameOpt of tzNamesToTry) {
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        ...baseOptions,
+        timeZoneName: tzNameOpt,
+      })
+      const parts = formatter.formatToParts(utcDate)
+      const tzName = parts.find((p) => p.type === 'timeZoneName')?.value
+      const parsed = parseOffsetFromTzName(tzName)
+      if (parsed !== null) return parsed
+    }
+
+    return null
+  } catch (error) {
+    console.error('Error deriving offset from IANA timezone:', error)
+    return null
+  }
+}
+
 // Helper function to parse date/time string with a specific offset
-// Assumes dateStr is like "Month Day, Year"
+// Supports "YYYY-MM-DD" and "Month Day, Year" date strings
 // Assumes timeStr is like "H:mm AM/PM"
-// Assumes inputTimeZoneOffset is like -7 (for UTC-7)
+// Assumes inputTimeZoneOffset is hours difference from UTC (e.g. -5 for UTC-5)
 export function parseDateTimeWithOffset(
   dateStr: string,
   timeStr: string,
   inputTimeZoneOffset: number,
+  timeZoneLabel?: string,
 ): Date | null {
-  // Combine date and time for initial parsing (might guess local timezone initially)
-  const initialDate = new Date(`${dateStr} ${timeStr}`)
-  if (isNaN(initialDate.getTime())) {
-    console.error(
-      'Could not parse initial date/time string:',
-      `${dateStr} ${timeStr}`,
-    )
-    return null // Invalid date/time format
-  }
+  const dateParts = parseDateParts(dateStr)
+  if (!dateParts) return null
 
-  // Extract date components (use UTC methods to avoid local timezone influence)
-  const year = initialDate.getFullYear() // Use getFullYear assuming the date string is correct
-  const month = initialDate.getMonth() // Use getMonth assuming the date string is correct
-  const day = initialDate.getDate() // Use getDate assuming the date string is correct
-
-  // Parse time components again to be sure
   const timeMatch = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
   if (!timeMatch) {
     console.error('Could not parse time string format:', timeStr)
-    return null // Handle invalid time format
+    return null
   }
 
   let hours = parseInt(timeMatch[1], 10)
@@ -58,29 +195,36 @@ export function parseDateTimeWithOffset(
   const ampm = timeMatch[3].toUpperCase()
 
   if (ampm === 'PM' && hours < 12) hours += 12
-  if (ampm === 'AM' && hours === 12) hours = 0 // Midnight case
+  if (ampm === 'AM' && hours === 12) hours = 0
 
-  // Format offset correctly (+HH:mm or -HH:mm)
-  const offsetSign = inputTimeZoneOffset >= 0 ? '+' : '-'
-  const absOffsetHours = Math.abs(Math.trunc(inputTimeZoneOffset))
-  const absOffsetMinutes = Math.abs(Math.round((inputTimeZoneOffset % 1) * 60)) // Use round for minutes
+  const ianaTimeZone = mapTimeZoneLabelToIana(timeZoneLabel)
+  const offsetFromIana = ianaTimeZone
+    ? deriveOffsetHoursFromIana(
+        dateParts,
+        {hours, minutes},
+        ianaTimeZone,
+      )
+    : null
+  const effectiveOffset =
+    offsetFromIana !== null ? offsetFromIana : inputTimeZoneOffset
+
+  const offsetSign = effectiveOffset >= 0 ? '+' : '-'
+  const absOffsetHours = Math.abs(Math.trunc(effectiveOffset))
+  const absOffsetMinutes = Math.abs(Math.round((effectiveOffset % 1) * 60))
   const formattedOffset = `${offsetSign}${String(absOffsetHours).padStart(
     2,
     '0',
   )}:${String(absOffsetMinutes).padStart(2, '0')}`
 
-  // Construct the full ISO string using extracted components and the explicit offset
-  const isoString = `${year}-${String(month + 1).padStart(2, '0')}-${String(
-    day,
-  ).padStart(2, '0')}T${String(hours).padStart(2, '0')}:${String(
-    minutes,
-  ).padStart(2, '0')}:00${formattedOffset}`
+  const isoString = `${String(dateParts.year).padStart(4, '0')}-${String(
+    dateParts.month,
+  ).padStart(2, '0')}-${String(dateParts.day).padStart(2, '0')}T${String(
+    hours,
+  ).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00${formattedOffset}`
 
   try {
-    // Create the final Date object from the ISO string with the correct offset
     const finalDate = new Date(isoString)
     if (isNaN(finalDate.getTime())) {
-      // Double check final date
       console.error(
         'Failed to create final Date object from ISO string:',
         isoString,
@@ -162,8 +306,16 @@ export default function Hero({formRef, saleisActive, workshop}: HeroProps) {
   }, [])
 
   // Calculate European times
+  const offsetHours = workshop?.utcOffset
+    ? parseUtcOffsetToHours(workshop.utcOffset)
+    : null
   const workshopDateObj = workshop
-    ? parseDateTimeWithOffset(workshop.date, workshop.startTime, -7)
+    ? parseDateTimeWithOffset(
+        workshop.date,
+        workshop.startTime,
+        offsetHours ?? 0,
+        workshop.timeZone,
+      )
     : null
   const londonTime = workshopDateObj
     ? formatTimeInTimeZone(workshopDateObj, 'Europe/London')
