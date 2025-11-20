@@ -264,28 +264,17 @@ export default class Auth {
         headers.Authorization = `Bearer ${token}`
       }
 
-      // iOS Safari/Chrome share WebKit + ITP; avoid withCredentials there
-      const isIOSWebKit =
-        typeof navigator !== 'undefined' &&
-        /iP(ad|hone|od)/.test(navigator.userAgent) &&
-        /WebKit/.test(navigator.userAgent)
-
-      const sendWithCredentials = !isIOSWebKit
-
       console.log('[AuthDebug] refreshUser: making request', {
         hasToken: !!token,
         url: `/api/users/current?minimal=${minimalUser}`,
         headers: Object.keys(headers),
-        withCredentials: sendWithCredentials,
         userAgent:
           typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
-        isIOSWebKit,
       })
 
       http
         .get(`/api/users/current?minimal=${minimalUser}`, {
           headers,
-          withCredentials: sendWithCredentials,
         })
         .then(({data}) => {
           console.log('[AuthDebug] refreshUser: success', {
@@ -315,7 +304,16 @@ export default class Auth {
             status: error.response?.status,
             url: error.config?.url,
           })
-          this.logout().then(() => reject(error))
+          if (
+            error.response?.status === 401 ||
+            error.response?.status === 403
+          ) {
+            console.log('[AuthDebug] refreshUser: 401, logging out')
+            this.logout().then(() => reject(error))
+          } else {
+            console.error('[AuthDebug] refreshUser: failed', error)
+            resolve(null)
+          }
         })
     })
   }
