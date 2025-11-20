@@ -79,6 +79,80 @@ function parseDateParts(dateStr: string) {
   return null
 }
 
+function mapTimeZoneLabelToIana(timeZone?: string): string | null {
+  if (!timeZone) return null
+  const normalized = timeZone.trim()
+  if (normalized.includes('/')) return normalized // already IANA
+
+  const lower = normalized.toLowerCase()
+  const mapping: Record<string, string> = {
+    pdt: 'America/Los_Angeles',
+    pst: 'America/Los_Angeles',
+    pt: 'America/Los_Angeles',
+    edt: 'America/New_York',
+    est: 'America/New_York',
+    et: 'America/New_York',
+    cdt: 'America/Chicago',
+    cst: 'America/Chicago',
+    ct: 'America/Chicago',
+    mdt: 'America/Denver',
+    mst: 'America/Denver',
+    mt: 'America/Denver',
+    bst: 'Europe/London',
+    gmt: 'Europe/London',
+    cet: 'Europe/Paris',
+    cest: 'Europe/Paris',
+  }
+
+  return mapping[lower] || null
+}
+
+function deriveOffsetHoursFromIana(
+  dateParts: {year: number; month: number; day: number},
+  timeParts: {hours: number; minutes: number},
+  ianaTimeZone: string,
+): number | null {
+  try {
+    const utcDate = new Date(
+      Date.UTC(
+        dateParts.year,
+        dateParts.month - 1,
+        dateParts.day,
+        timeParts.hours,
+        timeParts.minutes,
+      ),
+    )
+
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: ianaTimeZone,
+      hour12: false,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZoneName: 'shortOffset',
+    })
+
+    const parts = formatter.formatToParts(utcDate)
+    const tzName = parts.find((p) => p.type === 'timeZoneName')?.value
+    if (!tzName) return null
+
+    const offsetMatch = tzName.match(/GMT([+-])(\d{1,2})(?::(\d{2}))?/)
+    if (!offsetMatch) return null
+
+    const sign = offsetMatch[1] === '-' ? -1 : 1
+    const hours = parseInt(offsetMatch[2], 10)
+    const minutes = parseInt(offsetMatch[3] || '0', 10)
+
+    return sign * (hours + minutes / 60)
+  } catch (error) {
+    console.error('Error deriving offset from IANA timezone:', error)
+    return null
+  }
+}
+
 // Helper function to parse date/time string with a specific offset
 // Supports "YYYY-MM-DD" and "Month Day, Year" date strings
 // Assumes timeStr is like "H:mm AM/PM"
@@ -87,6 +161,7 @@ export function parseDateTimeWithOffset(
   dateStr: string,
   timeStr: string,
   inputTimeZoneOffset: number,
+  timeZoneLabel?: string,
 ): Date | null {
   const dateParts = parseDateParts(dateStr)
   if (!dateParts) return null
@@ -104,9 +179,20 @@ export function parseDateTimeWithOffset(
   if (ampm === 'PM' && hours < 12) hours += 12
   if (ampm === 'AM' && hours === 12) hours = 0
 
-  const offsetSign = inputTimeZoneOffset >= 0 ? '+' : '-'
-  const absOffsetHours = Math.abs(Math.trunc(inputTimeZoneOffset))
-  const absOffsetMinutes = Math.abs(Math.round((inputTimeZoneOffset % 1) * 60))
+  const ianaTimeZone = mapTimeZoneLabelToIana(timeZoneLabel)
+  const offsetFromIana = ianaTimeZone
+    ? deriveOffsetHoursFromIana(
+        dateParts,
+        {hours, minutes},
+        ianaTimeZone,
+      )
+    : null
+  const effectiveOffset =
+    offsetFromIana !== null ? offsetFromIana : inputTimeZoneOffset
+
+  const offsetSign = effectiveOffset >= 0 ? '+' : '-'
+  const absOffsetHours = Math.abs(Math.trunc(effectiveOffset))
+  const absOffsetMinutes = Math.abs(Math.round((effectiveOffset % 1) * 60))
   const formattedOffset = `${offsetSign}${String(absOffsetHours).padStart(
     2,
     '0',
