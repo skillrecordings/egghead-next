@@ -23,7 +23,10 @@ const phrases = [
 const flags = ['🇪🇺', '🇬🇧', '🇫🇷', '🇩🇪', '🇪🇸', '🇳🇱', '🇵🇹', '🇧🇪']
 
 function parseUtcOffsetToHours(utcOffset: string): number | null {
-  const match = utcOffset.match(/^([+-])(\d{2}):(\d{2})$/)
+  // Supports "-05:00", "+5", "UTC-7", "UTC+07:30", etc.
+  const match = utcOffset
+    .trim()
+    .match(/^(?:UTC)?\s*([+-])?(\d{1,2})(?::?(\d{2}))?$/i)
   if (!match) {
     console.error(`Invalid utcOffset format: ${utcOffset}`)
     return null
@@ -31,13 +34,53 @@ function parseUtcOffsetToHours(utcOffset: string): number | null {
 
   const sign = match[1] === '-' ? -1 : 1
   const hours = parseInt(match[2], 10)
-  const minutes = parseInt(match[3], 10)
+  const minutes = parseInt(match[3] || '0', 10)
 
   return sign * (hours + minutes / 60)
 }
 
+function parseDateParts(dateStr: string) {
+  const isoMatch = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+  if (isoMatch) {
+    return {
+      year: parseInt(isoMatch[1], 10),
+      month: parseInt(isoMatch[2], 10),
+      day: parseInt(isoMatch[3], 10),
+    }
+  }
+
+  const longMatch = dateStr.match(/^([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})$/)
+  if (longMatch) {
+    const monthNames = [
+      'january',
+      'february',
+      'march',
+      'april',
+      'may',
+      'june',
+      'july',
+      'august',
+      'september',
+      'october',
+      'november',
+      'december',
+    ]
+    const monthIndex = monthNames.indexOf(longMatch[1].toLowerCase())
+    if (monthIndex >= 0) {
+      return {
+        year: parseInt(longMatch[3], 10),
+        month: monthIndex + 1,
+        day: parseInt(longMatch[2], 10),
+      }
+    }
+  }
+
+  console.error('Could not parse date string format:', dateStr)
+  return null
+}
+
 // Helper function to parse date/time string with a specific offset
-// Assumes dateStr is like "YYYY-MM-DD"
+// Supports "YYYY-MM-DD" and "Month Day, Year" date strings
 // Assumes timeStr is like "H:mm AM/PM"
 // Assumes inputTimeZoneOffset is hours difference from UTC (e.g. -5 for UTC-5)
 export function parseDateTimeWithOffset(
@@ -45,6 +88,9 @@ export function parseDateTimeWithOffset(
   timeStr: string,
   inputTimeZoneOffset: number,
 ): Date | null {
+  const dateParts = parseDateParts(dateStr)
+  if (!dateParts) return null
+
   const timeMatch = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
   if (!timeMatch) {
     console.error('Could not parse time string format:', timeStr)
@@ -66,9 +112,11 @@ export function parseDateTimeWithOffset(
     '0',
   )}:${String(absOffsetMinutes).padStart(2, '0')}`
 
-  const isoString = `${dateStr}T${String(hours).padStart(2, '0')}:${String(
-    minutes,
-  ).padStart(2, '0')}:00${formattedOffset}`
+  const isoString = `${String(dateParts.year).padStart(4, '0')}-${String(
+    dateParts.month,
+  ).padStart(2, '0')}-${String(dateParts.day).padStart(2, '0')}T${String(
+    hours,
+  ).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00${formattedOffset}`
 
   try {
     const finalDate = new Date(isoString)
