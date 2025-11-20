@@ -81,7 +81,7 @@ function parseDateParts(dateStr: string) {
 
 function mapTimeZoneLabelToIana(timeZone?: string): string | null {
   if (!timeZone) return null
-  const normalized = timeZone.trim()
+  const normalized = timeZone.replace(/[()]/g, '').trim()
   if (normalized.includes('/')) return normalized // already IANA
 
   const lower = normalized.toLowerCase()
@@ -107,6 +107,18 @@ function mapTimeZoneLabelToIana(timeZone?: string): string | null {
   return mapping[lower] || null
 }
 
+function parseOffsetFromTzName(tzName?: string): number | null {
+  if (!tzName) return null
+  const match = tzName.match(/(?:GMT|UTC)?\s*([+-])(\d{1,2})(?::(\d{2}))?/)
+  if (!match) return null
+
+  const sign = match[1] === '-' ? -1 : 1
+  const hours = parseInt(match[2], 10)
+  const minutes = parseInt(match[3] || '0', 10)
+
+  return sign * (hours + minutes / 60)
+}
+
 function deriveOffsetHoursFromIana(
   dateParts: {year: number; month: number; day: number},
   timeParts: {hours: number; minutes: number},
@@ -123,7 +135,7 @@ function deriveOffsetHoursFromIana(
       ),
     )
 
-    const formatter = new Intl.DateTimeFormat('en-US', {
+    const baseOptions = {
       timeZone: ianaTimeZone,
       hour12: false,
       year: 'numeric',
@@ -132,21 +144,27 @@ function deriveOffsetHoursFromIana(
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
-      timeZoneName: 'shortOffset',
-    })
+    } as const
 
-    const parts = formatter.formatToParts(utcDate)
-    const tzName = parts.find((p) => p.type === 'timeZoneName')?.value
-    if (!tzName) return null
+    const tzNamesToTry: Array<Intl.DateTimeFormatOptions['timeZoneName']> = [
+      'shortOffset',
+      'longOffset',
+      'short',
+      'long',
+    ]
 
-    const offsetMatch = tzName.match(/GMT([+-])(\d{1,2})(?::(\d{2}))?/)
-    if (!offsetMatch) return null
+    for (const tzNameOpt of tzNamesToTry) {
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        ...baseOptions,
+        timeZoneName: tzNameOpt,
+      })
+      const parts = formatter.formatToParts(utcDate)
+      const tzName = parts.find((p) => p.type === 'timeZoneName')?.value
+      const parsed = parseOffsetFromTzName(tzName)
+      if (parsed !== null) return parsed
+    }
 
-    const sign = offsetMatch[1] === '-' ? -1 : 1
-    const hours = parseInt(offsetMatch[2], 10)
-    const minutes = parseInt(offsetMatch[3] || '0', 10)
-
-    return sign * (hours + minutes / 60)
+    return null
   } catch (error) {
     console.error('Error deriving offset from IANA timezone:', error)
     return null
