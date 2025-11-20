@@ -177,12 +177,10 @@ export default class Auth {
   handleAuthentication() {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
-        console.log('[AuthDebug] handleAuthentication: no localstorage')
         reject('no localstorage')
       }
       if (typeof window !== 'undefined') {
         const uri = window.location.href
-        console.log('[AuthDebug] handleAuthentication: starting', {uri})
         window.history.pushState(
           '',
           document.title,
@@ -190,10 +188,6 @@ export default class Auth {
         )
         this.eggheadAuth.token.getToken(uri).then(
           (authResult) => {
-            console.log('[AuthDebug] handleAuthentication: getToken success', {
-              accessToken: authResult.accessToken ? 'present' : 'missing',
-              expiresIn: authResult.data.expires_in,
-            })
             const user = this.handleNewSession(
               authResult.accessToken,
               authResult.data.expires_in || SIXTY_DAYS_IN_SECONDS,
@@ -201,7 +195,6 @@ export default class Auth {
             resolve(user)
           },
           (error) => {
-            console.error('[AuthDebug] handleAuthentication: error', error)
             this.logout().then(() => reject(error))
           },
         )
@@ -248,13 +241,8 @@ export default class Auth {
   }
 
   refreshUser(minimalUser = true, accessToken?: string) {
-    console.log('[AuthDebug] refreshUser: called', {
-      minimalUser,
-      accessTokenProvided: !!accessToken,
-    })
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
-        console.log('[AuthDebug] refreshUser: no localstorage')
         reject('no local storage')
       }
 
@@ -264,26 +252,12 @@ export default class Auth {
         headers.Authorization = `Bearer ${token}`
       }
 
-      console.log('[AuthDebug] refreshUser: making request', {
-        hasToken: !!token,
-        url: `/api/users/current?minimal=${minimalUser}`,
-        headers: Object.keys(headers),
-        userAgent:
-          typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
-      })
-
       http
         .get(`/api/users/current?minimal=${minimalUser}`, {
           headers,
         })
         .then(({data}) => {
-          console.log('[AuthDebug] refreshUser: success', {
-            data: data ? 'present' : 'missing',
-          })
           if (!this.isAuthenticated()) {
-            console.log(
-              '[AuthDebug] refreshUser: not authenticated after success',
-            )
             return reject('not authenticated')
           }
           if (data) analytics.identify(data)
@@ -299,19 +273,12 @@ export default class Auth {
           resolve(data)
         })
         .catch((error) => {
-          console.error('[AuthDebug] refreshUser: failed', {
-            message: error.message,
-            status: error.response?.status,
-            url: error.config?.url,
-          })
           if (
             error.response?.status === 401 ||
             error.response?.status === 403
           ) {
-            console.log('[AuthDebug] refreshUser: 401, logging out')
             this.logout().then(() => reject(error))
           } else {
-            console.error('[AuthDebug] refreshUser: failed', error)
             resolve(null)
           }
         })
@@ -319,13 +286,8 @@ export default class Auth {
   }
 
   setSession(accessToken: string, expiresInSeconds: string) {
-    console.log('[AuthDebug] setSession: called', {
-      accessToken: accessToken ? 'present' : 'missing',
-      expiresInSeconds,
-    })
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
-        console.log('[AuthDebug] setSession: no localstorage')
         reject('localStorage is not defined')
       }
 
@@ -337,12 +299,6 @@ export default class Auth {
         !isNaN(expiresIn) && expiresIn > 0
           ? expiresIn
           : Number(SIXTY_DAYS_IN_SECONDS)
-
-      console.log('[AuthDebug] setSession: calculation', {
-        expiresIn,
-        safeExpiresIn,
-        now,
-      })
 
       const expiresAt = safeExpiresIn * millisecondsInASecond + now
 
