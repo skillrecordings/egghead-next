@@ -99,7 +99,10 @@ export default class Auth {
         cookie.set(ACCESS_TOKEN_KEY, data.access_token.token, {
           expires: parseInt(expiresAt, 10),
           domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+          sameSite: 'lax',
+          secure: process.env.NODE_ENV === 'production',
         })
+
         return user
       })
       .catch((error) => {
@@ -261,17 +264,28 @@ export default class Auth {
         headers.Authorization = `Bearer ${token}`
       }
 
+      // iOS Safari/Chrome share WebKit + ITP; avoid withCredentials there
+      const isIOSWebKit =
+        typeof navigator !== 'undefined' &&
+        /iP(ad|hone|od)/.test(navigator.userAgent) &&
+        /WebKit/.test(navigator.userAgent)
+
+      const sendWithCredentials = !isIOSWebKit
+
       console.log('[AuthDebug] refreshUser: making request', {
         hasToken: !!token,
         url: `/api/users/current?minimal=${minimalUser}`,
         headers: Object.keys(headers),
-        withCredentials: true,
+        withCredentials: sendWithCredentials,
+        userAgent:
+          typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+        isIOSWebKit,
       })
 
       http
         .get(`/api/users/current?minimal=${minimalUser}`, {
           headers,
-          withCredentials: true,
+          withCredentials: sendWithCredentials,
         })
         .then(({data}) => {
           console.log('[AuthDebug] refreshUser: success', {
@@ -290,6 +304,8 @@ export default class Auth {
           localStorage.setItem(USER_KEY, JSON.stringify(data))
           cookie.set(EGGHEAD_USER_COOKIE_KEY, JSON.stringify(data), {
             domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+            sameSite: 'lax',
+            secure: process.env.NODE_ENV === 'production',
           })
           resolve(data)
         })
@@ -340,6 +356,8 @@ export default class Auth {
       cookie.set(ACCESS_TOKEN_KEY, accessToken, {
         expires: expiresInDays,
         domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
       })
       resolve(this.refreshUser(true, accessToken))
     })
