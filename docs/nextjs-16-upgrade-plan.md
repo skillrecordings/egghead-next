@@ -2,6 +2,8 @@
 
 ## Status: Phase 1 Complete - @reach Migration Done
 
+### Commit SHA: `d1eb5ffdbe4961d5ef5fc9ded521ed30f727c8fb`
+
 ### Commit Summary
 
 **Phase 1: @reach/\* to Radix UI Migration** - Completed
