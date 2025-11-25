@@ -1,12 +1,15 @@
 import * as React from 'react'
-import type * as Polymorphic from '@reach/utils/polymorphic'
 
-type GridProps = {}
+type GridProps = {
+  as?: React.ElementType
+  className?: string
+  children?: React.ReactNode
+} & Record<string, any>
 
 const gridDefaultClasses =
   'grid grid-cols-2 gap-2 md:grid-cols-4 xl:gap-5 sm:gap-3'
 
-const Grid = React.forwardRef(function Grid(
+const Grid = React.forwardRef<HTMLDivElement, GridProps>(function Grid(
   {children, as: Comp = 'div', className, ...props},
   forwardRef,
 ) {
@@ -19,6 +22,6 @@ const Grid = React.forwardRef(function Grid(
       {children}
     </Comp>
   )
-}) as Polymorphic.ForwardRefComponent<'div', GridProps>
+})
 
 export default Grid

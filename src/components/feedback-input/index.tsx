@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty'
 import {motion} from 'motion/react'
 import {useInterval} from 'react-use'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
-import {DialogOverlay, DialogContent} from '@reach/dialog'
+import * as Dialog from '@radix-ui/react-dialog'
 import analytics, {track} from '@/utils/analytics'
 import {Listbox, Transition} from '@headlessui/react'
 import {CheckIcon, SelectorIcon} from '@heroicons/react/solid'
@@ -280,18 +280,20 @@ const Feedback: FunctionComponent<React.PropsWithChildren<FeedbackProps>> = ({
   }) => getEmoji(code)
 
   return (
-    <>
-      <button className={className} onClick={openDialog} type="button">
-        {children}
-      </button>
-      <DialogOverlay
-        isOpen={showDialog}
-        onDismiss={closeDialog}
-        className="bg-black/50 backdrop-blur-sm flex justify-center items-center p-4 xs:p-6 z-50"
-      >
-        <DialogContent
+    <Dialog.Root
+      open={showDialog}
+      onOpenChange={(open) => (open ? openDialog() : closeDialog())}
+    >
+      <Dialog.Trigger asChild>
+        <button className={className} type="button">
+          {children}
+        </button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center p-4 xs:p-6 z-50" />
+        <Dialog.Content
           aria-label="write us feedback"
-          className="bg-white dark:bg-gray-900 shadow-lg rounded-lg max-w-screen-sm text-text border dark:border-gray-800 relative w-full p-3 xs:p-6"
+          className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 shadow-lg rounded-lg max-w-screen-sm text-text border dark:border-gray-800 w-full p-3 xs:p-6 z-50"
         >
           <div className="w-full flex flex-col">
             {state.success ? (
@@ -441,16 +443,17 @@ const Feedback: FunctionComponent<React.PropsWithChildren<FeedbackProps>> = ({
             )}
           </div>
           <div className="block absolute top-0 right-0 pt-2 pr-2">
-            <button
-              onClick={closeDialog}
-              type="button"
-              className={`text-gray-600 dark:text-gray-400 hover:bg-blue-100 hover:text-blue-600 dark:hover:text-blue-300 dark:hover:bg-gray-800 p-2 focus:shadow-outline-blue transition-all rounded-full hover:scale-110 ease-in-out duration-200`}
-              aria-label="Close"
-            >
-              <span className="sr-only">close feedback dialog</span>
-              {/* prettier-ignore */}
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
+            <Dialog.Close asChild>
+              <button
+                type="button"
+                className={`text-gray-600 dark:text-gray-400 hover:bg-blue-100 hover:text-blue-600 dark:hover:text-blue-300 dark:hover:bg-gray-800 p-2 focus:shadow-outline-blue transition-all rounded-full hover:scale-110 ease-in-out duration-200`}
+                aria-label="Close"
+              >
+                <span className="sr-only">close feedback dialog</span>
+                {/* prettier-ignore */}
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </Dialog.Close>
             {state.success && (
               <svg
                 className="w-12 text-blue-600 absolute pointer-events-none top-2 right-0"
@@ -471,9 +474,9 @@ const Feedback: FunctionComponent<React.PropsWithChildren<FeedbackProps>> = ({
               </svg>
             )}
           </div>
-        </DialogContent>
-      </DialogOverlay>
-    </>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   )
 }
 

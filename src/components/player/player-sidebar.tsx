@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {useEggheadPlayerPrefs} from '../EggheadPlayer/use-egghead-player'
-import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
+import * as Tabs from '@radix-ui/react-tabs'
 import {isEmpty} from 'lodash'
 import CollectionLessonsList from '@/components/pages/lessons/collection-lessons-list'
 import {VideoResource} from '@/types'
@@ -24,27 +24,34 @@ const PlayerSidebar: React.FC<
   const {activeSidebarTab} = getPlayerPrefs()
   const videoResourceHasCollection = !isEmpty(videoResource.collection)
   const hasRelatedResources = !isEmpty(relatedResources)
+  const tabValues = ['lessons', 'related']
+  const currentValue = tabValues[activeSidebarTab || 0] || 'lessons'
+
   return (
     <GenericErrorBoundary>
       <div className="relative h-full">
-        <Tabs
-          index={activeSidebarTab || 0}
-          onChange={(tabIndex) => setPlayerPrefs({activeSidebarTab: tabIndex})}
+        <Tabs.Root
+          value={currentValue}
+          onValueChange={(value) =>
+            setPlayerPrefs({activeSidebarTab: tabValues.indexOf(value)})
+          }
           className="top-0 left-0 flex flex-col w-full h-full text-gray-900 bg-gray-100 shadow-sm lg:absolute dark:bg-gray-1000 dark:text-white"
         >
           {notesEnabled && (
-            <TabList className="relative z-[1] flex-shrink-0">
-              {videoResourceHasCollection && <Tab>Lessons</Tab>}
-            </TabList>
+            <Tabs.List className="relative z-[1] flex-shrink-0">
+              {videoResourceHasCollection && (
+                <Tabs.Trigger value="lessons">Lessons</Tabs.Trigger>
+              )}
+            </Tabs.List>
           )}
-          <TabPanels className="relative flex-grow">
-            <TabPanel className="inset-0 lg:absolute">
+          <div className="relative flex-grow">
+            <Tabs.Content value="lessons" className="inset-0 lg:absolute">
               <LessonListTab
                 videoResource={videoResource}
                 lessonView={lessonView}
                 onActiveTab={activeSidebarTab === 0}
               />
-            </TabPanel>
+            </Tabs.Content>
             {hasRelatedResources && !videoResourceHasCollection && (
               <div className="flex flex-col w-full space-y-3">
                 <h3 className="mt-4 font-semibold text-center text-md md:text-lg">
@@ -80,8 +87,8 @@ const PlayerSidebar: React.FC<
                 })}
               </div>
             )}
-          </TabPanels>
-        </Tabs>
+          </div>
+        </Tabs.Root>
       </div>
     </GenericErrorBoundary>
   )

@@ -1,7 +1,7 @@
 import React from 'react'
 import {useRouter} from 'next/router'
 import {filter, get, isEmpty, compact, truncate} from 'lodash'
-import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
+import * as Tabs from '@radix-ui/react-tabs'
 import {useEggheadPlayer} from '@/components/EggheadPlayer'
 import Course from '@/components/pages/lessons/course'
 import Overlays from '@/components/pages/lessons/overlays'
@@ -856,24 +856,28 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
               )}
             </div>
 
-            <Tabs
-              index={defaultView === 'comments' ? 1 : 0}
-              onChange={(index) => {
+            <Tabs.Root
+              value={defaultView === 'comments' ? 'comments' : 'transcript'}
+              onValueChange={(value) => {
                 setPlayerPrefs({
-                  defaultView: index === 1 ? 'comments' : 'transcript',
+                  defaultView: value === 'comments' ? 'comments' : 'transcript',
                 })
               }}
             >
-              <TabList>
-                {transcriptAvailable && <Tab>Transcript</Tab>}
-                {scrimbaTranscript && <Tab>Transcript</Tab>}
-                <Tab>
-                  Comments <span className="text-sm">({numberOfComments})</span>
-                </Tab>
-              </TabList>
-              <TabPanels className="p-5 rounded-lg rounded-tl-none bg-gray-50 dark:bg-gray-1000 sm:p-8">
+              <Tabs.List>
+                {transcriptAvailable && (
+                  <Tabs.Trigger value="transcript">Transcript</Tabs.Trigger>
+                )}
                 {scrimbaTranscript && (
-                  <TabPanel>
+                  <Tabs.Trigger value="transcript">Transcript</Tabs.Trigger>
+                )}
+                <Tabs.Trigger value="comments">
+                  Comments <span className="text-sm">({numberOfComments})</span>
+                </Tabs.Trigger>
+              </Tabs.List>
+              <div className="p-5 rounded-lg rounded-tl-none bg-gray-50 dark:bg-gray-1000 sm:p-8">
+                {scrimbaTranscript && (
+                  <Tabs.Content value="transcript">
                     <ReactMarkdown
                       skipHtml={false}
                       components={{
@@ -885,23 +889,23 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
                     >
                       {scrimbaTranscript}
                     </ReactMarkdown>
-                  </TabPanel>
+                  </Tabs.Content>
                 )}
                 {transcriptAvailable && (
-                  <TabPanel>
+                  <Tabs.Content value="transcript">
                     <Transcript
                       initialTranscript={transcript}
                       enhancedTranscript={enhancedTranscript}
                     />
-                  </TabPanel>
+                  </Tabs.Content>
                 )}
-                <TabPanel>
+                <Tabs.Content value="comments">
                   <div className="space-y-6 sm:space-y-8 break-[break-word]">
                     <Comments lesson={lesson} />
                   </div>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
+                </Tabs.Content>
+              </div>
+            </Tabs.Root>
           </div>
         </div>
       </div>

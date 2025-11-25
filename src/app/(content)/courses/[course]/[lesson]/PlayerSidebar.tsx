@@ -5,7 +5,7 @@ import * as React from 'react'
 import {use} from 'react'
 import {GenericErrorBoundary} from '@/components/generic-error-boundary'
 import {useEggheadPlayerPrefs} from '@/components/EggheadPlayer/use-egghead-player'
-import {Tabs, TabPanels, TabPanel} from '@reach/tabs'
+import * as Tabs from '@radix-ui/react-tabs'
 import Image from 'next/legacy/image'
 import Link from '@/components/link'
 import {track} from '@/utils/analytics'
@@ -20,24 +20,29 @@ export default function PlayerSidebar({
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
 
+  const tabValues = ['lessons']
+  const currentValue = tabValues[activeSidebarTab || 0] || 'lessons'
+
   return (
     <GenericErrorBoundary>
       <div className="relative h-full">
-        <Tabs
-          index={activeSidebarTab || 0}
-          onChange={(tabIndex) => setPlayerPrefs({activeSidebarTab: tabIndex})}
+        <Tabs.Root
+          value={currentValue}
+          onValueChange={(value) =>
+            setPlayerPrefs({activeSidebarTab: tabValues.indexOf(value)})
+          }
           className="top-0 left-0 flex flex-col w-full h-full text-gray-900 bg-gray-100 shadow-sm lg:absolute dark:bg-gray-1000 dark:text-white"
         >
-          <TabPanels className="relative flex-grow">
-            <TabPanel className="inset-0 lg:absolute">
+          <div className="relative flex-grow">
+            <Tabs.Content value="lessons" className="inset-0 lg:absolute">
               <LessonListTab
                 lesson={lesson}
                 courseLoader={courseLoader}
                 onActiveTab={activeSidebarTab === 0}
               />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+            </Tabs.Content>
+          </div>
+        </Tabs.Root>
       </div>
     </GenericErrorBoundary>
   )
