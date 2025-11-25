@@ -1,14 +1,23 @@
 # Next.js 16 Upgrade Plan
 
-## Status: Phase 1 Complete - @reach Migration Done
+## Status: Complete - Upgraded to Next.js 16.0.4
 
-### Commit SHA: `d1eb5ffdbe4961d5ef5fc9ded521ed30f727c8fb`
+### Commits
 
-### Commit Summary
+| Phase   | SHA                                        | Description                     |
+| ------- | ------------------------------------------ | ------------------------------- |
+| Phase 1 | `d1eb5ffdbe4961d5ef5fc9ded521ed30f727c8fb` | @reach/\* to Radix UI migration |
+| Phase 2 | `362ea328`                                 | Next.js 15.4.5 → 16.0.4         |
 
-**Phase 1: @reach/\* to Radix UI Migration** - Completed
+### Summary
+
+**Phase 1: @reach/\* to Radix UI Migration** - Complete
 
 All @reach/\* packages have been replaced with Radix UI equivalents. This was required because @reach packages have peer dependencies locked to React 16/17, which are incompatible with React 19.
+
+**Phase 2: Next.js 16 Upgrade** - Complete
+
+Upgraded Next.js from 15.4.5 to 16.0.4. TypeScript compiles cleanly.
 
 ---
 
@@ -67,34 +76,40 @@ All @reach/\* packages have been replaced with Radix UI equivalents. This was re
 
 ---
 
-## Next Steps
+## Remaining Tasks
 
-### Phase 2: Run Next.js 16 Codemod (Not Yet Started)
-
-```bash
-pnpx @next/codemod@canary upgrade latest
-```
-
-### Phase 3: Verify Build
+### Verify Build
 
 ```bash
 pnpm build
 pnpm test
 ```
 
+### Packages with Peer Dependency Warnings
+
+These packages warn about React 19 but should still work:
+
+| Package                      | Issue                            | Priority       |
+| ---------------------------- | -------------------------------- | -------------- |
+| `@skillrecordings/player`    | Still has @reach deps internally | Low (internal) |
+| `next-sanity`                | Warns about Next.js 16           | Medium         |
+| `react-instantsearch-nextjs` | Warns about Next.js 16           | Medium         |
+| `@headlessui/react`          | Peer deps for React 18           | Low            |
+| `@code-hike/mdx`             | Peer deps for React 18           | Low            |
+
 ---
 
-## Current State
+## Final State
 
-| Item               | Current  | Required for Next.js 16 | Status          |
-| ------------------ | -------- | ----------------------- | --------------- |
-| Next.js            | 15.4.5   | 16.x                    | Pending codemod |
-| React              | 19.1.1   | 19.x                    | Ready           |
-| TypeScript         | 5.1.6    | 5.1+                    | Ready           |
-| Node.js            | 22.x     | 20.9+                   | Ready           |
-| Async APIs         | Migrated | Async                   | Ready           |
-| @reach/\* packages | Removed  | N/A                     | Complete        |
-| Testing deps       | Updated  | React 19 compatible     | Complete        |
+| Item               | Version  | Required | Status   |
+| ------------------ | -------- | -------- | -------- |
+| Next.js            | 16.0.4   | 16.x     | Complete |
+| React              | 19.1.1   | 19.x     | Complete |
+| TypeScript         | 5.1.6    | 5.1+     | Complete |
+| Node.js            | 22.x     | 20.9+    | Complete |
+| Async APIs         | Migrated | Async    | Complete |
+| @reach/\* packages | Removed  | N/A      | Complete |
+| Testing deps       | Updated  | React 19 | Complete |
 
 ---
 
