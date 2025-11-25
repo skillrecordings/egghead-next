@@ -313,7 +313,7 @@ export async function loadPlaylist(slug: string, token?: string) {
 
   // Filter out unpublished lessons only for Course Builder-managed courses
   let filteredItems = playlist.items
-  let filteredSections = playlist.sections
+  let filteredSections = playlist.sections || null
 
   if (courseBuilderMetadata && lessonStates && lessonStates.size > 0) {
     // Filter top-level items
