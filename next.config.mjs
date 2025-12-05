@@ -10,7 +10,6 @@ import remarkGfm from 'remark-gfm';
 import remarkSlug from 'remark-slug';
 import remarkFootnotes from 'remark-footnotes';
 import remarkCodeTitles from 'remark-code-titles';
-import rehypeShiki from 'rehype-shiki';
 import rehypeRaw from 'rehype-raw';
 import { nodeTypes } from '@mdx-js/mdx';
 // Removed @code-hike/mdx import to simplify build - using basic syntax highlighting instead
@@ -95,9 +94,14 @@ const nextConfig = {
   transpilePackages: ['unist-util-visit', 'react-tweet'],
   reactStrictMode: true,
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  experimental: {
+    mdxRs: true,
+  },
   images: {
     remotePatterns: IMAGE_HOST_DOMAINS,
   },
+  // Next.js 16 uses Turbopack by default - empty config silences webpack warning
+  turbopack: {},
   async redirects() {
     return [
       ...teamRoutes,
@@ -430,7 +434,7 @@ const withMDX = createMDX({
     ],
     // Ensure MDX ESM nodes (import/export) are passed through when using rehype-raw
     // to avoid "Cannot compile `mdxjsEsm` node" errors
-    rehypePlugins: [[rehypeRaw, { passThrough: nodeTypes }], rehypeShiki],
+    rehypePlugins: [[rehypeRaw, { passThrough: nodeTypes }]],
   },
 });
 

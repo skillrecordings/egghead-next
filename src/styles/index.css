@@ -1,9 +1,9 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 @import './icons.css';
 @import '../../node_modules/simplebar-react/dist/simplebar.min.css';
 @import '../../node_modules/@skillrecordings/player/dist/skillrecordings-player.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 #__next {
   @apply flex flex-col min-h-screen text-gray-900;
