@@ -10,6 +10,7 @@ const workshops: WorkshopData[] = [
   {date: 'Sep 12, 2025', attendees: 33},
   {date: 'Oct 03, 2025', attendees: 45},
   {date: 'Nov 07, 2025', attendees: 52},
+  {date: 'Nov 21, 2025', attendees: 45},
 ]
 
 export default function WorkshopHistory() {
