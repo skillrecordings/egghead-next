@@ -98,7 +98,9 @@ const ActiveSale = ({lastCharge}: {lastCharge: {amountPaid: number}}) => {
           <PlanFeatures planFeatures={DEFAULT_FEATURES} />
           <GetAccessButton
             label={
-              amountPaid ? 'Upgrade to Lifetime Access' : 'Get Lifetime Access'
+              amountPaid
+                ? 'Upgrade to Lifetime\u00A0Access'
+                : 'Get Lifetime\u00A0Access'
             }
             handleClick={onClickCheckout}
             loaderOn={loaderOn}

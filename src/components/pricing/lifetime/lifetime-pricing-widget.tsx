@@ -9,7 +9,7 @@ const LifetimePricingWidget: FunctionComponent<
   React.PropsWithChildren<{lastCharge: {amountPaid: number}}>
 > = ({lastCharge}) => {
   const searchParams = useSearchParams()
-  const allowPurchase = searchParams?.get('allowPurchase') ?? false
+  const allowPurchase = 'true'
 
   return (
     <>
