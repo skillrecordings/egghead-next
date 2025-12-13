@@ -1,20 +1,18 @@
 'use client'
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import {useSearchParams} from 'next/navigation'
 import ActiveSale from './active-sale'
 import UpcomingSale from './upcoming-sale'
 
 const LifetimePricingWidget: FunctionComponent<
-  React.PropsWithChildren<{lastCharge: {amountPaid: number}}>
+  React.PropsWithChildren<{lastCharge?: {amountPaid: number} | null}>
 > = ({lastCharge}) => {
-  const searchParams = useSearchParams()
   const allowPurchase = 'true'
 
   return (
     <>
       {allowPurchase === 'true' ? (
-        <ActiveSale lastCharge={lastCharge} />
+        <ActiveSale lastCharge={lastCharge ?? undefined} />
       ) : (
         <UpcomingSale />
       )}

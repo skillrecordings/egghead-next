@@ -2,14 +2,17 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {track} from '@/utils/analytics'
 import {useRouter} from 'next/router'
-import Testimonials from '@/components/pricing/testimonials'
-import testimonialsData from '@/components/pricing/testimonials/data'
+
 import LifetimePricingWidget from '@/components/pricing/lifetime/lifetime-pricing-widget'
+import BodyCopyFull from '@/components/pricing/lifetime/body-copy-full'
+import BodyCopyMember from '@/components/pricing/lifetime/body-copy-member'
 import Layout from '@/components/app/layout'
 import {NextSeo} from 'next-seo'
 import {GetServerSideProps} from 'next'
 import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
 import Link from '@/components/link'
+
+type LastCharge = Awaited<ReturnType<typeof getLastChargeForActiveSubscription>>
 
 type PricingProps = {
   annualPrice: {
@@ -20,13 +23,48 @@ type PricingProps = {
     unit_amount: number
   }
   redirectURL?: string
-  lastCharge: {
-    amountPaid: number
-    stripeCustomerId: string
-    accountId: string
-    userId: string
-  }
-  userId: string
+  lastCharge?: LastCharge | null
+  userId?: string
+}
+
+/**
+ * Sticky CTA bar that appears when user scrolls past the hero section
+ */
+const StickyCTA: React.FC = () => {
+  const [isVisible, setIsVisible] = React.useState(false)
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      // Show sticky CTA after scrolling 400px
+      setIsVisible(window.scrollY > 400)
+    }
+    window.addEventListener('scroll', handleScroll, {passive: true})
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  if (!isVisible) return null
+
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white/95 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-900/95 sm:hidden">
+      <div className="container flex items-center justify-between px-4 py-3">
+        <div>
+          <div className="text-sm font-semibold text-gray-900 dark:text-white">
+            Lifetime Access
+          </div>
+          <div className="text-xs text-gray-500 dark:text-gray-400">
+            $500 one-time
+          </div>
+        </div>
+        <a
+          href="#pricing"
+          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+          onClick={() => track('sticky cta: clicked')}
+        >
+          Get Access
+        </a>
+      </div>
+    </div>
+  )
 }
 
 const Forever: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
@@ -46,6 +84,7 @@ const Forever: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
 
   return (
     <>
+      <StickyCTA />
       <div className="text-gray-900 dark:bg-gray-900 bg-gray-50 dark:text-white">
         <header className="container flex flex-col items-center py-16 mt-5 text-center">
           <h1 className="max-w-screen-lg text-2xl font-extrabold md:text-4xl leading-tighter text-balance">
@@ -115,83 +154,131 @@ const Forever: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
               </div>
             </div>
           </div>
-
-          <article className="prose text-left max-w-2xl dark:prose-invert pt-12">
-            <p>
-              Your time is precious. egghead is built for momentum: learn what
-              you need, apply it immediately, and ship. Come in with a ticket.
-              Leave with a PR.
-            </p>
-            <p>
-              Lessons are short (minutes, not hours). Courses are “scoped to a
-              goal” which means one concrete outcome, clear steps, and a
-              finished feature you can ship or adapt.
-            </p>
-            <p>No wandering intros. No motivational monologues.</p>
-            <p>
-              Just the moving parts, the pitfalls, and the checklists that keep
-              you out of refactor hell.
-            </p>
-            <h3>Example goals (phrased like tickets)</h3>
-            <p>If it could live in your issue tracker, it belongs here.</p>
-            <ul>
-              <li>Add auth with OAuth + sessions</li>
-              <li>Migrate to React Server Components</li>
-              <li>Type a gnarly API response safely</li>
-              <li>Add Stripe checkout + webhooks</li>
-            </ul>
-
-            <p>
-              When the stack shifts (and it will), you don’t have to start from
-              zero. Come back, grab the lesson, ship the change, repeat for the
-              rest of your career.
-            </p>
-          </article>
-
-          <div
-            id="bonuses"
-            className="mt-10 max-w-2xl rounded-2xl border border-blue-100 bg-white p-6 text-left shadow-sm dark:border-blue-900/40 dark:bg-gray-950"
-          >
-            <div className="mb-3 inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold tracking-wide text-blue-700 dark:bg-blue-950/40 dark:text-blue-200">
-              Bonus live workshops - $750 value (included)
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white text-balance">
-              Use AI tools to ship faster and smarter (without turning your
-              codebase into slop)
-            </h3>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-              Your lifetime membership includes two full workshop recordings
-              from John Lindquist on using AI responsibly in real development
-              workflows:
-            </p>
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              <a
-                href="https://egghead.io/workshop/claude-code"
-                className="block rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900/40 dark:hover:bg-gray-900/70"
-              >
-                <h4 className="font-semibold text-lg">Claude Code Workshop</h4>
-                <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
-                  Use AI in the terminal to explore, implement, and refactor
-                  faster.
-                </p>
-              </a>
-              <a
-                href="https://egghead.io/workshop/cursor"
-                className="block rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900/40 dark:hover:bg-gray-900/70"
-              >
-                <h4 className="font-semibold text-lg">Cursor Workshop</h4>
-                <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
-                  Codebase-aware assistance that helps you ship without chaos.
-                </p>
-              </a>
-            </div>
-          </div>
         </header>
-        <main className="container flex flex-col items-center">
+
+        {/* Conditional body copy based on member status */}
+        {/* Show concise copy if user has an active subscription (stripeSubscriptionId exists) */}
+        {lastCharge?.stripeSubscriptionId ? (
+          <BodyCopyMember amountPaid={lastCharge.amountPaid} />
+        ) : (
+          <BodyCopyFull />
+        )}
+
+        <main className="container flex flex-col items-center py-8">
           <div id="pricing" className="w-full flex justify-center">
-            <LifetimePricingWidget lastCharge={lastCharge} />
+            <LifetimePricingWidget
+              lastCharge={
+                lastCharge ? {amountPaid: lastCharge.amountPaid} : undefined
+              }
+            />
           </div>
-          <Testimonials testimonials={testimonialsData} />
+
+          {/* FAQ Section */}
+          <div className="mt-16 w-full max-w-2xl">
+            <h3 className="mb-6 text-center text-xl font-bold text-gray-900 dark:text-white">
+              Frequently Asked Questions
+            </h3>
+            <div className="space-y-4">
+              <details className="group rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
+                <summary className="flex cursor-pointer items-center justify-between font-medium text-gray-900 dark:text-white">
+                  What if I'm already a member?
+                  <span className="ml-2 transition-transform group-open:rotate-180">
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">
+                  Great news! your previous payments are automatically credited
+                  toward the lifetime price. You'll see your discounted price at
+                  checkout.
+                </p>
+              </details>
+              <details className="group rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
+                <summary className="flex cursor-pointer items-center justify-between font-medium text-gray-900 dark:text-white">
+                  What's included in future updates?
+                  <span className="ml-2 transition-transform group-open:rotate-180">
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">
+                  All new courses, lessons, and workshops added to egghead are
+                  included forever. No extra charges, no upsells.
+                </p>
+              </details>
+              <details className="group rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
+                <summary className="flex cursor-pointer items-center justify-between font-medium text-gray-900 dark:text-white">
+                  Can I expense this?
+                  <span className="ml-2 transition-transform group-open:rotate-180">
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">
+                  Yes! You'll receive a detailed invoice after purchase that you
+                  can submit for reimbursement or expense reporting.
+                </p>
+              </details>
+              <details className="group rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
+                <summary className="flex cursor-pointer items-center justify-between font-medium text-gray-900 dark:text-white">
+                  How is this different from annual?
+                  <span className="ml-2 transition-transform group-open:rotate-180">
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">
+                  Annual renews every year. Lifetime is a one-time purchase that
+                  gives you permanent access—no renewals, no recurring charges,
+                  ever.
+                </p>
+              </details>
+            </div>
+          </div>
         </main>
       </div>
     </>

@@ -7,7 +7,7 @@ import {twMerge} from 'tailwind-merge'
 import slugify from 'slugify'
 import Spinner from '@/components/spinner'
 
-const ActiveSale = ({lastCharge}: {lastCharge: {amountPaid: number}}) => {
+const ActiveSale = ({lastCharge}: {lastCharge?: {amountPaid: number}}) => {
   const {viewer} = useViewer()
 
   const router = useRouter()
@@ -18,8 +18,7 @@ const ActiveSale = ({lastCharge}: {lastCharge: {amountPaid: number}}) => {
   const quantity = 1
   const pricesLoading = false
 
-  const amountPaid =
-    lastCharge?.amountPaid === 0 ? null : lastCharge?.amountPaid
+  const amountPaid = lastCharge?.amountPaid ? lastCharge.amountPaid : null
 
   const onClickCheckout = async () => {
     if (!priceId) return
@@ -96,6 +95,7 @@ const ActiveSale = ({lastCharge}: {lastCharge: {amountPaid: number}}) => {
    )} */}
 
           <PlanFeatures planFeatures={DEFAULT_FEATURES} />
+          <BonusWorkshops />
           <GetAccessButton
             label={
               amountPaid
@@ -238,12 +238,30 @@ const GetAccessButton: React.FunctionComponent<
 }
 
 const DEFAULT_FEATURES = [
-  'Full access to all the premium courses',
-  'Closed captions for every video',
-  'Commenting and support',
-  'Enhanced Transcripts',
-  'RSS course feeds',
+  'All 500+ lessons (and counting)',
+  'Goal-scoped courses—ship features, not theory',
+  'New content as it ships (no extra cost)',
+  '5-10 min lessons that respect your time',
+  'Production-ready patterns you can copy today',
 ]
+
+/**
+ * Bonus workshops section displayed in the pricing card
+ * Shows the included AI workshop recordings as added value
+ */
+const BonusWorkshops: React.FunctionComponent = () => (
+  <div className="mt-6 w-full rounded-lg border border-blue-100 bg-blue-50/50 p-4 dark:border-blue-900/40 dark:bg-blue-950/20">
+    <div className="mb-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-200">
+      Bonus: $750 value included
+    </div>
+    <div className="text-sm font-medium text-gray-900 dark:text-white">
+      AI Workshops by John Lindquist
+    </div>
+    <div className="mt-1 text-xs text-gray-600 dark:text-gray-400">
+      Claude Code + Cursor workshop recordings
+    </div>
+  </div>
+)
 
 const PlanFeatures: React.FunctionComponent<
   React.PropsWithChildren<{
