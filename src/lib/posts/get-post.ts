@@ -14,6 +14,8 @@ export async function getPost(slug: string) {
 
   try {
     // Get video resource query
+    // Filter by type='post' to avoid matching migrated lessons (type='lesson')
+    // which have null currentVersionId and would fail Zod validation
     const [videoResourceRows] = await conn.execute<RowDataPacket[]>(
       `SELECT *
        FROM egghead_ContentResource cr_lesson
@@ -27,7 +29,7 @@ export async function getPost(slug: string) {
       [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`],
     )
 
-    // Get post data
+    // Get post data - filter by type='post' to avoid migrated lessons
     const [postRows] = await conn.execute<RowDataPacket[]>(
       `SELECT cr_lesson.*, egh_user.name, egh_user.image
        FROM egghead_ContentResource cr_lesson
