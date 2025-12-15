@@ -10,11 +10,16 @@ interface InstructorProfileProps {
 }
 
 export function InstructorProfile({instructor}: InstructorProfileProps) {
+  // Normalize protocol-relative URLs to https
+  const avatarUrl = instructor?.avatar_url?.startsWith('//')
+    ? `https:${instructor.avatar_url}`
+    : instructor?.avatar_url
+
   const content = (
     <div className="flex flex-shrink-0 items-center">
-      {instructor?.avatar_url ? (
+      {avatarUrl ? (
         <Image
-          src={instructor.avatar_url}
+          src={avatarUrl}
           width={40}
           height={40}
           alt={instructor.full_name}
