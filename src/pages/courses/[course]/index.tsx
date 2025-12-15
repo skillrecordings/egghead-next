@@ -154,7 +154,10 @@ export const getServerSideProps: GetServerSideProps = async ({
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
       return {
         props: {
-          course,
+          course: {
+            ...course,
+            sections: course?.sections ?? null,
+          },
           fullLessons,
         },
       }
