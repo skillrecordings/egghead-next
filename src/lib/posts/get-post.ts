@@ -19,8 +19,9 @@ export async function getPost(slug: string) {
        FROM egghead_ContentResource cr_lesson
        JOIN egghead_ContentResourceResource crr ON cr_lesson.id = crr.resourceOfId
        JOIN egghead_ContentResource cr_video ON crr.resourceId = cr_video.id
-       WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ? 
+       WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ?
               OR cr_lesson.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?)
+       AND cr_lesson.type = 'post'
        AND cr_video.type = 'videoResource'
        LIMIT 1`,
       [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`],
@@ -33,6 +34,7 @@ export async function getPost(slug: string) {
        LEFT JOIN egghead_User egh_user ON cr_lesson.createdById = egh_user.id
        WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ? 
               OR cr_lesson.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?)
+       AND cr_lesson.type = 'post'
        LIMIT 1`,
       [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`],
     )
