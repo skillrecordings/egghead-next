@@ -34,8 +34,8 @@ const courseQuery = groq`
     },
     "primary_tag": softwareLibraries[0].library->name,
   },
-  // Fallback lessons source: resources array (used by some courses)
-  "_resourceLessons": resources[]->{
+  // Fallback lessons source: resources array filtered to lessons only
+  "_resourceLessons": resources[@->_type == "lesson"]->{
     title,
     "type": _type,
     "slug": slug.current,
@@ -163,6 +163,18 @@ export async function loadCourseMetadata(id: number, slug: string) {
       ? `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683914713/tags/${course?.dependencies[0]?.name}.png`
       : 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1569292667/eggo/eggo_flair.png'
     course['square_cover_480_url'] = imageUrl
+  }
+
+  // Filter out null items from lessons arrays (broken references)
+  if (course?.lessons) {
+    course.lessons = course.lessons.filter(
+      (lesson: any) => lesson != null && lesson.slug,
+    )
+  }
+  if (course?._resourceLessons) {
+    course._resourceLessons = course._resourceLessons.filter(
+      (lesson: any) => lesson != null && lesson.slug,
+    )
   }
 
   // Use fallback _resourceLessons if lessons array is empty
