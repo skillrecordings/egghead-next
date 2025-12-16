@@ -15,17 +15,15 @@ const courseQuery = groq`
   challengeRating,
   "square_cover_480_url": image,
   "thumb_url": thumbnailUrl,
-  lessons[]->{
+  // Primary lessons source: the lessons array field
+  "lessons": lessons[]->{
     title,
     "type": _type,
+    "slug": slug.current,
     "http_url": awsFilename,
     "icon_url": softwareLibraries[0].library->image.url,
     "duration": resource->duration,
-    "path": "/lessons/" + slug.current
-  },
-  "lessons": resources[@->["_type"] == "lesson"]->{
-    title,
-    "type": "lesson",
+    "path": "/lessons/" + slug.current,
     "tags": softwareLibraries[] {
       ...(library->{
         'name': slug.current,
@@ -35,8 +33,25 @@ const courseQuery = groq`
       })
     },
     "primary_tag": softwareLibraries[0].library->name,
+  },
+  // Fallback lessons source: resources array filtered to lessons only
+  "_resourceLessons": resources[@->_type == "lesson"]->{
+    title,
+    "type": _type,
+    "slug": slug.current,
+    "http_url": awsFilename,
+    "icon_url": softwareLibraries[0].library->image.url,
     "duration": resource->duration,
-    "path": "/lessons/" + slug.current
+    "path": "/lessons/" + slug.current,
+    "tags": softwareLibraries[] {
+      ...(library->{
+        'name': slug.current,
+        'label': name,
+        'http_url': url,
+        'image_url': image.url
+      })
+    },
+    "primary_tag": softwareLibraries[0].library->name,
   },
   "instructor": collaborators[0]->{
     "avatar_url": person->image.url,
@@ -148,6 +163,35 @@ export async function loadCourseMetadata(id: number, slug: string) {
       ? `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683914713/tags/${course?.dependencies[0]?.name}.png`
       : 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1569292667/eggo/eggo_flair.png'
     course['square_cover_480_url'] = imageUrl
+  }
+
+  // Filter out null items from lessons arrays (broken references)
+  if (course?.lessons) {
+    course.lessons = course.lessons.filter(
+      (lesson: any) => lesson != null && lesson.slug,
+    )
+  }
+  if (course?._resourceLessons) {
+    course._resourceLessons = course._resourceLessons.filter(
+      (lesson: any) => lesson != null && lesson.slug,
+    )
+  }
+
+  // Use fallback _resourceLessons if lessons array is empty
+  if (
+    course &&
+    (!course.lessons || course.lessons.length === 0) &&
+    course._resourceLessons?.length > 0
+  ) {
+    console.log(
+      `loadCourseMetadata: Using _resourceLessons fallback for course ${slug}`,
+    )
+    course.lessons = course._resourceLessons
+  }
+
+  // Clean up the fallback field
+  if (course) {
+    delete course._resourceLessons
   }
 
   return course
