@@ -1,6 +1,6 @@
 import * as mysql from 'mysql2/promise'
-import { ConnectionOptions, RowDataPacket, Pool } from 'mysql2/promise'
-import type { Post } from '@/schemas/post'
+import {ConnectionOptions, RowDataPacket, Pool} from 'mysql2/promise'
+import type {Post} from '@/schemas/post'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -54,25 +54,16 @@ function parseSlugForHash(rawSlug: string | string[]): ParsedSlug {
 
   const slug = String(rawSlug)
 
-  // Try to get hash from tilde-separated slug first
-  const tildeSegments = slug.split('~')
-  if (tildeSegments.length > 1) {
-    return {
-      hashFromSlug: tildeSegments[tildeSegments.length - 1],
-      originalSlug: slug,
-    }
+  // Course Builder slugs include a "~<id>" suffix (e.g. "...~duu9m").
+  // For legacy slugs without "~", do NOT derive a "hash" from the last dash
+  // segment. Doing so makes the SQL LIKE queries match unrelated records and
+  // causes titles to be overwritten with incorrect content.
+  const tildeIndex = slug.lastIndexOf('~')
+  if (tildeIndex === -1) {
+    return {hashFromSlug: '', originalSlug: slug}
   }
 
-  // Fallback to dash-separated slug
-  const dashSegments = slug.split('-')
-  if (dashSegments.length === 0) {
-    throw new Error('Invalid slug format')
-  }
-
-  return {
-    hashFromSlug: dashSegments[dashSegments.length - 1],
-    originalSlug: slug,
-  }
+  return {hashFromSlug: slug.substring(tildeIndex + 1), originalSlug: slug}
 }
 
 interface VideoResourceWithTranscript {
@@ -113,14 +104,14 @@ export async function getCourseBuilderLesson(
     return null
   }
 
-  const { hashFromSlug } = parseSlugForHash(slug)
+  const {hashFromSlug} = parseSlugForHash(slug)
   const pool = getConnectionPool()
   let conn
 
   try {
     conn = await pool.getConnection()
-    const sql = `
-      SELECT 
+    const baseSelect = `
+      SELECT
         cr_lesson.*,
         egh_user.name,
         egh_user.image,
@@ -129,11 +120,35 @@ export async function getCourseBuilderLesson(
       LEFT JOIN egghead_User egh_user ON cr_lesson.createdById = egh_user.id
       LEFT JOIN egghead_ContentResourceResource crr ON cr_lesson.id = crr.resourceOfId
       LEFT JOIN egghead_ContentResource cr_video ON crr.resourceId = cr_video.id AND cr_video.type = 'videoResource'
-      WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ? OR cr_lesson.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?)
-      AND cr_lesson.type IN ('post', 'lesson')
-      LIMIT 1
     `
-    const params = [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`]
+
+    // Only allow loose matching when this is a Course Builder slug with "~<id>".
+    // Legacy slugs must use exact matching only.
+    const hasCourseBuilderId = Boolean(hashFromSlug)
+    const whereClause = hasCourseBuilderId
+      ? `
+        WHERE (
+          cr_lesson.id = ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ?
+          OR cr_lesson.id LIKE ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?
+        )
+        AND cr_lesson.type IN ('post', 'lesson')
+        LIMIT 1
+      `
+      : `
+        WHERE (
+          cr_lesson.id = ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ?
+        )
+        AND cr_lesson.type IN ('post', 'lesson')
+        LIMIT 1
+      `
+
+    const sql = `${baseSelect} ${whereClause}`
+    const params = hasCourseBuilderId
+      ? [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`]
+      : [slug, slug]
     const [lessonRows] = await conn.execute<RowDataPacket[]>(sql, params)
 
     const lessonRow = lessonRows[0]
@@ -228,25 +243,45 @@ export async function getCourseBuilderVideoResource(
     return null
   }
 
-  const { hashFromSlug } = parseSlugForHash(slug)
+  const {hashFromSlug} = parseSlugForHash(slug)
   const pool = getConnectionPool()
   let conn
 
   try {
     conn = await pool.getConnection()
     // Get video resource
-    const [videoResourceRows] = await conn.execute<RowDataPacket[]>(
+    const hasCourseBuilderId = Boolean(hashFromSlug)
+    const sql = hasCourseBuilderId
+      ? `
+        SELECT cr_video.fields
+        FROM egghead_ContentResource cr_lesson
+        JOIN egghead_ContentResourceResource crr ON cr_lesson.id = crr.resourceOfId
+        JOIN egghead_ContentResource cr_video ON crr.resourceId = cr_video.id
+        WHERE (
+          cr_lesson.id = ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ?
+          OR cr_lesson.id LIKE ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?
+        )
+        AND cr_video.type = 'videoResource'
+        LIMIT 1
       `
-      SELECT cr_video.fields
-      FROM egghead_ContentResource cr_lesson
-      JOIN egghead_ContentResourceResource crr ON cr_lesson.id = crr.resourceOfId
-      JOIN egghead_ContentResource cr_video ON crr.resourceId = cr_video.id
-      WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ? OR cr_lesson.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?)
-      AND cr_video.type = 'videoResource'
-      LIMIT 1
-    `,
-      [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`],
-    )
+      : `
+        SELECT cr_video.fields
+        FROM egghead_ContentResource cr_lesson
+        JOIN egghead_ContentResourceResource crr ON cr_lesson.id = crr.resourceOfId
+        JOIN egghead_ContentResource cr_video ON crr.resourceId = cr_video.id
+        WHERE (
+          cr_lesson.id = ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ?
+        )
+        AND cr_video.type = 'videoResource'
+        LIMIT 1
+      `
+    const params = hasCourseBuilderId
+      ? [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`]
+      : [slug, slug]
+    const [videoResourceRows] = await conn.execute<RowDataPacket[]>(sql, params)
 
     const videoResource = videoResourceRows[0] as VideoResourceWithTranscript
 
@@ -287,7 +322,7 @@ export async function loadCourseBuilderCourseMetadata(
     return null
   }
 
-  const { hashFromSlug } = parseSlugForHash(slug)
+  const {hashFromSlug} = parseSlugForHash(slug)
   const pool = getConnectionPool()
   let conn
 
@@ -295,18 +330,38 @@ export async function loadCourseBuilderCourseMetadata(
     conn = await pool.getConnection()
 
     // Get course data matching the pattern from [post].tsx
-    const [courseRows] = await conn.execute<RowDataPacket[]>(
+    const hasCourseBuilderId = Boolean(hashFromSlug)
+    const sql = hasCourseBuilderId
+      ? `
+        SELECT cr_course.*, egh_user.name, egh_user.image
+        FROM egghead_ContentResource cr_course
+        LEFT JOIN egghead_User egh_user ON cr_course.createdById = egh_user.id
+        WHERE (
+          cr_course.id = ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
+          OR cr_course.id LIKE ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?
+        )
+        AND cr_course.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
+        LIMIT 1
       `
-      SELECT cr_course.*, egh_user.name, egh_user.image
-      FROM egghead_ContentResource cr_course
-      LEFT JOIN egghead_User egh_user ON cr_course.createdById = egh_user.id
-      WHERE (cr_course.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ? OR cr_course.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?)
-      AND cr_course.type = 'post'
-      AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
-      LIMIT 1
-    `,
-      [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`],
-    )
+      : `
+        SELECT cr_course.*, egh_user.name, egh_user.image
+        FROM egghead_ContentResource cr_course
+        LEFT JOIN egghead_User egh_user ON cr_course.createdById = egh_user.id
+        WHERE (
+          cr_course.id = ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
+        )
+        AND cr_course.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
+        LIMIT 1
+      `
+    const params = hasCourseBuilderId
+      ? [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`]
+      : [slug, slug]
+    const [courseRows] = await conn.execute<RowDataPacket[]>(sql, params)
 
     const courseRow = courseRows[0]
 
@@ -366,7 +421,7 @@ export async function getCourseBuilderLessonStates(
     return null
   }
 
-  const { hashFromSlug } = parseSlugForHash(courseSlug)
+  const {hashFromSlug} = parseSlugForHash(courseSlug)
   const pool = getConnectionPool()
   let conn
 
@@ -374,21 +429,44 @@ export async function getCourseBuilderLessonStates(
     conn = await pool.getConnection()
 
     // Get all lessons for the course
-    const [lessonRows] = await conn.execute<RowDataPacket[]>(
+    const hasCourseBuilderId = Boolean(hashFromSlug)
+    const sql = hasCourseBuilderId
+      ? `
+        SELECT
+          JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) AS slug,
+          JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) AS state
+        FROM egghead_ContentResource cr_course
+        JOIN egghead_ContentResourceResource crr ON cr_course.id = crr.resourceOfId
+        JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
+        WHERE (
+          cr_course.id = ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
+          OR cr_course.id LIKE ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?
+        )
+        AND cr_course.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
+        AND cr_lesson.type = 'post'
       `
-      SELECT
-        JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) AS slug,
-        JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) AS state
-      FROM egghead_ContentResource cr_course
-      JOIN egghead_ContentResourceResource crr ON cr_course.id = crr.resourceOfId
-      JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
-      WHERE (cr_course.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ? OR cr_course.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?)
-      AND cr_course.type = 'post'
-      AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
-      AND cr_lesson.type = 'post'
-    `,
-      [courseSlug, courseSlug, `%${hashFromSlug}`, `%${hashFromSlug}`],
-    )
+      : `
+        SELECT
+          JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) AS slug,
+          JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) AS state
+        FROM egghead_ContentResource cr_course
+        JOIN egghead_ContentResourceResource crr ON cr_course.id = crr.resourceOfId
+        JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
+        WHERE (
+          cr_course.id = ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
+        )
+        AND cr_course.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
+        AND cr_lesson.type = 'post'
+      `
+    const params = hasCourseBuilderId
+      ? [courseSlug, courseSlug, `%${hashFromSlug}`, `%${hashFromSlug}`]
+      : [courseSlug, courseSlug]
+    const [lessonRows] = await conn.execute<RowDataPacket[]>(sql, params)
 
     if (lessonRows.length === 0) {
       console.log(
@@ -446,7 +524,7 @@ export async function getCourseBuilderCourseLessons(
     return null
   }
 
-  const { hashFromSlug } = parseSlugForHash(courseSlug)
+  const {hashFromSlug} = parseSlugForHash(courseSlug)
   const pool = getConnectionPool()
   let conn
 
@@ -454,24 +532,50 @@ export async function getCourseBuilderCourseLessons(
     conn = await pool.getConnection()
 
     // Get all published lessons for the course with their order
-    const [lessonRows] = await conn.execute<RowDataPacket[]>(
+    const hasCourseBuilderId = Boolean(hashFromSlug)
+    const sql = hasCourseBuilderId
+      ? `
+        SELECT
+          cr_lesson.id,
+          cr_lesson.fields,
+          crr.position
+        FROM egghead_ContentResource cr_course
+        JOIN egghead_ContentResourceResource crr ON cr_course.id = crr.resourceOfId
+        JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
+        WHERE (
+          cr_course.id = ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
+          OR cr_course.id LIKE ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?
+        )
+        AND cr_course.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
+        AND cr_lesson.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+        ORDER BY crr.position ASC
       `
-      SELECT
-        cr_lesson.id,
-        cr_lesson.fields,
-        crr.position
-      FROM egghead_ContentResource cr_course
-      JOIN egghead_ContentResourceResource crr ON cr_course.id = crr.resourceOfId
-      JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
-      WHERE (cr_course.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ? OR cr_course.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?)
-      AND cr_course.type = 'post'
-      AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
-      AND cr_lesson.type = 'post'
-      AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
-      ORDER BY crr.position ASC
-    `,
-      [courseSlug, courseSlug, `%${hashFromSlug}`, `%${hashFromSlug}`],
-    )
+      : `
+        SELECT
+          cr_lesson.id,
+          cr_lesson.fields,
+          crr.position
+        FROM egghead_ContentResource cr_course
+        JOIN egghead_ContentResourceResource crr ON cr_course.id = crr.resourceOfId
+        JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
+        WHERE (
+          cr_course.id = ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
+        )
+        AND cr_course.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
+        AND cr_lesson.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+        ORDER BY crr.position ASC
+      `
+    const params = hasCourseBuilderId
+      ? [courseSlug, courseSlug, `%${hashFromSlug}`, `%${hashFromSlug}`]
+      : [courseSlug, courseSlug]
+    const [lessonRows] = await conn.execute<RowDataPacket[]>(sql, params)
 
     if (lessonRows.length === 0) {
       console.log(
