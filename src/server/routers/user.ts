@@ -21,7 +21,15 @@ export const userRouter = router({
 
     if (!token) return null
 
-    return await loadCurrentUser(token)
+    try {
+      return await loadCurrentUser(token)
+    } catch (error: any) {
+      // Handle 401/403 gracefully - token is invalid
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
+        return null
+      }
+      throw error
+    }
   }),
   contactIdForEmail: baseProcedure
     .input(
