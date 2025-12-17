@@ -13,7 +13,8 @@ import {useRouter} from 'next/router'
 export async function getStaticProps() {
   const courses = await loadAllPlaylistsByPage()
   return {
-    props: {courses}, // will be passed to the page component as props
+    props: {courses},
+    revalidate: 3600, // regenerate every hour instead of every build
   }
 }
 
