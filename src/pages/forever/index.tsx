@@ -199,9 +199,8 @@ const Forever: FunctionComponent<React.PropsWithChildren<PricingProps>> & {
                   </span>
                 </summary>
                 <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">
-                  Great news! your previous payments are automatically credited
-                  toward the lifetime price. You'll see your discounted price at
-                  checkout.
+                  Great news! Your current subscription will be discounted.
+                  You'll see your discounted price at checkout.
                 </p>
               </details>
               <details className="group rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
