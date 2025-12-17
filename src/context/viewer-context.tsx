@@ -47,6 +47,8 @@ function useAuthedViewer() {
   const viewerId = get(viewer, 'id', null)
   const [loading, setLoading] = React.useState(true)
   const [loggingOut, setLoggingOut] = React.useState(false)
+  // Track if we've already handled a 403 to prevent infinite loops
+  const [authFailed, setAuthFailed] = React.useState(false)
   const previousViewer = React.useRef(viewer)
   const authToken = auth.getAuthToken()
 
@@ -87,6 +89,12 @@ function useAuthedViewer() {
       return
     }
 
+    // Prevent infinite loop: if we've already failed auth (403), don't retry
+    if (authFailed) {
+      setLoading(false)
+      return
+    }
+
     // Prevent infinite loop: if viewerId is null AND there's no auth token,
     // we've already logged out - don't try to refresh again
     if (!viewerId && !authToken && noAccessTokenFound && !viewAsUser) {
@@ -107,6 +115,14 @@ function useAuthedViewer() {
       }
 
       auth.refreshUser().then((newViewer: any) => {
+        // If newViewer is null after refresh, the token was invalid (403)
+        // Mark auth as failed to prevent infinite retry loops
+        if (!newViewer) {
+          setAuthFailed(true)
+          setViewer(null)
+          setLoading(() => false)
+          return
+        }
         if (!isEqual(newViewer.id, viewerId)) {
           setViewer(newViewer)
         }
@@ -144,6 +160,11 @@ function useAuthedViewer() {
         setLoading(() => false)
       }
       auth.handleAccessTokenAuthentication(authToken).then((viewer: any) => {
+        // If viewer is null/undefined after auth attempt, the token was invalid (403)
+        // Mark auth as failed to prevent infinite retry loops
+        if (!viewer) {
+          setAuthFailed(true)
+        }
         setViewer(viewer)
         setLoading(() => false)
       })
@@ -174,7 +195,7 @@ function useAuthedViewer() {
     }
 
     return clearUserMonitorInterval
-  }, [viewerId, loggingOut])
+  }, [viewerId, loggingOut, authFailed])
 
   React.useEffect(() => {
     window.becomeUser = auth.becomeUser
