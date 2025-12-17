@@ -87,6 +87,13 @@ function useAuthedViewer() {
       return
     }
 
+    // Prevent infinite loop: if viewerId is null AND there's no auth token,
+    // we've already logged out - don't try to refresh again
+    if (!viewerId && !authToken && noAccessTokenFound && !viewAsUser) {
+      setLoading(false)
+      return
+    }
+
     let viewerMonitorIntervalId: number | undefined
 
     const loadViewerFromStorage = async () => {
