@@ -205,12 +205,16 @@ export default class Auth {
   clearLocalStorage() {
     return new Promise((resolve, reject) => {
       const removeLocalStorage = () => {
+        // IMPORTANT: path must match what was used in cookie.set (defaults to '/')
+        // Without matching path AND domain, js-cookie silently fails to remove
         cookie.remove(ACCESS_TOKEN_KEY, {
           domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+          path: '/',
         })
 
         cookie.remove(EGGHEAD_USER_COOKIE_KEY, {
           domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+          path: '/',
         })
 
         if (typeof localStorage !== 'undefined') {
