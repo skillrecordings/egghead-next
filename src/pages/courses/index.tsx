@@ -14,7 +14,6 @@ export async function getStaticProps() {
   const courses = await loadAllPlaylistsByPage()
   return {
     props: {courses},
-    revalidate: 3600, // regenerate every hour instead of every build
   }
 }
 
