@@ -13,7 +13,7 @@ const LifetimeSaleHeaderBanner = () => {
 
   return isSaleBannerEnabled ? (
     <Link
-      href="/pricing"
+      href="/forever"
       onClick={() => {
         analytics.events.activityInternalLinkClick(
           'sale',
