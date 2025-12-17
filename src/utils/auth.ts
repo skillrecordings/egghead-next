@@ -7,7 +7,6 @@ import * as serverCookie from 'cookie'
 import getAccessTokenFromCookie from './get-access-token-from-cookie'
 import {
   ACCESS_TOKEN_KEY as CONFIG_ACCESS_TOKEN,
-  EXPIRES_AT_KEY as CONFIG_EXPIRES_AT_KEY,
   EGGHEAD_USER_COOKIE_KEY,
   CIO_IDENTIFIER_KEY,
 } from '../config'
@@ -15,7 +14,7 @@ import {
 const http = axios.create()
 
 export const ACCESS_TOKEN_KEY = CONFIG_ACCESS_TOKEN
-export const EXPIRES_AT_KEY = CONFIG_EXPIRES_AT_KEY
+export const EXPIRES_AT_KEY = 'eh_token_expiration'
 export const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 const AUTH_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID
 const AUTH_REDIRECT_URL = process.env.NEXT_PUBLIC_REDIRECT_URI
