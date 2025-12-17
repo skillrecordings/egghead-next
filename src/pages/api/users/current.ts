@@ -60,9 +60,19 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === 'GET' && eggheadToken) {
-    const eggheadUser = await fetchEggheadUser(eggheadToken, true)
-
-    res.status(200).json(eggheadUser)
+    try {
+      const eggheadUser = await fetchEggheadUser(eggheadToken, true)
+      res.status(200).json(eggheadUser)
+    } catch (error: any) {
+      // If Rails returns 401/403, the token is invalid - return null gracefully
+      // This prevents the client from retrying infinitely
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
+        res.status(200).json(null)
+      } else {
+        console.error('Error fetching user:', error)
+        res.status(500).json({error: 'Failed to fetch user'})
+      }
+    }
   } else {
     res.status(200).end()
   }
