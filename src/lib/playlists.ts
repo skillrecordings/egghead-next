@@ -50,7 +50,7 @@ export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
         playlists: {data, count},
       } = await request(config.graphQLEndpoint, query, {
         page: currentPage,
-        per_page: 25,
+        per_page: 200,
       })
 
       currentPage = currentPage + 1
