@@ -201,7 +201,7 @@ export default SearchIndex
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
   async ({req, query, res}) => {
     setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=600')
     const {all = [], ...rest} = query
 
     if (all[0] === 'undefined') return {props: {error: 'no search query'}}
