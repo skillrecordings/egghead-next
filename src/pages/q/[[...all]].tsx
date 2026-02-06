@@ -249,14 +249,17 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       })
 
       let sanitizedServerState: any | null = null
+      let cacheStatus: 'hit' | 'miss' | 'error' = 'miss'
 
       try {
         const cached = await kv.get(cacheKey)
         if (cached) {
           sanitizedServerState = cached
+          cacheStatus = 'hit'
         }
       } catch {
         // fail open if KV is unavailable
+        cacheStatus = 'error'
       }
 
       if (!sanitizedServerState) {
@@ -288,6 +291,20 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         } catch {
           // ignore cache set failures
         }
+      }
+
+      try {
+        console.log(
+          JSON.stringify({
+            event: 'search_ssr_cache',
+            status: cacheStatus,
+            ttl_s: SEARCH_SSR_CACHE_TTL_SECONDS,
+            key_prefix: SEARCH_SSR_CACHE_PREFIX,
+            path,
+          }),
+        )
+      } catch {
+        // logging must never crash
       }
 
       // Rest of the code remains the same...
