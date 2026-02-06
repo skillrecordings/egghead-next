@@ -87,7 +87,8 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
             })
             .then(({data}: {data: any}) => data.customer)
             .catch((error: any) => {
-              console.error(error)
+              console.error('CIO attributes fetch failed:', error?.message)
+              return undefined
             })
         }
       } else {

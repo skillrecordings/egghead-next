@@ -30,7 +30,7 @@ export default function TrpcProvider({children}: {children: React.ReactNode}) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 60_000, // 60s — deduplicates feature flag queries
+            staleTime: 60_000, // 60s — global default, prevents refetch storms across all queries
           },
         },
       }),

@@ -24,7 +24,9 @@ const logMiddleware = t.middleware(
       duration_ms,
       user_id: trpcCtx.userId ?? null,
       has_token: !!trpcCtx.userToken,
-      ...(rawInput && typeof rawInput === 'object' ? {input: rawInput} : {}),
+      ...(rawInput && typeof rawInput === 'object'
+        ? {input_keys: Object.keys(rawInput as Record<string, unknown>)}
+        : {}),
       ...(!result.ok && 'error' in result
         ? {error_code: (result as any).error?.code}
         : {}),
