@@ -5,6 +5,7 @@ import React, {useState} from 'react'
 
 import {trpc} from './client'
 import {transformer} from '@/server/transformer'
+import {randomUUID} from 'crypto'
 
 export function getBaseUrl() {
   if (typeof window !== 'undefined') {
@@ -25,6 +26,7 @@ export function getBaseUrl() {
 }
 
 export default function TrpcProvider({children}: {children: React.ReactNode}) {
+  const [requestId] = useState(() => randomUUID())
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -40,6 +42,9 @@ export default function TrpcProvider({children}: {children: React.ReactNode}) {
       links: [
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
+          headers: () => ({
+            'x-egghead-request-id': requestId,
+          }),
         }),
       ],
       transformer,
