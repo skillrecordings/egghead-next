@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {getTokenFromCookieHeaders} from '../../../utils/auth'
 import {getGift} from '../../../lib/gifts'
 import Link from 'next/link'
@@ -9,41 +10,42 @@ import {useRouter} from 'next/router'
 import {useViewer} from '../../../context/viewer-context'
 import {PrimaryButton} from '../../../components/buttons'
 
-export const getServerSideProps: GetServerSideProps = async function ({
-  req,
-  query,
-}) {
-  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
-  const {guid} = query
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({req, query}) {
+    const {eggheadToken} = getTokenFromCookieHeaders(
+      req.headers.cookie as string,
+    )
+    const {guid} = query
 
-  if (!eggheadToken) {
-    return {
-      props: {
-        error: {
-          type: 'login',
-          message: 'You must be logged in to claim a membership token',
+    if (!eggheadToken) {
+      return {
+        props: {
+          error: {
+            type: 'login',
+            message: 'You must be logged in to claim a membership token',
+          },
         },
-      },
+      }
     }
-  }
 
-  const gift = await getGift(guid as string, eggheadToken)
+    const gift = await getGift(guid as string, eggheadToken)
 
-  if (gift.claimed) {
-    return {
-      props: {
-        error: {
-          type: 'claimed',
-          message: 'This membership token has already been claimed',
+    if (gift.claimed) {
+      return {
+        props: {
+          error: {
+            type: 'claimed',
+            message: 'This membership token has already been claimed',
+          },
         },
-      },
+      }
     }
-  }
 
-  return {
-    props: {gift},
-  }
-}
+    return {
+      props: {gift},
+    }
+  },
+)
 
 type Gift = {claim_url: string; claimed: boolean; duration_months: number}
 type GiftClaimProps = {error?: {type: string; message: string}; gift?: Gift}

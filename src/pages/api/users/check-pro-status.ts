@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import emailIsValid from '@/utils/email-is-valid'
 import {isEmpty} from 'lodash'
 
@@ -12,6 +13,7 @@ const checkProStatus = async (req: NextApiRequest, res: NextApiResponse) => {
     const {email} = req.body
     if (!emailIsValid(email)) {
       res.status(400).end()
+      return
     } else {
       const userUrl = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/${email}?by_email=true`
 
@@ -35,4 +37,4 @@ const checkProStatus = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default checkProStatus
+export default withPagesApiLogging(checkProStatus)

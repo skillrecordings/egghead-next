@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 
 const AIRTABLE_SCHEDULE_URL = `https://api.airtable.com/v0/appt9rslO0tkAwXUm/schedule`
 
@@ -42,4 +43,4 @@ const events = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default events
+export default withPagesApiLogging(events)

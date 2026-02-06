@@ -5,6 +5,7 @@ import useSWR from 'swr'
 import {loadCollection} from '@/lib/collections'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
@@ -52,13 +53,15 @@ const Collection: FunctionComponent<
 
 export default Collection
 
-export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const collection = params && (await loadCollection(params.slug as string))
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async ({res, params}) => {
+    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+    const collection = params && (await loadCollection(params.slug as string))
 
-  return {
-    props: {
-      collection,
-    },
-  }
-}
+    return {
+      props: {
+        collection,
+      },
+    }
+  },
+)

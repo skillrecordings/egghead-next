@@ -8,6 +8,7 @@ import Image from 'next/legacy/image'
 import {loadLesson} from '@/lib/lessons'
 import {useViewer} from '@/context/viewer-context'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {lessonMachine} from '@/machines/lesson-machine'
 import {useWindowSize} from 'react-use'
 import Transcript from '@/components/pages/lessons/transcript'
@@ -195,37 +196,35 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
 
 export default Talk
 
-export const getServerSideProps: GetServerSideProps = async function ({
-  res,
-  req,
-  params,
-}) {
-  try {
-    const initialLesson: LessonResource | undefined =
-      params && (await loadLesson(params.slug as string))
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({res, req, params}) {
+    try {
+      const initialLesson: LessonResource | undefined =
+        params && (await loadLesson(params.slug as string))
 
-    if (initialLesson && initialLesson?.slug !== params?.slug) {
+      if (initialLesson && initialLesson?.slug !== params?.slug) {
+        return {
+          redirect: {
+            destination: initialLesson.path,
+            permanent: true,
+          },
+        }
+      } else {
+        res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+        return {
+          props: {
+            initialLesson,
+          },
+        }
+      }
+    } catch (e) {
+      console.error(e)
       return {
         redirect: {
-          destination: initialLesson.path,
-          permanent: true,
-        },
-      }
-    } else {
-      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-      return {
-        props: {
-          initialLesson,
+          destination: '/',
+          permanent: false,
         },
       }
     }
-  } catch (e) {
-    console.error(e)
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    }
-  }
-}
+  },
+)

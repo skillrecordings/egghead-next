@@ -10,6 +10,7 @@ import Stepper from '@/components/pricing/stepper'
 import Spinner from '@/components/spinner'
 import getTracer from '../../../utils/honeycomb-tracer'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import {useRouter} from 'next/router'
 
@@ -157,21 +158,19 @@ const Email: React.FunctionComponent<
 
 const tracer = getTracer('pricing-email-page')
 
-export const getServerSideProps: GetServerSideProps = async function ({
-  req,
-  res,
-  query,
-}) {
-  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({req, res, query}) {
+    setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
 
-  return {
-    props: {
-      ...(!!query?.priceId && {priceId: query.priceId}),
-      quantity: query?.quantity || 1,
-      ...(!!query?.coupon && {coupon: query.coupon}),
-    },
-  }
-}
+    return {
+      props: {
+        ...(!!query?.priceId && {priceId: query.priceId}),
+        quantity: query?.quantity || 1,
+        ...(!!query?.coupon && {coupon: query.coupon}),
+      },
+    }
+  },
+)
 
 Email.getLayout = (Page: any, pageProps: any) => {
   return <Page {...pageProps} />

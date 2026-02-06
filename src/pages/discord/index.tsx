@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {getTokenFromCookieHeaders} from '@/utils/auth'
 import LoginRequired, {LoginRequiredParams} from '@/components/login-required'
 import {useViewer} from '@/context/viewer-context'
@@ -110,14 +111,16 @@ const DiscordLogo: React.FC<React.PropsWithChildren<{className?: string}>> = ({
 
 export default DiscordPage
 
-export const getServerSideProps: GetServerSideProps = async function ({req}) {
-  const {loginRequired} = getTokenFromCookieHeaders(
-    req.headers.cookie as string,
-  )
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({req}) {
+    const {loginRequired} = getTokenFromCookieHeaders(
+      req.headers.cookie as string,
+    )
 
-  return {
-    props: {
-      loginRequired,
-    },
-  }
-}
+    return {
+      props: {
+        loginRequired,
+      },
+    }
+  },
+)

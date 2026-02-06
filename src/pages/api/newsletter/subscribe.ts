@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import {z} from 'zod'
 import {inngest} from '@/inngest/inngest.server'
 import {CUSTOMER_IO_IDENTIFY_EVENT} from '@/inngest/events/identify-customer-io'
@@ -10,10 +11,7 @@ const subscribeRequestSchema = z.object({
   source: z.string().default('newsletter_signup'),
 })
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({
       error: 'Method not allowed',
@@ -99,3 +97,5 @@ export default async function handler(
     })
   }
 }
+
+export default withPagesApiLogging(handler)

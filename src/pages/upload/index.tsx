@@ -2,6 +2,7 @@ import * as React from 'react'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {find} from 'lodash'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {getAbilityFromToken} from '@/server/ability'
 import groq from 'groq'
 import {sanityClient} from '@/utils/sanity-client'
@@ -46,11 +47,12 @@ type FormProps = {
   lessons: LessonMetadata[]
 }
 
-export const getServerSideProps: GetServerSideProps = async function ({req}) {
-  const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({req}) {
+    const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
 
-  if (ability.can('upload', 'Video')) {
-    const instructorQuery = groq`
+    if (ability.can('upload', 'Video')) {
+      const instructorQuery = groq`
       *[_type == 'collaborator' && role == 'instructor'][]{
         'person': person-> {
             _id,
@@ -61,31 +63,34 @@ export const getServerSideProps: GetServerSideProps = async function ({req}) {
         _id
       }`
 
-    const topicQuery = groq`
+      const topicQuery = groq`
       *[_type == 'software-library'][]{
         'id': _id,
         name
       }
     `
 
-    const instructors: Instructor[] = await sanityClient.fetch(instructorQuery)
-    const topics: Topic[] = await sanityClient.fetch(topicQuery)
+      const instructors: Instructor[] = await sanityClient.fetch(
+        instructorQuery,
+      )
+      const topics: Topic[] = await sanityClient.fetch(topicQuery)
 
-    return {
-      props: {
-        instructors,
-        topics,
-      },
+      return {
+        props: {
+          instructors,
+          topics,
+        },
+      }
+    } else {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      }
     }
-  } else {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    }
-  }
-}
+  },
+)
 
 type SubmitResponse = AxiosResponse | undefined
 

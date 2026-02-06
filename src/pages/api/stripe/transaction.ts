@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
@@ -47,4 +48,4 @@ const Transaction = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default Transaction
+export default withPagesApiLogging(Transaction)

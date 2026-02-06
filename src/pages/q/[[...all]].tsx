@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Search from '@/components/search'
 import {NextSeo} from 'next-seo'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import qs from 'qs'
 import {createUrl, parseUrl, titleFromPath} from '@/lib/search-url-builder'
 import {isEmpty, get, first} from 'lodash'
@@ -197,123 +198,127 @@ SearchIndex.getLayout = (Page: any, pageProps: any) => {
 
 export default SearchIndex
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  query,
-  res,
-}) => {
-  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const {all = [], ...rest} = query
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async ({req, query, res}) => {
+    setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+    const {all = [], ...rest} = query
 
-  if (all[0] === 'undefined') return {props: {error: 'no search query'}}
+    if (all[0] === 'undefined') return {props: {error: 'no search query'}}
 
-  const initialSearchState = parseUrl(query)
-  const pageTitle = titleFromPath(all as string[])
-  const path = req.url
+    const initialSearchState = parseUrl(query)
+    const pageTitle = titleFromPath(all as string[])
+    const path = req.url
 
-  try {
-    // Set a timeout for the getServerState call
-    const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => {
-        reject(new Error('Typesense request timed out'))
-      }, 5000) // 5 second timeout
-    })
+    try {
+      // Set a timeout for the getServerState call
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => {
+          reject(new Error('Typesense request timed out'))
+        }, 5000) // 5 second timeout
+      })
 
-    // Get server state and sanitize it for serialization
-    const serverStatePromise = getServerState(
-      <SearchIndex initialSearchState={initialSearchState} />,
-      {
-        renderToString,
-      },
-    )
+      // Get server state and sanitize it for serialization
+      const serverStatePromise = getServerState(
+        <SearchIndex initialSearchState={initialSearchState} />,
+        {
+          renderToString,
+        },
+      )
 
-    // Race between the timeout and the actual request
-    const serverState = await Promise.race([serverStatePromise, timeoutPromise])
+      // Race between the timeout and the actual request
+      const serverState = await Promise.race([
+        serverStatePromise,
+        timeoutPromise,
+      ])
 
-    // Sanitize the serverState to remove undefined values
-    const sanitizedServerState = JSON.parse(
-      JSON.stringify(serverState, (_, value) =>
-        value === undefined ? null : value,
-      ),
-    )
+      // Sanitize the serverState to remove undefined values
+      const sanitizedServerState = JSON.parse(
+        JSON.stringify(serverState, (_, value) =>
+          value === undefined ? null : value,
+        ),
+      )
 
-    // Rest of the code remains the same...
-    const resultsState = Object.keys(sanitizedServerState.initialResults).map(
-      (key) => sanitizedServerState.initialResults[key],
-    )[0]
+      // Rest of the code remains the same...
+      const resultsState = Object.keys(sanitizedServerState.initialResults).map(
+        (key) => sanitizedServerState.initialResults[key],
+      )[0]
 
-    const {results, state} = resultsState
+      const {results, state} = resultsState
 
-    let initialInstructor = null
-    let initialTopicGraphqlData = null
-    let initialTopicSanityData = null
+      let initialInstructor = null
+      let initialTopicGraphqlData = null
+      let initialTopicSanityData = null
 
-    const noHits = isEmpty(get(first(results), 'hits'))
-    const queryParamsPresent = !isEmpty(rest)
-    const userQueryPresent = !isEmpty(state?.query)
+      const noHits = isEmpty(get(first(results), 'hits'))
+      const queryParamsPresent = !isEmpty(rest)
+      const userQueryPresent = !isEmpty(state?.query)
 
-    const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
+      const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
-    const selectedInstructors =
-      getInstructorsFromSearchState(initialSearchState)
+      const selectedInstructors =
+        getInstructorsFromSearchState(initialSearchState)
 
-    const selectedTopics = topicExtractor(initialSearchState)
+      const selectedTopics = topicExtractor(initialSearchState)
 
-    if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
-      const topic = first<string>(selectedTopics)
+      if (
+        selectedTopics?.length === 1 &&
+        !selectedTopics.includes('undefined')
+      ) {
+        const topic = first<string>(selectedTopics)
 
-      try {
-        if (topic) {
-          initialTopicGraphqlData = await loadTag(topic)
-          initialTopicSanityData = await sanityClient.fetch(topicQuery, {
-            slug: topic,
-          })
+        try {
+          if (topic) {
+            initialTopicGraphqlData = await loadTag(topic)
+            initialTopicSanityData = await sanityClient.fetch(topicQuery, {
+              slug: topic,
+            })
+          }
+        } catch (error) {
+          console.error(error)
         }
-      } catch (error) {
-        console.error(error)
+      }
+
+      if (selectedInstructors.length === 1) {
+        const instructorSlug =
+          getInstructorSlugFromInstructorList(selectedInstructors)
+        try {
+          initialInstructor = await loadInstructor(instructorSlug)
+        } catch (error) {
+          console.error(error)
+        }
+      }
+
+      return {
+        props: {
+          initialSearchState,
+          path,
+          serverState: sanitizedServerState, // Use sanitized version
+          pageTitle,
+          noIndexInitial,
+          initialInstructor,
+          ...(!!initialTopicGraphqlData && {initialTopicGraphqlData}),
+          ...(!!initialTopicSanityData && {initialTopicSanityData}),
+        },
+      }
+    } catch (error) {
+      console.error('Search error:', error)
+
+      // Return minimal props with error information
+      // This allows the component to render but in a fallback state
+      return {
+        props: {
+          error: 'Search service unavailable',
+          initialSearchState,
+          path,
+          serverState: null,
+          pageTitle,
+          noIndexInitial: true,
+          initialInstructor: null,
+          initialTopicGraphqlData: null,
+          initialTopicSanityData: null,
+        },
       }
     }
-
-    if (selectedInstructors.length === 1) {
-      const instructorSlug =
-        getInstructorSlugFromInstructorList(selectedInstructors)
-      try {
-        initialInstructor = await loadInstructor(instructorSlug)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    return {
-      props: {
-        initialSearchState,
-        path,
-        serverState: sanitizedServerState, // Use sanitized version
-        pageTitle,
-        noIndexInitial,
-        initialInstructor,
-        ...(!!initialTopicGraphqlData && {initialTopicGraphqlData}),
-        ...(!!initialTopicSanityData && {initialTopicSanityData}),
-      },
-    }
-  } catch (error) {
-    console.error('Search error:', error)
-
-    // Return minimal props with error information
-    // This allows the component to render but in a fallback state
-    return {
-      props: {
-        error: 'Search service unavailable',
-        initialSearchState,
-        path,
-        serverState: null,
-        pageTitle,
-        noIndexInitial: true,
-        initialInstructor: null,
-        initialTopicGraphqlData: null,
-        initialTopicSanityData: null,
-      },
-    }
-  }
-}
+  },
+)

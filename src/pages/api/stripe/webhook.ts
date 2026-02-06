@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {buffer} from 'micro'
 import type {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import {stripe} from '../../../utils/stripe'
 import Stripe from 'stripe'
 import {z} from 'zod'
@@ -427,7 +428,7 @@ const processAcceptedEvent = async (unparsedEvent: Stripe.Event) => {
   }
 }
 
-export default stripeWebhookHandler
+export default withPagesApiLogging(stripeWebhookHandler)
 
 export const config = {
   api: {

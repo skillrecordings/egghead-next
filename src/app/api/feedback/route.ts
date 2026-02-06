@@ -2,8 +2,9 @@ import {NextRequest} from 'next/server'
 import {SEND_SLACK_MESSAGE_EVENT} from '@/inngest/events/send-slack-message'
 import {SEND_FEEDBACK_EMAIL_EVENT} from '@/inngest/events/send-feedback-email'
 import {inngest} from '@/inngest/inngest.server'
+import {withAppApiLogging} from '@/lib/logging'
 
-export async function POST(req: NextRequest) {
+async function _POST(req: NextRequest) {
   const {feedback} = await req.json()
 
   await inngest.send({
@@ -55,3 +56,4 @@ export async function POST(req: NextRequest) {
     status: 200,
   })
 }
+export const POST = withAppApiLogging(_POST)

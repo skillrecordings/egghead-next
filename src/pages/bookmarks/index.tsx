@@ -9,25 +9,25 @@ import {track} from '@/utils/analytics'
 import {convertTimeWithTitles} from '@/utils/time-utils'
 import LoginRequired, {LoginRequiredParams} from '@/components/login-required'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {getTokenFromCookieHeaders} from '../../utils/auth'
 import {XIcon} from '@heroicons/react/solid'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
 
-export const getServerSideProps: GetServerSideProps = async function ({
-  req,
-  params,
-}) {
-  const {loginRequired} = getTokenFromCookieHeaders(
-    req.headers.cookie as string,
-  )
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({req, params}) {
+    const {loginRequired} = getTokenFromCookieHeaders(
+      req.headers.cookie as string,
+    )
 
-  return {
-    props: {
-      loginRequired,
-    },
-  }
-}
+    return {
+      props: {
+        loginRequired,
+      },
+    }
+  },
+)
 
 const Bookmarks: React.FunctionComponent<
   React.PropsWithChildren<LoginRequiredParams>

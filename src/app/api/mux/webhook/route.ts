@@ -4,8 +4,9 @@ import {
   MUX_WEBHOOK_EVENT,
   MuxWebhookEventSchema,
 } from '@/inngest/events/mux-webhook'
+import {withAppApiLogging} from '@/lib/logging'
 
-export async function POST(req: NextRequest) {
+async function _POST(req: NextRequest) {
   // todo: check MUX_WEBHOOK_SIGNING_SECRET to verify the request
   const muxWebhookEvent = MuxWebhookEventSchema.parse(await req.json())
 
@@ -24,3 +25,4 @@ export async function POST(req: NextRequest) {
     status: 200,
   })
 }
+export const POST = withAppApiLogging(_POST)

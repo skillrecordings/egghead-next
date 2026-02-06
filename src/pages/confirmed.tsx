@@ -2,24 +2,23 @@ import * as React from 'react'
 import EmailConfirmation from '@/components/pages/email-confirmation'
 import getTracer from '../utils/honeycomb-tracer'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import useCio from '../hooks/use-cio'
 
 const tracer = getTracer('lesson-page')
 
-export const getServerSideProps: GetServerSideProps = async function ({
-  req,
-  res,
-  query,
-}) {
-  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({req, res, query}) {
+    setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
 
-  return {
-    props: {
-      to: query?.to || 'all',
-    },
-  }
-}
+    return {
+      props: {
+        to: query?.to || 'all',
+      },
+    }
+  },
+)
 
 const Confirmed: React.FunctionComponent<
   React.PropsWithChildren<{to: string}>

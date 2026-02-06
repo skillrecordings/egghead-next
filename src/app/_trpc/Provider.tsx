@@ -25,7 +25,16 @@ export function getBaseUrl() {
 }
 
 export default function TrpcProvider({children}: {children: React.ReactNode}) {
-  const [queryClient] = useState(() => new QueryClient({}))
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 60_000, // 60s — global default, prevents refetch storms across all queries
+          },
+        },
+      }),
+  )
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [

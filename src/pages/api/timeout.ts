@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import {sleep} from '../../utils/sleep'
 
 const visits = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -6,4 +7,4 @@ const visits = async (req: NextApiRequest, res: NextApiResponse) => {
   res.json({})
 }
 
-export default visits
+export default withPagesApiLogging(visits)

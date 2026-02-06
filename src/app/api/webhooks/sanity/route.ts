@@ -6,6 +6,7 @@ import {inngest} from '@/inngest/inngest.server'
 import {SEND_SLACK_MESSAGE_EVENT} from '@/inngest/events/send-slack-message'
 import {SANITY_WEBHOOK_LESSON_CREATED} from '@/inngest/events/sanity/webhooks/lesson/created'
 import {SANITY_COURSE_DOCUMENT_CREATED} from '@/inngest/events/sanity-course-document-created'
+import {withAppApiLogging} from '@/lib/logging'
 
 const secret = process.env.SANITY_WEBHOOK_SIGNATURE_SECRET || ''
 const railsToken = process.env.EGGHEAD_ADMIN_TOKEN || ''
@@ -26,7 +27,7 @@ const eggAxios = axios.create({
   },
 })
 
-export async function POST(req: NextRequest) {
+async function _POST(req: NextRequest) {
   try {
     const {isValidSignature, body: parsedBody} = await parseBody<any>(
       req,
@@ -152,3 +153,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({success: true}, {status: 200})
   }
 }
+export const POST = withAppApiLogging(_POST)

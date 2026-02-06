@@ -2,6 +2,7 @@ import * as React from 'react'
 import LoginRequired from '@/components/login-required'
 import {useRouter} from 'next/router'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import {
@@ -33,7 +34,7 @@ type AccountOwnershipTransferData = {
   validInvite: boolean
 }
 
-export const getServerSideProps: GetServerSideProps<AccountOwnershipTransferData> =
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
   async function (context: any) {
     const {guid} = context.params
     const {eggheadToken} = getTokenFromCookieHeaders(
@@ -59,7 +60,8 @@ export const getServerSideProps: GetServerSideProps<AccountOwnershipTransferData
     } catch (e) {
       return {props: {validInvite: false}}
     }
-  }
+  },
+)
 
 const AccountOwnershipTransfer: React.FunctionComponent<
   React.PropsWithChildren<AccountOwnershipTransferData>

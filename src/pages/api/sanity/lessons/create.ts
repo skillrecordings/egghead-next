@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import {nanoid} from 'nanoid'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {getAbilityFromToken} from '@/server/ability'
@@ -228,17 +229,14 @@ const createSanityLessons = async (
 
       transaction.create(sanityCourse)
 
-      transaction
-        .commit()
-        .then((sanityRes) => {
-          console.log('Transaction', sanityRes)
-
-          res.status(200).end()
-        })
-        .catch((err) => {
-          console.log('ERROR', err)
-          res.status(400).end()
-        })
+      try {
+        const sanityRes = await transaction.commit()
+        console.log('Transaction', sanityRes)
+        res.status(200).end()
+      } catch (err) {
+        console.log('ERROR', err)
+        res.status(400).end()
+      }
     }
   } else {
     res.statusCode = 404
@@ -246,4 +244,4 @@ const createSanityLessons = async (
   }
 }
 
-export default createSanityLessons
+export default withPagesApiLogging(createSanityLessons)

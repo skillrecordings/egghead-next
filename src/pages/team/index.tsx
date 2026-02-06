@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import Link from 'next/link'
 import LoginRequired from '../../components/login-required'
 import {useRouter} from 'next/router'
@@ -230,7 +231,7 @@ const Team = ({team: teamData}: TeamPageProps) => {
 }
 
 export const getServerSideProps: GetServerSideProps<TeamPageProps> =
-  async function (context: any) {
+  withSSRLogging(async function (context: any) {
     const {eggheadToken} = getTokenFromCookieHeaders(
       context.req.headers.cookie as string,
     )
@@ -266,6 +267,6 @@ export const getServerSideProps: GetServerSideProps<TeamPageProps> =
         props,
       }
     }
-  }
+  })
 
 export default Team

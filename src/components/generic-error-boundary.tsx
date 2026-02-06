@@ -11,8 +11,35 @@ export class GenericErrorBoundary extends React.Component {
     return {hasError: true}
   }
 
-  componentDidCatch(error: any, info: any) {
-    console.error(error, info.componentStack)
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    try {
+      const log = {
+        event: 'error_boundary.catch',
+        component: 'GenericErrorBoundary',
+        error_name: error.name,
+        error_message: error.message,
+        component_stack: info.componentStack ?? undefined,
+      }
+      console.error(JSON.stringify(log))
+    } catch {
+      // logging must never crash the error boundary
+    }
+
+    try {
+      if (typeof window !== 'undefined' && (window as any).__DEBUG_LOG) {
+        ;(window as any).__DEBUG_LOG.push({
+          ts: Date.now(),
+          event: 'error_boundary.catch',
+          data: {
+            component: 'GenericErrorBoundary',
+            error_name: error.name,
+            error_message: error.message,
+          },
+        })
+      }
+    } catch {
+      // swallow
+    }
   }
 
   render() {

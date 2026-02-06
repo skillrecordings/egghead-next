@@ -5,6 +5,7 @@ import axios from 'axios'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import countries from 'i18n-iso-countries'
 import enLocale from 'i18n-iso-countries/langs/en.json'
+import {withAppApiLogging} from '@/lib/logging'
 
 // Register English locale for country name lookups
 countries.registerLocale(enLocale)
@@ -16,7 +17,7 @@ countries.registerLocale(enLocale)
  * Using @vercel/functions for cleaner geolocation data access
  * Reference: https://vercel.com/docs/functions/vercel-functions/geolocation
  */
-export async function GET(request: NextRequest) {
+async function _GET(request: NextRequest) {
   try {
     // Get geolocation data using Vercel Functions helper
     const geo = geolocation(request)
@@ -77,9 +78,6 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const queryParams = Object.fromEntries(searchParams.entries())
 
-    // Log geo headers for debugging
-    console.log('Geo headers:', geoHeaders)
-
     // Make the request to the Rails backend
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/next/pricing`,
@@ -110,3 +108,4 @@ export async function GET(request: NextRequest) {
     }
   }
 }
+export const GET = withAppApiLogging(_GET)

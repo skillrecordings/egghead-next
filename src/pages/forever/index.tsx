@@ -9,6 +9,7 @@ import BodyCopyMember from '@/components/pricing/lifetime/body-copy-member'
 import Layout from '@/components/app/layout'
 import {NextSeo} from 'next-seo'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
 import Link from '@/components/link'
 
@@ -301,25 +302,27 @@ Forever.getLayout = (Page: any, pageProps: any) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const ehUser = JSON.parse(ctx.req.cookies.eh_user || '{}')
-  const authToken = ctx.req.cookies['eh_token_2020_11_22']
-  console.log('ehUser', ehUser)
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async (ctx) => {
+    const ehUser = JSON.parse(ctx.req.cookies.eh_user || '{}')
+    const authToken = ctx.req.cookies['eh_token_2020_11_22']
+    console.log('ehUser', ehUser)
 
-  if (!authToken) return {props: {}}
+    if (!authToken) return {props: {}}
 
-  const lastCharge = await getLastChargeForActiveSubscription(
-    ehUser.email,
-    authToken,
-  )
+    const lastCharge = await getLastChargeForActiveSubscription(
+      ehUser.email,
+      authToken,
+    )
 
-  console.log('lastCharge', lastCharge)
+    console.log('lastCharge', lastCharge)
 
-  return {
-    props: {
-      lastCharge: lastCharge || null,
-    },
-  }
-}
+    return {
+      props: {
+        lastCharge: lastCharge || null,
+      },
+    }
+  },
+)
 
 export default Forever
