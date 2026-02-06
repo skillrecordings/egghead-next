@@ -1,8 +1,9 @@
 import {NextRequest, NextResponse} from 'next/server'
 import {inngest} from '@/inngest/inngest.server'
 import {RECEIVED_TRANSLOADIT_NOTIFICATION_EVENT} from '@/inngest/events/received-transloadit-notification'
+import {withAppApiLogging} from '@/lib/logging'
 
-export async function POST(req: NextRequest) {
+async function _POST(req: NextRequest) {
   try {
     let formData = await req.formData()
     let data = {
@@ -36,3 +37,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({success: true}, {status: 200})
   }
 }
+export const POST = withAppApiLogging(_POST)

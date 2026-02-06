@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import {getTokenFromCookieHeaders} from '@/utils/parse-server-cookie'
 import getTracer from '@/utils/honeycomb-tracer'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
@@ -139,4 +140,4 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default cioSubscriber
+export default withPagesApiLogging(cioSubscriber)

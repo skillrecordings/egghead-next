@@ -3,8 +3,9 @@ import {NextRequest, NextResponse} from 'next/server'
 import {stripeAdapter} from '@/adapters/stripe-adapter'
 import {add} from 'date-fns'
 import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
+import {withAppApiLogging} from '@/lib/logging'
 
-export async function POST(req: NextRequest) {
+async function _POST(req: NextRequest) {
   const allCookies = await cookies()
   const authToken = allCookies.get('eh_token_2020_11_22')
 
@@ -88,3 +89,4 @@ export async function POST(req: NextRequest) {
     ? NextResponse.json({sessionUrl})
     : NextResponse.json({error: 'checkout session failed'})
 }
+export const POST = withAppApiLogging(_POST)

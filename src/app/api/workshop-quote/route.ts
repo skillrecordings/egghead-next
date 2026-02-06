@@ -2,8 +2,9 @@ import {NextRequest} from 'next/server'
 
 import {WORKSHOP_QUOTE_REQUEST_EVENT} from '@/inngest/events/workshop-quote-request'
 import {inngest} from '@/inngest/inngest.server'
+import {withAppApiLogging} from '@/lib/logging'
 
-export async function POST(req: NextRequest) {
+async function _POST(req: NextRequest) {
   const {email, seats, additionalInfo, productTitle} = await req.json()
 
   await inngest.send({
@@ -20,3 +21,4 @@ export async function POST(req: NextRequest) {
     status: 200,
   })
 }
+export const POST = withAppApiLogging(_POST)

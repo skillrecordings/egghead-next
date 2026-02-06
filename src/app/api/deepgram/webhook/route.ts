@@ -5,8 +5,9 @@ import {
   transcriptAsParagraphsWithTimestamps,
 } from '@/lib/deepgram-results-processor'
 import {TRANSCRIPT_READY_EVENT} from '@/inngest/events/transcript-requested'
+import {withAppApiLogging} from '@/lib/logging'
 
-export async function POST(req: NextRequest) {
+async function _POST(req: NextRequest) {
   // todo: check MUX_WEBHOOK_SIGNING_SECRET to verify the request
 
   const url = new URL(req.url)
@@ -37,3 +38,4 @@ export async function POST(req: NextRequest) {
     status: 200,
   })
 }
+export const POST = withAppApiLogging(_POST)

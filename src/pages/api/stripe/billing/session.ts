@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import isEmpty from 'lodash/isEmpty'
 import {Stripe} from 'stripe'
 
@@ -77,4 +78,4 @@ const StripeCheckoutSession = async (
   }
 }
 
-export default StripeCheckoutSession
+export default withPagesApiLogging(StripeCheckoutSession)

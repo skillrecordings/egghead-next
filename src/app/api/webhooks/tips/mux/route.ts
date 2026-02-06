@@ -4,6 +4,7 @@ import Mux from '@mux/mux-node'
 import client from '@sanity/client'
 import _get from 'lodash/get'
 import groq from 'groq'
+import {withAppApiLogging} from '@/lib/logging'
 
 const secret = process.env.MUX_WEBHOOK_SIGNING_SECRET || ''
 
@@ -20,7 +21,7 @@ const videoResourceQuery = groq`
   _id
 }`
 
-export async function POST(req: NextRequest) {
+async function _POST(req: NextRequest) {
   const headerStore = await headers()
   const signature = headerStore.get('mux-signature') as string
   const muxRequestBody = await req.json()
@@ -78,3 +79,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({success: true}, {status: 200})
   }
 }
+export const POST = withAppApiLogging(_POST)

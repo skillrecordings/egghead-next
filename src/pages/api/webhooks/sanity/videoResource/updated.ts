@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import client from '@sanity/client'
 import {z} from 'zod'
@@ -107,7 +108,7 @@ const sanityLessonUpdatedWebhook = async (
   }
 }
 
-export default sanityLessonUpdatedWebhook
+export default withPagesApiLogging(sanityLessonUpdatedWebhook)
 
 export const config = {
   api: {

@@ -1,5 +1,6 @@
 import Cors from 'cors'
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -28,4 +29,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   res.json({message: 'Hello Everyone!'})
 }
 
-export default handler
+export default withPagesApiLogging(handler)

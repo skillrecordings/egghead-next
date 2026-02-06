@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import {nanoid} from 'nanoid'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {getAbilityFromToken} from '@/server/ability'
@@ -246,4 +247,4 @@ const createSanityLessons = async (
   }
 }
 
-export default createSanityLessons
+export default withPagesApiLogging(createSanityLessons)

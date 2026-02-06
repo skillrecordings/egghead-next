@@ -3,6 +3,7 @@ import {getCourseBuilderLesson} from '@/lib/get-course-builder-metadata'
 import {getMuxAsset} from '@/lib/mux'
 import {isMember} from '@/utils/is-member'
 import fetchEggheadUser from '@/api/egghead/users/from-token'
+import {withAppApiLogging} from '@/lib/logging'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -14,7 +15,7 @@ export async function OPTIONS() {
   return NextResponse.json({}, {headers: corsHeaders})
 }
 
-export async function GET(
+async function _GET(
   request: NextRequest,
   {params}: {params: Promise<{slug: string}>},
 ) {
@@ -153,3 +154,4 @@ export async function GET(
     )
   }
 }
+export const GET = withAppApiLogging(_GET)

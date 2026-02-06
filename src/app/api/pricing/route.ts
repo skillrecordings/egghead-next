@@ -5,6 +5,7 @@ import axios from 'axios'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import countries from 'i18n-iso-countries'
 import enLocale from 'i18n-iso-countries/langs/en.json'
+import {withAppApiLogging} from '@/lib/logging'
 
 // Register English locale for country name lookups
 countries.registerLocale(enLocale)
@@ -16,7 +17,7 @@ countries.registerLocale(enLocale)
  * Using @vercel/functions for cleaner geolocation data access
  * Reference: https://vercel.com/docs/functions/vercel-functions/geolocation
  */
-export async function GET(request: NextRequest) {
+async function _GET(request: NextRequest) {
   try {
     // Get geolocation data using Vercel Functions helper
     const geo = geolocation(request)
@@ -110,3 +111,4 @@ export async function GET(request: NextRequest) {
     }
   }
 }
+export const GET = withAppApiLogging(_GET)

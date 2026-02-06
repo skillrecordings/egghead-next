@@ -1,11 +1,12 @@
 import {NextRequest} from 'next/server'
 import {sanityQuery} from '@/utils/sanity.fetch.only.server'
+import {withAppApiLogging} from '@/lib/logging'
 
-export async function GET(
+async function _GET(
   _: NextRequest,
-  {params}: {params: Promise<{videoResourceId: string}>},
+  context: {params: Promise<{videoResourceId: string}>},
 ) {
-  const {videoResourceId} = await params
+  const {videoResourceId} = await context.params
   const videoResource =
     await sanityQuery(`*[_type == "videoResource" && _id == "${videoResourceId}"][0]{
     srt
@@ -14,3 +15,4 @@ export async function GET(
     status: 200,
   })
 }
+export const GET = withAppApiLogging(_GET)

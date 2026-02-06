@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import getTracer from '@/utils/honeycomb-tracer'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src'
 import {CIO_IDENTIFIER_KEY} from '@/config'
@@ -75,4 +76,4 @@ const cioIdentify = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default cioIdentify
+export default withPagesApiLogging(cioIdentify)
