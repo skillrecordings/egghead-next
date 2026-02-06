@@ -35,7 +35,13 @@ declare global {
   }
 }
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60_000, // 60s — deduplicates feature flag queries
+    },
+  },
+})
 
 export function reportWebVitals(metric: NextWebVitalsMetric) {
   console.debug(`web vitals`, metric)

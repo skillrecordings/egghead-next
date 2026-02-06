@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
     } else {
       // Get the most up-to-date lesson data from Course Builder database
 
-      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+      res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=3600')
       return {
         props: {
           initialLesson: initialLesson,

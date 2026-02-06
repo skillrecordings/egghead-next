@@ -151,7 +151,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         },
       }
     } else {
-      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+      res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=3600')
       return {
         props: {
           course: {
@@ -167,7 +167,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     const draftCourse =
       params && (await loadDraftCourse(params.course as string))
     if (draftCourse && ability.can('upload', 'Video')) {
-      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+      res.setHeader('Cache-Control', 'private, no-store')
       return {
         props: {
           draftCourse,
