@@ -105,7 +105,7 @@ const sanityLessonCreatedWebhook = async (
         // await patchLessonWithVideoResource(_id, resource._id)
       } catch (e) {
         console.error(e)
-        res.status(500).json({success: false})
+        return res.status(500).json({success: false})
       }
 
       res.status(200).json({success: true})

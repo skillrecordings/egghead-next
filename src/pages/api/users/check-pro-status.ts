@@ -12,7 +12,7 @@ const checkProStatus = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const {email} = req.body
     if (!emailIsValid(email)) {
-      res.status(400).end()
+      return res.status(400).end()
     } else {
       const userUrl = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/${email}?by_email=true`
 

@@ -24,7 +24,7 @@ const StripeCheckoutSession = async (
       })
     } catch (error) {
       console.error(JSON.stringify(error))
-      res.end()
+      res.status(500).end()
     }
   } else {
     res.statusCode = 404

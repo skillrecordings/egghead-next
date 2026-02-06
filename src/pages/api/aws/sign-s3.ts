@@ -48,10 +48,13 @@ const signedUrl = async (req: NextApiRequest, res: NextApiResponse) => {
           publicUrl: signedUrl.split('?').shift(),
         })
       } else {
+        res.status(500).json({error: 'Failed to generate signed URL'})
       }
     } else {
       res.status(403).end()
     }
+  } else {
+    res.status(405).end()
   }
 }
 

@@ -25,12 +25,12 @@ async function _POST(req: NextRequest) {
   const headerStore = await headers()
   const signature = headerStore.get('mux-signature') as string
   const muxRequestBody = await req.json()
-  const isValid = Mux.Webhooks.verifyHeader(
-    JSON.stringify(muxRequestBody),
-    signature,
-    secret,
-  )
   try {
+    const isValid = Mux.Webhooks.verifyHeader(
+      JSON.stringify(muxRequestBody),
+      signature,
+      secret,
+    )
     if (isValid) {
       console.info(
         'processing Mux webhook:',

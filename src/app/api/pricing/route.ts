@@ -78,9 +78,6 @@ async function _GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const queryParams = Object.fromEntries(searchParams.entries())
 
-    // Log geo headers for debugging
-    console.log('Geo headers:', geoHeaders)
-
     // Make the request to the Rails backend
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/next/pricing`,

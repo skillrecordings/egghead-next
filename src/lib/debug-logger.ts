@@ -46,7 +46,9 @@ export function debugLog(event: string, data?: Record<string, any>): void {
  */
 export function initDebugLogger(): void {
   if (typeof window === 'undefined') return
+  if ((window as any).__DEBUG_LOG_INITIALIZED) return
   if (!window.__DEBUG_LOG) window.__DEBUG_LOG = []
+  ;(window as any).__DEBUG_LOG_INITIALIZED = true
 
   // Capture uncaught errors
   const originalOnError = window.onerror
