@@ -10,6 +10,7 @@ import {LessonResource, VideoResource} from '@/types'
 import getTracer from '@/utils/honeycomb-tracer'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import cookieUtil from '@/utils/cookies'
+import crypto from 'crypto'
 import type {
   VideoEvent,
   VideoStateContext,
@@ -25,10 +26,19 @@ const tracer = getTracer('lesson-page')
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
   async function ({req, res, params}) {
     setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+    const requestId = crypto.randomUUID()
+    res.setHeader('x-egghead-request-id', requestId)
+    const logContext = {
+      request_id: requestId,
+      route: '/lessons/[slug]',
+      page: 'lesson',
+      lesson_slug: params?.slug as string,
+    }
 
     try {
       const initialLesson: LessonResource | undefined =
-        params && (await loadLesson(params.slug as string, undefined, false))
+        params &&
+        (await loadLesson(params.slug as string, undefined, false, logContext))
 
       if (initialLesson && initialLesson?.slug !== params?.slug) {
         return {
