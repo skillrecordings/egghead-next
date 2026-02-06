@@ -4,6 +4,7 @@ import Article from '@/components/pages/landing/article/index.mdx'
 import MembershipBenefits from '@/components/pages/landing/membership-benefits'
 import Footer from '@/components/pages/landing/footer'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src'
 import getTracer from '../../utils/honeycomb-tracer'
 import {loadCio} from '@/lib/customer'
@@ -34,52 +35,49 @@ const SignupPage: React.FC<
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async function ({
-  req,
-  res,
-  params,
-  query,
-}) {
-  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({req, res, params, query}) {
+    setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
 
-  let customer
+    let customer
 
-  try {
-    if (req.cookies.customer) {
-      customer = JSON.parse(req.cookies.customer)
-    } else if (query[CIO_IDENTIFIER_KEY] || req.cookies[CIO_IDENTIFIER_KEY]) {
-      const cio_id =
-        query[CIO_IDENTIFIER_KEY] ?? req.cookies[CIO_IDENTIFIER_KEY]
-      customer = await loadCio(cio_id as string, req.cookies.customer)
+    try {
+      if (req.cookies.customer) {
+        customer = JSON.parse(req.cookies.customer)
+      } else if (query[CIO_IDENTIFIER_KEY] || req.cookies[CIO_IDENTIFIER_KEY]) {
+        const cio_id =
+          query[CIO_IDENTIFIER_KEY] ?? req.cookies[CIO_IDENTIFIER_KEY]
+        customer = await loadCio(cio_id as string, req.cookies.customer)
+      }
+    } catch (e) {
+      console.error(e)
     }
-  } catch (e) {
-    console.error(e)
-  }
 
-  if (customer) {
-    const cioCookie = serverCookie.serialize(
-      'customer',
-      JSON.stringify(customer),
-      {
-        secure: process.env.NODE_ENV === 'production',
-        path: '/',
-        maxAge: 31556952,
-      },
-    )
-    res.setHeader('Set-Cookie', cioCookie)
-    return {
-      props: {
-        topic: params?.topic,
-        customer,
-      },
+    if (customer) {
+      const cioCookie = serverCookie.serialize(
+        'customer',
+        JSON.stringify(customer),
+        {
+          secure: process.env.NODE_ENV === 'production',
+          path: '/',
+          maxAge: 31556952,
+        },
+      )
+      res.setHeader('Set-Cookie', cioCookie)
+      return {
+        props: {
+          topic: params?.topic,
+          customer,
+        },
+      }
+    } else {
+      return {
+        props: {
+          topic: params?.topic,
+        },
+      }
     }
-  } else {
-    return {
-      props: {
-        topic: params?.topic,
-      },
-    }
-  }
-}
+  },
+)
 
 export default SignupPage

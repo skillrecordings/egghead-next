@@ -1,6 +1,7 @@
 import * as React from 'react'
 import LoginRequired from '@/components/login-required'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import getTracer from '@/utils/honeycomb-tracer'
 import axios from '@/utils/configured-axios'
@@ -12,18 +13,16 @@ import Link from 'next/link'
 
 const tracer = getTracer('invoices-index-page')
 
-export const getServerSideProps: GetServerSideProps = async function ({
-  req,
-  res,
-  params,
-}) {
-  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-  return {
-    props: {
-      transactionId: params?.stripeTransactionId,
-    },
-  }
-}
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({req, res, params}) {
+    setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+    return {
+      props: {
+        transactionId: params?.stripeTransactionId,
+      },
+    }
+  },
+)
 
 const InvoicePage: React.FunctionComponent<
   React.PropsWithChildren<{transactionId: string}>

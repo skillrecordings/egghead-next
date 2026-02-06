@@ -10,6 +10,7 @@ import {
   getTokenFromCookieHeaders,
   AUTH_DOMAIN,
 } from '@/utils/auth'
+import {withSSRLogging} from '@/lib/logging'
 
 async function confirmEmailChangeRequest(token: any) {
   // const {data} = await axios.patch(
@@ -28,7 +29,7 @@ type emailChangeRequestData = {
   current_email: string
 }
 
-export async function getServerSideProps(context: any) {
+export const getServerSideProps = withSSRLogging(async function (context: any) {
   const {token} = context.params
   const {eggheadToken} = getTokenFromCookieHeaders(
     context.req.headers.cookie as string,
@@ -65,7 +66,7 @@ export async function getServerSideProps(context: any) {
       },
     }
   }
-}
+})
 
 const EmailChangeRequest: React.FunctionComponent<
   React.PropsWithChildren<{

@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
@@ -23,7 +24,7 @@ const StripeCheckoutSession = async (
       })
     } catch (error) {
       console.error(JSON.stringify(error))
-      res.end()
+      res.status(500).end()
     }
   } else {
     res.statusCode = 404
@@ -31,4 +32,4 @@ const StripeCheckoutSession = async (
   }
 }
 
-export default StripeCheckoutSession
+export default withPagesApiLogging(StripeCheckoutSession)

@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import AWS from 'aws-sdk'
 import {v4 as uuidv4} from 'uuid'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
@@ -47,11 +48,14 @@ const signedUrl = async (req: NextApiRequest, res: NextApiResponse) => {
           publicUrl: signedUrl.split('?').shift(),
         })
       } else {
+        res.status(500).json({error: 'Failed to generate signed URL'})
       }
     } else {
       res.status(403).end()
     }
+  } else {
+    res.status(405).end()
   }
 }
 
-export default signedUrl
+export default withPagesApiLogging(signedUrl)

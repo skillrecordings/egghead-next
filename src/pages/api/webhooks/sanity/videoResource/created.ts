@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import Mux from '@mux/mux-node'
 import client from '@sanity/client'
@@ -105,6 +106,7 @@ const sanityLessonCreatedWebhook = async (
       } catch (e) {
         console.error(e)
         res.status(500).json({success: false})
+        return
       }
 
       res.status(200).json({success: true})
@@ -117,7 +119,7 @@ const sanityLessonCreatedWebhook = async (
   }
 }
 
-export default sanityLessonCreatedWebhook
+export default withPagesApiLogging(sanityLessonCreatedWebhook)
 
 export const config = {
   api: {

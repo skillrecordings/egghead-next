@@ -21,6 +21,7 @@ import {Toaster} from 'react-hot-toast'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import TrpcProvider from '@/app/_trpc/Provider'
+import {initDebugLogger, debugLogRouteChange} from '@/lib/debug-logger'
 
 import {PostHogProvider} from 'posthog-js/react'
 import PosthogClient from '@/lib/posthog-client'
@@ -35,7 +36,13 @@ declare global {
   }
 }
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60_000, // 60s — global default, prevents refetch storms across all queries
+    },
+  },
+})
 
 export function reportWebVitals(metric: NextWebVitalsMetric) {
   console.debug(`web vitals`, metric)
@@ -67,7 +74,12 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
   }, [router.asPath])
 
   React.useEffect(() => {
-    const handleRouteChangeStart = () => {
+    initDebugLogger()
+  }, [])
+
+  React.useEffect(() => {
+    const handleRouteChangeStart = (url: string) => {
+      debugLogRouteChange('start', url)
       setState((prevState) => ({
         ...prevState,
         isRouteChanging: true,
@@ -75,7 +87,16 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
       }))
     }
 
-    const handleRouteChangeEnd = () => {
+    const handleRouteChangeEnd = (url: string) => {
+      debugLogRouteChange('complete', url)
+      setState((prevState) => ({
+        ...prevState,
+        isRouteChanging: false,
+      }))
+    }
+
+    const handleRouteChangeError = (err: any, url: string) => {
+      debugLogRouteChange('error', url, {error: err?.message || String(err)})
       setState((prevState) => ({
         ...prevState,
         isRouteChanging: false,
@@ -84,12 +105,12 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
 
     router.events.on('routeChangeStart', handleRouteChangeStart)
     router.events.on('routeChangeComplete', handleRouteChangeEnd)
-    router.events.on('routeChangeError', handleRouteChangeEnd)
+    router.events.on('routeChangeError', handleRouteChangeError)
 
     return () => {
       router.events.off('routeChangeStart', handleRouteChangeStart)
       router.events.off('routeChangeComplete', handleRouteChangeEnd)
-      router.events.off('routeChangeError', handleRouteChangeEnd)
+      router.events.off('routeChangeError', handleRouteChangeError)
     }
   }, [router.events])
 

@@ -9,25 +9,38 @@ const t = initTRPC.context<TrpcContext>().create({
   },
 })
 
-/* 
-Interesting idea to auth a procedure instead of doing all of the manually checks for userToken in each router
-const isAuthed = t.middleware(async ({ ctx, next }) => {
-  if (!ctx.auth?.userId) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: "Not authenticated",
-    });
-  }
+const logMiddleware = t.middleware(
+  async ({path, type, next, ctx, rawInput}) => {
+    const start = performance.now()
+    const result = await next()
+    const duration_ms = Math.round(performance.now() - start)
+    const trpcCtx = ctx as TrpcContext
 
-  return next({
-    ctx: {
-      ...ctx,
-      auth: ctx.auth,
-    },
-  });
-});
+    const log = {
+      event: 'trpc.call',
+      path,
+      type,
+      ok: result.ok,
+      duration_ms,
+      user_id: trpcCtx.userId ?? null,
+      has_token: !!trpcCtx.userToken,
+      ...(rawInput && typeof rawInput === 'object'
+        ? {input_keys: Object.keys(rawInput as Record<string, unknown>)}
+        : {}),
+      ...(!result.ok && 'error' in result
+        ? {error_code: (result as any).error?.code}
+        : {}),
+    }
 
-*/
+    if (result.ok) {
+      console.log(JSON.stringify(log))
+    } else {
+      console.error(JSON.stringify(log))
+    }
+
+    return result
+  },
+)
 
 export const router = t.router
-export const baseProcedure = t.procedure
+export const baseProcedure = t.procedure.use(logMiddleware)

@@ -1,5 +1,6 @@
 import TinCan from 'tincanjs'
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import fetchEggheadUser from '@/api/egghead/users/from-token'
 import {getTokenFromCookieHeaders} from '@/utils/auth'
 
@@ -69,4 +70,4 @@ const progress = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default progress
+export default withPagesApiLogging(progress)

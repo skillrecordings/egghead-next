@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {get} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {lessonMachine} from '@/machines/lesson-machine'
@@ -21,44 +22,45 @@ import {VideoProvider} from '@skillrecordings/player'
 
 const tracer = getTracer('lesson-page')
 
-export const getServerSideProps: GetServerSideProps = async function ({
-  req,
-  res,
-  params,
-}) {
-  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({req, res, params}) {
+    setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
 
-  try {
-    const initialLesson: LessonResource | undefined =
-      params && (await loadLesson(params.slug as string, undefined, false))
+    try {
+      const initialLesson: LessonResource | undefined =
+        params && (await loadLesson(params.slug as string, undefined, false))
 
-    if (initialLesson && initialLesson?.slug !== params?.slug) {
+      if (initialLesson && initialLesson?.slug !== params?.slug) {
+        return {
+          redirect: {
+            destination: initialLesson.path,
+            permanent: true,
+          },
+        }
+      } else {
+        // Get the most up-to-date lesson data from Course Builder database
+
+        res.setHeader(
+          'Cache-Control',
+          's-maxage=300, stale-while-revalidate=3600',
+        )
+        return {
+          props: {
+            initialLesson: initialLesson,
+          },
+        }
+      }
+    } catch (e) {
+      console.error(e)
       return {
         redirect: {
-          destination: initialLesson.path,
-          permanent: true,
-        },
-      }
-    } else {
-      // Get the most up-to-date lesson data from Course Builder database
-
-      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-      return {
-        props: {
-          initialLesson: initialLesson,
+          destination: '/',
+          permanent: false,
         },
       }
     }
-  } catch (e) {
-    console.error(e)
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    }
-  }
-}
+  },
+)
 
 const LessonPage: React.FC<
   React.PropsWithChildren<{initialLesson: VideoResource}>

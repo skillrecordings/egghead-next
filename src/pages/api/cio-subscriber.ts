@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import {getTokenFromCookieHeaders} from '@/utils/parse-server-cookie'
 import getTracer from '@/utils/honeycomb-tracer'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
@@ -65,15 +66,19 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
             Authorization: `Basic ${ENCODED_CUSTOMER_IO_TRACKING_API_CREDENTIALS}`,
           }
 
-          await axios.put(
-            `https://track.customer.io/api/v1/customers/${eggheadUser.contact_id}`,
-            {
-              email: eggheadUser.email,
-              pro: eggheadUser.is_pro,
-              created_at: eggheadUser.created_at,
-            },
-            {headers},
-          )
+          try {
+            await axios.put(
+              `https://track.customer.io/api/v1/customers/${eggheadUser.contact_id}`,
+              {
+                email: eggheadUser.email,
+                pro: eggheadUser.is_pro,
+                created_at: eggheadUser.created_at,
+              },
+              {headers},
+            )
+          } catch (syncError: any) {
+            console.error('CIO tracking sync failed:', syncError?.message)
+          }
 
           subscriber = await cioAxios
             .get(`/customers/${eggheadUser.contact_id}/attributes`, {
@@ -83,7 +88,8 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
             })
             .then(({data}: {data: any}) => data.customer)
             .catch((error: any) => {
-              console.error(error)
+              console.error('CIO attributes fetch failed:', error?.message)
+              return undefined
             })
         }
       } else {
@@ -95,6 +101,10 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
           })
           .then(({data}: {data: any}) => {
             return data.customer
+          })
+          .catch((error: any) => {
+            console.error('CIO attributes fetch failed:', error?.message)
+            return undefined
           })
       }
 
@@ -119,7 +129,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error: any) {
       if (process.env.NODE_ENV === 'development') return
       console.error(error)
-      if (error.response.status !== 404) {
+      if (error.response?.status !== 404) {
         await reportCioApiError(error)
       }
 
@@ -131,4 +141,4 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default cioSubscriber
+export default withPagesApiLogging(cioSubscriber)

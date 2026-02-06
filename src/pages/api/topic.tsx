@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import getTracer from '@/utils/honeycomb-tracer'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import {getTokenFromCookieHeaders} from '@/utils/parse-server-cookie'
@@ -126,4 +127,4 @@ const cioTopicScore = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default cioTopicScore
+export default withPagesApiLogging(cioTopicScore)

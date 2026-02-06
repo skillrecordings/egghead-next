@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {withPagesApiLogging} from '@/lib/logging'
 import {Client, GuildMember, User, Guild} from 'discord.js'
 import {Viewer} from '@/types'
 import got from 'got'
@@ -218,7 +219,7 @@ const discord = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default discord
+export default withPagesApiLogging(discord)
 
 function phraseFromUsername(username: string) {
   const phrases = [

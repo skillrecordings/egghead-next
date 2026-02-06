@@ -2,6 +2,7 @@ import * as React from 'react'
 import {NextSeo} from 'next-seo'
 import {CardResource} from '@/types'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import CourseGrid from '@/components/pages/20-days-of-egghead/course-grid'
 import {loadHolidayCourses} from '@/lib/sale'
 
@@ -43,12 +44,14 @@ const EOYSale2021Page: React.FC<
 
 export default EOYSale2021Page
 
-export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
-  const data = await loadHolidayCourses()
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async ({res, params}) => {
+    const data = await loadHolidayCourses()
 
-  return {
-    props: {
-      data,
-    },
-  }
-}
+    return {
+      props: {
+        data,
+      },
+    }
+  },
+)
