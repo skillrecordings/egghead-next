@@ -8,6 +8,7 @@ import {
   getCourseBuilderLessonStates,
   getCourseBuilderCourseLessons,
 } from './load-course-builder-metadata-wrapper'
+import {logEvent, timeEvent, type LogContext} from '@/utils/structured-log'
 
 export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
   const query = /* GraphQL */ `
@@ -136,7 +137,12 @@ export async function loadAuthedPlaylistForUser(
  * @param slug
  * @param token
  */
-export async function loadPlaylist(slug: string, token?: string) {
+export async function loadPlaylist(
+  slug: string,
+  token?: string,
+  logContext: LogContext = {},
+) {
+  const startTime = Date.now()
   const query = /* GraphQL */ `
     query getPlaylist($slug: String!) {
       playlist(slug: $slug) {
@@ -299,16 +305,38 @@ export async function loadPlaylist(slug: string, token?: string) {
     slug: slug,
   }
 
-  console.log('query', token)
-
   const graphQLClient = getGraphQLClient(token)
 
-  const {playlist} = await graphQLClient.request(query, variables)
-  const courseMeta = await loadCourseMetadata(playlist.id, playlist.slug)
-  const courseBuilderMetadata = await loadCourseBuilderMetadata(playlist.slug)
-  const lessonStates = await getCourseBuilderLessonStates(playlist.slug)
-  const courseBuilderLessons = await getCourseBuilderCourseLessons(
-    playlist.slug,
+  const {playlist} = await timeEvent(
+    'course.loadPlaylist.graphql',
+    {slug},
+    async () => graphQLClient.request(query, variables),
+    logContext,
+  )
+
+  const courseMeta = await timeEvent(
+    'course.loadCourseMetadata.sanity',
+    {slug, course_id: playlist.id},
+    async () => loadCourseMetadata(playlist.id, playlist.slug),
+    logContext,
+  )
+  const courseBuilderMetadata = await timeEvent(
+    'course.loadCourseBuilderMetadata.mysql',
+    {slug},
+    async () => loadCourseBuilderMetadata(playlist.slug),
+    logContext,
+  )
+  const lessonStates = await timeEvent(
+    'course.getCourseBuilderLessonStates.mysql',
+    {slug},
+    async () => getCourseBuilderLessonStates(playlist.slug),
+    logContext,
+  )
+  const courseBuilderLessons = await timeEvent(
+    'course.getCourseBuilderCourseLessons.mysql',
+    {slug},
+    async () => getCourseBuilderCourseLessons(playlist.slug),
+    logContext,
   )
 
   // Filter out unpublished lessons only for Course Builder-managed courses
@@ -356,7 +384,7 @@ export async function loadPlaylist(slug: string, token?: string) {
     courseBuilderLessons: courseBuilderLessons,
   }
 
-  return {
+  const result = {
     ...playlist,
     ...courseMeta,
     ...courseBuilderOverrides,
@@ -364,4 +392,24 @@ export async function loadPlaylist(slug: string, token?: string) {
     sections: filteredSections,
     slug,
   }
+
+  logEvent(
+    'info',
+    'course.loadPlaylist.summary',
+    {
+      slug,
+      duration_ms: Date.now() - startTime,
+      items_count: playlist?.items?.length ?? 0,
+      sections_count: playlist?.sections?.length ?? 0,
+      filtered_items_count: filteredItems?.length ?? 0,
+      filtered_sections_count: filteredSections?.length ?? 0,
+      has_course_meta: !!courseMeta,
+      has_coursebuilder_meta: !!courseBuilderMetadata,
+      lesson_states_count: lessonStates?.size ?? 0,
+      coursebuilder_lessons_count: courseBuilderLessons?.length ?? 0,
+    },
+    logContext,
+  )
+
+  return result
 }

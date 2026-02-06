@@ -11,6 +11,7 @@ import filter from 'lodash/filter'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import getTracer from '@/utils/honeycomb-tracer'
+import crypto from 'crypto'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src'
 import courseDependencies from '@/data/courseDependencies'
 import {loadDraftSanityCourse} from '@/lib/courses'
@@ -128,17 +129,29 @@ const getSlugFromPath = (path: string) => {
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
   async ({res, req, params}) => {
     setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+    const requestId = crypto.randomUUID()
+    res.setHeader('x-egghead-request-id', requestId)
+    const logContext = {
+      request_id: requestId,
+      route: '/courses/[course]',
+      page: 'course',
+      course_slug: params?.course as string,
+    }
     try {
       const course =
         params &&
         (await loadPlaylist(
           params.course as string,
           req.cookies[ACCESS_TOKEN_KEY],
+          logContext,
         ))
 
-      const fullLessons = await loadResourcesForCourse({
-        slug: params?.course as string,
-      })
+      const fullLessons = await loadResourcesForCourse(
+        {
+          slug: params?.course as string,
+        },
+        logContext,
+      )
 
       const courseSlug = getSlugFromPath(course?.path)
       if (course && courseSlug !== params?.course) {

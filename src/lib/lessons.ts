@@ -12,6 +12,7 @@ import {
 import compactedMerge from '@/utils/compacted-merge'
 import {convertUndefinedValuesToNull} from '@/utils/convert-undefined-values-to-null'
 import {getCourseBuilderLesson} from '@/lib/get-course-builder-metadata'
+import {logEvent, timeEvent, type LogContext} from '@/utils/structured-log'
 
 // code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`
@@ -72,20 +73,33 @@ const lessonQuery = groq`
  * loads LESSON METADATA from Sanity
  * @param slug
  */
-async function loadLessonMetadataFromSanity(slug: string) {
+async function loadLessonMetadataFromSanity(
+  slug: string,
+  logContext: LogContext,
+) {
   const params = {
     slug,
   }
 
   try {
-    const baseValues = await sanityClient.fetch(lessonQuery, params)
+    const baseValues = await timeEvent(
+      'lesson.loadLessonMetadataFromSanity.groq',
+      {slug},
+      async () => sanityClient.fetch(lessonQuery, params),
+      logContext,
+    )
 
     const derivedValues = baseValues ? deriveDataFromBaseValues(baseValues) : {}
 
     return compactedMerge(baseValues, derivedValues)
   } catch (e) {
     // Likely a 404 Not Found error
-    console.log('Error fetching from Sanity: ', e)
+    logEvent(
+      'warn',
+      'lesson.loadLessonMetadataFromSanity.error',
+      {slug},
+      logContext,
+    )
 
     return {}
   }
@@ -94,19 +108,30 @@ async function loadLessonMetadataFromSanity(slug: string) {
 export async function loadLessonMetadataFromGraphQL(
   slug: string,
   token?: string,
+  logContext: LogContext = {},
 ) {
   const graphQLClient = getGraphQLClient(token)
 
   try {
-    const {lesson: lessonMetadataFromGraphQL} = await graphQLClient.request(
-      loadLessonGraphQLQuery,
+    const {lesson: lessonMetadataFromGraphQL} = await timeEvent(
+      'lesson.loadLessonMetadataFromGraphQL.graphql',
       {slug},
+      async () =>
+        graphQLClient.request(loadLessonGraphQLQuery, {
+          slug,
+        }),
+      logContext,
     )
 
     return lessonMetadataFromGraphQL
   } catch (e) {
     // Likely a 404 Not Found error
-    console.log('Error fetching from GraphQL: ', e)
+    logEvent(
+      'warn',
+      'lesson.loadLessonMetadataFromGraphQL.error',
+      {slug},
+      logContext,
+    )
 
     return {}
   }
@@ -116,7 +141,9 @@ export async function loadLesson(
   slug: string,
   token?: string,
   useAuth?: boolean,
+  logContext: LogContext = {},
 ): Promise<LessonResource> {
+  const startTime = Date.now()
   token = useAuth ? token || getAccessTokenFromCookie() : undefined
 
   /******************************************
@@ -125,31 +152,31 @@ export async function loadLesson(
   const lessonMetadataFromGraphQL = await loadLessonMetadataFromGraphQL(
     slug,
     token,
+    logContext,
   )
-
-  console.log('lessonMetadataFromGraphQL', lessonMetadataFromGraphQL)
 
   /**********************************************
    * Load comments from separate GraphQL Request
    * ********************************************/
   // comments are user-generated content that must come from the egghead-rails
   // backend, so load those separately from the rest of lesson metadata.
-  const comments = await loadLessonComments(slug, token)
+  const comments = await loadLessonComments(slug, token, logContext)
 
   /*************************************
    * Sanity Request for Lesson Metadata
    * ***********************************/
   // this will be used to override values from graphql
-  const lessonMetadataFromSanity = await loadLessonMetadataFromSanity(slug)
-
-  const lessonMetadataFromCourseBuilder = await getCourseBuilderLesson(slug)
-
-  console.log(
-    'lessonMetadataFromCourseBuilder from loadLesson',
-    lessonMetadataFromCourseBuilder,
+  const lessonMetadataFromSanity = await loadLessonMetadataFromSanity(
+    slug,
+    logContext,
   )
 
-  console.log('lessonMetadataFromSanity', lessonMetadataFromSanity)
+  const lessonMetadataFromCourseBuilder = await timeEvent(
+    'lesson.getCourseBuilderLesson.mysql',
+    {slug},
+    async () => getCourseBuilderLesson(slug),
+    logContext,
+  )
 
   /*************************************
    * Merge All Lesson Metadata Together
@@ -163,8 +190,6 @@ export async function loadLesson(
 
   lessonMetadata = convertUndefinedValuesToNull(lessonMetadata)
 
-  console.log('lessonMetadata', lessonMetadata)
-
   // if (!eggheadViewer.is_pro && !lessonMetadata.free_forever) {
   //   delete lessonMetadata.hls_url
   //   delete lessonMetadata.dash_url
@@ -175,6 +200,20 @@ export async function loadLesson(
   if (isEmpty(lessonMetadata.slug)) {
     throw new Error(`Unable to lookup lesson metadata (slug: ${slug})`)
   }
+
+  logEvent(
+    'info',
+    'lesson.loadLesson.summary',
+    {
+      slug,
+      duration_ms: Date.now() - startTime,
+      has_graphql: !isEmpty(lessonMetadataFromGraphQL?.slug),
+      has_sanity: !isEmpty(lessonMetadataFromSanity?.slug),
+      has_coursebuilder: !!lessonMetadataFromCourseBuilder,
+      comments_count: comments?.length ?? 0,
+    },
+    logContext,
+  )
 
   return {...lessonMetadata, comments} as LessonResource
 }

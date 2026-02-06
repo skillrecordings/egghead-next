@@ -47,6 +47,7 @@ async function fetchEggheadUser(token: any) {
 const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   setupHttpTracing({name: cioSubscriber.name, tracer, req, res})
   const startTime = Date.now()
+  const requestId = req.headers['x-egghead-request-id'] as string | undefined
 
   if (req.method !== 'GET') {
     console.error('non-get request made')
@@ -60,6 +61,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
     console.debug(
       JSON.stringify({
         event: 'cio_subscriber_skip',
+        request_id: requestId,
         reason: 'no_cookies',
         duration_ms: Date.now() - startTime,
       }),
@@ -78,6 +80,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
       console.debug(
         JSON.stringify({
           event: 'cio_subscriber_skip',
+          request_id: requestId,
           reason: 'no_identifiers',
           duration_ms: Date.now() - startTime,
         }),
@@ -117,6 +120,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
           console.error(
             JSON.stringify({
               event: 'cio_subscriber_error',
+              request_id: requestId,
               error_type: 'cio_sync',
               error_message: syncError?.message,
               error_status: syncError?.response?.status,
@@ -137,6 +141,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
             console.error(
               JSON.stringify({
                 event: 'cio_subscriber_error',
+                request_id: requestId,
                 error_type: 'cio_attributes',
                 error_message: error?.message,
                 error_status: error?.response?.status,
@@ -161,6 +166,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
           console.error(
             JSON.stringify({
               event: 'cio_subscriber_error',
+              request_id: requestId,
               error_type: 'cio_attributes',
               error_message: error?.message,
               error_status: error?.response?.status,
@@ -188,6 +194,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
       console.debug(
         JSON.stringify({
           event: 'cio_subscriber_success',
+          request_id: requestId,
           has_subscriber: true,
           cio_id: subscriber.id,
           duration_ms: Date.now() - startTime,
@@ -198,6 +205,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
       console.debug(
         JSON.stringify({
           event: 'cio_subscriber_success',
+          request_id: requestId,
           has_subscriber: false,
           duration_ms: Date.now() - startTime,
         }),
@@ -210,6 +218,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
     console.error(
       JSON.stringify({
         event: 'cio_subscriber_error',
+        request_id: requestId,
         error_type: error?.code === 'ECONNABORTED' ? 'timeout' : 'unhandled',
         error_message: error?.message,
         error_status: error?.response?.status,
