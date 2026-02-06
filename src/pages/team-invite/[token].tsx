@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {useViewer} from '../../context/viewer-context'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {AUTH_DOMAIN, getAuthorizationHeader} from '@/utils/auth'
 import axios from 'axios'
 import toast from 'react-hot-toast'
@@ -121,41 +122,40 @@ type TeamInviteProps = {
   inviteToken: string
 }
 
-export const getServerSideProps: GetServerSideProps<TeamInviteProps> = async ({
-  params,
-}) => {
-  try {
-    const token = params && (params.token as string)
-    if (!token) {
-      throw new Error('The invite token is not defined')
-    }
+export const getServerSideProps: GetServerSideProps<TeamInviteProps> =
+  withSSRLogging(async ({params}) => {
+    try {
+      const token = params && (params.token as string)
+      if (!token) {
+        throw new Error('The invite token is not defined')
+      }
 
-    const viewTeamInviteUrl = `${AUTH_DOMAIN}/api/v1/accounts/team_invite/${token}`
-    const {data} = await axios.get(viewTeamInviteUrl)
+      const viewTeamInviteUrl = `${AUTH_DOMAIN}/api/v1/accounts/team_invite/${token}`
+      const {data} = await axios.get(viewTeamInviteUrl)
 
-    let teamName = null
-    // All accounts were defaulted to have names of 'acc' or 'saml_acc'. We'll
-    // treat the name us `undefined` unless it has been set to something else.
-    if (data.team_name !== 'acc' && data.team_name !== 'saml_acc') {
-      teamName = data.team_name
-    }
+      let teamName = null
+      // All accounts were defaulted to have names of 'acc' or 'saml_acc'. We'll
+      // treat the name us `undefined` unless it has been set to something else.
+      if (data.team_name !== 'acc' && data.team_name !== 'saml_acc') {
+        teamName = data.team_name
+      }
 
-    return {
-      props: {
-        teamOwnerEmail: data.team_owner_email,
-        teamName,
-        inviteToken: token,
-      },
+      return {
+        props: {
+          teamOwnerEmail: data.team_owner_email,
+          teamName,
+          inviteToken: token,
+        },
+      }
+    } catch (e) {
+      return {
+        props: {
+          teamOwnerEmail: '',
+          teamName: null,
+          inviteToken: TOKEN_NOT_RECOGNIZED,
+        },
+      }
     }
-  } catch (e) {
-    return {
-      props: {
-        teamOwnerEmail: '',
-        teamName: null,
-        inviteToken: TOKEN_NOT_RECOGNIZED,
-      },
-    }
-  }
-}
+  })
 
 export default TeamInvite

@@ -6,6 +6,7 @@ import Instructor from '@/components/workshop/shared/Instructor'
 import SignUpForm from '@/components/workshop/cursor/SignUpForm'
 import type {SignUpFormRef} from '@/components/workshop/cursor/Hero'
 import type {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {useRef, useEffect, useState} from 'react'
 import {NextSeo} from 'next-seo'
 import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
@@ -201,22 +202,24 @@ WorkshopPage.getLayout = (Page: any, pageProps: any) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const ehUser = JSON.parse(ctx.req.cookies.eh_user || '{}')
-  const authToken = ctx.req.cookies['eh_token_2020_11_22']
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async (ctx) => {
+    const ehUser = JSON.parse(ctx.req.cookies.eh_user || '{}')
+    const authToken = ctx.req.cookies['eh_token_2020_11_22']
 
-  if (!authToken) return {props: {}}
+    if (!authToken) return {props: {}}
 
-  const lastCharge = await getLastChargeForActiveSubscription(
-    ehUser.email,
-    authToken,
-  )
+    const lastCharge = await getLastChargeForActiveSubscription(
+      ehUser.email,
+      authToken,
+    )
 
-  return {
-    props: {
-      lastCharge: lastCharge || null,
-    },
-  }
-}
+    return {
+      props: {
+        lastCharge: lastCharge || null,
+      },
+    }
+  },
+)
 
 export default WorkshopPage

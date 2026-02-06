@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {loadTag} from '@/lib/tags'
 import Markdown from 'react-markdown'
 
@@ -20,17 +21,15 @@ const Tag: FunctionComponent<React.PropsWithChildren<TagProps>> = ({tag}) => {
 
 export default Tag
 
-export const getServerSideProps: GetServerSideProps = async function ({
-  res,
-  params,
-  req,
-}) {
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({res, params, req}) {
+    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
-  const tag = params && (await loadTag(params.slug as string))
-  return {
-    props: {
-      tag,
-    },
-  }
-}
+    const tag = params && (await loadTag(params.slug as string))
+    return {
+      props: {
+        tag,
+      },
+    }
+  },
+)

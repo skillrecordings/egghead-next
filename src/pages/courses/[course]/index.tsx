@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {loadPlaylist} from '@/lib/playlists'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import CollectionPageLayout from '@/components/layouts/collection-page-layout'
 import DraftCourseLayout from '@/components/layouts/draft-course-page-layout'
 import MultiModuleCollectionPageLayout from '@/components/layouts/multi-module-collection-page-layout'
@@ -124,62 +125,63 @@ const getSlugFromPath = (path: string) => {
   return path.split('/').pop()
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  res,
-  req,
-  params,
-}) => {
-  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-  try {
-    const course =
-      params &&
-      (await loadPlaylist(
-        params.course as string,
-        req.cookies[ACCESS_TOKEN_KEY],
-      ))
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async ({res, req, params}) => {
+    setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+    try {
+      const course =
+        params &&
+        (await loadPlaylist(
+          params.course as string,
+          req.cookies[ACCESS_TOKEN_KEY],
+        ))
 
-    const fullLessons = await loadResourcesForCourse({
-      slug: params?.course as string,
-    })
+      const fullLessons = await loadResourcesForCourse({
+        slug: params?.course as string,
+      })
 
-    const courseSlug = getSlugFromPath(course?.path)
-    if (course && courseSlug !== params?.course) {
+      const courseSlug = getSlugFromPath(course?.path)
+      if (course && courseSlug !== params?.course) {
+        return {
+          redirect: {
+            destination: course.path,
+            permanent: true,
+          },
+        }
+      } else {
+        res.setHeader(
+          'Cache-Control',
+          's-maxage=300, stale-while-revalidate=3600',
+        )
+        return {
+          props: {
+            course: {
+              ...course,
+              sections: course?.sections ?? null,
+            },
+            fullLessons,
+          },
+        }
+      }
+    } catch (e) {
+      const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
+      const draftCourse =
+        params && (await loadDraftCourse(params.course as string))
+      if (draftCourse && ability.can('upload', 'Video')) {
+        res.setHeader('Cache-Control', 'private, no-store')
+        return {
+          props: {
+            draftCourse,
+          },
+        }
+      }
+
       return {
         redirect: {
-          destination: course.path,
-          permanent: true,
-        },
-      }
-    } else {
-      res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=3600')
-      return {
-        props: {
-          course: {
-            ...course,
-            sections: course?.sections ?? null,
-          },
-          fullLessons,
+          destination: '/',
+          permanent: false,
         },
       }
     }
-  } catch (e) {
-    const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
-    const draftCourse =
-      params && (await loadDraftCourse(params.course as string))
-    if (draftCourse && ability.can('upload', 'Video')) {
-      res.setHeader('Cache-Control', 'private, no-store')
-      return {
-        props: {
-          draftCourse,
-        },
-      }
-    }
-
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    }
-  }
-}
+  },
+)

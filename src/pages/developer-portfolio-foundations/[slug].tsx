@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import mdxComponents from '@/components/mdx'
 import {sanityClient} from '@/utils/sanity-client'
 import groq from 'groq'
@@ -26,13 +27,11 @@ const PortfolioFoundationsArticle: React.FC<React.PropsWithChildren<any>> = ({
 
 export default PortfolioFoundationsArticle
 
-export const getServerSideProps: GetServerSideProps = async function ({
-  params,
-  res,
-}) {
-  if (params?.slug) {
-    try {
-      const articleQuery = groq`
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({params, res}) {
+    if (params?.slug) {
+      try {
+        const articleQuery = groq`
     *[_type == 'resource' && slug.current == 'portfolio-foundations'][0]{
     "resource": resources[slug.current == '${params.slug}'][0]{
       title,
@@ -41,31 +40,32 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
   `
 
-      const {resource} = await sanityClient.fetch(articleQuery)
+        const {resource} = await sanityClient.fetch(articleQuery)
 
-      const source = await serialize(resource.article, {
-        mdxOptions: {
-          remarkPlugins: [
-            require(`remark-slug`),
-            require(`remark-footnotes`),
-            require(`remark-code-titles`),
-          ],
-        },
-      })
+        const source = await serialize(resource.article, {
+          mdxOptions: {
+            remarkPlugins: [
+              require(`remark-slug`),
+              require(`remark-footnotes`),
+              require(`remark-code-titles`),
+            ],
+          },
+        })
 
-      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-      return {
-        props: {source, title: resource.title},
+        res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+        return {
+          props: {source, title: resource.title},
+        }
+      } catch (e) {
+        console.error(e)
+        res.statusCode = 404
+        res.end()
+        return {props: {}}
       }
-    } catch (e) {
-      console.error(e)
-      res.statusCode = 404
-      res.end()
-      return {props: {}}
     }
-  }
 
-  res.statusCode = 404
-  res.end()
-  return {props: {}}
-}
+    res.statusCode = 404
+    res.end()
+    return {props: {}}
+  },
+)

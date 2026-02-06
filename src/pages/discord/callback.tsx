@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
+import {withSSRLogging} from '@/lib/logging'
 import {getTokenFromCookieHeaders} from '@/utils/auth'
 import LoginRequired, {LoginRequiredParams} from '@/components/login-required'
 import isEmpty from 'lodash/isEmpty'
@@ -118,13 +119,15 @@ const CallbackPage: FunctionComponent<
 
 export default CallbackPage
 
-export const getServerSideProps: GetServerSideProps = async function ({req}) {
-  const {loginRequired} = getTokenFromCookieHeaders(
-    req.headers.cookie as string,
-  )
-  return {
-    props: {
-      loginRequired,
-    },
-  }
-}
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function ({req}) {
+    const {loginRequired} = getTokenFromCookieHeaders(
+      req.headers.cookie as string,
+    )
+    return {
+      props: {
+        loginRequired,
+      },
+    }
+  },
+)
