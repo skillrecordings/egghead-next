@@ -1,15 +1,16 @@
 import {NextRequest, NextResponse} from 'next/server'
-import {ACCESS_TOKEN_KEY, EGGHEAD_USER_COOKIE_KEY} from '../config'
+import {
+  ACCESS_TOKEN_KEY,
+  CIO_CUSTOMER_OBJECT_KEY,
+  CIO_IDENTIFIER_KEY,
+  EGGHEAD_USER_COOKIE_KEY,
+} from '../config'
 import {loadUser} from '../lib/current-user'
 import {
   cioCustomerIsMember,
   clearCustomerCookie,
   setCustomerCookie,
 } from './customer-io-cookies'
-import {
-  CIO_IDENTIFIER_KEY as CIO_COOKIE_KEY,
-  CIO_CUSTOMER_OBJECT_KEY,
-} from '../config'
 import {loadCio} from '../lib/customer'
 import {clearUserCookie, setUserCookie} from './egghead-user-cookies'
 
@@ -26,8 +27,8 @@ export async function getCookiesForRequest(req: NextRequest) {
 
   const customerId = user?.contact_id
     ? user.contact_id
-    : req.cookies.get(CIO_COOKIE_KEY)?.value ||
-      req.nextUrl.searchParams.get(CIO_COOKIE_KEY)
+    : req.cookies.get(CIO_IDENTIFIER_KEY)?.value ||
+      req.nextUrl.searchParams.get(CIO_IDENTIFIER_KEY)
 
   let customer = customerId
     ? await loadCio(customerId, req.cookies.get(CIO_CUSTOMER_OBJECT_KEY)?.value)
@@ -41,9 +42,14 @@ export async function getCookiesForRequest(req: NextRequest) {
 
 export function setCookiesForResponse(
   res: NextResponse,
+  req: NextRequest,
   user: any,
   customer: any,
 ) {
+  const hasCioIdCookie = req.cookies.has(CIO_IDENTIFIER_KEY)
+  const hasCioObjectCookie = req.cookies.has(CIO_CUSTOMER_OBJECT_KEY)
+  const hasUserCookie = req.cookies.has(EGGHEAD_USER_COOKIE_KEY)
+
   if (customer) {
     try {
       setCustomerCookie(res, customer)
@@ -51,7 +57,7 @@ export function setCookiesForResponse(
       clearCustomerCookie(res)
       console.error('error setting user cookie', e)
     }
-  } else {
+  } else if (hasCioIdCookie || hasCioObjectCookie) {
     clearCustomerCookie(res)
   }
 
@@ -62,7 +68,7 @@ export function setCookiesForResponse(
       clearUserCookie(res)
       console.error('error setting user cookie', e)
     }
-  } else {
+  } else if (hasUserCookie) {
     clearUserCookie(res)
   }
 
