@@ -5,7 +5,7 @@ import React, {useState} from 'react'
 
 import {trpc} from './client'
 import {transformer} from '@/server/transformer'
-import {randomUUID} from 'crypto'
+import {getClientRequestId} from '@/utils/request-id'
 
 export function getBaseUrl() {
   if (typeof window !== 'undefined') {
@@ -26,7 +26,7 @@ export function getBaseUrl() {
 }
 
 export default function TrpcProvider({children}: {children: React.ReactNode}) {
-  const [requestId] = useState(() => randomUUID())
+  const [requestId] = useState(() => getClientRequestId() || '')
   const [queryClient] = useState(
     () =>
       new QueryClient({

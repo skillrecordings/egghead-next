@@ -24,6 +24,7 @@ const logMiddleware = t.middleware(
       duration_ms,
       user_id: trpcCtx.userId ?? null,
       has_token: !!trpcCtx.userToken,
+      request_id: trpcCtx.req?.headers?.get('x-egghead-request-id') ?? null,
       ...(rawInput && typeof rawInput === 'object'
         ? {input_keys: Object.keys(rawInput as Record<string, unknown>)}
         : {}),
