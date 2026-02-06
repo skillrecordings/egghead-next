@@ -99,6 +99,13 @@ const LessonPage: React.FC<
           )
         }
 
+        const hasGatedMedia =
+          Boolean((initialLesson as any)?.hls_url) ||
+          Boolean((initialLesson as any)?.dash_url)
+        if (hasGatedMedia) {
+          return initialLesson
+        }
+
         await utils.lesson.getLessonbySlug.invalidate({
           slug: initialLesson.slug,
         })
