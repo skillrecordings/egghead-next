@@ -66,7 +66,7 @@ function useLoadTopicData(
     return () => {
       controller.abort()
     }
-  }, [newTopic, searchState])
+  }, [newTopic])
 
   return {loading, topicSanityData, topicGraphqlData}
 }

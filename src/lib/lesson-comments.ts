@@ -1,6 +1,7 @@
 import axios from '@/utils/configured-axios'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
+import {logEvent, timeEvent, type LogContext} from '@/utils/structured-log'
 
 export type Comment = {
   title?: string
@@ -37,6 +38,7 @@ type GraphQLComment = {
 export async function loadLessonComments(
   slug: string,
   token?: string,
+  logContext: LogContext = {},
 ): Promise<GraphQLComment[]> {
   token = token || getAccessTokenFromCookie()
   const graphQLClient = getGraphQLClient(token)
@@ -67,11 +69,32 @@ export async function loadLessonComments(
   `
 
   try {
-    const {lesson_comments} = await graphQLClient.request(query, variables)
+    const {lesson_comments} = await timeEvent(
+      'lesson.loadLessonComments.graphql',
+      {slug},
+      async () => graphQLClient.request(query, variables),
+      logContext,
+    )
 
+    logEvent(
+      'info',
+      'lesson.loadLessonComments.summary',
+      {
+        slug,
+        comments_count: lesson_comments?.length ?? 0,
+      },
+      logContext,
+    )
     return lesson_comments
   } catch (e) {
-    console.log('Error fetching lesson comments: ', e)
+    logEvent(
+      'error',
+      'lesson.loadLessonComments.error',
+      {
+        slug,
+      },
+      logContext,
+    )
 
     return []
   }

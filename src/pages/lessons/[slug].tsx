@@ -10,6 +10,8 @@ import {LessonResource, VideoResource} from '@/types'
 import getTracer from '@/utils/honeycomb-tracer'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import cookieUtil from '@/utils/cookies'
+import crypto from 'crypto'
+import {logEvent} from '@/utils/structured-log'
 import type {
   VideoEvent,
   VideoStateContext,
@@ -25,10 +27,19 @@ const tracer = getTracer('lesson-page')
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
   async function ({req, res, params}) {
     setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+    const requestId = crypto.randomUUID()
+    res.setHeader('x-egghead-request-id', requestId)
+    const logContext = {
+      request_id: requestId,
+      route: '/lessons/[slug]',
+      page: 'lesson',
+      lesson_slug: params?.slug as string,
+    }
 
     try {
       const initialLesson: LessonResource | undefined =
-        params && (await loadLesson(params.slug as string, undefined, false))
+        params &&
+        (await loadLesson(params.slug as string, undefined, false, logContext))
 
       if (initialLesson && initialLesson?.slug !== params?.slug) {
         return {
@@ -89,11 +100,36 @@ const LessonPage: React.FC<
           )
         }
 
+        const hasGatedMedia =
+          Boolean((initialLesson as any)?.hls_url) ||
+          Boolean((initialLesson as any)?.dash_url)
+        if (hasGatedMedia) {
+          logEvent('info', 'lesson.client_refetch.skip', {
+            lesson_slug: initialLesson.slug,
+            has_hls: Boolean((initialLesson as any)?.hls_url),
+            has_dash: Boolean((initialLesson as any)?.dash_url),
+          })
+          return initialLesson
+        }
+
         await utils.lesson.getLessonbySlug.invalidate({
           slug: initialLesson.slug,
         })
         const freshLesson = await utils.lesson.getLessonbySlug.fetch({
           slug: initialLesson.slug,
+        })
+
+        logEvent('info', 'lesson.client_refetch.result', {
+          lesson_slug: initialLesson.slug,
+          had_hls_before: Boolean((initialLesson as any)?.hls_url),
+          had_dash_before: Boolean((initialLesson as any)?.dash_url),
+          has_hls_after: Boolean((freshLesson as any)?.hls_url),
+          has_dash_after: Boolean((freshLesson as any)?.dash_url),
+          media_changed:
+            Boolean((initialLesson as any)?.hls_url) !==
+              Boolean((freshLesson as any)?.hls_url) ||
+            Boolean((initialLesson as any)?.dash_url) !==
+              Boolean((freshLesson as any)?.dash_url),
         })
 
         return {

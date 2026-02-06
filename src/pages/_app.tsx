@@ -22,6 +22,7 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import TrpcProvider from '@/app/_trpc/Provider'
 import {initDebugLogger, debugLogRouteChange} from '@/lib/debug-logger'
+import '@/utils/axios-request-id'
 
 import {PostHogProvider} from 'posthog-js/react'
 import PosthogClient from '@/lib/posthog-client'

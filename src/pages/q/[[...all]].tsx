@@ -27,6 +27,8 @@ import {
 } from '@/utils/typesense'
 import nameToSlug from '@/lib/name-to-slug'
 import Link from 'next/link'
+import {kv} from '@vercel/kv'
+import crypto from 'crypto'
 
 const tracer = getTracer('search-page')
 
@@ -46,6 +48,18 @@ const getInstructorsFromSearchState = (searchState: any) => {
 
 const getInstructorSlugFromInstructorList = (instructors: string[]) => {
   return nameToSlug(first(instructors) as string).toLowerCase()
+}
+
+const SEARCH_SSR_CACHE_TTL_SECONDS = 120
+const SEARCH_SSR_CACHE_PREFIX = 'search:ssr'
+
+const stableJson = (value: any) =>
+  JSON.stringify(value, Object.keys(value || {}).sort())
+
+const cacheKeyForQuery = (query: any) => {
+  const base = stableJson(query || {})
+  const hash = crypto.createHash('sha1').update(base).digest('hex')
+  return `${SEARCH_SSR_CACHE_PREFIX}:${hash}`
 }
 
 type SearchIndexProps = {
@@ -75,6 +89,8 @@ const SearchIndex: any = ({
   const [instructor, setInstructor] = React.useState(initialInstructor)
   const [noIndex, setNoIndex] = React.useState(noIndexInitial)
   const debouncedState = React.useRef<any>(null)
+  const instructorCache = React.useRef<Map<string, any>>(new Map())
+  const lastInstructorSlug = React.useRef<string | null>(null)
   const {loading, topicSanityData, topicGraphqlData} = useLoadTopicData(
     initialTopicGraphqlData,
     initialTopicSanityData,
@@ -130,12 +146,21 @@ const SearchIndex: any = ({
 
     if (instructors.length === 1) {
       const instructorSlug = getInstructorSlugFromInstructorList(instructors)
-      try {
-        await loadInstructor(instructorSlug).then((instructor: any) =>
-          setInstructor(instructor),
-        )
-      } catch (error) {}
+      if (lastInstructorSlug.current !== instructorSlug) {
+        lastInstructorSlug.current = instructorSlug
+        const cached = instructorCache.current.get(instructorSlug)
+        if (cached) {
+          setInstructor(cached)
+        } else {
+          try {
+            const loaded = await loadInstructor(instructorSlug)
+            instructorCache.current.set(instructorSlug, loaded)
+            setInstructor(loaded)
+          } catch (error) {}
+        }
+      }
     } else {
+      lastInstructorSlug.current = null
       setInstructor(null)
     }
 
@@ -143,10 +168,10 @@ const SearchIndex: any = ({
       const href: string = createUrl(searchState)
       setNoIndex(queryParamsPresent(href))
 
-      singletonRouter.push(href, undefined, {
+      singletonRouter.replace(href, undefined, {
         shallow: true,
       })
-    }, 250)
+    }, 500)
 
     state.setUiState(state.uiState)
     setSearchState(searchState)
@@ -201,7 +226,7 @@ export default SearchIndex
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
   async ({req, query, res}) => {
     setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=600')
     const {all = [], ...rest} = query
 
     if (all[0] === 'undefined') return {props: {error: 'no search query'}}
@@ -218,26 +243,69 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         }, 5000) // 5 second timeout
       })
 
-      // Get server state and sanitize it for serialization
-      const serverStatePromise = getServerState(
-        <SearchIndex initialSearchState={initialSearchState} />,
-        {
-          renderToString,
-        },
-      )
+      const cacheKey = cacheKeyForQuery({
+        all,
+        rest,
+      })
 
-      // Race between the timeout and the actual request
-      const serverState = await Promise.race([
-        serverStatePromise,
-        timeoutPromise,
-      ])
+      let sanitizedServerState: any | null = null
+      let cacheStatus: 'hit' | 'miss' | 'error' = 'miss'
 
-      // Sanitize the serverState to remove undefined values
-      const sanitizedServerState = JSON.parse(
-        JSON.stringify(serverState, (_, value) =>
-          value === undefined ? null : value,
-        ),
-      )
+      try {
+        const cached = await kv.get(cacheKey)
+        if (cached) {
+          sanitizedServerState = cached
+          cacheStatus = 'hit'
+        }
+      } catch {
+        // fail open if KV is unavailable
+        cacheStatus = 'error'
+      }
+
+      if (!sanitizedServerState) {
+        // Get server state and sanitize it for serialization
+        const serverStatePromise = getServerState(
+          <SearchIndex initialSearchState={initialSearchState} />,
+          {
+            renderToString,
+          },
+        )
+
+        // Race between the timeout and the actual request
+        const serverState = await Promise.race([
+          serverStatePromise,
+          timeoutPromise,
+        ])
+
+        // Sanitize the serverState to remove undefined values
+        sanitizedServerState = JSON.parse(
+          JSON.stringify(serverState, (_, value) =>
+            value === undefined ? null : value,
+          ),
+        )
+
+        try {
+          await kv.set(cacheKey, sanitizedServerState, {
+            ex: SEARCH_SSR_CACHE_TTL_SECONDS,
+          })
+        } catch {
+          // ignore cache set failures
+        }
+      }
+
+      try {
+        console.log(
+          JSON.stringify({
+            event: 'search_ssr_cache',
+            status: cacheStatus,
+            ttl_s: SEARCH_SSR_CACHE_TTL_SECONDS,
+            key_prefix: SEARCH_SSR_CACHE_PREFIX,
+            path,
+          }),
+        )
+      } catch {
+        // logging must never crash
+      }
 
       // Rest of the code remains the same...
       const resultsState = Object.keys(sanitizedServerState.initialResults).map(

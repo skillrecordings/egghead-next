@@ -7,13 +7,18 @@ import {loadUserCompletedCourses} from '@/lib/users'
 import {useQuery} from '@tanstack/react-query'
 import {UseHitsProps} from 'react-instantsearch'
 
-const useUserCompletedCourses = (viewerId: number) => {
-  return useQuery(['completeCourses'], async () => {
-    if (viewerId) {
+const useUserCompletedCourses = (viewerId: number | undefined) => {
+  return useQuery(
+    ['completeCourses', viewerId],
+    async () => {
       const {completeCourses} = await loadUserCompletedCourses()
       return completeCourses
-    }
-  })
+    },
+    {
+      enabled: !!viewerId,
+      staleTime: 1000 * 60 * 5,
+    },
+  )
 }
 
 const CustomHits = (props: UseHitsProps) => {

@@ -79,7 +79,7 @@ export async function getMiddlewareResponse(req: NextRequest) {
     }
   }
 
-  response = setCookiesForResponse(response, user, customer)
+  response = setCookiesForResponse(response, req, user, customer)
 
   return response
 }

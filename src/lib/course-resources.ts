@@ -2,6 +2,7 @@ import {getGraphQLClient} from '@/utils/configured-graphql-client'
 import {loadCourseMetadata} from '@/lib/courses'
 import {loadLesson} from '@/lib/lessons'
 import type {LessonResource} from '@/types'
+import {logEvent, timeEvent, type LogContext} from '@/utils/structured-log'
 
 type LoadResourcesForCourseParams = {
   slug?: string
@@ -27,7 +28,10 @@ type RailsPlaylistResponse = {
   }
 }
 
-async function loadRailsPlaylistLessonSlugs(slug: string): Promise<string[]> {
+async function loadRailsPlaylistLessonSlugs(
+  slug: string,
+  logContext: LogContext,
+): Promise<string[]> {
   const query = /* GraphQL */ `
     query getPlaylistLessonSlugs($slug: String!) {
       playlist(slug: $slug) {
@@ -55,9 +59,12 @@ async function loadRailsPlaylistLessonSlugs(slug: string): Promise<string[]> {
 
   try {
     const graphQLClient = getGraphQLClient()
-    const {playlist} = (await graphQLClient.request(query, {
-      slug,
-    })) as RailsPlaylistResponse
+    const {playlist} = (await timeEvent(
+      'course.loadRailsPlaylistLessonSlugs.graphql',
+      {slug},
+      async () => graphQLClient.request(query, {slug}),
+      logContext,
+    )) as RailsPlaylistResponse
 
     const items = playlist?.items ?? []
 
@@ -73,8 +80,14 @@ async function loadRailsPlaylistLessonSlugs(slug: string): Promise<string[]> {
       }
     }
 
-    console.debug(
-      `loadResourcesForCourse: Rails returned ${lessonSlugs.length} lesson slugs for course ${slug}`,
+    logEvent(
+      'info',
+      'course.loadRailsPlaylistLessonSlugs.summary',
+      {
+        slug,
+        lesson_slugs_count: lessonSlugs.length,
+      },
+      logContext,
     )
 
     return lessonSlugs
@@ -93,9 +106,15 @@ function deriveSlugFromPath(path?: string): string | null {
 async function loadSanityCourseLessonSlugsByIdOrSlug(
   id: number | undefined,
   slug: string | undefined,
+  logContext: LogContext,
 ): Promise<string[]> {
   try {
-    const sanityCourse = await loadCourseMetadata(Number(id || 0), slug || '')
+    const sanityCourse = await timeEvent(
+      'course.loadCourseMetadata.sanity',
+      {slug, course_id: id},
+      async () => loadCourseMetadata(Number(id || 0), slug || ''),
+      logContext,
+    )
 
     // Prefer sections if present, otherwise top-level lessons
     const sectionLessons = (sanityCourse?.sections ?? [])
@@ -109,10 +128,15 @@ async function loadSanityCourseLessonSlugsByIdOrSlug(
 
     const slugs = sectionLessons.length > 0 ? sectionLessons : topLevelLessons
 
-    console.debug(
-      `loadResourcesForCourse: Sanity returned ${
-        slugs.length
-      } lesson slugs for course ${slug ?? id}`,
+    logEvent(
+      'info',
+      'course.loadSanityCourseLessonSlugs.summary',
+      {
+        slug,
+        course_id: id,
+        lesson_slugs_count: slugs.length,
+      },
+      logContext,
     )
 
     return slugs
@@ -124,7 +148,9 @@ async function loadSanityCourseLessonSlugsByIdOrSlug(
 
 export async function loadResourcesForCourse(
   params: LoadResourcesForCourseParams,
+  logContext: LogContext = {},
 ): Promise<LessonResource[]> {
+  const startTime = Date.now()
   const {slug, id} = params
 
   if (!slug && !id) {
@@ -134,12 +160,16 @@ export async function loadResourcesForCourse(
   // 1) Default to Rails for course membership (order source)
   let lessonSlugs: string[] = []
   if (slug) {
-    lessonSlugs = await loadRailsPlaylistLessonSlugs(slug)
+    lessonSlugs = await loadRailsPlaylistLessonSlugs(slug, logContext)
   }
 
   // 2) Fallback to Sanity for membership if Rails empty
   if (lessonSlugs.length === 0) {
-    const sanitySlugs = await loadSanityCourseLessonSlugsByIdOrSlug(id, slug)
+    const sanitySlugs = await loadSanityCourseLessonSlugsByIdOrSlug(
+      id,
+      slug,
+      logContext,
+    )
     lessonSlugs = sanitySlugs
   }
 
@@ -152,20 +182,35 @@ export async function loadResourcesForCourse(
     return true
   })
 
-  console.debug(
-    `loadResourcesForCourse: Resolving ${orderedUniqueSlugs.length} lessons with merged metadata`,
+  logEvent(
+    'info',
+    'course.loadResourcesForCourse.resolve',
+    {
+      slug,
+      course_id: id,
+      ordered_unique_slugs_count: orderedUniqueSlugs.length,
+    },
+    logContext,
   )
 
   // 4) Resolve each lesson using existing per-lesson merge logic
   const mergedLessons = await Promise.all(
     orderedUniqueSlugs.map(async (lessonSlug) => {
       try {
-        const lesson = await loadLesson(lessonSlug)
+        const lesson = await loadLesson(lessonSlug, undefined, false, {
+          ...logContext,
+          lesson_slug: lessonSlug,
+        })
         return lesson
       } catch (e) {
-        console.warn(
-          `loadResourcesForCourse: Failed to load merged lesson for slug ${lessonSlug}`,
-          e,
+        logEvent(
+          'warn',
+          'course.loadResourcesForCourse.lesson_error',
+          {
+            slug,
+            lesson_slug: lessonSlug,
+          },
+          logContext,
         )
         return null
       }
@@ -177,8 +222,17 @@ export async function loadResourcesForCourse(
     Boolean,
   ) as LessonResource[]
 
-  console.debug(
-    `loadResourcesForCourse: Loaded ${lessons.length}/${orderedUniqueSlugs.length} lessons with merged metadata`,
+  logEvent(
+    'info',
+    'course.loadResourcesForCourse.summary',
+    {
+      slug,
+      course_id: id,
+      lessons_loaded: lessons.length,
+      lessons_requested: orderedUniqueSlugs.length,
+      duration_ms: Date.now() - startTime,
+    },
+    logContext,
   )
 
   return lessons
