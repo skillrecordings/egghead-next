@@ -27,6 +27,8 @@ import {
 } from '@/utils/typesense'
 import nameToSlug from '@/lib/name-to-slug'
 import Link from 'next/link'
+import {kv} from '@vercel/kv'
+import crypto from 'crypto'
 
 const tracer = getTracer('search-page')
 
@@ -46,6 +48,18 @@ const getInstructorsFromSearchState = (searchState: any) => {
 
 const getInstructorSlugFromInstructorList = (instructors: string[]) => {
   return nameToSlug(first(instructors) as string).toLowerCase()
+}
+
+const SEARCH_SSR_CACHE_TTL_SECONDS = 120
+const SEARCH_SSR_CACHE_PREFIX = 'search:ssr'
+
+const stableJson = (value: any) =>
+  JSON.stringify(value, Object.keys(value || {}).sort())
+
+const cacheKeyForQuery = (query: any) => {
+  const base = stableJson(query || {})
+  const hash = crypto.createHash('sha1').update(base).digest('hex')
+  return `${SEARCH_SSR_CACHE_PREFIX}:${hash}`
 }
 
 type SearchIndexProps = {
@@ -229,26 +243,52 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         }, 5000) // 5 second timeout
       })
 
-      // Get server state and sanitize it for serialization
-      const serverStatePromise = getServerState(
-        <SearchIndex initialSearchState={initialSearchState} />,
-        {
-          renderToString,
-        },
-      )
+      const cacheKey = cacheKeyForQuery({
+        all,
+        rest,
+      })
 
-      // Race between the timeout and the actual request
-      const serverState = await Promise.race([
-        serverStatePromise,
-        timeoutPromise,
-      ])
+      let sanitizedServerState: any | null = null
 
-      // Sanitize the serverState to remove undefined values
-      const sanitizedServerState = JSON.parse(
-        JSON.stringify(serverState, (_, value) =>
-          value === undefined ? null : value,
-        ),
-      )
+      try {
+        const cached = await kv.get(cacheKey)
+        if (cached) {
+          sanitizedServerState = cached
+        }
+      } catch {
+        // fail open if KV is unavailable
+      }
+
+      if (!sanitizedServerState) {
+        // Get server state and sanitize it for serialization
+        const serverStatePromise = getServerState(
+          <SearchIndex initialSearchState={initialSearchState} />,
+          {
+            renderToString,
+          },
+        )
+
+        // Race between the timeout and the actual request
+        const serverState = await Promise.race([
+          serverStatePromise,
+          timeoutPromise,
+        ])
+
+        // Sanitize the serverState to remove undefined values
+        sanitizedServerState = JSON.parse(
+          JSON.stringify(serverState, (_, value) =>
+            value === undefined ? null : value,
+          ),
+        )
+
+        try {
+          await kv.set(cacheKey, sanitizedServerState, {
+            ex: SEARCH_SSR_CACHE_TTL_SECONDS,
+          })
+        } catch {
+          // ignore cache set failures
+        }
+      }
 
       // Rest of the code remains the same...
       const resultsState = Object.keys(sanitizedServerState.initialResults).map(
