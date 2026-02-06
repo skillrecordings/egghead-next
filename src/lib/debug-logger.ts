@@ -58,14 +58,8 @@ export function initDebugLogger(): void {
       col: colno,
       stack: error?.stack?.split('\n').slice(0, 5).join('\n'),
     })
-    if (originalOnError)
-      return (originalOnError as OnErrorEventHandler)(
-        message,
-        source,
-        lineno,
-        colno,
-        error,
-      )
+    if (typeof originalOnError === 'function')
+      return originalOnError(message, source, lineno, colno, error)
     return false
   }
 

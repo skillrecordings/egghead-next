@@ -122,8 +122,8 @@ type TeamInviteProps = {
   inviteToken: string
 }
 
-export const getServerSideProps: GetServerSideProps<TeamInviteProps> =
-  withSSRLogging(async ({params}) => {
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async ({params}) => {
     try {
       const token = params && (params.token as string)
       if (!token) {
@@ -156,6 +156,7 @@ export const getServerSideProps: GetServerSideProps<TeamInviteProps> =
         },
       }
     }
-  })
+  },
+)
 
 export default TeamInvite

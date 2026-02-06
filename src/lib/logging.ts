@@ -274,12 +274,10 @@ export function withAppApiLogging(handler: AppRouteHandler): AppRouteHandler {
  * On error: logs with ok:false and re-throws so Next.js renders the
  * error page as normal.
  */
-export function withSSRLogging<
-  P extends Record<string, any> = Record<string, any>,
->(gssp: GetServerSideProps<P>): GetServerSideProps<P> {
+export function withSSRLogging(gssp: GetServerSideProps): GetServerSideProps {
   return async (
     context: GetServerSidePropsContext,
-  ): Promise<GetServerSidePropsResult<P>> => {
+  ): Promise<GetServerSidePropsResult<Record<string, any>>> => {
     const start = performance.now()
     let userCtx: UserContext = {user_id: null, has_token: false}
 

@@ -15,20 +15,18 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2020-08-27',
 })
 
-export const getServerSideProps = withSSRLogging(
-  async (props: {params: Promise<{merchantChargeId: string}>}) => {
-    const params = await props.params
-    const charge = await stripe.charges.retrieve(params.merchantChargeId, {
-      expand: ['customer', 'balance_transaction'],
-    })
+export const getServerSideProps = withSSRLogging(async (context) => {
+  const {merchantChargeId} = context.params as {merchantChargeId: string}
+  const charge = await stripe.charges.retrieve(merchantChargeId, {
+    expand: ['customer', 'balance_transaction'],
+  })
 
-    return {
-      props: {
-        charge,
-      },
-    }
-  },
-)
+  return {
+    props: {
+      charge,
+    },
+  }
+})
 
 const Invoice = ({charge}: {charge: Stripe.Charge}) => {
   const customer = charge.billing_details as Stripe.Charge.BillingDetails

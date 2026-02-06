@@ -34,8 +34,8 @@ type AccountOwnershipTransferData = {
   validInvite: boolean
 }
 
-export const getServerSideProps: GetServerSideProps<AccountOwnershipTransferData> =
-  withSSRLogging(async function (context: any) {
+export const getServerSideProps: GetServerSideProps = withSSRLogging(
+  async function (context: any) {
     const {guid} = context.params
     const {eggheadToken} = getTokenFromCookieHeaders(
       context.req.headers.cookie as string,
@@ -60,7 +60,8 @@ export const getServerSideProps: GetServerSideProps<AccountOwnershipTransferData
     } catch (e) {
       return {props: {validInvite: false}}
     }
-  })
+  },
+)
 
 const AccountOwnershipTransfer: React.FunctionComponent<
   React.PropsWithChildren<AccountOwnershipTransferData>

@@ -74,6 +74,7 @@ async function _POST(req: NextRequest) {
         )
       }
     }
+    return NextResponse.json({error: 'Invalid signature'}, {status: 401})
   } catch (e) {
     // Sentry.captureException(e)
     return NextResponse.json({success: true}, {status: 200})
