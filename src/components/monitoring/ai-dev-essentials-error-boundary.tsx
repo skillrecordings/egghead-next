@@ -29,11 +29,34 @@ export class AIDevEssentialsErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error(
-      '[AI Dev Essentials] Error caught by boundary:',
-      error,
-      errorInfo,
-    )
+    try {
+      const log = {
+        event: 'error_boundary.catch',
+        component: 'AIDevEssentialsErrorBoundary',
+        error_name: error.name,
+        error_message: error.message,
+        component_stack: errorInfo.componentStack ?? undefined,
+      }
+      console.error(JSON.stringify(log))
+    } catch {
+      // logging must never crash the error boundary
+    }
+
+    try {
+      if (typeof window !== 'undefined' && (window as any).__DEBUG_LOG) {
+        ;(window as any).__DEBUG_LOG.push({
+          ts: Date.now(),
+          event: 'error_boundary.catch',
+          data: {
+            component: 'AIDevEssentialsErrorBoundary',
+            error_name: error.name,
+            error_message: error.message,
+          },
+        })
+      }
+    } catch {
+      // swallow
+    }
 
     // Track error in analytics
     try {
