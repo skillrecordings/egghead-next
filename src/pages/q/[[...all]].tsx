@@ -75,6 +75,8 @@ const SearchIndex: any = ({
   const [instructor, setInstructor] = React.useState(initialInstructor)
   const [noIndex, setNoIndex] = React.useState(noIndexInitial)
   const debouncedState = React.useRef<any>(null)
+  const instructorCache = React.useRef<Map<string, any>>(new Map())
+  const lastInstructorSlug = React.useRef<string | null>(null)
   const {loading, topicSanityData, topicGraphqlData} = useLoadTopicData(
     initialTopicGraphqlData,
     initialTopicSanityData,
@@ -130,12 +132,21 @@ const SearchIndex: any = ({
 
     if (instructors.length === 1) {
       const instructorSlug = getInstructorSlugFromInstructorList(instructors)
-      try {
-        await loadInstructor(instructorSlug).then((instructor: any) =>
-          setInstructor(instructor),
-        )
-      } catch (error) {}
+      if (lastInstructorSlug.current !== instructorSlug) {
+        lastInstructorSlug.current = instructorSlug
+        const cached = instructorCache.current.get(instructorSlug)
+        if (cached) {
+          setInstructor(cached)
+        } else {
+          try {
+            const loaded = await loadInstructor(instructorSlug)
+            instructorCache.current.set(instructorSlug, loaded)
+            setInstructor(loaded)
+          } catch (error) {}
+        }
+      }
     } else {
+      lastInstructorSlug.current = null
       setInstructor(null)
     }
 
@@ -143,10 +154,10 @@ const SearchIndex: any = ({
       const href: string = createUrl(searchState)
       setNoIndex(queryParamsPresent(href))
 
-      singletonRouter.push(href, undefined, {
+      singletonRouter.replace(href, undefined, {
         shallow: true,
       })
-    }, 250)
+    }, 500)
 
     state.setUiState(state.uiState)
     setSearchState(searchState)
