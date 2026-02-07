@@ -50,7 +50,10 @@ const getInstructorSlugFromInstructorList = (instructors: string[]) => {
   return nameToSlug(first(instructors) as string).toLowerCase()
 }
 
-const SEARCH_SSR_CACHE_TTL_SECONDS = 120
+// KV cache for expensive `getServerState` results. Longer TTL is safe because:
+// - search results are not user-specific
+// - Typesense updates are not instant-critical
+const SEARCH_SSR_CACHE_TTL_SECONDS = 600
 const SEARCH_SSR_CACHE_PREFIX = 'search:ssr'
 
 const stableJson = (value: any) =>
@@ -226,7 +229,9 @@ export default SearchIndex
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
   async ({req, query, res}) => {
     setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=600')
+    // Search is high-cardinality but non-user-specific. Give the CDN more time
+    // so repeated queries have a chance to hit.
+    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=3600')
     const {all = [], ...rest} = query
 
     if (all[0] === 'undefined') return {props: {error: 'no search query'}}
@@ -234,6 +239,29 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
     const initialSearchState = parseUrl(query)
     const pageTitle = titleFromPath(all as string[])
     const path = req.url
+
+    // Canonicalize: strip Next/Vercel "nxtP*" params that explode cache keys.
+    // This improves CDN hit rate without changing the rendered content.
+    try {
+      const url = new URL(req.url || '/q', 'https://egghead.io')
+      const nxtPKeys: string[] = []
+      for (const key of url.searchParams.keys()) {
+        if (key.startsWith('nxtP')) nxtPKeys.push(key)
+      }
+      if (nxtPKeys.length > 0) {
+        nxtPKeys.forEach((k) => {
+          url.searchParams.delete(k)
+        })
+        return {
+          redirect: {
+            destination: `${url.pathname}${url.search}`,
+            permanent: false,
+          },
+        }
+      }
+    } catch {
+      // never crash on URL parsing
+    }
 
     try {
       // Set a timeout for the getServerState call
@@ -300,6 +328,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
             status: cacheStatus,
             ttl_s: SEARCH_SSR_CACHE_TTL_SECONDS,
             key_prefix: SEARCH_SSR_CACHE_PREFIX,
+            cache_key: cacheKey,
             path,
           }),
         )
