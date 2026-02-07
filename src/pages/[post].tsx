@@ -65,10 +65,22 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
 
   const {post, videoResource, tags, course, primaryTagName} = result
 
-  // Fetch legacy lesson data
-  const lesson = await fetch(
-    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.eggheadLessonId}`,
-  ).then((res) => res.json())
+  // Fetch legacy lesson data with error handling
+  let lesson = null
+  try {
+    const lessonRes = await fetch(
+      `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${post.fields.eggheadLessonId}`,
+    )
+    if (lessonRes.ok) {
+      lesson = await lessonRes.json()
+    } else {
+      console.warn(
+        `Failed to fetch lesson ${post.fields.eggheadLessonId}: ${lessonRes.status}`,
+      )
+    }
+  } catch (error) {
+    console.warn(`Error fetching lesson ${post.fields.eggheadLessonId}:`, error)
+  }
 
   // Serialize MDX content
   const mdxSource = await serializeMDX(post.fields?.body ?? '', {
