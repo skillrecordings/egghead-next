@@ -5,6 +5,7 @@ import {loadLessonComments} from './lesson-comments'
 import {sanityClient} from '@/utils/sanity-client'
 import groq from 'groq'
 import isEmpty from 'lodash/isEmpty'
+import crypto from 'crypto'
 import {
   mergeLessonMetadata,
   deriveDataFromBaseValues,
@@ -13,6 +14,7 @@ import compactedMerge from '@/utils/compacted-merge'
 import {convertUndefinedValuesToNull} from '@/utils/convert-undefined-values-to-null'
 import {getCourseBuilderLesson} from '@/lib/get-course-builder-metadata'
 import {logEvent, timeEvent, type LogContext} from '@/utils/structured-log'
+import {kv} from '@vercel/kv'
 
 // code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`
@@ -69,6 +71,19 @@ const lessonQuery = groq`
   }
 }`
 
+const SANITY_LESSON_CACHE_PREFIX = 'sanity:lesson'
+const SANITY_LESSON_CACHE_TTL_SECONDS = 60 * 60 // 1 hour
+const SANITY_LESSON_CACHE_MISS_TTL_SECONDS = 60 * 60 * 24 // 24 hours
+
+type SanityLessonCacheValue =
+  | {ok: true; value: Record<string, unknown>}
+  | {ok: false}
+
+const sanityLessonCacheKey = (slug: string) => {
+  const hash = crypto.createHash('sha1').update(slug).digest('hex')
+  return `${SANITY_LESSON_CACHE_PREFIX}:${hash}`
+}
+
 /**
  * loads LESSON METADATA from Sanity
  * @param slug
@@ -82,6 +97,24 @@ async function loadLessonMetadataFromSanity(
   }
 
   try {
+    // KV-cached to avoid paying the Sanity roundtrip for the ~96% of slugs
+    // that don't have Sanity overrides.
+    const cacheKey = sanityLessonCacheKey(slug)
+    try {
+      const cached = await kv.get<SanityLessonCacheValue>(cacheKey)
+      if (cached) {
+        if (!cached.ok) return {}
+        return (cached.value ?? {}) as Record<string, unknown>
+      }
+    } catch {
+      logEvent(
+        'warn',
+        'lesson.loadLessonMetadataFromSanity.kv_get_error',
+        {slug},
+        logContext,
+      )
+    }
+
     const baseValues = await timeEvent(
       'lesson.loadLessonMetadataFromSanity.groq',
       {slug},
@@ -91,7 +124,31 @@ async function loadLessonMetadataFromSanity(
 
     const derivedValues = baseValues ? deriveDataFromBaseValues(baseValues) : {}
 
-    return compactedMerge(baseValues, derivedValues)
+    const merged = compactedMerge(baseValues || {}, derivedValues)
+    const hasSanity = !isEmpty((merged as any)?.slug)
+
+    // Cache both hits and misses. Miss TTL is longer because new legacy Sanity
+    // lessons aren't expected to appear frequently.
+    const valueToCache: SanityLessonCacheValue = hasSanity
+      ? {ok: true, value: merged as Record<string, unknown>}
+      : {ok: false}
+
+    try {
+      await kv.set(cacheKey, valueToCache, {
+        ex: hasSanity
+          ? SANITY_LESSON_CACHE_TTL_SECONDS
+          : SANITY_LESSON_CACHE_MISS_TTL_SECONDS,
+      })
+    } catch {
+      logEvent(
+        'warn',
+        'lesson.loadLessonMetadataFromSanity.kv_set_error',
+        {slug, has_sanity: hasSanity},
+        logContext,
+      )
+    }
+
+    return hasSanity ? merged : {}
   } catch (e) {
     // Likely a 404 Not Found error
     logEvent(
