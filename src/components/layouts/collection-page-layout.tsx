@@ -220,6 +220,7 @@ const CollectionPageLayout: React.FunctionComponent<
     slug,
     bio_short,
     twitter,
+    website,
   } = instructor || {}
 
   const image_url = square_cover_480_url || image_thumb_url
@@ -379,7 +380,7 @@ const CollectionPageLayout: React.FunctionComponent<
         type="Person"
         name={name}
         url={`https://egghead.io/q/resources-by-${slug}`}
-        sameAs={[twitter, instructor.website]}
+        sameAs={[twitter, website].filter(Boolean) as string[]}
       />
       <div className="container pb-8 sm:pb-16 dark:text-gray-100">
         {state === 'retired' && (

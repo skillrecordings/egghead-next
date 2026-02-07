@@ -73,7 +73,7 @@ const SearchInstructorEssential: FunctionComponent<
         type="Person"
         name={name}
         url={`https://egghead.io/q/resources-by-${slug}`}
-        sameAs={[twitterHandle, instructor.website]}
+        sameAs={[twitterHandle, websiteUrl].filter(Boolean) as string[]}
       />
       <div className="items-center flex flex-col grid-cols-1 space-y-12 lg:grid lg:grid-cols-12 lg:space-y-0 dark:bg-gray-900">
         <div
