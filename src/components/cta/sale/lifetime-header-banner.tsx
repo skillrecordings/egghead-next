@@ -2,16 +2,13 @@ import * as React from 'react'
 import Link from 'next/link'
 import analytics from '@/utils/analytics'
 import {usePathname} from 'next/navigation'
-import {trpc} from '@/app/_trpc/client'
 
-const LifetimeSaleHeaderBanner = () => {
-  const {data: isSaleBannerEnabled} =
-    trpc.featureFlag.isLiveWorkshopSale.useQuery({
-      flag: 'featureFlagLifetimeSale',
-    })
+const LifetimeSaleHeaderBanner: React.FC<{isEnabled?: boolean}> = ({
+  isEnabled,
+}) => {
   const pathname = usePathname()
 
-  return isSaleBannerEnabled ? (
+  return isEnabled ? (
     <Link
       href="/forever"
       onClick={() => {

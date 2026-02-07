@@ -4,16 +4,13 @@ import * as React from 'react'
 import Link from 'next/link'
 import analytics from '@/utils/analytics'
 import {usePathname} from 'next/navigation'
-import {trpc} from '@/app/_trpc/client'
 
-const WorkshopEarlyBirdHeaderBanner: React.FC = () => {
-  const {data: isEarlyBirdSaleBannerEnabled} =
-    trpc.featureFlag.isEarlyBirdWorkshopSale.useQuery({
-      flag: 'featureFlagCursorWorkshopSale',
-    })
+const WorkshopEarlyBirdHeaderBanner: React.FC<{isEnabled?: boolean}> = ({
+  isEnabled,
+}) => {
   const pathname = usePathname()
 
-  return isEarlyBirdSaleBannerEnabled ? (
+  return isEnabled ? (
     <Link
       href="/workshop/cursor"
       onClick={() => {
