@@ -314,6 +314,19 @@ export async function loadPlaylist(
     logContext,
   )
 
+  if (!playlist) {
+    logEvent(
+      'warn',
+      'course.loadPlaylist.not_found',
+      {
+        slug,
+        duration_ms: Date.now() - startTime,
+      },
+      logContext,
+    )
+    return null
+  }
+
   const courseMeta = await timeEvent(
     'course.loadCourseMetadata.sanity',
     {slug, course_id: playlist.id},
@@ -384,10 +397,18 @@ export async function loadPlaylist(
     courseBuilderLessons: courseBuilderLessons,
   }
 
+  // Sanity can return `instructor: null` for legacy courses. Don't let that
+  // clobber the Rails GraphQL instructor object and crash SSR.
+  const mergedInstructor =
+    courseMeta?.instructor != null
+      ? {...playlist.instructor, ...courseMeta.instructor}
+      : playlist.instructor
+
   const result = {
     ...playlist,
     ...courseMeta,
     ...courseBuilderOverrides,
+    instructor: mergedInstructor,
     items: filteredItems,
     sections: filteredSections,
     slug,
