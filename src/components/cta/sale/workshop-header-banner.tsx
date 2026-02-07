@@ -4,30 +4,23 @@ import * as React from 'react'
 import Link from 'next/link'
 import analytics from '@/utils/analytics'
 import {usePathname} from 'next/navigation'
-import {trpc} from '@/app/_trpc/client'
 import CountdownTimer from './countdown-timer'
 import {isEarlyBirdActive} from '@/utils/workshop'
+import type {LiveWorkshop} from '@/types'
 
 interface WorkshopSaleHeaderBannerProps {
-  flag: string
+  isEnabled?: boolean
+  workshopDateAndTime?: LiveWorkshop
   workshopPath: string
   workshopTitle: string
 }
 
 const WorkshopSaleHeaderBanner: React.FC<WorkshopSaleHeaderBannerProps> = ({
-  flag,
+  isEnabled,
+  workshopDateAndTime,
   workshopPath,
   workshopTitle,
 }) => {
-  const {data: workshopDateAndTime} = trpc.featureFlag.getLiveWorkshop.useQuery(
-    {
-      flag,
-    },
-  )
-  const {data: isSaleBannerEnabled} =
-    trpc.featureFlag.isLiveWorkshopSale.useQuery({
-      flag,
-    })
   const pathname = usePathname()
 
   const isEarlyBird = isEarlyBirdActive(workshopDateAndTime)
@@ -42,7 +35,7 @@ const WorkshopSaleHeaderBanner: React.FC<WorkshopSaleHeaderBannerProps> = ({
         }
       : workshopDateAndTime
 
-  return isSaleBannerEnabled ? (
+  return isEnabled ? (
     <Link
       href={workshopPath}
       onClick={() => {

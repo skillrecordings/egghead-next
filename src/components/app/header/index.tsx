@@ -36,6 +36,7 @@ import {cn} from '@/ui/utils'
 import LifetimeSaleHeaderBanner from '@/components/cta/sale/lifetime-header-banner'
 import WorkshopSaleHeaderBanner from '@/components/cta/sale/workshop-header-banner'
 import WorkshopEarlyBirdHeaderBanner from '@/components/cta/sale/workshop-early-bird-header-banner'
+import {trpc} from '@/app/_trpc/client'
 
 type NavLinkProps = {
   name: string
@@ -312,6 +313,16 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
 
   const isSearch = pathname.includes('/q')
 
+  const shouldLoadBanners = !loading && !viewer?.is_instructor
+  const {data: bannerData} = trpc.featureFlag.headerBanners.useQuery(
+    undefined,
+    {
+      enabled: shouldLoadBanners,
+      staleTime: 60_000,
+      refetchOnWindowFocus: false,
+    },
+  )
+
   const [activeCTA, setActiveCTA] = React.useState<any>(null)
   React.useEffect(() => {
     switch (true) {
@@ -343,22 +354,32 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
       )}
       {!viewer?.is_instructor &&
         pathname !== '/pricing' &&
-        pathname !== '/forever' && <LifetimeSaleHeaderBanner />}
+        pathname !== '/forever' && (
+          <LifetimeSaleHeaderBanner
+            isEnabled={Boolean(bannerData?.lifetimeSaleEnabled)}
+          />
+        )}
       {pathname !== '/workshop/cursor' && pathname !== '/' && (
         <WorkshopSaleHeaderBanner
-          flag="featureFlagCursorWorkshopSale"
+          isEnabled={Boolean(bannerData?.cursorWorkshopSaleEnabled)}
+          workshopDateAndTime={bannerData?.cursorWorkshop ?? undefined}
           workshopPath="/workshop/cursor"
           workshopTitle="Live Cursor Workshop with John Lindquist"
         />
       )}
       {pathname !== '/workshop/claude-code' && pathname !== '/' && (
         <WorkshopSaleHeaderBanner
-          flag="featureFlagClaudeCodeWorkshopSale"
+          isEnabled={Boolean(bannerData?.claudeCodeWorkshopSaleEnabled)}
+          workshopDateAndTime={bannerData?.claudeCodeWorkshop ?? undefined}
           workshopPath="/workshop/claude-code"
           workshopTitle="Live Claude Code Workshop"
         />
       )}
-      {pathname !== '/workshop/cursor' && <WorkshopEarlyBirdHeaderBanner />}
+      {pathname !== '/workshop/cursor' && (
+        <WorkshopEarlyBirdHeaderBanner
+          isEnabled={Boolean(bannerData?.cursorWorkshopEarlyBirdEnabled)}
+        />
+      )}
       <nav
         aria-label="header"
         className="h-12 text-sm border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000"
