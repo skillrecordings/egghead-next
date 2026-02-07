@@ -249,7 +249,9 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         if (key.startsWith('nxtP')) nxtPKeys.push(key)
       }
       if (nxtPKeys.length > 0) {
-        nxtPKeys.forEach((k) => url.searchParams.delete(k))
+        nxtPKeys.forEach((k) => {
+          url.searchParams.delete(k)
+        })
         return {
           redirect: {
             destination: `${url.pathname}${url.search}`,
