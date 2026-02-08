@@ -9,6 +9,7 @@ import {
   getCourseBuilderCourseLessons,
 } from './load-course-builder-metadata-wrapper'
 import {logEvent, timeEvent, type LogContext} from '@/utils/structured-log'
+import {sanityAllowlistAllowsCourse} from '@/lib/sanity-allowlist'
 
 export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
   const query = /* GraphQL */ `
@@ -327,12 +328,20 @@ export async function loadPlaylist(
     return null
   }
 
-  const courseMeta = await timeEvent(
-    'course.loadCourseMetadata.sanity',
-    {slug, course_id: playlist.id},
-    async () => loadCourseMetadata(playlist.id, playlist.slug),
+  const courseMetaAllowlist = await sanityAllowlistAllowsCourse(
+    {slug: playlist.slug, courseId: playlist.id},
     logContext,
   )
+
+  const courseMeta =
+    courseMetaAllowlist.ready && !courseMetaAllowlist.allowed
+      ? null
+      : await timeEvent(
+          'course.loadCourseMetadata.sanity',
+          {slug, course_id: playlist.id},
+          async () => loadCourseMetadata(playlist.id, playlist.slug),
+          logContext,
+        )
   const courseBuilderMetadata = await timeEvent(
     'course.loadCourseBuilderMetadata.mysql',
     {slug},
@@ -425,6 +434,9 @@ export async function loadPlaylist(
       filtered_items_count: filteredItems?.length ?? 0,
       filtered_sections_count: filteredSections?.length ?? 0,
       has_course_meta: !!courseMeta,
+      sanity_allowlist_ready: courseMetaAllowlist.ready,
+      sanity_allowlist_allowed: courseMetaAllowlist.allowed,
+      sanity_allowlist_reason: courseMetaAllowlist.reason,
       has_coursebuilder_meta: !!courseBuilderMetadata,
       lesson_states_count: lessonStates?.size ?? 0,
       coursebuilder_lessons_count: courseBuilderLessons?.length ?? 0,

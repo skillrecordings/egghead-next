@@ -125,4 +125,101 @@ describe('integration: loadLesson (title correctness)', () => {
     const [sql] = execute.mock.calls[0]
     expect(String(sql)).not.toContain('LIKE')
   })
+
+  test('skips Sanity GROQ entirely when allowlist is ready and slug is not allowlisted', async () => {
+    const execute = jest.fn(async () => [[]] as any)
+    const release = jest.fn()
+    const getConnection = jest.fn(async () => ({execute, release}))
+
+    jest.doMock('mysql2/promise', () => ({
+      __esModule: true,
+      createPool: jest.fn(() => ({getConnection})),
+    }))
+
+    const request = jest.fn(async (query: string, variables: any) => {
+      if (String(query).includes('query getLesson')) {
+        return {
+          lesson: {
+            id: 123,
+            completed: false,
+            slug: variables.slug,
+            title: 'Correct Legacy Lesson Title',
+            description: 'Correct legacy description',
+            duration: 60,
+            free_forever: true,
+            path: `/lessons/${variables.slug}`,
+            transcript: null,
+            transcript_url: null,
+            subtitles_url: null,
+            hls_url: null,
+            dash_url: null,
+            http_url: null,
+            lesson_view_url: null,
+            thumb_url: null,
+            icon_url: null,
+            download_url: null,
+            staff_notes_url: null,
+            state: 'published',
+            repo_url: null,
+            code_url: null,
+            primary_tag: {
+              name: 'react',
+              label: 'React',
+              http_url: '',
+              image_url: '',
+            },
+            created_at: null,
+            updated_at: null,
+            published_at: null,
+            collection: null,
+            tags: [],
+            instructor: {
+              full_name: 'Someone',
+              avatar_64_url: '',
+              slug: 'someone',
+              twitter: '',
+            },
+          },
+        }
+      }
+      throw new Error(`Unexpected GraphQL query in test: ${String(query)}`)
+    })
+
+    jest.doMock('@/utils/configured-graphql-client', () => ({
+      __esModule: true,
+      getGraphQLClient: () => ({request}),
+    }))
+
+    const sanityFetch = jest.fn(async () => ({}))
+    jest.doMock('@/utils/sanity-client', () => ({
+      __esModule: true,
+      sanityClient: {fetch: sanityFetch},
+    }))
+
+    jest.doMock('@/lib/sanity-allowlist', () => ({
+      __esModule: true,
+      sanityAllowlistAllowsLesson: jest.fn(async () => ({
+        ready: true,
+        allowed: false,
+        reason: 'allowlist_miss',
+      })),
+    }))
+
+    jest.doMock('@/lib/lesson-comments', () => ({
+      __esModule: true,
+      loadLessonComments: jest.fn(async () => []),
+    }))
+
+    jest.spyOn(console, 'log').mockImplementation(() => {})
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    const {loadLesson} = await import('../lessons')
+
+    const legacySlug = 'some-legacy-lesson'
+    const lesson = await loadLesson(legacySlug)
+
+    expect(lesson.slug).toBe(legacySlug)
+    expect(sanityFetch).not.toHaveBeenCalled()
+  })
 })

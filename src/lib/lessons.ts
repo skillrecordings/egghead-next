@@ -14,7 +14,8 @@ import compactedMerge from '@/utils/compacted-merge'
 import {convertUndefinedValuesToNull} from '@/utils/convert-undefined-values-to-null'
 import {getCourseBuilderLesson} from '@/lib/get-course-builder-metadata'
 import {logEvent, timeEvent, type LogContext} from '@/utils/structured-log'
-import {kv} from '@vercel/kv'
+import {getRedis} from '@/lib/upstash-redis'
+import {sanityAllowlistAllowsLesson} from '@/lib/sanity-allowlist'
 
 // code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`
@@ -97,14 +98,23 @@ async function loadLessonMetadataFromSanity(
   }
 
   try {
+    // If the allowlist is ready and this slug is not in it, skip Sanity entirely.
+    // This is the big win: 1 Redis check vs 1 Sanity GROQ call for every unique slug.
+    const allowlist = await sanityAllowlistAllowsLesson(slug, logContext)
+    if (allowlist.ready && !allowlist.allowed) return {}
+
+    const redis = getRedis()
+
     // KV-cached to avoid paying the Sanity roundtrip for the ~96% of slugs
     // that don't have Sanity overrides.
     const cacheKey = sanityLessonCacheKey(slug)
     try {
-      const cached = await kv.get<SanityLessonCacheValue>(cacheKey)
-      if (cached) {
-        if (!cached.ok) return {}
-        return (cached.value ?? {}) as Record<string, unknown>
+      if (redis) {
+        const cached = await redis.get<SanityLessonCacheValue>(cacheKey)
+        if (cached) {
+          if (!cached.ok) return {}
+          return (cached.value ?? {}) as Record<string, unknown>
+        }
       }
     } catch {
       logEvent(
@@ -134,11 +144,13 @@ async function loadLessonMetadataFromSanity(
       : {ok: false}
 
     try {
-      await kv.set(cacheKey, valueToCache, {
-        ex: hasSanity
-          ? SANITY_LESSON_CACHE_TTL_SECONDS
-          : SANITY_LESSON_CACHE_MISS_TTL_SECONDS,
-      })
+      if (redis) {
+        await redis.set(cacheKey, valueToCache, {
+          ex: hasSanity
+            ? SANITY_LESSON_CACHE_TTL_SECONDS
+            : SANITY_LESSON_CACHE_MISS_TTL_SECONDS,
+        })
+      }
     } catch {
       logEvent(
         'warn',
