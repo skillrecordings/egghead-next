@@ -426,7 +426,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         // Skip SSR Typesense entirely (high-cardinality) and let the client fetch.
         return {
           props: {
-            error: null,
+            error: '',
             initialSearchState,
             path,
             serverState: null,
