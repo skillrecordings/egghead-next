@@ -1,13 +1,14 @@
 import {Redis} from '@upstash/redis'
 
 /**
- * Prefer Upstash Redis directly over `@vercel/kv`.
+ * Agent note:
+ * - We prefer Upstash directly over `@vercel/kv`.
+ * - `Redis.fromEnv()` supports both Upstash env vars and Vercel KV fallbacks:
+ *   - UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN
+ *   - KV_REST_API_URL / KV_REST_API_TOKEN
  *
- * `Redis.fromEnv()` supports both:
- * - UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN
- * - KV_REST_API_URL / KV_REST_API_TOKEN (Vercel KV fallback naming)
- *
- * This is intentionally lazy so dev/tests don't crash when env vars aren't present.
+ * This module is intentionally lazy so local dev/tests don't crash when Redis
+ * env vars aren't present.
  */
 
 let _redis: Redis | null | undefined
