@@ -27,8 +27,8 @@ import {
 } from '@/utils/typesense'
 import nameToSlug from '@/lib/name-to-slug'
 import Link from 'next/link'
-import {kv} from '@vercel/kv'
 import crypto from 'crypto'
+import {getRedis} from '@/lib/upstash-redis'
 
 const tracer = getTracer('search-page')
 
@@ -56,8 +56,35 @@ const getInstructorSlugFromInstructorList = (instructors: string[]) => {
 const SEARCH_SSR_CACHE_TTL_SECONDS = 600
 const SEARCH_SSR_CACHE_PREFIX = 'search:ssr'
 
-const stableJson = (value: any) =>
-  JSON.stringify(value, Object.keys(value || {}).sort())
+/**
+ * Deep-stable stringify for cache keys.
+ *
+ * The previous implementation used `JSON.stringify(value, Object.keys(value).sort())`
+ * which only keeps top-level keys. Nested objects became `{}` which caused key
+ * collisions and incorrect SSR payload reuse.
+ */
+const stableJson = (value: any) => {
+  const normalize = (v: any): any => {
+    if (v === undefined) return undefined
+    if (v === null) return null
+    if (Array.isArray(v)) return v.map(normalize)
+    if (typeof v !== 'object') return v
+
+    // Only sort plain objects; keep other objects (Date, etc) as-is.
+    const proto = Object.getPrototypeOf(v)
+    if (proto !== Object.prototype && proto !== null) return v
+
+    const out: Record<string, unknown> = {}
+    for (const key of Object.keys(v).sort()) {
+      const child = normalize(v[key])
+      if (child === undefined) continue
+      out[key] = child
+    }
+    return out
+  }
+
+  return JSON.stringify(normalize(value))
+}
 
 const cacheKeyForQuery = (query: any) => {
   const base = stableJson(query || {})
@@ -264,6 +291,8 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
     }
 
     try {
+      const redis = getRedis()
+
       // Set a timeout for the getServerState call
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => {
@@ -271,26 +300,61 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         }, 5000) // 5 second timeout
       })
 
-      const cacheKey = cacheKeyForQuery({
-        all,
-        rest,
-      })
+      const allowedQueryKeys = new Set([
+        'q',
+        'type',
+        'access_state',
+        'page',
+        'sortBy',
+      ])
+      const weirdKeys = Object.keys(rest || {}).filter(
+        (k) => !allowedQueryKeys.has(k),
+      )
+
+      const qValue =
+        typeof rest.q === 'string'
+          ? rest.q
+          : Array.isArray(rest.q)
+          ? rest.q.join(' ')
+          : ''
+      const hasQ = qValue.trim().length > 0
+      const qLen = qValue.length
+
+      const pageNumber = Number(rest.page ?? 1)
+      const hasNonFirstPage = Number.isFinite(pageNumber) && pageNumber > 1
+      const hasSortBy =
+        typeof rest.sortBy === 'string' && rest.sortBy.trim().length > 0
+
+      // "Browse-mode" only: we SSR/cached only when this is low-cardinality.
+      // Free-text search is huge cardinality, so skip expensive `getServerState`
+      // and let the client InstantSearch fetch.
+      const shouldSkipSsr =
+        hasQ || weirdKeys.length > 0 || hasNonFirstPage || hasSortBy
+      const cacheable = !shouldSkipSsr
+
+      const cacheKey = cacheKeyForQuery(initialSearchState)
 
       let sanitizedServerState: any | null = null
-      let cacheStatus: 'hit' | 'miss' | 'error' = 'miss'
+      let cacheStatus: 'hit' | 'miss' | 'error' | 'skip' = 'miss'
+      let bytes: number | null = null
+      let setOk: boolean | null = null
 
-      try {
-        const cached = await kv.get(cacheKey)
-        if (cached) {
-          sanitizedServerState = cached
-          cacheStatus = 'hit'
+      if (shouldSkipSsr) {
+        cacheStatus = 'skip'
+      } else if (redis) {
+        try {
+          const cached = await redis.get(cacheKey)
+          if (cached) {
+            sanitizedServerState = cached
+            cacheStatus = 'hit'
+          }
+        } catch {
+          // fail open if Redis is unavailable
+          cacheStatus = 'error'
         }
-      } catch {
-        // fail open if KV is unavailable
-        cacheStatus = 'error'
       }
 
-      if (!sanitizedServerState) {
+      if (!sanitizedServerState && !shouldSkipSsr) {
         // Get server state and sanitize it for serialization
         const serverStatePromise = getServerState(
           <SearchIndex initialSearchState={initialSearchState} />,
@@ -313,11 +377,25 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         )
 
         try {
-          await kv.set(cacheKey, sanitizedServerState, {
-            ex: SEARCH_SSR_CACHE_TTL_SECONDS,
-          })
+          if (redis) {
+            const json = JSON.stringify(sanitizedServerState)
+            bytes = Buffer.byteLength(json, 'utf8')
+
+            // Guardrail: don't try to shove huge payloads into Redis.
+            // (Upstash/Vercel KV commonly limit value sizes around ~1MB.)
+            const MAX_BYTES = 900_000
+            if (bytes <= MAX_BYTES && cacheable) {
+              await redis.set(cacheKey, sanitizedServerState, {
+                ex: SEARCH_SSR_CACHE_TTL_SECONDS,
+              })
+              setOk = true
+            } else {
+              setOk = false
+            }
+          }
         } catch {
           // ignore cache set failures
+          setOk = false
         }
       }
 
@@ -326,6 +404,14 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
           JSON.stringify({
             event: 'search_ssr_cache',
             status: cacheStatus,
+            cacheable,
+            has_q: hasQ,
+            q_len: qLen,
+            weird_keys_count: weirdKeys.length,
+            non_first_page: hasNonFirstPage,
+            has_sort_by: hasSortBy,
+            bytes,
+            set_ok: setOk,
             ttl_s: SEARCH_SSR_CACHE_TTL_SECONDS,
             key_prefix: SEARCH_SSR_CACHE_PREFIX,
             cache_key: cacheKey,
@@ -336,7 +422,24 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         // logging must never crash
       }
 
-      // Rest of the code remains the same...
+      if (!sanitizedServerState) {
+        // Skip SSR Typesense entirely (high-cardinality) and let the client fetch.
+        return {
+          props: {
+            error: null,
+            initialSearchState,
+            path,
+            serverState: null,
+            pageTitle,
+            // free-text queries (and weird params) are noindex by default
+            noIndexInitial: true,
+            initialInstructor: null,
+            initialTopicGraphqlData: null,
+            initialTopicSanityData: null,
+          },
+        }
+      }
+
       const resultsState = Object.keys(sanitizedServerState.initialResults).map(
         (key) => sanitizedServerState.initialResults[key],
       )[0]
