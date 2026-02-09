@@ -139,7 +139,11 @@ async function refreshAllowlist(
 
       await redis.del(tmpSetKey)
       for (const part of chunk(unique, 1000)) {
-        await redis.sadd(tmpSetKey, ...part)
+        // Upstash types require at least 1 member. `chunk()` guarantees non-empty parts
+        // but TS can't infer that from `string[]`, so we destructure safely.
+        const [first, ...rest] = part
+        if (!first) continue
+        await redis.sadd(tmpSetKey, first, ...rest)
       }
 
       await redis.rename(tmpSetKey, stableSetKey)
@@ -187,7 +191,9 @@ async function refreshAllowlist(
 
     await redis.del(tmpSetKey)
     for (const part of chunk(unique, 1000)) {
-      await redis.sadd(tmpSetKey, ...part)
+      const [first, ...rest] = part
+      if (!first) continue
+      await redis.sadd(tmpSetKey, first, ...rest)
     }
 
     await redis.rename(tmpSetKey, stableSetKey)
