@@ -264,6 +264,9 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
     if (all[0] === 'undefined') return {props: {error: 'no search query'}}
 
     const initialSearchState = parseUrl(query)
+    const selectedInstructors =
+      getInstructorsFromSearchState(initialSearchState)
+    const selectedTopics = topicExtractor(initialSearchState)
     const pageTitle = titleFromPath(all as string[])
     const path = req.url
 
@@ -325,11 +328,25 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       const hasSortBy =
         typeof rest.sortBy === 'string' && rest.sortBy.trim().length > 0
 
+      // Our `/q/<path>` URLs can encode multiple tags/instructors (combinatorial explosion).
+      // SSR'ing those pages is expensive and produces near-zero cache reuse.
+      const topicsCount = Array.isArray(selectedTopics)
+        ? selectedTopics.filter((t) => t && t !== 'undefined').length
+        : 0
+      const instructorsCount = Array.isArray(selectedInstructors)
+        ? selectedInstructors.length
+        : 0
+      const isLowCardinalityBrowse = topicsCount + instructorsCount <= 1
+
       // "Browse-mode" only: we SSR/cached only when this is low-cardinality.
       // Free-text search is huge cardinality, so skip expensive `getServerState`
       // and let the client InstantSearch fetch.
       const shouldSkipSsr =
-        hasQ || weirdKeys.length > 0 || hasNonFirstPage || hasSortBy
+        hasQ ||
+        weirdKeys.length > 0 ||
+        hasNonFirstPage ||
+        hasSortBy ||
+        !isLowCardinalityBrowse
       const cacheable = !shouldSkipSsr
 
       const cacheKey = cacheKeyForQuery(initialSearchState)
@@ -338,9 +355,21 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       let cacheStatus: 'hit' | 'miss' | 'error' | 'skip' = 'miss'
       let bytes: number | null = null
       let setOk: boolean | null = null
+      let skipReason:
+        | 'has_q'
+        | 'weird_keys'
+        | 'non_first_page'
+        | 'has_sort_by'
+        | 'high_cardinality_path'
+        | null = null
 
       if (shouldSkipSsr) {
         cacheStatus = 'skip'
+        if (hasQ) skipReason = 'has_q'
+        else if (weirdKeys.length > 0) skipReason = 'weird_keys'
+        else if (hasNonFirstPage) skipReason = 'non_first_page'
+        else if (hasSortBy) skipReason = 'has_sort_by'
+        else if (!isLowCardinalityBrowse) skipReason = 'high_cardinality_path'
       } else if (redis) {
         try {
           const cached = await redis.get(cacheKey)
@@ -410,6 +439,9 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
             weird_keys_count: weirdKeys.length,
             non_first_page: hasNonFirstPage,
             has_sort_by: hasSortBy,
+            tags_count: topicsCount,
+            instructors_count: instructorsCount,
+            skip_reason: skipReason,
             bytes,
             set_ok: setOk,
             ttl_s: SEARCH_SSR_CACHE_TTL_SECONDS,
@@ -455,11 +487,6 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       const userQueryPresent = !isEmpty(state?.query)
 
       const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
-
-      const selectedInstructors =
-        getInstructorsFromSearchState(initialSearchState)
-
-      const selectedTopics = topicExtractor(initialSearchState)
 
       if (
         selectedTopics?.length === 1 &&
