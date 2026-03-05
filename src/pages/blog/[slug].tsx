@@ -18,6 +18,8 @@ import {useScrollTracker} from 'react-scroll-tracker'
 import analytics from '@/utils/analytics'
 import EmailSubscribeWidget from '@/components/mdx/email-subscribe-widget'
 import remarkGfm from 'remark-gfm'
+import rehypeSlug from 'rehype-slug'
+import rehypeHighlight from 'rehype-highlight'
 import truncate from 'lodash/truncate'
 import removeMarkdown from 'remove-markdown'
 import friendlyTime from 'friendly-time'
@@ -323,23 +325,22 @@ export async function getStaticProps(context: any) {
     slug,
   })
 
-  const mdxSource = await serialize(body, {
+  // MDX v3 treats bare `---` blocks mid-document as thematic breaks and tries
+  // to parse `export`/`import` lines as ESM, which breaks content like Astro
+  // frontmatter examples. Wrap these in code fences so they render as code blocks.
+  const preprocessed = body.replace(
+    /(?<=\n\n)---\n([\s\S]*?)\n---(?=\n|$)/gm,
+    (match: string, inner: string) =>
+      /^\s*(export|import)\s/m.test(inner) ? '```\n' + match + '\n```' : match,
+  )
+
+  const mdxSource = await serialize(preprocessed, {
+    blockJS: false,
+    blockDangerousJS: true,
     mdxOptions: {
-      remarkPlugins: [
-        remarkGfm,
-        require(`remark-slug`),
-        require(`remark-footnotes`),
-        require(`remark-code-titles`),
-      ],
-      rehypePlugins: [
-        [
-          require(`rehype-shiki`),
-          {
-            theme: `./src/styles/material-theme-dark.json`,
-            useBackground: false,
-          },
-        ],
-      ],
+      useDynamicImport: true,
+      remarkPlugins: [remarkGfm],
+      rehypePlugins: [rehypeSlug, rehypeHighlight],
     },
   })
   return {

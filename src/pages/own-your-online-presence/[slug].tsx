@@ -6,6 +6,8 @@ import {sanityClient} from '@/utils/sanity-client'
 import groq from 'groq'
 import {serialize} from 'next-mdx-remote/serialize'
 import {MDXRemote} from 'next-mdx-remote'
+import remarkGfm from 'remark-gfm'
+import rehypeSlug from 'rehype-slug'
 
 const OnlinePresenceArticle: React.FC<React.PropsWithChildren<any>> = ({
   source,
@@ -43,12 +45,12 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         const {resource} = await sanityClient.fetch(articleQuery)
 
         const source = await serialize(resource.article, {
+          blockJS: false,
+          blockDangerousJS: true,
           mdxOptions: {
-            remarkPlugins: [
-              require(`remark-slug`),
-              require(`remark-footnotes`),
-              require(`remark-code-titles`),
-            ],
+            useDynamicImport: true,
+            remarkPlugins: [remarkGfm],
+            rehypePlugins: [rehypeSlug],
           },
         })
 

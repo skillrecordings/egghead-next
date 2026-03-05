@@ -9,6 +9,9 @@ import mdxComponents from '@/components/mdx'
 import {sanityClient} from '@/utils/sanity-client'
 import {serialize} from 'next-mdx-remote/serialize'
 import {HIDDEN_CASE_STUDIES} from './index'
+import remarkGfm from 'remark-gfm'
+import rehypeSlug from 'rehype-slug'
+import rehypeHighlight from 'rehype-highlight'
 
 type AuthorResource = {
   name: string
@@ -206,21 +209,12 @@ export async function getStaticProps(context: any) {
   })
 
   const mdxSource = await serialize(body, {
+    blockJS: false,
+    blockDangerousJS: true,
     mdxOptions: {
-      remarkPlugins: [
-        require(`remark-slug`),
-        require(`remark-footnotes`),
-        require(`remark-code-titles`),
-      ],
-      rehypePlugins: [
-        [
-          require(`rehype-shiki`),
-          {
-            theme: `./src/styles/material-theme-dark.json`,
-            useBackground: false,
-          },
-        ],
-      ],
+      useDynamicImport: true,
+      remarkPlugins: [remarkGfm],
+      rehypePlugins: [rehypeSlug, rehypeHighlight],
     },
   })
   return {

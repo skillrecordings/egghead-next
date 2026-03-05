@@ -7,10 +7,8 @@ import compact from 'lodash/compact.js';
 import {hostname} from 'os';
 import createMDX from '@next/mdx';
 import remarkGfm from 'remark-gfm';
-import remarkSlug from 'remark-slug';
-import remarkFootnotes from 'remark-footnotes';
-import remarkCodeTitles from 'remark-code-titles';
-import rehypeShiki from 'rehype-shiki';
+import rehypeSlug from 'rehype-slug';
+import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
 import { nodeTypes } from '@mdx-js/mdx';
 // Removed @code-hike/mdx import to simplify build - using basic syntax highlighting instead
@@ -421,16 +419,8 @@ const rssRoutes = [
 
 const withMDX = createMDX({
   options: {
-    remarkPlugins: [
-      remarkGfm,
-      remarkSlug,
-      remarkFootnotes,
-      remarkCodeTitles,
-      // Removed remarkCodeHike to simplify build - using rehypeShiki for basic syntax highlighting
-    ],
-    // Ensure MDX ESM nodes (import/export) are passed through when using rehype-raw
-    // to avoid "Cannot compile `mdxjsEsm` node" errors
-    rehypePlugins: [[rehypeRaw, { passThrough: nodeTypes }], rehypeShiki],
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [[rehypeRaw, { passThrough: nodeTypes }], rehypeSlug, rehypeHighlight],
   },
 });
 
