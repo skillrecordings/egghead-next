@@ -39,11 +39,11 @@ importers:
         specifier: ^3.3.1
         version: 3.10.0(react-hook-form@7.66.0(react@19.1.3))
       '@mdx-js/mdx':
-        specifier: 2.3.0
-        version: 2.3.0
+        specifier: ^3.0.1
+        version: 3.1.1
       '@mdx-js/react':
-        specifier: 2.3.0
-        version: 2.3.0(react@19.1.3)
+        specifier: ^3.0.1
+        version: 3.1.1(@types/react@19.1.9)(react@19.1.3)
       '@mux/mux-node':
         specifier: ^7.3.0
         version: 7.3.5
@@ -646,14 +646,14 @@ importers:
         specifier: ^3.9.10
         version: 3.14.7(@babel/core@7.28.5)(@babel/preset-env@7.28.5(@babel/core@7.28.5))(babel-loader@8.4.1(@babel/core@7.28.5)(webpack@5.102.1(esbuild@0.25.12)))(cypress@6.9.1)(webpack@5.102.1(esbuild@0.25.12))
       '@mdx-js/loader':
-        specifier: 2.3.0
-        version: 2.3.0(webpack@5.102.1(esbuild@0.25.12))
+        specifier: ^3.0.1
+        version: 3.1.1(webpack@5.102.1(esbuild@0.25.12))
       '@next/bundle-analyzer':
         specifier: ^11.1.0
         version: 11.1.4(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@next/mdx':
-        specifier: 14.2.4
-        version: 14.2.4(@mdx-js/loader@2.3.0(webpack@5.102.1(esbuild@0.25.12)))(@mdx-js/react@2.3.0(react@19.1.3))
+        specifier: ^15.4.8
+        version: 15.5.12(@mdx-js/loader@3.1.1(webpack@5.102.1(esbuild@0.25.12)))(@mdx-js/react@3.1.1(@types/react@19.1.9)(react@19.1.3))
       '@storybook/addon-a11y':
         specifier: ^9.1.2
         version: 9.1.16(storybook@9.1.16(@testing-library/dom@9.3.4)(bufferutil@4.0.9)(prettier@2.8.8)(utf-8-validate@5.0.10)(vite@6.4.1(@types/node@16.18.126)(jiti@1.21.7)(terser@5.44.1)(yaml@2.3.2)))
@@ -2927,21 +2927,19 @@ packages:
     peerDependencies:
       esbuild: '>=0.11.0'
 
-  '@mdx-js/loader@2.3.0':
-    resolution: {integrity: sha512-IqsscXh7Q3Rzb+f5DXYk0HU71PK+WuFsEhf+mSV3fOhpLcEpgsHvTQ2h0T6TlZ5gHOaBeFjkXwB52by7ypMyNg==}
+  '@mdx-js/loader@3.1.1':
+    resolution: {integrity: sha512-0TTacJyZ9mDmY+VefuthVshaNIyCGZHJG2fMnGaDttCt8HmjUF7SizlHJpaCDoGnN635nK1wpzfpx/Xx5S4WnQ==}
     peerDependencies:
-      webpack: '>=4'
+      webpack: '>=5'
+    peerDependenciesMeta:
+      webpack:
+        optional: true
 
   '@mdx-js/mdx@2.3.0':
     resolution: {integrity: sha512-jLuwRlz8DQfQNiUCJR50Y09CGPq3fLtmtUQfVrj79E0JWu3dvsVcxVIcfhR5h0iXu+/z++zDrYeiJqifRynJkA==}
 
   '@mdx-js/mdx@3.1.1':
     resolution: {integrity: sha512-f6ZO2ifpwAQIpzGWaBQT2TXxPv6z3RBzQKpVftEWN78Vl/YweF1uwussDx8ECAXVtr3Rs89fKyG9YlzUs9DyGQ==}
-
-  '@mdx-js/react@2.3.0':
-    resolution: {integrity: sha512-zQH//gdOmuu7nt2oJR29vFhDv88oGPmVw6BggmrHeMI+xgEkp1B2dX9/bMBSYtK0dyLX/aOmesKS09g222K1/g==}
-    peerDependencies:
-      react: '>=16'
 
   '@mdx-js/react@3.1.1':
     resolution: {integrity: sha512-f++rKLQgUVYDAtECQ6fn/is15GkEH9+nZPM3MS0RcxVqoTfawHvDlSCH7JbMhAM6uJ32v3eXLvLmLvjGu7PTQw==}
@@ -3036,8 +3034,8 @@ packages:
   '@next/eslint-plugin-next@15.5.6':
     resolution: {integrity: sha512-YxDvsT2fwy1j5gMqk3ppXlsgDopHnkM4BoxSVASbvvgh5zgsK8lvWerDzPip8k3WVzsTZ1O7A7si1KNfN4OZfQ==}
 
-  '@next/mdx@14.2.4':
-    resolution: {integrity: sha512-eklTNNoH08xGy9UiKcohZmoLhmHAYaYm5ndPGQqJybaeNErgYL8fmp2tk5DRD0L54DNqMz97oN+CAEHqfqIVcw==}
+  '@next/mdx@15.5.12':
+    resolution: {integrity: sha512-XXQcGERYHrC41rJXzd8kqEhsjeQ1r5N+eUxA+gcl8COapdVqI7iZjT4Npz6D845/txFTtechafx/+s8RZxO2aw==}
     peerDependencies:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '>=0.15.0'
@@ -18383,10 +18381,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@mdx-js/loader@2.3.0(webpack@5.102.1(esbuild@0.25.12))':
+  '@mdx-js/loader@3.1.1(webpack@5.102.1(esbuild@0.25.12))':
     dependencies:
-      '@mdx-js/mdx': 2.3.0
+      '@mdx-js/mdx': 3.1.1
       source-map: 0.7.6
+    optionalDependencies:
       webpack: 5.102.1(esbuild@0.25.12)
     transitivePeerDependencies:
       - supports-color
@@ -18442,12 +18441,6 @@ snapshots:
       vfile: 6.0.3
     transitivePeerDependencies:
       - supports-color
-
-  '@mdx-js/react@2.3.0(react@19.1.3)':
-    dependencies:
-      '@types/mdx': 2.0.13
-      '@types/react': 19.1.9
-      react: 19.1.3
 
   '@mdx-js/react@3.1.1(@types/react@19.1.9)(react@19.1.3)':
     dependencies:
@@ -18581,12 +18574,12 @@ snapshots:
     dependencies:
       fast-glob: 3.3.1
 
-  '@next/mdx@14.2.4(@mdx-js/loader@2.3.0(webpack@5.102.1(esbuild@0.25.12)))(@mdx-js/react@2.3.0(react@19.1.3))':
+  '@next/mdx@15.5.12(@mdx-js/loader@3.1.1(webpack@5.102.1(esbuild@0.25.12)))(@mdx-js/react@3.1.1(@types/react@19.1.9)(react@19.1.3))':
     dependencies:
       source-map: 0.7.6
     optionalDependencies:
-      '@mdx-js/loader': 2.3.0(webpack@5.102.1(esbuild@0.25.12))
-      '@mdx-js/react': 2.3.0(react@19.1.3)
+      '@mdx-js/loader': 3.1.1(webpack@5.102.1(esbuild@0.25.12))
+      '@mdx-js/react': 3.1.1(@types/react@19.1.9)(react@19.1.3)
 
   '@next/swc-darwin-arm64@15.4.8':
     optional: true
