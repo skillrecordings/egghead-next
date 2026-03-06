@@ -18,9 +18,12 @@ import {useScrollTracker} from 'react-scroll-tracker'
 import analytics from '@/utils/analytics'
 import EmailSubscribeWidget from '@/components/mdx/email-subscribe-widget'
 import remarkGfm from 'remark-gfm'
+import rehypeSlug from 'rehype-slug'
+import rehypeHighlight from 'rehype-highlight'
 import truncate from 'lodash/truncate'
 import removeMarkdown from 'remove-markdown'
 import friendlyTime from 'friendly-time'
+import {preprocessMdxFrontmatter} from '@/utils/preprocess-mdx'
 
 const UpdatedAt: React.FunctionComponent<
   React.PropsWithChildren<{date: string}>
@@ -323,23 +326,13 @@ export async function getStaticProps(context: any) {
     slug,
   })
 
-  const mdxSource = await serialize(body, {
+  const mdxSource = await serialize(preprocessMdxFrontmatter(body), {
+    blockJS: false,
+    blockDangerousJS: true,
     mdxOptions: {
-      remarkPlugins: [
-        remarkGfm,
-        require(`remark-slug`),
-        require(`remark-footnotes`),
-        require(`remark-code-titles`),
-      ],
-      rehypePlugins: [
-        [
-          require(`rehype-shiki`),
-          {
-            theme: `./src/styles/material-theme-dark.json`,
-            useBackground: false,
-          },
-        ],
-      ],
+      useDynamicImport: true,
+      remarkPlugins: [remarkGfm],
+      rehypePlugins: [rehypeSlug, rehypeHighlight],
     },
   })
   return {

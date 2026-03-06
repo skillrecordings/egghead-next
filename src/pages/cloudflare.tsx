@@ -12,6 +12,9 @@ import {NextSeo} from 'next-seo'
 import Head from 'next/head'
 import {convertTimeToMins} from '@/utils/time-utils'
 import {useRouter} from 'next/router'
+import remarkGfm from 'remark-gfm'
+import rehypeSlug from 'rehype-slug'
+import rehypeHighlight from 'rehype-highlight'
 
 const CASE_STUDY_SLUG = 'cloudflare'
 
@@ -252,21 +255,12 @@ export async function getStaticProps() {
   })
 
   const mdxSource = await serialize(caseStudy.body, {
+    blockJS: false,
+    blockDangerousJS: true,
     mdxOptions: {
-      remarkPlugins: [
-        require(`remark-slug`),
-        require(`remark-footnotes`),
-        require(`remark-code-titles`),
-      ],
-      rehypePlugins: [
-        [
-          require(`rehype-shiki`),
-          {
-            theme: `./src/styles/material-theme-dark.json`,
-            useBackground: false,
-          },
-        ],
-      ],
+      useDynamicImport: true,
+      remarkPlugins: [remarkGfm],
+      rehypePlugins: [rehypeSlug, rehypeHighlight],
     },
   })
   return {
