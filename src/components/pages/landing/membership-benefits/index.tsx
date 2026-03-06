@@ -90,7 +90,12 @@ const Column: React.FC<
             key={feature.icon || feature.title}
             title={
               feature.icon ? (
-                <Image src={iconMap[feature.icon]} alt={feature.icon} />
+                <Image
+                  src={iconMap[feature.icon]}
+                  alt={feature.icon}
+                  width={32}
+                  height={32}
+                />
               ) : (
                 feature.title
               )
