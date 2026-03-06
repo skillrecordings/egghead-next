@@ -23,6 +23,7 @@ import rehypeHighlight from 'rehype-highlight'
 import truncate from 'lodash/truncate'
 import removeMarkdown from 'remove-markdown'
 import friendlyTime from 'friendly-time'
+import {preprocessMdxFrontmatter} from '@/utils/preprocess-mdx'
 
 const UpdatedAt: React.FunctionComponent<
   React.PropsWithChildren<{date: string}>
@@ -325,16 +326,7 @@ export async function getStaticProps(context: any) {
     slug,
   })
 
-  // MDX v3 treats bare `---` blocks mid-document as thematic breaks and tries
-  // to parse `export`/`import` lines as ESM, which breaks content like Astro
-  // frontmatter examples. Wrap these in code fences so they render as code blocks.
-  const preprocessed = body.replace(
-    /(?<=\n\n)---\n([\s\S]*?)\n---(?=\n|$)/gm,
-    (match: string, inner: string) =>
-      /^\s*(export|import)\s/m.test(inner) ? '```\n' + match + '\n```' : match,
-  )
-
-  const mdxSource = await serialize(preprocessed, {
+  const mdxSource = await serialize(preprocessMdxFrontmatter(body), {
     blockJS: false,
     blockDangerousJS: true,
     mdxOptions: {
