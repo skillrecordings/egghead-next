@@ -29,39 +29,31 @@ const serializeMDX = async (
   text: string,
   {scope, syntaxHighlighterOptions, useShikiTwoslash}: SerializeMDXProps = {},
 ): Promise<MDXRemoteSerializeResult> => {
+  const shikiPlugin: any[] | undefined = syntaxHighlighterOptions
+    ? [[shikiRemotePlugin as any, syntaxHighlighterOptions]]
+    : undefined
+
   if (useShikiTwoslash) {
-    const mdxContent = await serialize(text, {
+    return serialize(text, {
       blockJS: false,
       blockDangerousJS: true,
       scope,
       mdxOptions: {
         useDynamicImport: true,
         rehypePlugins: [[rehypeRaw as any, {passThrough: nodeTypes}]],
-        remarkPlugins: [
-          [
-            shikiRemotePlugin as any,
-            syntaxHighlighterOptions as ShikiRemotePluginOptions,
-          ],
-        ],
+        remarkPlugins: shikiPlugin ?? [],
       },
     })
-    return mdxContent
   } else {
-    const mdxContent = await serialize(text, {
+    return serialize(text, {
       blockJS: false,
       blockDangerousJS: true,
       scope,
       mdxOptions: {
         useDynamicImport: true,
-        remarkPlugins: [
-          [
-            shikiRemotePlugin as any,
-            syntaxHighlighterOptions as ShikiRemotePluginOptions,
-          ],
-        ],
+        remarkPlugins: shikiPlugin ?? [],
       },
     })
-    return mdxContent
   }
 }
 
