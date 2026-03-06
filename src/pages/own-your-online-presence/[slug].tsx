@@ -8,6 +8,7 @@ import {serialize} from 'next-mdx-remote/serialize'
 import {MDXRemote} from 'next-mdx-remote'
 import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
+import rehypeHighlight from 'rehype-highlight'
 
 const OnlinePresenceArticle: React.FC<React.PropsWithChildren<any>> = ({
   source,
@@ -50,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
           mdxOptions: {
             useDynamicImport: true,
             remarkPlugins: [remarkGfm],
-            rehypePlugins: [rehypeSlug],
+            rehypePlugins: [rehypeSlug, rehypeHighlight],
           },
         })
 
