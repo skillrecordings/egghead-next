@@ -16,10 +16,10 @@ export function preprocessMdxFrontmatter(body: string): string {
       if (fences.length % 2 !== 0) return match
 
       // Use a fence longer than any backtick run in the inner content
-      const maxRun = (inner.match(/`+/g) || []).reduce(
-        (max, r) => Math.max(max, r.length),
-        0,
-      )
+      const backtickRuns = inner.match(/`+/g)
+      const maxRun = backtickRuns
+        ? backtickRuns.reduce((max, r) => Math.max(max, r.length), 0)
+        : 0
       const fence = '`'.repeat(Math.max(3, maxRun + 1))
 
       return match.replace(
