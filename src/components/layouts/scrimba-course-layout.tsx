@@ -11,7 +11,7 @@ import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from '@/utils/analytics'
 import {convertTimeWithTitles} from '@/utils/time-utils'
-import {LessonResource, SectionResource} from '@/types'
+import {CourseLessonShell, LessonResource, SectionResource} from '@/types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from '@/utils/configured-axios'
 import friendlyTime from 'friendly-time'
@@ -37,7 +37,7 @@ import LoginForm from '@/pages/login'
 import rehypeRaw from 'rehype-raw'
 
 type CoursePageLayoutProps = {
-  lessons: LessonResource[]
+  lessons: CourseLessonShell[]
   course: any
   ogImageUrl: string
   sections: SectionResource[]
@@ -48,7 +48,7 @@ type ModuleResource = {
   sectionTitle: string
 }
 
-type Resource = ModuleResource | LessonResource
+type Resource = ModuleResource | CourseLessonShell
 
 const ScrimbaPageLayout: React.FunctionComponent<
   React.PropsWithChildren<CoursePageLayoutProps>
@@ -291,19 +291,19 @@ const ScrimbaPageLayout: React.FunctionComponent<
   const nextLesson: any = isEmpty(courseListLessons)
     ? first(
         lessons.filter(
-          (lesson: LessonResource) =>
+          (lesson: CourseLessonShell) =>
             !completedLessonSlugs.includes(lesson.slug),
         ),
       )
     : first(
         courseListLessons.filter(
-          (lesson: LessonResource) =>
+          (lesson: CourseLessonShell) =>
             !completedLessonSlugs.includes(lesson.slug),
         ),
       )
 
   const PlayButton: React.FunctionComponent<
-    React.PropsWithChildren<{lesson: LessonResource}>
+    React.PropsWithChildren<{lesson: CourseLessonShell}>
   > = ({lesson}) => {
     const isContinuing =
       lesson && lesson !== first(lessons) && lesson !== first(courseListLessons)
