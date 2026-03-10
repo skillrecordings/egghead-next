@@ -21,3 +21,4 @@ An Architecture Decision Record (ADR) captures an important architecture decisio
 
 - [Adopt architecture decision records](0001-adopt-architecture-decision-records.md) (accepted, 2026-03-05)
 - [Upgrade next-mdx-remote from v4.4.1 to v6.0.0+](0002-upgrade-next-mdx-remote-to-v6.md) (proposed, 2026-03-05)
+- [Direct PG course shell for `/courses/[course]`](0003-direct-pg-course-shell.md) (accepted, 2026-03-10)
