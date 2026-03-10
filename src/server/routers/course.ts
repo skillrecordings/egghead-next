@@ -4,6 +4,11 @@ import {loadRatings} from '@/lib/ratings'
 import {loadCourse} from '@/lib/courses'
 import {RowDataPacket} from 'mysql2/promise'
 import {getPool} from '@/lib/db'
+import {logEvent} from '@/utils/structured-log'
+
+function isGraphQL403(e: unknown): boolean {
+  return e instanceof Error && e.message.includes('Code: 403')
+}
 
 export const courseRouter = router({
   getRatings: baseProcedure
@@ -14,7 +19,19 @@ export const courseRouter = router({
   getCourse: baseProcedure
     .input(z.object({slug: z.string()}))
     .query(async ({input, ctx}) => {
-      return loadCourse(input.slug, ctx.userToken)
+      try {
+        return await loadCourse(input.slug, ctx.userToken)
+      } catch (e) {
+        if (isGraphQL403(e) && ctx.userToken) {
+          logEvent('warn', 'course.getCourse.403_fallback', {
+            slug: input.slug,
+            user_id: ctx.userId ?? null,
+          })
+          // Stale token — retry without auth for public course data
+          return await loadCourse(input.slug, undefined)
+        }
+        throw e
+      }
     }),
   getCourseByResourceId: baseProcedure
     .input(z.object({resourceId: z.string()}))
