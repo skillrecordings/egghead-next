@@ -1,6 +1,6 @@
 import {sanityClient} from '@/utils/sanity-client'
+import {getGraphQLClient} from '@/utils/configured-graphql-client'
 import groq from 'groq'
-import {loadPlaylist} from './playlists'
 import {z} from 'zod'
 
 const courseQuery = groq`
@@ -198,7 +198,26 @@ export async function loadCourseMetadata(id: number, slug: string) {
 }
 
 export async function loadCourse(slug: string, token?: string) {
-  return loadPlaylist(slug, token)
+  const query = /* GraphQL */ `
+    query getCourseWidget($slug: String!) {
+      playlist(slug: $slug) {
+        slug
+        title
+        summary
+        path
+        square_cover_480_url
+        instructor {
+          full_name
+          avatar_url
+        }
+      }
+    }
+  `
+
+  const graphQLClient = getGraphQLClient(token)
+  const {playlist} = await graphQLClient.request(query, {slug})
+
+  return playlist
 }
 
 export async function loadDraftSanityCourse(slug: string, token?: string) {
