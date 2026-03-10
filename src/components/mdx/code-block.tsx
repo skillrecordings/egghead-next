@@ -28,10 +28,18 @@ const CodeBlock: FunctionComponent<React.PropsWithChildren<CodeBlockProps>> = ({
     const index = linesArr.length - 1
 
     if (typeof child === 'string') {
-      if (language === '') {
-        linesArr.push([child])
-      } else {
-        linesArr.push([])
+      // Split string on newlines to create separate lines,
+      // preserving text content in each line
+      const parts = child.split('\n')
+      for (let p = 0; p < parts.length; p++) {
+        if (p > 0) {
+          // Start a new line for each newline character
+          linesArr.push([])
+        }
+        const text = parts[p]
+        if (text) {
+          linesArr[linesArr.length - 1].push(text)
+        }
       }
       // add to code
       code += child
@@ -58,6 +66,9 @@ const CodeBlock: FunctionComponent<React.PropsWithChildren<CodeBlockProps>> = ({
         ]
       : linesArr[i]
 
+    if (i > 0) {
+      linesNodes.push('\n')
+    }
     linesNodes.push(
       <Line
         key={`line-${lineIndex}`}

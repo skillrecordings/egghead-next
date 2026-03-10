@@ -1,6 +1,7 @@
 import {initTRPC} from '@trpc/server'
 import {TrpcContext} from '@/app/api/trpc/[trpc]/route'
 import {transformer} from './transformer'
+import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 
 function fnv1a32(input: string): string {
   // Small, stable fingerprint for grouping high-cardinality strings in logs.
@@ -56,6 +57,25 @@ const logMiddleware = t.middleware(
         ? fnv1a32(`${String(error_code ?? '')}:${String(error_message ?? '')}`)
         : null
 
+    // On errors, capture auth cookie state so we can distinguish
+    // "no token at all" vs "stale token Rails rejected" vs "cookie mismatch".
+    const is403 = !result.ok && error_message?.includes('Code: 403')
+    let authDiag: Record<string, unknown> | undefined
+    if (!result.ok && is403) {
+      const cookies = trpcCtx.req?.cookies
+      const hasAccessCookie = !!cookies?.get(ACCESS_TOKEN_KEY)?.value
+      const hasUserCookie = !!cookies?.get('eh_user')?.value
+      const tokenVal = trpcCtx.userToken
+      authDiag = {
+        auth_has_access_cookie: hasAccessCookie,
+        auth_has_user_cookie: hasUserCookie,
+        auth_token_len: tokenVal ? tokenVal.length : 0,
+        // First 8 chars: enough to identify token generation/format, not a secret
+        auth_token_prefix: tokenVal ? tokenVal.slice(0, 8) : null,
+        auth_user_id_from_cookie: trpcCtx.userId ?? null,
+      }
+    }
+
     const log = {
       event: 'trpc.call',
       path,
@@ -76,6 +96,7 @@ const logMiddleware = t.middleware(
             error_fingerprint,
           }
         : {}),
+      ...(authDiag ?? {}),
     }
 
     if (result.ok) {

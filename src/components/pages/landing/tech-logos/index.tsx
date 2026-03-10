@@ -126,6 +126,8 @@ const TechLogos = () => {
                   : lightLogos[tech as keyof typeof lightLogos]
               }
               alt={tech}
+              width={83}
+              height={28}
             />
           </Link>
         ) : (
@@ -147,6 +149,8 @@ const TechLogos = () => {
                   : lightLogos[tech as keyof typeof lightLogos]
               }
               alt={tech}
+              width={83}
+              height={28}
             />
           </Link>
         )

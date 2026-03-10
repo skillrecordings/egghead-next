@@ -2,6 +2,11 @@ import {baseProcedure, router} from '../trpc'
 import {z} from 'zod'
 import {loadLessonProgress, loadPlaylistProgress} from '../../lib/progress'
 import {loadUserCompletedCourses} from '@/lib/users'
+import {timeEvent, logEvent} from '@/utils/structured-log'
+
+function isGraphQL403(e: unknown): boolean {
+  return e instanceof Error && e.message.includes('Code: 403')
+}
 
 const createLessonView = async (
   lessonId: String | Number,
@@ -59,8 +64,22 @@ export const progressRouter = router({
     const token = ctx?.userToken
     if (!token) return []
 
-    const {completeCourses} = await loadUserCompletedCourses(token)
-    return completeCourses
+    try {
+      const {completeCourses} = await timeEvent(
+        'progress.completedCourses.graphql',
+        {has_token: !!token},
+        async () => loadUserCompletedCourses(token),
+      )
+      return completeCourses
+    } catch (e) {
+      if (isGraphQL403(e)) {
+        logEvent('warn', 'progress.completedCourses.403_stale_token', {
+          user_id: ctx.userId ?? null,
+        })
+        return []
+      }
+      throw e
+    }
   }),
   forPlaylist: baseProcedure
     .input(
@@ -73,7 +92,22 @@ export const progressRouter = router({
 
       if (!token) return null
 
-      return await loadPlaylistProgress({token, slug: input.slug})
+      try {
+        return await timeEvent(
+          'progress.forPlaylist.graphql',
+          {slug: input.slug, has_token: !!token},
+          async () => loadPlaylistProgress({token, slug: input.slug}),
+        )
+      } catch (e) {
+        if (isGraphQL403(e)) {
+          logEvent('warn', 'progress.forPlaylist.403_stale_token', {
+            slug: input.slug,
+            user_id: ctx.userId ?? null,
+          })
+          return null
+        }
+        throw e
+      }
     }),
   forLesson: baseProcedure
     .input(
@@ -86,7 +120,22 @@ export const progressRouter = router({
 
       if (!token) return null
 
-      return await loadLessonProgress({token, slug: input.slug})
+      try {
+        return await timeEvent(
+          'progress.forLesson.graphql',
+          {slug: input.slug, has_token: !!token},
+          async () => loadLessonProgress({token, slug: input.slug}),
+        )
+      } catch (e) {
+        if (isGraphQL403(e)) {
+          logEvent('warn', 'progress.forLesson.403_stale_token', {
+            slug: input.slug,
+            user_id: ctx.userId ?? null,
+          })
+          return null
+        }
+        throw e
+      }
     }),
   addProgressToLesson: baseProcedure
     .input(
