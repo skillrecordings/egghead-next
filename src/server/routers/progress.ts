@@ -2,6 +2,7 @@ import {baseProcedure, router} from '../trpc'
 import {z} from 'zod'
 import {loadLessonProgress, loadPlaylistProgress} from '../../lib/progress'
 import {loadUserCompletedCourses} from '@/lib/users'
+import {timeEvent} from '@/utils/structured-log'
 
 const createLessonView = async (
   lessonId: String | Number,
@@ -59,7 +60,11 @@ export const progressRouter = router({
     const token = ctx?.userToken
     if (!token) return []
 
-    const {completeCourses} = await loadUserCompletedCourses(token)
+    const {completeCourses} = await timeEvent(
+      'progress.completedCourses.graphql',
+      {has_token: !!token},
+      async () => loadUserCompletedCourses(token),
+    )
     return completeCourses
   }),
   forPlaylist: baseProcedure
@@ -73,7 +78,11 @@ export const progressRouter = router({
 
       if (!token) return null
 
-      return await loadPlaylistProgress({token, slug: input.slug})
+      return await timeEvent(
+        'progress.forPlaylist.graphql',
+        {slug: input.slug, has_token: !!token},
+        async () => loadPlaylistProgress({token, slug: input.slug}),
+      )
     }),
   forLesson: baseProcedure
     .input(
@@ -86,7 +95,11 @@ export const progressRouter = router({
 
       if (!token) return null
 
-      return await loadLessonProgress({token, slug: input.slug})
+      return await timeEvent(
+        'progress.forLesson.graphql',
+        {slug: input.slug, has_token: !!token},
+        async () => loadLessonProgress({token, slug: input.slug}),
+      )
     }),
   addProgressToLesson: baseProcedure
     .input(
