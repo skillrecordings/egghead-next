@@ -1,3 +1,4 @@
+import {pgQuery} from '@/db'
 import {getGraphQLClient} from '@/utils/configured-graphql-client'
 import {loadCourseMetadata} from '@/lib/courses'
 import {loadLesson} from '@/lib/lessons'
@@ -25,6 +26,215 @@ type RailsPlaylistResponse = {
     id: number
     slug: string
     items?: RailsPlaylistItem[]
+  }
+}
+
+type PgCourseLessonRow = {
+  id: number
+  slug: string
+  title: string
+  description: string | null
+  duration: number | null
+  thumb_url: string | null
+  published_at: string | null
+  updated_at: string | null
+  created_at: string | null
+  free_forever: boolean | null
+  state: string | null
+  type: string | null
+  access_state: string | null
+  parent_row_order: number | null
+  child_row_order: number | null
+}
+
+const PUBLIC_VIEWABLE_PLAYLIST_STATES = [
+  'published',
+  'approved',
+  'flagged',
+  'revised',
+  'retired',
+]
+
+const PUBLIC_VIEWABLE_LESSON_STATES = [
+  'published',
+  'approved',
+  'flagged',
+  'revised',
+  'retired',
+]
+
+async function loadPgCourseLessons(
+  slug: string,
+  logContext: LogContext,
+): Promise<LessonResource[]> {
+  const sql = `
+    WITH target_playlist AS (
+      SELECT p.id, p.slug
+      FROM playlists p
+      WHERE p.slug = $1
+        AND p.site = 'egghead.io'
+        AND p.visibility_state = 'indexed'
+        AND p.state = ANY($2::text[])
+      LIMIT 1
+    ),
+    top_level_lessons AS (
+      SELECT
+        t.row_order AS parent_row_order,
+        0::integer AS child_row_order,
+        l.id,
+        l.slug,
+        l.title,
+        l.summary AS description,
+        l.duration,
+        l.thumb_url,
+        l.published_at,
+        l.updated_at,
+        l.created_at,
+        l.free_forever,
+        l.state,
+        l.resource_type AS type,
+        CASE
+          WHEN l.free_forever THEN 'free'
+          WHEN l.is_pro_content THEN 'pro'
+          ELSE 'free'
+        END AS access_state
+      FROM target_playlist p
+      JOIN tracklists t
+        ON t.playlist_id = p.id
+       AND t.tracklistable_type = 'Lesson'
+      JOIN lessons l
+        ON l.id = t.tracklistable_id
+      WHERE l.state = ANY($3::text[])
+    ),
+    nested_playlist_lessons AS (
+      SELECT
+        t.row_order AS parent_row_order,
+        nt.row_order AS child_row_order,
+        l.id,
+        l.slug,
+        l.title,
+        l.summary AS description,
+        l.duration,
+        l.thumb_url,
+        l.published_at,
+        l.updated_at,
+        l.created_at,
+        l.free_forever,
+        l.state,
+        l.resource_type AS type,
+        CASE
+          WHEN l.free_forever THEN 'free'
+          WHEN l.is_pro_content THEN 'pro'
+          ELSE 'free'
+        END AS access_state
+      FROM target_playlist p
+      JOIN tracklists t
+        ON t.playlist_id = p.id
+       AND t.tracklistable_type = 'Playlist'
+      JOIN tracklists nt
+        ON nt.playlist_id = t.tracklistable_id
+       AND nt.tracklistable_type = 'Lesson'
+      JOIN lessons l
+        ON l.id = nt.tracklistable_id
+      WHERE l.state = ANY($3::text[])
+    ),
+    ordered_lessons AS (
+      SELECT * FROM top_level_lessons
+      UNION ALL
+      SELECT * FROM nested_playlist_lessons
+    ),
+    deduped AS (
+      SELECT *,
+        row_number() OVER (
+          PARTITION BY slug
+          ORDER BY parent_row_order ASC NULLS LAST, child_row_order ASC NULLS LAST, id ASC
+        ) AS slug_rank
+      FROM ordered_lessons
+    )
+    SELECT
+      id,
+      slug,
+      title,
+      description,
+      duration,
+      thumb_url,
+      published_at,
+      updated_at,
+      created_at,
+      free_forever,
+      state,
+      type,
+      access_state,
+      parent_row_order,
+      child_row_order
+    FROM deduped
+    WHERE slug_rank = 1
+    ORDER BY parent_row_order ASC NULLS LAST, child_row_order ASC NULLS LAST, id ASC
+  `
+
+  try {
+    const result = await timeEvent(
+      'course.loadResourcesForCourse.pg',
+      {slug},
+      async () =>
+        pgQuery(sql, [
+          slug,
+          PUBLIC_VIEWABLE_PLAYLIST_STATES,
+          PUBLIC_VIEWABLE_LESSON_STATES,
+        ]),
+      logContext,
+    )
+
+    const rows = (result?.rows ?? []) as PgCourseLessonRow[]
+
+    logEvent(
+      'info',
+      'course.loadResourcesForCourse.pg_summary',
+      {
+        slug,
+        lessons_loaded: rows.length,
+      },
+      logContext,
+    )
+
+    return rows.map(
+      (row) =>
+        ({
+          id: row.id,
+          slug: row.slug,
+          title: row.title,
+          description: row.description ?? '',
+          path: `/lessons/${row.slug}`,
+          type: row.type ?? 'lesson',
+          duration: row.duration ?? 0,
+          thumb_url: row.thumb_url ?? undefined,
+          icon_url: row.thumb_url ?? undefined,
+          completed: false,
+          free_forever: Boolean(row.free_forever),
+          published_at: row.published_at ?? '',
+          updated_at: row.updated_at ?? '',
+          created_at: row.created_at ?? '',
+          media_url: '',
+          lesson_view_url: '',
+          tags: [],
+          lessons: [],
+          primary_tag: null,
+          instructor: null,
+          collection: null as any,
+          access_state: row.access_state ?? undefined,
+        } as LessonResource),
+    )
+  } catch (e) {
+    logEvent(
+      'warn',
+      'course.loadResourcesForCourse.pg_error',
+      {
+        slug,
+      },
+      logContext,
+    )
+
+    return []
   }
 }
 
@@ -146,16 +356,11 @@ async function loadSanityCourseLessonSlugsByIdOrSlug(
   }
 }
 
-export async function loadResourcesForCourse(
+async function loadLegacyMergedLessons(
   params: LoadResourcesForCourseParams,
-  logContext: LogContext = {},
+  logContext: LogContext,
 ): Promise<LessonResource[]> {
-  const startTime = Date.now()
   const {slug, id} = params
-
-  if (!slug && !id) {
-    throw new Error('loadResourcesForCourse requires a slug or id')
-  }
 
   // 1) Default to Rails for course membership (order source)
   let lessonSlugs: string[] = []
@@ -217,10 +422,41 @@ export async function loadResourcesForCourse(
     }),
   )
 
-  // 5) Drop failures/nulls
-  const lessons: LessonResource[] = mergedLessons.filter(
-    Boolean,
-  ) as LessonResource[]
+  return mergedLessons.filter(Boolean) as LessonResource[]
+}
+
+export async function loadResourcesForCourse(
+  params: LoadResourcesForCourseParams,
+  logContext: LogContext = {},
+): Promise<LessonResource[]> {
+  const startTime = Date.now()
+  const {slug, id} = params
+
+  if (!slug && !id) {
+    throw new Error('loadResourcesForCourse requires a slug or id')
+  }
+
+  const pgLessons = slug ? await loadPgCourseLessons(slug, logContext) : []
+
+  if (pgLessons.length > 0) {
+    logEvent(
+      'info',
+      'course.loadResourcesForCourse.summary',
+      {
+        slug,
+        course_id: id,
+        lessons_loaded: pgLessons.length,
+        lessons_requested: pgLessons.length,
+        duration_ms: Date.now() - startTime,
+        source: 'pg',
+      },
+      logContext,
+    )
+
+    return pgLessons
+  }
+
+  const lessons = await loadLegacyMergedLessons(params, logContext)
 
   logEvent(
     'info',
@@ -229,8 +465,9 @@ export async function loadResourcesForCourse(
       slug,
       course_id: id,
       lessons_loaded: lessons.length,
-      lessons_requested: orderedUniqueSlugs.length,
+      lessons_requested: lessons.length,
       duration_ms: Date.now() - startTime,
+      source: 'legacy',
     },
     logContext,
   )

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {loadPlaylist} from '@/lib/playlists'
+import {loadAuthedCourseBits, loadPublicCourseShell} from '@/lib/playlists'
 import {GetServerSideProps} from 'next'
 import {withSSRLogging} from '@/lib/logging'
 import CollectionPageLayout from '@/components/layouts/collection-page-layout'
@@ -8,7 +8,6 @@ import MultiModuleCollectionPageLayout from '@/components/layouts/multi-module-c
 import PhpCollectionPageLayout from '@/components/layouts/php-collection-page-layout'
 import ScrimbaPageLayout from '@/components/layouts/scrimba-course-layout'
 import filter from 'lodash/filter'
-import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import getTracer from '@/utils/honeycomb-tracer'
 import crypto from 'crypto'
@@ -20,6 +19,7 @@ import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {useViewer} from '@/context/viewer-context'
 import {loadResourcesForCourse} from '@/lib/course-resources'
 import type {LessonResource} from '@/types'
+import {logEvent} from '@/utils/structured-log'
 const tracer = getTracer('course-page')
 
 type CourseProps = {
@@ -137,40 +137,88 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       page: 'course',
       course_slug: params?.course as string,
     }
+
     try {
+      const courseSlugParam = params?.course as string
+      const accessToken = req.cookies[ACCESS_TOKEN_KEY]
+
       const course =
-        params &&
-        (await loadPlaylist(
-          params.course as string,
-          req.cookies[ACCESS_TOKEN_KEY],
-          logContext,
-        ))
+        params && (await loadPublicCourseShell(courseSlugParam, logContext))
+
+      if (!course) {
+        throw new Error(
+          `Unable to load public course shell for ${courseSlugParam}`,
+        )
+      }
 
       const fullLessons = await loadResourcesForCourse(
         {
-          slug: params?.course as string,
+          slug: courseSlugParam,
         },
         logContext,
       )
 
-      const courseSlug = getSlugFromPath(course?.path)
-      if (course && courseSlug !== params?.course) {
+      let resolvedCourse = course
+      let cachePolicy = 'public-swr'
+      let cacheHeader = 's-maxage=300, stale-while-revalidate=3600'
+      let cacheBlocker: string | null = null
+
+      if (accessToken) {
+        try {
+          const authedCourseBits = await loadAuthedCourseBits(
+            courseSlugParam,
+            accessToken,
+            logContext,
+          )
+
+          if (authedCourseBits) {
+            resolvedCourse = {
+              ...course,
+              ...authedCourseBits,
+            }
+            cachePolicy = 'private'
+            cacheHeader = 'private, no-store'
+            cacheBlocker = 'authed_course_bits'
+          }
+        } catch {
+          logEvent(
+            'warn',
+            'course.loadAuthedCourseBits.error',
+            {
+              course_slug: courseSlugParam,
+            },
+            logContext,
+          )
+        }
+      }
+
+      const courseSlug = getSlugFromPath(resolvedCourse?.path)
+      if (resolvedCourse && courseSlug !== params?.course) {
         return {
           redirect: {
-            destination: course.path,
+            destination: resolvedCourse.path,
             permanent: true,
           },
         }
       } else {
-        res.setHeader(
-          'Cache-Control',
-          's-maxage=300, stale-while-revalidate=3600',
+        res.setHeader('Cache-Control', cacheHeader)
+        logEvent(
+          'info',
+          'page.cache.policy',
+          {
+            route: '/courses/[course]',
+            course_slug: courseSlugParam,
+            policy: cachePolicy,
+            cache_blocker: cacheBlocker,
+          },
+          logContext,
         )
+
         return {
           props: {
             course: {
-              ...course,
-              sections: course?.sections ?? null,
+              ...resolvedCourse,
+              sections: resolvedCourse?.sections ?? null,
             },
             fullLessons,
           },
@@ -182,6 +230,17 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         params && (await loadDraftCourse(params.course as string))
       if (draftCourse && ability.can('upload', 'Video')) {
         res.setHeader('Cache-Control', 'private, no-store')
+        logEvent(
+          'info',
+          'page.cache.policy',
+          {
+            route: '/courses/[course]',
+            course_slug: params?.course as string,
+            policy: 'private',
+            cache_blocker: 'draft_course',
+          },
+          logContext,
+        )
         return {
           props: {
             draftCourse,
