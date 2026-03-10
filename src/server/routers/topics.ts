@@ -4,8 +4,28 @@ import {
   typesenseInstantsearchAdapter,
   TYPESENSE_COLLECTION_NAME,
 } from '@/utils/typesense'
+import {logEvent} from '@/utils/structured-log'
 
-const searchClient = typesenseInstantsearchAdapter().searchClient
+// Lazy-init: avoid module-level crash when env vars are missing
+let _searchClient: ReturnType<
+  ReturnType<typeof typesenseInstantsearchAdapter>['searchClient'] & any
+> | null = null
+let _searchClientFailed = false
+
+function getSearchClient() {
+  if (_searchClient) return _searchClient
+  if (_searchClientFailed) return null
+  try {
+    _searchClient = typesenseInstantsearchAdapter().searchClient
+    return _searchClient
+  } catch (e) {
+    _searchClientFailed = true
+    logEvent('error', 'topics.searchClient.init_failed', {
+      error: e instanceof Error ? e.message : String(e),
+    })
+    return null
+  }
+}
 
 export const topicRouter = router({
   top: baseProcedure
@@ -17,8 +37,12 @@ export const topicRouter = router({
         .optional(),
     )
     .query(async ({input, ctx}) => {
+      const searchClient = getSearchClient()
       if (!searchClient?.initIndex) {
-        throw new Error('Search client not initialized')
+        logEvent('warn', 'topics.top.search_unavailable', {
+          topic: input?.topic ?? null,
+        })
+        return []
       }
       const index = searchClient.initIndex(TYPESENSE_COLLECTION_NAME)
       // top 10 free playlists for a topic
