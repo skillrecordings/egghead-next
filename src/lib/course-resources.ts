@@ -1,8 +1,9 @@
+import {z} from 'zod'
 import {pgQuery} from '@/db'
 import {getGraphQLClient} from '@/utils/configured-graphql-client'
 import {loadCourseMetadata} from '@/lib/courses'
 import {loadLesson} from '@/lib/lessons'
-import type {LessonResource} from '@/types'
+import type {CourseLessonShell} from '@/types'
 import {logEvent, timeEvent, type LogContext} from '@/utils/structured-log'
 
 type LoadResourcesForCourseParams = {
@@ -29,23 +30,25 @@ type RailsPlaylistResponse = {
   }
 }
 
-type PgCourseLessonRow = {
-  id: number
-  slug: string
-  title: string
-  description: string | null
-  duration: number | null
-  thumb_url: string | null
-  published_at: string | null
-  updated_at: string | null
-  created_at: string | null
-  free_forever: boolean | null
-  state: string | null
-  type: string | null
-  access_state: string | null
-  parent_row_order: number | null
-  child_row_order: number | null
-}
+const PgCourseLessonRowSchema = z.object({
+  id: z.number(),
+  slug: z.string(),
+  title: z.string(),
+  description: z.string().nullable(),
+  duration: z.number().nullable(),
+  thumb_url: z.string().nullable(),
+  published_at: z.string().nullable(),
+  updated_at: z.string().nullable(),
+  created_at: z.string().nullable(),
+  free_forever: z.boolean().nullable(),
+  state: z.string().nullable(),
+  type: z.string().nullable(),
+  access_state: z.string().nullable(),
+  parent_row_order: z.number().nullable(),
+  child_row_order: z.number().nullable(),
+})
+
+type PgCourseLessonRow = z.infer<typeof PgCourseLessonRowSchema>
 
 const PUBLIC_VIEWABLE_PLAYLIST_STATES = [
   'published',
@@ -63,10 +66,36 @@ const PUBLIC_VIEWABLE_LESSON_STATES = [
   'retired',
 ]
 
+function mapPgCourseLessonRowToShell(
+  row: PgCourseLessonRow,
+): CourseLessonShell {
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    description: row.description ?? '',
+    path: `/lessons/${row.slug}`,
+    type: row.type ?? 'lesson',
+    duration: row.duration ?? 0,
+    thumb_url: row.thumb_url ?? undefined,
+    icon_url: row.thumb_url ?? undefined,
+    completed: false,
+    free_forever: Boolean(row.free_forever),
+    published_at: row.published_at ?? undefined,
+    updated_at: row.updated_at ?? undefined,
+    created_at: row.created_at ?? undefined,
+    access_state: row.access_state ?? undefined,
+  }
+}
+
+function isDefined<T>(value: T | null): value is T {
+  return value !== null
+}
+
 async function loadPgCourseLessons(
   slug: string,
   logContext: LogContext,
-): Promise<LessonResource[]> {
+): Promise<CourseLessonShell[]> {
   const sql = `
     WITH target_playlist AS (
       SELECT p.id, p.slug
@@ -185,7 +214,29 @@ async function loadPgCourseLessons(
       logContext,
     )
 
-    const rows = (result?.rows ?? []) as PgCourseLessonRow[]
+    const parsedRows = PgCourseLessonRowSchema.array().safeParse(
+      result?.rows ?? [],
+    )
+
+    if (!parsedRows.success) {
+      const firstIssue = parsedRows.error.issues[0]
+
+      logEvent(
+        'warn',
+        'course.loadResourcesForCourse.pg_invalid_rows',
+        {
+          slug,
+          issues_count: parsedRows.error.issues.length,
+          first_issue_path: firstIssue?.path?.join('.') ?? null,
+          first_issue_message: firstIssue?.message ?? null,
+        },
+        logContext,
+      )
+
+      return []
+    }
+
+    const rows = parsedRows.data
 
     logEvent(
       'info',
@@ -197,33 +248,7 @@ async function loadPgCourseLessons(
       logContext,
     )
 
-    return rows.map(
-      (row) =>
-        ({
-          id: row.id,
-          slug: row.slug,
-          title: row.title,
-          description: row.description ?? '',
-          path: `/lessons/${row.slug}`,
-          type: row.type ?? 'lesson',
-          duration: row.duration ?? 0,
-          thumb_url: row.thumb_url ?? undefined,
-          icon_url: row.thumb_url ?? undefined,
-          completed: false,
-          free_forever: Boolean(row.free_forever),
-          published_at: row.published_at ?? '',
-          updated_at: row.updated_at ?? '',
-          created_at: row.created_at ?? '',
-          media_url: '',
-          lesson_view_url: '',
-          tags: [],
-          lessons: [],
-          primary_tag: null,
-          instructor: null,
-          collection: null as any,
-          access_state: row.access_state ?? undefined,
-        } as LessonResource),
-    )
+    return rows.map(mapPgCourseLessonRowToShell)
   } catch (e) {
     logEvent(
       'warn',
@@ -359,7 +384,7 @@ async function loadSanityCourseLessonSlugsByIdOrSlug(
 async function loadLegacyMergedLessons(
   params: LoadResourcesForCourseParams,
   logContext: LogContext,
-): Promise<LessonResource[]> {
+): Promise<CourseLessonShell[]> {
   const {slug, id} = params
 
   // 1) Default to Rails for course membership (order source)
@@ -422,13 +447,13 @@ async function loadLegacyMergedLessons(
     }),
   )
 
-  return mergedLessons.filter(Boolean) as LessonResource[]
+  return mergedLessons.filter(isDefined)
 }
 
 export async function loadResourcesForCourse(
   params: LoadResourcesForCourseParams,
   logContext: LogContext = {},
-): Promise<LessonResource[]> {
+): Promise<CourseLessonShell[]> {
   const startTime = Date.now()
   const {slug, id} = params
 

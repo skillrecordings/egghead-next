@@ -36,6 +36,19 @@ export type Resource = {
   type?: string
 }
 
+export type CourseLessonShell = Resource & {
+  id: string | number
+  duration: number
+  completed: boolean
+  thumb_url?: string
+  icon_url?: string
+  published_at?: string
+  updated_at?: string
+  created_at?: string
+  free_forever?: boolean
+  access_state?: string
+}
+
 export type SectionResource = LessonResource & {
   id?: string
   title: string

@@ -16,7 +16,7 @@ import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from '@/utils/time-utils'
 import ClockIcon from '../icons/clock'
 import CheckIcon from '../icons/check'
-import {LessonResource} from '@/types'
+import {CourseLessonShell, LessonResource} from '@/types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from '@/utils/configured-axios'
 import friendlyTime from 'friendly-time'
@@ -37,7 +37,7 @@ import {trpc} from '@/app/_trpc/client'
 import rehypeRaw from 'rehype-raw'
 
 type CoursePageLayoutProps = {
-  lessons: any
+  lessons: CourseLessonShell[]
   course: any
   ogImageUrl: string
 }
@@ -286,19 +286,19 @@ const MultiModuleCollectionPageLayout: React.FunctionComponent<
   const nextLesson: any = isEmpty(playlistLessons)
     ? first(
         lessons.filter(
-          (lesson: LessonResource) =>
+          (lesson: CourseLessonShell) =>
             !completedLessonSlugs.includes(lesson.slug),
         ),
       )
     : first(
         playlistLessons.filter(
-          (lesson: LessonResource) =>
+          (lesson: CourseLessonShell) =>
             !completedLessonSlugs.includes(lesson.slug),
         ),
       )
 
   const PlayButton: React.FunctionComponent<
-    React.PropsWithChildren<{lesson: LessonResource}>
+    React.PropsWithChildren<{lesson: CourseLessonShell}>
   > = ({lesson}) => {
     const isContinuing =
       lesson && lesson !== first(lessons) && lesson !== first(playlistLessons)
@@ -862,7 +862,7 @@ const MultiModuleCollectionPageLayout: React.FunctionComponent<
                           <div>
                             <ul className="ml-8">
                               {playlist?.lessons?.map(
-                                (lesson: LessonResource, index: number) => {
+                                (lesson: CourseLessonShell, index: number) => {
                                   const isComplete =
                                     completedLessonSlugs.includes(lesson.slug)
                                   return (
@@ -912,7 +912,7 @@ const MultiModuleCollectionPageLayout: React.FunctionComponent<
 
               <div>
                 <ul>
-                  {lessons.map((lesson: LessonResource, index: number) => {
+                  {lessons.map((lesson: CourseLessonShell, index: number) => {
                     const isComplete = completedLessonSlugs.includes(
                       lesson.slug,
                     )

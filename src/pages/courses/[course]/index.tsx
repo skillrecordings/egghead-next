@@ -18,14 +18,14 @@ import {getAbilityFromToken} from '@/server/ability'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {useViewer} from '@/context/viewer-context'
 import {loadResourcesForCourse} from '@/lib/course-resources'
-import type {LessonResource} from '@/types'
+import type {CourseLessonShell} from '@/types'
 import {logEvent} from '@/utils/structured-log'
 const tracer = getTracer('course-page')
 
 type CourseProps = {
   course: any
   draftCourse: any
-  fullLessons?: LessonResource[]
+  fullLessons?: CourseLessonShell[]
 }
 
 const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
