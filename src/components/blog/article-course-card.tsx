@@ -1,33 +1,12 @@
 import * as React from 'react'
 import useSwr from 'swr'
-import {getGraphQLClient} from '@/utils/configured-graphql-client'
+import {loadCourseCardBySlug} from '@/lib/course-card'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
-
-const loadArticleCourseCard = async (slug: string) => {
-  const query = /* GraphQL */ `
-    query getArticleCourseCard($slug: String!) {
-      playlist(slug: $slug) {
-        slug
-        title
-        path
-        square_cover_480_url
-        instructor {
-          full_name
-        }
-      }
-    }
-  `
-
-  const graphQLClient = getGraphQLClient()
-  const {playlist} = await graphQLClient.request(query, {slug})
-
-  return playlist
-}
 
 const ArticleCourseCard: React.FC<
   React.PropsWithChildren<{course: string}>
 > = ({course}) => {
-  const {data} = useSwr(course, loadArticleCourseCard)
+  const {data} = useSwr(course, loadCourseCardBySlug)
 
   return data ? (
     <div className="my-32">
