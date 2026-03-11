@@ -13,7 +13,7 @@ import {track} from '@/utils/analytics'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from '@/utils/time-utils'
 import CheckIcon from '../icons/check'
-import {LessonResource} from '@/types'
+import {CourseLessonShell, LessonResource} from '@/types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from '@/utils/configured-axios'
 import friendlyTime from 'friendly-time'
@@ -36,7 +36,7 @@ import LoginForm from '@/pages/login'
 import rehypeRaw from 'rehype-raw'
 
 type CoursePageLayoutProps = {
-  lessons: LessonResource[]
+  lessons: CourseLessonShell[]
   course: any
   ogImageUrl: string
 }
@@ -48,14 +48,14 @@ type ModuleResource = {
   description: string
 }
 
-type Resource = ModuleResource | LessonResource
+type Resource = ModuleResource | CourseLessonShell
 
 const LessonLinkResource = ({
   lesson,
   completedLessonSlugs,
   index,
 }: {
-  lesson: LessonResource
+  lesson: CourseLessonShell
   completedLessonSlugs: string[]
   index: number
 }) => {
@@ -341,19 +341,19 @@ const PhpCollectionPageLayout: React.FunctionComponent<
   const nextLesson: any = isEmpty(playlistLessons)
     ? first(
         lessons.filter(
-          (lesson: LessonResource) =>
+          (lesson: CourseLessonShell) =>
             !completedLessonSlugs.includes(lesson.slug),
         ),
       )
     : first(
         playlistLessons.filter(
-          (lesson: LessonResource) =>
+          (lesson: CourseLessonShell) =>
             !completedLessonSlugs.includes(lesson.slug),
         ),
       )
 
   const PlayButton: React.FunctionComponent<
-    React.PropsWithChildren<{lesson: LessonResource}>
+    React.PropsWithChildren<{lesson: CourseLessonShell}>
   > = ({lesson}) => {
     const isContinuing =
       lesson && lesson !== first(lessons) && lesson !== first(playlistLessons)

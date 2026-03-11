@@ -1,19 +1,19 @@
 import * as React from 'react'
 import useSwr from 'swr'
-import {loadPlaylist} from '../../lib/playlists'
+import {loadCourseCardBySlug} from '@/lib/course-card'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 
-const ArticleCourseCard: React.FC<React.PropsWithChildren<{course: any}>> = ({
-  course,
-}) => {
-  const {data} = useSwr(course, loadPlaylist)
+const ArticleCourseCard: React.FC<
+  React.PropsWithChildren<{course: string}>
+> = ({course}) => {
+  const {data} = useSwr(course, loadCourseCardBySlug)
 
   return data ? (
     <div className="my-32">
       <HorizontalResourceCard
         resource={{
           name: 'check out this course',
-          byline: `${data.instructor.name}`,
+          byline: `${data.instructor.full_name}`,
           slug: data.slug,
           title: data.title,
           path: data.path,
