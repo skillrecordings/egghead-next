@@ -840,7 +840,9 @@ async function loadLegacyPublicPlaylist(
       }
     }
   `
-  const graphQLClient = getGraphQLClient()
+  const graphQLClient = getGraphQLClient(undefined, {
+    allowStoredTokenFallback: false,
+  })
 
   const {playlist} = await timeEvent(
     'course.loadPlaylist.graphql',

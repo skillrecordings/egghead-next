@@ -1,6 +1,7 @@
 import {AbilityBuilder, Ability, defineAbility} from '@casl/ability'
 import {intersection, isString} from 'lodash'
 import {loadCurrentViewerRoles} from '../lib/viewer'
+import {logEvent} from '@/utils/structured-log'
 
 export type Actions = 'manage' | 'view' | 'download' | 'upload' | 'create'
 export type Subjects =
@@ -47,8 +48,24 @@ type LessonPermissionContext = {
 const PUBLIC_MEDIA_STATES = ['published', 'retired', 'flagged', 'revised']
 
 export async function getAbilityFromToken(token?: string) {
-  const viewerRoles = await loadCurrentViewerRoles(token)
-  return defineAbilityFor(viewerRoles)
+  if (!token) {
+    return canDoNothingAbility
+  }
+
+  try {
+    const viewerRoles = await loadCurrentViewerRoles(token)
+    return defineAbilityFor(viewerRoles)
+  } catch (error: any) {
+    if (typeof window === 'undefined') {
+      logEvent('warn', 'auth.viewer_roles.failed_soft', {
+        degraded_to_anon: true,
+        has_token: Boolean(token),
+        status: error?.response?.status ?? null,
+      })
+    }
+
+    return canDoNothingAbility
+  }
 }
 
 /**

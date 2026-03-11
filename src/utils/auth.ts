@@ -163,7 +163,9 @@ export default class Auth {
     return new Promise((resolve, reject) => {
       this.setSession(accessToken, expiresInSeconds).then(
         (user: any) => {
-          analytics.identify(user)
+          if (user) {
+            analytics.identify(user)
+          }
           resolve(user)
         },
         (error) => {
@@ -235,8 +237,17 @@ export default class Auth {
     if (typeof localStorage === 'undefined' || typeof window === 'undefined') {
       return
     }
+
+    const token = cookie.get(ACCESS_TOKEN_KEY)
+    if (!token) return false
+
     const storedExpiration = localStorage.getItem(EXPIRES_AT_KEY) || '0'
     const expiresAt = JSON.parse(storedExpiration)
+
+    if (!expiresAt) {
+      return true
+    }
+
     const expired = new Date().getTime() > expiresAt
     if (expiresAt > 0 && expired) {
       this.logout()
@@ -251,6 +262,11 @@ export default class Auth {
       }
 
       const token = accessToken || getAccessTokenFromCookie()
+      if (!token) {
+        this.clearLocalStorage().then(() => resolve(null))
+        return
+      }
+
       const headers: any = {}
       if (token) {
         headers.Authorization = `Bearer ${token}`
@@ -263,6 +279,15 @@ export default class Auth {
         .then(({data}) => {
           if (!this.isAuthenticated()) {
             return reject('not authenticated')
+          }
+          if (
+            !data ||
+            typeof data !== 'object' ||
+            Array.isArray(data) ||
+            Object.keys(data).length === 0
+          ) {
+            this.clearLocalStorage().then(() => resolve(null))
+            return
           }
           if (data) analytics.identify(data)
           if (data.contact_id) {
@@ -324,7 +349,7 @@ export default class Auth {
   }
 
   getAuthToken() {
-    if (typeof localStorage === 'undefined') {
+    if (typeof window === 'undefined') {
       return
     }
     if (this.isAuthenticated()) {

@@ -2,9 +2,26 @@ import {
   canDownloadLesson,
   canViewLessonMedia,
   defineAbilityFor,
+  getAbilityFromToken,
   includesRoles,
   Roles,
 } from '../ability'
+import {loadCurrentViewerRoles} from '../../lib/viewer'
+
+jest.mock('../../lib/viewer', () => ({
+  loadCurrentViewerRoles: jest.fn(),
+}))
+
+const mockLoadCurrentViewerRoles = loadCurrentViewerRoles as jest.Mock
+
+beforeEach(() => {
+  jest.spyOn(console, 'warn').mockImplementation(() => {})
+  mockLoadCurrentViewerRoles.mockReset()
+})
+
+afterEach(() => {
+  jest.restoreAllMocks()
+})
 
 test('returns true for a single matching role', () => {
   const roles = ['publisher'] as Roles[]
@@ -22,6 +39,31 @@ test('returns false if no role matches', () => {
   const roles = ['publisher', 'editor'] as Roles[]
 
   expect(includesRoles(roles, 'admin')).toBe(false)
+})
+
+test('getAbilityFromToken returns a no-op ability without a token', async () => {
+  const ability = await getAbilityFromToken()
+
+  expect(mockLoadCurrentViewerRoles).not.toHaveBeenCalled()
+  expect(ability.can('view', 'Course')).toBe(false)
+})
+
+test('getAbilityFromToken fails soft when viewer roles lookup returns 403', async () => {
+  mockLoadCurrentViewerRoles.mockRejectedValue({response: {status: 403}})
+
+  const ability = await getAbilityFromToken('stale-token')
+
+  expect(ability.can('view', 'Course')).toBe(false)
+  expect(ability.can('download', 'Lesson')).toBe(false)
+})
+
+test('getAbilityFromToken preserves permissions when roles load succeeds', async () => {
+  mockLoadCurrentViewerRoles.mockResolvedValue(['pro'])
+
+  const ability = await getAbilityFromToken('fresh-token')
+
+  expect(ability.can('view', 'Course')).toBe(true)
+  expect(ability.can('download', 'Lesson')).toBe(true)
 })
 
 test('editor ability can view lesson media and download lessons', () => {

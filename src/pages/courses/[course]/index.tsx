@@ -28,6 +28,20 @@ type CourseProps = {
   fullLessons?: CourseLessonShell[]
 }
 
+function sanitizeErrorMessage(error: unknown) {
+  if (error == null) return null
+
+  const raw = error instanceof Error ? error.message : String(error)
+  const oneLine = raw.replace(/\s+/g, ' ').trim()
+
+  if (!oneLine) return null
+
+  const maxLength = 240
+  return oneLine.length > maxLength
+    ? `${oneLine.slice(0, maxLength)}...`
+    : oneLine
+}
+
 const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
   const {viewer} = useViewer()
 
@@ -225,6 +239,18 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         }
       }
     } catch (e) {
+      logEvent(
+        'warn',
+        'course.ssr.catch',
+        {
+          course_slug: params?.course as string,
+          has_token: Boolean(req.cookies[ACCESS_TOKEN_KEY]),
+          degraded_to_anon: true,
+          error_message: sanitizeErrorMessage(e),
+        },
+        logContext,
+      )
+
       const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
       const draftCourse =
         params && (await loadDraftCourse(params.course as string))

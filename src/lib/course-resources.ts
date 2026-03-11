@@ -293,7 +293,9 @@ async function loadRailsPlaylistLessonSlugs(
   `
 
   try {
-    const graphQLClient = getGraphQLClient()
+    const graphQLClient = getGraphQLClient(undefined, {
+      allowStoredTokenFallback: false,
+    })
     const {playlist} = (await timeEvent(
       'course.loadRailsPlaylistLessonSlugs.graphql',
       {slug},

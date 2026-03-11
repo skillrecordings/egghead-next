@@ -58,6 +58,13 @@ This first swing is intentionally scoped to the **public/shared course shell**.
 - mark responses with authenticated course bits as `private, no-store`
 - add a narrower CASL permission surface for lesson-media style actions instead of recreating Rails CanCan query behavior
 
+### Auth hardening refinement
+
+Public course-shell fallbacks must remain token-free even when the browser has a
+stale local session. Auth failures in `/courses/[course]` recovery paths must
+degrade to anonymous behavior instead of triggering another brittle auth lookup
+that can turn a recoverable `401/403` into an SSR `500`.
+
 ### Permission boundary going forward
 
 We will **not** port Rails CanCan 1:1 into egghead-next.
