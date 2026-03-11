@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import Link from 'next/link'
 import {FunctionComponent} from 'react'
 import {track} from '@/utils/analytics'
-import {loadCourse} from '@/lib/courses'
+import {loadCourseCardBySlug} from '@/lib/course-card'
 
 type CourseWidgetProps = {
   slug: string
@@ -12,7 +12,7 @@ type CourseWidgetProps = {
 const CourseWidget: FunctionComponent<
   React.PropsWithChildren<CourseWidgetProps>
 > = ({slug}) => {
-  const {data} = useSWR(slug, loadCourse)
+  const {data} = useSWR(slug, loadCourseCardBySlug)
 
   return data?.path ? (
     <section className="bg-gray-100 dark:bg-gray-800 bg-opacity-60 rounded p-8 mt-4">
