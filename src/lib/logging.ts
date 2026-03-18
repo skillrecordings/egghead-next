@@ -14,6 +14,9 @@ import type {
   GetServerSideProps,
   GetServerSidePropsContext,
   GetServerSidePropsResult,
+  GetStaticProps,
+  GetStaticPropsContext,
+  GetStaticPropsResult,
 } from 'next'
 import type {NextRequest} from 'next/server'
 import * as serverCookie from 'cookie'
@@ -250,6 +253,78 @@ export function withAppApiLogging(handler: AppRouteHandler): AppRouteHandler {
           user_id: userCtx.user_id,
           has_token: userCtx.has_token,
           error: err instanceof Error ? err.message : String(err),
+        }
+        console.error(JSON.stringify(log))
+      } catch {
+        // swallow
+      }
+
+      throw err
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Static props (getStaticProps) wrapper
+// ---------------------------------------------------------------------------
+
+/**
+ * Wrap getStaticProps with structured logging.
+ *
+ * Measures build/ISR duration and logs the slug + outcome so we can
+ * query Axiom for failed static regenerations without relying on the
+ * generic Next.js error page (which logs nothing useful).
+ *
+ * On error: logs with ok:false and re-throws so Next.js handles
+ * fallback or error propagation as normal.
+ */
+export function withStaticPropsLogging<
+  P extends Record<string, any> = Record<string, any>,
+>(gsp: GetStaticProps<P>): GetStaticProps<P> {
+  return async (
+    context: GetStaticPropsContext,
+  ): Promise<GetStaticPropsResult<P>> => {
+    const start = performance.now()
+
+    // Build a best-effort path string from params
+    const params = context.params ?? {}
+    const paramStr = Object.entries(params)
+      .map(([k, v]) => `${k}=${Array.isArray(v) ? v.join('/') : v}`)
+      .join('&')
+
+    try {
+      const result = await gsp(context)
+      const durationMs = Math.round(performance.now() - start)
+
+      try {
+        const log = {
+          event: 'static_props.render',
+          params: paramStr,
+          duration_ms: durationMs,
+          ok: true,
+          is_not_found: 'notFound' in result && !!(result as any).notFound,
+          is_redirect: 'redirect' in result,
+        }
+        console.log(JSON.stringify(log))
+      } catch {
+        // logging must never crash
+      }
+
+      return result
+    } catch (err) {
+      const durationMs = Math.round(performance.now() - start)
+
+      try {
+        const log = {
+          event: 'static_props.render',
+          params: paramStr,
+          duration_ms: durationMs,
+          ok: false,
+          error: err instanceof Error ? err.message : String(err),
+          stack:
+            err instanceof Error
+              ? err.stack?.split('\n').slice(0, 5).join(' | ')
+              : undefined,
         }
         console.error(JSON.stringify(log))
       } catch {
