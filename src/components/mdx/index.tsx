@@ -13,8 +13,9 @@ import ArticleCourseCard from '@/components/blog/article-course-card'
 import ArticleTalkCard from '@/components/blog/article-talk-card'
 import TopicInterestEmailEntryForm from './topic-interest-form'
 import ArticleSeriesList from './article-series-list'
-// @ts-ignore
-import {TwitterTweetEmbed} from 'react-twitter-embed'
+// react-twitter-embed v3 uses string refs which were removed in React 19.
+// Use our own React 19-safe wrapper instead.
+import {TwitterTweetEmbed} from './twitter-tweet-embed'
 const mdxComponents = {
   Course,
   Link: (props: any) => <Link {...props} />,
