@@ -16,7 +16,7 @@ const content = [
     label: 'Search',
   },
   {
-    path: '/blog',
+    path: '/q?type=article',
     label: 'Articles',
   },
   {
