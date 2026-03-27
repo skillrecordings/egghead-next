@@ -21,6 +21,7 @@ const validateEmail = (value: string) => {
 
 const EmailSubscribeWidget = (props: any) => {
   const signedUpForNewsletter = cookieUtil.get(ARTICLE_NEWSLETTER_INTEREST_KEY)
+  if (!Array.isArray(props.hideCTAState)) return null
   const [hidden, setHidden] = props.hideCTAState
 
   const {slug, author} = props
