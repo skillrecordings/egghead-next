@@ -114,67 +114,67 @@ const nextConfig = {
 const learnRoutes = [
   {
     source: `/learn/data/egghead-content-modeling-with-santity-io`,
-    destination: '/blog/content-modeling-and-data-design-with-sanity-io',
+    destination: '/content-modeling-and-data-design-with-sanity-io',
     permanent: true,
   },
   {
     source: `/learn/gardening/github-issues-powered-blog`,
-    destination: '/blog/github-issues-powered-blog',
+    destination: '/github-issues-powered-blog',
     permanent: true,
   },
   {
     source: `/learn/rails-graphql-typescript-react-apollo`,
-    destination: '/blog/rails-graphql-typescript-react-apollo',
+    destination: '/rails-graphql-typescript-react-apollo',
     permanent: true,
   },
   {
     source: `/learn/next/tailwindcss-dark-mode-nextjs-typography-prose`,
-    destination: '/blog/tailwindcss-dark-mode-nextjs-typography-prose',
+    destination: '/tailwindcss-dark-mode-nextjs-typography-prose',
     permanent: true,
   },
   {
     source: `/learn/javascript/codemods-with-babel-plugins`,
-    destination: '/blog/codemods-with-babel-plugins',
+    destination: '/codemods-with-babel-plugins',
     permanent: true,
   },
   {
     source: `/learn/javascript/use-the-intersection-observer-api-for-analytics-events`,
-    destination: '/blog/use-the-intersection-observer-api-for-analytics-events',
+    destination: '/use-the-intersection-observer-api-for-analytics-events',
     permanent: true,
   },
   {
     source: `/learn/javascript/handling-copy-and-paste-in-cypress`,
-    destination: '/blog/handling-copy-and-paste-in-cypress',
+    destination: '/handling-copy-and-paste-in-cypress',
     permanent: true,
   },
   {
     source: `/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity`,
-    destination: `/blog/build-cms-for-ecommerce-store-with-nextjs-and-sanity`,
+    destination: `/build-cms-for-ecommerce-store-with-nextjs-and-sanity`,
     permanent: true,
   },
   {
     source: `/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component`,
-    destination: `/blog/product-images-that-dont-byte-with-the-nextjs-image-component`,
+    destination: `/product-images-that-dont-byte-with-the-nextjs-image-component`,
     permanent: true,
   },
   {
     source: `/learn/javascript/improve-performance-with-the-object-pool-design-pattern-in-javascript`,
-    destination: `/blog/object-pool-design-pattern`,
+    destination: `/object-pool-design-pattern`,
     permanent: true,
   },
   {
     source: `/learn/tailwind/utility-css-with-tailwind-sam-selikoff`,
-    destination: `/blog/utility-first-tailwind-css-with-sam-selikoff`,
+    destination: `/utility-first-tailwind-css-with-sam-selikoff`,
     permanent: true,
   },
   {
     source: `/learn/understanding-by-design`,
-    destination: `/blog/understanding-by-design-in-a-nutshell`,
+    destination: `/understanding-by-design-in-a-nutshell`,
     permanent: true,
   },
   {
     source: `/learn/understanding-by-design/performance-task-patterns`,
-    destination: `/blog/performance-task-patterns`,
+    destination: `/performance-task-patterns`,
     permanent: true,
   },
 ];
@@ -210,7 +210,7 @@ const searchRoutes = [
 const legacyRoutes = [
   {
     source: `/blog/manage-reactive-state-with-solid-js-signals`,
-    destination: `/blog/manage-reactive-state-with-solidjs-signals`,
+    destination: `/manage-reactive-state-with-solidjs-signals`,
     permanent: true,
   },
   {
@@ -296,6 +296,16 @@ const legacyRoutes = [
 ];
 
 const contentIndexRoutes = [
+  {
+    source: `/blog`,
+    destination: `${searchUrlRoot}?type=article`,
+    permanent: true,
+  },
+  {
+    source: `/blog/:slug`,
+    destination: `/:slug`,
+    permanent: true,
+  },
   {
     source: `/podcasts`,
     destination: `${searchUrlRoot}?type=podcast`,

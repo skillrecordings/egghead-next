@@ -99,7 +99,7 @@ const nodePageData = [
       'Improve Performance with the Object Pool Design Pattern in JavaScript',
     description: `The Object Pool design pattern is used in order to improve performance. It does that by reducing runtime memory allocation and garbage collection. There are various real life examples to object pool usage. Game engines are using them, obviously, and any node.js application can benefit from this pattern.`,
     byline: 'Yonatan Kra',
-    path: '/blog/object-pool-design-pattern',
+    path: '/object-pool-design-pattern',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/full/nodejslogo.png',
   },

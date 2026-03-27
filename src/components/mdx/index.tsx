@@ -13,6 +13,9 @@ import ArticleCourseCard from '@/components/blog/article-course-card'
 import ArticleTalkCard from '@/components/blog/article-talk-card'
 import TopicInterestEmailEntryForm from './topic-interest-form'
 import ArticleSeriesList from './article-series-list'
+import CourseWidget from './course-widget'
+import EmailSubscribeWidget from './email-subscribe-widget'
+import ResourceWidget from './resource-widget'
 // @ts-ignore
 import {TwitterTweetEmbed} from 'react-twitter-embed'
 const mdxComponents = {
@@ -31,6 +34,9 @@ const mdxComponents = {
   ArticleTalkCard,
   ArticleSeriesList,
   TopicInterestEmailEntryForm,
+  CourseWidget,
+  EmailSubscribeWidget,
+  ResourceWidget,
   ResponsiveEmbed: () => <></>,
   LessonWidget: () => <></>,
   pre: (props: any) => (

@@ -262,7 +262,8 @@ const ResourceWidget: React.FC<
     location?: string
   }>
 > = ({resource, location}: any) => {
-  const {podcasts, talks, collections, articles} = resource
+  if (!resource) return null
+  const {podcasts, talks, collections, articles = []} = resource
   return (
     <>
       {articles.length > 0 ? null : (
@@ -406,7 +407,7 @@ const ResourceWidget: React.FC<
       )}
       {(podcasts || talks) && (
         <Grid className="grid grid-cols-2 gap-2 md:grid-cols-4 xl:gap-5 sm:gap-3 ">
-          {talks.map((talk: any) => {
+          {talks?.map((talk: any) => {
             return (
               <VerticalResourceCard
                 key={talk.slug}
@@ -415,7 +416,7 @@ const ResourceWidget: React.FC<
               />
             )
           })}
-          {podcasts.map((podcast: any) => {
+          {podcasts?.map((podcast: any) => {
             return (
               <VerticalResourceCard
                 key={podcast.slug}
