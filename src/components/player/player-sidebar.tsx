@@ -103,7 +103,8 @@ export function getCourseToDisplay({
 
 export function normalizeCourseForSidebar(fullCourse: any) {
   const sections = (fullCourse?.sections ?? []).filter(
-    (section: any) => section && Array.isArray(section.lessons),
+    (section: any) =>
+      section && Array.isArray(section.lessons) && section.lessons.length > 0,
   )
 
   if (sections.length > 0) {
