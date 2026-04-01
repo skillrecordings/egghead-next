@@ -20,6 +20,10 @@ type NextUpListProps = {
   sections?: SectionResource[]
 }
 
+export function hasRenderableSections(course: any) {
+  return Array.isArray(course?.sections) && course.sections.length > 0
+}
+
 const CollectionLessonsList: FunctionComponent<
   React.PropsWithChildren<NextUpListProps>
 > = ({course, currentLessonSlug, progress, onActiveTab, lessons}) => {
@@ -27,6 +31,7 @@ const CollectionLessonsList: FunctionComponent<
   const scrollableNodeRef: any = React.createRef()
 
   const lessonList = course ? course.lessons : lessons
+  const shouldRenderAccordion = hasRenderableSections(course)
 
   const AccordionLessonList = () => {
     const [openLesson, setOpenLesson] = React.useState<string[]>([])
@@ -133,7 +138,7 @@ const CollectionLessonsList: FunctionComponent<
           scrollableNodeProps={{ref: scrollableNodeRef}}
         >
           <ol className="h-full md:max-h-[350px] lg:max-h-full max-h-[300px]">
-            {course?.sections ? (
+            {shouldRenderAccordion ? (
               <AccordionLessonList />
             ) : (
               lessonList.map((lesson: LessonResource, index = 0) => {
