@@ -1,4 +1,4 @@
-import type {Guide} from '@/lib/guides'
+import type {Guide} from '@/schemas/guide'
 
 /**
  * Client-safe wrapper for getGuidesFromCourseBuilder.

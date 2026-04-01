@@ -1,7 +1,7 @@
 // import blog from './src/structure/blog'
 // import caseStudies from './src/structure/caseStudies'
 import pages from './src/structure/pages'
-import guides from './src/structure/guides'
+
 import tips from './src/structure/tips'
 import resources from './src/structure/resources'
 import resourcesCourses from './src/structure/resources-courses'
@@ -18,7 +18,7 @@ const hiddenDocTypes = (listItem: any) =>
     'course',
     'caseStudy',
     'videoResource',
-    'guide',
+
     'tip',
     'resource',
     // 'route',
@@ -41,7 +41,7 @@ export default (S: any) =>
       S.divider(),
       resourcesCourses(S),
       blog(S),
-      guides(S),
+
       tips(S),
       pages(S),
       caseStudies(S),

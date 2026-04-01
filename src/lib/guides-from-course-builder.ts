@@ -1,6 +1,6 @@
 import * as mysql from 'mysql2/promise'
 import {ConnectionOptions, RowDataPacket, Pool} from 'mysql2/promise'
-import type {Guide, GuideSection, GuideResource} from '@/lib/guides'
+import type {Guide, GuideSection, GuideResource} from '@/schemas/guide'
 
 const access: ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,

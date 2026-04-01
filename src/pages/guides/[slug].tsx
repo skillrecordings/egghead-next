@@ -1,5 +1,5 @@
 import GuideTemplate from '@/components/guides/guide-template'
-import {Guide} from '@/lib/guides'
+import {Guide} from '@/schemas/guide'
 import {loadGuide, loadGuides} from '@/lib/load-guide-wrapper'
 import {GetStaticPaths, GetStaticProps} from 'next'
 
