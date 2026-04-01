@@ -6,20 +6,24 @@ const {execFileSync} = require('child_process')
 const repoRoot = path.join(__dirname, '../../..')
 
 describe('markdown dependency compatibility', () => {
-  test('pins remark-gfm to the react-markdown v8-compatible major', () => {
+  test('keeps modern remark-gfm for mdx while pinning a react-markdown-safe alias', () => {
     expect(packageJson.dependencies['react-markdown']).toMatch(/^\^?8\./)
-    expect(packageJson.dependencies['remark-gfm']).toBe('3.0.1')
+    expect(packageJson.dependencies['remark-gfm']).toMatch(/^\^?4\./)
+    expect(packageJson.dependencies['remark-gfm-v3']).toBe(
+      'npm:remark-gfm@3.0.1',
+    )
   })
 
-  test('lockfile resolves remark-gfm 3.0.1', () => {
+  test('lockfile resolves both remark-gfm lines we need', () => {
     const lockfile = fs.readFileSync(
       path.join(repoRoot, 'pnpm-lock.yaml'),
       'utf8',
     )
 
-    expect(lockfile).toContain('specifier: 3.0.1')
-    expect(lockfile).toContain('version: 3.0.1')
+    expect(lockfile).toContain('remark-gfm-v3:')
+    expect(lockfile).toContain('specifier: npm:remark-gfm@3.0.1')
     expect(lockfile).toContain('remark-gfm@3.0.1:')
+    expect(lockfile).toContain('remark-gfm@4.0.1:')
   })
 
   test('react-markdown can render gfm tables without the inTable crash', () => {
@@ -27,7 +31,7 @@ describe('markdown dependency compatibility', () => {
       import React from 'react'
       import ReactDOMServer from 'react-dom/server'
       import ReactMarkdown from 'react-markdown'
-      import remarkGfm from 'remark-gfm'
+      import remarkGfm from 'remark-gfm-v3'
 
       const html = ReactDOMServer.renderToString(
         React.createElement(

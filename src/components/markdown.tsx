@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import remarkGfm from 'remark-gfm-v3'
 
 const Markdown: React.FunctionComponent<React.PropsWithChildren<any>> = (
   props,
