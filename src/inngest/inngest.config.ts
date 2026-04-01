@@ -18,6 +18,7 @@ import {lifetimePurchase} from '@/inngest/functions/lifetime-purchase'
 import {identifyCustomerIo} from '@/inngest/functions/identify-customer-io'
 import {sendSpecificProductEmail} from '@/inngest/functions/send-specific-product-email'
 import {sendWorkshopQuoteEmail} from '@/inngest/functions/send-workshop-quote-email'
+import {upsertGuideToTypesense} from '@/inngest/functions/typesense/upsert-guide-to-typesense'
 const test = inngest.createFunction(
   {id: `test`, name: 'Test'},
   {event: 'test'},
@@ -52,5 +53,6 @@ export const inngestConfig = {
     identifyCustomerIo,
     sendSpecificProductEmail,
     sendWorkshopQuoteEmail,
+    upsertGuideToTypesense,
   ],
 }

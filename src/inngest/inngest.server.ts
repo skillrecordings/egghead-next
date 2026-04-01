@@ -60,6 +60,7 @@ import {
   WORKSHOP_QUOTE_REQUEST_EVENT,
   WorkshopQuoteRequest,
 } from './events/workshop-quote-request'
+import {GUIDE_PUBLISHED_EVENT, GuidePublished} from './events/guide-published'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
@@ -81,6 +82,7 @@ type Events = {
   [COURSE_UNPUBLISHED_EVENT]: CourseUnpublished
   [CUSTOMER_IO_IDENTIFY_EVENT]: CustomerIoIdentify
   [WORKSHOP_QUOTE_REQUEST_EVENT]: WorkshopQuoteRequest
+  [GUIDE_PUBLISHED_EVENT]: GuidePublished
   test: {
     name: 'test'
     data: {}

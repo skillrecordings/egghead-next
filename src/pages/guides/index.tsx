@@ -1,10 +1,10 @@
 import React from 'react'
 import GuideTemplate from '@/components/guides/guide-template'
-import {getGuides} from '@/lib/guides'
+import {loadGuides} from '@/lib/load-guide-wrapper'
 import {GetStaticProps} from 'next'
 
 export const getStaticProps: GetStaticProps = async () => {
-  const guides = await getGuides()
+  const guides = await loadGuides()
   const indexAsGuide = {
     title: 'Learning Guides',
     description:
