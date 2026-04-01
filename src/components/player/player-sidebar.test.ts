@@ -87,4 +87,21 @@ describe('normalizeCourseForSidebar', () => {
       ],
     })
   })
+
+  test('drops section shells that have no lessons and falls back to flat lessons', () => {
+    const course = {
+      sections: [
+        {title: 'Lesson pretending to be a section', lessons: []},
+        {title: 'Another fake section', lessons: []},
+      ],
+      lessons: [{slug: 'intro-hooks'}, {slug: 'use-effect'}],
+      items: [{type: 'lesson', slug: 'intro-hooks'}],
+    }
+
+    expect(normalizeCourseForSidebar(course)).toEqual({
+      ...course,
+      sections: [],
+      lessons: [{slug: 'intro-hooks'}, {slug: 'use-effect'}],
+    })
+  })
 })
