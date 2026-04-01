@@ -29,6 +29,7 @@ import nameToSlug from '@/lib/name-to-slug'
 import Link from 'next/link'
 import crypto from 'crypto'
 import {getRedis} from '@/lib/upstash-redis'
+import {withTimeout} from '@/utils/with-timeout'
 
 const tracer = getTracer('search-page')
 
@@ -296,12 +297,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
     try {
       const redis = getRedis()
 
-      // Set a timeout for the getServerState call
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => {
-          reject(new Error('Typesense request timed out'))
-        }, 5000) // 5 second timeout
-      })
+      const SEARCH_SSR_TIMEOUT_MS = 5000
 
       const allowedQueryKeys = new Set([
         'q',
@@ -392,11 +388,11 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
           },
         )
 
-        // Race between the timeout and the actual request
-        const serverState = await Promise.race([
+        const serverState = await withTimeout(
           serverStatePromise,
-          timeoutPromise,
-        ])
+          SEARCH_SSR_TIMEOUT_MS,
+          () => new Error('Typesense request timed out'),
+        )
 
         // Sanitize the serverState to remove undefined values
         sanitizedServerState = JSON.parse(
