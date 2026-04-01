@@ -277,7 +277,7 @@ async function loadPgCourseShellCore(
             'http_url', tags.url,
             'image_file_name', tags.image_file_name
           )
-          ORDER BY ARRAY_POSITION($4::text[], taggings.context), tags.popularity_order NULLS LAST, tags.name
+          ORDER BY ARRAY_POSITION($4::text[], taggings.context::text), tags.popularity_order NULLS LAST, tags.name
         )
         FROM taggings
         JOIN tags ON tags.id = taggings.tag_id
