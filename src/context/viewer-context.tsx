@@ -250,7 +250,7 @@ function useAuthedViewer() {
       refreshUser: auth.refreshUser,
       ability,
     }),
-    [viewer, loading, authToken],
+    [viewer, loading, authToken, ability],
   )
 
   return values

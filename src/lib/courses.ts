@@ -214,7 +214,9 @@ export async function loadCourse(slug: string, token?: string) {
     }
   `
 
-  const graphQLClient = getGraphQLClient(token)
+  const graphQLClient = getGraphQLClient(token, {
+    allowStoredTokenFallback: false,
+  })
   const {playlist} = await graphQLClient.request(query, {slug})
 
   return playlist

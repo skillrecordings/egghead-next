@@ -18,7 +18,9 @@ const loadArticleCourseCard = async (slug: string) => {
     }
   `
 
-  const graphQLClient = getGraphQLClient()
+  const graphQLClient = getGraphQLClient(undefined, {
+    allowStoredTokenFallback: false,
+  })
   const {playlist} = await graphQLClient.request(query, {slug})
 
   return playlist
@@ -27,14 +29,20 @@ const loadArticleCourseCard = async (slug: string) => {
 const ArticleCourseCard: React.FC<
   React.PropsWithChildren<{course: string}>
 > = ({course}) => {
-  const {data} = useSwr(course, loadArticleCourseCard)
+  const {data, error} = useSwr(course, loadArticleCourseCard)
+
+  React.useEffect(() => {
+    if (error) {
+      console.warn(`Failed to load article course card for ${course}`, error)
+    }
+  }, [course, error])
 
   return data ? (
     <div className="my-32">
       <HorizontalResourceCard
         resource={{
           name: 'check out this course',
-          byline: `${data.instructor.full_name}`,
+          byline: data.instructor?.full_name ?? '',
           slug: data.slug,
           title: data.title,
           path: data.path,

@@ -2,7 +2,7 @@
 
 ## Status
 
-accepted
+proposed
 
 ## Date
 
@@ -56,7 +56,7 @@ This first swing is intentionally scoped to the **public/shared course shell**.
 - keep the public course shell PG-first and token-free
 - keep favorite / RSS / other user-specific course bits behind a separate authenticated seam
 - mark responses with authenticated course bits as `private, no-store`
-- add a narrower CASL permission surface for lesson-media style actions instead of recreating Rails CanCan query behavior
+- add a narrower CASL permission surface for lesson-media-style actions instead of recreating Rails CanCan query behavior
 
 ### Auth hardening refinement
 

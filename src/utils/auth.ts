@@ -259,6 +259,7 @@ export default class Auth {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
         reject('no local storage')
+        return
       }
 
       const token = accessToken || getAccessTokenFromCookie()
@@ -268,9 +269,7 @@ export default class Auth {
       }
 
       const headers: any = {}
-      if (token) {
-        headers.Authorization = `Bearer ${token}`
-      }
+      headers.Authorization = `Bearer ${token}`
 
       http
         .get(`/api/users/current?minimal=${minimalUser}`, {

@@ -144,7 +144,7 @@ export function canViewLessonMedia(
 }
 
 export function canDownloadLesson(
-  lesson: LessonLike,
+  _lesson: LessonLike, // Reserved for future lesson-specific checks.
   context: LessonPermissionContext = {},
 ) {
   const ability = context.ability

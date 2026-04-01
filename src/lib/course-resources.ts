@@ -88,8 +88,8 @@ function mapPgCourseLessonRowToShell(
   }
 }
 
-function isDefined<T>(value: T | null): value is T {
-  return value !== null
+function isDefined<T>(value: T | null | undefined): value is T {
+  return value != null
 }
 
 async function loadPgCourseLessons(
@@ -386,7 +386,7 @@ async function loadSanityCourseLessonSlugsByIdOrSlug(
 async function loadLegacyMergedLessons(
   params: LoadResourcesForCourseParams,
   logContext: LogContext,
-): Promise<CourseLessonShell[]> {
+): Promise<{lessons: CourseLessonShell[]; requestedCount: number}> {
   const {slug, id} = params
 
   // 1) Default to Rails for course membership (order source)
@@ -449,7 +449,10 @@ async function loadLegacyMergedLessons(
     }),
   )
 
-  return mergedLessons.filter(isDefined)
+  return {
+    lessons: mergedLessons.filter(isDefined),
+    requestedCount: orderedUniqueSlugs.length,
+  }
 }
 
 export async function loadResourcesForCourse(
@@ -483,7 +486,10 @@ export async function loadResourcesForCourse(
     return pgLessons
   }
 
-  const lessons = await loadLegacyMergedLessons(params, logContext)
+  const {lessons, requestedCount} = await loadLegacyMergedLessons(
+    params,
+    logContext,
+  )
 
   logEvent(
     'info',
@@ -492,7 +498,7 @@ export async function loadResourcesForCourse(
       slug,
       course_id: id,
       lessons_loaded: lessons.length,
-      lessons_requested: lessons.length,
+      lessons_requested: requestedCount,
       duration_ms: Date.now() - startTime,
       source: 'legacy',
     },

@@ -156,8 +156,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       const courseSlugParam = params?.course as string
       const accessToken = req.cookies[ACCESS_TOKEN_KEY]
 
-      const course =
-        params && (await loadPublicCourseShell(courseSlugParam, logContext))
+      const course = await loadPublicCourseShell(courseSlugParam, logContext)
 
       if (!course) {
         throw new Error(

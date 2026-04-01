@@ -558,13 +558,21 @@ function filterCourseItemsByLessonStates(
   items: any[] = [],
   lessonStates: Map<string, string>,
 ) {
-  return items.filter((item: any) => {
-    if (item?.slug && lessonStates.has(item.slug)) {
-      return lessonStates.get(item.slug) === 'published'
-    }
+  const isPublished = (slug?: string) =>
+    !slug || !lessonStates.has(slug) || lessonStates.get(slug) === 'published'
 
-    return true
-  })
+  return items
+    .map((item: any) =>
+      item?.lessons
+        ? {
+            ...item,
+            lessons: item.lessons.filter((lesson: any) =>
+              isPublished(lesson?.slug),
+            ),
+          }
+        : item,
+    )
+    .filter((item: any) => isPublished(item?.slug))
 }
 
 function filterCourseSectionsByLessonStates(
@@ -901,9 +909,11 @@ export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
       currentPage = currentPage + 1
       allPlaylists = [...allPlaylists, ...data]
 
-      console.debug(
-        `\n\n~> loading playlists: ${allPlaylists.length}/${count}\n`,
-      )
+      logEvent('debug', 'playlists.load.progress', {
+        loaded_count: allPlaylists.length,
+        total_count: count,
+        message: `loading playlists: ${allPlaylists.length}/${count}`,
+      })
 
       hasNextPage = allPlaylists.length < count
     }
@@ -966,31 +976,76 @@ export async function loadAuthedCourseBits(
       }
     }
   `
-  const token = accessToken ?? getAccessTokenFromCookie()
-  const graphQLClient = getGraphQLClient(token)
+  const token =
+    accessToken ?? getAccessTokenFromCookie({allowLocalStorageFallback: false})
 
-  const {playlist} = await timeEvent(
-    'course.loadAuthedCourseBits.graphql',
-    {slug},
-    async () => graphQLClient.request(query, {slug}),
-    logContext,
-  )
+  if (!token) {
+    logEvent(
+      'info',
+      'course.loadAuthedCourseBits.summary',
+      {
+        slug,
+        has_token: false,
+        has_bits: false,
+        has_favorited: null,
+        has_toggle_favorite_url: false,
+        has_rss_url: false,
+      },
+      logContext,
+    )
 
-  logEvent(
-    'info',
-    'course.loadAuthedCourseBits.summary',
-    {
-      slug,
-      has_token: Boolean(token),
-      has_bits: Boolean(playlist),
-      has_favorited: playlist?.favorited ?? null,
-      has_toggle_favorite_url: Boolean(playlist?.toggle_favorite_url),
-      has_rss_url: Boolean(playlist?.rss_url),
-    },
-    logContext,
-  )
+    return null
+  }
 
-  return playlist ?? null
+  const graphQLClient = getGraphQLClient(token, {
+    allowStoredTokenFallback: false,
+  })
+
+  try {
+    const {playlist} = await timeEvent(
+      'course.loadAuthedCourseBits.graphql',
+      {slug},
+      async () => graphQLClient.request(query, {slug}),
+      logContext,
+    )
+
+    logEvent(
+      'info',
+      'course.loadAuthedCourseBits.summary',
+      {
+        slug,
+        has_token: true,
+        has_bits: Boolean(playlist),
+        has_favorited: playlist?.favorited ?? null,
+        has_toggle_favorite_url: Boolean(playlist?.toggle_favorite_url),
+        has_rss_url: Boolean(playlist?.rss_url),
+      },
+      logContext,
+    )
+
+    return playlist ?? null
+  } catch (error: any) {
+    if (
+      accessToken === undefined &&
+      (error?.response?.status === 401 || error?.response?.status === 403)
+    ) {
+      logEvent(
+        'warn',
+        'course.loadAuthedCourseBits.failed_soft',
+        {
+          slug,
+          degraded_to_anon: true,
+          has_token: true,
+          status: error?.response?.status,
+        },
+        logContext,
+      )
+
+      return null
+    }
+
+    throw error
+  }
 }
 
 export async function loadAuthedPlaylistForUser(
