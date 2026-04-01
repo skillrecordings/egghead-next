@@ -101,6 +101,33 @@ export function getCourseToDisplay({
   return filteredCourse ?? videoResource.collection
 }
 
+export function normalizeCourseForSidebar(fullCourse: any) {
+  const sections = (fullCourse?.sections ?? []).filter(
+    (section: any) => section && Array.isArray(section.lessons),
+  )
+
+  if (sections.length > 0) {
+    return {
+      ...fullCourse,
+      sections,
+    }
+  }
+
+  return {
+    ...fullCourse,
+    sections: [],
+    lessons:
+      fullCourse?.courseBuilderLessons &&
+      fullCourse.courseBuilderLessons.length > 0
+        ? fullCourse.courseBuilderLessons
+        : fullCourse?.lessons && fullCourse.lessons.length > 0
+        ? fullCourse.lessons
+        : fullCourse?.items?.filter((item: any) =>
+            ['lesson', 'talk'].includes(item.type),
+          ) || [],
+  }
+}
+
 const LessonListTab: React.FC<
   React.PropsWithChildren<{
     videoResource: VideoResource
@@ -191,32 +218,11 @@ const CourseHeader: React.FunctionComponent<
 
   React.useEffect(() => {
     if (fullCourse && onCourseLoaded) {
-      // Don't transform if course has sections - sections contain their own lessons
-      if (fullCourse.sections && fullCourse.sections.length > 0) {
-        onCourseLoaded(fullCourse)
-        return
-      }
-
-      // For non-sectioned courses, prefer courseBuilderLessons (filtered), then lessons, then filter items
-      const transformedCourse = {
-        ...fullCourse,
-        lessons:
-          fullCourse.courseBuilderLessons &&
-          fullCourse.courseBuilderLessons.length > 0
-            ? fullCourse.courseBuilderLessons
-            : fullCourse.lessons && fullCourse.lessons.length > 0
-            ? fullCourse.lessons
-            : fullCourse.items?.filter((item: any) =>
-                ['lesson', 'talk'].includes(item.type),
-              ) || [],
-      }
-      onCourseLoaded(transformedCourse)
+      onCourseLoaded(normalizeCourseForSidebar(fullCourse))
     }
     // Only depend on fullCourse, not onCourseLoaded (which is memoized)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fullCourse])
-
-  console.log('course', fullCourse)
   return course ? (
     <div className="flex items-center">
       <div className="relative flex-shrink-0 block w-12 h-12 lg:w-16 lg:h-16 xl:w-20 xl:h-20">
