@@ -1,6 +1,4 @@
 import * as React from 'react'
-import groq from 'groq'
-import {sanityClient} from '@/utils/sanity-client'
 import find from 'lodash/find'
 import Link from 'next/link'
 import {serialize} from 'next-mdx-remote/serialize'
@@ -15,6 +13,7 @@ import {useRouter} from 'next/router'
 import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
 import rehypeHighlight from 'rehype-highlight'
+import {getCourseBuilderCaseStudy} from '@/lib/get-course-builder-metadata'
 
 const CASE_STUDY_SLUG = 'cloudflare'
 
@@ -223,38 +222,14 @@ const PlayIcon = () => (
   </svg>
 )
 
-const caseStudyQuery = groq`
-*[_type == "caseStudy" && slug.current == $slug][0] {
-  title,
-  subTitle,
-  "author": authors[][0].author->,
-  seo,
-  coverImage,
-  body,
-  publishedAt,
-  'slug': slug.current,
-  "resources": resources[]-> {
-      title,
-      'instructor': collaborators[@->.role == 'instructor'][0]->{
-         'full_name': person->.name
-       },
-       path,
-       "slug": slug.current,
-      "image_thumb_url": image,
-      "lessons": resources[] {
-          title,
-          path
-      }
-  }
-}
-`
-
 export async function getStaticProps() {
-  const caseStudy = await sanityClient.fetch(caseStudyQuery, {
-    slug: CASE_STUDY_SLUG,
-  })
+  const caseStudy = await getCourseBuilderCaseStudy(CASE_STUDY_SLUG)
 
-  const mdxSource = await serialize(caseStudy.body, {
+  if (!caseStudy) {
+    return {notFound: true}
+  }
+
+  const mdxSource = await serialize(caseStudy.body ?? '', {
     blockJS: false,
     blockDangerousJS: true,
     mdxOptions: {
@@ -263,11 +238,21 @@ export async function getStaticProps() {
       rehypePlugins: [rehypeSlug, rehypeHighlight],
     },
   })
+
   return {
     props: {
-      caseStudy,
+      caseStudy: {
+        title: caseStudy.title,
+        subTitle: caseStudy.subtitle || '',
+        author: {name: 'Meg Cumby'},
+        seo: caseStudy.seo || {},
+        coverImage: caseStudy.coverImage || {},
+        publishedAt: caseStudy.publishedAt || '',
+        resources: caseStudy.resources || [],
+      },
       source: mdxSource,
     },
+    revalidate: 60,
   }
 }
 

@@ -1,10 +1,9 @@
 import * as React from 'react'
-import groq from 'groq'
-import {sanityClient} from '@/utils/sanity-client'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
+import {getCourseBuilderCaseStudies} from '@/lib/get-course-builder-metadata'
 
 export const HIDDEN_CASE_STUDIES = ['cloudflare'] // these exist on their own respective routes (not under /case-studies)
 
@@ -77,24 +76,18 @@ const CaseStudies: React.FC<React.PropsWithChildren<unknown>> = (
 
 export default CaseStudies
 
-const allCaseStudiesQuery = groq`
-*[_type == "caseStudy" && publishedAt < now() && !(slug.current match $hiddenCaseStudies)]|order(publishedAt desc) {
-  title,
-  'slug': slug.current,
-  coverImage,
-  description,
-  publishedAt,
-}
-`
-
 export async function getStaticProps() {
-  const allCaseStudies = await sanityClient.fetch(allCaseStudiesQuery, {
-    hiddenCaseStudies: HIDDEN_CASE_STUDIES,
-  })
+  const caseStudies = await getCourseBuilderCaseStudies()
+
+  // Filter out hidden case studies (e.g. cloudflare)
+  const filteredCaseStudies = (caseStudies || []).filter(
+    (cs) => !HIDDEN_CASE_STUDIES.includes(cs.slug),
+  )
 
   return {
     props: {
-      allCaseStudies: allCaseStudies,
+      allCaseStudies: filteredCaseStudies,
     },
+    revalidate: 60,
   }
 }
