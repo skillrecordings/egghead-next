@@ -96,10 +96,6 @@ export const featureFlagRouter = router({
     .query(async ({input, ctx}) => {
       const workshop = await getFeatureFlag(input.flag, 'workshop')
 
-      if (!workshop || typeof workshop === 'boolean') {
-        return null
-      }
-
       const parsedWorkshop = LiveWorkshopSchema.parse(workshop)
       return parsedWorkshop
     }),
