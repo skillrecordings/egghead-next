@@ -51,7 +51,7 @@ export const PostSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   deletedAt: z.date().nullish(),
-  currentVersionId: z.string().optional(),
+  currentVersionId: z.string().nullish(),
   organizationId: z.string().nullish(),
   createdByOrganizationMembershipId: z.string().nullish(),
   name: z.string().nullish(),
