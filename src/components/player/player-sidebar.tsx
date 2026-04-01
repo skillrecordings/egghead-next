@@ -87,6 +87,20 @@ const PlayerSidebar: React.FC<
   )
 }
 
+export function getCourseToDisplay({
+  collectionIsEmpty,
+  filteredCourse,
+  videoResource,
+}: {
+  collectionIsEmpty: boolean
+  filteredCourse: any
+  videoResource: VideoResource
+}) {
+  if (collectionIsEmpty) return null
+
+  return filteredCourse ?? videoResource.collection
+}
+
 const LessonListTab: React.FC<
   React.PropsWithChildren<{
     videoResource: VideoResource
@@ -116,11 +130,14 @@ const LessonListTab: React.FC<
     setFilteredCourse(fullCourse)
   }, [])
 
-  // Only use filtered course data once it's loaded to avoid showing unpublished lessons
-  // For non-collection lessons (lessonsFromTag), use immediately
-  const courseToDisplay = collectionIsEmpty
-    ? videoResource.collection
-    : filteredCourse
+  // For collection lessons, show the initial course lessons immediately and replace
+  // them with the filtered course once it loads to avoid a blank sidebar on first render.
+  // For non-collection lessons, the sidebar uses lessonsFromTag instead.
+  const courseToDisplay = getCourseToDisplay({
+    collectionIsEmpty,
+    filteredCourse,
+    videoResource,
+  })
 
   return !collectionIsEmpty || lessonsFromTag ? (
     <div className="w-full h-full bg-gray-100 dark:bg-gray-1000">
