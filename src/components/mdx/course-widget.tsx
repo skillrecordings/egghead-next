@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
 import {convertTimeToMins} from '@/utils/time-utils'
-import {find} from 'lodash'
 
 const PlayIcon = () => (
   <svg
@@ -27,13 +26,15 @@ const CourseWidget: React.FC<
     course && typeof course === 'object' && !Array.isArray(course)
       ? course
       : null
+  const lessons = Array.isArray(resolvedCourse?.lessons)
+    ? resolvedCourse.lessons
+    : null
 
-  if (!resolvedCourse) {
+  if (!resolvedCourse || !resolvedCourse.path || !lessons) {
     return null
   }
 
-  const {title, path, lessons, instructor, duration, image_thumb_url} =
-    resolvedCourse
+  const {title, path, instructor, duration, image_thumb_url} = resolvedCourse
 
   return (
     <div className="sm:grid grid-cols-2 dark:bg-gray-1000 bg-gray-100 bg-opacity-80 dark:bg-opacity-100 rounded-lg overflow-hidden">

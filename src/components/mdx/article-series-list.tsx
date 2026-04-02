@@ -15,7 +15,7 @@ const ArticleSeriesList: React.FC<
     return null
   }
 
-  const articles = resource.articles ?? []
+  const articles = Array.isArray(resource.articles) ? resource.articles : []
 
   return (
     <div className="border dark:border-gray-700 border-gray-200  rounded p-8">
