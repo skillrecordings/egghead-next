@@ -2,7 +2,7 @@
 
 ## Status
 
-accepted
+proposed
 
 ## Date
 
@@ -56,7 +56,14 @@ This first swing is intentionally scoped to the **public/shared course shell**.
 - keep the public course shell PG-first and token-free
 - keep favorite / RSS / other user-specific course bits behind a separate authenticated seam
 - mark responses with authenticated course bits as `private, no-store`
-- add a narrower CASL permission surface for lesson-media style actions instead of recreating Rails CanCan query behavior
+- add a narrower CASL permission surface for lesson-media-style actions instead of recreating Rails CanCan query behavior
+
+### Auth hardening refinement
+
+Public course-shell fallbacks must remain token-free even when the browser has a
+stale local session. Auth failures in `/courses/[course]` recovery paths must
+degrade to anonymous behavior instead of triggering another brittle auth lookup
+that can turn a recoverable `401/403` into an SSR `500`.
 
 ### Permission boundary going forward
 

@@ -28,6 +28,20 @@ type CourseProps = {
   fullLessons?: CourseLessonShell[]
 }
 
+function sanitizeErrorMessage(error: unknown) {
+  if (error == null) return null
+
+  const raw = error instanceof Error ? error.message : String(error)
+  const oneLine = raw.replace(/\s+/g, ' ').trim()
+
+  if (!oneLine) return null
+
+  const maxLength = 240
+  return oneLine.length > maxLength
+    ? `${oneLine.slice(0, maxLength)}...`
+    : oneLine
+}
+
 const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
   const {viewer} = useViewer()
 
@@ -142,8 +156,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       const courseSlugParam = params?.course as string
       const accessToken = req.cookies[ACCESS_TOKEN_KEY]
 
-      const course =
-        params && (await loadPublicCourseShell(courseSlugParam, logContext))
+      const course = await loadPublicCourseShell(courseSlugParam, logContext)
 
       if (!course) {
         throw new Error(
@@ -225,10 +238,41 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         }
       }
     } catch (e) {
-      const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
+      logEvent(
+        'warn',
+        'course.ssr.catch',
+        {
+          course_slug: params?.course as string,
+          has_token: Boolean(req.cookies[ACCESS_TOKEN_KEY]),
+          degraded_to_anon: true,
+          error_message: sanitizeErrorMessage(e),
+        },
+        logContext,
+      )
+
       const draftCourse =
         params && (await loadDraftCourse(params.course as string))
-      if (draftCourse && ability.can('upload', 'Video')) {
+      let canUploadVideo = false
+
+      if (draftCourse) {
+        try {
+          canUploadVideo = (
+            await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
+          ).can('upload', 'Video')
+        } catch (abilityError) {
+          logEvent(
+            'warn',
+            'course.ssr.ability_error',
+            {
+              course_slug: params?.course as string,
+              error_message: sanitizeErrorMessage(abilityError),
+            },
+            logContext,
+          )
+        }
+      }
+
+      if (draftCourse && canUploadVideo) {
         res.setHeader('Cache-Control', 'private, no-store')
         logEvent(
           'info',
