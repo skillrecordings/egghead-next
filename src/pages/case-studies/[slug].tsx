@@ -12,6 +12,8 @@ import {HIDDEN_CASE_STUDIES} from './index'
 import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
 import rehypeHighlight from 'rehype-highlight'
+import {withStaticPropsLogging} from '@/lib/logging'
+import {GenericErrorBoundary} from '@/components/generic-error-boundary'
 
 type AuthorResource = {
   name: string
@@ -131,7 +133,9 @@ const CaseStudy = (props: CaseStudyResource) => {
         </div>
         <article className="max-w-screen-md mx-auto mt-3 mb-16 lg:mt-14 md:mt-8">
           <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500">
-            <MDXRemote {...source} components={mdxComponents} />
+            <GenericErrorBoundary>
+              <MDXRemote {...source} components={mdxComponents} />
+            </GenericErrorBoundary>
           </main>
         </article>
       </div>
@@ -203,25 +207,84 @@ const query = groq`*[_type == "caseStudy" && slug.current == $slug][0]{
   body
 }`
 
-export async function getStaticProps(context: any) {
-  const {body, ...caseStudy} = await sanityClient.fetch(query, {
-    slug: context.params.slug,
-  })
+export const getStaticProps = withStaticPropsLogging(async (context: any) => {
+  const slug = context.params?.slug as string
 
-  const mdxSource = await serialize(body, {
-    blockJS: false,
-    blockDangerousJS: true,
-    mdxOptions: {
-      useDynamicImport: true,
-      remarkPlugins: [remarkGfm],
-      rehypePlugins: [rehypeSlug, rehypeHighlight],
-    },
-  })
+  const rawData = await sanityClient.fetch(query, {slug})
+
+  // Log null/missing document so we can spot broken slugs in Axiom
+  if (!rawData) {
+    console.error(
+      JSON.stringify({
+        event: 'case_study.not_found',
+        slug,
+        ok: false,
+        error: 'Sanity returned null for caseStudy query',
+      }),
+    )
+    return {notFound: true}
+  }
+
+  const {body, ...caseStudy} = rawData
+
+  // Log when the body field is missing (content not published / field empty)
+  if (!body) {
+    console.error(
+      JSON.stringify({
+        event: 'case_study.missing_body',
+        slug,
+        ok: false,
+        fields: Object.keys(rawData),
+        error: 'caseStudy document found but body field is null or undefined',
+      }),
+    )
+  } else {
+    console.log(
+      JSON.stringify({
+        event: 'case_study.fetched',
+        slug,
+        ok: true,
+        body_length:
+          typeof body === 'string' ? body.length : JSON.stringify(body).length,
+        has_author: !!(caseStudy as any).author,
+        has_cover_image: !!(caseStudy as any).coverImage,
+      }),
+    )
+  }
+
+  let mdxSource: any = null
+  try {
+    mdxSource = await serialize(body ?? '', {
+      blockJS: false,
+      blockDangerousJS: true,
+      mdxOptions: {
+        useDynamicImport: true,
+        remarkPlugins: [remarkGfm],
+        rehypePlugins: [rehypeSlug, rehypeHighlight],
+      },
+    })
+  } catch (err) {
+    console.error(
+      JSON.stringify({
+        event: 'case_study.serialize_error',
+        slug,
+        ok: false,
+        error: err instanceof Error ? err.message : String(err),
+        stack:
+          err instanceof Error
+            ? err.stack?.split('\n').slice(0, 5).join(' | ')
+            : undefined,
+      }),
+    )
+    // Return notFound so ISR serves a 404 rather than the error page
+    return {notFound: true}
+  }
+
   return {
     props: {...caseStudy, source: mdxSource},
     revalidate: 1,
   }
-}
+})
 
 const allCaseStudiesQuery = groq`
   *[_type == "caseStudy" && publishedAt < now() && !(slug.current match $hiddenCaseStudies)]{

@@ -20,7 +20,7 @@ const PlayIcon = () => (
 )
 
 const CourseWidget: React.FC<
-  React.PropsWithChildren<{course?: any; slug?: string; cta?: string}>
+  React.PropsWithChildren<{course: any; cta?: string}>
 > = ({course}) => {
   const resolvedCourse =
     course && typeof course === 'object' && !Array.isArray(course)
@@ -35,7 +35,6 @@ const CourseWidget: React.FC<
   }
 
   const {title, path, instructor, duration, image_thumb_url} = resolvedCourse
-
   return (
     <div className="sm:grid grid-cols-2 dark:bg-gray-1000 bg-gray-100 bg-opacity-80 dark:bg-opacity-100 rounded-lg overflow-hidden">
       <div className="sm:p-6 p-5 flex flex-col justify-between">

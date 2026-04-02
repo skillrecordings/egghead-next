@@ -177,6 +177,9 @@ describe('integration: loadPublicCourseShell (direct PG core + nested playlists)
     )
 
     expect(pgQuery).toHaveBeenCalledTimes(2)
+    expect(pgQuery.mock.calls[0]?.[0]).toContain(
+      'ARRAY_POSITION($4::text[], taggings.context::text)',
+    )
     expect(request).not.toHaveBeenCalled()
   })
 

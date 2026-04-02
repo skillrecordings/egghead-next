@@ -87,6 +87,48 @@ const PlayerSidebar: React.FC<
   )
 }
 
+export function getCourseToDisplay({
+  collectionIsEmpty,
+  filteredCourse,
+  videoResource,
+}: {
+  collectionIsEmpty: boolean
+  filteredCourse: any
+  videoResource: VideoResource
+}) {
+  if (collectionIsEmpty) return null
+
+  return filteredCourse ?? videoResource.collection
+}
+
+export function normalizeCourseForSidebar(fullCourse: any) {
+  const sections = (fullCourse?.sections ?? []).filter(
+    (section: any) =>
+      section && Array.isArray(section.lessons) && section.lessons.length > 0,
+  )
+
+  if (sections.length > 0) {
+    return {
+      ...fullCourse,
+      sections,
+    }
+  }
+
+  return {
+    ...fullCourse,
+    sections: [],
+    lessons:
+      fullCourse?.courseBuilderLessons &&
+      fullCourse.courseBuilderLessons.length > 0
+        ? fullCourse.courseBuilderLessons
+        : fullCourse?.lessons && fullCourse.lessons.length > 0
+        ? fullCourse.lessons
+        : fullCourse?.items?.filter((item: any) =>
+            ['lesson', 'talk'].includes(item.type),
+          ) || [],
+  }
+}
+
 const LessonListTab: React.FC<
   React.PropsWithChildren<{
     videoResource: VideoResource
@@ -116,11 +158,14 @@ const LessonListTab: React.FC<
     setFilteredCourse(fullCourse)
   }, [])
 
-  // Only use filtered course data once it's loaded to avoid showing unpublished lessons
-  // For non-collection lessons (lessonsFromTag), use immediately
-  const courseToDisplay = collectionIsEmpty
-    ? videoResource.collection
-    : filteredCourse
+  // For collection lessons, show the initial course lessons immediately and replace
+  // them with the filtered course once it loads to avoid a blank sidebar on first render.
+  // For non-collection lessons, the sidebar uses lessonsFromTag instead.
+  const courseToDisplay = getCourseToDisplay({
+    collectionIsEmpty,
+    filteredCourse,
+    videoResource,
+  })
 
   return !collectionIsEmpty || lessonsFromTag ? (
     <div className="w-full h-full bg-gray-100 dark:bg-gray-1000">
@@ -174,32 +219,11 @@ const CourseHeader: React.FunctionComponent<
 
   React.useEffect(() => {
     if (fullCourse && onCourseLoaded) {
-      // Don't transform if course has sections - sections contain their own lessons
-      if (fullCourse.sections && fullCourse.sections.length > 0) {
-        onCourseLoaded(fullCourse)
-        return
-      }
-
-      // For non-sectioned courses, prefer courseBuilderLessons (filtered), then lessons, then filter items
-      const transformedCourse = {
-        ...fullCourse,
-        lessons:
-          fullCourse.courseBuilderLessons &&
-          fullCourse.courseBuilderLessons.length > 0
-            ? fullCourse.courseBuilderLessons
-            : fullCourse.lessons && fullCourse.lessons.length > 0
-            ? fullCourse.lessons
-            : fullCourse.items?.filter((item: any) =>
-                ['lesson', 'talk'].includes(item.type),
-              ) || [],
-      }
-      onCourseLoaded(transformedCourse)
+      onCourseLoaded(normalizeCourseForSidebar(fullCourse))
     }
     // Only depend on fullCourse, not onCourseLoaded (which is memoized)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fullCourse])
-
-  console.log('course', fullCourse)
   return course ? (
     <div className="flex items-center">
       <div className="relative flex-shrink-0 block w-12 h-12 lg:w-16 lg:h-16 xl:w-20 xl:h-20">
