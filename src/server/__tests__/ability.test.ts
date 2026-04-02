@@ -92,24 +92,19 @@ test('canViewLessonMedia allows public free lessons without auth', () => {
   ).toBe(true)
 })
 
-test('canViewLessonMedia denies unpublished pro lessons to non-privileged viewers', () => {
+test('canViewLessonMedia denies approved pro lessons to anonymous viewers', () => {
   expect(
-    canViewLessonMedia(
-      {
-        state: 'approved',
-        free_forever: false,
-        is_pro_content: true,
-      },
-      {
-        roles: ['pro'],
-      },
-    ),
+    canViewLessonMedia({
+      state: 'approved',
+      free_forever: false,
+      is_pro_content: true,
+    }),
   ).toBe(false)
 })
 
-test('canViewLessonMedia allows published pro lessons for pro/basic/instructor viewers', () => {
+test('canViewLessonMedia allows public-state pro lessons for pro/basic/instructor viewers', () => {
   const lesson = {
-    state: 'published',
+    state: 'approved',
     free_forever: false,
     is_pro_content: true,
   }

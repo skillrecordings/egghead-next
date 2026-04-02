@@ -280,14 +280,18 @@ const ResourceWidget: React.FC<
         </h3>
       )}
       {collections.map((collection: any) => {
+        const courses = Array.isArray(collection?.courses)
+          ? collection.courses
+          : []
+
         return (
           <div key={collection.slug}>
             <h4 className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 font-bold">
               {collection.title}
             </h4>
             <Grid>
-              {(collection.courses ?? []).map((resource: any, i: number) => {
-                switch (collection.courses.length) {
+              {courses.map((resource: any, i: number) => {
+                switch (courses.length) {
                   case 3:
                     return i === 0 ? (
                       <HorizontalResourceCardForWidget

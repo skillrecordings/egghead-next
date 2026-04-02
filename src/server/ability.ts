@@ -45,7 +45,13 @@ type LessonPermissionContext = {
   freeStreamingPromo?: boolean
 }
 
-const PUBLIC_MEDIA_STATES = ['published', 'retired', 'flagged', 'revised']
+const PUBLIC_MEDIA_STATES = [
+  'published',
+  'approved',
+  'retired',
+  'flagged',
+  'revised',
+]
 
 export async function getAbilityFromToken(token?: string) {
   if (!token) {
