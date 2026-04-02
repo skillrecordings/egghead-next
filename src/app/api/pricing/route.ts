@@ -21,6 +21,18 @@ function fnv1a32(input: string): string {
   return (hash >>> 0).toString(16).padStart(8, '0')
 }
 
+function sanitizeForwardedHeader(input: unknown): string | null {
+  if (typeof input !== 'string') return null
+
+  const normalized = input.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim()
+  if (!normalized) return null
+
+  // Node rejects header values with characters outside latin1 / valid header content.
+  return Buffer.from(normalized, 'latin1').toString('latin1') === normalized
+    ? normalized
+    : null
+}
+
 function sanitizeErrorMessage(input: unknown): string | null {
   if (input == null) return null
   const raw = typeof input === 'string' ? input : String(input)
@@ -60,25 +72,34 @@ async function _GET(request: NextRequest) {
     const geoHeaders: Record<string, string> = {}
 
     // Forward Vercel geo data as headers that Rails expects
-    if (geo?.country) {
-      geoHeaders['x-vercel-ip-country'] = geo.country
+    const safeCountry = sanitizeForwardedHeader(geo?.country)
+    if (safeCountry) {
+      geoHeaders['x-vercel-ip-country'] = safeCountry
       // Add country name header for Rails to use
-      const countryName = countries.getName(geo.country, 'en')
+      const countryName = sanitizeForwardedHeader(countries.getName(safeCountry, 'en'))
       if (countryName) {
         geoHeaders['x-country-name'] = countryName
       }
     }
-    if (geo?.city) {
-      geoHeaders['x-vercel-ip-city'] = geo.city
+
+    const safeCity = sanitizeForwardedHeader(geo?.city)
+    if (safeCity) {
+      geoHeaders['x-vercel-ip-city'] = safeCity
     }
-    if (geo?.countryRegion) {
-      geoHeaders['x-vercel-ip-country-region'] = geo.countryRegion
+
+    const safeRegion = sanitizeForwardedHeader(geo?.countryRegion)
+    if (safeRegion) {
+      geoHeaders['x-vercel-ip-country-region'] = safeRegion
     }
-    if (geo?.latitude) {
-      geoHeaders['x-vercel-ip-latitude'] = geo.latitude
+
+    const safeLatitude = sanitizeForwardedHeader(geo?.latitude)
+    if (safeLatitude) {
+      geoHeaders['x-vercel-ip-latitude'] = safeLatitude
     }
-    if (geo?.longitude) {
-      geoHeaders['x-vercel-ip-longitude'] = geo.longitude
+
+    const safeLongitude = sanitizeForwardedHeader(geo?.longitude)
+    if (safeLongitude) {
+      geoHeaders['x-vercel-ip-longitude'] = safeLongitude
     }
     if (ip) {
       geoHeaders['x-forwarded-for'] = ip
