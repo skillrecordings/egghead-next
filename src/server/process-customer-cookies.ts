@@ -12,7 +12,11 @@ import {
   setCustomerCookie,
 } from './customer-io-cookies'
 import {loadCio} from '../lib/customer'
-import {clearUserCookie, setUserCookie} from './egghead-user-cookies'
+import {
+  clearAccessTokenCookie,
+  clearUserCookie,
+  setUserCookie,
+} from './egghead-user-cookies'
 
 const sameCookieValue = (
   currentValue: string | undefined,

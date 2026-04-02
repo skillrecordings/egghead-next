@@ -1,5 +1,5 @@
 import {NextResponse} from 'next/server'
-import {EGGHEAD_USER_COOKIE_KEY} from '../config'
+import {ACCESS_TOKEN_KEY, EGGHEAD_USER_COOKIE_KEY} from '../config'
 
 export function setUserCookie(res: NextResponse, user: any) {
   if (user) {
@@ -16,4 +16,8 @@ export function setUserCookie(res: NextResponse, user: any) {
 
 export function clearUserCookie(res: NextResponse) {
   res.cookies.delete(EGGHEAD_USER_COOKIE_KEY)
+}
+
+export function clearAccessTokenCookie(res: NextResponse) {
+  res.cookies.delete(ACCESS_TOKEN_KEY)
 }

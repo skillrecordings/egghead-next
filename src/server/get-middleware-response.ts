@@ -42,7 +42,7 @@ const checkRateLimit = async (ip: string) => {
  */
 export async function getMiddlewareResponse(req: NextRequest) {
   let response = NextResponse.next()
-  const {user, customer, isMember, isLoggedInMember} =
+  const {user, customer, isMember, isLoggedInMember, shouldClearAccessToken} =
     await getCookiesForRequest(req)
 
   if (req.nextUrl.pathname.startsWith(PRICING_PAGE_PATH)) {
@@ -79,7 +79,13 @@ export async function getMiddlewareResponse(req: NextRequest) {
     }
   }
 
-  response = setCookiesForResponse(response, req, user, customer)
+  response = setCookiesForResponse(
+    response,
+    req,
+    user,
+    customer,
+    shouldClearAccessToken,
+  )
 
   return response
 }
