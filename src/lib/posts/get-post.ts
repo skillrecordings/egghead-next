@@ -86,7 +86,17 @@ export async function getAllPostSlugs() {
   try {
     const [postRows] = await conn.execute<RowDataPacket[]>(`
       SELECT * FROM egghead_ContentResource cr_lesson
-      WHERE (cr_lesson.type = 'post')
+      WHERE cr_lesson.type = 'post'
+        AND COALESCE(
+          JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')),
+          'lesson'
+        ) IN (
+          'article',
+          'lesson',
+          'podcast',
+          'tip',
+          'course'
+        )
     `)
 
     return postRows.map((post: any) => ({

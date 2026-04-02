@@ -1,7 +1,7 @@
-import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {withPagesApiLogging} from '@/lib/logging'
-import {getTokenFromCookieHeaders, AUTH_DOMAIN} from '@/utils/auth'
+import {getTokenFromCookieHeaders} from '@/utils/auth'
+import {logEvent} from '@/utils/structured-log'
 import fetchEggheadUser from '../../../api/egghead/users/from-token'
 
 const current = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -51,7 +51,10 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  let {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
+  const {eggheadToken: cookieToken} = getTokenFromCookieHeaders(
+    req.headers.cookie as string,
+  )
+  let eggheadToken = cookieToken
 
   if (!eggheadToken && req.headers.authorization) {
     const authHeader = req.headers.authorization
@@ -68,6 +71,11 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
       // If Rails returns 401/403, the token is invalid - return null gracefully
       // This prevents the client from retrying infinitely
       if (error?.response?.status === 401 || error?.response?.status === 403) {
+        logEvent('warn', 'auth.current_user.invalid_token', {
+          degraded_to_anon: true,
+          has_authorization_header: Boolean(req.headers.authorization),
+          has_cookie_token: Boolean(cookieToken),
+        })
         res.status(200).json(null)
       } else {
         console.error('Error fetching user:', error)

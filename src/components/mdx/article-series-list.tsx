@@ -9,8 +9,13 @@ const ArticleSeriesList: React.FC<
     location?: string
   }>
 > = ({resource, location}: any) => {
-  const {articles} = resource
   const router = useRouter()
+
+  if (!resource || typeof resource !== 'object') {
+    return null
+  }
+
+  const articles = Array.isArray(resource.articles) ? resource.articles : []
 
   return (
     <div className="border dark:border-gray-700 border-gray-200  rounded p-8">
