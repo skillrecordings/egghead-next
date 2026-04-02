@@ -250,10 +250,29 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         logContext,
       )
 
-      const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
       const draftCourse =
         params && (await loadDraftCourse(params.course as string))
-      if (draftCourse && ability.can('upload', 'Video')) {
+      let canUploadVideo = false
+
+      if (draftCourse) {
+        try {
+          canUploadVideo = (
+            await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
+          ).can('upload', 'Video')
+        } catch (abilityError) {
+          logEvent(
+            'warn',
+            'course.ssr.ability_error',
+            {
+              course_slug: params?.course as string,
+              error_message: sanitizeErrorMessage(abilityError),
+            },
+            logContext,
+          )
+        }
+      }
+
+      if (draftCourse && canUploadVideo) {
         res.setHeader('Cache-Control', 'private, no-store')
         logEvent(
           'info',

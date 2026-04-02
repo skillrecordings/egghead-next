@@ -197,10 +197,9 @@ function useAuthedViewer() {
       )
       setAuthFailed(!authenticatedUser)
       setViewer(authenticatedUser ?? null)
-    } catch (error) {
+    } catch {
       setAuthFailed(true)
       setViewer(null)
-      throw error
     } finally {
       setLoading(false)
     }
@@ -265,7 +264,7 @@ export const ViewerProvider: FunctionComponent<
     <ViewerContext.Provider
       value={{
         ...values,
-        authenticated: Boolean(values.authToken && values.viewer),
+        authenticated: Boolean(values.isAuthenticated() && values.viewer),
       }}
     >
       {children}

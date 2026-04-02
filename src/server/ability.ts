@@ -117,8 +117,8 @@ export function canViewLessonMedia(
   lesson: LessonLike,
   context: LessonPermissionContext = {},
 ) {
-  const ability = context.ability
   const roles = context.roles ?? []
+  const ability = context.ability ?? defineAbilityFor(roles)
   const isContentTester =
     context.isContentTester ?? includesRoles(roles, 'content_tester')
   const isBasic = context.isBasic ?? includesRoles(roles, 'basic')
@@ -127,18 +127,20 @@ export function canViewLessonMedia(
     context.isInstructor ?? includesRoles(roles, 'instructor')
 
   if (context.freeStreamingPromo) return true
-  if (ability?.can('manage', 'all')) return true
+  if (ability.can('manage', 'all')) return true
   if (context.canPublish) return true
   if (isContentTester) return true
   if (context.hasSellablePurchase) return true
-  if (ability?.can('view', 'LessonMedia')) return true
+  if (ability.can('view', 'LessonMedia')) return true
 
   const lessonState = lesson.state ?? null
   if (!lessonState || !PUBLIC_MEDIA_STATES.includes(lessonState)) return false
 
   if (!lesson.is_pro_content || lesson.free_forever) return true
   if (lesson.collection?.free_forever) return true
-  if (isBasic || isPro || isInstructor) return true
+  if (isBasic || isPro || isInstructor || ability.can('view', 'Lesson')) {
+    return true
+  }
 
   return false
 }
@@ -147,11 +149,11 @@ export function canDownloadLesson(
   _lesson: LessonLike, // Reserved for future lesson-specific checks.
   context: LessonPermissionContext = {},
 ) {
-  const ability = context.ability
+  const ability = context.ability ?? defineAbilityFor(context.roles ?? [])
 
-  if (ability?.can('manage', 'all')) return true
+  if (ability.can('manage', 'all')) return true
   if (context.hasSellablePurchase) return true
-  if (ability?.can('download', 'Lesson')) return true
+  if (ability.can('download', 'Lesson')) return true
   if (context.canPublish) return true
 
   return false

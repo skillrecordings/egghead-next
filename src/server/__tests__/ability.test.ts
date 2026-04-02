@@ -160,3 +160,40 @@ test('canDownloadLesson requires purchase or explicit download privilege', () =>
     true,
   )
 })
+
+test('canViewLessonMedia derives viewer privileges from ability-only context', () => {
+  const publishedProLesson = {
+    state: 'published',
+    free_forever: false,
+    is_pro_content: true,
+  }
+
+  expect(
+    canViewLessonMedia(publishedProLesson, {
+      ability: defineAbilityFor(['pro']),
+    }),
+  ).toBe(true)
+  expect(
+    canViewLessonMedia(
+      {
+        state: 'approved',
+        free_forever: false,
+        is_pro_content: true,
+      },
+      {
+        ability: defineAbilityFor(['reviewer']),
+      },
+    ),
+  ).toBe(true)
+})
+
+test('canDownloadLesson derives download privilege from roles-only context', () => {
+  const publicProLesson = {
+    state: 'published',
+    free_forever: false,
+    is_pro_content: true,
+  }
+
+  expect(canDownloadLesson(publicProLesson, {roles: ['reviewer']})).toBe(true)
+  expect(canDownloadLesson(publicProLesson, {roles: ['pro']})).toBe(true)
+})
