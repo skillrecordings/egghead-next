@@ -56,6 +56,23 @@ const getInstructorSlugFromInstructorList = (instructors: string[]) => {
 // - Typesense updates are not instant-critical
 const SEARCH_SSR_CACHE_TTL_SECONDS = 600
 const SEARCH_SSR_CACHE_PREFIX = 'search:ssr'
+const PUBLIC_PAGE_CACHE_CONTROL =
+  'public, s-maxage=300, stale-while-revalidate=3600'
+
+const setSearchCacheHeaders = (
+  res: {setHeader: (name: string, value: string) => void},
+  options: {
+    blocker?: string | null
+    ssrStatus?: 'hit' | 'miss' | 'error' | 'skip'
+  } = {},
+) => {
+  res.setHeader('Cache-Control', PUBLIC_PAGE_CACHE_CONTROL)
+  res.setHeader('x-egghead-cache-scope', 'public-swr')
+  res.setHeader('x-egghead-cache-blocker', options.blocker ?? 'none')
+  if (options.ssrStatus) {
+    res.setHeader('x-egghead-search-ssr', options.ssrStatus)
+  }
+}
 
 /**
  * Deep-stable stringify for cache keys.
@@ -259,7 +276,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
     setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
     // Search is high-cardinality but non-user-specific. Give the CDN more time
     // so repeated queries have a chance to hit.
-    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=3600')
+    setSearchCacheHeaders(res)
     const {all = [], ...rest} = query
 
     if (all[0] === 'undefined') return {props: {error: 'no search query'}}
@@ -269,7 +286,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       getInstructorsFromSearchState(initialSearchState)
     const selectedTopics = topicExtractor(initialSearchState)
     const pageTitle = titleFromPath(all as string[])
-    const path = req.url
+    const path = req.url ?? '/q'
 
     // Canonicalize: strip Next/Vercel "nxtP*" params that explode cache keys.
     // This improves CDN hit rate without changing the rendered content.
@@ -282,6 +299,10 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       if (nxtPKeys.length > 0) {
         nxtPKeys.forEach((k) => {
           url.searchParams.delete(k)
+        })
+        setSearchCacheHeaders(res, {
+          blocker: 'internal_query_params',
+          ssrStatus: 'skip',
         })
         return {
           redirect: {
@@ -424,6 +445,11 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         }
       }
 
+      setSearchCacheHeaders(res, {
+        blocker: skipReason,
+        ssrStatus: cacheStatus,
+      })
+
       try {
         console.log(
           JSON.stringify({
@@ -526,6 +552,10 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       }
     } catch (error) {
       console.error('Search error:', error)
+      setSearchCacheHeaders(res, {
+        blocker: 'error',
+        ssrStatus: 'error',
+      })
 
       // Return minimal props with error information
       // This allows the component to render but in a fallback state

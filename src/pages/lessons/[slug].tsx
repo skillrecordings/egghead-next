@@ -22,6 +22,18 @@ import {trpc} from '@/app/_trpc/client'
 
 import {VideoProvider} from '@skillrecordings/player'
 
+const PUBLIC_PAGE_CACHE_CONTROL =
+  'public, s-maxage=300, stale-while-revalidate=3600'
+
+const setLessonCacheHeaders = (
+  res: {setHeader: (name: string, value: string) => void},
+  blocker: string | null = null,
+) => {
+  res.setHeader('Cache-Control', PUBLIC_PAGE_CACHE_CONTROL)
+  res.setHeader('x-egghead-cache-scope', 'public-swr')
+  res.setHeader('x-egghead-cache-blocker', blocker ?? 'none')
+}
+
 const tracer = getTracer('lesson-page')
 
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
@@ -37,6 +49,29 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
     }
 
     try {
+      try {
+        const url = new URL(req.url || `/lessons/${params?.slug}`, 'https://egghead.io')
+        const internalKeys = Array.from(url.searchParams.keys()).filter((key) =>
+          key.startsWith('nxtP'),
+        )
+
+        if (internalKeys.length > 0) {
+          internalKeys.forEach((key) => {
+            url.searchParams.delete(key)
+          })
+
+          setLessonCacheHeaders(res, 'internal_query_params')
+          return {
+            redirect: {
+              destination: `${url.pathname}${url.search}`,
+              permanent: false,
+            },
+          }
+        }
+      } catch {
+        // never fail the request on URL canonicalization
+      }
+
       const initialLesson: LessonResource | undefined =
         params &&
         (await loadLesson(params.slug as string, undefined, false, logContext))
@@ -51,10 +86,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       } else {
         // Get the most up-to-date lesson data from Course Builder database
 
-        res.setHeader(
-          'Cache-Control',
-          's-maxage=300, stale-while-revalidate=3600',
-        )
+        setLessonCacheHeaders(res)
         return {
           props: {
             initialLesson: initialLesson,
