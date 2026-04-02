@@ -464,9 +464,6 @@ importers:
       react-error-boundary:
         specifier: ^3.1.3
         version: 3.1.4(react@19.1.3)
-      react-facebook-pixel:
-        specifier: ^1.0.4
-        version: 1.0.4
       react-hook-form:
         specifier: ^7.45.4
         version: 7.66.0(react@19.1.3)
@@ -13421,9 +13418,6 @@ packages:
     engines: {node: '>=10', npm: '>=6'}
     peerDependencies:
       react: '>=16.13.1'
-
-  react-facebook-pixel@1.0.4:
-    resolution: {integrity: sha512-givZY8MS0v/mdbRzvcvouBo/j0TtDiu/93f4gIjJXwDDgwlf6bYUiQvb2qcqjluOOD/hIKUQHNYLNsSOnoEklg==}
 
   react-fast-compare@2.0.4:
     resolution: {integrity: sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==}
@@ -31761,8 +31755,6 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.28.4
       react: 19.1.3
-
-  react-facebook-pixel@1.0.4: {}
 
   react-fast-compare@2.0.4: {}
 
