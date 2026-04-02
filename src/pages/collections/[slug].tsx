@@ -6,6 +6,7 @@ import {loadCollection} from '@/lib/collections'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import {withSSRLogging} from '@/lib/logging'
+import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
@@ -54,8 +55,24 @@ const Collection: FunctionComponent<
 export default Collection
 
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
-  async ({res, params}) => {
+  async ({res, params, query}) => {
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+
+    const canonicalRedirect = canonicalizeInternalQueryParams({
+      pathname: `/collections/${params?.slug}`,
+      query,
+      omitKeys: ['slug'],
+    })
+
+    if (canonicalRedirect) {
+      return {
+        redirect: {
+          destination: canonicalRedirect.destination,
+          permanent: false,
+        },
+      }
+    }
+
     const collection = params && (await loadCollection(params.slug as string))
 
     return {

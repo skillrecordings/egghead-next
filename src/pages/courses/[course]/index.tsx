@@ -20,6 +20,7 @@ import {useViewer} from '@/context/viewer-context'
 import {loadResourcesForCourse} from '@/lib/course-resources'
 import type {CourseLessonShell} from '@/types'
 import {logEvent} from '@/utils/structured-log'
+import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
 const tracer = getTracer('course-page')
 
 type CourseProps = {
@@ -215,7 +216,7 @@ const getSlugFromPath = (path: string) => {
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
-  async ({res, req, params}) => {
+  async ({res, req, params, query}) => {
     setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
     const requestId = crypto.randomUUID()
     res.setHeader('x-egghead-request-id', requestId)
@@ -229,27 +230,20 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
     try {
       const courseSlugParam = params?.course as string
 
-      try {
-        const url = new URL(req.url || `/courses/${courseSlugParam}`, 'https://egghead.io')
-        const internalKeys = Array.from(url.searchParams.keys()).filter((key) =>
-          key.startsWith('nxtP'),
-        )
+      const canonicalRedirect = canonicalizeInternalQueryParams({
+        pathname: `/courses/${courseSlugParam}`,
+        query,
+        omitKeys: ['course'],
+      })
 
-        if (internalKeys.length > 0) {
-          internalKeys.forEach((key) => {
-            url.searchParams.delete(key)
-          })
-
-          setCourseCacheHeaders(res, 'public-swr', 'internal_query_params')
-          return {
-            redirect: {
-              destination: `${url.pathname}${url.search}`,
-              permanent: false,
-            },
-          }
+      if (canonicalRedirect) {
+        setCourseCacheHeaders(res, 'public-swr', 'internal_query_params')
+        return {
+          redirect: {
+            destination: canonicalRedirect.destination,
+            permanent: false,
+          },
         }
-      } catch {
-        // never fail the request on URL canonicalization
       }
 
       const course = await loadPublicCourseShell(courseSlugParam, logContext)

@@ -7,6 +7,7 @@ import MorePodcasts from '@/components/podcasts/more/more'
 import PodcastUi from '@/components/podcasts/podcast/podcast'
 import removeMarkdown from 'remove-markdown'
 import {NextSeo} from 'next-seo'
+import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
 
 type PodcastProps = {
   podcast: PodcastResource
@@ -49,8 +50,23 @@ const Podcast: FunctionComponent<React.PropsWithChildren<PodcastProps>> = ({
 export default Podcast
 
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
-  async function ({res, params}) {
+  async function ({res, params, query}) {
     res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate')
+
+    const canonicalRedirect = canonicalizeInternalQueryParams({
+      pathname: `/podcasts/${params?.slug}`,
+      query,
+      omitKeys: ['slug'],
+    })
+
+    if (canonicalRedirect) {
+      return {
+        redirect: {
+          destination: canonicalRedirect.destination,
+          permanent: false,
+        },
+      }
+    }
     const podcast = params && (await loadPodcast(params.slug as string))
     const podcasts = (await loadPodcasts())
       .filter((filterCast: PodcastResource) => filterCast.id !== podcast.id)

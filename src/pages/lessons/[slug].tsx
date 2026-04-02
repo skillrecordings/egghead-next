@@ -19,6 +19,7 @@ import type {
 import {GenericErrorBoundary} from '@/components/generic-error-boundary'
 import Lesson from '@/components/pages/lessons/lesson'
 import {trpc} from '@/app/_trpc/client'
+import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
 
 import {VideoProvider} from '@skillrecordings/player'
 
@@ -37,7 +38,7 @@ const setLessonCacheHeaders = (
 const tracer = getTracer('lesson-page')
 
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
-  async function ({req, res, params}) {
+  async function ({req, res, params, query}) {
     setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
     const requestId = crypto.randomUUID()
     res.setHeader('x-egghead-request-id', requestId)
@@ -49,27 +50,20 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
     }
 
     try {
-      try {
-        const url = new URL(req.url || `/lessons/${params?.slug}`, 'https://egghead.io')
-        const internalKeys = Array.from(url.searchParams.keys()).filter((key) =>
-          key.startsWith('nxtP'),
-        )
+      const canonicalRedirect = canonicalizeInternalQueryParams({
+        pathname: `/lessons/${params?.slug}`,
+        query,
+        omitKeys: ['slug'],
+      })
 
-        if (internalKeys.length > 0) {
-          internalKeys.forEach((key) => {
-            url.searchParams.delete(key)
-          })
-
-          setLessonCacheHeaders(res, 'internal_query_params')
-          return {
-            redirect: {
-              destination: `${url.pathname}${url.search}`,
-              permanent: false,
-            },
-          }
+      if (canonicalRedirect) {
+        setLessonCacheHeaders(res, 'internal_query_params')
+        return {
+          redirect: {
+            destination: canonicalRedirect.destination,
+            permanent: false,
+          },
         }
-      } catch {
-        // never fail the request on URL canonicalization
       }
 
       const initialLesson: LessonResource | undefined =

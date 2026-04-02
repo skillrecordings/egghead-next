@@ -30,6 +30,7 @@ import Link from 'next/link'
 import crypto from 'crypto'
 import {getRedis} from '@/lib/upstash-redis'
 import {withTimeout} from '@/utils/with-timeout'
+import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
 
 const tracer = getTracer('search-page')
 
@@ -290,29 +291,24 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
 
     // Canonicalize: strip Next/Vercel "nxtP*" params that explode cache keys.
     // This improves CDN hit rate without changing the rendered content.
-    try {
-      const url = new URL(req.url || '/q', 'https://egghead.io')
-      const nxtPKeys: string[] = []
-      for (const key of url.searchParams.keys()) {
-        if (key.startsWith('nxtP')) nxtPKeys.push(key)
+    const allSegments = Array.isArray(all) ? all.filter(Boolean) : []
+    const canonicalRedirect = canonicalizeInternalQueryParams({
+      pathname: allSegments.length > 0 ? `/q/${allSegments.join('/')}` : '/q',
+      query,
+      omitKeys: ['all'],
+    })
+
+    if (canonicalRedirect) {
+      setSearchCacheHeaders(res, {
+        blocker: 'internal_query_params',
+        ssrStatus: 'skip',
+      })
+      return {
+        redirect: {
+          destination: canonicalRedirect.destination,
+          permanent: false,
+        },
       }
-      if (nxtPKeys.length > 0) {
-        nxtPKeys.forEach((k) => {
-          url.searchParams.delete(k)
-        })
-        setSearchCacheHeaders(res, {
-          blocker: 'internal_query_params',
-          ssrStatus: 'skip',
-        })
-        return {
-          redirect: {
-            destination: `${url.pathname}${url.search}`,
-            permanent: false,
-          },
-        }
-      }
-    } catch {
-      // never crash on URL parsing
     }
 
     try {
