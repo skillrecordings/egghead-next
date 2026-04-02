@@ -21,9 +21,11 @@ const validateEmail = (value: string) => {
 
 const EmailSubscribeWidget = (props: any) => {
   const signedUpForNewsletter = cookieUtil.get(ARTICLE_NEWSLETTER_INTEREST_KEY)
-  const [hidden, setHidden] = props.hideCTAState
+  const fallbackHideCTAState = React.useState(false)
+  const [hidden, setHidden] = props.hideCTAState ?? fallbackHideCTAState
 
   const {slug, author} = props
+  const authorName = author?.name ?? ''
 
   const identify = trpc.customerIO.identify.useMutation()
 
@@ -68,7 +70,7 @@ const EmailSubscribeWidget = (props: any) => {
 
               analytics.events.activityClickedNewsletterSubscribe(
                 slug,
-                author.name,
+                authorName,
                 interestsArray,
               )
             }}

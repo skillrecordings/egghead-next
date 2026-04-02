@@ -262,7 +262,12 @@ const ResourceWidget: React.FC<
     location?: string
   }>
 > = ({resource, location}: any) => {
-  const {podcasts, talks, collections, articles} = resource
+  if (!resource || typeof resource !== 'object') {
+    return null
+  }
+
+  const {podcasts = [], talks = [], collections = [], articles = []} = resource
+
   return (
     <>
       {articles.length > 0 ? null : (
@@ -278,7 +283,7 @@ const ResourceWidget: React.FC<
                 {collection.title}
               </h4>
               <Grid>
-                {collection.courses.map((resource: any, i: number) => {
+                {(collection.courses ?? []).map((resource: any, i: number) => {
                   switch (collection.courses.length) {
                     case 3:
                       return i === 0 ? (
