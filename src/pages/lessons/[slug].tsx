@@ -1,95 +1,102 @@
 import * as React from 'react'
-import {GetServerSideProps} from 'next'
-import {withSSRLogging} from '@/lib/logging'
+import {GetStaticPaths, GetStaticProps} from 'next'
+import {withStaticPropsLogging} from '@/lib/logging'
 import {get} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {lessonMachine} from '@/machines/lesson-machine'
 import {loadLesson} from '@/lib/lessons'
 import {useViewer} from '@/context/viewer-context'
 import {LessonResource, VideoResource} from '@/types'
-import getTracer from '@/utils/honeycomb-tracer'
-import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import cookieUtil from '@/utils/cookies'
-import crypto from 'crypto'
 import {logEvent} from '@/utils/structured-log'
 import {GenericErrorBoundary} from '@/components/generic-error-boundary'
 import Lesson from '@/components/pages/lessons/lesson'
 import {trpc} from '@/app/_trpc/client'
-import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
+import {HOT_LESSON_SLUGS} from '@/lib/hot-content-slugs'
 
 import {VideoProvider} from '@/player'
 
-const PUBLIC_PAGE_CACHE_CONTROL =
-  'public, s-maxage=300, stale-while-revalidate=3600'
+const LESSON_REVALIDATE_SECONDS = 300
 
-const setLessonCacheHeaders = (
-  res: {setHeader: (name: string, value: string) => void},
-  blocker: string | null = null,
-) => {
-  res.setHeader('Cache-Control', PUBLIC_PAGE_CACHE_CONTROL)
-  res.setHeader('x-egghead-cache-scope', 'public-swr')
-  res.setHeader('x-egghead-cache-blocker', blocker ?? 'none')
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: HOT_LESSON_SLUGS.map((slug) => ({
+      params: {slug},
+    })),
+    fallback: 'blocking',
+  }
 }
 
-const tracer = getTracer('lesson-page')
+export const getStaticProps: GetStaticProps = withStaticPropsLogging(
+  async function ({params}) {
+    const lessonSlug = params?.slug as string | undefined
 
-export const getServerSideProps: GetServerSideProps = withSSRLogging(
-  async function ({req, res, params, query}) {
-    setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-    const requestId = crypto.randomUUID()
-    res.setHeader('x-egghead-request-id', requestId)
+    if (!lessonSlug) {
+      return {
+        notFound: true,
+      }
+    }
+
     const logContext = {
-      request_id: requestId,
       route: '/lessons/[slug]',
       page: 'lesson',
-      lesson_slug: params?.slug as string,
+      lesson_slug: lessonSlug,
+      render_mode: 'isr',
     }
 
     try {
-      const canonicalRedirect = canonicalizeInternalQueryParams({
-        pathname: `/lessons/${params?.slug}`,
-        query,
-        omitKeys: ['slug'],
-      })
+      const initialLesson: LessonResource | undefined = await loadLesson(
+        lessonSlug,
+        undefined,
+        false,
+        logContext,
+      )
 
-      if (canonicalRedirect) {
-        setLessonCacheHeaders(res, 'internal_query_params')
+      if (!initialLesson?.slug) {
         return {
-          redirect: {
-            destination: canonicalRedirect.destination,
-            permanent: false,
-          },
+          notFound: true,
+          revalidate: LESSON_REVALIDATE_SECONDS,
         }
       }
 
-      const initialLesson: LessonResource | undefined =
-        params &&
-        (await loadLesson(params.slug as string, undefined, false, logContext))
-
-      if (initialLesson && initialLesson?.slug !== params?.slug) {
+      if (initialLesson.slug !== lessonSlug) {
         return {
           redirect: {
             destination: initialLesson.path,
             permanent: true,
           },
         }
-      } else {
-        // Get the most up-to-date lesson data from Course Builder database
-
-        setLessonCacheHeaders(res)
-        return {
-          props: {
-            initialLesson: initialLesson,
-          },
-        }
       }
-    } catch (e) {
-      console.error(e)
+
+      console.log(
+        JSON.stringify({
+          event: 'lesson.static_props.generated',
+          slug: lessonSlug,
+          ok: true,
+          render_mode: 'isr',
+        }),
+      )
+
       return {
-        redirect: {
-          destination: '/',
-          permanent: false,
+        props: {
+          initialLesson,
         },
+        revalidate: LESSON_REVALIDATE_SECONDS,
+      }
+    } catch (error) {
+      console.error(
+        JSON.stringify({
+          event: 'lesson.static_props.error',
+          slug: lessonSlug,
+          ok: false,
+          render_mode: 'isr',
+          error: error instanceof Error ? error.message : String(error),
+        }),
+      )
+
+      return {
+        notFound: true,
+        revalidate: 60,
       }
     }
   },
