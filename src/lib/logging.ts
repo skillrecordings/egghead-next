@@ -37,6 +37,12 @@ export type ServerLog = {
   user_id: number | null
   has_token: boolean
   cache_header?: string
+  cache_scope_header?: string
+  cache_blocker_header?: string
+  vary_header?: string
+  has_set_cookie?: boolean
+  result_type?: 'props' | 'redirect' | 'notFound'
+  redirect_destination?: string
   error?: string
 }
 
@@ -47,6 +53,29 @@ export type ServerLog = {
 type UserContext = {
   user_id: number | null
   has_token: boolean
+}
+
+function readHeaderValue(value: unknown): string | undefined {
+  if (typeof value === 'string') return value
+  if (Array.isArray(value)) return value.join(', ')
+  return undefined
+}
+
+function describeSSRResult(
+  result: GetServerSidePropsResult<Record<string, any>>,
+): Pick<ServerLog, 'result_type' | 'redirect_destination'> {
+  if ('redirect' in result) {
+    return {
+      result_type: 'redirect',
+      redirect_destination: result.redirect.destination,
+    }
+  }
+
+  if ('notFound' in result && result.notFound) {
+    return {result_type: 'notFound'}
+  }
+
+  return {result_type: 'props'}
 }
 
 /**
@@ -370,9 +399,17 @@ export function withSSRLogging(gssp: GetServerSideProps): GetServerSideProps {
       const durationMs = Math.round(performance.now() - start)
 
       try {
-        const cacheHeader =
-          (context.res.getHeader('Cache-Control') as string | undefined) ??
-          undefined
+        const cacheHeader = readHeaderValue(
+          context.res.getHeader('Cache-Control'),
+        )
+        const cacheScopeHeader = readHeaderValue(
+          context.res.getHeader('x-egghead-cache-scope'),
+        )
+        const cacheBlockerHeader = readHeaderValue(
+          context.res.getHeader('x-egghead-cache-blocker'),
+        )
+        const varyHeader = readHeaderValue(context.res.getHeader('Vary'))
+        const hasSetCookie = Boolean(context.res.getHeader('Set-Cookie'))
 
         const log: ServerLog = {
           event: 'ssr.render',
@@ -382,6 +419,11 @@ export function withSSRLogging(gssp: GetServerSideProps): GetServerSideProps {
           user_id: userCtx.user_id,
           has_token: userCtx.has_token,
           cache_header: cacheHeader,
+          cache_scope_header: cacheScopeHeader,
+          cache_blocker_header: cacheBlockerHeader,
+          vary_header: varyHeader,
+          has_set_cookie: hasSetCookie,
+          ...describeSSRResult(result),
         }
         console.log(JSON.stringify(log))
       } catch {

@@ -163,7 +163,9 @@ export default class Auth {
     return new Promise((resolve, reject) => {
       this.setSession(accessToken, expiresInSeconds).then(
         (user: any) => {
-          analytics.identify(user)
+          if (user) {
+            analytics.identify(user)
+          }
           resolve(user)
         },
         (error) => {
@@ -235,8 +237,17 @@ export default class Auth {
     if (typeof localStorage === 'undefined' || typeof window === 'undefined') {
       return
     }
+
+    const token = cookie.get(ACCESS_TOKEN_KEY)
+    if (!token) return false
+
     const storedExpiration = localStorage.getItem(EXPIRES_AT_KEY) || '0'
     const expiresAt = JSON.parse(storedExpiration)
+
+    if (!expiresAt) {
+      return true
+    }
+
     const expired = new Date().getTime() > expiresAt
     if (expiresAt > 0 && expired) {
       this.logout()
@@ -248,13 +259,17 @@ export default class Auth {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
         reject('no local storage')
+        return
       }
 
       const token = accessToken || getAccessTokenFromCookie()
-      const headers: any = {}
-      if (token) {
-        headers.Authorization = `Bearer ${token}`
+      if (!token) {
+        this.clearLocalStorage().then(() => resolve(null))
+        return
       }
+
+      const headers: any = {}
+      headers.Authorization = `Bearer ${token}`
 
       http
         .get(`/api/users/current?minimal=${minimalUser}`, {
@@ -265,10 +280,18 @@ export default class Auth {
             return reject('not authenticated')
           }
 
-          if (!data?.id) {
+          if (
+            !data ||
+            typeof data !== 'object' ||
+            Array.isArray(data) ||
+            Object.keys(data).length === 0 ||
+            !('id' in data) ||
+            !data.id
+          ) {
             // Distinguish between a real user payload and the anonymous/null
             // fallback so stale auth cookies don't survive as zombie sessions.
-            return this.clearLocalStorage().then(() => resolve(null))
+            this.clearLocalStorage().then(() => resolve(null))
+            return
           }
 
           analytics.identify(data)
@@ -331,7 +354,7 @@ export default class Auth {
   }
 
   getAuthToken() {
-    if (typeof localStorage === 'undefined') {
+    if (typeof window === 'undefined') {
       return
     }
     if (this.isAuthenticated()) {

@@ -19,6 +19,11 @@ describe('setCookiesForResponse', () => {
       cookies: {
         has: (name: string) =>
           name === ACCESS_TOKEN_KEY || name === EGGHEAD_USER_COOKIE_KEY,
+        get: (name: string) => {
+          if (name === ACCESS_TOKEN_KEY) return {value: 'stale-token'}
+          if (name === EGGHEAD_USER_COOKIE_KEY) return {value: '{"id":42}'}
+          return undefined
+        },
       },
     }
 

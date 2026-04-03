@@ -4,13 +4,15 @@ import cookie from '../../utils/cookies'
 
 let stripePromise: ReturnType<typeof loadStripe> | null = null
 
-function getStripePromise() {
-  if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
+const getStripePromise = () => {
+  const publicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
+
+  if (!publicKey) {
     throw new Error('no Stripe public key found')
   }
 
   if (!stripePromise) {
-    stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
+    stripePromise = loadStripe(publicKey)
   }
 
   return stripePromise

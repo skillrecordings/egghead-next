@@ -30,6 +30,7 @@ import Link from 'next/link'
 import crypto from 'crypto'
 import {getRedis} from '@/lib/upstash-redis'
 import {withTimeout} from '@/utils/with-timeout'
+import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
 
 const tracer = getTracer('search-page')
 
@@ -56,6 +57,23 @@ const getInstructorSlugFromInstructorList = (instructors: string[]) => {
 // - Typesense updates are not instant-critical
 const SEARCH_SSR_CACHE_TTL_SECONDS = 600
 const SEARCH_SSR_CACHE_PREFIX = 'search:ssr'
+const PUBLIC_PAGE_CACHE_CONTROL =
+  'public, s-maxage=300, stale-while-revalidate=3600'
+
+const setSearchCacheHeaders = (
+  res: {setHeader: (name: string, value: string) => void},
+  options: {
+    blocker?: string | null
+    ssrStatus?: 'hit' | 'miss' | 'error' | 'skip'
+  } = {},
+) => {
+  res.setHeader('Cache-Control', PUBLIC_PAGE_CACHE_CONTROL)
+  res.setHeader('x-egghead-cache-scope', 'public-swr')
+  res.setHeader('x-egghead-cache-blocker', options.blocker ?? 'none')
+  if (options.ssrStatus) {
+    res.setHeader('x-egghead-search-ssr', options.ssrStatus)
+  }
+}
 
 /**
  * Deep-stable stringify for cache keys.
@@ -259,7 +277,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
     setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
     // Search is high-cardinality but non-user-specific. Give the CDN more time
     // so repeated queries have a chance to hit.
-    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=3600')
+    setSearchCacheHeaders(res)
     const {all = [], ...rest} = query
 
     if (all[0] === 'undefined') return {props: {error: 'no search query'}}
@@ -269,29 +287,28 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       getInstructorsFromSearchState(initialSearchState)
     const selectedTopics = topicExtractor(initialSearchState)
     const pageTitle = titleFromPath(all as string[])
-    const path = req.url
+    const path = req.url ?? '/q'
 
     // Canonicalize: strip Next/Vercel "nxtP*" params that explode cache keys.
     // This improves CDN hit rate without changing the rendered content.
-    try {
-      const url = new URL(req.url || '/q', 'https://egghead.io')
-      const nxtPKeys: string[] = []
-      for (const key of url.searchParams.keys()) {
-        if (key.startsWith('nxtP')) nxtPKeys.push(key)
+    const allSegments = Array.isArray(all) ? all.filter(Boolean) : []
+    const canonicalRedirect = canonicalizeInternalQueryParams({
+      pathname: allSegments.length > 0 ? `/q/${allSegments.join('/')}` : '/q',
+      query,
+      omitKeys: ['all'],
+    })
+
+    if (canonicalRedirect) {
+      setSearchCacheHeaders(res, {
+        blocker: 'internal_query_params',
+        ssrStatus: 'skip',
+      })
+      return {
+        redirect: {
+          destination: canonicalRedirect.destination,
+          permanent: false,
+        },
       }
-      if (nxtPKeys.length > 0) {
-        nxtPKeys.forEach((k) => {
-          url.searchParams.delete(k)
-        })
-        return {
-          redirect: {
-            destination: `${url.pathname}${url.search}`,
-            permanent: false,
-          },
-        }
-      }
-    } catch {
-      // never crash on URL parsing
     }
 
     try {
@@ -424,6 +441,11 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         }
       }
 
+      setSearchCacheHeaders(res, {
+        blocker: skipReason,
+        ssrStatus: cacheStatus,
+      })
+
       try {
         console.log(
           JSON.stringify({
@@ -526,6 +548,10 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       }
     } catch (error) {
       console.error('Search error:', error)
+      setSearchCacheHeaders(res, {
+        blocker: 'error',
+        ssrStatus: 'error',
+      })
 
       // Return minimal props with error information
       // This allows the component to render but in a fallback state

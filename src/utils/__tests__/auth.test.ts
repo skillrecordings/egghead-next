@@ -1,154 +1,209 @@
-/* eslint-disable import/first */
-
-const authMocks = {
-  http: {
-    get: jest.fn(),
-    post: jest.fn(),
-  },
-  cookie: {
-    set: jest.fn(),
-    get: jest.fn(),
-    remove: jest.fn(),
-  },
-  identify: jest.fn(),
-  getAccessTokenFromCookie: jest.fn(),
-}
-
-;(global as any).__authTestMocks = authMocks
-
-jest.mock('axios', () => ({
-  __esModule: true,
-  default: {
-    create: jest.fn(() => ({
-      get: (...args: any[]) =>
-        (global as any).__authTestMocks.http.get(...args),
-      post: (...args: any[]) =>
-        (global as any).__authTestMocks.http.post(...args),
-    })),
-  },
-}))
-
-jest.mock('client-oauth2', () => {
-  return jest.fn().mockImplementation(() => ({
-    token: {
-      getUri: jest.fn(),
-      getToken: jest.fn(),
-    },
-  }))
-})
-
-jest.mock('../cookies', () => ({
-  __esModule: true,
-  default: {
-    set: (...args: any[]) =>
-      (global as any).__authTestMocks.cookie.set(...args),
-    get: (...args: any[]) =>
-      (global as any).__authTestMocks.cookie.get(...args),
-    remove: (...args: any[]) =>
-      (global as any).__authTestMocks.cookie.remove(...args),
-  },
-}))
-
-jest.mock('../get-access-token-from-cookie', () => ({
-  __esModule: true,
-  default: (...args: any[]) =>
-    (global as any).__authTestMocks.getAccessTokenFromCookie(...args),
-}))
-
-jest.mock('@/utils/analytics', () => ({
-  __esModule: true,
-  default: {
-    identify: (...args: any[]) =>
-      (global as any).__authTestMocks.identify(...args),
-  },
-}))
-
 import Auth, {
   ACCESS_TOKEN_KEY,
   EXPIRES_AT_KEY,
   USER_KEY,
   VIEWING_AS_USER_KEY,
 } from '../auth'
+import analytics from '@/utils/analytics'
+import {CIO_IDENTIFIER_KEY, EGGHEAD_USER_COOKIE_KEY} from '@/config'
+
+jest.mock('axios', () => {
+  const mockHttp = {
+    get: jest.fn(),
+    post: jest.fn(),
+  }
+  const create = jest.fn(() => mockHttp)
+
+  return {
+    __esModule: true,
+    default: {create},
+    create,
+    __mockHttp: mockHttp,
+  }
+})
+
+jest.mock('client-oauth2', () =>
+  jest.fn().mockImplementation(() => ({
+    token: {
+      getUri: jest.fn(),
+      getToken: jest.fn(),
+    },
+  })),
+)
+
+jest.mock('@/utils/analytics', () => ({
+  __esModule: true,
+  default: {identify: jest.fn()},
+}))
+
+jest.mock('../cookies', () => {
+  const mockCookieStore = new Map<string, string>()
+  const mockCookieUtil = {
+    set: jest.fn((name: string, value: unknown) => {
+      const storedValue =
+        typeof value === 'string' ? value : JSON.stringify(value)
+      mockCookieStore.set(name, storedValue)
+      return storedValue
+    }),
+    get: jest.fn((name: string) => mockCookieStore.get(name)),
+    remove: jest.fn((name: string) => {
+      mockCookieStore.delete(name)
+    }),
+  }
+
+  return {
+    __esModule: true,
+    default: mockCookieUtil,
+    __mockCookieStore: mockCookieStore,
+  }
+})
+
+const mockLocalStorage = (() => {
+  let store: Record<string, string> = {}
+
+  return {
+    clear: () => {
+      store = {}
+    },
+    getItem: (key: string) => store[key] ?? null,
+    key: (index: number) => Object.keys(store)[index] ?? null,
+    removeItem: (key: string) => {
+      delete store[key]
+    },
+    setItem: (key: string, value: string) => {
+      store[key] = value
+    },
+    get length() {
+      return Object.keys(store).length
+    },
+  }
+})()
+
+Object.defineProperty(global, 'localStorage', {
+  value: mockLocalStorage,
+  writable: true,
+})
+
+Object.defineProperty(global, 'window', {
+  value: {
+    localStorage: mockLocalStorage,
+  },
+  writable: true,
+})
+
+const {__mockHttp: mockHttp} = jest.requireMock('axios') as {
+  __mockHttp: {
+    get: jest.Mock
+    post: jest.Mock
+  }
+}
+
+const {__mockCookieStore: mockCookieStore} = jest.requireMock('../cookies') as {
+  __mockCookieStore: Map<string, string>
+}
+
+const mockAnalytics = analytics as unknown as {
+  identify: jest.Mock
+}
+
+const seedSession = (token = 'valid-token') => {
+  mockCookieStore.set(ACCESS_TOKEN_KEY, token)
+  mockCookieStore.set(EGGHEAD_USER_COOKIE_KEY, JSON.stringify({id: 999}))
+  localStorage.setItem(ACCESS_TOKEN_KEY, token)
+  localStorage.setItem(USER_KEY, JSON.stringify({id: 999}))
+  localStorage.setItem(VIEWING_AS_USER_KEY, 'old@egghead.io')
+  localStorage.setItem(EXPIRES_AT_KEY, JSON.stringify(Date.now() + 60_000))
+}
 
 describe('Auth.refreshUser', () => {
-  beforeAll(() => {
-    let storage: Record<string, string> = {}
-
-    Object.defineProperty(global, 'window', {
-      configurable: true,
-      value: {},
-    })
-
-    Object.defineProperty(global, 'localStorage', {
-      configurable: true,
-      value: {
-        getItem: (key: string) => storage[key] ?? null,
-        setItem: (key: string, value: string) => {
-          storage[key] = value
-        },
-        removeItem: (key: string) => {
-          delete storage[key]
-        },
-        clear: () => {
-          storage = {}
-        },
-      },
-    })
-  })
-
   beforeEach(() => {
     jest.clearAllMocks()
+    mockCookieStore.clear()
     localStorage.clear()
-    process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN = '.egghead.io'
-    authMocks.getAccessTokenFromCookie.mockReturnValue('stale-token')
-    localStorage.setItem(ACCESS_TOKEN_KEY, 'stale-token')
-    localStorage.setItem(
-      EXPIRES_AT_KEY,
-      JSON.stringify(Date.now() + 60 * 60 * 1000),
-    )
-    localStorage.setItem(USER_KEY, JSON.stringify({id: 42, email: 'old@e.io'}))
-    localStorage.setItem(VIEWING_AS_USER_KEY, 'old@e.io')
+    process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN = 'egghead.io'
   })
 
-  it('clears stale auth when /api/users/current resolves with null', async () => {
-    authMocks.http.get.mockResolvedValue({data: null})
+  test('clears the local session on a 200 null current-user response', async () => {
+    seedSession()
+    mockHttp.get.mockResolvedValue({data: null})
 
     const auth = new Auth()
-    const result = await auth.refreshUser()
 
-    expect(result).toBeNull()
-    expect(authMocks.cookie.remove).toHaveBeenCalledWith(
-      ACCESS_TOKEN_KEY,
-      expect.objectContaining({
-        domain: '.egghead.io',
-        path: '/',
-      }),
-    )
-    expect(authMocks.cookie.remove).toHaveBeenCalledWith(
-      'eh_user',
-      expect.objectContaining({
-        domain: '.egghead.io',
-        path: '/',
-      }),
-    )
+    await expect(auth.refreshUser()).resolves.toBeNull()
+
     expect(localStorage.getItem(ACCESS_TOKEN_KEY)).toBeNull()
     expect(localStorage.getItem(USER_KEY)).toBeNull()
     expect(localStorage.getItem(VIEWING_AS_USER_KEY)).toBeNull()
-    expect(authMocks.identify).not.toHaveBeenCalled()
+    expect(mockCookieStore.has(ACCESS_TOKEN_KEY)).toBe(false)
+    expect(mockCookieStore.has(EGGHEAD_USER_COOKIE_KEY)).toBe(false)
+    expect(mockAnalytics.identify).not.toHaveBeenCalled()
   })
 
-  it('clears stale auth when /api/users/current rejects with 403', async () => {
-    authMocks.http.get.mockRejectedValue({
-      response: {
-        status: 403,
-      },
-    })
+  test('clears the local session when Rails rejects the token with 401', async () => {
+    seedSession()
+    mockHttp.get.mockRejectedValue({response: {status: 401}})
+
+    const auth = new Auth()
+
+    await expect(auth.refreshUser()).resolves.toBeNull()
+
+    expect(localStorage.getItem(ACCESS_TOKEN_KEY)).toBeNull()
+    expect(mockCookieStore.has(ACCESS_TOKEN_KEY)).toBe(false)
+    expect(mockCookieStore.has(EGGHEAD_USER_COOKIE_KEY)).toBe(false)
+  })
+
+  test('clears the local session when Rails rejects the token with 403', async () => {
+    seedSession()
+    mockHttp.get.mockRejectedValue({response: {status: 403}})
+
+    const auth = new Auth()
+
+    await expect(auth.refreshUser()).resolves.toBeNull()
+
+    expect(localStorage.getItem(ACCESS_TOKEN_KEY)).toBeNull()
+    expect(localStorage.getItem(USER_KEY)).toBeNull()
+    expect(localStorage.getItem(VIEWING_AS_USER_KEY)).toBeNull()
+    expect(mockCookieStore.has(ACCESS_TOKEN_KEY)).toBe(false)
+    expect(mockCookieStore.has(EGGHEAD_USER_COOKIE_KEY)).toBe(false)
+  })
+
+  test('persists a validated user payload', async () => {
+    seedSession()
+    const user = {
+      id: 42,
+      email: 'learner@example.com',
+      contact_id: 'cio_123',
+      name: 'Learner',
+    }
+    mockHttp.get.mockResolvedValue({data: user})
 
     const auth = new Auth()
     const result = await auth.refreshUser()
 
-    expect(result).toBeNull()
-    expect(localStorage.getItem(ACCESS_TOKEN_KEY)).toBeNull()
+    expect(result).toEqual(user)
+    expect(localStorage.getItem(USER_KEY)).toBe(JSON.stringify(user))
+    expect(mockCookieStore.get(EGGHEAD_USER_COOKIE_KEY)).toBe(
+      JSON.stringify(user),
+    )
+    expect(mockCookieStore.get(CIO_IDENTIFIER_KEY)).toBe('cio_123')
+    expect(mockAnalytics.identify).toHaveBeenCalledWith(user)
+  })
+
+  test('does not throw on an empty current-user payload', async () => {
+    seedSession()
+    mockHttp.get.mockResolvedValue({data: {}})
+
+    const auth = new Auth()
+
+    await expect(auth.refreshUser()).resolves.toBeNull()
     expect(localStorage.getItem(USER_KEY)).toBeNull()
+  })
+
+  test('uses the cookie as the auth source of truth when expiration metadata is missing', () => {
+    mockCookieStore.set(ACCESS_TOKEN_KEY, 'cookie-token')
+
+    const auth = new Auth()
+
+    expect(auth.getAuthToken()).toBe('cookie-token')
   })
 })

@@ -42,7 +42,7 @@ describe('/api/users/current', () => {
     jest.clearAllMocks()
   })
 
-  it('returns the upstream auth failure instead of softening it into 200 null', async () => {
+  it('degrades invalid upstream auth into 200 null', async () => {
     mockedFetchEggheadUser.mockRejectedValue({
       response: {
         status: 403,
@@ -63,11 +63,8 @@ describe('/api/users/current', () => {
 
     await current(req, res)
 
-    expect(res.status).toHaveBeenCalledWith(403)
-    expect(res.json).toHaveBeenCalledWith({
-      error: 'invalid_token',
-      invalidToken: true,
-    })
+    expect(res.status).toHaveBeenCalledWith(200)
+    expect(res.json).toHaveBeenCalledWith(null)
   })
 
   it('passes the requested minimal flag through to the Rails lookup', async () => {

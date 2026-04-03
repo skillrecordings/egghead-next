@@ -1,6 +1,7 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {withPagesApiLogging} from '@/lib/logging'
 import {getTokenFromCookieHeaders} from '@/utils/auth'
+import {logEvent} from '@/utils/structured-log'
 import fetchEggheadUser from '../../../api/egghead/users/from-token'
 
 function getMinimalUserFlag(input: string | string[] | undefined) {
@@ -58,7 +59,10 @@ export const current = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  let {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
+  const {eggheadToken: cookieToken} = getTokenFromCookieHeaders(
+    req.headers.cookie as string,
+  )
+  let eggheadToken = cookieToken
 
   if (!eggheadToken && req.headers.authorization) {
     const authHeader = req.headers.authorization
@@ -75,10 +79,15 @@ export const current = async (req: NextApiRequest, res: NextApiResponse) => {
       )
       res.status(200).json(eggheadUser)
     } catch (error: any) {
-      const status = error?.response?.status
-
-      if (status === 401 || status === 403) {
-        res.status(status).json({error: 'invalid_token', invalidToken: true})
+      // If Rails returns 401/403, the token is invalid - return null gracefully
+      // This prevents the client from retrying infinitely.
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
+        logEvent('warn', 'auth.current_user.invalid_token', {
+          degraded_to_anon: true,
+          has_authorization_header: Boolean(req.headers.authorization),
+          has_cookie_token: Boolean(cookieToken),
+        })
+        res.status(200).json(null)
       } else {
         console.error('Error fetching user:', error)
         res.status(500).json({error: 'Failed to fetch user'})

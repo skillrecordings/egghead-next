@@ -15,13 +15,26 @@ import {logEvent} from '@/utils/structured-log'
 import {GenericErrorBoundary} from '@/components/generic-error-boundary'
 import Lesson from '@/components/pages/lessons/lesson'
 import {trpc} from '@/app/_trpc/client'
+import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
 
 import {VideoProvider} from '@/player'
+
+const PUBLIC_PAGE_CACHE_CONTROL =
+  'public, s-maxage=300, stale-while-revalidate=3600'
+
+const setLessonCacheHeaders = (
+  res: {setHeader: (name: string, value: string) => void},
+  blocker: string | null = null,
+) => {
+  res.setHeader('Cache-Control', PUBLIC_PAGE_CACHE_CONTROL)
+  res.setHeader('x-egghead-cache-scope', 'public-swr')
+  res.setHeader('x-egghead-cache-blocker', blocker ?? 'none')
+}
 
 const tracer = getTracer('lesson-page')
 
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
-  async function ({req, res, params}) {
+  async function ({req, res, params, query}) {
     setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
     const requestId = crypto.randomUUID()
     res.setHeader('x-egghead-request-id', requestId)
@@ -33,6 +46,22 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
     }
 
     try {
+      const canonicalRedirect = canonicalizeInternalQueryParams({
+        pathname: `/lessons/${params?.slug}`,
+        query,
+        omitKeys: ['slug'],
+      })
+
+      if (canonicalRedirect) {
+        setLessonCacheHeaders(res, 'internal_query_params')
+        return {
+          redirect: {
+            destination: canonicalRedirect.destination,
+            permanent: false,
+          },
+        }
+      }
+
       const initialLesson: LessonResource | undefined =
         params &&
         (await loadLesson(params.slug as string, undefined, false, logContext))
@@ -47,10 +76,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       } else {
         // Get the most up-to-date lesson data from Course Builder database
 
-        res.setHeader(
-          'Cache-Control',
-          's-maxage=300, stale-while-revalidate=3600',
-        )
+        setLessonCacheHeaders(res)
         return {
           props: {
             initialLesson: initialLesson,

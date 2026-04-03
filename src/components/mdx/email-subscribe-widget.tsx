@@ -21,13 +21,13 @@ const validateEmail = (value: string) => {
 
 const EmailSubscribeWidget = (props: any) => {
   const signedUpForNewsletter = cookieUtil.get(ARTICLE_NEWSLETTER_INTEREST_KEY)
-  const hideCTAState = Array.isArray(props.hideCTAState)
+  const fallbackHideCTAState = React.useState(false)
+  const [hidden, setHidden] = Array.isArray(props.hideCTAState)
     ? props.hideCTAState
-    : null
-  const hidden = hideCTAState?.[0] ?? true
-  const setHidden = hideCTAState?.[1] ?? (() => {})
+    : fallbackHideCTAState
 
   const {slug, author} = props
+  const authorName = author?.name ?? ''
 
   const identify = trpc.customerIO.identify.useMutation()
 
@@ -36,8 +36,6 @@ const EmailSubscribeWidget = (props: any) => {
       setHidden(true)
     }
   }, [setHidden, signedUpForNewsletter])
-
-  if (!hideCTAState) return null
 
   if (!hidden) {
     return (
@@ -74,7 +72,7 @@ const EmailSubscribeWidget = (props: any) => {
 
               analytics.events.activityClickedNewsletterSubscribe(
                 slug,
-                author.name,
+                authorName,
                 interestsArray,
               )
             }}
