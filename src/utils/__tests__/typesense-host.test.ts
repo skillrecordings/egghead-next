@@ -1,4 +1,7 @@
-import {getTypesenseNodes, resolveTypesenseHostHash} from '../typesense-host'
+import {
+  getTypesenseNodes,
+  resolveTypesenseHostHash,
+} from '@/utils/typesense-host'
 
 describe('resolveTypesenseHostHash', () => {
   test('extracts the host hash from a full typesense hostname', () => {

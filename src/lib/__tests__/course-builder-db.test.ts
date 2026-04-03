@@ -1,3 +1,5 @@
+jest.mock('server-only', () => ({}), {virtual: true})
+
 describe('getCourseBuilderConnectionOptions', () => {
   const originalEnv = process.env
 

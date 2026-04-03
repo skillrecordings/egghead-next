@@ -226,9 +226,17 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
           const prefs = getPlayerPrefs()
 
           if (player) {
-            player.playbackRate = prefs.playbackRate
-            player.muted = prefs.muted
-            player.volume = Math.max(0, Math.min(1, prefs.volumeRate / 100))
+            if (typeof prefs.playbackRate === 'number') {
+              player.playbackRate = prefs.playbackRate
+            }
+
+            if (typeof prefs.muted === 'boolean') {
+              player.muted = prefs.muted
+            }
+
+            if (typeof prefs.volumeRate === 'number') {
+              player.volume = Math.max(0, Math.min(1, prefs.volumeRate / 100))
+            }
 
             const metadataTracks = Array.from(player.textTracks || []).filter(
               (track: any) => track.kind === 'metadata',

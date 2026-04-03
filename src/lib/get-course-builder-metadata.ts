@@ -1,3 +1,4 @@
+import 'server-only'
 import * as mysql from 'mysql2/promise'
 import {RowDataPacket, Pool} from 'mysql2/promise'
 import type {Post} from '@/schemas/post'

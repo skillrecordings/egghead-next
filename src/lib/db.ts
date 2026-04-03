@@ -1,3 +1,4 @@
+import 'server-only'
 import {createPool, Pool} from 'mysql2/promise'
 import {getCourseBuilderConnectionOptions} from './course-builder-db'
 

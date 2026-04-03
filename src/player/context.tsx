@@ -66,9 +66,10 @@ export const VideoProvider: React.FC<
   React.PropsWithChildren<VideoProviderProps>
 > = ({children, services}) => {
   const [state, setState] = React.useState<VideoState>(initialState)
+  const loadResourceRequestIdRef = React.useRef(0)
+  const loadViewer = services?.loadViewer
 
   React.useEffect(() => {
-    const loadViewer = services?.loadViewer
     if (!loadViewer) return
 
     loadViewer({}, {type: 'LOAD_VIEWER'})()
@@ -76,7 +77,7 @@ export const VideoProvider: React.FC<
         setState((prev) => ({...prev, viewer}))
       })
       .catch(() => {})
-  }, [services])
+  }, [loadViewer])
 
   const send = React.useCallback(
     (rawEvent: VideoEvent | string) => {
@@ -101,17 +102,23 @@ export const VideoProvider: React.FC<
         case 'LOAD_RESOURCE': {
           const loadResource = services?.loadResource
           if (loadResource) {
+            const requestId = ++loadResourceRequestIdRef.current
+
             loadResource(
               {resource: state.resource, viewer: state.viewer},
               event,
             )()
               .then((resource) => {
+                if (requestId !== loadResourceRequestIdRef.current) return
+
                 setState((prev) => ({
                   ...prev,
                   resource: resource ?? event.resource ?? prev.resource,
                 }))
               })
               .catch(() => {
+                if (requestId !== loadResourceRequestIdRef.current) return
+
                 setState((prev) => ({
                   ...prev,
                   resource: event.resource ?? prev.resource,
@@ -202,7 +209,9 @@ export const VideoProvider: React.FC<
       ...prev,
       withSidePanel: document.fullscreenElement
         ? false
-        : !theater || prev.withSidePanel,
+        : typeof theater === 'boolean'
+        ? !theater
+        : prev.withSidePanel,
     }))
   }, [])
 

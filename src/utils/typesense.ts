@@ -1,5 +1,5 @@
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
-import {getTypesenseNodes} from './typesense-host'
+import {getTypesenseNodes} from '@/utils/typesense-host'
 
 const typesensePort = Number(process.env.NEXT_PUBLIC_TYPESENSE_PORT) || 443
 
