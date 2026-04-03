@@ -1,33 +1,17 @@
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
+import {getTypesenseNodes} from './typesense-host'
+
+const typesensePort = Number(process.env.NEXT_PUBLIC_TYPESENSE_PORT) || 443
 
 export const typsenseAdapterConfig = {
   server: {
     apiKey: process.env.NEXT_PUBLIC_TYPESENSE_API_KEY ?? '', // Be sure to use an API key that only allows search operations
     nearestNode: {
       host: process.env.NEXT_PUBLIC_TYPESENSE_HOST!,
-      port: Number(process.env.NEXT_PUBLIC_TYPESENSE_PORT) ?? 443,
+      port: typesensePort,
       protocol: 'https',
     },
-    nodes: [
-      {
-        host: `${process.env
-          .NEXT_PUBLIC_TYPESENSE_HOST_HASH!}-1.a1.typesense.net`,
-        port: Number(process.env.NEXT_PUBLIC_TYPESENSE_PORT) ?? 443,
-        protocol: 'https',
-      },
-      {
-        host: `${process.env
-          .NEXT_PUBLIC_TYPESENSE_HOST_HASH!}-2.a1.typesense.net`,
-        port: Number(process.env.NEXT_PUBLIC_TYPESENSE_PORT) ?? 443,
-        protocol: 'https',
-      },
-      {
-        host: `${process.env
-          .NEXT_PUBLIC_TYPESENSE_HOST_HASH!}-3.a1.typesense.net`,
-        port: Number(process.env.NEXT_PUBLIC_TYPESENSE_PORT) ?? 443,
-        protocol: 'https',
-      },
-    ],
+    nodes: getTypesenseNodes(typesensePort),
 
     cacheSearchResultsForSeconds: 2 * 60,
   },

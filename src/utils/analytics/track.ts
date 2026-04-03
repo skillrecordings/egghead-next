@@ -46,10 +46,6 @@ export const track = (
 
       console.error = store
 
-      if (window.fbq) {
-        window.fbq('trackCustom', event, params)
-      }
-
       if (window.ga) {
         window.ga('send', {
           hitType: 'event',

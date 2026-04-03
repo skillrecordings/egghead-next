@@ -1,10 +1,17 @@
-import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {withPagesApiLogging} from '@/lib/logging'
-import {getTokenFromCookieHeaders, AUTH_DOMAIN} from '@/utils/auth'
+import {getTokenFromCookieHeaders} from '@/utils/auth'
 import fetchEggheadUser from '../../../api/egghead/users/from-token'
 
-const current = async (req: NextApiRequest, res: NextApiResponse) => {
+function getMinimalUserFlag(input: string | string[] | undefined) {
+  if (Array.isArray(input)) {
+    return input[0] !== 'false'
+  }
+
+  return input !== 'false'
+}
+
+export const current = async (req: NextApiRequest, res: NextApiResponse) => {
   // Set CORS headers for Safari / iOS WebKit compatibility
   const origin = req.headers.origin
   const allowedOrigins = [
@@ -62,13 +69,16 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === 'GET' && eggheadToken) {
     try {
-      const eggheadUser = await fetchEggheadUser(eggheadToken, true)
+      const eggheadUser = await fetchEggheadUser(
+        eggheadToken,
+        getMinimalUserFlag(req.query.minimal),
+      )
       res.status(200).json(eggheadUser)
     } catch (error: any) {
-      // If Rails returns 401/403, the token is invalid - return null gracefully
-      // This prevents the client from retrying infinitely
-      if (error?.response?.status === 401 || error?.response?.status === 403) {
-        res.status(200).json(null)
+      const status = error?.response?.status
+
+      if (status === 401 || status === 403) {
+        res.status(status).json({error: 'invalid_token', invalidToken: true})
       } else {
         console.error('Error fetching user:', error)
         res.status(500).json({error: 'Failed to fetch user'})

@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {Formik} from 'formik'
 import Spinner from '@/components/spinner'
-import {useVideo} from '@skillrecordings/player'
+import {useVideo} from '@/player'
 import Dialog from '@/components/dialog'
 import ReactMarkdown from 'react-markdown'
 import {disable} from 'mixpanel-browser'

@@ -2,11 +2,19 @@ import {loadStripe} from '@stripe/stripe-js'
 import axios from '@/utils/configured-axios'
 import cookie from '../../utils/cookies'
 
-if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
-  throw new Error('no Stripe public key found')
-}
+let stripePromise: ReturnType<typeof loadStripe> | null = null
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
+function getStripePromise() {
+  if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
+    throw new Error('no Stripe public key found')
+  }
+
+  if (!stripePromise) {
+    stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
+  }
+
+  return stripePromise
+}
 
 // make a Stripe checkout session for a one-off Sellable Purchase
 export const redirectToStandardCheckout = async (options: {
@@ -64,7 +72,7 @@ export const redirectToStandardCheckout = async (options: {
         console.error(data.error)
         throw new Error(data.error)
       } else {
-        stripePromise.then((stripe: any) => {
+        getStripePromise().then((stripe: any) => {
           if (!stripe) throw new Error('Stripe not loaded 😭')
           stripe
             .redirectToCheckout({
@@ -114,7 +122,7 @@ export const redirectToSubscriptionCheckout = async (options: {
         console.error(data.error)
         throw new Error(data.error)
       } else {
-        stripePromise.then((stripe: any) => {
+        getStripePromise().then((stripe: any) => {
           if (!stripe) throw new Error('Stripe not loaded 😭')
           stripe
             .redirectToCheckout({

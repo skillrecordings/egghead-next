@@ -1,10 +1,7 @@
 import * as mysql from 'mysql2/promise'
-import {ConnectionOptions, RowDataPacket, Pool} from 'mysql2/promise'
+import {RowDataPacket, Pool} from 'mysql2/promise'
 import type {Post} from '@/schemas/post'
-
-const access: ConnectionOptions = {
-  uri: process.env.COURSE_BUILDER_DATABASE_URL,
-}
+import {getCourseBuilderConnectionOptions} from './course-builder-db'
 
 function convertToSerializeForNextResponse(result: any) {
   if (!result) return null
@@ -33,7 +30,7 @@ let connectionPool: Pool | null = null
 function getConnectionPool(): Pool {
   if (!connectionPool) {
     connectionPool = mysql.createPool({
-      ...access,
+      ...getCourseBuilderConnectionOptions(),
       waitForConnections: true,
       connectionLimit: 10,
       queueLimit: 0,

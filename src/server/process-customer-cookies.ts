@@ -12,11 +12,16 @@ import {
   setCustomerCookie,
 } from './customer-io-cookies'
 import {loadCio} from '../lib/customer'
-import {clearUserCookie, setUserCookie} from './egghead-user-cookies'
+import {
+  clearAccessTokenCookie,
+  clearUserCookie,
+  setUserCookie,
+} from './egghead-user-cookies'
 
 export async function getCookiesForRequest(req: NextRequest) {
   const eggheadAccessToken = req.cookies.get(ACCESS_TOKEN_KEY)
     ?.value as unknown as string
+  const hadAccessToken = Boolean(eggheadAccessToken)
 
   const user =
     eggheadAccessToken &&
@@ -24,6 +29,7 @@ export async function getCookiesForRequest(req: NextRequest) {
       eggheadAccessToken,
       req.cookies.get(EGGHEAD_USER_COOKIE_KEY)?.value,
     ))
+  const shouldClearAccessToken = hadAccessToken && !user
 
   const customerId = user?.contact_id
     ? user.contact_id
@@ -37,7 +43,13 @@ export async function getCookiesForRequest(req: NextRequest) {
   const isMember = cioCustomerIsMember(customer, user)
   const isLoggedInMember = Boolean(isMember && user)
 
-  return {user, customer, isMember, isLoggedInMember}
+  return {
+    user,
+    customer,
+    isMember,
+    isLoggedInMember,
+    shouldClearAccessToken,
+  }
 }
 
 export function setCookiesForResponse(
@@ -45,6 +57,7 @@ export function setCookiesForResponse(
   req: NextRequest,
   user: any,
   customer: any,
+  shouldClearAccessToken = false,
 ) {
   const hasCioIdCookie = req.cookies.has(CIO_IDENTIFIER_KEY)
   const hasCioObjectCookie = req.cookies.has(CIO_CUSTOMER_OBJECT_KEY)
@@ -70,6 +83,10 @@ export function setCookiesForResponse(
     }
   } else if (hasUserCookie) {
     clearUserCookie(res)
+  }
+
+  if (shouldClearAccessToken) {
+    clearAccessTokenCookie(res)
   }
 
   return res
