@@ -60,11 +60,20 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
       }
 
       if (initialLesson.slug !== lessonSlug) {
+        console.warn(
+          JSON.stringify({
+            event: 'lesson.static_props.skip_redirect_slug',
+            slug: lessonSlug,
+            canonical_slug: initialLesson.slug,
+            canonical_path: initialLesson.path,
+            ok: true,
+            render_mode: 'isr',
+          }),
+        )
+
         return {
-          redirect: {
-            destination: initialLesson.path,
-            permanent: true,
-          },
+          notFound: true,
+          revalidate: 60,
         }
       }
 
