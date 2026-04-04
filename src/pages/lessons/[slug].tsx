@@ -39,7 +39,19 @@ async function getCanonicalStaticLessonSlugs() {
           lesson_slug: slug,
         })
 
-        if (metadata?.slug && metadata.slug !== slug) {
+        if (!metadata?.slug) {
+          console.warn(
+            JSON.stringify({
+              event: 'lesson.static_paths.skip_unresolved_slug',
+              slug,
+              ok: false,
+              render_mode: 'isr',
+            }),
+          )
+          return null
+        }
+
+        if (metadata.slug !== slug) {
           console.warn(
             JSON.stringify({
               event: 'lesson.static_paths.skip_alias_slug',

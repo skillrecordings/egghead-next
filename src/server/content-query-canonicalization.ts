@@ -1,8 +1,8 @@
 import {NextRequest, NextResponse} from 'next/server'
 import {CIO_IDENTIFIER_KEY} from '@/config'
+import {getCioIdentifierCookieOptions} from '@/server/customer-io-cookies'
 
 const LONG_LIVED_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365 * 20
-const YEAR_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365
 
 const SHARED_STRIP_KEYS = new Set([
   'af',
@@ -90,11 +90,7 @@ export function getCanonicalContentQueryRedirect(
 
   const cioId = searchParams.get('_cio_id') ?? searchParams.get(CIO_IDENTIFIER_KEY)
   if (cioId) {
-    response.cookies.set(
-      CIO_IDENTIFIER_KEY,
-      cioId,
-      buildCookieOptions(YEAR_COOKIE_MAX_AGE_SECONDS),
-    )
+    response.cookies.set(CIO_IDENTIFIER_KEY, cioId, getCioIdentifierCookieOptions())
   }
 
   console.log(
