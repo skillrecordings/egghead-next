@@ -53,6 +53,7 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
   poster,
 }) => {
   const {send, setState} = useVideo()
+  const sendRef = React.useRef(send)
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes | null>(null)
   const [playbackRate, setPlaybackRate] = React.useState<number>(
     getPlayerPrefs().playbackRate || 1,
@@ -67,9 +68,13 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
   )
 
   React.useEffect(() => {
+    sendRef.current = send
+  }, [send])
+
+  React.useEffect(() => {
     if (!muxPlayerRef.current) return
 
-    send({type: 'SET_VIDEO', video: muxPlayerRef.current})
+    sendRef.current({type: 'SET_VIDEO', video: muxPlayerRef.current})
 
     const player = muxPlayerRef.current as any
     const applyPrefs = () => {
@@ -90,7 +95,7 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
       const metadataTracks = Array.from(player.textTracks || []).filter(
         (track: any) => track.kind === 'metadata',
       ) as TextTrack[]
-      send({type: 'SET_METADATA_TRACKS', metadataTracks})
+      sendRef.current({type: 'SET_METADATA_TRACKS', metadataTracks})
 
       if (prefs.subtitle?.id && prefs.subtitle?.label !== 'off') {
         const preferredTrack = Array.from(player.textTracks || []).find(
@@ -141,7 +146,7 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
     return () => {
       player.textTracks?.removeEventListener?.('change', handleTextTrackChange)
     }
-  }, [send, src])
+  }, [src])
 
   const handlePlaybackRateChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -250,7 +255,7 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
               preferredTrack.mode = 'showing'
             }
 
-            send({type: 'SET_METADATA_TRACKS', metadataTracks})
+            sendRef.current({type: 'SET_METADATA_TRACKS', metadataTracks})
           }
 
           setState((prev) => ({
