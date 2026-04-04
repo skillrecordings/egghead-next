@@ -6,7 +6,14 @@ const PUBLIC_FILE = /\.(.*)$/
 
 // The allow-list of paths where this middleware executes (perf)
 export const config = {
-  matcher: ['/pricing', '/q', '/q/:path*', '/courses/:path*', '/lessons/:path*'],
+  matcher: [
+    '/pricing',
+    '/pricing/:path*',
+    '/q',
+    '/q/:path*',
+    '/courses/:path*',
+    '/lessons/:path*',
+  ],
 }
 
 export async function middleware(req: NextRequest) {
