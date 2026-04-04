@@ -55,6 +55,22 @@ function sanitizeErrorMessage(input: unknown): string | null {
   return oneLine.length > max ? `${oneLine.slice(0, max)}...` : oneLine
 }
 
+function sanitizeCountryNameForHeader(input: unknown): string | null {
+  if (typeof input !== 'string') return null
+
+  const ascii = input
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[’‘‛‚]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/[–—]/g, '-')
+    .replace(/[^\x20-\x7E]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  return sanitizeForwardedHeader(ascii)
+}
+
 const PRICING_PROXY_CACHE_PREFIX = 'pricing-proxy'
 const PRICING_PROXY_CACHE_TTL_SECONDS = Number(
   process.env.PRICING_PROXY_CACHE_TTL_SECONDS ?? '300',
@@ -109,17 +125,15 @@ function normalizeSearchParams(searchParams: URLSearchParams): string {
 function buildPricingCacheKey(args: {
   siteClientId: string | null
   country: string | null
-  countryName: string | null
   queryString: string
 }) {
   const queryFingerprint = fnv1a32(args.queryString || '_')
 
   return [
     PRICING_PROXY_CACHE_PREFIX,
-    'v1',
+    'v2',
     args.siteClientId ?? 'no-site-client',
     args.country ?? 'no-country',
-    args.countryName ?? 'no-country-name',
     queryFingerprint,
   ].join(':')
 }
@@ -214,7 +228,7 @@ async function _GET(request: NextRequest) {
 
   const safeCountry = sanitizeForwardedHeader(geo?.country)
   const safeCountryName = safeCountry
-    ? sanitizeForwardedHeader(countries.getName(safeCountry, 'en'))
+    ? sanitizeCountryNameForHeader(countries.getName(safeCountry, 'en'))
     : null
   if (safeCountry) {
     geoHeaders['x-vercel-ip-country'] = safeCountry
@@ -283,7 +297,6 @@ async function _GET(request: NextRequest) {
     ? buildPricingCacheKey({
         siteClientId,
         country: safeCountry,
-        countryName: safeCountryName,
         queryString: normalizedQueryString,
       })
     : null

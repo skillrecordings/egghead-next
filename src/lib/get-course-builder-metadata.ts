@@ -1,7 +1,7 @@
 import * as mysql from 'mysql2/promise'
 import {RowDataPacket, Pool} from 'mysql2/promise'
+import {getCourseBuilderConnectionOptions} from '@/lib/course-builder-db'
 import type {Post} from '@/schemas/post'
-import {getCourseBuilderConnectionOptions} from './course-builder-db'
 
 function convertToSerializeForNextResponse(result: any) {
   if (!result) return null
@@ -102,10 +102,10 @@ export async function getCourseBuilderLesson(
   }
 
   const {hashFromSlug} = parseSlugForHash(slug)
-  const pool = getConnectionPool()
   let conn
 
   try {
+    const pool = getConnectionPool()
     conn = await pool.getConnection()
     const baseSelect = `
       SELECT
@@ -241,10 +241,10 @@ export async function getCourseBuilderVideoResource(
   }
 
   const {hashFromSlug} = parseSlugForHash(slug)
-  const pool = getConnectionPool()
   let conn
 
   try {
+    const pool = getConnectionPool()
     conn = await pool.getConnection()
     // Get video resource
     const hasCourseBuilderId = Boolean(hashFromSlug)
@@ -320,10 +320,10 @@ export async function loadCourseBuilderCourseMetadata(
   }
 
   const {hashFromSlug} = parseSlugForHash(slug)
-  const pool = getConnectionPool()
   let conn
 
   try {
+    const pool = getConnectionPool()
     conn = await pool.getConnection()
 
     // Get course data matching the pattern from [post].tsx
@@ -419,10 +419,10 @@ export async function getCourseBuilderLessonStates(
   }
 
   const {hashFromSlug} = parseSlugForHash(courseSlug)
-  const pool = getConnectionPool()
   let conn
 
   try {
+    const pool = getConnectionPool()
     conn = await pool.getConnection()
 
     // Get all lessons for the course
@@ -522,10 +522,10 @@ export async function getCourseBuilderCourseLessons(
   }
 
   const {hashFromSlug} = parseSlugForHash(courseSlug)
-  const pool = getConnectionPool()
   let conn
 
   try {
+    const pool = getConnectionPool()
     conn = await pool.getConnection()
 
     // Get all published lessons for the course with their order
