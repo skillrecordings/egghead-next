@@ -40,6 +40,7 @@ import {
   usePlayerPrefs,
   HLSSource,
   useVideo,
+  usePlayerSelector,
   selectWithSidePanel,
   selectMetadataTracks,
   selectIsPaused,
@@ -48,9 +49,8 @@ import {
   selectHasEnded,
   selectIsFullscreen,
   selectViewer,
-} from '@skillrecordings/player'
+} from '@/player'
 import cx from 'classnames'
-import {useSelector} from '@xstate/react'
 import {
   CheckCircleIcon as CheckCircleIconOutline,
   ArrowsExpandIcon,
@@ -103,7 +103,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
   const {subscriber, cioIdentify} = useCio()
 
   const videoService = useVideo()
-  const video = useSelector(videoService, selectVideo)
+  const video = usePlayerSelector(videoService, selectVideo)
 
   // see all state changes
   // @ts-ignore
@@ -113,13 +113,13 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
 
   const {setPlayerPrefs, getPlayerPrefs} = usePlayerPrefs()
   const {autoplay, defaultView, subtitle} = getPlayerPrefs()
-  const withSidePanel = useSelector(videoService, selectWithSidePanel)
-  const metadataTracks = useSelector(videoService, selectMetadataTracks)
-  const isWaiting = useSelector(videoService, selectIsWaiting)
-  const hasEnded = useSelector(videoService, selectHasEnded)
-  const isPaused = useSelector(videoService, selectIsPaused)
-  const isFullscreen = useSelector(videoService, selectIsFullscreen)
-  const viewer: any = useSelector(videoService, selectViewer)
+  const withSidePanel = usePlayerSelector(videoService, selectWithSidePanel)
+  const metadataTracks = usePlayerSelector(videoService, selectMetadataTracks)
+  const isWaiting = usePlayerSelector(videoService, selectIsWaiting)
+  const hasEnded = usePlayerSelector(videoService, selectHasEnded)
+  const isPaused = usePlayerSelector(videoService, selectIsPaused)
+  const isFullscreen = usePlayerSelector(videoService, selectIsFullscreen)
+  const viewer: any = usePlayerSelector(videoService, selectViewer)
 
   const {md} = useBreakpoint()
 

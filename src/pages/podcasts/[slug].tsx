@@ -1,17 +1,17 @@
 import React, {FunctionComponent} from 'react'
-import {GetServerSideProps} from 'next'
-import {withSSRLogging} from '@/lib/logging'
-import {loadPodcast, loadPodcasts} from '@/lib/podcasts'
-import {PodcastResource} from '@/types'
+import {GetStaticPaths, GetStaticProps} from 'next'
+import {withStaticPropsLogging} from '@/lib/logging'
+import {loadPodcast, loadPodcasts, loadRelatedPodcasts} from '@/lib/podcasts'
+import type {PodcastCardResource} from '@/lib/podcasts'
+import type {PodcastResource} from '@/types'
 import MorePodcasts from '@/components/podcasts/more/more'
 import PodcastUi from '@/components/podcasts/podcast/podcast'
 import removeMarkdown from 'remove-markdown'
 import {NextSeo} from 'next-seo'
-import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
 
 type PodcastProps = {
   podcast: PodcastResource
-  podcasts: Array<PodcastResource>
+  podcasts: PodcastCardResource[]
 }
 
 const Podcast: FunctionComponent<React.PropsWithChildren<PodcastProps>> = ({
@@ -49,39 +49,32 @@ const Podcast: FunctionComponent<React.PropsWithChildren<PodcastProps>> = ({
 
 export default Podcast
 
-export const getServerSideProps: GetServerSideProps = withSSRLogging(
-  async function ({res, params, query}) {
-    res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate')
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: loadPodcasts().map(({slug}) => ({
+    params: {slug},
+  })),
+  fallback: false,
+})
 
-    const canonicalRedirect = canonicalizeInternalQueryParams({
-      pathname: `/podcasts/${params?.slug}`,
-      query,
-      omitKeys: ['slug'],
-    })
-
-    if (canonicalRedirect) {
-      return {
-        redirect: {
-          destination: canonicalRedirect.destination,
-          permanent: false,
-        },
-      }
-    }
-    const podcast = params && (await loadPodcast(params.slug as string))
-    const podcasts = (await loadPodcasts())
-      .filter((filterCast: PodcastResource) => filterCast.id !== podcast.id)
-      .sort(
-        (a: PodcastResource, b: PodcastResource) =>
-          new Date(b.published_at).getTime() -
-          new Date(a.published_at).getTime(),
-      )
-      .slice(0, 6)
-
+export const getStaticProps = withStaticPropsLogging(async function ({params}) {
+  if (!params?.slug || typeof params.slug !== 'string') {
     return {
-      props: {
-        podcast,
-        podcasts,
-      },
+      notFound: true,
     }
-  },
-)
+  }
+
+  const podcast = loadPodcast(params.slug)
+
+  if (!podcast) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      podcast,
+      podcasts: loadRelatedPodcasts(podcast.id),
+    },
+  }
+}) as GetStaticProps<PodcastProps>

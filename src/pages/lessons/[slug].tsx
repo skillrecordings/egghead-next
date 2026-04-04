@@ -12,16 +12,12 @@ import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import cookieUtil from '@/utils/cookies'
 import crypto from 'crypto'
 import {logEvent} from '@/utils/structured-log'
-import type {
-  VideoEvent,
-  VideoStateContext,
-} from '@skillrecordings/player/dist/machines/video-machine'
 import {GenericErrorBoundary} from '@/components/generic-error-boundary'
 import Lesson from '@/components/pages/lessons/lesson'
 import {trpc} from '@/app/_trpc/client'
 import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
 
-import {VideoProvider} from '@skillrecordings/player'
+import {VideoProvider} from '@/player'
 
 const PUBLIC_PAGE_CACHE_CONTROL =
   'public, s-maxage=300, stale-while-revalidate=3600'
@@ -168,18 +164,16 @@ const LessonPage: React.FC<
   return (
     <VideoProvider
       services={{
-        loadViewer:
-          (_context: VideoStateContext, _event: VideoEvent) => async () => {
-            return await viewer
-          },
-        loadResource:
-          (_context: VideoStateContext, event: VideoEvent) => async () => {
-            const loadedLesson = get(event, 'resource') as any
-            return {
-              ...initialLesson,
-              ...loadedLesson,
-            }
-          },
+        loadViewer: () => async () => {
+          return await viewer
+        },
+        loadResource: (_context: any, event: any) => async () => {
+          const loadedLesson = get(event, 'resource') as any
+          return {
+            ...initialLesson,
+            ...loadedLesson,
+          }
+        },
       }}
     >
       <GenericErrorBoundary>

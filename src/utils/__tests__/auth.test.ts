@@ -1,4 +1,9 @@
-import Auth, {ACCESS_TOKEN_KEY, EXPIRES_AT_KEY, USER_KEY} from '../auth'
+import Auth, {
+  ACCESS_TOKEN_KEY,
+  EXPIRES_AT_KEY,
+  USER_KEY,
+  VIEWING_AS_USER_KEY,
+} from '../auth'
 import analytics from '@/utils/analytics'
 import {CIO_IDENTIFIER_KEY, EGGHEAD_USER_COOKIE_KEY} from '@/config'
 
@@ -29,7 +34,6 @@ jest.mock('client-oauth2', () =>
 jest.mock('@/utils/analytics', () => ({
   __esModule: true,
   default: {identify: jest.fn()},
-  __mockAnalytics: {identify: jest.fn()},
 }))
 
 jest.mock('../cookies', () => {
@@ -51,7 +55,6 @@ jest.mock('../cookies', () => {
     __esModule: true,
     default: mockCookieUtil,
     __mockCookieStore: mockCookieStore,
-    __mockCookieUtil: mockCookieUtil,
   }
 })
 
@@ -99,7 +102,7 @@ const {__mockCookieStore: mockCookieStore} = jest.requireMock('../cookies') as {
   __mockCookieStore: Map<string, string>
 }
 
-const mockAnalytics = analytics as {
+const mockAnalytics = analytics as unknown as {
   identify: jest.Mock
 }
 
@@ -108,6 +111,7 @@ const seedSession = (token = 'valid-token') => {
   mockCookieStore.set(EGGHEAD_USER_COOKIE_KEY, JSON.stringify({id: 999}))
   localStorage.setItem(ACCESS_TOKEN_KEY, token)
   localStorage.setItem(USER_KEY, JSON.stringify({id: 999}))
+  localStorage.setItem(VIEWING_AS_USER_KEY, 'old@egghead.io')
   localStorage.setItem(EXPIRES_AT_KEY, JSON.stringify(Date.now() + 60_000))
 }
 
@@ -129,6 +133,7 @@ describe('Auth.refreshUser', () => {
 
     expect(localStorage.getItem(ACCESS_TOKEN_KEY)).toBeNull()
     expect(localStorage.getItem(USER_KEY)).toBeNull()
+    expect(localStorage.getItem(VIEWING_AS_USER_KEY)).toBeNull()
     expect(mockCookieStore.has(ACCESS_TOKEN_KEY)).toBe(false)
     expect(mockCookieStore.has(EGGHEAD_USER_COOKIE_KEY)).toBe(false)
     expect(mockAnalytics.identify).not.toHaveBeenCalled()
@@ -143,6 +148,21 @@ describe('Auth.refreshUser', () => {
     await expect(auth.refreshUser()).resolves.toBeNull()
 
     expect(localStorage.getItem(ACCESS_TOKEN_KEY)).toBeNull()
+    expect(mockCookieStore.has(ACCESS_TOKEN_KEY)).toBe(false)
+    expect(mockCookieStore.has(EGGHEAD_USER_COOKIE_KEY)).toBe(false)
+  })
+
+  test('clears the local session when Rails rejects the token with 403', async () => {
+    seedSession()
+    mockHttp.get.mockRejectedValue({response: {status: 403}})
+
+    const auth = new Auth()
+
+    await expect(auth.refreshUser()).resolves.toBeNull()
+
+    expect(localStorage.getItem(ACCESS_TOKEN_KEY)).toBeNull()
+    expect(localStorage.getItem(USER_KEY)).toBeNull()
+    expect(localStorage.getItem(VIEWING_AS_USER_KEY)).toBeNull()
     expect(mockCookieStore.has(ACCESS_TOKEN_KEY)).toBe(false)
     expect(mockCookieStore.has(EGGHEAD_USER_COOKIE_KEY)).toBe(false)
   })

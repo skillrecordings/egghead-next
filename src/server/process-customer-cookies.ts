@@ -61,7 +61,7 @@ export async function getCookiesForRequest(req: NextRequest) {
     : req.cookies.get(CIO_IDENTIFIER_KEY)?.value ||
       req.nextUrl.searchParams.get(CIO_IDENTIFIER_KEY)
 
-  let customer = customerId
+  const customer = customerId
     ? await loadCio(customerId, req.cookies.get(CIO_CUSTOMER_OBJECT_KEY)?.value)
     : null
 

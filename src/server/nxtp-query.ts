@@ -35,7 +35,9 @@ export const canonicalizeInternalQueryParams = ({
 }: CanonicalizeInternalQueryParamsArgs): CanonicalizeInternalQueryParamsResult | null => {
   if (!query) return null
 
-  const strippedKeys = Object.keys(query).filter((key) => key.startsWith('nxtP'))
+  const strippedKeys = Object.keys(query).filter((key) =>
+    key.startsWith('nxtP'),
+  )
   if (strippedKeys.length === 0) return null
 
   const omit = new Set([...omitKeys, ...strippedKeys])

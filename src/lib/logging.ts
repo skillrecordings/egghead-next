@@ -399,7 +399,9 @@ export function withSSRLogging(gssp: GetServerSideProps): GetServerSideProps {
       const durationMs = Math.round(performance.now() - start)
 
       try {
-        const cacheHeader = readHeaderValue(context.res.getHeader('Cache-Control'))
+        const cacheHeader = readHeaderValue(
+          context.res.getHeader('Cache-Control'),
+        )
         const cacheScopeHeader = readHeaderValue(
           context.res.getHeader('x-egghead-cache-scope'),
         )

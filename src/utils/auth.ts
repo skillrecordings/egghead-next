@@ -279,16 +279,22 @@ export default class Auth {
           if (!this.isAuthenticated()) {
             return reject('not authenticated')
           }
+
           if (
             !data ||
             typeof data !== 'object' ||
             Array.isArray(data) ||
-            Object.keys(data).length === 0
+            Object.keys(data).length === 0 ||
+            !('id' in data) ||
+            !data.id
           ) {
+            // Distinguish between a real user payload and the anonymous/null
+            // fallback so stale auth cookies don't survive as zombie sessions.
             this.clearLocalStorage().then(() => resolve(null))
             return
           }
-          if (data) analytics.identify(data)
+
+          analytics.identify(data)
           if (data.contact_id) {
             cookie.set(CIO_IDENTIFIER_KEY, data.contact_id)
           }

@@ -4,7 +4,15 @@ import {getTokenFromCookieHeaders} from '@/utils/auth'
 import {logEvent} from '@/utils/structured-log'
 import fetchEggheadUser from '../../../api/egghead/users/from-token'
 
-const current = async (req: NextApiRequest, res: NextApiResponse) => {
+function getMinimalUserFlag(input: string | string[] | undefined) {
+  if (Array.isArray(input)) {
+    return input[0] !== 'false'
+  }
+
+  return input !== 'false'
+}
+
+export const current = async (req: NextApiRequest, res: NextApiResponse) => {
   // Set CORS headers for Safari / iOS WebKit compatibility
   const origin = req.headers.origin
   const allowedOrigins = [
@@ -65,11 +73,14 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === 'GET' && eggheadToken) {
     try {
-      const eggheadUser = await fetchEggheadUser(eggheadToken, true)
+      const eggheadUser = await fetchEggheadUser(
+        eggheadToken,
+        getMinimalUserFlag(req.query.minimal),
+      )
       res.status(200).json(eggheadUser)
     } catch (error: any) {
       // If Rails returns 401/403, the token is invalid - return null gracefully
-      // This prevents the client from retrying infinitely
+      // This prevents the client from retrying infinitely.
       if (error?.response?.status === 401 || error?.response?.status === 403) {
         logEvent('warn', 'auth.current_user.invalid_token', {
           degraded_to_anon: true,
