@@ -1,4 +1,3 @@
-import 'server-only'
 import {ConnectionOptions} from 'mysql2/promise'
 
 function parseSslParam(sslParam: string) {
