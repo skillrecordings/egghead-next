@@ -75,6 +75,7 @@ const lessonQuery = groq`
 const SANITY_LESSON_CACHE_PREFIX = 'sanity:lesson'
 const SANITY_LESSON_CACHE_TTL_SECONDS = 60 * 60 // 1 hour
 const SANITY_LESSON_CACHE_MISS_TTL_SECONDS = 60 * 60 * 24 // 24 hours
+export const LESSON_NOT_FOUND_MESSAGE = 'Unable to lookup lesson metadata'
 
 type SanityLessonCacheValue =
   | {ok: true; value: Record<string, unknown>}
@@ -267,7 +268,7 @@ export async function loadLesson(
   // if we aren't able to find Lesson metadata at either source, throw an
   // error.
   if (isEmpty(lessonMetadata.slug)) {
-    throw new Error(`Unable to lookup lesson metadata (slug: ${slug})`)
+    throw new Error(`${LESSON_NOT_FOUND_MESSAGE} (slug: ${slug})`)
   }
 
   logEvent(

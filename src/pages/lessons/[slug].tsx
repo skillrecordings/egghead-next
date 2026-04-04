@@ -4,7 +4,11 @@ import {withStaticPropsLogging} from '@/lib/logging'
 import {get} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {lessonMachine} from '@/machines/lesson-machine'
-import {loadLesson, loadLessonMetadataFromGraphQL} from '@/lib/lessons'
+import {
+  LESSON_NOT_FOUND_MESSAGE,
+  loadLesson,
+  loadLessonMetadataFromGraphQL,
+} from '@/lib/lessons'
 import {useViewer} from '@/context/viewer-context'
 import {LessonResource, VideoResource} from '@/types'
 import cookieUtil from '@/utils/cookies'
@@ -17,7 +21,6 @@ import {HOT_LESSON_SLUGS} from '@/lib/hot-content-slugs'
 import {VideoProvider} from '@/player'
 
 const LESSON_REVALIDATE_SECONDS = 300
-const LESSON_NOT_FOUND_MESSAGE = 'Unable to lookup lesson metadata'
 const STATIC_PATHS_ALIAS_BATCH_SIZE = 25
 
 const isLessonNotFoundError = (error: unknown) => {
