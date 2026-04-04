@@ -33,6 +33,7 @@ const buildCookieOptions = (maxAge: number) => {
 
 const shouldStripKey = (pathname: string, key: string) => {
   if (key.startsWith('nxtP')) return true
+  if (/^utm_/i.test(key)) return true
   if (SHARED_STRIP_KEYS.has(key)) return true
   if (pathname.startsWith('/lessons/') && LESSON_CONTEXT_STRIP_KEYS.has(key)) {
     return true
@@ -100,8 +101,10 @@ export function getCanonicalContentQueryRedirect(
     JSON.stringify({
       event: 'page.query_canonicalize',
       route_path: pathname,
-      original_path: req.nextUrl.pathname + req.nextUrl.search,
-      destination: destination.pathname + destination.search,
+      original_pathname: req.nextUrl.pathname,
+      destination_pathname: destination.pathname,
+      original_query_keys: Array.from(new Set(req.nextUrl.searchParams.keys())),
+      remaining_query_keys: Array.from(new Set(destination.searchParams.keys())),
       stripped_keys: strippedKeys,
       captured_af: Boolean(affiliateToken),
       captured_rc: Boolean(referralToken),

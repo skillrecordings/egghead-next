@@ -4,7 +4,7 @@ import {withStaticPropsLogging} from '@/lib/logging'
 import {get} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {lessonMachine} from '@/machines/lesson-machine'
-import {loadLesson} from '@/lib/lessons'
+import {loadLesson, loadLessonMetadataFromGraphQL} from '@/lib/lessons'
 import {useViewer} from '@/context/viewer-context'
 import {LessonResource, VideoResource} from '@/types'
 import cookieUtil from '@/utils/cookies'
@@ -17,10 +17,59 @@ import {HOT_LESSON_SLUGS} from '@/lib/hot-content-slugs'
 import {VideoProvider} from '@/player'
 
 const LESSON_REVALIDATE_SECONDS = 300
+const LESSON_NOT_FOUND_MESSAGE = 'Unable to lookup lesson metadata'
+const STATIC_PATHS_ALIAS_BATCH_SIZE = 25
+
+const isLessonNotFoundError = (error: unknown) => {
+  return (
+    error instanceof Error && error.message.startsWith(LESSON_NOT_FOUND_MESSAGE)
+  )
+}
+
+async function getCanonicalStaticLessonSlugs() {
+  const canonicalSlugs: string[] = []
+
+  for (let index = 0; index < HOT_LESSON_SLUGS.length; index += STATIC_PATHS_ALIAS_BATCH_SIZE) {
+    const batch = HOT_LESSON_SLUGS.slice(index, index + STATIC_PATHS_ALIAS_BATCH_SIZE)
+    const batchResults = await Promise.all(
+      batch.map(async (slug) => {
+        const metadata = await loadLessonMetadataFromGraphQL(slug, undefined, {
+          route: '/lessons/[slug]',
+          page: 'lesson',
+          lesson_slug: slug,
+        })
+
+        if (metadata?.slug && metadata.slug !== slug) {
+          console.warn(
+            JSON.stringify({
+              event: 'lesson.static_paths.skip_alias_slug',
+              slug,
+              canonical_slug: metadata.slug,
+              canonical_path: metadata.path,
+              ok: true,
+              render_mode: 'isr',
+            }),
+          )
+          return null
+        }
+
+        return slug
+      }),
+    )
+
+    canonicalSlugs.push(
+      ...batchResults.filter((value): value is string => Boolean(value)),
+    )
+  }
+
+  return canonicalSlugs
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const canonicalSlugs = await getCanonicalStaticLessonSlugs()
+
   return {
-    paths: HOT_LESSON_SLUGS.map((slug) => ({
+    paths: canonicalSlugs.map((slug) => ({
       params: {slug},
     })),
     fallback: 'blocking',
@@ -62,7 +111,7 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
       if (initialLesson.slug !== lessonSlug) {
         console.warn(
           JSON.stringify({
-            event: 'lesson.static_props.skip_redirect_slug',
+            event: 'lesson.static_props.redirect_slug',
             slug: lessonSlug,
             canonical_slug: initialLesson.slug,
             canonical_path: initialLesson.path,
@@ -72,7 +121,10 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
         )
 
         return {
-          notFound: true,
+          redirect: {
+            destination: initialLesson.path,
+            permanent: true,
+          },
           revalidate: 60,
         }
       }
@@ -103,10 +155,14 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
         }),
       )
 
-      return {
-        notFound: true,
-        revalidate: 60,
+      if (isLessonNotFoundError(error)) {
+        return {
+          notFound: true,
+          revalidate: 60,
+        }
       }
+
+      throw error
     }
   },
 )

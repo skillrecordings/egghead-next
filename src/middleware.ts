@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server'
-import {getMiddlewareResponse} from './server/get-middleware-response'
-import {getCanonicalContentQueryRedirect} from './server/content-query-canonicalization'
+import {getMiddlewareResponse} from '@/server/get-middleware-response'
+import {getCanonicalContentQueryRedirect} from '@/server/content-query-canonicalization'
 
 const PUBLIC_FILE = /\.(.*)$/
 
