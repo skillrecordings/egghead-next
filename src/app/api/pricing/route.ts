@@ -71,10 +71,19 @@ function sanitizeCountryNameForHeader(input: unknown): string | null {
   return sanitizeForwardedHeader(ascii)
 }
 
+function fingerprintValue(input: string | null): string | null {
+  return input ? fnv1a32(input) : null
+}
+
 const PRICING_PROXY_CACHE_PREFIX = 'pricing-proxy'
 const PRICING_PROXY_CACHE_TTL_SECONDS = Number(
   process.env.PRICING_PROXY_CACHE_TTL_SECONDS ?? '300',
 )
+const PRICING_PROXY_SHARED_CACHE_TTL_SECONDS =
+  Number.isFinite(PRICING_PROXY_CACHE_TTL_SECONDS) &&
+  PRICING_PROXY_CACHE_TTL_SECONDS > 0
+    ? Math.floor(PRICING_PROXY_CACHE_TTL_SECONDS)
+    : 300
 
 type PricingCacheEntry = {value: unknown; expiresAt: number}
 type PricingCacheStatus = 'memory_hit' | 'redis_hit' | 'miss' | 'skip'
@@ -200,10 +209,11 @@ function createPricingResponse(
   response.headers.set('x-pricing-cache', options.cacheStatus)
 
   if (options.cacheableCandidate) {
-    response.headers.set(
-      'Cache-Control',
-      'public, max-age=60, stale-while-revalidate=300',
-    )
+    const cacheControl = `public, max-age=60, s-maxage=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}, stale-while-revalidate=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}`
+    const cdnCacheControl = `public, s-maxage=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}, stale-while-revalidate=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}`
+
+    response.headers.set('Cache-Control', cacheControl)
+    response.headers.set('Vercel-CDN-Cache-Control', cdnCacheControl)
   }
 
   return response
@@ -227,8 +237,11 @@ async function _GET(request: NextRequest) {
   const geoHeaders: Record<string, string> = {}
 
   const safeCountry = sanitizeForwardedHeader(geo?.country)
-  const safeCountryName = safeCountry
-    ? sanitizeCountryNameForHeader(countries.getName(safeCountry, 'en'))
+  const rawCountryName = safeCountry
+    ? countries.getName(safeCountry, 'en')
+    : null
+  const safeCountryName = rawCountryName
+    ? sanitizeCountryNameForHeader(rawCountryName)
     : null
   if (safeCountry) {
     geoHeaders['x-vercel-ip-country'] = safeCountry
@@ -302,6 +315,28 @@ async function _GET(request: NextRequest) {
     : null
 
   try {
+    try {
+      console.log(
+        JSON.stringify({
+          event: 'pricing.proxy.geo_forwarded',
+          request_id: requestId,
+          site_client_id: siteClientId,
+          has_site_client: Boolean(siteClientId),
+          country_code: safeCountry,
+          country_name_present: Boolean(rawCountryName),
+          country_name_changed:
+            Boolean(rawCountryName) && rawCountryName !== safeCountryName,
+          country_name_fingerprint: fingerprintValue(safeCountryName),
+          city_present: Boolean(safeCity),
+          region_present: Boolean(safeRegion),
+          has_ip: Boolean(ip),
+          has_token: hasToken,
+          cacheable_candidate: cacheableCandidate,
+        }),
+      )
+    } catch {
+      // logging must never crash
+    }
     const fetchPricingFromRails = async () => {
       railsStartedAt = performance.now()
       const response = await axios.get(
@@ -343,6 +378,7 @@ async function _GET(request: NextRequest) {
           has_token: hasToken,
           has_coupon_param: hasCouponParam,
           geo_country: safeCountry,
+          country_name_fingerprint: fingerprintValue(safeCountryName),
           query_keys: queryKeys,
           query_fingerprint: fnv1a32(normalizedQueryString || '_'),
         }),
@@ -391,6 +427,7 @@ async function _GET(request: NextRequest) {
         has_site_client: Boolean(siteClientId),
         geo_country: safeCountry,
         has_geo_country: Boolean(safeCountry),
+        country_name_fingerprint: fingerprintValue(safeCountryName),
         has_ip: Boolean(ip),
         query_keys: queryKeys,
         has_coupon_param: hasCouponParam,
