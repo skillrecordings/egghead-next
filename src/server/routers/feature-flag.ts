@@ -20,8 +20,6 @@ export const featureFlagRouter = router({
       cursorWorkshopSaleEnabled,
       claudeCodeWorkshopSaleEnabled,
       cursorWorkshopEarlyBirdEnabled,
-      cursorWorkshopRaw,
-      claudeCodeWorkshopRaw,
     ] = await Promise.all([
       getSaleBannerFeatureFlag(
         'featureFlagLifetimeSale',
@@ -43,12 +41,23 @@ export const featureFlagRouter = router({
         'earlyBirdBanner',
         logContext,
       ),
-      getFeatureFlag('featureFlagCursorWorkshopSale', 'workshop', logContext),
-      getFeatureFlag(
-        'featureFlagClaudeCodeWorkshopSale',
-        'workshop',
-        logContext,
-      ),
+    ])
+
+    const [cursorWorkshopRaw, claudeCodeWorkshopRaw] = await Promise.all([
+      cursorWorkshopSaleEnabled || cursorWorkshopEarlyBirdEnabled
+        ? getFeatureFlag(
+            'featureFlagCursorWorkshopSale',
+            'workshop',
+            logContext,
+          )
+        : Promise.resolve(null),
+      claudeCodeWorkshopSaleEnabled
+        ? getFeatureFlag(
+            'featureFlagClaudeCodeWorkshopSale',
+            'workshop',
+            logContext,
+          )
+        : Promise.resolve(null),
     ])
 
     const parsedCursorWorkshop = LiveWorkshopSchema.safeParse(cursorWorkshopRaw)

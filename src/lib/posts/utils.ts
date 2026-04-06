@@ -7,23 +7,20 @@ export function parseSlugForHash(rawSlug: string | string[]): ParsedSlug {
 
   const slug = String(rawSlug)
 
-  // Try to get hash from tilde-separated slug first
-  const tildeSegments = slug.split('~')
-  if (tildeSegments.length > 1) {
+  // Course Builder slugs include a `~<id>` suffix. Legacy slugs do not.
+  // Never derive a fallback hash from the last dash-separated segment because
+  // that causes loose SQL matching against unrelated content (for example a
+  // slug ending in `vite` matching `joe-previte`).
+  const tildeIndex = slug.lastIndexOf('~')
+  if (tildeIndex === -1) {
     return {
-      hashFromSlug: tildeSegments[tildeSegments.length - 1],
+      hashFromSlug: '',
       originalSlug: slug,
     }
   }
 
-  // Fallback to dash-separated slug
-  const dashSegments = slug.split('-')
-  if (dashSegments.length === 0) {
-    throw new Error('Invalid slug format')
-  }
-
   return {
-    hashFromSlug: dashSegments[dashSegments.length - 1],
+    hashFromSlug: slug.substring(tildeIndex + 1),
     originalSlug: slug,
   }
 }
