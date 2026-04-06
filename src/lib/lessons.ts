@@ -75,15 +75,93 @@ const lessonQuery = groq`
 const SANITY_LESSON_CACHE_PREFIX = 'sanity:lesson'
 const SANITY_LESSON_CACHE_TTL_SECONDS = 60 * 60 // 1 hour
 const SANITY_LESSON_CACHE_MISS_TTL_SECONDS = 60 * 60 * 24 // 24 hours
+const GRAPHQL_LESSON_MISS_CACHE_PREFIX = 'graphql:lesson:miss'
+const GRAPHQL_LESSON_MISS_TTL_SECONDS = 60 * 60 * 6 // 6 hours
 export const LESSON_NOT_FOUND_MESSAGE = 'Unable to lookup lesson metadata'
 
 type SanityLessonCacheValue =
   | {ok: true; value: Record<string, unknown>}
   | {ok: false}
 
-const sanityLessonCacheKey = (slug: string) => {
+const inMemoryGraphqlMisses = new Map<string, number>()
+
+const lessonCacheKey = (prefix: string, slug: string) => {
   const hash = crypto.createHash('sha1').update(slug).digest('hex')
-  return `${SANITY_LESSON_CACHE_PREFIX}:${hash}`
+  return `${prefix}:${hash}`
+}
+
+const sanityLessonCacheKey = (slug: string) =>
+  lessonCacheKey(SANITY_LESSON_CACHE_PREFIX, slug)
+
+const graphqlLessonMissCacheKey = (slug: string) =>
+  lessonCacheKey(GRAPHQL_LESSON_MISS_CACHE_PREFIX, slug)
+
+const hasFreshInMemoryGraphqlMiss = (slug: string) => {
+  const expiresAt = inMemoryGraphqlMisses.get(slug)
+  if (!expiresAt) return false
+  if (Date.now() >= expiresAt) {
+    inMemoryGraphqlMisses.delete(slug)
+    return false
+  }
+  return true
+}
+
+const rememberInMemoryGraphqlMiss = (slug: string) => {
+  inMemoryGraphqlMisses.set(
+    slug,
+    Date.now() + GRAPHQL_LESSON_MISS_TTL_SECONDS * 1000,
+  )
+}
+
+function isGraphQL404(error: unknown): boolean {
+  return error instanceof Error && error.message.includes('Code: 404')
+}
+
+async function isGraphqlLessonMissCached(
+  slug: string,
+  logContext: LogContext,
+): Promise<boolean> {
+  if (hasFreshInMemoryGraphqlMiss(slug)) return true
+
+  const redis = getRedis()
+  if (!redis) return false
+
+  try {
+    const cached = await redis.get<boolean>(graphqlLessonMissCacheKey(slug))
+    if (cached) {
+      rememberInMemoryGraphqlMiss(slug)
+      return true
+    }
+  } catch {
+    logEvent(
+      'warn',
+      'lesson.loadLessonMetadataFromGraphQL.kv_get_error',
+      {slug},
+      logContext,
+    )
+  }
+
+  return false
+}
+
+async function cacheGraphqlLessonMiss(slug: string, logContext: LogContext) {
+  rememberInMemoryGraphqlMiss(slug)
+
+  const redis = getRedis()
+  if (!redis) return
+
+  try {
+    await redis.set(graphqlLessonMissCacheKey(slug), true, {
+      ex: GRAPHQL_LESSON_MISS_TTL_SECONDS,
+    })
+  } catch {
+    logEvent(
+      'warn',
+      'lesson.loadLessonMetadataFromGraphQL.kv_set_error',
+      {slug},
+      logContext,
+    )
+  }
 }
 
 /**
@@ -180,22 +258,66 @@ export async function loadLessonMetadataFromGraphQL(
   token?: string,
   logContext: LogContext = {},
 ) {
+  if (await isGraphqlLessonMissCached(slug, logContext)) {
+    logEvent(
+      'info',
+      'lesson.loadLessonMetadataFromGraphQL.cache_hit',
+      {slug, status: 'miss'},
+      logContext,
+    )
+    return {}
+  }
+
   const graphQLClient = getGraphQLClient(token)
+  const start = Date.now()
 
   try {
-    const {lesson: lessonMetadataFromGraphQL} = await timeEvent(
+    const {lesson: lessonMetadataFromGraphQL} = await graphQLClient.request(
+      loadLessonGraphQLQuery,
+      {
+        slug,
+      },
+    )
+
+    logEvent(
+      'info',
       'lesson.loadLessonMetadataFromGraphQL.graphql',
-      {slug},
-      async () =>
-        graphQLClient.request(loadLessonGraphQLQuery, {
-          slug,
-        }),
+      {
+        slug,
+        duration_ms: Date.now() - start,
+        ok: true,
+      },
       logContext,
     )
 
     return lessonMetadataFromGraphQL
   } catch (e) {
-    // Likely a 404 Not Found error
+    if (isGraphQL404(e)) {
+      await cacheGraphqlLessonMiss(slug, logContext)
+      logEvent(
+        'info',
+        'lesson.loadLessonMetadataFromGraphQL.not_found',
+        {
+          slug,
+          duration_ms: Date.now() - start,
+          ok: true,
+        },
+        logContext,
+      )
+      return {}
+    }
+
+    logEvent(
+      'error',
+      'lesson.loadLessonMetadataFromGraphQL.graphql',
+      {
+        slug,
+        duration_ms: Date.now() - start,
+        ok: false,
+        error_message: e instanceof Error ? e.message : String(e),
+      },
+      logContext,
+    )
     logEvent(
       'warn',
       'lesson.loadLessonMetadataFromGraphQL.error',
