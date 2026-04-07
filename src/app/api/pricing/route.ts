@@ -6,6 +6,7 @@ import countries from 'i18n-iso-countries'
 import enLocale from 'i18n-iso-countries/langs/en.json'
 import {withAppApiLogging} from '@/lib/logging'
 import {getRedis} from '@/lib/upstash-redis'
+import {logEvent, type LogContext} from '@/utils/structured-log'
 
 // Register English locale for country name lookups
 countries.registerLocale(enLocale)
@@ -79,11 +80,12 @@ const PRICING_PROXY_CACHE_PREFIX = 'pricing-proxy'
 const PRICING_PROXY_CACHE_TTL_SECONDS = Number(
   process.env.PRICING_PROXY_CACHE_TTL_SECONDS ?? '300',
 )
-const PRICING_PROXY_SHARED_CACHE_TTL_SECONDS =
+const PRICING_PROXY_CACHE_ENABLED =
   Number.isFinite(PRICING_PROXY_CACHE_TTL_SECONDS) &&
   PRICING_PROXY_CACHE_TTL_SECONDS > 0
-    ? Math.floor(PRICING_PROXY_CACHE_TTL_SECONDS)
-    : 300
+const PRICING_PROXY_SHARED_CACHE_TTL_SECONDS = PRICING_PROXY_CACHE_ENABLED
+  ? Math.floor(PRICING_PROXY_CACHE_TTL_SECONDS)
+  : undefined
 
 type PricingCacheEntry = {value: unknown; expiresAt: number}
 type PricingCacheStatus = 'memory_hit' | 'redis_hit' | 'miss' | 'skip'
@@ -105,8 +107,7 @@ function pricingMemoryGet<T>(key: string): T | undefined {
 }
 
 function pricingMemorySet(key: string, value: unknown) {
-  if (!Number.isFinite(PRICING_PROXY_CACHE_TTL_SECONDS)) return
-  if (PRICING_PROXY_CACHE_TTL_SECONDS <= 0) return
+  if (!PRICING_PROXY_CACHE_ENABLED) return
 
   pricingMemoryCache.set(key, {
     value,
@@ -180,9 +181,11 @@ async function getCachedPricingValue<T>(
     const fetched = await fetcher()
     pricingMemorySet(key, fetched)
 
-    if (redis && Number.isFinite(PRICING_PROXY_CACHE_TTL_SECONDS)) {
+    if (redis && PRICING_PROXY_CACHE_ENABLED) {
       try {
-        await redis.set(key, fetched, {ex: PRICING_PROXY_CACHE_TTL_SECONDS})
+        await redis.set(key, fetched, {
+          ex: Math.floor(PRICING_PROXY_CACHE_TTL_SECONDS),
+        })
       } catch {
         // fail open if Redis set fails
       }
@@ -200,6 +203,19 @@ async function getCachedPricingValue<T>(
   }
 }
 
+function appendVaryHeader(response: NextResponse, headerName: string) {
+  const existing = response.headers.get('Vary')
+  const values = new Set(
+    (existing ?? '')
+      .split(',')
+      .map((value) => value.trim())
+      .filter(Boolean),
+  )
+
+  values.add(headerName)
+  response.headers.set('Vary', Array.from(values).join(', '))
+}
+
 function createPricingResponse(
   body: unknown,
   options: {cacheStatus: PricingCacheStatus; cacheableCandidate: boolean},
@@ -209,11 +225,21 @@ function createPricingResponse(
   response.headers.set('x-pricing-cache', options.cacheStatus)
 
   if (options.cacheableCandidate) {
-    const cacheControl = `public, max-age=60, s-maxage=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}, stale-while-revalidate=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}`
-    const cdnCacheControl = `public, s-maxage=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}, stale-while-revalidate=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}`
+    const cacheControlParts = ['public', 'max-age=60']
 
-    response.headers.set('Cache-Control', cacheControl)
-    response.headers.set('Vercel-CDN-Cache-Control', cdnCacheControl)
+    if (PRICING_PROXY_SHARED_CACHE_TTL_SECONDS !== undefined) {
+      cacheControlParts.push(
+        `s-maxage=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}`,
+        `stale-while-revalidate=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}`,
+      )
+      response.headers.set(
+        'Vercel-CDN-Cache-Control',
+        `public, s-maxage=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}, stale-while-revalidate=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}`,
+      )
+    }
+
+    response.headers.set('Cache-Control', cacheControlParts.join(', '))
+    appendVaryHeader(response, 'x-vercel-ip-country')
   }
 
   return response
@@ -306,7 +332,11 @@ async function _GET(request: NextRequest) {
     !hasToken && !hasCouponParam && !hasDiscountCodeParam && !hasEncodedParams
 
   const siteClientId = process.env.NEXT_PUBLIC_CLIENT_ID ?? null
-  const cacheKey = cacheableCandidate
+  const logContext: LogContext = {
+    request_id: requestId ?? undefined,
+    route: '/api/pricing',
+  }
+  const cacheKey = cacheableCandidate && PRICING_PROXY_CACHE_ENABLED
     ? buildPricingCacheKey({
         siteClientId,
         country: safeCountry,
@@ -316,10 +346,10 @@ async function _GET(request: NextRequest) {
 
   try {
     try {
-      console.log(
-        JSON.stringify({
-          event: 'pricing.proxy.geo_forwarded',
-          request_id: requestId,
+      logEvent(
+        'info',
+        'pricing.proxy.geo_forwarded',
+        {
           site_client_id: siteClientId,
           has_site_client: Boolean(siteClientId),
           country_code: safeCountry,
@@ -332,7 +362,8 @@ async function _GET(request: NextRequest) {
           has_ip: Boolean(ip),
           has_token: hasToken,
           cacheable_candidate: cacheableCandidate,
-        }),
+        },
+        logContext,
       )
     } catch {
       // logging must never crash
@@ -369,10 +400,10 @@ async function _GET(request: NextRequest) {
     }
 
     try {
-      console.log(
-        JSON.stringify({
-          event: 'pricing.proxy.cache',
-          request_id: requestId,
+      logEvent(
+        'info',
+        'pricing.proxy.cache',
+        {
           status: cacheStatus,
           cacheable_candidate: cacheableCandidate,
           has_token: hasToken,
@@ -381,7 +412,8 @@ async function _GET(request: NextRequest) {
           country_name_fingerprint: fingerprintValue(safeCountryName),
           query_keys: queryKeys,
           query_fingerprint: fnv1a32(normalizedQueryString || '_'),
-        }),
+        },
+        logContext,
       )
     } catch {
       // logging must never crash
@@ -411,29 +443,30 @@ async function _GET(request: NextRequest) {
           ? error.response.status
           : null
 
-      const log = {
-        event: 'pricing.proxy.error',
-        ok: false,
-        duration_ms,
-        rails_duration_ms,
-        request_id: requestId,
-        rails_status: railsStatus,
-        axios_code: error?.code ?? null,
-        error_message,
-        error_fingerprint,
-        has_token: hasToken,
-        cacheable_candidate: cacheableCandidate,
-        site_client_id: siteClientId,
-        has_site_client: Boolean(siteClientId),
-        geo_country: safeCountry,
-        has_geo_country: Boolean(safeCountry),
-        country_name_fingerprint: fingerprintValue(safeCountryName),
-        has_ip: Boolean(ip),
-        query_keys: queryKeys,
-        has_coupon_param: hasCouponParam,
-      }
-
-      console.error(JSON.stringify(log))
+      logEvent(
+        'error',
+        'pricing.proxy.error',
+        {
+          ok: false,
+          duration_ms,
+          rails_duration_ms,
+          rails_status: railsStatus,
+          axios_code: error?.code ?? null,
+          error_message,
+          error_fingerprint,
+          has_token: hasToken,
+          cacheable_candidate: cacheableCandidate,
+          site_client_id: siteClientId,
+          has_site_client: Boolean(siteClientId),
+          geo_country: safeCountry,
+          has_geo_country: Boolean(safeCountry),
+          country_name_fingerprint: fingerprintValue(safeCountryName),
+          has_ip: Boolean(ip),
+          query_keys: queryKeys,
+          has_coupon_param: hasCouponParam,
+        },
+        logContext,
+      )
     } catch {
       // Never crash the handler due to logging failures.
     }
