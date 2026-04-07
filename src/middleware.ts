@@ -1,6 +1,7 @@
 import {NextRequest, NextResponse} from 'next/server'
 import {getMiddlewareResponse} from '@/server/get-middleware-response'
 import {getCanonicalContentQueryRedirect} from '@/server/content-query-canonicalization'
+import {getCanonicalSearchQueryRedirect} from '@/server/search-query-canonicalization'
 
 const PUBLIC_FILE = /\.(.*)$/
 
@@ -22,6 +23,9 @@ export async function middleware(req: NextRequest) {
 
   const canonicalRedirect = getCanonicalContentQueryRedirect(req)
   if (canonicalRedirect) return canonicalRedirect
+
+  const canonicalSearchRedirect = getCanonicalSearchQueryRedirect(req)
+  if (canonicalSearchRedirect) return canonicalSearchRedirect
 
   if (
     req.nextUrl.pathname.startsWith('/pricing') ||
