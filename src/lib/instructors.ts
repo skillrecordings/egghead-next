@@ -67,13 +67,18 @@ export async function loadInstructor(slug: string) {
   const {instructor} = await request(config.graphQLEndpoint, query, {
     slug: canonicalSlug,
   })
+
+  const resolvedSlug = normalizeInstructorSlug(
+    instructor?.slug ?? canonicalSlug,
+  )
+
   let sanityInstructor
 
-  if (canLoadSanityInstructor(canonicalSlug)) {
-    sanityInstructor = await loadSanityInstructor(canonicalSlug)
+  if (canLoadSanityInstructor(resolvedSlug)) {
+    sanityInstructor = await loadSanityInstructor(resolvedSlug)
   }
 
-  return {...instructor, ...sanityInstructor}
+  return {...instructor, slug: resolvedSlug, ...sanityInstructor}
 }
 
 const sanityInstructorHash = {
