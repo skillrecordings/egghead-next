@@ -1,14 +1,9 @@
 import * as React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {withStaticPropsLogging} from '@/lib/logging'
 import {get} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {lessonMachine} from '@/machines/lesson-machine'
-import {
-  LESSON_NOT_FOUND_MESSAGE,
-  loadLesson,
-  loadLessonMetadataFromGraphQL,
-} from '@/lib/lessons'
+import {LESSON_NOT_FOUND_MESSAGE, loadLesson} from '@/lib/lessons'
 import {useViewer} from '@/context/viewer-context'
 import {LessonResource, VideoResource} from '@/types'
 import cookieUtil from '@/utils/cookies'
@@ -16,13 +11,23 @@ import {logEvent} from '@/utils/structured-log'
 import {GenericErrorBoundary} from '@/components/generic-error-boundary'
 import Lesson from '@/components/pages/lessons/lesson'
 import {trpc} from '@/app/_trpc/client'
-import {HOT_LESSON_SLUGS} from '@/lib/hot-content-slugs'
+import {
+  HOT_LESSON_ALIAS_PATHS,
+  HOT_LESSON_PATHS,
+  HOT_LESSON_PATHS_ALIAS_COUNT,
+  HOT_LESSON_PATHS_CANONICAL_COUNT,
+  HOT_LESSON_PATHS_GENERATED_AT,
+  HOT_LESSON_PATHS_REQUESTED_COUNT,
+  HOT_LESSON_PATHS_SOURCE_GENERATED_AT,
+  HOT_LESSON_PATHS_UNRESOLVED_COUNT,
+  HOT_LESSON_PATHS_WINDOW,
+  HOT_LESSON_UNRESOLVED_SLUGS,
+} from '@/lib/hot-lesson-paths'
 import {withHeaderBannerStaticProps} from '@/server/with-header-banner-props'
 
 import {VideoProvider} from '@/player'
 
 const LESSON_REVALIDATE_SECONDS = 300
-const STATIC_PATHS_ALIAS_BATCH_SIZE = 25
 
 const isLessonNotFoundError = (error: unknown) => {
   return (
@@ -30,90 +35,105 @@ const isLessonNotFoundError = (error: unknown) => {
   )
 }
 
-async function getCanonicalStaticLessonSlugs() {
-  const canonicalSlugs: string[] = []
+const getStaticPathSummaryPayload = () => ({
+  requested_count: HOT_LESSON_PATHS_REQUESTED_COUNT,
+  canonical_count: HOT_LESSON_PATHS_CANONICAL_COUNT,
+  alias_count: HOT_LESSON_PATHS_ALIAS_COUNT,
+  unresolved_count: HOT_LESSON_PATHS_UNRESOLVED_COUNT,
+  generated_at: HOT_LESSON_PATHS_GENERATED_AT,
+  source_generated_at: HOT_LESSON_PATHS_SOURCE_GENERATED_AT,
+  window: HOT_LESSON_PATHS_WINDOW,
+  ok: HOT_LESSON_PATHS_UNRESOLVED_COUNT === 0,
+  render_mode: 'isr',
+})
 
-  for (
-    let index = 0;
-    index < HOT_LESSON_SLUGS.length;
-    index += STATIC_PATHS_ALIAS_BATCH_SIZE
-  ) {
-    const batch = HOT_LESSON_SLUGS.slice(
-      index,
-      index + STATIC_PATHS_ALIAS_BATCH_SIZE,
-    )
-    const batchResults = await Promise.all(
-      batch.map(async (slug) => {
-        const metadata = await loadLessonMetadataFromGraphQL(slug, undefined, {
-          route: '/lessons/[slug]',
-          page: 'lesson',
-          lesson_slug: slug,
-        })
+const getStaticPropsParams = (lessonSlug?: string) =>
+  lessonSlug ? `slug=${lessonSlug}` : ''
 
-        if (!metadata?.slug) {
-          console.warn(
-            JSON.stringify({
-              event: 'lesson.static_paths.skip_unresolved_slug',
-              slug,
-              ok: false,
-              render_mode: 'isr',
-            }),
-          )
-          return null
-        }
+const getStaticPropsLogContext = (lessonSlug?: string) => ({
+  route: '/lessons/[slug]',
+  page: 'lesson',
+  lesson_slug: lessonSlug,
+})
 
-        if (metadata.slug !== slug) {
-          console.warn(
-            JSON.stringify({
-              event: 'lesson.static_paths.skip_alias_slug',
-              slug,
-              canonical_slug: metadata.slug,
-              canonical_path: metadata.path,
-              ok: true,
-              render_mode: 'isr',
-            }),
-          )
-          return null
-        }
-
-        return slug
-      }),
-    )
-
-    canonicalSlugs.push(
-      ...batchResults.filter((value): value is string => Boolean(value)),
-    )
-  }
-
-  return canonicalSlugs
+const logLessonStaticPropsRender = ({
+  lessonSlug,
+  durationMs,
+  ok,
+  isNotFound = false,
+  isRedirect = false,
+  handledNotFound = false,
+  error,
+}: {
+  lessonSlug?: string
+  durationMs: number
+  ok: boolean
+  isNotFound?: boolean
+  isRedirect?: boolean
+  handledNotFound?: boolean
+  error?: string
+}) => {
+  logEvent(
+    ok ? 'info' : 'error',
+    'static_props.render',
+    {
+      params: getStaticPropsParams(lessonSlug),
+      duration_ms: durationMs,
+      ok,
+      is_not_found: isNotFound,
+      is_redirect: isRedirect,
+      handled_not_found: handledNotFound,
+      render_mode: 'isr',
+      ...(error ? {error} : {}),
+    },
+    getStaticPropsLogContext(lessonSlug),
+  )
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const canonicalSlugs = await getCanonicalStaticLessonSlugs()
+  logEvent('info', 'lesson.static_paths.summary', getStaticPathSummaryPayload())
+
+  if (HOT_LESSON_PATHS_ALIAS_COUNT > 0 || HOT_LESSON_PATHS_UNRESOLVED_COUNT > 0) {
+    logEvent('warn', 'lesson.static_paths.anomalies', {
+      alias_count: HOT_LESSON_PATHS_ALIAS_COUNT,
+      unresolved_count: HOT_LESSON_PATHS_UNRESOLVED_COUNT,
+      alias_samples: HOT_LESSON_ALIAS_PATHS.slice(0, 5),
+      unresolved_samples: HOT_LESSON_UNRESOLVED_SLUGS.slice(0, 5),
+      render_mode: 'isr',
+    })
+  }
 
   return {
-    paths: canonicalSlugs.map((slug) => ({
+    paths: HOT_LESSON_PATHS.map(({slug}) => ({
       params: {slug},
     })),
     fallback: 'blocking',
   }
 }
 
-export const getStaticProps: GetStaticProps = withStaticPropsLogging(
-  withHeaderBannerStaticProps('/lessons/[slug]', async function ({params}) {
+export const getStaticProps: GetStaticProps = withHeaderBannerStaticProps(
+  '/lessons/[slug]',
+  async function ({params}) {
+    const start = performance.now()
     const lessonSlug = params?.slug as string | undefined
 
     if (!lessonSlug) {
+      logLessonStaticPropsRender({
+        durationMs: Math.round(performance.now() - start),
+        ok: true,
+        isNotFound: true,
+        handledNotFound: true,
+      })
+
       return {
         notFound: true,
       }
     }
 
     const logContext = {
-      route: '/lessons/[slug]',
-      page: 'lesson',
-      lesson_slug: lessonSlug,
+      ...getStaticPropsLogContext(lessonSlug),
       render_mode: 'isr',
+      suppress_info_logs: true,
     }
 
     try {
@@ -125,6 +145,14 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
       )
 
       if (!initialLesson?.slug) {
+        logLessonStaticPropsRender({
+          lessonSlug,
+          durationMs: Math.round(performance.now() - start),
+          ok: true,
+          isNotFound: true,
+          handledNotFound: true,
+        })
+
         return {
           notFound: true,
           revalidate: LESSON_REVALIDATE_SECONDS,
@@ -132,16 +160,25 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
       }
 
       if (initialLesson.slug !== lessonSlug) {
-        console.warn(
-          JSON.stringify({
-            event: 'lesson.static_props.redirect_slug',
+        logEvent(
+          'warn',
+          'lesson.static_props.redirect_slug',
+          {
             slug: lessonSlug,
             canonical_slug: initialLesson.slug,
             canonical_path: initialLesson.path,
             ok: true,
             render_mode: 'isr',
-          }),
+          },
+          getStaticPropsLogContext(lessonSlug),
         )
+
+        logLessonStaticPropsRender({
+          lessonSlug,
+          durationMs: Math.round(performance.now() - start),
+          ok: true,
+          isRedirect: true,
+        })
 
         return {
           redirect: {
@@ -152,14 +189,11 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
         }
       }
 
-      console.log(
-        JSON.stringify({
-          event: 'lesson.static_props.generated',
-          slug: lessonSlug,
-          ok: true,
-          render_mode: 'isr',
-        }),
-      )
+      logLessonStaticPropsRender({
+        lessonSlug,
+        durationMs: Math.round(performance.now() - start),
+        ok: true,
+      })
 
       return {
         props: {
@@ -168,26 +202,43 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
         revalidate: LESSON_REVALIDATE_SECONDS,
       }
     } catch (error) {
-      console.error(
-        JSON.stringify({
-          event: 'lesson.static_props.error',
-          slug: lessonSlug,
-          ok: false,
-          render_mode: 'isr',
-          error: error instanceof Error ? error.message : String(error),
-        }),
-      )
-
       if (isLessonNotFoundError(error)) {
+        logLessonStaticPropsRender({
+          lessonSlug,
+          durationMs: Math.round(performance.now() - start),
+          ok: true,
+          isNotFound: true,
+          handledNotFound: true,
+        })
+
         return {
           notFound: true,
           revalidate: 60,
         }
       }
 
+      logEvent(
+        'error',
+        'lesson.static_props.error',
+        {
+          slug: lessonSlug,
+          ok: false,
+          render_mode: 'isr',
+          error: error instanceof Error ? error.message : String(error),
+        },
+        getStaticPropsLogContext(lessonSlug),
+      )
+
+      logLessonStaticPropsRender({
+        lessonSlug,
+        durationMs: Math.round(performance.now() - start),
+        ok: false,
+        error: error instanceof Error ? error.message : String(error),
+      })
+
       throw error
     }
-  }),
+  },
 )
 
 const LessonPage: React.FC<

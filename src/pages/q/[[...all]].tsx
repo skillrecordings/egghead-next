@@ -27,7 +27,6 @@ import nameToSlug from '@/lib/name-to-slug'
 import Link from 'next/link'
 import {HOT_SEARCH_PATHS} from '@/lib/hot-search-paths'
 import {
-  getSearchPathFromAll,
   getSearchStateFromUrlParts,
   isLowCardinalitySearchPath,
 } from '@/lib/search-url-state'
@@ -69,7 +68,14 @@ const defaultProps = {
 }
 
 const SEARCH_REVALIDATE_SECONDS = 300
-const HOT_SEARCH_PATHS_SET = new Set(HOT_SEARCH_PATHS)
+const getCanonicalSearchPath = (all: string[] = []) =>
+  createUrl(parseUrl(all.length > 0 ? {all} : {}))
+const HOT_SEARCH_PATHS_SET = new Set(
+  HOT_SEARCH_PATHS.map((path) => {
+    const all = path.replace(/^\/q\/?/, '').split('/').filter(Boolean)
+    return getCanonicalSearchPath(all)
+  }),
+)
 
 const getInstructorsFromSearchState = (searchState: any) => {
   return get(searchState, 'refinementList.instructor_name', []) as string[]
@@ -278,14 +284,13 @@ SearchIndex.getLayout = (Page: any, pageProps: any) => {
 export default SearchIndex
 
 const getStaticPathParamsForSearchPath = (path: string) => {
-  const all = path
-    .replace(/^\/q\/?/, '')
-    .split('/')
-    .filter(Boolean)
+  const all = path.replace(/^\/q\/?/, '').split('/').filter(Boolean)
+  const canonicalPath = getCanonicalSearchPath(all)
+  const canonicalAll = canonicalPath.replace(/^\/q\/?/, '').split('/').filter(Boolean)
 
   return {
     params: {
-      all,
+      all: canonicalAll,
     },
   }
 }
@@ -298,8 +303,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }),
   )
 
+  const dedupedPaths = Array.from(
+    new Map(
+      HOT_SEARCH_PATHS.map((path) => {
+        const staticPath = getStaticPathParamsForSearchPath(path)
+        const key = (staticPath.params.all ?? []).join('/')
+        return [key, staticPath]
+      }),
+    ).values(),
+  )
+
   return {
-    paths: HOT_SEARCH_PATHS.map(getStaticPathParamsForSearchPath),
+    paths: dedupedPaths,
     fallback: 'blocking',
   }
 }
@@ -316,8 +331,8 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
       }
     }
 
-    const path = getSearchPathFromAll(all)
     const initialSearchState = parseUrl(all.length > 0 ? {all} : {})
+    const path = getCanonicalSearchPath(all)
     const selectedInstructors =
       getInstructorsFromSearchState(initialSearchState)
     const selectedTopics = topicExtractor(initialSearchState)
