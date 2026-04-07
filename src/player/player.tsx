@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import MuxPlayer, {type MuxPlayerRefAttributes} from '@mux/mux-player-react'
+import {MinResolution} from '@mux/playback-core'
 import cx from 'classnames'
 import {
   getPlayerPrefs,
@@ -55,13 +56,7 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
   const {send, setState} = useVideo()
   const sendRef = React.useRef(send)
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes | null>(null)
-  const [playbackRate, setPlaybackRate] = React.useState<number>(
-    getPlayerPrefs().playbackRate || 1,
-  )
-  const [captionsAvailable, setCaptionsAvailable] = React.useState(false)
-  const [captionsEnabled, setCaptionsEnabled] = React.useState(
-    getPlayerPrefs().subtitle?.label !== 'off',
-  )
+  const [hasStartedPlayback, setHasStartedPlayback] = React.useState(false)
   const {src, muxChildren} = React.useMemo(
     () => getSourceAndChildren(children),
     [children],
@@ -70,6 +65,23 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
   React.useEffect(() => {
     sendRef.current = send
   }, [send])
+
+  const setInitialControlVisibility = React.useCallback(
+    (shouldStayVisible: boolean) => {
+      const mediaController = (muxPlayerRef.current as any)?.shadowRoot?.querySelector(
+        'media-controller',
+      ) as HTMLElement | null
+
+      if (!mediaController) return
+
+      if (shouldStayVisible) {
+        mediaController.setAttribute('noautohide', '')
+      } else {
+        mediaController.removeAttribute('noautohide')
+      }
+    },
+    [],
+  )
 
   React.useEffect(() => {
     if (!muxPlayerRef.current) return
@@ -113,11 +125,7 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
         (track: any) => ['subtitles', 'captions'].includes(track.kind),
       ) as TextTrack[]
 
-      setCaptionsAvailable(subtitles.length > 0)
-
       const activeSubtitle = subtitles.find((track) => track.mode === 'showing')
-
-      setCaptionsEnabled(Boolean(activeSubtitle))
 
       savePlayerPrefs({
         subtitle: activeSubtitle
@@ -142,64 +150,16 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
     applyPrefs()
     handleTextTrackChange()
     player.textTracks?.addEventListener?.('change', handleTextTrackChange)
+    setInitialControlVisibility(!hasStartedPlayback)
 
     return () => {
       player.textTracks?.removeEventListener?.('change', handleTextTrackChange)
     }
+  }, [hasStartedPlayback, setInitialControlVisibility, src])
+
+  React.useEffect(() => {
+    setHasStartedPlayback(false)
   }, [src])
-
-  const handlePlaybackRateChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    const nextPlaybackRate = Number(event.target.value)
-    setPlaybackRate(nextPlaybackRate)
-
-    if (muxPlayerRef.current) {
-      muxPlayerRef.current.playbackRate = nextPlaybackRate
-    }
-
-    savePlayerPrefs({playbackRate: nextPlaybackRate})
-  }
-
-  const handleCaptionsToggle = () => {
-    const player = muxPlayerRef.current as any
-    if (!player?.textTracks) return
-
-    const subtitles = Array.from(player.textTracks || []).filter((track: any) =>
-      ['subtitles', 'captions'].includes(track.kind),
-    ) as TextTrack[]
-
-    if (!subtitles.length) return
-
-    const nextEnabled = !captionsEnabled
-
-    subtitles.forEach((track, index) => {
-      track.mode = nextEnabled && index === 0 ? 'showing' : 'disabled'
-    })
-
-    setCaptionsEnabled(nextEnabled)
-
-    const activeSubtitle = nextEnabled ? subtitles[0] : null
-
-    savePlayerPrefs({
-      subtitle: activeSubtitle
-        ? {
-            id: (activeSubtitle as any).id ?? null,
-            kind: activeSubtitle.kind ?? null,
-            label: activeSubtitle.label ?? null,
-            language:
-              (activeSubtitle as any).language ??
-              activeSubtitle.language ??
-              null,
-          }
-        : {
-            id: null,
-            kind: null,
-            label: 'off',
-            language: null,
-          },
-    })
-  }
 
   return (
     <div className={cx('relative h-full w-full bg-black', className)}>
@@ -208,10 +168,13 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
         className="h-full w-full"
         streamType="on-demand"
         playbackRates={[0.75, 1, 1.25, 1.5, 1.75, 2]}
+        minResolution={MinResolution.noLessThan720p}
         src={src}
         poster={poster}
         defaultHiddenCaptions={getPlayerPrefs().subtitle?.label === 'off'}
         onPlay={() => {
+          setHasStartedPlayback(true)
+          setInitialControlVisibility(false)
           send({type: 'PLAY', source: 'player'})
         }}
         onPause={() => {
@@ -258,6 +221,8 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
             sendRef.current({type: 'SET_METADATA_TRACKS', metadataTracks})
           }
 
+          setInitialControlVisibility(!hasStartedPlayback)
+
           setState((prev) => ({
             ...prev,
             isPaused: Boolean(muxPlayerRef.current?.paused ?? true),
@@ -278,38 +243,6 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
       >
         {muxChildren}
       </MuxPlayer>
-      <div className="absolute left-3 top-3 z-10 flex items-center gap-2">
-        <label className="rounded bg-black/70 px-2 py-1 text-xs font-medium text-white backdrop-blur">
-          <span className="mr-2">Speed</span>
-          <select
-            value={String(playbackRate)}
-            onChange={handlePlaybackRateChange}
-            className="bg-transparent text-white outline-none"
-          >
-            {[0.75, 1, 1.25, 1.5, 1.75, 2].map((rate) => (
-              <option key={rate} value={rate} className="text-black">
-                {rate}×
-              </option>
-            ))}
-          </select>
-        </label>
-        <button
-          type="button"
-          onClick={handleCaptionsToggle}
-          disabled={!captionsAvailable}
-          className={cx(
-            'rounded px-2 py-1 text-xs font-medium text-white backdrop-blur',
-            {
-              'bg-blue-600/80': captionsEnabled && captionsAvailable,
-              'bg-black/70': !captionsEnabled && captionsAvailable,
-              'cursor-not-allowed bg-black/40 text-white/50':
-                !captionsAvailable,
-            },
-          )}
-        >
-          CC
-        </button>
-      </div>
       {controls ? (
         <div className="absolute right-3 top-3 z-10">{controls}</div>
       ) : null}
