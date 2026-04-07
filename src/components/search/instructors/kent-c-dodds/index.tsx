@@ -5,9 +5,7 @@ import ExternalTrackedLink from '@/components/external-tracked-link'
 
 import SearchInstructorEssential from '../instructor-essential'
 import CtaCard from '@/components/search/components/cta-card'
-import {VerticalResourceCollectionCard} from '@/components/card/vertical-resource-collection-card'
 import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
-import {HorizontalResourceCard} from '@/components/card/horizontal-resource-card'
 
 const SearchKentCDodds = ({instructor}: any) => {
   const {
@@ -21,6 +19,8 @@ const SearchKentCDodds = ({instructor}: any) => {
 
   const courseResources = courses?.resources ?? []
   const collectionResources = collection?.resources ?? []
+  const testingJavascriptProduct = products?.testingJavascript
+  const epicReactProduct = products?.epicReact
   const [primaryCourse] = courseResources
 
   return (
@@ -38,37 +38,41 @@ const SearchKentCDodds = ({instructor}: any) => {
         }
       />
       <section className="mt-4 mb-10 flex sm:flex-nowrap flex-wrap flex-shrink justify-between gap-4 xl:px-0 px-5">
-        <ExternalTrackedLink
-          eventName="clicked testing javascript banner"
-          location="Kent C. Dodds instructor page"
-          href={get(products.testingJavascript, 'url')}
-        >
-          <Image
-            quality={100}
-            src={get(products.testingJavascript, 'image')}
-            width={620}
-            height={350}
-            layout="intrinsic"
-            alt={get(
-              products.testingJavascript,
-              'alt',
-              `illustration for testingJavascript`,
-            )}
-          />
-        </ExternalTrackedLink>
-        <ExternalTrackedLink
-          eventName="clicked epic react banner"
-          location="Kent C. Dodds instructor page"
-          href={get(products.epicReact, 'url')}
-        >
-          <Image
-            quality={100}
-            src={get(products.epicReact, 'image')}
-            width={620}
-            height={350}
-            alt={get(products.epicReact, 'alt', `illustration for epicreact`)}
-          />
-        </ExternalTrackedLink>
+        {testingJavascriptProduct ? (
+          <ExternalTrackedLink
+            eventName="clicked testing javascript banner"
+            location="Kent C. Dodds instructor page"
+            href={get(testingJavascriptProduct, 'url')}
+          >
+            <Image
+              quality={100}
+              src={get(testingJavascriptProduct, 'image')}
+              width={620}
+              height={350}
+              layout="intrinsic"
+              alt={get(
+                testingJavascriptProduct,
+                'alt',
+                `illustration for testingJavascript`,
+              )}
+            />
+          </ExternalTrackedLink>
+        ) : null}
+        {epicReactProduct ? (
+          <ExternalTrackedLink
+            eventName="clicked epic react banner"
+            location="Kent C. Dodds instructor page"
+            href={get(epicReactProduct, 'url')}
+          >
+            <Image
+              quality={100}
+              src={get(epicReactProduct, 'image')}
+              width={620}
+              height={350}
+              alt={get(epicReactProduct, 'alt', `illustration for epicreact`)}
+            />
+          </ExternalTrackedLink>
+        ) : null}
       </section>
 
       <section className="xl:px-0 px-5">
@@ -94,23 +98,29 @@ const SearchKentCDodds = ({instructor}: any) => {
           More From Kent
         </h2>
         <div className="flex sm:flex-nowrap flex-wrap gap-4 mt-4">
-          <VerticalResourceCard
-            className="mt-0 sm:w-1/2 w-full flex flex-col items-center justify-center text-center sm:py-8 py-6"
-            resource={podcast}
-            describe
-            location="Kent C. Dodds instructor Landing page"
-          />
-          <VerticalResourceCard
-            resource={epicReactCaseStudy}
-            className="sm:w-1/2 w-full border-none flex flex-col items-center justify-center text-center sm:py-8 py-6"
-            location="Kent C. Dodds instructor Landing page"
-          />
-          <VerticalResourceCard
-            className="sm:w-1/2 w-full border-none flex flex-col items-center justify-center text-center sm:py-8 py-6"
-            resource={caseStudy}
-            describe
-            location="Kent C. Dodds instructor Landing page"
-          />
+          {podcast ? (
+            <VerticalResourceCard
+              className="mt-0 sm:w-1/2 w-full flex flex-col items-center justify-center text-center sm:py-8 py-6"
+              resource={podcast}
+              describe
+              location="Kent C. Dodds instructor Landing page"
+            />
+          ) : null}
+          {epicReactCaseStudy ? (
+            <VerticalResourceCard
+              resource={epicReactCaseStudy}
+              className="sm:w-1/2 w-full border-none flex flex-col items-center justify-center text-center sm:py-8 py-6"
+              location="Kent C. Dodds instructor Landing page"
+            />
+          ) : null}
+          {caseStudy ? (
+            <VerticalResourceCard
+              className="sm:w-1/2 w-full border-none flex flex-col items-center justify-center text-center sm:py-8 py-6"
+              resource={caseStudy}
+              describe
+              location="Kent C. Dodds instructor Landing page"
+            />
+          ) : null}
         </div>
       </section>
     </div>
