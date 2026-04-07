@@ -112,12 +112,20 @@ const buildCanonicalSearchPath = ({
   }`
 
   const queryParts: string[] = []
-  if (q) queryParts.push(`q=${q.split(' ').join('+')}`)
-  if (type.length > 0) queryParts.push(`type=${type.join(',')}`)
-  if (accessState.length > 0) {
-    queryParts.push(`access_state=${accessState.join(',')}`)
+  if (q) queryParts.push(`q=${encodeURIComponent(q)}`)
+  if (type.length > 0) {
+    queryParts.push(
+      `type=${type.map((value) => encodeURIComponent(value)).join(',')}`,
+    )
   }
-  if (sortBy) queryParts.push(`sortBy=${sortBy}`)
+  if (accessState.length > 0) {
+    queryParts.push(
+      `access_state=${accessState
+        .map((value) => encodeURIComponent(value))
+        .join(',')}`,
+    )
+  }
+  if (sortBy) queryParts.push(`sortBy=${encodeURIComponent(sortBy)}`)
   if (Number.isFinite(page) && page > 1) queryParts.push(`page=${page}`)
 
   return {
