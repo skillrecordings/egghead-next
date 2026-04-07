@@ -3,7 +3,6 @@ import {loadPublicCourseShell} from '@/lib/playlists'
 import {GetServerSideProps} from 'next'
 import {withSSRLogging} from '@/lib/logging'
 import CollectionPageLayout from '@/components/layouts/collection-page-layout'
-import DraftCourseLayout from '@/components/layouts/draft-course-page-layout'
 import MultiModuleCollectionPageLayout from '@/components/layouts/multi-module-collection-page-layout'
 import PhpCollectionPageLayout from '@/components/layouts/php-collection-page-layout'
 import ScrimbaPageLayout from '@/components/layouts/scrimba-course-layout'
@@ -13,8 +12,6 @@ import getTracer from '@/utils/honeycomb-tracer'
 import crypto from 'crypto'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src'
 import courseDependencies from '@/data/courseDependencies'
-import {loadDraftSanityCourse} from '@/lib/courses'
-import {getAbilityFromToken} from '@/server/ability'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {useViewer} from '@/context/viewer-context'
 import {loadResourcesForCourse} from '@/lib/course-resources'
@@ -25,7 +22,6 @@ const tracer = getTracer('course-page')
 
 type CourseProps = {
   course: any
-  draftCourse: any
   fullLessons?: CourseLessonShell[]
 }
 
@@ -37,7 +33,6 @@ type CourseAuthedBits = {
 
 const PUBLIC_PAGE_CACHE_CONTROL =
   'public, s-maxage=300, stale-while-revalidate=3600'
-const PRIVATE_NO_STORE_CACHE_CONTROL = 'private, no-store'
 
 const loadCourseAuthedBitsClient = async (
   slug: string,
@@ -57,16 +52,10 @@ const loadCourseAuthedBitsClient = async (
 
 const setCourseCacheHeaders = (
   res: {setHeader: (name: string, value: string) => void},
-  scope: 'public-swr' | 'private',
   blocker: string | null = null,
 ) => {
-  res.setHeader(
-    'Cache-Control',
-    scope === 'private'
-      ? PRIVATE_NO_STORE_CACHE_CONTROL
-      : PUBLIC_PAGE_CACHE_CONTROL,
-  )
-  res.setHeader('x-egghead-cache-scope', scope)
+  res.setHeader('Cache-Control', PUBLIC_PAGE_CACHE_CONTROL)
+  res.setHeader('x-egghead-cache-scope', 'public-swr')
   res.setHeader('x-egghead-cache-blocker', blocker ?? 'none')
 }
 
@@ -85,7 +74,7 @@ function sanitizeErrorMessage(error: unknown) {
 }
 
 const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
-  const {viewer, authToken} = useViewer()
+  const {authToken} = useViewer()
   const [course, setCourse] = React.useState(props.course)
 
   React.useEffect(() => {
@@ -96,7 +85,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
     let cancelled = false
 
     const loadAuthedBits = async () => {
-      if (!authToken || !props.course?.slug || props.draftCourse) return
+      if (!authToken || !props.course?.slug) return
 
       try {
         const authedBits = await loadCourseAuthedBitsClient(props.course.slug)
@@ -116,17 +105,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
     return () => {
       cancelled = true
     }
-  }, [authToken, props.course?.slug, props.draftCourse])
-
-  if (props.draftCourse && viewer?.roles.includes('instructor')) {
-    return (
-      <DraftCourseLayout
-        lessons={props.draftCourse.lessons}
-        course={props.draftCourse}
-        ogImageUrl={props.draftCourse.ogImage}
-      />
-    )
-  }
+  }, [authToken, props.course?.slug])
 
   if (!course) return null
 
@@ -196,21 +175,6 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
 
 export default Course
 
-const loadDraftCourse = async (slug: string) => {
-  try {
-    const draftCourse = slug && (await loadDraftSanityCourse(slug))
-    if (
-      draftCourse &&
-      (draftCourse.productionProcessState === 'new' ||
-        draftCourse.productionProcessState === 'drafting')
-    ) {
-      return draftCourse
-    }
-  } catch (error) {
-    return undefined
-  }
-}
-
 const getSlugFromPath = (path: string) => {
   return path.split('/').pop()
 }
@@ -237,7 +201,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       })
 
       if (canonicalRedirect) {
-        setCourseCacheHeaders(res, 'public-swr', 'internal_query_params')
+        setCourseCacheHeaders(res, 'internal_query_params')
         return {
           redirect: {
             destination: canonicalRedirect.destination,
@@ -274,7 +238,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
           },
         }
       } else {
-        setCourseCacheHeaders(res, 'public-swr', cacheBlocker)
+        setCourseCacheHeaders(res, cacheBlocker)
         logEvent(
           'info',
           'page.cache.policy',
@@ -308,48 +272,6 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         },
         logContext,
       )
-
-      const draftCourse =
-        params && (await loadDraftCourse(params.course as string))
-      let canUploadVideo = false
-
-      if (draftCourse) {
-        try {
-          canUploadVideo = (
-            await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
-          ).can('upload', 'Video')
-        } catch (abilityError) {
-          logEvent(
-            'warn',
-            'course.ssr.ability_error',
-            {
-              course_slug: params?.course as string,
-              error_message: sanitizeErrorMessage(abilityError),
-            },
-            logContext,
-          )
-        }
-      }
-
-      if (draftCourse && canUploadVideo) {
-        setCourseCacheHeaders(res, 'private', 'draft_course')
-        logEvent(
-          'info',
-          'page.cache.policy',
-          {
-            route: '/courses/[course]',
-            course_slug: params?.course as string,
-            policy: 'private',
-            cache_blocker: 'draft_course',
-          },
-          logContext,
-        )
-        return {
-          props: {
-            draftCourse,
-          },
-        }
-      }
 
       return {
         redirect: {
