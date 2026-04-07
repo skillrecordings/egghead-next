@@ -3,7 +3,7 @@ import WorkshopCTA from '@/components/workshop/workshop-cta'
 import CompactFeed from './_components/compact-feed'
 import CompactFeedSkeleton from './_components/compact-feed-skeleton'
 import LatestCoursesFeed from '@/components/courses/latest-courses-feed'
-import Header from '@/components/app/header'
+import ServerHeaderShell from '@/components/app/header/server-header-shell'
 import Search from '@/components/pages/home/search'
 import Topics from '@/components/pages/home/topics'
 import Footer from '@/components/app/footer'
@@ -112,7 +112,7 @@ export default async function HomePage() {
   return (
     <Providers>
       <div className="min-h-screen dark:bg-gray-900 bg-gray-50">
-        <Header />
+        <ServerHeaderShell route="/" />
 
         <Search />
 

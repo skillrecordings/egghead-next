@@ -8,6 +8,11 @@ import {getCourseForPost} from './get-course'
 import {getPool} from '../db'
 
 export async function getPost(slug: string) {
+  if (!process.env.COURSE_BUILDER_DATABASE_URL) {
+    console.warn('COURSE_BUILDER_DATABASE_URL not configured, skipping getPost')
+    return null
+  }
+
   const {hashFromSlug} = parseSlugForHash(slug)
   const pool = getPool()
   const conn = await pool.getConnection()
@@ -104,6 +109,13 @@ export async function getPost(slug: string) {
 }
 
 export async function getAllPostSlugs() {
+  if (!process.env.COURSE_BUILDER_DATABASE_URL) {
+    console.warn(
+      'COURSE_BUILDER_DATABASE_URL not configured, skipping getAllPostSlugs',
+    )
+    return []
+  }
+
   const pool = getPool()
   const conn = await pool.getConnection()
 

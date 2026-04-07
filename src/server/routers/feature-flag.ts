@@ -2,6 +2,7 @@ import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
 import {getFeatureFlag, getSaleBannerFeatureFlag} from '@/lib/feature-flags'
 import {LiveWorkshopSchema} from '@/types'
+import {getHeaderBannerData} from '@/server/header-banners'
 
 export const featureFlagRouter = router({
   headerBanners: baseProcedure.query(async ({ctx}) => {
@@ -15,68 +16,7 @@ export const featureFlagRouter = router({
       route: 'trpc.featureFlag.headerBanners',
     }
 
-    const [
-      lifetimeSaleEnabled,
-      cursorWorkshopSaleEnabled,
-      claudeCodeWorkshopSaleEnabled,
-      cursorWorkshopEarlyBirdEnabled,
-    ] = await Promise.all([
-      getSaleBannerFeatureFlag(
-        'featureFlagLifetimeSale',
-        'saleBanner',
-        logContext,
-      ),
-      getSaleBannerFeatureFlag(
-        'featureFlagCursorWorkshopSale',
-        'saleBanner',
-        logContext,
-      ),
-      getSaleBannerFeatureFlag(
-        'featureFlagClaudeCodeWorkshopSale',
-        'saleBanner',
-        logContext,
-      ),
-      getSaleBannerFeatureFlag(
-        'featureFlagCursorWorkshopSale',
-        'earlyBirdBanner',
-        logContext,
-      ),
-    ])
-
-    const [cursorWorkshopRaw, claudeCodeWorkshopRaw] = await Promise.all([
-      cursorWorkshopSaleEnabled || cursorWorkshopEarlyBirdEnabled
-        ? getFeatureFlag(
-            'featureFlagCursorWorkshopSale',
-            'workshop',
-            logContext,
-          )
-        : Promise.resolve(null),
-      claudeCodeWorkshopSaleEnabled
-        ? getFeatureFlag(
-            'featureFlagClaudeCodeWorkshopSale',
-            'workshop',
-            logContext,
-          )
-        : Promise.resolve(null),
-    ])
-
-    const parsedCursorWorkshop = LiveWorkshopSchema.safeParse(cursorWorkshopRaw)
-    const parsedClaudeWorkshop = LiveWorkshopSchema.safeParse(
-      claudeCodeWorkshopRaw,
-    )
-
-    return {
-      lifetimeSaleEnabled: Boolean(lifetimeSaleEnabled),
-      cursorWorkshopSaleEnabled: Boolean(cursorWorkshopSaleEnabled),
-      claudeCodeWorkshopSaleEnabled: Boolean(claudeCodeWorkshopSaleEnabled),
-      cursorWorkshopEarlyBirdEnabled: Boolean(cursorWorkshopEarlyBirdEnabled),
-      cursorWorkshop: parsedCursorWorkshop.success
-        ? parsedCursorWorkshop.data ?? null
-        : null,
-      claudeCodeWorkshop: parsedClaudeWorkshop.success
-        ? parsedClaudeWorkshop.data ?? null
-        : null,
-    }
+    return getHeaderBannerData(logContext)
   }),
   isLiveWorkshopSale: baseProcedure
     .input(

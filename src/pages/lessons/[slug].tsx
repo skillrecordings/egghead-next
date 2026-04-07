@@ -17,6 +17,7 @@ import {GenericErrorBoundary} from '@/components/generic-error-boundary'
 import Lesson from '@/components/pages/lessons/lesson'
 import {trpc} from '@/app/_trpc/client'
 import {HOT_LESSON_SLUGS} from '@/lib/hot-content-slugs'
+import {withHeaderBannerStaticProps} from '@/server/with-header-banner-props'
 
 import {VideoProvider} from '@/player'
 
@@ -32,8 +33,15 @@ const isLessonNotFoundError = (error: unknown) => {
 async function getCanonicalStaticLessonSlugs() {
   const canonicalSlugs: string[] = []
 
-  for (let index = 0; index < HOT_LESSON_SLUGS.length; index += STATIC_PATHS_ALIAS_BATCH_SIZE) {
-    const batch = HOT_LESSON_SLUGS.slice(index, index + STATIC_PATHS_ALIAS_BATCH_SIZE)
+  for (
+    let index = 0;
+    index < HOT_LESSON_SLUGS.length;
+    index += STATIC_PATHS_ALIAS_BATCH_SIZE
+  ) {
+    const batch = HOT_LESSON_SLUGS.slice(
+      index,
+      index + STATIC_PATHS_ALIAS_BATCH_SIZE,
+    )
     const batchResults = await Promise.all(
       batch.map(async (slug) => {
         const metadata = await loadLessonMetadataFromGraphQL(slug, undefined, {
@@ -92,7 +100,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = withStaticPropsLogging(
-  async function ({params}) {
+  withHeaderBannerStaticProps('/lessons/[slug]', async function ({params}) {
     const lessonSlug = params?.slug as string | undefined
 
     if (!lessonSlug) {
@@ -179,7 +187,7 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
 
       throw error
     }
-  },
+  }),
 )
 
 const LessonPage: React.FC<
