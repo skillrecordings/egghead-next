@@ -5,7 +5,7 @@ import type {
   GetStaticProps,
   GetStaticPropsResult,
 } from 'next'
-import {getHeaderBannerData} from './header-banners'
+import {getHeaderBannerData} from '@/server/header-banners'
 import type {HeaderBannerData} from '@/components/app/header/banner-data'
 
 type HeaderBannerPageProps = {

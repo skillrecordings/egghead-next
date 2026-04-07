@@ -35,9 +35,34 @@ import {withHeaderBannerStaticProps} from '@/server/with-header-banner-props'
 
 const createURL = (state: any) => `?${qs.stringify(state)}`
 
-export const typesenseAdapter = typesenseInstantsearchAdapter()
+const typesenseAdapterInit = (() => {
+  try {
+    return typesenseInstantsearchAdapter()
+  } catch (error) {
+    console.error(
+      JSON.stringify({
+        event: 'search.typesense.init.error',
+        error: error instanceof Error ? error.message : String(error),
+      }),
+    )
+    return null
+  }
+})()
+
+export const typesenseAdapter =
+  typesenseAdapterInit ??
+  ({
+    typesenseClient: null,
+    clearCache: () => undefined,
+    updateConfiguration: () => undefined,
+    searchClient: {
+      search: async () => ({results: []}),
+      searchForFacetValues: async () => ({facetHits: []}),
+    },
+  } as unknown as ReturnType<typeof typesenseInstantsearchAdapter>)
 
 const searchClient = typesenseAdapter.searchClient
+const typesenseConfigured = typesenseAdapterInit !== null
 
 const defaultProps = {
   searchClient,
@@ -253,7 +278,10 @@ SearchIndex.getLayout = (Page: any, pageProps: any) => {
 export default SearchIndex
 
 const getStaticPathParamsForSearchPath = (path: string) => {
-  const all = path.replace(/^\/q\/?/, '').split('/').filter(Boolean)
+  const all = path
+    .replace(/^\/q\/?/, '')
+    .split('/')
+    .filter(Boolean)
 
   return {
     params: {
@@ -295,12 +323,28 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
     const selectedTopics = topicExtractor(initialSearchState)
     const pageTitle = titleFromPath(all)
     const isHotStaticPath = HOT_SEARCH_PATHS_SET.has(path)
-    const isLowCardinalityBrowse = isLowCardinalitySearchPath(
-      initialSearchState,
-    )
+    const isLowCardinalityBrowse =
+      isLowCardinalitySearchPath(initialSearchState)
     const shouldGenerateServerState = isHotStaticPath || isLowCardinalityBrowse
 
     try {
+      if (!typesenseConfigured) {
+        return {
+          props: {
+            error: 'Search service unavailable',
+            initialSearchState,
+            path,
+            serverState: null,
+            pageTitle,
+            noIndexInitial: true,
+            initialInstructor: null,
+            initialTopicGraphqlData: null,
+            initialTopicSanityData: null,
+          },
+          revalidate: 60,
+        }
+      }
+
       if (!shouldGenerateServerState) {
         console.log(
           JSON.stringify({
