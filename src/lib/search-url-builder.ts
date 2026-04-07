@@ -5,11 +5,13 @@ import qs from 'query-string'
 import nameToSlug from './name-to-slug'
 import humanize from 'humanize-list'
 import {first, pickBy, isEmpty, isUndefined} from 'lodash'
+import {normalizeInstructorSlug} from './instructor-slug-aliases'
 
 export const CREATOR_DELINIATOR = 'resources-by'
 
 const nameSlugToName = (slug: string) => {
-  const nameSplit = slug.split('-')
+  const canonicalSlug = normalizeInstructorSlug(slug)
+  const nameSplit = canonicalSlug.split('-')
   if (nameSplit.length === 3) {
     nameSplit[1] = nameSplit[1].length === 1 ? `${nameSplit[1]}.` : nameSplit[1]
   }

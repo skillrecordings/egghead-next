@@ -1,4 +1,5 @@
 import {NextRequest, NextResponse} from 'next/server'
+import {normalizeInstructorSlug} from '@/lib/instructor-slug-aliases'
 
 const CREATOR_DELINIATOR = 'resources-by'
 const LEGACY_REFINEMENT_PATTERN = /^refinementList\[([^\]]+)\](?:\[(?:\d+)?\])?$/
@@ -38,13 +39,19 @@ const tagsForPath = (path = '') => {
   return tagsString.split('-and-').filter(Boolean).sort()
 }
 
-const instructorsForPath = (path = '') => {
+const rawInstructorsForPath = (path = '') => {
   const instructorSplit = path.split(`${CREATOR_DELINIATOR}-`)
   if (instructorSplit.length <= 1) return []
 
   return instructorSplit[instructorSplit.length - 1]
     .split('-and-')
     .filter(Boolean)
+    .sort()
+}
+
+const instructorsForPath = (path = '') => {
+  return rawInstructorsForPath(path)
+    .map((slug) => normalizeInstructorSlug(slug))
     .sort()
 }
 
@@ -83,8 +90,15 @@ const buildCanonicalSearchPath = ({
   const all = pathname === '/q' ? [] : pathname.replace(/^\/q\/?/, '').split('/')
   const firstPath = all.filter(Boolean)[0] ?? ''
   const {hasLegacyRefinements, refinements} = readLegacyRefinements(searchParams)
+  const rawInstructorSlugs = rawInstructorsForPath(firstPath)
+  const normalizedInstructorSlugs = rawInstructorSlugs.map((slug) =>
+    normalizeInstructorSlug(slug),
+  )
+  const hasInstructorAliasPath = rawInstructorSlugs.some(
+    (slug, index) => slug !== normalizedInstructorSlugs[index],
+  )
 
-  if (!hasLegacyRefinements) return null
+  if (!hasLegacyRefinements && !hasInstructorAliasPath) return null
 
   const tags = appendUnique(tagsForPath(firstPath), refinements._tags).sort()
   const instructors = appendUnique(
