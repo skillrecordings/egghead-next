@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Search from '@/components/search'
 import {NextSeo} from 'next-seo'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {withStaticPropsLogging} from '@/lib/logging'
 import qs from 'qs'
 import {createUrl, parseUrl, titleFromPath} from '@/lib/search-url-builder'
 import {isEmpty, get, first} from 'lodash'
@@ -27,7 +26,6 @@ import nameToSlug from '@/lib/name-to-slug'
 import Link from 'next/link'
 import {HOT_SEARCH_PATHS} from '@/lib/hot-search-paths'
 import {
-  getSearchPathFromAll,
   getSearchStateFromUrlParts,
   isLowCardinalitySearchPath,
 } from '@/lib/search-url-state'
@@ -43,7 +41,16 @@ const defaultProps = {
 }
 
 const SEARCH_REVALIDATE_SECONDS = 300
-const HOT_SEARCH_PATHS_SET = new Set(HOT_SEARCH_PATHS)
+const ALGOLIA_USER_TOKEN_WARNING_PREFIX =
+  '[algoliasearch-helper] The `userToken` parameter is invalid.'
+const getCanonicalSearchPath = (all: string[] = []) =>
+  createUrl(parseUrl(all.length > 0 ? {all} : {}))
+const HOT_SEARCH_PATHS_SET = new Set(
+  HOT_SEARCH_PATHS.map((path) => {
+    const all = path.replace(/^\/q\/?/, '').split('/').filter(Boolean)
+    return getCanonicalSearchPath(all)
+  }),
+)
 
 const getInstructorsFromSearchState = (searchState: any) => {
   return get(searchState, 'refinementList.instructor_name', []) as string[]
@@ -68,6 +75,27 @@ const getSearchResultsState = (serverState: any) => {
         state?: {query?: string}
       }
     | undefined
+}
+
+const withFilteredAlgoliaWarnings = async <T,>(fn: () => Promise<T>) => {
+  const originalWarn = console.warn
+  console.warn = (...args: unknown[]) => {
+    const [firstArg] = args
+    if (
+      typeof firstArg === 'string' &&
+      firstArg.startsWith(ALGOLIA_USER_TOKEN_WARNING_PREFIX)
+    ) {
+      return
+    }
+
+    originalWarn(...(args as Parameters<typeof console.warn>))
+  }
+
+  try {
+    return await fn()
+  } finally {
+    console.warn = originalWarn
+  }
 }
 
 type SearchIndexProps = {
@@ -253,10 +281,12 @@ export default SearchIndex
 
 const getStaticPathParamsForSearchPath = (path: string) => {
   const all = path.replace(/^\/q\/?/, '').split('/').filter(Boolean)
+  const canonicalPath = getCanonicalSearchPath(all)
+  const canonicalAll = canonicalPath.replace(/^\/q\/?/, '').split('/').filter(Boolean)
 
   return {
     params: {
-      all,
+      all: canonicalAll,
     },
   }
 }
@@ -269,14 +299,23 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }),
   )
 
+  const dedupedPaths = Array.from(
+    new Map(
+      HOT_SEARCH_PATHS.map((path) => {
+        const staticPath = getStaticPathParamsForSearchPath(path)
+        const key = (staticPath.params.all ?? []).join('/')
+        return [key, staticPath]
+      }),
+    ).values(),
+  )
+
   return {
-    paths: HOT_SEARCH_PATHS.map(getStaticPathParamsForSearchPath),
+    paths: dedupedPaths,
     fallback: 'blocking',
   }
 }
 
-export const getStaticProps: GetStaticProps = withStaticPropsLogging(
-  async function ({params}) {
+export const getStaticProps: GetStaticProps = async ({params}) => {
     const rawAll = params?.all
     const all = Array.isArray(rawAll) ? rawAll.filter(Boolean) : []
 
@@ -287,8 +326,8 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
       }
     }
 
-    const path = getSearchPathFromAll(all)
     const initialSearchState = parseUrl(all.length > 0 ? {all} : {})
+    const path = getCanonicalSearchPath(all)
     const selectedInstructors =
       getInstructorsFromSearchState(initialSearchState)
     const selectedTopics = topicExtractor(initialSearchState)
@@ -328,11 +367,10 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
         }
       }
 
-      const serverState = await getServerState(
-        <SearchIndex initialSearchState={initialSearchState} />,
-        {
+      const serverState = await withFilteredAlgoliaWarnings(() =>
+        getServerState(<SearchIndex initialSearchState={initialSearchState} />, {
           renderToString,
-        },
+        }),
       )
 
       const sanitizedServerState = sanitizeServerState(serverState)
@@ -427,5 +465,4 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
         revalidate: 60,
       }
     }
-  },
-)
+}
