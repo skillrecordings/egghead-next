@@ -37,7 +37,8 @@ import LifetimeSaleHeaderBanner from '@/components/cta/sale/lifetime-header-bann
 import WorkshopSaleHeaderBanner from '@/components/cta/sale/workshop-header-banner'
 import WorkshopEarlyBirdHeaderBanner from '@/components/cta/sale/workshop-early-bird-header-banner'
 import {trpc} from '@/app/_trpc/client'
-import type {LiveWorkshop} from '@/types'
+import {useHeaderBannerData} from './banner-context'
+import type {HeaderBannerData} from './banner-data'
 
 type NavLinkProps = {
   name: string
@@ -46,15 +47,6 @@ type NavLinkProps = {
   items?: NavLinkProps[]
   onClick?: () => void
   className?: string
-}
-
-type HeaderBannerData = {
-  lifetimeSaleEnabled: boolean
-  cursorWorkshopSaleEnabled: boolean
-  claudeCodeWorkshopSaleEnabled: boolean
-  cursorWorkshopEarlyBirdEnabled: boolean
-  cursorWorkshop: LiveWorkshop | null
-  claudeCodeWorkshop: LiveWorkshop | null
 }
 
 type HeaderBannerCacheEntry = {
@@ -358,6 +350,7 @@ const NavDropdown: React.FC<
 
 const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
   const {viewer, loading} = useViewer()
+  const providerBannerData = useHeaderBannerData()
 
   const pathname = usePathname() || ''
 
@@ -376,11 +369,15 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
     bannerCache &&
       Date.now() - bannerCache.cachedAt < HEADER_BANNER_CACHE_TTL_MS,
   )
+  const shouldUseFallbackBannerFetch =
+    bannerCache !== undefined &&
+    shouldLoadBanners &&
+    !providerBannerData &&
+    !hasFreshBannerCache
   const {data: fetchedBannerData} = trpc.featureFlag.headerBanners.useQuery(
     undefined,
     {
-      enabled:
-        bannerCache !== undefined && shouldLoadBanners && !hasFreshBannerCache,
+      enabled: shouldUseFallbackBannerFetch,
       staleTime: HEADER_BANNER_CACHE_TTL_MS,
       cacheTime: HEADER_BANNER_CACHE_TTL_MS,
       refetchOnWindowFocus: false,
@@ -388,6 +385,16 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
       refetchOnMount: false,
     },
   )
+
+  React.useEffect(() => {
+    if (providerBannerData) {
+      writeHeaderBannerCache(providerBannerData)
+      setBannerCache({
+        data: providerBannerData,
+        cachedAt: Date.now(),
+      })
+    }
+  }, [providerBannerData])
 
   React.useEffect(() => {
     if (fetchedBannerData) {
@@ -400,7 +407,8 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
   }, [fetchedBannerData])
 
   const bannerData = shouldLoadBanners
-    ? (fetchedBannerData as HeaderBannerData | undefined) ??
+    ? providerBannerData ??
+      (fetchedBannerData as HeaderBannerData | undefined) ??
       bannerCache?.data ??
       undefined
     : undefined

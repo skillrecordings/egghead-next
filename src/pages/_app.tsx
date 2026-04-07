@@ -26,6 +26,7 @@ import '@/utils/axios-request-id'
 
 import {PostHogProvider} from 'posthog-js/react'
 import PosthogClient from '@/lib/posthog-client'
+import {HeaderBannerProvider} from '@/components/app/header/banner-context'
 
 declare global {
   interface Window {
@@ -139,14 +140,18 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
             <CioProvider>
               <QueryClientProvider client={queryClient}>
                 <TrpcProvider>
-                  <PostHogProvider client={posthog}>
-                    <MDXProvider components={mdxComponents as any}>
-                      {getLayout(Component, pageProps)}
-                    </MDXProvider>
-                    <div className="print:hidden">
-                      <ReactQueryDevtools />
-                    </div>
-                  </PostHogProvider>
+                  <HeaderBannerProvider
+                    initialData={pageProps.headerBannerData}
+                  >
+                    <PostHogProvider client={posthog}>
+                      <MDXProvider components={mdxComponents as any}>
+                        {getLayout(Component, pageProps)}
+                      </MDXProvider>
+                      <div className="print:hidden">
+                        <ReactQueryDevtools />
+                      </div>
+                    </PostHogProvider>
+                  </HeaderBannerProvider>
                 </TrpcProvider>
               </QueryClientProvider>
             </CioProvider>

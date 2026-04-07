@@ -31,6 +31,7 @@ import {
   getSearchStateFromUrlParts,
   isLowCardinalitySearchPath,
 } from '@/lib/search-url-state'
+import {withHeaderBannerStaticProps} from '@/server/with-header-banner-props'
 
 const createURL = (state: any) => `?${qs.stringify(state)}`
 
@@ -276,7 +277,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = withStaticPropsLogging(
-  async function ({params}) {
+  withHeaderBannerStaticProps('/q/[[...all]]', async function ({params}) {
     const rawAll = params?.all
     const all = Array.isArray(rawAll) ? rawAll.filter(Boolean) : []
 
@@ -427,5 +428,5 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
         revalidate: 60,
       }
     }
-  },
+  }),
 )

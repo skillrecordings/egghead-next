@@ -18,6 +18,7 @@ import {loadResourcesForCourse} from '@/lib/course-resources'
 import type {CourseLessonShell} from '@/types'
 import {logEvent} from '@/utils/structured-log'
 import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
+import {withHeaderBannerServerSideProps} from '@/server/with-header-banner-props'
 const tracer = getTracer('course-page')
 
 type CourseProps = {
@@ -180,105 +181,108 @@ const getSlugFromPath = (path: string) => {
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
-  async ({res, req, params, query}) => {
-    setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-    const requestId = crypto.randomUUID()
-    res.setHeader('x-egghead-request-id', requestId)
-    const logContext = {
-      request_id: requestId,
-      route: '/courses/[course]',
-      page: 'course',
-      course_slug: params?.course as string,
-    }
-
-    try {
-      const courseSlugParam = params?.course as string
-
-      const canonicalRedirect = canonicalizeInternalQueryParams({
-        pathname: `/courses/${courseSlugParam}`,
-        query,
-        omitKeys: ['course'],
-      })
-
-      if (canonicalRedirect) {
-        setCourseCacheHeaders(res, 'internal_query_params')
-        return {
-          redirect: {
-            destination: canonicalRedirect.destination,
-            permanent: false,
-          },
-        }
+  withHeaderBannerServerSideProps(
+    '/courses/[course]',
+    async ({res, req, params, query}) => {
+      setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+      const requestId = crypto.randomUUID()
+      res.setHeader('x-egghead-request-id', requestId)
+      const logContext = {
+        request_id: requestId,
+        route: '/courses/[course]',
+        page: 'course',
+        course_slug: params?.course as string,
       }
 
-      const course = await loadPublicCourseShell(courseSlugParam, logContext)
+      try {
+        const courseSlugParam = params?.course as string
 
-      if (!course) {
-        throw new Error(
-          `Unable to load public course shell for ${courseSlugParam}`,
-        )
-      }
+        const canonicalRedirect = canonicalizeInternalQueryParams({
+          pathname: `/courses/${courseSlugParam}`,
+          query,
+          omitKeys: ['course'],
+        })
 
-      const fullLessons = await loadResourcesForCourse(
-        {
-          slug: courseSlugParam,
-        },
-        logContext,
-      )
-
-      const resolvedCourse = course
-      const cachePolicy = 'public-swr'
-      const cacheBlocker: string | null = null
-
-      const courseSlug = getSlugFromPath(resolvedCourse?.path)
-      if (resolvedCourse && courseSlug !== params?.course) {
-        return {
-          redirect: {
-            destination: resolvedCourse.path,
-            permanent: true,
-          },
+        if (canonicalRedirect) {
+          setCourseCacheHeaders(res, 'internal_query_params')
+          return {
+            redirect: {
+              destination: canonicalRedirect.destination,
+              permanent: false,
+            },
+          }
         }
-      } else {
-        setCourseCacheHeaders(res, cacheBlocker)
-        logEvent(
-          'info',
-          'page.cache.policy',
+
+        const course = await loadPublicCourseShell(courseSlugParam, logContext)
+
+        if (!course) {
+          throw new Error(
+            `Unable to load public course shell for ${courseSlugParam}`,
+          )
+        }
+
+        const fullLessons = await loadResourcesForCourse(
           {
-            route: '/courses/[course]',
-            course_slug: courseSlugParam,
-            policy: cachePolicy,
-            cache_blocker: cacheBlocker,
+            slug: courseSlugParam,
+          },
+          logContext,
+        )
+
+        const resolvedCourse = course
+        const cachePolicy = 'public-swr'
+        const cacheBlocker: string | null = null
+
+        const courseSlug = getSlugFromPath(resolvedCourse?.path)
+        if (resolvedCourse && courseSlug !== params?.course) {
+          return {
+            redirect: {
+              destination: resolvedCourse.path,
+              permanent: true,
+            },
+          }
+        } else {
+          setCourseCacheHeaders(res, cacheBlocker)
+          logEvent(
+            'info',
+            'page.cache.policy',
+            {
+              route: '/courses/[course]',
+              course_slug: courseSlugParam,
+              policy: cachePolicy,
+              cache_blocker: cacheBlocker,
+            },
+            logContext,
+          )
+
+          return {
+            props: {
+              course: {
+                ...resolvedCourse,
+                sections: resolvedCourse?.sections ?? null,
+              },
+              fullLessons,
+            },
+          }
+        }
+      } catch (e) {
+        logEvent(
+          'warn',
+          'course.ssr.catch',
+          {
+            course_slug: params?.course as string,
+            has_token: Boolean(req.cookies[ACCESS_TOKEN_KEY]),
+            error_message: sanitizeErrorMessage(e),
           },
           logContext,
         )
 
         return {
-          props: {
-            course: {
-              ...resolvedCourse,
-              sections: resolvedCourse?.sections ?? null,
-            },
-            fullLessons,
+          redirect: {
+            destination: '/',
+            permanent: false,
           },
         }
       }
-    } catch (e) {
-      logEvent(
-        'warn',
-        'course.ssr.catch',
-        {
-          course_slug: params?.course as string,
-          has_token: Boolean(req.cookies[ACCESS_TOKEN_KEY]),
-          error_message: sanitizeErrorMessage(e),
-        },
-        logContext,
-      )
-
-      return {
-        redirect: {
-          destination: '/',
-          permanent: false,
-        },
-      }
-    }
-  },
+    },
+  ),
 )
