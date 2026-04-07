@@ -19,18 +19,22 @@ const SearchKentCDodds = ({instructor}: any) => {
     epicReactCaseStudy,
   } = instructor
 
-  const [primaryCourse, secondCourse] = courses.resources
+  const courseResources = courses?.resources ?? []
+  const collectionResources = collection?.resources ?? []
+  const [primaryCourse] = courseResources
 
   return (
     <div className="max-w-screen-xl mx-auto">
       <SearchInstructorEssential
         instructor={instructor}
         CTAComponent={
-          <CtaCard
-            resource={primaryCourse}
-            trackTitle="clicked instructor landing page CTA resource"
-            location="Kent C. Dodds instructor page"
-          />
+          primaryCourse ? (
+            <CtaCard
+              resource={primaryCourse}
+              trackTitle="clicked instructor landing page CTA resource"
+              location="Kent C. Dodds instructor page"
+            />
+          ) : undefined
         }
       />
       <section className="mt-4 mb-10 flex sm:flex-nowrap flex-wrap flex-shrink justify-between gap-4 xl:px-0 px-5">
@@ -69,11 +73,11 @@ const SearchKentCDodds = ({instructor}: any) => {
 
       <section className="xl:px-0 px-5">
         <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-          {collection.title}
+          {collection?.title ?? 'Featured Collection'}
         </h2>
-        <p className="max-w-md">{collection.description}</p>
+        <p className="max-w-md">{collection?.description ?? ''}</p>
         <div className="flex sm:flex-nowrap flex-wrap gap-4 my-12">
-          {collection.resources.map((resource: any) => {
+          {collectionResources.map((resource: any) => {
             return (
               <VerticalResourceCard
                 resource={resource}
