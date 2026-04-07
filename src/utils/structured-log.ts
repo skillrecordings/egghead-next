@@ -6,6 +6,7 @@ export type LogContext = {
   page?: string
   course_slug?: string
   lesson_slug?: string
+  suppress_info_logs?: boolean
 }
 
 const SAMPLE_RATE = Number(process.env.EGGHEAD_LOG_SAMPLE_RATE ?? '1')
@@ -24,6 +25,9 @@ export function logEvent(
   context: LogContext = {},
 ): void {
   try {
+    if (context.suppress_info_logs && (level === 'debug' || level === 'info')) {
+      return
+    }
     if (!shouldSample(level)) return
     const payload = {
       event,
