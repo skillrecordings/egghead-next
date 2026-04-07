@@ -155,8 +155,6 @@ export async function getCourseBuilderLesson(
       return null
     }
 
-    console.log('lessonRow from getCourseBuilderLesson', lessonRow)
-
     // Parse fields if they are JSON strings
     const lessonFields =
       typeof lessonRow.fields === 'string'
