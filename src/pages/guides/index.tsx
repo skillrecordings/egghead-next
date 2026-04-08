@@ -16,9 +16,7 @@ export const getStaticProps: GetStaticProps = async () => {
     sections: [
       {
         title: 'Latest Guides',
-        resources: guides.filter(
-          (guide) => guide.state === 'published' && guide,
-        ),
+        resources: guides.filter((guide) => guide.state === 'published'),
       },
     ],
   }

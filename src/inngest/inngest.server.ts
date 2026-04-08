@@ -60,7 +60,10 @@ import {
   WORKSHOP_QUOTE_REQUEST_EVENT,
   WorkshopQuoteRequest,
 } from './events/workshop-quote-request'
-import {GUIDE_PUBLISHED_EVENT, GuidePublished} from './events/guide-published'
+import {
+  GUIDE_PUBLISHED_EVENT,
+  GuidePublished,
+} from '@/inngest/events/guide-published'
 
 type Events = {
   [MUX_WEBHOOK_EVENT]: MuxWebhook
