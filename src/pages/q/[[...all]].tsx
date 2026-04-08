@@ -3,15 +3,13 @@ import singletonRouter from 'next/router'
 import Image from 'next/image'
 import Search from '@/components/search'
 import {NextSeo} from 'next-seo'
-import {GetServerSideProps} from 'next'
-import {withSSRLogging} from '@/lib/logging'
+import {GetStaticPaths, GetStaticProps} from 'next'
+import {withStaticPropsLogging} from '@/lib/logging'
 import qs from 'qs'
 import {createUrl, parseUrl, titleFromPath} from '@/lib/search-url-builder'
 import {isEmpty, get, first} from 'lodash'
 import queryParamsPresent from '@/utils/query-params-present'
 import {loadInstructor} from '@/lib/instructors'
-import getTracer from '@/utils/honeycomb-tracer'
-import {setupHttpTracing} from '@/utils/tracing-js/dist/src/'
 import Header from '@/components/app/header'
 import Main from '@/components/app/main'
 import Footer from '@/components/app/footer'
@@ -27,21 +25,57 @@ import {
 } from '@/utils/typesense'
 import nameToSlug from '@/lib/name-to-slug'
 import Link from 'next/link'
-import crypto from 'crypto'
-import {getRedis} from '@/lib/upstash-redis'
-import {withTimeout} from '@/utils/with-timeout'
-
-const tracer = getTracer('search-page')
+import {HOT_SEARCH_PATHS} from '@/lib/hot-search-paths'
+import {
+  getSearchStateFromUrlParts,
+  isLowCardinalitySearchPath,
+} from '@/lib/search-url-state'
+import {withHeaderBannerStaticProps} from '@/server/with-header-banner-props'
 
 const createURL = (state: any) => `?${qs.stringify(state)}`
 
-export const typesenseAdapter = typesenseInstantsearchAdapter()
+const typesenseAdapterInit = (() => {
+  try {
+    return typesenseInstantsearchAdapter()
+  } catch (error) {
+    console.error(
+      JSON.stringify({
+        event: 'search.typesense.init.error',
+        error: error instanceof Error ? error.message : String(error),
+      }),
+    )
+    return null
+  }
+})()
+
+export const typesenseAdapter =
+  typesenseAdapterInit ??
+  ({
+    typesenseClient: null,
+    clearCache: () => undefined,
+    updateConfiguration: () => undefined,
+    searchClient: {
+      search: async () => ({results: []}),
+      searchForFacetValues: async () => ({facetHits: []}),
+    },
+  } as unknown as ReturnType<typeof typesenseInstantsearchAdapter>)
 
 const searchClient = typesenseAdapter.searchClient
+const typesenseConfigured = typesenseAdapterInit !== null
 
 const defaultProps = {
   searchClient,
 }
+
+const SEARCH_REVALIDATE_SECONDS = 300
+const getCanonicalSearchPath = (all: string[] = []) =>
+  createUrl(parseUrl(all.length > 0 ? {all} : {}))
+const HOT_SEARCH_PATHS_SET = new Set(
+  HOT_SEARCH_PATHS.map((path) => {
+    const all = path.replace(/^\/q\/?/, '').split('/').filter(Boolean)
+    return getCanonicalSearchPath(all)
+  }),
+)
 
 const getInstructorsFromSearchState = (searchState: any) => {
   return get(searchState, 'refinementList.instructor_name', []) as string[]
@@ -51,46 +85,21 @@ const getInstructorSlugFromInstructorList = (instructors: string[]) => {
   return nameToSlug(first(instructors) as string).toLowerCase()
 }
 
-// KV cache for expensive `getServerState` results. Longer TTL is safe because:
-// - search results are not user-specific
-// - Typesense updates are not instant-critical
-const SEARCH_SSR_CACHE_TTL_SECONDS = 600
-const SEARCH_SSR_CACHE_PREFIX = 'search:ssr'
-
-/**
- * Deep-stable stringify for cache keys.
- *
- * The previous implementation used `JSON.stringify(value, Object.keys(value).sort())`
- * which only keeps top-level keys. Nested objects became `{}` which caused key
- * collisions and incorrect SSR payload reuse.
- */
-const stableJson = (value: any) => {
-  const normalize = (v: any): any => {
-    if (v === undefined) return undefined
-    if (v === null) return null
-    if (Array.isArray(v)) return v.map(normalize)
-    if (typeof v !== 'object') return v
-
-    // Only sort plain objects; keep other objects (Date, etc) as-is.
-    const proto = Object.getPrototypeOf(v)
-    if (proto !== Object.prototype && proto !== null) return v
-
-    const out: Record<string, unknown> = {}
-    for (const key of Object.keys(v).sort()) {
-      const child = normalize(v[key])
-      if (child === undefined) continue
-      out[key] = child
-    }
-    return out
-  }
-
-  return JSON.stringify(normalize(value))
+const sanitizeServerState = (serverState: any) => {
+  return JSON.parse(
+    JSON.stringify(serverState, (_, value) =>
+      value === undefined ? null : value,
+    ),
+  )
 }
 
-const cacheKeyForQuery = (query: any) => {
-  const base = stableJson(query || {})
-  const hash = crypto.createHash('sha1').update(base).digest('hex')
-  return `${SEARCH_SSR_CACHE_PREFIX}:${hash}`
+const getSearchResultsState = (serverState: any) => {
+  return Object.values(serverState?.initialResults ?? {})[0] as
+    | {
+        results?: unknown[]
+        state?: {query?: string}
+      }
+    | undefined
 }
 
 type SearchIndexProps = {
@@ -119,6 +128,8 @@ const SearchIndex: any = ({
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
   const [noIndex, setNoIndex] = React.useState(noIndexInitial)
+  const [effectiveServerState, setEffectiveServerState] =
+    React.useState(serverState)
   const debouncedState = React.useRef<any>(null)
   const instructorCache = React.useRef<Map<string, any>>(new Map())
   const lastInstructorSlug = React.useRef<string | null>(null)
@@ -127,6 +138,24 @@ const SearchIndex: any = ({
     initialTopicSanityData,
     searchState,
   )
+
+  React.useEffect(() => {
+    const currentUrl = new URL(window.location.href)
+    const currentSearchState = getSearchStateFromUrlParts({
+      pathname: currentUrl.pathname,
+      searchParams: currentUrl.searchParams,
+    })
+
+    if (createUrl(currentSearchState) !== createUrl(initialSearchState)) {
+      setSearchState(currentSearchState)
+      setEffectiveServerState(null)
+    }
+
+    if (queryParamsPresent(window.location.href)) {
+      setNoIndex(true)
+      setEffectiveServerState(null)
+    }
+  }, [initialSearchState])
 
   if (error) {
     return (
@@ -224,7 +253,7 @@ const SearchIndex: any = ({
           site_name: 'egghead',
         }}
       />
-      <InstantSearchSSRProvider {...serverState}>
+      <InstantSearchSSRProvider {...effectiveServerState}>
         <Search
           {...defaultProps}
           {...customProps}
@@ -254,204 +283,95 @@ SearchIndex.getLayout = (Page: any, pageProps: any) => {
 
 export default SearchIndex
 
-export const getServerSideProps: GetServerSideProps = withSSRLogging(
-  async ({req, query, res}) => {
-    setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-    // Search is high-cardinality but non-user-specific. Give the CDN more time
-    // so repeated queries have a chance to hit.
-    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=3600')
-    const {all = [], ...rest} = query
+const getStaticPathParamsForSearchPath = (path: string) => {
+  const all = path.replace(/^\/q\/?/, '').split('/').filter(Boolean)
+  const canonicalPath = getCanonicalSearchPath(all)
+  const canonicalAll = canonicalPath.replace(/^\/q\/?/, '').split('/').filter(Boolean)
 
-    if (all[0] === 'undefined') return {props: {error: 'no search query'}}
+  return {
+    params: {
+      all: canonicalAll,
+    },
+  }
+}
 
-    const initialSearchState = parseUrl(query)
+export const getStaticPaths: GetStaticPaths = async () => {
+  console.log(
+    JSON.stringify({
+      event: 'search.static_paths.generated',
+      count: HOT_SEARCH_PATHS.length,
+    }),
+  )
+
+  const dedupedPaths = Array.from(
+    new Map(
+      HOT_SEARCH_PATHS.map((path) => {
+        const staticPath = getStaticPathParamsForSearchPath(path)
+        const key = (staticPath.params.all ?? []).join('/')
+        return [key, staticPath]
+      }),
+    ).values(),
+  )
+
+  return {
+    paths: dedupedPaths,
+    fallback: 'blocking',
+  }
+}
+
+export const getStaticProps: GetStaticProps = withStaticPropsLogging(
+  withHeaderBannerStaticProps('/q/[[...all]]', async function ({params}) {
+    const rawAll = params?.all
+    const all = Array.isArray(rawAll) ? rawAll.filter(Boolean) : []
+
+    if (all[0] === 'undefined') {
+      return {
+        notFound: true,
+        revalidate: 60,
+      }
+    }
+
+    const initialSearchState = parseUrl(all.length > 0 ? {all} : {})
+    const path = getCanonicalSearchPath(all)
     const selectedInstructors =
       getInstructorsFromSearchState(initialSearchState)
     const selectedTopics = topicExtractor(initialSearchState)
-    const pageTitle = titleFromPath(all as string[])
-    const path = req.url
+    const pageTitle = titleFromPath(all)
+    const isHotStaticPath = HOT_SEARCH_PATHS_SET.has(path)
+    const isLowCardinalityBrowse =
+      isLowCardinalitySearchPath(initialSearchState)
+    const shouldGenerateServerState = isHotStaticPath || isLowCardinalityBrowse
 
-    // Canonicalize: strip Next/Vercel "nxtP*" params that explode cache keys.
-    // This improves CDN hit rate without changing the rendered content.
     try {
-      const url = new URL(req.url || '/q', 'https://egghead.io')
-      const nxtPKeys: string[] = []
-      for (const key of url.searchParams.keys()) {
-        if (key.startsWith('nxtP')) nxtPKeys.push(key)
-      }
-      if (nxtPKeys.length > 0) {
-        nxtPKeys.forEach((k) => {
-          url.searchParams.delete(k)
-        })
+      if (!typesenseConfigured) {
         return {
-          redirect: {
-            destination: `${url.pathname}${url.search}`,
-            permanent: false,
+          props: {
+            error: 'Search service unavailable',
+            initialSearchState,
+            path,
+            serverState: null,
+            pageTitle,
+            noIndexInitial: true,
+            initialInstructor: null,
+            initialTopicGraphqlData: null,
+            initialTopicSanityData: null,
           },
-        }
-      }
-    } catch {
-      // never crash on URL parsing
-    }
-
-    try {
-      const redis = getRedis()
-
-      const SEARCH_SSR_TIMEOUT_MS = 5000
-
-      const allowedQueryKeys = new Set([
-        'q',
-        'type',
-        'access_state',
-        'page',
-        'sortBy',
-      ])
-      const weirdKeys = Object.keys(rest || {}).filter(
-        (k) => !allowedQueryKeys.has(k),
-      )
-
-      const qValue =
-        typeof rest.q === 'string'
-          ? rest.q
-          : Array.isArray(rest.q)
-          ? rest.q.join(' ')
-          : ''
-      const hasQ = qValue.trim().length > 0
-      const qLen = qValue.length
-
-      const pageNumber = Number(rest.page ?? 1)
-      const hasNonFirstPage = Number.isFinite(pageNumber) && pageNumber > 1
-      const hasSortBy =
-        typeof rest.sortBy === 'string' && rest.sortBy.trim().length > 0
-
-      // Our `/q/<path>` URLs can encode multiple tags/instructors (combinatorial explosion).
-      // SSR'ing those pages is expensive and produces near-zero cache reuse.
-      const topicsCount = Array.isArray(selectedTopics)
-        ? selectedTopics.filter((t) => t && t !== 'undefined').length
-        : 0
-      const instructorsCount = Array.isArray(selectedInstructors)
-        ? selectedInstructors.length
-        : 0
-      const isLowCardinalityBrowse = topicsCount + instructorsCount <= 1
-
-      // "Browse-mode" only: we SSR/cached only when this is low-cardinality.
-      // Free-text search is huge cardinality, so skip expensive `getServerState`
-      // and let the client InstantSearch fetch.
-      const shouldSkipSsr =
-        hasQ ||
-        weirdKeys.length > 0 ||
-        hasNonFirstPage ||
-        hasSortBy ||
-        !isLowCardinalityBrowse
-      const cacheable = !shouldSkipSsr
-
-      const cacheKey = cacheKeyForQuery(initialSearchState)
-
-      let sanitizedServerState: any | null = null
-      let cacheStatus: 'hit' | 'miss' | 'error' | 'skip' = 'miss'
-      let bytes: number | null = null
-      let setOk: boolean | null = null
-      let skipReason:
-        | 'has_q'
-        | 'weird_keys'
-        | 'non_first_page'
-        | 'has_sort_by'
-        | 'high_cardinality_path'
-        | null = null
-
-      if (shouldSkipSsr) {
-        cacheStatus = 'skip'
-        if (hasQ) skipReason = 'has_q'
-        else if (weirdKeys.length > 0) skipReason = 'weird_keys'
-        else if (hasNonFirstPage) skipReason = 'non_first_page'
-        else if (hasSortBy) skipReason = 'has_sort_by'
-        else if (!isLowCardinalityBrowse) skipReason = 'high_cardinality_path'
-      } else if (redis) {
-        try {
-          const cached = await redis.get(cacheKey)
-          if (cached) {
-            sanitizedServerState = cached
-            cacheStatus = 'hit'
-          }
-        } catch {
-          // fail open if Redis is unavailable
-          cacheStatus = 'error'
+          revalidate: 60,
         }
       }
 
-      if (!sanitizedServerState && !shouldSkipSsr) {
-        // Get server state and sanitize it for serialization
-        const serverStatePromise = getServerState(
-          <SearchIndex initialSearchState={initialSearchState} />,
-          {
-            renderToString,
-          },
-        )
-
-        const serverState = await withTimeout(
-          serverStatePromise,
-          SEARCH_SSR_TIMEOUT_MS,
-          () => new Error('Typesense request timed out'),
-        )
-
-        // Sanitize the serverState to remove undefined values
-        sanitizedServerState = JSON.parse(
-          JSON.stringify(serverState, (_, value) =>
-            value === undefined ? null : value,
-          ),
-        )
-
-        try {
-          if (redis) {
-            const json = JSON.stringify(sanitizedServerState)
-            bytes = Buffer.byteLength(json, 'utf8')
-
-            // Guardrail: don't try to shove huge payloads into Redis.
-            // (Upstash/Vercel KV commonly limit value sizes around ~1MB.)
-            const MAX_BYTES = 900_000
-            if (bytes <= MAX_BYTES && cacheable) {
-              await redis.set(cacheKey, sanitizedServerState, {
-                ex: SEARCH_SSR_CACHE_TTL_SECONDS,
-              })
-              setOk = true
-            } else {
-              setOk = false
-            }
-          }
-        } catch {
-          // ignore cache set failures
-          setOk = false
-        }
-      }
-
-      try {
+      if (!shouldGenerateServerState) {
         console.log(
           JSON.stringify({
-            event: 'search_ssr_cache',
-            status: cacheStatus,
-            cacheable,
-            has_q: hasQ,
-            q_len: qLen,
-            weird_keys_count: weirdKeys.length,
-            non_first_page: hasNonFirstPage,
-            has_sort_by: hasSortBy,
-            tags_count: topicsCount,
-            instructors_count: instructorsCount,
-            skip_reason: skipReason,
-            bytes,
-            set_ok: setOk,
-            ttl_s: SEARCH_SSR_CACHE_TTL_SECONDS,
-            key_prefix: SEARCH_SSR_CACHE_PREFIX,
-            cache_key: cacheKey,
+            event: 'search.static_props.skip',
             path,
+            hot_static_path: isHotStaticPath,
+            low_cardinality_browse: isLowCardinalityBrowse,
+            skip_reason: 'high_cardinality_path',
+            ok: true,
           }),
         )
-      } catch {
-        // logging must never crash
-      }
 
-      if (!sanitizedServerState) {
-        // Skip SSR Typesense entirely (high-cardinality) and let the client fetch.
         return {
           props: {
             error: '',
@@ -459,30 +379,35 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
             path,
             serverState: null,
             pageTitle,
-            // free-text queries (and weird params) are noindex by default
             noIndexInitial: true,
             initialInstructor: null,
             initialTopicGraphqlData: null,
             initialTopicSanityData: null,
           },
+          revalidate: SEARCH_REVALIDATE_SECONDS,
         }
       }
 
-      const resultsState = Object.keys(sanitizedServerState.initialResults).map(
-        (key) => sanitizedServerState.initialResults[key],
-      )[0]
+      const serverState = await getServerState(
+        <SearchIndex initialSearchState={initialSearchState} />,
+        {
+          renderToString,
+        },
+      )
 
-      const {results, state} = resultsState
+      const sanitizedServerState = sanitizeServerState(serverState)
+      const resultsState = getSearchResultsState(sanitizedServerState)
+      const results = resultsState?.results ?? []
+      const state = resultsState?.state
 
       let initialInstructor = null
       let initialTopicGraphqlData = null
       let initialTopicSanityData = null
 
       const noHits = isEmpty(get(first(results), 'hits'))
-      const queryParamsPresent = !isEmpty(rest)
       const userQueryPresent = !isEmpty(state?.query)
-
-      const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
+      const noIndexInitial =
+        noHits || userQueryPresent || !isLowCardinalityBrowse
 
       if (
         selectedTopics?.length === 1 &&
@@ -512,23 +437,41 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         }
       }
 
+      console.log(
+        JSON.stringify({
+          event: 'search.static_props.generated',
+          path,
+          hot_static_path: isHotStaticPath,
+          low_cardinality_browse: isLowCardinalityBrowse,
+          no_index: noIndexInitial,
+          ok: true,
+        }),
+      )
+
       return {
         props: {
+          error: '',
           initialSearchState,
           path,
-          serverState: sanitizedServerState, // Use sanitized version
+          serverState: sanitizedServerState,
           pageTitle,
           noIndexInitial,
           initialInstructor,
           ...(!!initialTopicGraphqlData && {initialTopicGraphqlData}),
           ...(!!initialTopicSanityData && {initialTopicSanityData}),
         },
+        revalidate: SEARCH_REVALIDATE_SECONDS,
       }
     } catch (error) {
-      console.error('Search error:', error)
+      console.error(
+        JSON.stringify({
+          event: 'search.static_props.error',
+          path,
+          ok: false,
+          error: error instanceof Error ? error.message : String(error),
+        }),
+      )
 
-      // Return minimal props with error information
-      // This allows the component to render but in a fallback state
       return {
         props: {
           error: 'Search service unavailable',
@@ -541,7 +484,8 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
           initialTopicGraphqlData: null,
           initialTopicSanityData: null,
         },
+        revalidate: 60,
       }
     }
-  },
+  }),
 )

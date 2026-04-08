@@ -3,7 +3,7 @@ import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {cookies} from 'next/headers'
 import fetchEggheadUser from '@/api/egghead/users/from-token'
 import {Providers} from '../providers'
-import Header from '@/components/app/header'
+import ServerHeaderShell from '@/components/app/header/server-header-shell'
 import Main from '@/components/app/app-main'
 import Footer from '@/components/app/app-footer'
 import '@/styles/index.css'
@@ -32,7 +32,7 @@ export default async function UserPageLayout({
       <body>
         <div className="flex flex-col min-h-screen">
           <Providers>
-            <Header />
+            <ServerHeaderShell route="/user" />
             <Main>
               <UserLayout
                 isTeamAccountOwner={isTeamAccountOwner}

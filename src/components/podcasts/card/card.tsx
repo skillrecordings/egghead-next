@@ -1,9 +1,9 @@
 import React, {FunctionComponent} from 'react'
-import {PodcastResource} from '@/types'
+import type {PodcastCardResource} from '@/lib/podcasts'
 import Image from 'next/legacy/image'
 
 type PodcastCardProps = {
-  podcast: PodcastResource
+  podcast: PodcastCardResource
 }
 
 const IMAGE_SIZE = 220

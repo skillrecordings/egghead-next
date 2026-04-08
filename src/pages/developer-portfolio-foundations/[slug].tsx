@@ -9,6 +9,7 @@ import {MDXRemote} from 'next-mdx-remote'
 import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
 import rehypeHighlight from 'rehype-highlight'
+import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
 
 const PortfolioFoundationsArticle: React.FC<React.PropsWithChildren<any>> = ({
   source,
@@ -31,8 +32,22 @@ const PortfolioFoundationsArticle: React.FC<React.PropsWithChildren<any>> = ({
 export default PortfolioFoundationsArticle
 
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
-  async function ({params, res}) {
+  async function ({params, res, query}) {
     if (params?.slug) {
+      const canonicalRedirect = canonicalizeInternalQueryParams({
+        pathname: `/developer-portfolio-foundations/${params.slug}`,
+        query,
+        omitKeys: ['slug'],
+      })
+
+      if (canonicalRedirect) {
+        return {
+          redirect: {
+            destination: canonicalRedirect.destination,
+            permanent: false,
+          },
+        }
+      }
       try {
         const articleQuery = groq`
     *[_type == 'resource' && slug.current == 'portfolio-foundations'][0]{

@@ -2,7 +2,29 @@ import {NextResponse} from 'next/server'
 import {
   CIO_IDENTIFIER_KEY as CIO_COOKIE_KEY,
   CIO_CUSTOMER_OBJECT_KEY,
-} from '../config'
+} from '@/config'
+
+const YEAR_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365
+const TWO_DAY_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 2
+
+const buildCookieOptions = (
+  maxAge: number,
+  sameSite: 'lax' | 'strict' = 'strict',
+) => {
+  const domain = process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN
+
+  return {
+    maxAge,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite,
+    path: '/',
+    ...(domain ? {domain} : {}),
+  }
+}
+
+export const getCioIdentifierCookieOptions = () => {
+  return buildCookieOptions(YEAR_COOKIE_MAX_AGE_SECONDS, 'lax')
+}
 
 export function clearCustomerCookie(res: NextResponse) {
   res.cookies.delete(CIO_COOKIE_KEY)
@@ -11,22 +33,16 @@ export function clearCustomerCookie(res: NextResponse) {
 
 export function setCustomerCookie(res: NextResponse, customer: any) {
   if (customer?.id) {
-    res.cookies.set(CIO_COOKIE_KEY, customer.id, {
-      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year in milliseconds
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
-    })
+    res.cookies.set(CIO_COOKIE_KEY, customer.id, getCioIdentifierCookieOptions())
   }
 
   if (customer) {
     const {id, attributes} = customer
-    res.cookies.set(CIO_CUSTOMER_OBJECT_KEY, JSON.stringify({id, attributes}), {
-      maxAge: 1000 * 60 * 60 * 24 * 2, // 2 days in milliseconds
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
-    })
+    res.cookies.set(
+      CIO_CUSTOMER_OBJECT_KEY,
+      JSON.stringify({id, attributes}),
+      buildCookieOptions(TWO_DAY_COOKIE_MAX_AGE_SECONDS),
+    )
   }
 }
 

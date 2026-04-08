@@ -1,5 +1,5 @@
 import React from 'react'
-import {usePlayerPrefs} from '@skillrecordings/player'
+import {usePlayerPrefs} from '@/player'
 import classNames from 'classnames'
 
 const AutoplayControl = () => {

@@ -37,6 +37,8 @@ import LifetimeSaleHeaderBanner from '@/components/cta/sale/lifetime-header-bann
 import WorkshopSaleHeaderBanner from '@/components/cta/sale/workshop-header-banner'
 import WorkshopEarlyBirdHeaderBanner from '@/components/cta/sale/workshop-early-bird-header-banner'
 import {trpc} from '@/app/_trpc/client'
+import {useHeaderBannerData} from './banner-context'
+import type {HeaderBannerData} from './banner-data'
 
 type NavLinkProps = {
   name: string
@@ -45,6 +47,46 @@ type NavLinkProps = {
   items?: NavLinkProps[]
   onClick?: () => void
   className?: string
+}
+
+type HeaderBannerCacheEntry = {
+  data: HeaderBannerData
+  cachedAt: number
+}
+
+const HEADER_BANNER_CACHE_KEY = 'egghead:header-banners:v1'
+const HEADER_BANNER_CACHE_TTL_MS = 15 * 60 * 1000
+
+function readHeaderBannerCache(): HeaderBannerCacheEntry | null {
+  if (typeof window === 'undefined') return null
+
+  try {
+    const raw = window.localStorage.getItem(HEADER_BANNER_CACHE_KEY)
+    if (!raw) return null
+
+    const parsed = JSON.parse(raw) as HeaderBannerCacheEntry | null
+    if (!parsed?.data || !parsed?.cachedAt) return null
+
+    return parsed
+  } catch {
+    return null
+  }
+}
+
+function writeHeaderBannerCache(data: HeaderBannerData) {
+  if (typeof window === 'undefined') return
+
+  try {
+    window.localStorage.setItem(
+      HEADER_BANNER_CACHE_KEY,
+      JSON.stringify({
+        data,
+        cachedAt: Date.now(),
+      } satisfies HeaderBannerCacheEntry),
+    )
+  } catch {
+    // Ignore storage failures.
+  }
 }
 
 const navLinks = [
@@ -308,20 +350,68 @@ const NavDropdown: React.FC<
 
 const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
   const {viewer, loading} = useViewer()
+  const providerBannerData = useHeaderBannerData()
 
   const pathname = usePathname() || ''
 
   const isSearch = pathname.includes('/q')
 
+  const [bannerCache, setBannerCache] = React.useState<
+    HeaderBannerCacheEntry | null | undefined
+  >(undefined)
+
+  React.useEffect(() => {
+    setBannerCache(readHeaderBannerCache())
+  }, [])
+
   const shouldLoadBanners = !loading && !viewer?.is_instructor
-  const {data: bannerData} = trpc.featureFlag.headerBanners.useQuery(
+  const hasFreshBannerCache = Boolean(
+    bannerCache &&
+      Date.now() - bannerCache.cachedAt < HEADER_BANNER_CACHE_TTL_MS,
+  )
+  const shouldUseFallbackBannerFetch =
+    bannerCache !== undefined &&
+    shouldLoadBanners &&
+    !providerBannerData &&
+    !hasFreshBannerCache
+  const {data: fetchedBannerData} = trpc.featureFlag.headerBanners.useQuery(
     undefined,
     {
-      enabled: shouldLoadBanners,
-      staleTime: 60_000,
+      enabled: shouldUseFallbackBannerFetch,
+      staleTime: HEADER_BANNER_CACHE_TTL_MS,
+      cacheTime: HEADER_BANNER_CACHE_TTL_MS,
       refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
     },
   )
+
+  React.useEffect(() => {
+    if (providerBannerData) {
+      writeHeaderBannerCache(providerBannerData)
+      setBannerCache({
+        data: providerBannerData,
+        cachedAt: Date.now(),
+      })
+    }
+  }, [providerBannerData])
+
+  React.useEffect(() => {
+    if (fetchedBannerData) {
+      writeHeaderBannerCache(fetchedBannerData as HeaderBannerData)
+      setBannerCache({
+        data: fetchedBannerData as HeaderBannerData,
+        cachedAt: Date.now(),
+      })
+    }
+  }, [fetchedBannerData])
+
+  const bannerData = shouldLoadBanners
+    ? providerBannerData ??
+      (fetchedBannerData as HeaderBannerData | undefined) ??
+      bannerCache?.data ??
+      undefined
+    : undefined
 
   const [activeCTA, setActiveCTA] = React.useState<any>(null)
   React.useEffect(() => {

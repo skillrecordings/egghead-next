@@ -1,5 +1,24 @@
 import {NextResponse} from 'next/server'
-import {EGGHEAD_USER_COOKIE_KEY} from '../config'
+import {ACCESS_TOKEN_KEY, EGGHEAD_USER_COOKIE_KEY} from '../config'
+
+const authCookieOptions = {
+  domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+  path: '/',
+  secure: process.env.NODE_ENV === 'production',
+}
+
+function expireCookie(
+  res: NextResponse,
+  name: string,
+  sameSite: 'lax' | 'strict',
+) {
+  res.cookies.set(name, '', {
+    ...authCookieOptions,
+    sameSite,
+    expires: new Date(0),
+    maxAge: 0,
+  })
+}
 
 export function setUserCookie(res: NextResponse, user: any) {
   if (user) {
@@ -15,5 +34,9 @@ export function setUserCookie(res: NextResponse, user: any) {
 }
 
 export function clearUserCookie(res: NextResponse) {
-  res.cookies.delete(EGGHEAD_USER_COOKIE_KEY)
+  expireCookie(res, EGGHEAD_USER_COOKIE_KEY, 'strict')
+}
+
+export function clearAccessTokenCookie(res: NextResponse) {
+  expireCookie(res, ACCESS_TOKEN_KEY, 'lax')
 }

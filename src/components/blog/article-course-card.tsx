@@ -13,7 +13,7 @@ const ArticleCourseCard: React.FC<
       <HorizontalResourceCard
         resource={{
           name: 'check out this course',
-          byline: `${data.instructor.full_name}`,
+          byline: data.instructor?.full_name ?? '',
           slug: data.slug,
           title: data.title,
           path: data.path,

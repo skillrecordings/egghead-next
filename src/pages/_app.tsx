@@ -12,7 +12,6 @@ import '@reach/tabs/styles.css'
 import '../styles/index.css'
 import 'highlight.js/styles/night-owl.css'
 import 'focus-visible'
-import {FacebookPixel} from '@/components/facebook-pixel'
 import {CioProvider} from '@/hooks/use-cio'
 import {LogRocketProvider} from '@/hooks/use-logrocket'
 import RouteLoadingIndicator from '@/components/route-loading-indicator'
@@ -27,11 +26,11 @@ import '@/utils/axios-request-id'
 
 import {PostHogProvider} from 'posthog-js/react'
 import PosthogClient from '@/lib/posthog-client'
+import {HeaderBannerProvider} from '@/components/app/header/banner-context'
 
 declare global {
   interface Window {
     _cio: any
-    fbq: any
     becomeUser: any
     ga: any
     gtag: any
@@ -127,7 +126,6 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
   return (
     <>
       <RouteLoadingIndicator isRouteChanging={state.isRouteChanging} />
-      <FacebookPixel />
       <DefaultSeo {...defaultSeoConfig} />
       <SocialProfileJsonLd
         type="Organization"
@@ -142,14 +140,18 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
             <CioProvider>
               <QueryClientProvider client={queryClient}>
                 <TrpcProvider>
-                  <PostHogProvider client={posthog}>
-                    <MDXProvider components={mdxComponents as any}>
-                      {getLayout(Component, pageProps)}
-                    </MDXProvider>
-                    <div className="print:hidden">
-                      <ReactQueryDevtools />
-                    </div>
-                  </PostHogProvider>
+                  <HeaderBannerProvider
+                    initialData={pageProps.headerBannerData}
+                  >
+                    <PostHogProvider client={posthog}>
+                      <MDXProvider components={mdxComponents as any}>
+                        {getLayout(Component, pageProps)}
+                      </MDXProvider>
+                      <div className="print:hidden">
+                        <ReactQueryDevtools />
+                      </div>
+                    </PostHogProvider>
+                  </HeaderBannerProvider>
                 </TrpcProvider>
               </QueryClientProvider>
             </CioProvider>

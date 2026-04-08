@@ -12,8 +12,8 @@ import {HorizontalResourceCard} from '@/components/card/horizontal-resource-card
 export default function SearchHirokoNishimura({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
   const {courses, projects} = instructor
-  const primaryProject = projects.resources
-  const [primaryCourse, secondaryCourse] = courses.resources
+  const primaryProject = projects?.resources
+  const [primaryCourse, secondaryCourse] = courses?.resources ?? []
   const location = 'Hiroko Nishimura instructor page'
 
   return (
@@ -21,27 +21,35 @@ export default function SearchHirokoNishimura({instructor}: {instructor: any}) {
       <SearchInstructorEssential
         instructor={combinedInstructor}
         CTAComponent={
-          <FeaturedCourse resource={primaryCourse} location={location} />
+          primaryCourse ? (
+            <FeaturedCourse resource={primaryCourse} location={location} />
+          ) : undefined
         }
       />
 
-      <section>
-        <h2 className="sm:px-5 px-3 my-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
-          Featured Resources
-        </h2>
-        <div className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-3 px-5 md:px-0">
-          <HorizontalResourceCard
-            resource={primaryProject}
-            location={location}
-            className="md:w-2/5"
-          />
-          <HorizontalResourceCard
-            resource={secondaryCourse}
-            location={location}
-            className="md:w-3/5"
-          />
-        </div>
-      </section>
+      {(primaryProject || secondaryCourse) && (
+        <section>
+          <h2 className="sm:px-5 px-3 my-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+            Featured Resources
+          </h2>
+          <div className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-3 px-5 md:px-0">
+            {primaryProject && (
+              <HorizontalResourceCard
+                resource={primaryProject}
+                location={location}
+                className="md:w-2/5"
+              />
+            )}
+            {secondaryCourse && (
+              <HorizontalResourceCard
+                resource={secondaryCourse}
+                location={location}
+                className="md:w-3/5"
+              />
+            )}
+          </div>
+        </section>
+      )}
     </div>
   )
 }
@@ -63,8 +71,7 @@ export const hirokoNishimuraQuery = groq`*[_type == 'resource' && slug.current =
 	'projects': resources[slug.current == 'instructor-landing-page-projects'][0]{
     resources[0]{
       title,
-      'path': url,
-      path,
+      'path': coalesce(url, path),
       description,
       image,
       byline

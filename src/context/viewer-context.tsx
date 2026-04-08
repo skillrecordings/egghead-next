@@ -43,7 +43,7 @@ export function useViewer() {
 export const ViewerContext = React.createContext(defaultViewerContext)
 
 function useAuthedViewer() {
-  const [viewer, setViewer] = React.useState<any>(auth.getLocalUser())
+  const [viewer, setViewer] = React.useState<any>(null)
   const viewerId = get(viewer, 'id', null)
   const [loading, setLoading] = React.useState(true)
   const [loggingOut, setLoggingOut] = React.useState(false)
@@ -62,10 +62,6 @@ function useAuthedViewer() {
   useAffiliateAssigner(viewerId, getAccessTokenFromCookie())
 
   React.useEffect(() => {
-    setViewer(auth.getLocalUser())
-  }, [])
-
-  React.useEffect(() => {
     previousViewer.current = viewer
   })
 
@@ -76,7 +72,6 @@ function useAuthedViewer() {
     const accessToken = get(queryHash, 'access_token')
     const noAccessTokenFound = isEmpty(accessToken)
     const viewerIsPresent = !isEmpty(viewerId)
-    const authToken = getAccessTokenFromCookie()
 
     if (loggingOut) {
       const doLogout = async () => {
@@ -89,8 +84,9 @@ function useAuthedViewer() {
       return
     }
 
-    // Prevent infinite loop: if we've already failed auth (403), don't retry
-    if (authFailed) {
+    // Prevent infinite loop for the same failed session, but still allow
+    // fresh auth flows (magic-link hash, become-user, or a newly-set cookie).
+    if (authFailed && noAccessTokenFound && !viewAsUser && !authToken) {
       setLoading(false)
       return
     }
@@ -104,36 +100,11 @@ function useAuthedViewer() {
 
     let viewerMonitorIntervalId: number | undefined
 
-    const loadViewerFromStorage = async () => {
-      const localViewer = auth.getLocalUser()
-
-      if (localViewer) {
-        if (!isEqual(localViewer.id, viewerId)) {
-          setViewer(localViewer)
-        }
-        setLoading(() => false)
-      }
-
-      auth.refreshUser().then((newViewer: any) => {
-        // If newViewer is null after refresh, the token was invalid (403)
-        // Mark auth as failed to prevent infinite retry loops
-        if (!newViewer) {
-          setAuthFailed(true)
-          setViewer(null)
-          setLoading(() => false)
-          return
-        }
-        if (!isEqual(newViewer.id, viewerId)) {
-          setViewer(newViewer)
-        }
-        setLoading(() => false)
-      })
-    }
-
-    const clearAccessToken = () => {
-      if (!isEmpty(accessToken)) {
-        window.history.replaceState({}, document.title, '.')
-      }
+    const clearStaleViewer = async () => {
+      await auth.clearLocalStorage()
+      setAuthFailed(false)
+      setViewer(null)
+      setLoading(false)
     }
 
     const setViewerOnInterval = () => {
@@ -151,27 +122,30 @@ function useAuthedViewer() {
     }
 
     const loadViewerFromToken = async () => {
-      const localViewer = auth.getLocalUser()
+      setLoading(true)
 
-      if (localViewer) {
-        if (!isEqual(localViewer.id, viewerId)) {
-          setViewer(localViewer)
-        }
-        setLoading(() => false)
-      }
-      auth.handleAccessTokenAuthentication(authToken).then((viewer: any) => {
-        // If viewer is null/undefined after auth attempt, the token was invalid (403)
-        // Mark auth as failed to prevent infinite retry loops
-        if (!viewer) {
+      try {
+        const validatedViewer = await auth.refreshUser(true, authToken)
+        if (!validatedViewer) {
           setAuthFailed(true)
+          setViewer(null)
+          setLoading(false)
+          return
         }
-        setViewer(viewer)
-        setLoading(() => false)
-      })
+
+        setAuthFailed(false)
+        setViewer(validatedViewer)
+      } catch {
+        setAuthFailed(true)
+        setViewer(null)
+      } finally {
+        setLoading(false)
+      }
     }
 
     const loadBecomeViewer = async () => {
       auth.becomeUser(viewAsUser, accessToken)?.then((viewer) => {
+        setAuthFailed(!viewer)
         setViewer(viewer)
         setLoading(() => false)
       })
@@ -182,20 +156,29 @@ function useAuthedViewer() {
     } else if (authToken) {
       loadViewerFromToken()
     } else if (viewerIsPresent) {
-      loadViewerFromStorage()
-      clearAccessToken()
+      clearStaleViewer()
     } else if (noAccessTokenFound) {
       viewerMonitorIntervalId = auth.monitor(setViewerOnInterval)
       setLoading(() => false)
     } else {
-      auth.handleAuthentication().then((viewer: any) => {
-        setViewer(viewer)
-        setLoading(() => false)
-      })
+      setLoading(true)
+      auth
+        .handleAuthentication()
+        .then((viewer: any) => {
+          setAuthFailed(!viewer)
+          setViewer(viewer ?? null)
+        })
+        .catch(() => {
+          setAuthFailed(true)
+          setViewer(null)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     }
 
     return clearUserMonitorInterval
-  }, [viewerId, loggingOut, authFailed])
+  }, [viewerId, loggingOut, authFailed, authToken])
 
   React.useEffect(() => {
     window.becomeUser = auth.becomeUser
@@ -205,24 +188,50 @@ function useAuthedViewer() {
     authToken: string,
     expiresInSeconds: string,
   ) => {
-    const authenticatedUser = await auth.handleAccessTokenAuthentication(
-      authToken,
-      expiresInSeconds,
-    )
-    setViewer(authenticatedUser)
+    setLoading(true)
+
+    try {
+      const authenticatedUser = await auth.handleAccessTokenAuthentication(
+        authToken,
+        expiresInSeconds,
+      )
+      setAuthFailed(!authenticatedUser)
+      setViewer(authenticatedUser ?? null)
+    } catch {
+      setAuthFailed(true)
+      setViewer(null)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const [ability, setAbility] = React.useState(canDoNothingAbility)
   React.useEffect(() => {
+    let cancelled = false
+
     const fetchAbility = async (authToken: string) => {
-      const ability = await getAbilityFromToken(authToken)
-      setAbility(ability)
+      try {
+        const nextAbility = await getAbilityFromToken(authToken)
+        if (!cancelled) {
+          setAbility(nextAbility)
+        }
+      } catch {
+        if (!cancelled) {
+          setAbility(canDoNothingAbility)
+        }
+      }
     }
 
-    if (authToken) {
+    if (authToken && viewer) {
       fetchAbility(authToken)
+    } else {
+      setAbility(canDoNothingAbility)
     }
-  }, [authToken])
+
+    return () => {
+      cancelled = true
+    }
+  }, [authToken, viewer])
 
   const values = React.useMemo(
     () => ({
@@ -240,7 +249,7 @@ function useAuthedViewer() {
       refreshUser: auth.refreshUser,
       ability,
     }),
-    [viewer, loading, authToken],
+    [viewer, loading, authToken, ability],
   )
 
   return values
@@ -253,7 +262,10 @@ export const ViewerProvider: FunctionComponent<
 
   return (
     <ViewerContext.Provider
-      value={{...values, authenticated: values.isAuthenticated()}}
+      value={{
+        ...values,
+        authenticated: Boolean(values.isAuthenticated() && values.viewer),
+      }}
     >
       {children}
     </ViewerContext.Provider>

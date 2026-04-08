@@ -1,6 +1,7 @@
 import {AbilityBuilder, Ability, defineAbility} from '@casl/ability'
 import {intersection, isString} from 'lodash'
 import {loadCurrentViewerRoles} from '../lib/viewer'
+import {logEvent} from '@/utils/structured-log'
 
 export type Actions = 'manage' | 'view' | 'download' | 'upload' | 'create'
 export type Subjects =
@@ -44,11 +45,33 @@ type LessonPermissionContext = {
   freeStreamingPromo?: boolean
 }
 
-const PUBLIC_MEDIA_STATES = ['published', 'retired', 'flagged', 'revised']
+const PUBLIC_MEDIA_STATES = [
+  'published',
+  'approved',
+  'retired',
+  'flagged',
+  'revised',
+]
 
 export async function getAbilityFromToken(token?: string) {
-  const viewerRoles = await loadCurrentViewerRoles(token)
-  return defineAbilityFor(viewerRoles)
+  if (!token) {
+    return canDoNothingAbility
+  }
+
+  try {
+    const viewerRoles = await loadCurrentViewerRoles(token)
+    return defineAbilityFor(viewerRoles)
+  } catch (error: any) {
+    if (typeof window === 'undefined') {
+      logEvent('warn', 'auth.viewer_roles.failed_soft', {
+        degraded_to_anon: true,
+        has_token: Boolean(token),
+        status: error?.response?.status ?? null,
+      })
+    }
+
+    return canDoNothingAbility
+  }
 }
 
 /**
@@ -100,8 +123,8 @@ export function canViewLessonMedia(
   lesson: LessonLike,
   context: LessonPermissionContext = {},
 ) {
-  const ability = context.ability
   const roles = context.roles ?? []
+  const ability = context.ability ?? defineAbilityFor(roles)
   const isContentTester =
     context.isContentTester ?? includesRoles(roles, 'content_tester')
   const isBasic = context.isBasic ?? includesRoles(roles, 'basic')
@@ -110,31 +133,33 @@ export function canViewLessonMedia(
     context.isInstructor ?? includesRoles(roles, 'instructor')
 
   if (context.freeStreamingPromo) return true
-  if (ability?.can('manage', 'all')) return true
+  if (ability.can('manage', 'all')) return true
   if (context.canPublish) return true
   if (isContentTester) return true
   if (context.hasSellablePurchase) return true
-  if (ability?.can('view', 'LessonMedia')) return true
+  if (ability.can('view', 'LessonMedia')) return true
 
   const lessonState = lesson.state ?? null
   if (!lessonState || !PUBLIC_MEDIA_STATES.includes(lessonState)) return false
 
   if (!lesson.is_pro_content || lesson.free_forever) return true
   if (lesson.collection?.free_forever) return true
-  if (isBasic || isPro || isInstructor) return true
+  if (isBasic || isPro || isInstructor || ability.can('view', 'Lesson')) {
+    return true
+  }
 
   return false
 }
 
 export function canDownloadLesson(
-  lesson: LessonLike,
+  _lesson: LessonLike, // Reserved for future lesson-specific checks.
   context: LessonPermissionContext = {},
 ) {
-  const ability = context.ability
+  const ability = context.ability ?? defineAbilityFor(context.roles ?? [])
 
-  if (ability?.can('manage', 'all')) return true
+  if (ability.can('manage', 'all')) return true
   if (context.hasSellablePurchase) return true
-  if (ability?.can('download', 'Lesson')) return true
+  if (ability.can('download', 'Lesson')) return true
   if (context.canPublish) return true
 
   return false
