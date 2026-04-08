@@ -1,25 +1,23 @@
 import * as React from 'react'
 import {loadPublicCourseShell} from '@/lib/playlists'
-import {GetServerSideProps} from 'next'
-import {withSSRLogging} from '@/lib/logging'
+import {GetStaticPaths, GetStaticProps} from 'next'
 import CollectionPageLayout from '@/components/layouts/collection-page-layout'
 import MultiModuleCollectionPageLayout from '@/components/layouts/multi-module-collection-page-layout'
 import PhpCollectionPageLayout from '@/components/layouts/php-collection-page-layout'
 import ScrimbaPageLayout from '@/components/layouts/scrimba-course-layout'
 import filter from 'lodash/filter'
 import get from 'lodash/get'
-import getTracer from '@/utils/honeycomb-tracer'
-import crypto from 'crypto'
-import {setupHttpTracing} from '@/utils/tracing-js/dist/src'
 import courseDependencies from '@/data/courseDependencies'
-import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import {useViewer} from '@/context/viewer-context'
 import {loadResourcesForCourse} from '@/lib/course-resources'
+import {
+  HOT_CONTENT_SLUGS_GENERATED_AT,
+  HOT_CONTENT_SLUGS_WINDOW,
+  HOT_COURSE_SLUGS,
+} from '@/lib/hot-content-slugs'
 import type {CourseLessonShell} from '@/types'
 import {logEvent} from '@/utils/structured-log'
-import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
-import {withHeaderBannerServerSideProps} from '@/server/with-header-banner-props'
-const tracer = getTracer('course-page')
+import {withHeaderBannerStaticProps} from '@/server/with-header-banner-props'
 
 type CourseProps = {
   course: any
@@ -32,8 +30,7 @@ type CourseAuthedBits = {
   rss_url?: string | null
 }
 
-const PUBLIC_PAGE_CACHE_CONTROL =
-  'public, s-maxage=300, stale-while-revalidate=3600'
+const COURSE_REVALIDATE_SECONDS = 3600
 
 const loadCourseAuthedBitsClient = async (
   slug: string,
@@ -51,15 +48,6 @@ const loadCourseAuthedBitsClient = async (
   return Object.keys(playlist ?? {}).length > 0 ? playlist : null
 }
 
-const setCourseCacheHeaders = (
-  res: {setHeader: (name: string, value: string) => void},
-  blocker: string | null = null,
-) => {
-  res.setHeader('Cache-Control', PUBLIC_PAGE_CACHE_CONTROL)
-  res.setHeader('x-egghead-cache-scope', 'public-swr')
-  res.setHeader('x-egghead-cache-blocker', blocker ?? 'none')
-}
-
 function sanitizeErrorMessage(error: unknown) {
   if (error == null) return null
 
@@ -72,6 +60,51 @@ function sanitizeErrorMessage(error: unknown) {
   return oneLine.length > maxLength
     ? `${oneLine.slice(0, maxLength)}...`
     : oneLine
+}
+
+const getStaticPathSummaryPayload = () => ({
+  generated_at: HOT_CONTENT_SLUGS_GENERATED_AT,
+  window: HOT_CONTENT_SLUGS_WINDOW,
+  requested_count: HOT_COURSE_SLUGS.length,
+  prebuilt_count: 0,
+  render_mode: 'isr',
+})
+
+const getStaticPropsLogContext = (courseSlug?: string) => ({
+  route: '/courses/[course]',
+  page: 'course',
+  course_slug: courseSlug,
+})
+
+const logCourseStaticPropsRender = ({
+  courseSlug,
+  durationMs,
+  ok,
+  isNotFound = false,
+  isRedirect = false,
+  error,
+}: {
+  courseSlug?: string
+  durationMs: number
+  ok: boolean
+  isNotFound?: boolean
+  isRedirect?: boolean
+  error?: string
+}) => {
+  logEvent(
+    ok ? 'info' : 'error',
+    'static_props.render',
+    {
+      params: courseSlug ? `course=${courseSlug}` : '',
+      duration_ms: durationMs,
+      ok,
+      is_not_found: isNotFound,
+      is_redirect: isRedirect,
+      render_mode: 'isr',
+      ...(error ? {error} : {}),
+    },
+    getStaticPropsLogContext(courseSlug),
+  )
 }
 
 const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
@@ -180,109 +213,141 @@ const getSlugFromPath = (path: string) => {
   return path.split('/').pop()
 }
 
-export const getServerSideProps: GetServerSideProps = withSSRLogging(
-  withHeaderBannerServerSideProps(
-    '/courses/[course]',
-    async ({res, req, params, query}) => {
-      setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-      const requestId = crypto.randomUUID()
-      res.setHeader('x-egghead-request-id', requestId)
-      const logContext = {
-        request_id: requestId,
-        route: '/courses/[course]',
-        page: 'course',
-        course_slug: params?.course as string,
+export const getStaticPaths: GetStaticPaths = async () => {
+  logEvent('info', 'course.static_paths.summary', getStaticPathSummaryPayload())
+
+  return {
+    paths: [],
+    fallback: 'blocking',
+  }
+}
+
+export const getStaticProps: GetStaticProps = withHeaderBannerStaticProps(
+  '/courses/[course]',
+  async function ({params}) {
+    const start = performance.now()
+    const courseSlugParam = params?.course as string | undefined
+
+    if (!courseSlugParam) {
+      logCourseStaticPropsRender({
+        durationMs: Math.round(performance.now() - start),
+        ok: true,
+        isNotFound: true,
+      })
+
+      return {
+        notFound: true,
+        revalidate: 60,
       }
+    }
 
-      try {
-        const courseSlugParam = params?.course as string
+    const logContext = {
+      ...getStaticPropsLogContext(courseSlugParam),
+      render_mode: 'isr',
+      suppress_info_logs: true,
+    }
 
-        const canonicalRedirect = canonicalizeInternalQueryParams({
-          pathname: `/courses/${courseSlugParam}`,
-          query,
-          omitKeys: ['course'],
-        })
+    try {
+      const course = await loadPublicCourseShell(courseSlugParam, logContext)
 
-        if (canonicalRedirect) {
-          setCourseCacheHeaders(res, 'internal_query_params')
-          return {
-            redirect: {
-              destination: canonicalRedirect.destination,
-              permanent: false,
-            },
-          }
-        }
-
-        const course = await loadPublicCourseShell(courseSlugParam, logContext)
-
-        if (!course) {
-          throw new Error(
-            `Unable to load public course shell for ${courseSlugParam}`,
-          )
-        }
-
-        const fullLessons = await loadResourcesForCourse(
-          {
-            slug: courseSlugParam,
-          },
-          logContext,
-        )
-
-        const resolvedCourse = course
-        const cachePolicy = 'public-swr'
-        const cacheBlocker: string | null = null
-
-        const courseSlug = getSlugFromPath(resolvedCourse?.path)
-        if (resolvedCourse && courseSlug !== params?.course) {
-          return {
-            redirect: {
-              destination: resolvedCourse.path,
-              permanent: true,
-            },
-          }
-        } else {
-          setCourseCacheHeaders(res, cacheBlocker)
-          logEvent(
-            'info',
-            'page.cache.policy',
-            {
-              route: '/courses/[course]',
-              course_slug: courseSlugParam,
-              policy: cachePolicy,
-              cache_blocker: cacheBlocker,
-            },
-            logContext,
-          )
-
-          return {
-            props: {
-              course: {
-                ...resolvedCourse,
-                sections: resolvedCourse?.sections ?? null,
-              },
-              fullLessons,
-            },
-          }
-        }
-      } catch (e) {
+      if (!course) {
         logEvent(
           'warn',
-          'course.ssr.catch',
+          'course.static_props.not_found',
           {
-            course_slug: params?.course as string,
-            has_token: Boolean(req.cookies[ACCESS_TOKEN_KEY]),
-            error_message: sanitizeErrorMessage(e),
+            course_slug: courseSlugParam,
+            render_mode: 'isr',
           },
           logContext,
         )
+
+        logCourseStaticPropsRender({
+          courseSlug: courseSlugParam,
+          durationMs: Math.round(performance.now() - start),
+          ok: true,
+          isNotFound: true,
+        })
+
+        return {
+          notFound: true,
+          revalidate: 300,
+        }
+      }
+
+      const fullLessons = await loadResourcesForCourse(
+        {
+          slug: courseSlugParam,
+        },
+        logContext,
+      )
+
+      const resolvedCourseSlug = getSlugFromPath(course.path)
+
+      if (resolvedCourseSlug !== courseSlugParam) {
+        logEvent(
+          'warn',
+          'course.static_props.redirect_slug',
+          {
+            course_slug: courseSlugParam,
+            canonical_slug: resolvedCourseSlug,
+            canonical_path: course.path,
+            render_mode: 'isr',
+          },
+          logContext,
+        )
+
+        logCourseStaticPropsRender({
+          courseSlug: courseSlugParam,
+          durationMs: Math.round(performance.now() - start),
+          ok: true,
+          isRedirect: true,
+        })
 
         return {
           redirect: {
-            destination: '/',
-            permanent: false,
+            destination: course.path,
+            permanent: true,
           },
+          revalidate: 60,
         }
       }
-    },
-  ),
+
+      logCourseStaticPropsRender({
+        courseSlug: courseSlugParam,
+        durationMs: Math.round(performance.now() - start),
+        ok: true,
+      })
+
+      return {
+        props: {
+          course: {
+            ...course,
+            sections: course?.sections ?? null,
+          },
+          fullLessons,
+        },
+        revalidate: COURSE_REVALIDATE_SECONDS,
+      }
+    } catch (error) {
+      logEvent(
+        'error',
+        'course.static_props.error',
+        {
+          course_slug: courseSlugParam,
+          render_mode: 'isr',
+          error_message: sanitizeErrorMessage(error),
+        },
+        logContext,
+      )
+
+      logCourseStaticPropsRender({
+        courseSlug: courseSlugParam,
+        durationMs: Math.round(performance.now() - start),
+        ok: false,
+        error: sanitizeErrorMessage(error) ?? 'unknown error',
+      })
+
+      throw error
+    }
+  },
 )

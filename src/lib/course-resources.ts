@@ -30,6 +30,10 @@ type RailsPlaylistResponse = {
   }
 }
 
+const DateStringSchema = z
+  .union([z.string(), z.date()])
+  .transform((value) => (value instanceof Date ? value.toISOString() : value))
+
 const PgCourseLessonRowSchema = z.object({
   id: z.number(),
   slug: z.string(),
@@ -37,9 +41,9 @@ const PgCourseLessonRowSchema = z.object({
   description: z.string().nullable(),
   duration: z.number().nullable(),
   thumb_url: z.string().nullable(),
-  published_at: z.string().nullable(),
-  updated_at: z.string().nullable(),
-  created_at: z.string().nullable(),
+  published_at: DateStringSchema.nullable(),
+  updated_at: DateStringSchema.nullable(),
+  created_at: DateStringSchema.nullable(),
   free_forever: z.boolean().nullable(),
   state: z.string().nullable(),
   type: z.string().nullable(),

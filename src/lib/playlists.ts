@@ -104,6 +104,11 @@ type AuthedCourseBits = {
   rss_url?: string | null
 } | null
 
+function serializeDateLike(value: unknown): string | undefined {
+  if (!value) return undefined
+  return value instanceof Date ? value.toISOString() : String(value)
+}
+
 function toPaperclipPartition(id: number) {
   const normalized = String(id).padStart(9, '0')
   return `${normalized.slice(0, 3)}/${normalized.slice(
@@ -167,9 +172,9 @@ function mapLessonShell(row: {
     type: row.lesson_type ?? 'lesson',
     duration: row.lesson_duration ?? 0,
     thumb_url: row.lesson_thumb_url ?? undefined,
-    created_at: row.lesson_created_at ?? undefined,
-    updated_at: row.lesson_updated_at ?? undefined,
-    published_at: row.lesson_published_at ?? undefined,
+    created_at: serializeDateLike(row.lesson_created_at),
+    updated_at: serializeDateLike(row.lesson_updated_at),
+    published_at: serializeDateLike(row.lesson_published_at),
   }
 }
 
@@ -527,9 +532,9 @@ async function loadPgPublicCourseShell(slug: string, logContext: LogContext) {
     url: `https://egghead.io/courses/${core.slug}`,
     duration: core.duration ?? 0,
     type: 'playlist',
-    created_at: core.created_at,
-    updated_at: core.updated_at,
-    published_at: core.published_at,
+    created_at: serializeDateLike(core.created_at),
+    updated_at: serializeDateLike(core.updated_at),
+    published_at: serializeDateLike(core.published_at),
     access_state: core.access_state,
     visibility_state: core.visibility_state,
     state: core.state,
