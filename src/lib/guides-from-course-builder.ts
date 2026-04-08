@@ -1,24 +1,6 @@
-import * as mysql from 'mysql2/promise'
-import {ConnectionOptions, RowDataPacket, Pool} from 'mysql2/promise'
+import {RowDataPacket} from 'mysql2/promise'
+import {getPool} from '@/lib/db'
 import type {Guide, GuideSection, GuideResource} from '@/schemas/guide'
-
-const access: ConnectionOptions = {
-  uri: process.env.COURSE_BUILDER_DATABASE_URL,
-}
-
-let connectionPool: Pool | null = null
-
-function getConnectionPool(): Pool {
-  if (!connectionPool) {
-    connectionPool = mysql.createPool({
-      ...access,
-      waitForConnections: true,
-      connectionLimit: 10,
-      queueLimit: 0,
-    })
-  }
-  return connectionPool
-}
 
 function parseFields(row: RowDataPacket): Record<string, any> {
   return typeof row.fields === 'string' ? JSON.parse(row.fields) : row.fields
@@ -36,7 +18,7 @@ export async function getGuidesFromCourseBuilder(): Promise<Guide[]> {
     return []
   }
 
-  const pool = getConnectionPool()
+  const pool = getPool()
   let conn
 
   try {
@@ -95,7 +77,7 @@ export async function getGuideFromCourseBuilder(
     return null
   }
 
-  const pool = getConnectionPool()
+  const pool = getPool()
   let conn
 
   try {
@@ -137,74 +119,77 @@ export async function getGuideFromCourseBuilder(
       [guideId],
     )
 
-    // For each section, fetch its child resources
-    const activeConn = conn
-    const sections: GuideSection[] = await Promise.all(
-      sectionRows.map(async (sectionRow) => {
-        const sectionFields = parseFields(sectionRow)
-        const sectionId = sectionRow.id
+    // Batch-fetch all resources for all sections in one query
+    const sectionIds = sectionRows.map((row) => row.id)
+    const resourcesBySectionId = new Map<string, GuideResource[]>()
 
-        const [resourceRows] = await activeConn.execute<RowDataPacket[]>(
-          `SELECT cr_resource.*, crr.position, crr.metadata
-           FROM egghead_ContentResourceResource crr
-           JOIN egghead_ContentResource cr_resource ON crr.resourceId = cr_resource.id
-           WHERE crr.resourceOfId = ?
-           ORDER BY crr.position ASC`,
-          [sectionId],
-        )
+    if (sectionIds.length > 0) {
+      const [allResourceRows] = await conn.query<RowDataPacket[]>(
+        `SELECT cr_resource.*, crr.position, crr.metadata, crr.resourceOfId
+         FROM egghead_ContentResourceResource crr
+         JOIN egghead_ContentResource cr_resource ON crr.resourceId = cr_resource.id
+         WHERE crr.resourceOfId IN (?)
+         ORDER BY crr.position ASC`,
+        [sectionIds],
+      )
 
-        const resources: GuideResource[] = resourceRows.map(
-          (resourceRow: RowDataPacket) => {
-            const resourceFields = parseFields(resourceRow)
-            const resourceSlug = resourceFields.slug?.split('~')[0] ?? null
+      for (const resourceRow of allResourceRows) {
+        const resourceFields = parseFields(resourceRow)
+        const resourceSlug = resourceFields.slug?.split('~')[0] ?? null
 
-            // Parse join-row metadata for path/type overrides
-            const metadata = resourceRow.metadata
-              ? typeof resourceRow.metadata === 'string'
-                ? JSON.parse(resourceRow.metadata)
-                : resourceRow.metadata
-              : {}
+        // Parse join-row metadata for path/type overrides
+        const metadata = resourceRow.metadata
+          ? typeof resourceRow.metadata === 'string'
+            ? JSON.parse(resourceRow.metadata)
+            : resourceRow.metadata
+          : {}
 
-            // Determine resource type - metadata overrides CB type mapping
-            const resourceType = metadata.type
-              ? (metadata.type as GuideResource['type'])
-              : mapResourceType(resourceRow.type, resourceFields.postType)
+        // Determine resource type - metadata overrides CB type mapping
+        const resourceType = metadata.type
+          ? (metadata.type as GuideResource['type'])
+          : mapResourceType(resourceRow.type, resourceFields.postType)
 
-            // Path priority: metadata > resource fields > null
-            const resourcePath = metadata.path ?? resourceFields.path ?? null
+        // Path priority: metadata > resource fields > null
+        const resourcePath = metadata.path ?? resourceFields.path ?? null
 
-            return {
-              _id: resourceRow.id,
-              title: resourceFields.title ?? 'Untitled',
-              description:
-                metadata.description ??
-                resourceFields.description ??
-                resourceFields.summary ??
-                null,
-              type: resourceType,
-              slug: resourceSlug,
-              image: metadata.image ?? resourceFields.image ?? null,
-              url: resourceFields.url ?? null,
-              path: resourcePath,
-              lessonCount:
-                metadata.lessonCount ?? resourceFields.totalLessons ?? null,
-              instructor:
-                metadata.instructor ?? resourceFields.instructor ?? null,
-              firstLesson:
-                metadata.firstLesson ?? resourceFields.firstLesson ?? null,
-            } satisfies GuideResource
-          },
-        )
+        const resource: GuideResource = {
+          _id: resourceRow.id,
+          title: resourceFields.title ?? 'Untitled',
+          description:
+            metadata.description ??
+            resourceFields.description ??
+            resourceFields.summary ??
+            null,
+          type: resourceType,
+          slug: resourceSlug,
+          image: metadata.image ?? resourceFields.image ?? null,
+          url: resourceFields.url ?? null,
+          path: resourcePath,
+          lessonCount:
+            metadata.lessonCount ?? resourceFields.totalLessons ?? null,
+          instructor: metadata.instructor ?? resourceFields.instructor ?? null,
+          firstLesson:
+            metadata.firstLesson ?? resourceFields.firstLesson ?? null,
+        }
 
-        return {
-          _id: sectionRow.id,
-          title: sectionFields.title ?? 'Untitled Section',
-          type: 'collection',
-          description: sectionFields.description ?? null,
-          resources,
-        } satisfies GuideSection
-      }),
-    )
+        const parentId = resourceRow.resourceOfId
+        if (!resourcesBySectionId.has(parentId)) {
+          resourcesBySectionId.set(parentId, [])
+        }
+        resourcesBySectionId.get(parentId)!.push(resource)
+      }
+    }
+
+    const sections: GuideSection[] = sectionRows.map((sectionRow) => {
+      const sectionFields = parseFields(sectionRow)
+      return {
+        _id: sectionRow.id,
+        title: sectionFields.title ?? 'Untitled Section',
+        type: 'collection',
+        description: sectionFields.description ?? null,
+        resources: resourcesBySectionId.get(sectionRow.id) ?? [],
+      } satisfies GuideSection
+    })
 
     const guideSlug = guideFields.slug?.split('~')[0] ?? null
 
