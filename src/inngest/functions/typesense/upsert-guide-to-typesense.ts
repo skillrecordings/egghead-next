@@ -37,16 +37,7 @@ const client = new Typesense.Client({
   connectionTimeoutSeconds: 2,
 })
 
-export const guideSchema = z.object({
-  guideId: z.string(),
-  title: z.string(),
-  description: z.string().optional(),
-  slug: z.string(),
-  path: z.string(),
-  image: z.string().optional(),
-  createdAt: z.string().optional(),
-  updatedAt: z.string(),
-})
+export const guideSchema = GuidePublishedEventSchema
 
 function transformGuideData(data: z.infer<typeof guideSchema>) {
   return {
@@ -81,12 +72,21 @@ export const upsertGuideToTypesense = inngest.createFunction(
   {event: GUIDE_PUBLISHED_EVENT},
   async ({event, step}) => {
     await step.run('upsert-guide', async () => {
-      return syncWithSearchProvider(
-        guideSchema,
-        event.data,
-        syncToTypeSense,
-        transformGuideData,
-      )
+      const {guideId, title} = event.data
+      console.log(`Starting upsert-guide for guide ${guideId} ("${title}")`)
+      try {
+        const result = await syncWithSearchProvider(
+          guideSchema,
+          event.data,
+          syncToTypeSense,
+          transformGuideData,
+        )
+        console.log(`Successfully upserted guide ${guideId} to Typesense`)
+        return result
+      } catch (error) {
+        console.error(`Failed to upsert guide ${guideId} to Typesense:`, error)
+        throw error
+      }
     })
   },
 )
