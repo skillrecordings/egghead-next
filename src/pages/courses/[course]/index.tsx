@@ -10,15 +10,11 @@ import get from 'lodash/get'
 import courseDependencies from '@/data/courseDependencies'
 import {useViewer} from '@/context/viewer-context'
 import {loadResourcesForCourse} from '@/lib/course-resources'
-import {
-  HOT_CONTENT_SLUGS_GENERATED_AT,
-  HOT_CONTENT_SLUGS_WINDOW,
-  HOT_COURSE_SLUGS,
-} from '@/lib/hot-content-slugs'
 import type {CourseLessonShell} from '@/types'
 import {logEvent} from '@/utils/structured-log'
 import {withHeaderBannerStaticProps} from '@/server/with-header-banner-props'
 import {isWatchLaterCourseSlug} from '@/lib/course-slugs'
+import {getAllCourseBuilderPublicCourseSlugs} from '@/lib/load-course-builder-metadata-wrapper'
 
 type CourseProps = {
   course: any
@@ -63,12 +59,13 @@ function sanitizeErrorMessage(error: unknown) {
     : oneLine
 }
 
-const getStaticPathSummaryPayload = () => ({
-  generated_at: HOT_CONTENT_SLUGS_GENERATED_AT,
-  window: HOT_CONTENT_SLUGS_WINDOW,
-  requested_count: HOT_COURSE_SLUGS.length,
-  prebuilt_count: 0,
+const getStaticPathSummaryPayload = (count: number) => ({
+  generated_at: null,
+  window: null,
+  requested_count: count,
+  prebuilt_count: count,
   render_mode: 'isr',
+  source: 'coursebuilder',
 })
 
 const getStaticPropsLogContext = (courseSlug?: string) => ({
@@ -215,10 +212,16 @@ const getSlugFromPath = (path: string) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  logEvent('info', 'course.static_paths.summary', getStaticPathSummaryPayload())
+  const courseSlugs = await getAllCourseBuilderPublicCourseSlugs()
+
+  logEvent(
+    'info',
+    'course.static_paths.summary',
+    getStaticPathSummaryPayload(courseSlugs.length),
+  )
 
   return {
-    paths: [],
+    paths: courseSlugs.map((course) => ({params: {course}})),
     fallback: 'blocking',
   }
 }

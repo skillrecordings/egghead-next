@@ -1088,48 +1088,174 @@ export async function loadAuthedPlaylistForUser(
   return loadAuthedCourseBits(slug, accessToken)
 }
 
+async function loadCourseBuilderPublicCourseShell(
+  slug: string,
+  logContext: LogContext,
+) {
+  const courseBuilderMetadata = await timeEvent(
+    'course.loadCourseBuilderMetadata.mysql',
+    {slug},
+    async () => loadCourseBuilderMetadata(slug),
+    logContext,
+  )
+
+  if (!courseBuilderMetadata?.fields) {
+    return null
+  }
+
+  const canonicalSlug = courseBuilderMetadata.fields.slug || slug
+  const state = courseBuilderMetadata.fields.state ?? 'draft'
+  const visibility = courseBuilderMetadata.fields.visibility ?? 'public'
+
+  if (
+    state !== 'published' ||
+    ['private', 'unlisted'].includes(String(visibility))
+  ) {
+    return null
+  }
+
+  const courseBuilderLessons =
+    (await timeEvent(
+      'course.getCourseBuilderCourseLessons.mysql',
+      {slug: canonicalSlug},
+      async () => getCourseBuilderCourseLessons(canonicalSlug),
+      logContext,
+    )) ?? []
+
+  const legacyRailsPlaylistId = Number(
+    courseBuilderMetadata.fields.legacyRailsPlaylistId ??
+      courseBuilderMetadata.fields.eggheadPlaylistId ??
+      0,
+  )
+
+  const imageField =
+    typeof courseBuilderMetadata.fields.image === 'string'
+      ? courseBuilderMetadata.fields.image
+      : null
+
+  const directImageUrl = imageField?.startsWith('http') ? imageField : undefined
+  const squareCover480Url =
+    directImageUrl ||
+    buildPaperclipUrl(
+      'playlists',
+      'square_covers',
+      legacyRailsPlaylistId || undefined,
+      'square_480',
+      imageField,
+    )
+  const imageThumbUrl =
+    directImageUrl ||
+    buildPaperclipUrl(
+      'playlists',
+      'square_covers',
+      legacyRailsPlaylistId || undefined,
+      'thumb',
+      imageField,
+    ) ||
+    squareCover480Url ||
+    DEFAULT_COURSE_IMAGE_URL
+
+  const accessState = courseBuilderMetadata.fields.access
+    ? courseBuilderMetadata.fields.access
+    : visibility === 'pro'
+    ? 'pro'
+    : 'free'
+
+  const items = courseBuilderLessons.map((lesson) => ({
+    ...lesson,
+    description: '',
+    http_url: `https://egghead.io${lesson.path}`,
+    icon_url: undefined,
+    thumb_url: undefined,
+  }))
+
+  const instructor =
+    courseBuilderMetadata.type === 'post' && courseBuilderMetadata.name
+      ? {
+          full_name: courseBuilderMetadata.name,
+          avatar_url: courseBuilderMetadata.image,
+          avatar_64_url: courseBuilderMetadata.image,
+          slug: null,
+          bio_short: null,
+          twitter: null,
+          website: null,
+        }
+      : null
+
+  const duration = courseBuilderLessons.reduce(
+    (total, lesson) => total + (lesson.duration ?? 0),
+    0,
+  )
+
+  return {
+    result: {
+      id: legacyRailsPlaylistId || courseBuilderMetadata.id,
+      slug: canonicalSlug,
+      title: courseBuilderMetadata.fields.title || canonicalSlug,
+      description:
+        courseBuilderMetadata.fields.body ||
+        courseBuilderMetadata.fields.description ||
+        '',
+      image_thumb_url: imageThumbUrl,
+      square_cover_480_url: squareCover480Url,
+      average_rating_out_of_5: 0,
+      rating_count: 0,
+      watched_count: 0,
+      path: `/courses/${canonicalSlug}`,
+      url: `https://egghead.io/courses/${canonicalSlug}`,
+      duration,
+      type: 'playlist',
+      created_at: serializeDateLike(courseBuilderMetadata.createdAt),
+      updated_at: serializeDateLike(courseBuilderMetadata.updatedAt),
+      published_at: serializeDateLike(courseBuilderMetadata.updatedAt),
+      access_state: accessState,
+      visibility_state: visibility,
+      state,
+      tags: [],
+      items,
+      lessons: courseBuilderLessons,
+      sections: [],
+      instructor,
+      owner: instructor
+        ? {
+            id: courseBuilderMetadata.createdById,
+            full_name: courseBuilderMetadata.name,
+            avatar_url: courseBuilderMetadata.image,
+          }
+        : null,
+      customOgImage: courseBuilderMetadata.fields.ogImage
+        ? {url: courseBuilderMetadata.fields.ogImage}
+        : undefined,
+      ogImage:
+        courseBuilderMetadata.fields.ogImage ||
+        `https://og-image-react-egghead.now.sh/playlists/${canonicalSlug}?v=20201103`,
+      courseBuilderLessons,
+    },
+    metrics: {
+      items_count: items.length,
+      sections_count: 0,
+      filtered_items_count: items.length,
+      filtered_sections_count: 0,
+      has_course_meta: false,
+      sanity_allowlist_ready: false,
+      sanity_allowlist_allowed: true,
+      sanity_allowlist_reason: 'coursebuilder_only',
+      has_coursebuilder_meta: true,
+      lesson_states_count: 0,
+      coursebuilder_lessons_count: courseBuilderLessons.length,
+    },
+  }
+}
+
 export async function loadPublicCourseShell(
   slug: string,
   logContext: LogContext = {},
 ) {
   const startTime = Date.now()
 
-  try {
-    const pgPlaylist = await loadPgPublicCourseShell(slug, logContext)
+  const course = await loadCourseBuilderPublicCourseShell(slug, logContext)
 
-    if (pgPlaylist) {
-      const {result, metrics} = await mergeCourseShellSources(
-        pgPlaylist,
-        slug,
-        logContext,
-      )
-
-      logEvent(
-        'info',
-        'course.loadPublicCourseShell.summary',
-        {
-          slug,
-          duration_ms: Date.now() - startTime,
-          source: 'pg',
-          ...metrics,
-        },
-        logContext,
-      )
-
-      return result
-    }
-  } catch {
-    logEvent(
-      'warn',
-      'course.loadPublicCourseShell.pg_error',
-      {slug},
-      logContext,
-    )
-  }
-
-  const playlist = await loadLegacyPublicPlaylist(slug, logContext)
-
-  if (!playlist) {
+  if (!course) {
     logEvent(
       'warn',
       'course.loadPublicCourseShell.not_found',
@@ -1142,25 +1268,19 @@ export async function loadPublicCourseShell(
     return null
   }
 
-  const {result, metrics} = await mergeCourseShellSources(
-    playlist,
-    slug,
-    logContext,
-  )
-
   logEvent(
     'info',
     'course.loadPublicCourseShell.summary',
     {
       slug,
       duration_ms: Date.now() - startTime,
-      source: 'legacy',
-      ...metrics,
+      source: 'coursebuilder',
+      ...course.metrics,
     },
     logContext,
   )
 
-  return result
+  return course.result
 }
 
 /**
