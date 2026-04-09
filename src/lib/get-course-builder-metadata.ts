@@ -627,6 +627,7 @@ export type CourseBuilderCaseStudy = {
   projects: any[] | null
   publishedAt: string | null
   state: string
+  author: {name: string | null; image: string | null} | null
 }
 
 /**
@@ -651,8 +652,9 @@ export async function getCourseBuilderCaseStudy(
     conn = await pool.getConnection()
     const [rows] = await conn.execute<RowDataPacket[]>(
       `
-      SELECT cr.*
+      SELECT cr.*, u.name AS author_name, u.image AS author_image
       FROM egghead_ContentResource cr
+      LEFT JOIN egghead_User u ON cr.createdById = u.id
       WHERE cr.type = 'post'
         AND JSON_UNQUOTE(JSON_EXTRACT(cr.fields, '$.postType')) = 'case-study'
         AND (
@@ -688,6 +690,13 @@ export async function getCourseBuilderCaseStudy(
       projects: fields.projects || null,
       publishedAt: fields.publishedAt || null,
       state: fields.state || 'draft',
+      author:
+        row.author_name || row.author_image
+          ? {
+              name: (row.author_name as string) ?? null,
+              image: (row.author_image as string) ?? null,
+            }
+          : null,
     }
   } catch (error) {
     console.error('Error fetching Course Builder case study:', error)
@@ -752,6 +761,7 @@ export async function getCourseBuilderCaseStudies(): Promise<
         projects: fields.projects || null,
         publishedAt: fields.publishedAt || null,
         state: fields.state || 'draft',
+        author: null,
       }
     })
 

@@ -268,16 +268,11 @@ export const getStaticProps = withStaticPropsLogging(async (context: any) => {
     return {notFound: true}
   }
 
-  // Map author from the Meg Cumby default
-  const author: AuthorResource = {
-    name: 'Meg Cumby',
-  }
-
   return {
     props: {
       title: rest.title,
       subTitle: rest.subtitle || '',
-      author,
+      author: rest.author ?? null,
       seo: rest.seo || {},
       coverImage: rest.coverImage || null,
       source: mdxSource,
