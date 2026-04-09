@@ -506,6 +506,60 @@ describe('integration: loadPublicCourseShell (direct PG core + nested playlists)
     ])
   })
 
+  test('returns null when legacy GraphQL responds with a 404 for a missing course slug', async () => {
+    const pgQuery = jest
+      .fn()
+      .mockResolvedValueOnce({rows: []})
+      .mockResolvedValueOnce({rows: []})
+
+    const request = jest.fn(async () => {
+      throw new Error('GraphQL Error (Code: 404): Not Found')
+    })
+
+    jest.doMock('@/db', () => ({
+      __esModule: true,
+      pgQuery,
+    }))
+
+    jest.doMock('@/utils/configured-graphql-client', () => ({
+      __esModule: true,
+      getGraphQLClient: () => ({request}),
+    }))
+
+    jest.doMock('@/lib/courses', () => ({
+      __esModule: true,
+      loadCourseMetadata: jest.fn(async () => null),
+    }))
+
+    jest.doMock('@/lib/load-course-builder-metadata-wrapper', () => ({
+      __esModule: true,
+      loadCourseBuilderMetadata: jest.fn(async () => null),
+      getCourseBuilderLessonStates: jest.fn(async () => new Map()),
+      getCourseBuilderCourseLessons: jest.fn(async () => []),
+    }))
+
+    jest.doMock('@/lib/sanity-allowlist', () => ({
+      __esModule: true,
+      sanityAllowlistAllowsCourse: jest.fn(async () => ({
+        ready: false,
+        allowed: true,
+        reason: 'not-configured',
+      })),
+    }))
+
+    jest.spyOn(console, 'log').mockImplementation(() => {})
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
+    jest.spyOn(console, 'debug').mockImplementation(() => {})
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    const {loadPublicCourseShell} = await import('../playlists')
+
+    await expect(
+      loadPublicCourseShell('missing-course-slug'),
+    ).resolves.toBeNull()
+    expect(request).toHaveBeenCalledTimes(1)
+  })
+
   test('fails soft to anonymous course bits when an implicit token gets a 401', async () => {
     jest.doMock('@/utils/get-access-token-from-cookie', () => ({
       __esModule: true,

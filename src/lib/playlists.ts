@@ -104,6 +104,10 @@ type AuthedCourseBits = {
   rss_url?: string | null
 } | null
 
+function isGraphQL404(error: unknown): boolean {
+  return error instanceof Error && error.message.includes('Code: 404')
+}
+
 function serializeDateLike(value: unknown): string | undefined {
   if (!value) return undefined
   return value instanceof Date ? value.toISOString() : String(value)
@@ -864,14 +868,31 @@ async function loadLegacyPublicPlaylist(
     allowStoredTokenFallback: false,
   })
 
-  const {playlist} = await timeEvent(
-    'course.loadPlaylist.graphql',
-    {slug},
-    async () => graphQLClient.request(query, {slug}),
-    logContext,
-  )
+  try {
+    const {playlist} = await timeEvent(
+      'course.loadPlaylist.graphql',
+      {slug},
+      async () => graphQLClient.request(query, {slug}),
+      logContext,
+    )
 
-  return playlist
+    return playlist
+  } catch (error) {
+    if (isGraphQL404(error)) {
+      logEvent(
+        'info',
+        'course.loadPlaylist.not_found',
+        {
+          slug,
+          ok: true,
+        },
+        logContext,
+      )
+      return null
+    }
+
+    throw error
+  }
 }
 
 export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
