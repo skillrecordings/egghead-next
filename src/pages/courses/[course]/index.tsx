@@ -18,6 +18,7 @@ import {
 import type {CourseLessonShell} from '@/types'
 import {logEvent} from '@/utils/structured-log'
 import {withHeaderBannerStaticProps} from '@/server/with-header-banner-props'
+import {isWatchLaterCourseSlug} from '@/lib/course-slugs'
 
 type CourseProps = {
   course: any
@@ -245,6 +246,34 @@ export const getStaticProps: GetStaticProps = withHeaderBannerStaticProps(
       ...getStaticPropsLogContext(courseSlugParam),
       render_mode: 'isr',
       suppress_info_logs: true,
+    }
+
+    if (isWatchLaterCourseSlug(courseSlugParam)) {
+      logEvent(
+        'warn',
+        'course.static_props.redirect_watch_later',
+        {
+          course_slug: courseSlugParam,
+          destination: '/bookmarks',
+          render_mode: 'isr',
+        },
+        logContext,
+      )
+
+      logCourseStaticPropsRender({
+        courseSlug: courseSlugParam,
+        durationMs: Math.round(performance.now() - start),
+        ok: true,
+        isRedirect: true,
+      })
+
+      return {
+        redirect: {
+          destination: '/bookmarks',
+          permanent: false,
+        },
+        revalidate: 300,
+      }
     }
 
     try {
