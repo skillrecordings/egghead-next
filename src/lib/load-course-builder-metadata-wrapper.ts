@@ -1,4 +1,4 @@
-import type {Post} from '@/schemas/post'
+import type {CourseBuilderCourseMetadata} from './get-course-builder-metadata'
 
 /**
  * Client-safe wrapper for loadCourseBuilderMetadata
@@ -7,7 +7,7 @@ import type {Post} from '@/schemas/post'
  */
 export async function loadCourseBuilderMetadata(
   slug: string,
-): Promise<Post | null> {
+): Promise<CourseBuilderCourseMetadata | null> {
   // Only load on server-side to avoid mysql2 client bundle issues
   if (typeof window === 'undefined') {
     const {loadCourseBuilderCourseMetadata: loadMetadata} = await import(
@@ -67,4 +67,17 @@ export async function getCourseBuilderCourseLessons(
   }
 
   return null
+}
+
+export async function getAllCourseBuilderPublicCourseSlugs(): Promise<
+  string[]
+> {
+  if (typeof window === 'undefined') {
+    const {getAllCourseBuilderPublicCourseSlugs: getSlugs} = await import(
+      './get-course-builder-metadata'
+    )
+    return getSlugs()
+  }
+
+  return []
 }

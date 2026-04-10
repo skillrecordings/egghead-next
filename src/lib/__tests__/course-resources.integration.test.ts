@@ -1,4 +1,4 @@
-describe('integration: loadResourcesForCourse (direct PG ordering + fallback safety)', () => {
+describe('integration: loadResourcesForCourse (Course Builder backed)', () => {
   const originalEnv = process.env
 
   beforeEach(() => {
@@ -11,60 +11,7 @@ describe('integration: loadResourcesForCourse (direct PG ordering + fallback saf
     jest.restoreAllMocks()
   })
 
-  test('returns ordered lessons from direct Postgres for legacy course slugs', async () => {
-    const pgQuery = jest.fn(async () => ({
-      rows: [
-        {
-          id: 101,
-          slug: 'legacy-lesson-1',
-          title: 'Legacy Lesson One Title',
-          description: 'one',
-          duration: 61,
-          thumb_url: 'https://example.com/one.png',
-          published_at: '2024-01-01T00:00:00.000Z',
-          updated_at: '2024-01-02T00:00:00.000Z',
-          created_at: '2024-01-01T00:00:00.000Z',
-          free_forever: true,
-          state: 'published',
-          type: 'lesson',
-          access_state: 'free',
-          parent_row_order: 1,
-          child_row_order: 0,
-        },
-        {
-          id: 102,
-          slug: 'legacy-lesson-2',
-          title: 'Legacy Lesson Two Title',
-          description: 'two',
-          duration: 62,
-          thumb_url: 'https://example.com/two.png',
-          published_at: '2024-01-03T00:00:00.000Z',
-          updated_at: '2024-01-04T00:00:00.000Z',
-          created_at: '2024-01-03T00:00:00.000Z',
-          free_forever: false,
-          state: 'published',
-          type: 'lesson',
-          access_state: 'pro',
-          parent_row_order: 2,
-          child_row_order: 0,
-        },
-      ],
-    }))
-
-    const request = jest.fn(async () => {
-      throw new Error('GraphQL fallback should not be called when PG succeeds')
-    })
-
-    jest.doMock('@/db', () => ({
-      __esModule: true,
-      pgQuery,
-    }))
-
-    jest.doMock('@/utils/configured-graphql-client', () => ({
-      __esModule: true,
-      getGraphQLClient: () => ({request}),
-    }))
-
+  test('returns ordered lessons from Course Builder for a course slug', async () => {
     jest.doMock('@/lib/courses', () => ({
       __esModule: true,
       loadCourseMetadata: jest.fn(async () => null),
@@ -72,11 +19,29 @@ describe('integration: loadResourcesForCourse (direct PG ordering + fallback saf
 
     jest.doMock('@/lib/lessons', () => ({
       __esModule: true,
-      loadLesson: jest.fn(async () => {
-        throw new Error(
-          'loadLesson fallback should not be called when PG succeeds',
-        )
-      }),
+      loadLesson: jest.fn(async () => null),
+    }))
+
+    jest.doMock('@/lib/load-course-builder-metadata-wrapper', () => ({
+      __esModule: true,
+      getCourseBuilderCourseLessons: jest.fn(async () => [
+        {
+          title: 'React Lesson One',
+          slug: 'react-lesson-1',
+          type: 'lesson',
+          path: '/lessons/react-lesson-1',
+          duration: 61,
+          state: 'published',
+        },
+        {
+          title: 'React Lesson Two',
+          slug: 'react-lesson-2',
+          type: 'lesson',
+          path: '/lessons/react-lesson-2',
+          duration: 62,
+          state: 'published',
+        },
+      ]),
     }))
 
     jest.spyOn(console, 'log').mockImplementation(() => {})
@@ -90,97 +55,25 @@ describe('integration: loadResourcesForCourse (direct PG ordering + fallback saf
       slug: 'the-beginner-s-guide-to-react',
     })
 
-    expect(lessons.map((l) => l.slug)).toEqual([
-      'legacy-lesson-1',
-      'legacy-lesson-2',
+    expect(lessons).toEqual([
+      expect.objectContaining({
+        id: 'react-lesson-1',
+        slug: 'react-lesson-1',
+        title: 'React Lesson One',
+        path: '/lessons/react-lesson-1',
+        duration: 61,
+      }),
+      expect.objectContaining({
+        id: 'react-lesson-2',
+        slug: 'react-lesson-2',
+        title: 'React Lesson Two',
+        path: '/lessons/react-lesson-2',
+        duration: 62,
+      }),
     ])
-    expect(lessons.map((l) => l.title)).toEqual([
-      'Legacy Lesson One Title',
-      'Legacy Lesson Two Title',
-    ])
-    expect(lessons.map((l) => l.path)).toEqual([
-      '/lessons/legacy-lesson-1',
-      '/lessons/legacy-lesson-2',
-    ])
-
-    expect(pgQuery).toHaveBeenCalledTimes(1)
-    expect(request).not.toHaveBeenCalled()
   })
 
-  test('falls back to legacy lesson loading when PG rows fail zod validation', async () => {
-    const pgQuery = jest.fn(async () => ({
-      rows: [
-        {
-          id: 101,
-          slug: 'broken-legacy-lesson-1',
-          title: null,
-          description: 'broken row should trigger fallback',
-          duration: 61,
-          thumb_url: 'https://example.com/one.png',
-          published_at: '2024-01-01T00:00:00.000Z',
-          updated_at: '2024-01-02T00:00:00.000Z',
-          created_at: '2024-01-01T00:00:00.000Z',
-          free_forever: true,
-          state: 'published',
-          type: 'lesson',
-          access_state: 'free',
-          parent_row_order: 1,
-          child_row_order: 0,
-        },
-      ],
-    }))
-
-    const request = jest.fn(async () => ({
-      playlist: {
-        id: 1,
-        slug: 'the-beginner-s-guide-to-react',
-        items: [
-          {
-            __typename: 'Lesson',
-            slug: 'legacy-fallback-lesson',
-            path: '/lessons/legacy-fallback-lesson',
-          },
-        ],
-      },
-    }))
-
-    const loadLesson = jest.fn(async () => ({
-      id: 201,
-      slug: 'legacy-fallback-lesson',
-      title: 'Legacy Fallback Lesson',
-      description: 'fallback lesson',
-      path: '/lessons/legacy-fallback-lesson',
-      duration: 42,
-      completed: false,
-      icon_url: 'https://example.com/fallback.png',
-      media_url: '',
-      thumb_url: 'https://example.com/fallback.png',
-      lesson_view_url: '',
-      published_at: '2024-01-05T00:00:00.000Z',
-      tags: [],
-      lessons: [],
-      primary_tag: null,
-      instructor: null,
-      collection: {
-        title: 'Course',
-        slug: 'course',
-        description: '',
-        path: '/courses/course',
-        lessons: [],
-      },
-      scrimba: {url: '', transcript: ''},
-    }))
-
-    jest.doMock('@/db', () => ({
-      __esModule: true,
-      pgQuery,
-    }))
-
-    jest.doMock('@/utils/configured-graphql-client', () => ({
-      __esModule: true,
-      getGraphQLClient: () => ({request}),
-    }))
-
+  test('returns an empty list when Course Builder has no published lessons for the course', async () => {
     jest.doMock('@/lib/courses', () => ({
       __esModule: true,
       loadCourseMetadata: jest.fn(async () => null),
@@ -188,7 +81,12 @@ describe('integration: loadResourcesForCourse (direct PG ordering + fallback saf
 
     jest.doMock('@/lib/lessons', () => ({
       __esModule: true,
-      loadLesson,
+      loadLesson: jest.fn(async () => null),
+    }))
+
+    jest.doMock('@/lib/load-course-builder-metadata-wrapper', () => ({
+      __esModule: true,
+      getCourseBuilderCourseLessons: jest.fn(async () => null),
     }))
 
     jest.spyOn(console, 'log').mockImplementation(() => {})
@@ -198,24 +96,8 @@ describe('integration: loadResourcesForCourse (direct PG ordering + fallback saf
 
     const {loadResourcesForCourse} = await import('../course-resources')
 
-    const lessons = await loadResourcesForCourse({
-      slug: 'the-beginner-s-guide-to-react',
-    })
-
-    expect(lessons.map((l) => l.slug)).toEqual(['legacy-fallback-lesson'])
-    expect(lessons[0]).toMatchObject({
-      slug: 'legacy-fallback-lesson',
-      title: 'Legacy Fallback Lesson',
-      path: '/lessons/legacy-fallback-lesson',
-    })
-
-    expect(pgQuery).toHaveBeenCalledTimes(1)
-    expect(request).toHaveBeenCalledTimes(1)
-    expect(loadLesson).toHaveBeenCalledWith(
-      'legacy-fallback-lesson',
-      undefined,
-      false,
-      expect.objectContaining({lesson_slug: 'legacy-fallback-lesson'}),
-    )
+    await expect(
+      loadResourcesForCourse({slug: 'empty-course'}),
+    ).resolves.toEqual([])
   })
 })

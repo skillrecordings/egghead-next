@@ -1,4 +1,4 @@
-describe('integration: loadPublicCourseShell (direct PG core + nested playlists)', () => {
+describe('integration: loadPublicCourseShell (Course Builder backed)', () => {
   const originalEnv = process.env
 
   beforeEach(() => {
@@ -14,132 +14,92 @@ describe('integration: loadPublicCourseShell (direct PG core + nested playlists)
     jest.restoreAllMocks()
   })
 
-  test('returns a PG-backed public course shell without calling legacy GraphQL', async () => {
-    const pgQuery = jest
-      .fn()
-      .mockResolvedValueOnce({
-        rows: [
-          {
-            id: 100,
-            slug: 'the-beginner-s-guide-to-react',
-            title: 'The Beginner’s Guide to React',
-            description: 'React course shell',
-            access_state: 'pro',
-            visibility_state: 'indexed',
-            state: 'published',
-            created_at: '2024-01-01T00:00:00.000Z',
-            updated_at: '2024-01-02T00:00:00.000Z',
-            published_at: '2024-01-03T00:00:00.000Z',
-            owner_id: 42,
-            owner_full_name: 'Kent C. Dodds',
-            owner_avatar_url: 'https://example.com/kent.png',
-            instructor_id: 7,
-            instructor_full_name: 'Kent C. Dodds',
-            instructor_slug: 'kent-c-dodds',
-            instructor_avatar_url: 'https://example.com/kent.png',
-            instructor_bio_short: 'Teacher of fine JavaScript things',
-            instructor_twitter: 'kentcdodds',
-            square_cover_file_name: 'course-cover.png',
-            average_rating_out_of_5: 4.7,
-            rating_count: 12,
-            watched_count: 345,
-            duration: 999,
-            tags: [
-              {
-                id: 9,
-                name: 'react',
-                label: 'React',
-                http_url: 'https://egghead.io/browse/frameworks/react',
-                image_file_name: 'react.png',
-              },
-            ],
-          },
-        ],
-      })
-      .mockResolvedValueOnce({
-        rows: [
-          {
-            row_order: 1,
-            tracklistable_type: 'Lesson',
-            lesson_id: 11,
-            lesson_slug: 'react-lesson-1',
-            lesson_title: 'React Lesson One',
-            lesson_description: 'One',
-            lesson_duration: 61,
-            lesson_thumb_url: 'https://example.com/lesson-1.png',
-            lesson_created_at: '2024-01-01T00:00:00.000Z',
-            lesson_updated_at: '2024-01-02T00:00:00.000Z',
-            lesson_published_at: '2024-01-03T00:00:00.000Z',
-            lesson_type: 'lesson',
-            playlist_id: null,
-            playlist_slug: null,
-            playlist_title: null,
-            playlist_description: null,
-            playlist_square_cover_file_name: null,
-            playlist_duration: null,
-            playlist_lessons: null,
-          },
-          {
-            row_order: 2,
-            tracklistable_type: 'Playlist',
-            lesson_id: null,
-            lesson_slug: null,
-            lesson_title: null,
-            lesson_description: null,
-            lesson_duration: null,
-            lesson_thumb_url: null,
-            lesson_created_at: null,
-            lesson_updated_at: null,
-            lesson_published_at: null,
-            lesson_type: null,
-            playlist_id: 200,
-            playlist_slug: 'react-module-2',
-            playlist_title: 'React Module Two',
-            playlist_description: 'Nested module',
-            playlist_square_cover_file_name: 'module-cover.png',
-            playlist_duration: 125,
-            playlist_lessons: [
-              {
-                lesson_id: 12,
-                lesson_slug: 'react-lesson-2',
-                lesson_title: 'React Lesson Two',
-                lesson_description: 'Two',
-                lesson_duration: 62,
-                lesson_thumb_url: 'https://example.com/lesson-2.png',
-                lesson_created_at: '2024-01-04T00:00:00.000Z',
-                lesson_updated_at: '2024-01-05T00:00:00.000Z',
-                lesson_published_at: '2024-01-06T00:00:00.000Z',
-                lesson_type: 'lesson',
-              },
-            ],
-          },
-        ],
-      })
-
+  test('returns a Course Builder-backed public course shell without touching legacy GraphQL', async () => {
     const request = jest.fn(async () => {
-      throw new Error('Legacy GraphQL should not be called when PG succeeds')
+      throw new Error('Legacy GraphQL should not be called for course shells')
     })
-
-    jest.doMock('@/db', () => ({
-      __esModule: true,
-      pgQuery,
-    }))
 
     jest.doMock('@/utils/configured-graphql-client', () => ({
       __esModule: true,
       getGraphQLClient: () => ({request}),
     }))
 
-    jest.doMock('@/lib/courses', () => ({
-      __esModule: true,
-      loadCourseMetadata: jest.fn(async () => null),
-    }))
-
     jest.doMock('@/lib/load-course-builder-metadata-wrapper', () => ({
       __esModule: true,
-      loadCourseBuilderMetadata: jest.fn(async () => null),
+      loadCourseBuilderMetadata: jest.fn(async () => ({
+        id: 'course_123',
+        type: 'post',
+        createdById: 'user_1',
+        createdAt: new Date('2024-01-01T00:00:00.000Z'),
+        updatedAt: new Date('2024-01-02T00:00:00.000Z'),
+        deletedAt: null,
+        currentVersionId: null,
+        organizationId: null,
+        createdByOrganizationMembershipId: null,
+        name: 'Kent C. Dodds',
+        image: 'https://example.com/kent.png',
+        fields: {
+          title: 'The Beginner’s Guide to React',
+          slug: 'the-beginner-s-guide-to-react',
+          postType: 'course',
+          body: 'Course Builder body',
+          description: 'Course Builder description',
+          state: 'published',
+          visibility: 'public',
+          access: 'pro',
+          eggheadPlaylistId: 100,
+          image: 'https://example.com/course-cover.png',
+          ogImage: 'https://example.com/og-course.png',
+        },
+      })),
       getCourseBuilderLessonStates: jest.fn(async () => new Map()),
-      getCourseBuilderCourseLessons: jest.fn(async () => []),
+      getCourseBuilderCourseLessons: jest.fn(async () => [
+        {
+          title: 'React Lesson One',
+          slug: 'react-lesson-1',
+          type: 'lesson',
+          path: '/lessons/react-lesson-1',
+          duration: 61,
+          state: 'published',
+        },
+        {
+          title: 'React Lesson Two',
+          slug: 'react-lesson-2',
+          type: 'lesson',
+          path: '/lessons/react-lesson-2',
+          duration: 62,
+          state: 'published',
+        },
+      ]),
+      getAllCourseBuilderPublicCourseSlugs: jest.fn(async () => [
+        'the-beginner-s-guide-to-react',
+      ]),
+    }))
+
+    jest.doMock('@/lib/courses', () => ({
+      __esModule: true,
+      loadCourseMetadata: jest.fn(async () => ({
+        title: 'The Beginner’s Guide to React',
+        description: 'Sanity description',
+        square_cover_480_url: 'https://example.com/course-cover.png',
+        thumb_url: 'https://example.com/course-thumb.png',
+        tags: [
+          {
+            name: 'react',
+            label: 'React',
+            image_url: 'https://example.com/react.png',
+          },
+        ],
+        instructor: {
+          full_name: 'Kent C. Dodds',
+          slug: 'kent-c-dodds',
+          avatar_url: 'https://example.com/kent.png',
+          avatar_64_url: 'https://example.com/kent.png',
+          bio_short: 'Teacher of fine JavaScript things',
+          twitter: 'kentcdodds',
+        },
+        sections: [],
+      })),
     }))
 
     jest.doMock('@/lib/sanity-allowlist', () => ({
@@ -162,169 +122,71 @@ describe('integration: loadPublicCourseShell (direct PG core + nested playlists)
       'the-beginner-s-guide-to-react',
     )
 
-    expect(playlist?.slug).toBe('the-beginner-s-guide-to-react')
-    expect(playlist?.title).toBe('The Beginner’s Guide to React')
-    expect(playlist?.path).toBe('/courses/the-beginner-s-guide-to-react')
-    expect(playlist?.owner?.id).toBe(42)
-    expect(playlist?.instructor?.slug).toBe('kent-c-dodds')
+    expect(playlist).toMatchObject({
+      slug: 'the-beginner-s-guide-to-react',
+      title: 'The Beginner’s Guide to React',
+      path: '/courses/the-beginner-s-guide-to-react',
+      description: 'Course Builder body',
+      access_state: 'pro',
+      visibility_state: 'public',
+      state: 'published',
+      duration: 123,
+      square_cover_480_url: 'https://example.com/course-cover.png',
+      image_thumb_url: 'https://example.com/course-cover.png',
+      instructor: {
+        full_name: 'Kent C. Dodds',
+      },
+      courseBuilderLessons: [
+        expect.objectContaining({slug: 'react-lesson-1'}),
+        expect.objectContaining({slug: 'react-lesson-2'}),
+      ],
+    })
     expect(playlist?.items).toHaveLength(2)
-    expect(playlist?.items?.[0]?.slug).toBe('react-lesson-1')
-    expect(playlist?.items?.[1]?.type).toBe('playlist')
-    expect(playlist?.items?.[1]?.lessons?.[0]?.slug).toBe('react-lesson-2')
-    expect(playlist?.tags?.[0]?.name).toBe('react')
-    expect(playlist?.square_cover_480_url).toContain(
-      '/playlists/square_covers/000/000/100/square_480/course-cover.png',
-    )
-
-    expect(pgQuery).toHaveBeenCalledTimes(2)
-    expect(pgQuery.mock.calls[0]?.[0]).toContain(
-      'ARRAY_POSITION($4::text[], taggings.context::text)',
-    )
+    expect(playlist?.items?.[0]).toMatchObject({
+      slug: 'react-lesson-1',
+      path: '/lessons/react-lesson-1',
+    })
     expect(request).not.toHaveBeenCalled()
   })
 
-  test('filters unpublished nested playlist lessons from the public course shell', async () => {
-    const pgQuery = jest
-      .fn()
-      .mockResolvedValueOnce({
-        rows: [
-          {
-            id: 100,
-            slug: 'the-beginner-s-guide-to-react',
-            title: 'The Beginner’s Guide to React',
-            description: 'React course shell',
-            access_state: 'pro',
-            visibility_state: 'indexed',
-            state: 'published',
-            created_at: '2024-01-01T00:00:00.000Z',
-            updated_at: '2024-01-02T00:00:00.000Z',
-            published_at: '2024-01-03T00:00:00.000Z',
-            owner_id: 42,
-            owner_full_name: 'Kent C. Dodds',
-            owner_avatar_url: 'https://example.com/kent.png',
-            instructor_id: 7,
-            instructor_full_name: 'Kent C. Dodds',
-            instructor_slug: 'kent-c-dodds',
-            instructor_avatar_url: 'https://example.com/kent.png',
-            instructor_bio_short: 'Teacher of fine JavaScript things',
-            instructor_twitter: 'kentcdodds',
-            square_cover_file_name: 'course-cover.png',
-            average_rating_out_of_5: 4.7,
-            rating_count: 12,
-            watched_count: 345,
-            duration: 999,
-            tags: [],
-          },
-        ],
-      })
-      .mockResolvedValueOnce({
-        rows: [
-          {
-            row_order: 1,
-            tracklistable_type: 'Lesson',
-            lesson_id: 11,
-            lesson_slug: 'published-top-lesson',
-            lesson_title: 'Published Top Lesson',
-            lesson_description: 'One',
-            lesson_duration: 61,
-            lesson_thumb_url: 'https://example.com/lesson-1.png',
-            lesson_created_at: '2024-01-01T00:00:00.000Z',
-            lesson_updated_at: '2024-01-02T00:00:00.000Z',
-            lesson_published_at: '2024-01-03T00:00:00.000Z',
-            lesson_type: 'lesson',
-            playlist_id: null,
-            playlist_slug: null,
-            playlist_title: null,
-            playlist_description: null,
-            playlist_square_cover_file_name: null,
-            playlist_duration: null,
-            playlist_lessons: null,
-          },
-          {
-            row_order: 2,
-            tracklistable_type: 'Playlist',
-            lesson_id: null,
-            lesson_slug: null,
-            lesson_title: null,
-            lesson_description: null,
-            lesson_duration: null,
-            lesson_thumb_url: null,
-            lesson_created_at: null,
-            lesson_updated_at: null,
-            lesson_published_at: null,
-            lesson_type: null,
-            playlist_id: 200,
-            playlist_slug: 'react-module-2',
-            playlist_title: 'React Module Two',
-            playlist_description: 'Nested module',
-            playlist_square_cover_file_name: 'module-cover.png',
-            playlist_duration: 125,
-            playlist_lessons: [
-              {
-                lesson_id: 12,
-                lesson_slug: 'published-nested-lesson',
-                lesson_title: 'Published Nested Lesson',
-                lesson_description: 'Two',
-                lesson_duration: 62,
-                lesson_thumb_url: 'https://example.com/lesson-2.png',
-                lesson_created_at: '2024-01-04T00:00:00.000Z',
-                lesson_updated_at: '2024-01-05T00:00:00.000Z',
-                lesson_published_at: '2024-01-06T00:00:00.000Z',
-                lesson_type: 'lesson',
-              },
-              {
-                lesson_id: 13,
-                lesson_slug: 'unpublished-nested-lesson',
-                lesson_title: 'Unpublished Nested Lesson',
-                lesson_description: 'Three',
-                lesson_duration: 63,
-                lesson_thumb_url: 'https://example.com/lesson-3.png',
-                lesson_created_at: '2024-01-07T00:00:00.000Z',
-                lesson_updated_at: '2024-01-08T00:00:00.000Z',
-                lesson_published_at: '2024-01-09T00:00:00.000Z',
-                lesson_type: 'lesson',
-              },
-            ],
-          },
-        ],
-      })
-
-    jest.doMock('@/db', () => ({
-      __esModule: true,
-      pgQuery,
-    }))
-
+  test('returns a legacy migrated Course Builder course shell using legacy playlist fields', async () => {
     jest.doMock('@/utils/configured-graphql-client', () => ({
       __esModule: true,
       getGraphQLClient: () => ({request: jest.fn()}),
     }))
 
-    jest.doMock('@/lib/courses', () => ({
-      __esModule: true,
-      loadCourseMetadata: jest.fn(async () => null),
-    }))
-
     jest.doMock('@/lib/load-course-builder-metadata-wrapper', () => ({
       __esModule: true,
-      loadCourseBuilderMetadata: jest.fn(async () => ({fields: {}})),
-      getCourseBuilderLessonStates: jest.fn(
-        async () =>
-          new Map([
-            ['published-top-lesson', 'published'],
-            ['published-nested-lesson', 'published'],
-            ['unpublished-nested-lesson', 'draft'],
-          ]),
-      ),
-      getCourseBuilderCourseLessons: jest.fn(async () => []),
-    }))
-
-    jest.doMock('@/lib/sanity-allowlist', () => ({
-      __esModule: true,
-      sanityAllowlistAllowsCourse: jest.fn(async () => ({
-        ready: false,
-        allowed: true,
-        reason: 'not-configured',
+      loadCourseBuilderMetadata: jest.fn(async () => ({
+        id: 'legacy_course_123',
+        type: 'course',
+        createdById: 'system_user',
+        createdAt: new Date('2024-01-01T00:00:00.000Z'),
+        updatedAt: new Date('2024-01-02T00:00:00.000Z'),
+        fields: {
+          title: 'Legacy React Course',
+          slug: 'legacy-react-course',
+          description: 'Migrated from Rails',
+          state: 'published',
+          visibility: 'pro',
+          legacyRailsPlaylistId: 482799,
+          image: 'legacy-react-cover.png',
+        },
       })),
+      getCourseBuilderLessonStates: jest.fn(async () => null),
+      getCourseBuilderCourseLessons: jest.fn(async () => [
+        {
+          title: 'Legacy Lesson One',
+          slug: 'legacy-lesson-1',
+          type: 'lesson',
+          path: '/lessons/legacy-lesson-1',
+          duration: 90,
+          state: 'published',
+        },
+      ]),
+      getAllCourseBuilderPublicCourseSlugs: jest.fn(async () => [
+        'legacy-react-course',
+      ]),
     }))
 
     jest.spyOn(console, 'log').mockImplementation(() => {})
@@ -334,150 +196,44 @@ describe('integration: loadPublicCourseShell (direct PG core + nested playlists)
 
     const {loadPublicCourseShell} = await import('../playlists')
 
-    const playlist = await loadPublicCourseShell(
-      'the-beginner-s-guide-to-react',
-    )
+    const playlist = await loadPublicCourseShell('legacy-react-course')
 
-    expect(playlist?.items).toHaveLength(2)
-    expect(playlist?.items?.[0]?.slug).toBe('published-top-lesson')
-    expect(playlist?.items?.[1]?.lessons).toEqual([
-      expect.objectContaining({slug: 'published-nested-lesson'}),
-    ])
+    expect(playlist).toMatchObject({
+      slug: 'legacy-react-course',
+      title: 'Legacy React Course',
+      description: 'Migrated from Rails',
+      access_state: 'pro',
+      visibility_state: 'pro',
+      state: 'published',
+      duration: 90,
+      square_cover_480_url:
+        'https://images.example.com/playlists/square_covers/000/482/799/square_480/legacy-react-cover.png',
+      image_thumb_url:
+        'https://images.example.com/playlists/square_covers/000/482/799/thumb/legacy-react-cover.png',
+      instructor: null,
+      courseBuilderLessons: [
+        expect.objectContaining({slug: 'legacy-lesson-1'}),
+      ],
+    })
   })
 
-  test('keeps approved and retired lessons public even without course builder metadata', async () => {
-    const pgQuery = jest
-      .fn()
-      .mockResolvedValueOnce({
-        rows: [
-          {
-            id: 100,
-            slug: 'the-beginner-s-guide-to-react',
-            title: 'The Beginner’s Guide to React',
-            description: 'React course shell',
-            access_state: 'pro',
-            visibility_state: 'indexed',
-            state: 'published',
-            created_at: '2024-01-01T00:00:00.000Z',
-            updated_at: '2024-01-02T00:00:00.000Z',
-            published_at: '2024-01-03T00:00:00.000Z',
-            owner_id: 42,
-            owner_full_name: 'Kent C. Dodds',
-            owner_avatar_url: 'https://example.com/kent.png',
-            instructor_id: 7,
-            instructor_full_name: 'Kent C. Dodds',
-            instructor_slug: 'kent-c-dodds',
-            instructor_avatar_url: 'https://example.com/kent.png',
-            instructor_bio_short: 'Teacher of fine JavaScript things',
-            instructor_twitter: 'kentcdodds',
-            square_cover_file_name: 'course-cover.png',
-            average_rating_out_of_5: 4.7,
-            rating_count: 12,
-            watched_count: 345,
-            duration: 999,
-            tags: [],
-          },
-        ],
-      })
-      .mockResolvedValueOnce({
-        rows: [
-          {
-            row_order: 1,
-            tracklistable_type: 'Lesson',
-            lesson_id: 11,
-            lesson_slug: 'approved-top-lesson',
-            lesson_title: 'Approved Top Lesson',
-            lesson_description: 'One',
-            lesson_duration: 61,
-            lesson_thumb_url: 'https://example.com/lesson-1.png',
-            lesson_created_at: '2024-01-01T00:00:00.000Z',
-            lesson_updated_at: '2024-01-02T00:00:00.000Z',
-            lesson_published_at: '2024-01-03T00:00:00.000Z',
-            lesson_type: 'lesson',
-            playlist_id: null,
-            playlist_slug: null,
-            playlist_title: null,
-            playlist_description: null,
-            playlist_square_cover_file_name: null,
-            playlist_duration: null,
-            playlist_lessons: null,
-          },
-          {
-            row_order: 2,
-            tracklistable_type: 'Playlist',
-            lesson_id: null,
-            lesson_slug: null,
-            lesson_title: null,
-            lesson_description: null,
-            lesson_duration: null,
-            lesson_thumb_url: null,
-            lesson_created_at: null,
-            lesson_updated_at: null,
-            lesson_published_at: null,
-            lesson_type: null,
-            playlist_id: 200,
-            playlist_slug: 'react-module-2',
-            playlist_title: 'React Module Two',
-            playlist_description: 'Nested module',
-            playlist_square_cover_file_name: 'module-cover.png',
-            playlist_duration: 125,
-            playlist_lessons: [
-              {
-                lesson_id: 12,
-                lesson_slug: 'retired-nested-lesson',
-                lesson_title: 'Retired Nested Lesson',
-                lesson_description: 'Two',
-                lesson_duration: 62,
-                lesson_thumb_url: 'https://example.com/lesson-2.png',
-                lesson_created_at: '2024-01-04T00:00:00.000Z',
-                lesson_updated_at: '2024-01-05T00:00:00.000Z',
-                lesson_published_at: '2024-01-06T00:00:00.000Z',
-                lesson_type: 'lesson',
-              },
-              {
-                lesson_id: 13,
-                lesson_slug: 'draft-nested-lesson',
-                lesson_title: 'Draft Nested Lesson',
-                lesson_description: 'Three',
-                lesson_duration: 63,
-                lesson_thumb_url: 'https://example.com/lesson-3.png',
-                lesson_created_at: '2024-01-07T00:00:00.000Z',
-                lesson_updated_at: '2024-01-08T00:00:00.000Z',
-                lesson_published_at: '2024-01-09T00:00:00.000Z',
-                lesson_type: 'lesson',
-              },
-            ],
-          },
-        ],
-      })
-
-    jest.doMock('@/db', () => ({
-      __esModule: true,
-      pgQuery,
-    }))
-
+  test('returns null when Course Builder has no matching public course', async () => {
     jest.doMock('@/utils/configured-graphql-client', () => ({
       __esModule: true,
       getGraphQLClient: () => ({request: jest.fn()}),
-    }))
-
-    jest.doMock('@/lib/courses', () => ({
-      __esModule: true,
-      loadCourseMetadata: jest.fn(async () => null),
     }))
 
     jest.doMock('@/lib/load-course-builder-metadata-wrapper', () => ({
       __esModule: true,
       loadCourseBuilderMetadata: jest.fn(async () => null),
-      getCourseBuilderLessonStates: jest.fn(
-        async () =>
-          new Map([
-            ['approved-top-lesson', 'approved'],
-            ['retired-nested-lesson', 'retired'],
-            ['draft-nested-lesson', 'draft'],
-          ]),
-      ),
-      getCourseBuilderCourseLessons: jest.fn(async () => []),
+      getCourseBuilderLessonStates: jest.fn(async () => null),
+      getCourseBuilderCourseLessons: jest.fn(async () => null),
+      getAllCourseBuilderPublicCourseSlugs: jest.fn(async () => []),
+    }))
+
+    jest.doMock('@/lib/courses', () => ({
+      __esModule: true,
+      loadCourseMetadata: jest.fn(async () => null),
     }))
 
     jest.doMock('@/lib/sanity-allowlist', () => ({
@@ -496,14 +252,9 @@ describe('integration: loadPublicCourseShell (direct PG core + nested playlists)
 
     const {loadPublicCourseShell} = await import('../playlists')
 
-    const playlist = await loadPublicCourseShell(
-      'the-beginner-s-guide-to-react',
-    )
-
-    expect(playlist?.items?.[0]?.slug).toBe('approved-top-lesson')
-    expect(playlist?.items?.[1]?.lessons).toEqual([
-      expect.objectContaining({slug: 'retired-nested-lesson'}),
-    ])
+    await expect(
+      loadPublicCourseShell('missing-course-slug'),
+    ).resolves.toBeNull()
   })
 
   test('fails soft to anonymous course bits when an implicit token gets a 401', async () => {
