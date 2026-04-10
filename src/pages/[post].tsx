@@ -37,12 +37,16 @@ import {VideoPlayerOverlayProvider} from '@/hooks/mux/use-video-player-overlay'
 import {MuxPlayerProvider} from '@/hooks/use-mux-player'
 import {CopyAsPromptButton} from '@/components/copy-as-prompt-button'
 
+const RESERVED_POST_SLUGS = new Set(['cloudflare'])
+
 export const getStaticPaths: GetStaticPaths = async () => {
   const postSlugs = await getAllPostSlugs()
   return {
-    paths: postSlugs.map(({slug}) => ({
-      params: {post: slug},
-    })),
+    paths: postSlugs
+      .filter(({slug}) => !RESERVED_POST_SLUGS.has(slug))
+      .map(({slug}) => ({
+        params: {post: slug},
+      })),
     fallback: 'blocking',
   }
 }

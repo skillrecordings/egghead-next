@@ -20,6 +20,7 @@ import {KadiKramanQuery} from '@/components/search/instructors/kadi-kraman'
 import {filipHricQuery} from '@/components/search/instructors/filip-hric'
 
 import config from './config'
+import {normalizeInstructorSlug} from './instructor-slug-aliases'
 
 export type Instructor = {
   full_name: string
@@ -51,6 +52,7 @@ export async function loadInstructors(page = 1) {
 }
 
 export async function loadInstructor(slug: string) {
+  const canonicalSlug = normalizeInstructorSlug(slug)
   const query = `query getInstructor($slug: String!){
     instructor(slug: $slug){
       id
@@ -62,14 +64,21 @@ export async function loadInstructor(slug: string) {
       website
     }
   }`
-  const {instructor} = await request(config.graphQLEndpoint, query, {slug})
+  const {instructor} = await request(config.graphQLEndpoint, query, {
+    slug: canonicalSlug,
+  })
+
+  const resolvedSlug = normalizeInstructorSlug(
+    instructor?.slug ?? canonicalSlug,
+  )
+
   let sanityInstructor
 
-  if (canLoadSanityInstructor(slug)) {
-    sanityInstructor = await loadSanityInstructor(slug)
+  if (canLoadSanityInstructor(resolvedSlug)) {
+    sanityInstructor = await loadSanityInstructor(resolvedSlug)
   }
 
-  return {...instructor, ...sanityInstructor}
+  return {...instructor, slug: resolvedSlug, ...sanityInstructor}
 }
 
 const sanityInstructorHash = {
@@ -103,11 +112,11 @@ const canLoadSanityInstructor = (
 }
 
 export const loadSanityInstructor = async (selectedInstructor: string) => {
-  if (!canLoadSanityInstructor(selectedInstructor)) return
+  const canonicalInstructor = normalizeInstructorSlug(selectedInstructor)
+  if (!canLoadSanityInstructor(canonicalInstructor)) return
 
-  const query = sanityInstructorHash[selectedInstructor]
+  const query = sanityInstructorHash[canonicalInstructor]
   if (!query) return
-  console.log(await sanityClient.fetch(query))
   return await sanityClient.fetch(query)
 }
 

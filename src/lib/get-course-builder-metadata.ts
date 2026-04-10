@@ -1,10 +1,6 @@
 import * as mysql from 'mysql2/promise'
-import {ConnectionOptions, RowDataPacket, Pool} from 'mysql2/promise'
-import type {Post} from '@/schemas/post'
-
-const access: ConnectionOptions = {
-  uri: process.env.COURSE_BUILDER_DATABASE_URL,
-}
+import {RowDataPacket, Pool} from 'mysql2/promise'
+import {getCourseBuilderConnectionOptions} from '@/lib/course-builder-db'
 
 function convertToSerializeForNextResponse(result: any) {
   if (!result) return null
@@ -33,7 +29,7 @@ let connectionPool: Pool | null = null
 function getConnectionPool(): Pool {
   if (!connectionPool) {
     connectionPool = mysql.createPool({
-      ...access,
+      ...getCourseBuilderConnectionOptions(),
       waitForConnections: true,
       connectionLimit: 10,
       queueLimit: 0,
@@ -74,6 +70,14 @@ interface VideoResourceWithTranscript {
   }
 }
 
+const PUBLIC_VIEWABLE_COURSE_BUILDER_LESSON_STATES = [
+  'published',
+  'approved',
+  'flagged',
+  'revised',
+  'retired',
+] as const
+
 // Type for the combined Course Builder lesson data
 type CourseBuilderLessonData = {
   transcript?: string
@@ -87,6 +91,111 @@ type CourseBuilderLessonData = {
   muxPlaybackId?: string
   // Download URL for MUX videos
   download_url?: string
+}
+
+export type CourseBuilderCourseFields = {
+  title?: string | null
+  slug?: string | null
+  image?: string | null
+  description?: string | null
+  body?: string | null
+  state?: string | null
+  visibility?: string | null
+  access?: string | null
+  postType?: string | null
+  eggheadPlaylistId?: number | null
+  legacyRailsPlaylistId?: number | null
+  freeForever?: boolean | null
+  ogImage?: string | null
+  [key: string]: unknown
+}
+
+export type CourseBuilderCourseMetadata = {
+  id: string
+  type: string
+  createdById: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  deletedAt?: Date | string | null
+  currentVersionId?: string | null
+  organizationId?: string | null
+  createdByOrganizationMembershipId?: string | null
+  name?: string | null
+  image?: string | null
+  fields: CourseBuilderCourseFields
+}
+
+function parseCourseBuilderCourseFields(
+  fields: unknown,
+): CourseBuilderCourseFields {
+  if (!fields) return {}
+  return typeof fields === 'string'
+    ? (JSON.parse(fields) as CourseBuilderCourseFields)
+    : (fields as CourseBuilderCourseFields)
+}
+
+function buildCourseMetadataQuery(hasCourseBuilderId: boolean) {
+  const lookupClause = hasCourseBuilderId
+    ? `(
+        cr_course.id = ?
+        OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
+        OR cr_course.id LIKE ?
+        OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?
+      )`
+    : `(
+        cr_course.id = ?
+        OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
+      )`
+
+  return `
+    SELECT cr_course.*, egh_user.name, egh_user.image
+    FROM egghead_ContentResource cr_course
+    LEFT JOIN egghead_User egh_user ON cr_course.createdById = egh_user.id
+    WHERE ${lookupClause}
+      AND (
+        cr_course.type = 'course'
+        OR (
+          cr_course.type = 'post'
+          AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
+        )
+      )
+    LIMIT 1
+  `
+}
+
+async function fetchCourseBuilderCourseMetadata(
+  conn: mysql.PoolConnection,
+  slug: string,
+): Promise<CourseBuilderCourseMetadata | null> {
+  const {hashFromSlug} = parseSlugForHash(slug)
+  const hasCourseBuilderId = Boolean(hashFromSlug)
+  const sql = buildCourseMetadataQuery(hasCourseBuilderId)
+  const params = hasCourseBuilderId
+    ? [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`]
+    : [slug, slug]
+
+  const [courseRows] = await conn.execute<RowDataPacket[]>(sql, params)
+  const courseRow = courseRows[0]
+
+  if (!courseRow) {
+    return null
+  }
+
+  return {
+    id: courseRow.id,
+    type: courseRow.type,
+    createdById: courseRow.createdById ?? null,
+    createdAt: new Date(courseRow.createdAt),
+    updatedAt: new Date(courseRow.updatedAt),
+    deletedAt: courseRow.deletedAt ? new Date(courseRow.deletedAt) : null,
+    currentVersionId: courseRow.currentVersionId ?? null,
+    organizationId: courseRow.organizationId ?? null,
+    createdByOrganizationMembershipId:
+      courseRow.createdByOrganizationMembershipId ?? null,
+    name: courseRow.name ?? null,
+    image: courseRow.image ?? null,
+    fields: parseCourseBuilderCourseFields(courseRow.fields),
+  }
 }
 
 /**
@@ -105,10 +214,10 @@ export async function getCourseBuilderLesson(
   }
 
   const {hashFromSlug} = parseSlugForHash(slug)
-  const pool = getConnectionPool()
   let conn
 
   try {
+    const pool = getConnectionPool()
     conn = await pool.getConnection()
     const baseSelect = `
       SELECT
@@ -157,8 +266,6 @@ export async function getCourseBuilderLesson(
       console.log(`No Course Builder lesson found for slug: ${slug}`)
       return null
     }
-
-    console.log('lessonRow from getCourseBuilderLesson', lessonRow)
 
     // Parse fields if they are JSON strings
     const lessonFields =
@@ -244,10 +351,10 @@ export async function getCourseBuilderVideoResource(
   }
 
   const {hashFromSlug} = parseSlugForHash(slug)
-  const pool = getConnectionPool()
   let conn
 
   try {
+    const pool = getConnectionPool()
     conn = await pool.getConnection()
     // Get video resource
     const hasCourseBuilderId = Boolean(hashFromSlug)
@@ -314,7 +421,7 @@ export async function getCourseBuilderVideoResource(
  */
 export async function loadCourseBuilderCourseMetadata(
   slug: string,
-): Promise<Post | null> {
+): Promise<CourseBuilderCourseMetadata | null> {
   if (!process.env.COURSE_BUILDER_DATABASE_URL) {
     console.warn(
       'COURSE_BUILDER_DATABASE_URL not configured, skipping Course Builder metadata lookup',
@@ -322,79 +429,20 @@ export async function loadCourseBuilderCourseMetadata(
     return null
   }
 
-  const {hashFromSlug} = parseSlugForHash(slug)
-  const pool = getConnectionPool()
   let conn
 
   try {
+    const pool = getConnectionPool()
     conn = await pool.getConnection()
+    const course = await fetchCourseBuilderCourseMetadata(conn, slug)
 
-    // Get course data matching the pattern from [post].tsx
-    const hasCourseBuilderId = Boolean(hashFromSlug)
-    const sql = hasCourseBuilderId
-      ? `
-        SELECT cr_course.*, egh_user.name, egh_user.image
-        FROM egghead_ContentResource cr_course
-        LEFT JOIN egghead_User egh_user ON cr_course.createdById = egh_user.id
-        WHERE (
-          cr_course.id = ?
-          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
-          OR cr_course.id LIKE ?
-          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?
-        )
-        AND cr_course.type = 'post'
-        AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
-        LIMIT 1
-      `
-      : `
-        SELECT cr_course.*, egh_user.name, egh_user.image
-        FROM egghead_ContentResource cr_course
-        LEFT JOIN egghead_User egh_user ON cr_course.createdById = egh_user.id
-        WHERE (
-          cr_course.id = ?
-          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
-        )
-        AND cr_course.type = 'post'
-        AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
-        LIMIT 1
-      `
-    const params = hasCourseBuilderId
-      ? [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`]
-      : [slug, slug]
-    const [courseRows] = await conn.execute<RowDataPacket[]>(sql, params)
-
-    const courseRow = courseRows[0]
-
-    if (!courseRow) {
+    if (!course) {
       console.log(`No Course Builder course found for slug: ${slug}`)
       return null
     }
 
-    // Parse fields if they are JSON strings
-    const courseFields =
-      typeof courseRow.fields === 'string'
-        ? JSON.parse(courseRow.fields)
-        : courseRow.fields
-
-    // Convert to the Post type structure
-    const post: Post = {
-      id: courseRow.id,
-      type: courseRow.type,
-      createdById: courseRow.createdById,
-      fields: courseFields,
-      createdAt: new Date(courseRow.createdAt),
-      updatedAt: new Date(courseRow.updatedAt),
-      deletedAt: courseRow.deletedAt ? new Date(courseRow.deletedAt) : null,
-      currentVersionId: courseRow.currentVersionId,
-      organizationId: courseRow.organizationId,
-      createdByOrganizationMembershipId:
-        courseRow.createdByOrganizationMembershipId,
-      name: courseRow.name,
-      image: courseRow.image,
-    }
-
     console.log(`Found Course Builder course metadata for: ${slug}`)
-    return convertToSerializeForNextResponse(post)
+    return convertToSerializeForNextResponse(course)
   } catch (error) {
     console.error('Error fetching Course Builder course metadata:', error)
     return null
@@ -422,10 +470,10 @@ export async function getCourseBuilderLessonStates(
   }
 
   const {hashFromSlug} = parseSlugForHash(courseSlug)
-  const pool = getConnectionPool()
   let conn
 
   try {
+    const pool = getConnectionPool()
     conn = await pool.getConnection()
 
     // Get all lessons for the course
@@ -509,6 +557,64 @@ type CourseBuilderLesson = {
 }
 
 /**
+ * Gets all public published Course Builder course slugs.
+ */
+export async function getAllCourseBuilderPublicCourseSlugs(): Promise<
+  string[]
+> {
+  if (!process.env.COURSE_BUILDER_DATABASE_URL) {
+    console.warn(
+      'COURSE_BUILDER_DATABASE_URL not configured, skipping Course Builder course slug lookup',
+    )
+    return []
+  }
+
+  let conn
+
+  try {
+    const pool = getConnectionPool()
+    conn = await pool.getConnection()
+
+    const [rows] = await conn.execute<RowDataPacket[]>(`
+      SELECT DISTINCT slug
+      FROM (
+        SELECT JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) AS slug
+        FROM egghead_ContentResource cr_course
+        WHERE cr_course.deletedAt IS NULL
+          AND cr_course.type = 'course'
+          AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.state')) = 'published'
+          AND COALESCE(JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.visibility')), 'public') NOT IN ('private', 'unlisted')
+
+        UNION
+
+        SELECT JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) AS slug
+        FROM egghead_ContentResource cr_course
+        WHERE cr_course.deletedAt IS NULL
+          AND cr_course.type = 'post'
+          AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
+          AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.state')) = 'published'
+          AND COALESCE(JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.visibility')), 'public') NOT IN ('private', 'unlisted')
+      ) published_courses
+      WHERE slug IS NOT NULL
+        AND slug <> ''
+        AND slug NOT LIKE 'watch-later-%'
+      ORDER BY slug ASC
+    `)
+
+    return rows
+      .map((row) => (typeof row.slug === 'string' ? row.slug.trim() : ''))
+      .filter(Boolean)
+  } catch (error) {
+    console.error('Error fetching Course Builder public course slugs:', error)
+    return []
+  } finally {
+    if (conn) {
+      conn.release()
+    }
+  }
+}
+
+/**
  * Gets full lesson data from Course Builder for a course
  * Returns lessons in the order they appear in the course
  * @param courseSlug - The course slug
@@ -524,58 +630,105 @@ export async function getCourseBuilderCourseLessons(
     return null
   }
 
-  const {hashFromSlug} = parseSlugForHash(courseSlug)
-  const pool = getConnectionPool()
   let conn
 
   try {
+    const pool = getConnectionPool()
     conn = await pool.getConnection()
 
-    // Get all published lessons for the course with their order
-    const hasCourseBuilderId = Boolean(hashFromSlug)
-    const sql = hasCourseBuilderId
-      ? `
-        SELECT
-          cr_lesson.id,
-          cr_lesson.fields,
-          crr.position
-        FROM egghead_ContentResource cr_course
-        JOIN egghead_ContentResourceResource crr ON cr_course.id = crr.resourceOfId
-        JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
-        WHERE (
-          cr_course.id = ?
-          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
-          OR cr_course.id LIKE ?
-          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?
+    const course = await fetchCourseBuilderCourseMetadata(conn, courseSlug)
+
+    if (!course) {
+      console.log(`No Course Builder course found for slug: ${courseSlug}`)
+      return null
+    }
+
+    let lessonRows: RowDataPacket[] = []
+
+    if (course.type === 'course') {
+      const [relatedLessonRows] = await conn.execute<RowDataPacket[]>(
+        `
+          SELECT
+            cr_lesson.id,
+            cr_lesson.fields,
+            crr.position
+          FROM egghead_ContentResourceResource crr
+          JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
+          WHERE crr.resourceOfId = ?
+            AND cr_lesson.deletedAt IS NULL
+            AND (
+              cr_lesson.type = 'lesson'
+              OR (
+                cr_lesson.type = 'post'
+                AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')) = 'lesson'
+              )
+            )
+            AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) IN ('published', 'approved', 'flagged', 'revised', 'retired')
+          ORDER BY crr.position ASC, cr_lesson.createdAt ASC, cr_lesson.id ASC
+        `,
+        [course.id],
+      )
+
+      if (relatedLessonRows.length > 0) {
+        lessonRows = relatedLessonRows
+      } else {
+        const legacyRailsPlaylistId = Number(
+          course.fields.legacyRailsPlaylistId ?? 0,
         )
-        AND cr_course.type = 'post'
-        AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
-        AND cr_lesson.type = 'post'
-        AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
-        ORDER BY crr.position ASC
-      `
-      : `
-        SELECT
-          cr_lesson.id,
-          cr_lesson.fields,
-          crr.position
-        FROM egghead_ContentResource cr_course
-        JOIN egghead_ContentResourceResource crr ON cr_course.id = crr.resourceOfId
-        JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
-        WHERE (
-          cr_course.id = ?
-          OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
+
+        if (!legacyRailsPlaylistId) {
+          console.log(
+            `Course Builder course ${courseSlug} is missing legacyRailsPlaylistId`,
+          )
+          return null
+        }
+
+        const [legacyLessonRows] = await conn.execute<RowDataPacket[]>(
+          `
+            SELECT
+              cr_lesson.id,
+              cr_lesson.fields,
+              CAST(
+                COALESCE(JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.position')), '0') AS UNSIGNED
+              ) AS position
+            FROM egghead_ContentResource cr_lesson
+            WHERE cr_lesson.deletedAt IS NULL
+              AND cr_lesson.type = 'lesson'
+              AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) IN ('published', 'approved', 'flagged', 'revised', 'retired')
+              AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.courseId')) = ?
+            ORDER BY position ASC, cr_lesson.createdAt ASC, cr_lesson.id ASC
+          `,
+          [String(legacyRailsPlaylistId)],
         )
-        AND cr_course.type = 'post'
-        AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
-        AND cr_lesson.type = 'post'
-        AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
-        ORDER BY crr.position ASC
-      `
-    const params = hasCourseBuilderId
-      ? [courseSlug, courseSlug, `%${hashFromSlug}`, `%${hashFromSlug}`]
-      : [courseSlug, courseSlug]
-    const [lessonRows] = await conn.execute<RowDataPacket[]>(sql, params)
+
+        lessonRows = legacyLessonRows
+      }
+    } else {
+      const [relatedLessonRows] = await conn.execute<RowDataPacket[]>(
+        `
+          SELECT
+            cr_lesson.id,
+            cr_lesson.fields,
+            crr.position
+          FROM egghead_ContentResourceResource crr
+          JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
+          WHERE crr.resourceOfId = ?
+            AND cr_lesson.deletedAt IS NULL
+            AND (
+              cr_lesson.type = 'lesson'
+              OR (
+                cr_lesson.type = 'post'
+                AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')) = 'lesson'
+              )
+            )
+            AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) IN ('published', 'approved', 'flagged', 'revised', 'retired')
+          ORDER BY crr.position ASC, cr_lesson.createdAt ASC, cr_lesson.id ASC
+        `,
+        [course.id],
+      )
+
+      lessonRows = relatedLessonRows
+    }
 
     if (lessonRows.length === 0) {
       console.log(
@@ -585,16 +738,33 @@ export async function getCourseBuilderCourseLessons(
     }
 
     const lessons: CourseBuilderLesson[] = lessonRows.map((row) => {
-      const fields =
-        typeof row.fields === 'string' ? JSON.parse(row.fields) : row.fields
+      const fields = parseCourseBuilderCourseFields(row.fields)
 
       return {
-        title: fields.title || 'Untitled',
-        slug: fields.slug || row.id,
+        title:
+          typeof fields.title === 'string' && fields.title.length > 0
+            ? fields.title
+            : 'Untitled',
+        slug:
+          typeof fields.slug === 'string' && fields.slug.length > 0
+            ? fields.slug
+            : row.id,
         type: 'lesson',
-        path: `/lessons/${fields.slug || row.id}`,
-        duration: fields.duration ?? null,
-        state: fields.state ?? null,
+        path: `/lessons/${
+          typeof fields.slug === 'string' && fields.slug.length > 0
+            ? fields.slug
+            : row.id
+        }`,
+        duration:
+          typeof fields.duration === 'number'
+            ? fields.duration
+            : fields.duration == null
+            ? null
+            : Number(fields.duration),
+        state:
+          typeof fields.state === 'string' || fields.state == null
+            ? fields.state ?? null
+            : String(fields.state),
       }
     })
 

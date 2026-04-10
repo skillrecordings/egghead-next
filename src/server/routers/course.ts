@@ -39,18 +39,26 @@ export const courseRouter = router({
       try {
         const conn = await getPool().getConnection()
         try {
-          // Find the course by its eggheadPlaylistId
+          // Find the course by its legacy Egghead playlist id across both CB shapes
           const [courseRows] = await conn.execute<RowDataPacket[]>(
             `SELECT
               JSON_UNQUOTE(JSON_EXTRACT(fields, '$.title')) AS title,
               JSON_UNQUOTE(JSON_EXTRACT(fields, '$.slug')) AS slug,
               id
             FROM egghead_ContentResource
-            WHERE JSON_UNQUOTE(JSON_EXTRACT(fields, '$.eggheadPlaylistId')) = ?
-            AND type = 'post'
-            AND JSON_UNQUOTE(JSON_EXTRACT(fields, '$.postType')) = 'course'
+            WHERE (
+              JSON_UNQUOTE(JSON_EXTRACT(fields, '$.eggheadPlaylistId')) = ?
+              OR JSON_UNQUOTE(JSON_EXTRACT(fields, '$.legacyRailsPlaylistId')) = ?
+            )
+            AND (
+              type = 'course'
+              OR (
+                type = 'post'
+                AND JSON_UNQUOTE(JSON_EXTRACT(fields, '$.postType')) = 'course'
+              )
+            )
             LIMIT 1`,
-            [input.resourceId],
+            [input.resourceId, input.resourceId],
           )
 
           return courseRows?.[0] ?? null

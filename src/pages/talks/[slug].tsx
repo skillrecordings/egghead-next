@@ -23,6 +23,7 @@ import {LessonResource} from '@/types'
 import TalkPlayer from '@/components/talks/talk-player'
 import PageSEO from '@/components/talks/page-seo'
 import {trpc} from '@/app/_trpc/client'
+import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
 
 type LessonProps = {
   initialLesson: any
@@ -197,8 +198,22 @@ const Talk: FunctionComponent<React.PropsWithChildren<LessonProps>> = ({
 export default Talk
 
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
-  async function ({res, req, params}) {
+  async function ({res, req, params, query}) {
     try {
+      const canonicalRedirect = canonicalizeInternalQueryParams({
+        pathname: `/talks/${params?.slug}`,
+        query,
+        omitKeys: ['slug'],
+      })
+
+      if (canonicalRedirect) {
+        return {
+          redirect: {
+            destination: canonicalRedirect.destination,
+            permanent: false,
+          },
+        }
+      }
       const initialLesson: LessonResource | undefined =
         params && (await loadLesson(params.slug as string))
 

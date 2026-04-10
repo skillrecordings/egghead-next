@@ -262,8 +262,16 @@ const ResourceWidget: React.FC<
     location?: string
   }>
 > = ({resource, location}: any) => {
-  if (!resource) return null
-  const {podcasts, talks, collections, articles = []} = resource
+  if (!resource || typeof resource !== 'object') {
+    return null
+  }
+
+  const podcasts = Array.isArray(resource.podcasts) ? resource.podcasts : []
+  const talks = Array.isArray(resource.talks) ? resource.talks : []
+  const collections = Array.isArray(resource.collections)
+    ? resource.collections
+    : []
+  const articles = Array.isArray(resource.articles) ? resource.articles : []
   return (
     <>
       {articles.length > 0 ? null : (
@@ -271,75 +279,78 @@ const ResourceWidget: React.FC<
           {resource.title}
         </h3>
       )}
-      {collections &&
-        collections.map((collection: any) => {
-          return (
-            <div key={collection.slug}>
-              <h4 className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 font-bold">
-                {collection.title}
-              </h4>
-              <Grid>
-                {collection.courses.map((resource: any, i: number) => {
-                  switch (collection.courses.length) {
-                    case 3:
-                      return i === 0 ? (
-                        <HorizontalResourceCardForWidget
-                          location={location}
-                          className="col-span-2"
-                          key={resource.slug}
-                          resource={resource}
-                        />
-                      ) : (
-                        <VerticalResourceCardForWidget
-                          location={location}
-                          key={resource.slug}
-                          resource={resource}
-                        />
-                      )
-                    case 6:
-                      return i === 0 || i === 1 ? (
-                        <HorizontalResourceCardForWidget
-                          location={location}
-                          className="col-span-2"
-                          key={resource.slug}
-                          resource={resource}
-                        />
-                      ) : (
-                        <VerticalResourceCardForWidget
-                          location={location}
-                          key={resource.slug}
-                          resource={resource}
-                        />
-                      )
-                    case 7:
-                      return i === 0 ? (
-                        <HorizontalResourceCardForWidget
-                          location={location}
-                          className="col-span-2"
-                          key={resource.slug}
-                          resource={resource}
-                        />
-                      ) : (
-                        <VerticalResourceCardForWidget
-                          location={location}
-                          key={resource.slug}
-                          resource={resource}
-                        />
-                      )
-                    default:
-                      return (
-                        <VerticalResourceCardForWidget
-                          location={location}
-                          key={resource.slug}
-                          resource={resource}
-                        />
-                      )
-                  }
-                })}
-              </Grid>
-            </div>
-          )
-        })}
+      {collections.map((collection: any) => {
+        const courses = Array.isArray(collection?.courses)
+          ? collection.courses
+          : []
+
+        return (
+          <div key={collection.slug}>
+            <h4 className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 font-bold">
+              {collection.title}
+            </h4>
+            <Grid>
+              {courses.map((resource: any, i: number) => {
+                switch (courses.length) {
+                  case 3:
+                    return i === 0 ? (
+                      <HorizontalResourceCardForWidget
+                        location={location}
+                        className="col-span-2"
+                        key={resource.slug}
+                        resource={resource}
+                      />
+                    ) : (
+                      <VerticalResourceCardForWidget
+                        location={location}
+                        key={resource.slug}
+                        resource={resource}
+                      />
+                    )
+                  case 6:
+                    return i === 0 || i === 1 ? (
+                      <HorizontalResourceCardForWidget
+                        location={location}
+                        className="col-span-2"
+                        key={resource.slug}
+                        resource={resource}
+                      />
+                    ) : (
+                      <VerticalResourceCardForWidget
+                        location={location}
+                        key={resource.slug}
+                        resource={resource}
+                      />
+                    )
+                  case 7:
+                    return i === 0 ? (
+                      <HorizontalResourceCardForWidget
+                        location={location}
+                        className="col-span-2"
+                        key={resource.slug}
+                        resource={resource}
+                      />
+                    ) : (
+                      <VerticalResourceCardForWidget
+                        location={location}
+                        key={resource.slug}
+                        resource={resource}
+                      />
+                    )
+                  default:
+                    return (
+                      <VerticalResourceCardForWidget
+                        location={location}
+                        key={resource.slug}
+                        resource={resource}
+                      />
+                    )
+                }
+              })}
+            </Grid>
+          </div>
+        )
+      })}
       {articles.length > 0 && (
         <div className="bg-gray-100 dark:bg-gray-800 p-8 rounded-md">
           <h3 className="prose dark:prose-dark sm:prose-xl lg:prose-2xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500 font-bold mb-4">
@@ -405,7 +416,7 @@ const ResourceWidget: React.FC<
           </Grid>
         </div>
       )}
-      {(podcasts || talks) && (
+      {(podcasts.length > 0 || talks.length > 0) && (
         <Grid className="grid grid-cols-2 gap-2 md:grid-cols-4 xl:gap-5 sm:gap-3 ">
           {talks?.map((talk: any) => {
             return (

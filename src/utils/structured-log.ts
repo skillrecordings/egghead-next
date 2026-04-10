@@ -6,6 +6,7 @@ export type LogContext = {
   page?: string
   course_slug?: string
   lesson_slug?: string
+  suppress_info_logs?: boolean
 }
 
 const SAMPLE_RATE = Number(process.env.EGGHEAD_LOG_SAMPLE_RATE ?? '1')
@@ -17,6 +18,25 @@ function shouldSample(level: LogLevel) {
   return Math.random() < SAMPLE_RATE
 }
 
+const shouldSuppressInfoLogs = (
+  level: LogLevel,
+  data: Record<string, unknown>,
+  context: LogContext,
+) => {
+  if (level !== 'debug' && level !== 'info') return false
+
+  const dataContext =
+    data.context && typeof data.context === 'object'
+      ? (data.context as LogContext)
+      : undefined
+
+  return Boolean(
+    context.suppress_info_logs ||
+      data.suppress_info_logs === true ||
+      dataContext?.suppress_info_logs,
+  )
+}
+
 export function logEvent(
   level: LogLevel,
   event: string,
@@ -24,6 +44,9 @@ export function logEvent(
   context: LogContext = {},
 ): void {
   try {
+    if (shouldSuppressInfoLogs(level, data, context)) {
+      return
+    }
     if (!shouldSample(level)) return
     const payload = {
       event,
@@ -59,21 +82,29 @@ export async function timeEvent<T>(
   const start = Date.now()
   try {
     const result = await fn()
-    logEvent('info', event, {
-      ...context,
-      ...data,
-      duration_ms: Date.now() - start,
-      ok: true,
-    })
+    logEvent(
+      'info',
+      event,
+      {
+        ...data,
+        duration_ms: Date.now() - start,
+        ok: true,
+      },
+      context,
+    )
     return result
   } catch (error: any) {
-    logEvent('error', event, {
-      ...context,
-      ...data,
-      duration_ms: Date.now() - start,
-      ok: false,
-      error_message: error?.message,
-    })
+    logEvent(
+      'error',
+      event,
+      {
+        ...data,
+        duration_ms: Date.now() - start,
+        ok: false,
+        error_message: error?.message,
+      },
+      context,
+    )
     throw error
   }
 }

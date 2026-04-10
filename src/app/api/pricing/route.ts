@@ -1,4 +1,3 @@
-import {cookies} from 'next/headers'
 import {NextRequest, NextResponse} from 'next/server'
 import {geolocation, ipAddress} from '@vercel/functions'
 import axios from 'axios'
@@ -6,6 +5,8 @@ import {ACCESS_TOKEN_KEY} from '@/utils/auth'
 import countries from 'i18n-iso-countries'
 import enLocale from 'i18n-iso-countries/langs/en.json'
 import {withAppApiLogging} from '@/lib/logging'
+import {getRedis} from '@/lib/upstash-redis'
+import {logEvent, type LogContext} from '@/utils/structured-log'
 
 // Register English locale for country name lookups
 countries.registerLocale(enLocale)
@@ -21,23 +22,227 @@ function fnv1a32(input: string): string {
   return (hash >>> 0).toString(16).padStart(8, '0')
 }
 
+function sanitizeForwardedHeader(input: unknown): string | null {
+  if (typeof input !== 'string') return null
+
+  const normalized = input
+    .replace(/[\r\n]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+  if (!normalized) return null
+
+  // Node rejects header values with characters outside latin1 / valid header content.
+  return Buffer.from(normalized, 'latin1').toString('latin1') === normalized
+    ? normalized
+    : null
+}
+
 function sanitizeErrorMessage(input: unknown): string | null {
   if (input == null) return null
   const raw = typeof input === 'string' ? input : String(input)
 
   // Avoid leaking secrets/PII in logs.
   const redacted = raw
-    .replace(/Bearer\\s+[A-Za-z0-9._\\-]+/g, 'Bearer [redacted]')
+    .replace(/Bearer\s+[A-Za-z0-9._-]+/g, 'Bearer [redacted]')
     .replace(/(sk|rk|pk)_(live|test)_[A-Za-z0-9]+/g, '[redacted_key]')
     .replace(
-      /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}/g,
+      /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g,
       '[redacted_email]',
     )
 
-  const oneLine = redacted.replace(/\\s+/g, ' ').trim()
+  const oneLine = redacted.replace(/\s+/g, ' ').trim()
   if (!oneLine) return null
   const max = 300
   return oneLine.length > max ? `${oneLine.slice(0, max)}...` : oneLine
+}
+
+function sanitizeCountryNameForHeader(input: unknown): string | null {
+  if (typeof input !== 'string') return null
+
+  const ascii = input
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[’‘‛‚]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/[–—]/g, '-')
+    .replace(/[^\x20-\x7E]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  return sanitizeForwardedHeader(ascii)
+}
+
+function fingerprintValue(input: string | null): string | null {
+  return input ? fnv1a32(input) : null
+}
+
+const PRICING_PROXY_CACHE_PREFIX = 'pricing-proxy'
+const PRICING_PROXY_CACHE_TTL_SECONDS = Number(
+  process.env.PRICING_PROXY_CACHE_TTL_SECONDS ?? '300',
+)
+const PRICING_PROXY_CACHE_ENABLED =
+  Number.isFinite(PRICING_PROXY_CACHE_TTL_SECONDS) &&
+  PRICING_PROXY_CACHE_TTL_SECONDS > 0
+const PRICING_PROXY_SHARED_CACHE_TTL_SECONDS = PRICING_PROXY_CACHE_ENABLED
+  ? Math.floor(PRICING_PROXY_CACHE_TTL_SECONDS)
+  : undefined
+
+type PricingCacheEntry = {value: unknown; expiresAt: number}
+type PricingCacheStatus = 'memory_hit' | 'redis_hit' | 'miss' | 'skip'
+
+const pricingMemoryCache = new Map<string, PricingCacheEntry>()
+const pricingInFlight = new Map<
+  string,
+  Promise<{value: unknown; cacheStatus: PricingCacheStatus}>
+>()
+
+function pricingMemoryGet<T>(key: string): T | undefined {
+  const entry = pricingMemoryCache.get(key)
+  if (!entry) return undefined
+  if (Date.now() >= entry.expiresAt) {
+    pricingMemoryCache.delete(key)
+    return undefined
+  }
+  return entry.value as T
+}
+
+function pricingMemorySet(key: string, value: unknown) {
+  if (!PRICING_PROXY_CACHE_ENABLED) return
+
+  pricingMemoryCache.set(key, {
+    value,
+    expiresAt: Date.now() + PRICING_PROXY_CACHE_TTL_SECONDS * 1000,
+  })
+}
+
+function normalizeSearchParams(searchParams: URLSearchParams): string {
+  const sortedEntries = Array.from(searchParams.entries()).sort(
+    ([a, av], [b, bv]) => {
+      const keyCompare = a.localeCompare(b)
+      if (keyCompare !== 0) return keyCompare
+      return av.localeCompare(bv)
+    },
+  )
+
+  const normalized = new URLSearchParams()
+  for (const [key, value] of sortedEntries) {
+    normalized.append(key, value)
+  }
+
+  return normalized.toString()
+}
+
+function buildPricingCacheKey(args: {
+  siteClientId: string | null
+  country: string | null
+  queryString: string
+}) {
+  const queryFingerprint = fnv1a32(args.queryString || '_')
+
+  return [
+    PRICING_PROXY_CACHE_PREFIX,
+    'v2',
+    args.siteClientId ?? 'no-site-client',
+    args.country ?? 'no-country',
+    queryFingerprint,
+  ].join(':')
+}
+
+async function getCachedPricingValue<T>(
+  key: string,
+  fetcher: () => Promise<T>,
+): Promise<{value: T; cacheStatus: PricingCacheStatus}> {
+  const mem = pricingMemoryGet<T>(key)
+  if (mem !== undefined) {
+    return {value: mem, cacheStatus: 'memory_hit'}
+  }
+
+  const existing = pricingInFlight.get(key)
+  if (existing) {
+    const result = await existing
+    return {value: result.value as T, cacheStatus: result.cacheStatus}
+  }
+
+  const promise = (async () => {
+    const redis = getRedis()
+
+    if (redis) {
+      try {
+        const cached = await redis.get<T>(key)
+        if (cached !== null && cached !== undefined) {
+          pricingMemorySet(key, cached)
+          return {value: cached, cacheStatus: 'redis_hit' as const}
+        }
+      } catch {
+        // fail open if Redis is unavailable
+      }
+    }
+
+    const fetched = await fetcher()
+    pricingMemorySet(key, fetched)
+
+    if (redis && PRICING_PROXY_CACHE_ENABLED) {
+      try {
+        await redis.set(key, fetched, {
+          ex: Math.floor(PRICING_PROXY_CACHE_TTL_SECONDS),
+        })
+      } catch {
+        // fail open if Redis set fails
+      }
+    }
+
+    return {value: fetched, cacheStatus: 'miss' as const}
+  })()
+
+  pricingInFlight.set(key, promise)
+  try {
+    const result = await promise
+    return {value: result.value as T, cacheStatus: result.cacheStatus}
+  } finally {
+    pricingInFlight.delete(key)
+  }
+}
+
+function appendVaryHeader(response: NextResponse, headerName: string) {
+  const existing = response.headers.get('Vary')
+  const values = new Set(
+    (existing ?? '')
+      .split(',')
+      .map((value) => value.trim())
+      .filter(Boolean),
+  )
+
+  values.add(headerName)
+  response.headers.set('Vary', Array.from(values).join(', '))
+}
+
+function createPricingResponse(
+  body: unknown,
+  options: {cacheStatus: PricingCacheStatus; cacheableCandidate: boolean},
+) {
+  const response = NextResponse.json(body)
+
+  response.headers.set('x-pricing-cache', options.cacheStatus)
+
+  if (options.cacheableCandidate) {
+    const cacheControlParts = ['public', 'max-age=60']
+
+    if (PRICING_PROXY_SHARED_CACHE_TTL_SECONDS !== undefined) {
+      cacheControlParts.push(
+        `s-maxage=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}`,
+        `stale-while-revalidate=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}`,
+      )
+      response.headers.set(
+        'Vercel-CDN-Cache-Control',
+        `public, s-maxage=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}, stale-while-revalidate=${PRICING_PROXY_SHARED_CACHE_TTL_SECONDS}`,
+      )
+    }
+
+    response.headers.set('Cache-Control', cacheControlParts.join(', '))
+    appendVaryHeader(response, 'x-vercel-ip-country')
+  }
+
+  return response
 }
 
 /**
@@ -54,83 +259,168 @@ async function _GET(request: NextRequest) {
   const ip = ipAddress(request)
   let railsStartedAt: number | null = null
 
+  // Build headers to forward to Rails backend
+  const geoHeaders: Record<string, string> = {}
+
+  const safeCountry = sanitizeForwardedHeader(geo?.country)
+  const rawCountryName = safeCountry
+    ? countries.getName(safeCountry, 'en')
+    : null
+  const safeCountryName = rawCountryName
+    ? sanitizeCountryNameForHeader(rawCountryName)
+    : null
+  if (safeCountry) {
+    geoHeaders['x-vercel-ip-country'] = safeCountry
+    if (safeCountryName) {
+      geoHeaders['x-country-name'] = safeCountryName
+    }
+  }
+
+  const safeCity = sanitizeForwardedHeader(geo?.city)
+  if (safeCity) {
+    geoHeaders['x-vercel-ip-city'] = safeCity
+  }
+
+  const safeRegion = sanitizeForwardedHeader(geo?.countryRegion)
+  if (safeRegion) {
+    geoHeaders['x-vercel-ip-country-region'] = safeRegion
+  }
+
+  const safeLatitude = sanitizeForwardedHeader(geo?.latitude)
+  if (safeLatitude) {
+    geoHeaders['x-vercel-ip-latitude'] = safeLatitude
+  }
+
+  const safeLongitude = sanitizeForwardedHeader(geo?.longitude)
+  if (safeLongitude) {
+    geoHeaders['x-vercel-ip-longitude'] = safeLongitude
+  }
+
+  if (ip) {
+    geoHeaders['x-forwarded-for'] = ip
+  }
+
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[Pricing Proxy] Geolocation data:', {
+      country: safeCountry,
+      countryName: safeCountryName,
+      city: safeCity,
+      region: safeRegion,
+      latitude: safeLatitude,
+      longitude: safeLongitude,
+      ip,
+      headers: geoHeaders,
+    })
+  }
+
+  const accessToken = request.cookies.get(ACCESS_TOKEN_KEY)
+  const hasToken = Boolean(accessToken?.value)
+  const authorizationHeader = accessToken?.value
+    ? {Authorization: `Bearer ${accessToken.value}`}
+    : {}
+
+  const searchParams = request.nextUrl.searchParams
+  const queryParams = Object.fromEntries(searchParams.entries())
+  const queryKeys = Array.from(searchParams.keys()).sort()
+  const normalizedQueryString = normalizeSearchParams(searchParams)
+
+  const hasCouponParam = Boolean(searchParams.get('coupon'))
+  const hasDiscountCodeParam = Boolean(searchParams.get('dc'))
+  const hasEncodedParams =
+    Boolean(searchParams.get('en')) || Boolean(searchParams.get('dc'))
+  const cacheableCandidate =
+    !hasToken && !hasCouponParam && !hasDiscountCodeParam && !hasEncodedParams
+
+  const siteClientId = process.env.NEXT_PUBLIC_CLIENT_ID ?? null
+  const logContext: LogContext = {
+    request_id: requestId ?? undefined,
+    route: '/api/pricing',
+  }
+  const cacheKey =
+    cacheableCandidate && PRICING_PROXY_CACHE_ENABLED
+      ? buildPricingCacheKey({
+          siteClientId,
+          country: safeCountry,
+          queryString: normalizedQueryString,
+        })
+      : null
+
   try {
-    // Get geolocation data using Vercel Functions helper
-    // Build headers to forward to Rails backend
-    const geoHeaders: Record<string, string> = {}
-
-    // Forward Vercel geo data as headers that Rails expects
-    if (geo?.country) {
-      geoHeaders['x-vercel-ip-country'] = geo.country
-      // Add country name header for Rails to use
-      const countryName = countries.getName(geo.country, 'en')
-      if (countryName) {
-        geoHeaders['x-country-name'] = countryName
-      }
-    }
-    if (geo?.city) {
-      geoHeaders['x-vercel-ip-city'] = geo.city
-    }
-    if (geo?.countryRegion) {
-      geoHeaders['x-vercel-ip-country-region'] = geo.countryRegion
-    }
-    if (geo?.latitude) {
-      geoHeaders['x-vercel-ip-latitude'] = geo.latitude
-    }
-    if (geo?.longitude) {
-      geoHeaders['x-vercel-ip-longitude'] = geo.longitude
-    }
-    if (ip) {
-      geoHeaders['x-forwarded-for'] = ip
-    }
-
-    // Debug logging (only in development)
-    if (process.env.NODE_ENV === 'development') {
-      console.log('[Pricing Proxy] Geolocation data:', {
-        country: geo?.country,
-        countryName: geo?.country
-          ? countries.getName(geo.country, 'en')
-          : undefined,
-        city: geo?.city,
-        region: geo?.countryRegion,
-        latitude: geo?.latitude,
-        longitude: geo?.longitude,
-        ip,
-        headers: geoHeaders,
-      })
-    }
-
-    // Get access token from cookies for authorization
-    const cookieStore = await cookies()
-    const accessToken = cookieStore.get(ACCESS_TOKEN_KEY)
-    const authorizationHeader = accessToken?.value
-      ? {Authorization: `Bearer ${accessToken.value}`}
-      : {}
-
-    // Get query parameters from the URL
-    const searchParams = request.nextUrl.searchParams
-    const queryParams = Object.fromEntries(searchParams.entries())
-
-    // Make the request to the Rails backend
-    railsStartedAt = performance.now()
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/next/pricing`,
-      {
-        params: queryParams,
-        headers: {
-          ...authorizationHeader,
-          'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID,
-          ...geoHeaders,
+    try {
+      logEvent(
+        'info',
+        'pricing.proxy.geo_forwarded',
+        {
+          site_client_id: siteClientId,
+          has_site_client: Boolean(siteClientId),
+          country_code: safeCountry,
+          country_name_present: Boolean(rawCountryName),
+          country_name_changed:
+            Boolean(rawCountryName) && rawCountryName !== safeCountryName,
+          country_name_fingerprint: fingerprintValue(safeCountryName),
+          city_present: Boolean(safeCity),
+          region_present: Boolean(safeRegion),
+          has_ip: Boolean(ip),
+          has_token: hasToken,
+          cacheable_candidate: cacheableCandidate,
         },
-      },
-    )
+        logContext,
+      )
+    } catch {
+      // logging must never crash
+    }
+    const fetchPricingFromRails = async () => {
+      railsStartedAt = performance.now()
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/next/pricing`,
+        {
+          params: queryParams,
+          headers: {
+            ...authorizationHeader,
+            'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID,
+            ...geoHeaders,
+          },
+        },
+      )
 
-    // Success logs are noisy (this endpoint is high-volume). Emit only the
-    // generic api.call log via withAppApiLogging. Error logs below are structured.
-    //
-    // If we need success sampling later for coupon/PPP visibility, add it here
-    // deterministically (e.g. based on request_id hash) to keep volume bounded.
-    return NextResponse.json(response.data)
+      return response.data
+    }
+
+    let cacheStatus: PricingCacheStatus = 'skip'
+    let body: unknown
+
+    if (cacheKey) {
+      const cached = await getCachedPricingValue(
+        cacheKey,
+        fetchPricingFromRails,
+      )
+      cacheStatus = cached.cacheStatus
+      body = cached.value
+    } else {
+      body = await fetchPricingFromRails()
+    }
+
+    try {
+      logEvent(
+        'info',
+        'pricing.proxy.cache',
+        {
+          status: cacheStatus,
+          cacheable_candidate: cacheableCandidate,
+          has_token: hasToken,
+          has_coupon_param: hasCouponParam,
+          geo_country: safeCountry,
+          country_name_fingerprint: fingerprintValue(safeCountryName),
+          query_keys: queryKeys,
+          query_fingerprint: fnv1a32(normalizedQueryString || '_'),
+        },
+        logContext,
+      )
+    } catch {
+      // logging must never crash
+    }
+
+    return createPricingResponse(body, {cacheStatus, cacheableCandidate})
   } catch (error: any) {
     const duration_ms = Math.round(performance.now() - start)
     const rails_duration_ms =
@@ -148,70 +438,55 @@ async function _GET(request: NextRequest) {
       ? fnv1a32(String(error?.message))
       : null
 
-    // Keep logs actionable for agents:
-    // - upstream Rails status
-    // - whether x-site-client header is set (ties to egghead-rails#5027)
-    // - whether this request is a good cache candidate (non-auth, low-cardinality)
     try {
-      const searchParams = request.nextUrl.searchParams
-      const queryKeys = Array.from(searchParams.keys())
-
-      const hasToken = Boolean((await cookies()).get(ACCESS_TOKEN_KEY)?.value)
-      const hasCouponParam = Boolean(searchParams.get('coupon'))
-      const hasDiscountCodeParam = Boolean(searchParams.get('dc'))
-      const hasEncodedParams =
-        Boolean(searchParams.get('en')) || Boolean(searchParams.get('dc'))
-
       const railsStatus =
         typeof error?.response?.status === 'number'
           ? error.response.status
           : null
 
-      const siteClientId = process.env.NEXT_PUBLIC_CLIENT_ID ?? null
-
-      const cacheable_candidate =
-        !hasToken &&
-        !hasCouponParam &&
-        !hasDiscountCodeParam &&
-        !hasEncodedParams
-
-      const log = {
-        event: 'pricing.proxy.error',
-        ok: false,
-        duration_ms,
-        rails_duration_ms,
-        request_id: requestId,
-        rails_status: railsStatus,
-        axios_code: error?.code ?? null,
-        error_message,
-        error_fingerprint,
-        has_token: hasToken,
-        cacheable_candidate,
-        site_client_id: siteClientId,
-        has_site_client: Boolean(siteClientId),
-        geo_country: geo?.country ?? null,
-        has_geo_country: Boolean(geo?.country),
-        has_ip: Boolean(ip),
-        query_keys: queryKeys,
-        has_coupon_param: hasCouponParam,
-      }
-
-      console.error(JSON.stringify(log))
+      logEvent(
+        'error',
+        'pricing.proxy.error',
+        {
+          ok: false,
+          duration_ms,
+          rails_duration_ms,
+          rails_status: railsStatus,
+          axios_code: error?.code ?? null,
+          error_message,
+          error_fingerprint,
+          has_token: hasToken,
+          cacheable_candidate: cacheableCandidate,
+          site_client_id: siteClientId,
+          has_site_client: Boolean(siteClientId),
+          geo_country: safeCountry,
+          has_geo_country: Boolean(safeCountry),
+          country_name_fingerprint: fingerprintValue(safeCountryName),
+          has_ip: Boolean(ip),
+          query_keys: queryKeys,
+          has_coupon_param: hasCouponParam,
+        },
+        logContext,
+      )
     } catch {
       // Never crash the handler due to logging failures.
     }
 
     if (error.response) {
-      // Forward the error response from Rails
-      return NextResponse.json(error.response.data, {
+      const response = NextResponse.json(error.response.data, {
         status: error.response.status,
       })
+      response.headers.set('x-pricing-cache', 'error')
+      return response
     } else {
-      return NextResponse.json(
+      const response = NextResponse.json(
         {error: 'Failed to fetch pricing data'},
         {status: 500},
       )
+      response.headers.set('x-pricing-cache', 'error')
+      return response
     }
   }
 }
+
 export const GET = withAppApiLogging(_GET)

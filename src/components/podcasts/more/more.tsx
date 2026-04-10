@@ -1,9 +1,9 @@
 import React, {FunctionComponent} from 'react'
-import {PodcastResource} from '@/types'
+import type {PodcastCardResource} from '@/lib/podcasts'
 import PodcastCard from '@/components/podcasts/card/card'
 
 type MorePodcastProps = {
-  podcasts: Array<PodcastResource>
+  podcasts: PodcastCardResource[]
 }
 
 const MorePodcasts: FunctionComponent<
@@ -15,7 +15,7 @@ const MorePodcasts: FunctionComponent<
         More Podcasts
       </h3>
       <ul className="mb-10 justify-items-center grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-        {podcasts.map((podcast: PodcastResource) => (
+        {podcasts.map((podcast: PodcastCardResource) => (
           <PodcastCard podcast={podcast} key={podcast.id} />
         ))}
       </ul>

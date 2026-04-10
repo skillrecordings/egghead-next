@@ -27,7 +27,7 @@ export const PostAccessSchema = z.union([z.literal('free'), z.literal('pro')])
 
 export const FieldsSchema = z.object({
   title: z.string(),
-  postType: PostTypeSchema.default('lesson'),
+  postType: PostTypeSchema.nullish().transform((value) => value ?? 'lesson'),
   summary: z.string().optional().nullable(),
   body: z.string().nullable().optional(),
   state: PostStateSchema.default('draft'),

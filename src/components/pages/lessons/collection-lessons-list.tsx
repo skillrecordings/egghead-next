@@ -20,8 +20,33 @@ type NextUpListProps = {
   sections?: SectionResource[]
 }
 
+export function isRenderableLesson(lesson: any) {
+  return Boolean(lesson?.slug && lesson?.path)
+}
+
+export function normalizeRenderableLessons(lessons: LessonResource[] = []) {
+  const seen = new Set<string>()
+
+  return lessons.filter((lesson: any) => {
+    if (!isRenderableLesson(lesson)) return false
+    if (seen.has(lesson.slug)) return false
+
+    seen.add(lesson.slug)
+    return true
+  })
+}
+
+export function normalizeRenderableSections(sections: SectionResource[] = []) {
+  return sections
+    .map((section: any) => ({
+      ...section,
+      lessons: normalizeRenderableLessons(section?.lessons ?? []),
+    }))
+    .filter((section: any) => section?.title && section.lessons.length > 0)
+}
+
 export function hasRenderableSections(course: any) {
-  return Array.isArray(course?.sections) && course.sections.length > 0
+  return normalizeRenderableSections(course?.sections ?? []).length > 0
 }
 
 const CollectionLessonsList: FunctionComponent<
@@ -30,14 +55,17 @@ const CollectionLessonsList: FunctionComponent<
   const [activeElement, setActiveElement] = React.useState(currentLessonSlug)
   const scrollableNodeRef: any = React.createRef()
 
-  const lessonList = course ? course.lessons : lessons
-  const shouldRenderAccordion = hasRenderableSections(course)
+  const lessonList = normalizeRenderableLessons(
+    course ? course.lessons : lessons,
+  )
+  const sections = normalizeRenderableSections(course?.sections ?? [])
+  const shouldRenderAccordion = sections.length > 0
 
   const AccordionLessonList = () => {
     const [openLesson, setOpenLesson] = React.useState<string[]>([])
 
     React.useEffect(() => {
-      const currentLessonSectionIndex = course?.sections?.findIndex(
+      const currentLessonSectionIndex = sections.findIndex(
         (section: SectionResource) =>
           section.lessons.some((lesson) => lesson.slug === currentLessonSlug),
       )
@@ -58,7 +86,7 @@ const CollectionLessonsList: FunctionComponent<
           value={openLesson}
           onValueChange={handleAccordionChange}
         >
-          {course?.sections?.map((section: SectionResource, index: number) => (
+          {sections.map((section: SectionResource, index: number) => (
             <Accordion.Item key={index} value={`resource_${index}`}>
               <Accordion.Header className="relative z-10 overflow-hidden ">
                 <Accordion.Trigger className="bg-gray-100 group relative z-10 flex w-full items-center justify-between  border border-white/5 dark:bg-gray-800/20 px-3 py-2.5 text-left shadow-lg transition dark:hover:bg-gray-800/40">
@@ -89,7 +117,7 @@ const CollectionLessonsList: FunctionComponent<
                     lesson.completed || completedLessons.includes(lesson.slug)
 
                   return (
-                    <li key={lesson.slug}>
+                    <li key={`${lesson.slug}-${index}`}>
                       {lesson.slug === currentLessonSlug && (
                         // @ts-ignore
                         <Element name={lesson.slug} />
@@ -151,7 +179,7 @@ const CollectionLessonsList: FunctionComponent<
                   lesson.completed || completedLessons.includes(lesson.slug)
 
                 return (
-                  <li key={lesson.slug}>
+                  <li key={`${lesson.slug}-${index}`}>
                     {lesson.slug === currentLessonSlug && (
                       // @ts-ignore
                       <Element name={lesson.slug} />
@@ -221,9 +249,11 @@ const Item: FunctionComponent<
       </div>
     </div>
   )
-  return active ? (
-    <Item />
-  ) : (
+  if (active || !lesson.path) {
+    return <Item />
+  }
+
+  return (
     <Link
       href={lesson.path}
       onClick={() => {

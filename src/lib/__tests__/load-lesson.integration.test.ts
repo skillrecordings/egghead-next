@@ -222,4 +222,46 @@ describe('integration: loadLesson (title correctness)', () => {
     expect(lesson.slug).toBe(legacySlug)
     expect(sanityFetch).not.toHaveBeenCalled()
   })
+
+  test('caches GraphQL 404 misses and skips repeated lookups for missing slugs', async () => {
+    const redisGet = jest
+      .fn()
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(true)
+    const redisSet = jest.fn(async () => 'OK')
+
+    jest.doMock('@/lib/upstash-redis', () => ({
+      __esModule: true,
+      getRedis: () => ({
+        get: redisGet,
+        set: redisSet,
+      }),
+    }))
+
+    const request = jest.fn(async () => {
+      throw new Error('GraphQL Error (Code: 404): Not Found')
+    })
+
+    jest.doMock('@/utils/configured-graphql-client', () => ({
+      __esModule: true,
+      getGraphQLClient: () => ({request}),
+    }))
+
+    jest.spyOn(console, 'log').mockImplementation(() => {})
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    const {loadLessonMetadataFromGraphQL} = await import('../lessons')
+
+    await expect(
+      loadLessonMetadataFromGraphQL('missing-practical-git-lesson'),
+    ).resolves.toEqual({})
+    await expect(
+      loadLessonMetadataFromGraphQL('missing-practical-git-lesson'),
+    ).resolves.toEqual({})
+
+    expect(request).toHaveBeenCalledTimes(1)
+    expect(redisSet).toHaveBeenCalledTimes(1)
+    expect(redisGet).toHaveBeenCalledTimes(1)
+  })
 })

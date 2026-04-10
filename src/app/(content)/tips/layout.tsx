@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import Header from '@/components/app/header'
+import ServerHeaderShell from '@/components/app/header/server-header-shell'
 import Main from '@/components/app/app-main'
 import Footer from '@/components/app/app-footer'
 import '@/styles/index.css'
@@ -14,7 +14,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<unknown>> = ({
       <body>
         <div className="flex flex-col min-h-screen">
           <Providers>
-            <Header />
+            <ServerHeaderShell route="/tips" />
             <Main>{children}</Main>
             <Footer />
           </Providers>
