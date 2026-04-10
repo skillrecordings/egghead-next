@@ -5,8 +5,6 @@ import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
 import {getCourseBuilderCaseStudies} from '@/lib/get-course-builder-metadata'
 
-export const HIDDEN_CASE_STUDIES = ['cloudflare'] // these exist on their own respective routes (not under /case-studies)
-
 const CaseStudies: React.FC<React.PropsWithChildren<unknown>> = (
   allCaseStudies: any,
 ) => {
@@ -79,14 +77,9 @@ export default CaseStudies
 export async function getStaticProps() {
   const caseStudies = await getCourseBuilderCaseStudies()
 
-  // Filter out hidden case studies (e.g. cloudflare)
-  const filteredCaseStudies = (caseStudies || []).filter(
-    (cs) => !HIDDEN_CASE_STUDIES.includes(cs.slug),
-  )
-
   return {
     props: {
-      allCaseStudies: filteredCaseStudies,
+      allCaseStudies: caseStudies || [],
     },
     revalidate: 60,
   }

@@ -6,7 +6,6 @@ import {useRouter} from 'next/router'
 import {MDXRemote} from 'next-mdx-remote'
 import mdxComponents from '@/components/mdx'
 import {serialize} from 'next-mdx-remote/serialize'
-import {HIDDEN_CASE_STUDIES} from './index'
 import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
 import rehypeHighlight from 'rehype-highlight'
@@ -285,12 +284,9 @@ export const getStaticProps = withStaticPropsLogging(async (context: any) => {
 export async function getStaticPaths() {
   const allCaseStudies = await getCourseBuilderCaseStudies()
 
-  // Filter out hidden case studies and build paths
-  const paths = (allCaseStudies || [])
-    .filter((cs) => !HIDDEN_CASE_STUDIES.includes(cs.slug))
-    .map((caseStudy) => ({
-      params: {slug: caseStudy.slug},
-    }))
+  const paths = (allCaseStudies || []).map((caseStudy) => ({
+    params: {slug: caseStudy.slug},
+  }))
 
   return {
     paths,
