@@ -3,6 +3,8 @@ import {loadLesson} from '@/lib/lessons'
 import {VideoResource} from '@/types'
 import Embed from './_components/embed-lesson'
 
+export const revalidate = 3600
+
 type Props = {
   params: Promise<{slug: string}>
 }

@@ -27,7 +27,7 @@ import {withHeaderBannerStaticProps} from '@/server/with-header-banner-props'
 
 import {VideoProvider} from '@/player'
 
-const LESSON_REVALIDATE_SECONDS = 300
+const LESSON_REVALIDATE_SECONDS = 60 * 60
 
 const isLessonNotFoundError = (error: unknown) => {
   return (
@@ -93,7 +93,10 @@ const logLessonStaticPropsRender = ({
 export const getStaticPaths: GetStaticPaths = async () => {
   logEvent('info', 'lesson.static_paths.summary', getStaticPathSummaryPayload())
 
-  if (HOT_LESSON_PATHS_ALIAS_COUNT > 0 || HOT_LESSON_PATHS_UNRESOLVED_COUNT > 0) {
+  if (
+    HOT_LESSON_PATHS_ALIAS_COUNT > 0 ||
+    HOT_LESSON_PATHS_UNRESOLVED_COUNT > 0
+  ) {
     logEvent('warn', 'lesson.static_paths.anomalies', {
       alias_count: HOT_LESSON_PATHS_ALIAS_COUNT,
       unresolved_count: HOT_LESSON_PATHS_UNRESOLVED_COUNT,
