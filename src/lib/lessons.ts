@@ -329,46 +329,55 @@ export async function loadLessonMetadataFromGraphQL(
   }
 }
 
+type LoadLessonOptions = {
+  includeComments?: boolean
+}
+
 export async function loadLesson(
   slug: string,
   token?: string,
   useAuth?: boolean,
   logContext: LogContext = {},
+  options: LoadLessonOptions = {},
 ): Promise<LessonResource> {
   const startTime = Date.now()
+  const {includeComments = true} = options
   token = useAuth ? token || getAccessTokenFromCookie() : undefined
 
-  /******************************************
-   * Primary Lesson Metadata GraphQL Request
-   * ****************************************/
-  const lessonMetadataFromGraphQL = await loadLessonMetadataFromGraphQL(
-    slug,
-    token,
-    logContext,
-  )
+  const [
+    lessonMetadataFromGraphQL,
+    comments,
+    lessonMetadataFromSanity,
+    lessonMetadataFromCourseBuilder,
+  ] = await Promise.all([
+    /******************************************
+     * Primary Lesson Metadata GraphQL Request
+     * ****************************************/
+    loadLessonMetadataFromGraphQL(slug, token, logContext),
 
-  /**********************************************
-   * Load comments from separate GraphQL Request
-   * ********************************************/
-  // comments are user-generated content that must come from the egghead-rails
-  // backend, so load those separately from the rest of lesson metadata.
-  const comments = await loadLessonComments(slug, token, logContext)
+    /**********************************************
+     * Load comments from separate GraphQL Request
+     * ********************************************/
+    // comments are user-generated content that must come from the egghead-rails
+    // backend. For static lesson shells we can skip this and hydrate comments on
+    // the client instead of blocking ISR on another GraphQL request.
+    includeComments
+      ? loadLessonComments(slug, token, logContext)
+      : Promise.resolve([]),
 
-  /*************************************
-   * Sanity Request for Lesson Metadata
-   * ***********************************/
-  // this will be used to override values from graphql
-  const lessonMetadataFromSanity = await loadLessonMetadataFromSanity(
-    slug,
-    logContext,
-  )
+    /*************************************
+     * Sanity Request for Lesson Metadata
+     * ***********************************/
+    // this will be used to override values from graphql
+    loadLessonMetadataFromSanity(slug, logContext),
 
-  const lessonMetadataFromCourseBuilder = await timeEvent(
-    'lesson.getCourseBuilderLesson.mysql',
-    {slug},
-    async () => getCourseBuilderLesson(slug),
-    logContext,
-  )
+    timeEvent(
+      'lesson.getCourseBuilderLesson.mysql',
+      {slug},
+      async () => getCourseBuilderLesson(slug),
+      logContext,
+    ),
+  ])
 
   /*************************************
    * Merge All Lesson Metadata Together
@@ -403,6 +412,7 @@ export async function loadLesson(
       has_sanity: !isEmpty(lessonMetadataFromSanity?.slug),
       has_coursebuilder: !!lessonMetadataFromCourseBuilder,
       comments_count: comments?.length ?? 0,
+      comments_included: includeComments,
     },
     logContext,
   )

@@ -145,6 +145,7 @@ export const getStaticProps: GetStaticProps = withHeaderBannerStaticProps(
         undefined,
         false,
         logContext,
+        {includeComments: false},
       )
 
       if (!initialLesson?.slug) {

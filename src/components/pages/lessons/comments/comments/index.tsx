@@ -5,7 +5,7 @@ import Comment from '@/components/pages/lessons/comments/comment'
 import CommentField from '@/components/pages/lessons/comments/comment-field'
 import {track} from '@/utils/analytics'
 import {useViewer} from '@/context/viewer-context'
-import {saveCommentForLesson} from '@/lib/lesson-comments'
+import {loadLessonComments, saveCommentForLesson} from '@/lib/lesson-comments'
 import {LockClosedIcon} from '@heroicons/react/solid'
 
 type CommentsProps = {
@@ -50,7 +50,7 @@ const Comments: React.FunctionComponent<
 > = ({lesson}: CommentsProps) => {
   const {viewer} = useViewer()
   const [mounted, setMounted] = React.useState(false)
-  const [comments, setComments] = React.useState(lesson.comments)
+  const [comments, setComments] = React.useState(lesson.comments ?? [])
   const {slug} = lesson
   const commentsAvailable =
     comments?.some((comment: any) => comment.state === 'published') ?? false
@@ -59,13 +59,29 @@ const Comments: React.FunctionComponent<
     const newComment = await saveCommentForLesson(slug, {
       comment,
     })
-    setComments([...comments, newComment])
+    setComments([...(comments ?? []), newComment])
   }
 
   React.useEffect(() => {
+    let cancelled = false
+
     setMounted(true)
-    setComments(lesson.comments)
-  }, [lesson])
+    setComments(lesson.comments ?? [])
+
+    const shouldHydrateComments = !lesson.comments?.length
+
+    if (shouldHydrateComments && slug) {
+      loadLessonComments(slug).then((loadedComments) => {
+        if (!cancelled && loadedComments) {
+          setComments(loadedComments)
+        }
+      })
+    }
+
+    return () => {
+      cancelled = true
+    }
+  }, [lesson, slug])
 
   return mounted ? (
     <div className={commentsAvailable ? 'space-y-10' : 'space-y-6'}>
