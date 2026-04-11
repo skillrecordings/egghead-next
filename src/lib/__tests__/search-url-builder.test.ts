@@ -25,7 +25,7 @@ test('creates a url from an empty search state', () => {
   expect(url).toBe(config.searchUrlRoot)
 })
 
-test('creates a url with a query with single tag and instructor filtered by type', () => {
+test('creates a collapsed query url for search query plus tag and instructor filtered by type', () => {
   const url = createUrl({
     query: 'hooks',
     refinementList: {
@@ -36,11 +36,11 @@ test('creates a url with a query with single tag and instructor filtered by type
   })
 
   expect(url).toBe(
-    `${config.searchUrlRoot}/react-${CREATOR_DELINIATOR}-kent-c-dodds?q=hooks&type=course`,
+    `${config.searchUrlRoot}?q=hooks&type=course&tags=react&instructors=kent-c-dodds`,
   )
 })
 
-test('creates a url with a query with single tag and instructor filtered by multiple types', () => {
+test('creates a collapsed query url for search query plus tag and instructor filtered by multiple types', () => {
   const url = createUrl({
     query: 'hooks',
     refinementList: {
@@ -51,11 +51,11 @@ test('creates a url with a query with single tag and instructor filtered by mult
   })
 
   expect(url).toBe(
-    `${config.searchUrlRoot}/react-${CREATOR_DELINIATOR}-kent-c-dodds?q=hooks&type=course,podcast`,
+    `${config.searchUrlRoot}?q=hooks&type=course,podcast&tags=react&instructors=kent-c-dodds`,
   )
 })
 
-test('creates a url with a query with single tag and instructor named Kent C. Dodds', () => {
+test('creates a collapsed query url for tag plus instructor browse state', () => {
   const url = createUrl({
     refinementList: {
       instructor_name: ['Kent C. Dodds'],
@@ -64,7 +64,7 @@ test('creates a url with a query with single tag and instructor named Kent C. Do
   })
 
   expect(url).toBe(
-    `${config.searchUrlRoot}/react-${CREATOR_DELINIATOR}-kent-c-dodds`,
+    `${config.searchUrlRoot}?tags=react&instructors=kent-c-dodds`,
   )
 })
 
@@ -78,7 +78,7 @@ test('creates a url with instructor named Kent C. Dodds', () => {
   expect(url).toBe(`${config.searchUrlRoot}/${CREATOR_DELINIATOR}-kent-c-dodds`)
 })
 
-test('creates a url with a query with single tag and instructor not named Kent C. Dodds', () => {
+test('creates a collapsed query url for tag plus non-kent instructor browse state', () => {
   const url = createUrl({
     refinementList: {
       instructor_name: ['Ceora Ford'],
@@ -86,19 +86,17 @@ test('creates a url with a query with single tag and instructor not named Kent C
     },
   })
 
-  expect(url).toBe(
-    `${config.searchUrlRoot}/react-${CREATOR_DELINIATOR}-ceora-ford`,
-  )
+  expect(url).toBe(`${config.searchUrlRoot}?tags=react&instructors=ceora-ford`)
 })
 
-test('creates a url multiple tags', () => {
+test('creates a collapsed query url for multiple tags', () => {
   const url = createUrl({
     refinementList: {
       _tags: ['react', 'redux'],
     },
   })
 
-  expect(url).toBe(`${config.searchUrlRoot}/react-and-redux`)
+  expect(url).toBe(`${config.searchUrlRoot}?tags=react,redux`)
 })
 
 test('creates a url single instructor', () => {
@@ -147,9 +145,9 @@ test('parses a url from tag', () => {
   })
 })
 
-test('parses a url from two tag', () => {
+test('parses collapsed query tags', () => {
   const searchParams = parseUrl({
-    all: ['react-and-redux'],
+    tags: 'react,redux',
   })
 
   expect(searchParams).toEqual({
@@ -157,23 +155,24 @@ test('parses a url from two tag', () => {
   })
 })
 
-test('parses a url tag and multiple instructors', () => {
+test('parses collapsed query instructors', () => {
   const searchParams = parseUrl({
-    all: [`react-${CREATOR_DELINIATOR}-kent-c-dodds-and-ceora-ford`],
+    instructors: 'kent-c-dodds,ceora-ford',
   })
 
   expect(searchParams).toEqual({
     refinementList: {
-      _tags: ['react'],
+      _tags: [],
       instructor_name: ['Kent C. Dodds', 'Ceora Ford'],
     },
   })
 })
 
-test('parses a url tag and instructor and query', () => {
+test('parses a canonical browse path with a search query collapsed into query params', () => {
   const searchParams = parseUrl({
     q: 'react hooks',
-    all: [`react-${CREATOR_DELINIATOR}-kent-c-dodds`],
+    tags: 'react',
+    instructors: 'kent-c-dodds',
   })
 
   expect(searchParams).toEqual({

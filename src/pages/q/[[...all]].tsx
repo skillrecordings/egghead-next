@@ -6,7 +6,12 @@ import {NextSeo} from 'next-seo'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {withStaticPropsLogging} from '@/lib/logging'
 import qs from 'qs'
-import {createUrl, parseUrl, titleFromPath} from '@/lib/search-url-builder'
+import {
+  createUrl,
+  parseUrl,
+  titleFromPath,
+  isCanonicalSearchBrowseState,
+} from '@/lib/search-url-builder'
 import {get, first} from 'lodash'
 import queryParamsPresent from '@/utils/query-params-present'
 import {loadInstructor} from '@/lib/instructors'
@@ -286,17 +291,30 @@ const getStaticPathParamsForSearchPath = (path: string) => {
   }
 }
 
+const isCanonicalStaticSearchPath = (path: string) => {
+  const all = path
+    .replace(/^\/q\/?/, '')
+    .split('/')
+    .filter(Boolean)
+  const searchState = parseUrl(all.length > 0 ? {all} : {})
+
+  return isCanonicalSearchBrowseState(searchState)
+}
+
 export const getStaticPaths: GetStaticPaths = async () => {
+  const canonicalHotPaths = HOT_SEARCH_PATHS.filter(isCanonicalStaticSearchPath)
+
   console.log(
     JSON.stringify({
       event: 'search.static_paths.generated',
-      count: HOT_SEARCH_PATHS.length,
+      count: canonicalHotPaths.length,
+      requested_count: HOT_SEARCH_PATHS.length,
     }),
   )
 
   const dedupedPaths = Array.from(
     new Map(
-      HOT_SEARCH_PATHS.map((path) => {
+      canonicalHotPaths.map((path) => {
         const staticPath = getStaticPathParamsForSearchPath(path)
         const key = (staticPath.params.all ?? []).join('/')
         return [key, staticPath]
