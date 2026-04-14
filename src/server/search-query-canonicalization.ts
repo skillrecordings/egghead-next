@@ -16,6 +16,8 @@ const CANONICAL_SEARCH_QUERY_KEYS = new Set([
   'access_state',
   'page',
   'sortBy',
+  'tags',
+  'instructors',
 ])
 
 const appendUnique = (existing: string[] = [], next: string[] = []) => {
@@ -30,6 +32,11 @@ const nameToSlug = (name = '') => {
     .replace(/[*+~.()'"!:@]/g, '')
     .trim()
     .replace(/\s+/g, '-')
+}
+
+const mergeCsvValues = (current?: string | null, extra: string[] = []) => {
+  const merged = appendUnique(current?.split(',').filter(Boolean) ?? [], extra)
+  return merged.length > 0 ? merged.join(',') : undefined
 }
 
 const tagsForPath = (path = '') => {
@@ -81,7 +88,7 @@ const readLegacyRefinements = (searchParams: URLSearchParams) => {
   return {hasLegacyRefinements, refinements}
 }
 
-const buildCanonicalSearchPath = ({
+const buildCanonicalSearchHref = ({
   pathname,
   searchParams,
 }: {
@@ -93,61 +100,69 @@ const buildCanonicalSearchPath = ({
   const firstPath = all.filter(Boolean)[0] ?? ''
   const {hasLegacyRefinements, refinements} =
     readLegacyRefinements(searchParams)
-  const rawInstructorSlugs = rawInstructorsForPath(firstPath)
-  const normalizedInstructorSlugs = rawInstructorSlugs.map((slug) =>
-    normalizeInstructorSlug(slug),
-  )
-  const hasInstructorAliasPath = rawInstructorSlugs.some(
-    (slug, index) => slug !== normalizedInstructorSlugs[index],
-  )
-
-  if (!hasLegacyRefinements && !hasInstructorAliasPath) return null
-
-  const tags = appendUnique(tagsForPath(firstPath), refinements._tags).sort()
+  const tags = appendUnique(
+    tagsForPath(firstPath),
+    mergeCsvValues(searchParams.get('tags'), refinements._tags)
+      ?.split(',')
+      .filter(Boolean) ?? [],
+  ).sort()
   const instructors = appendUnique(
     instructorsForPath(firstPath),
-    refinements.instructor_name,
+    mergeCsvValues(searchParams.get('instructors'), refinements.instructor_name)
+      ?.split(',')
+      .filter(Boolean)
+      .map((slug) => normalizeInstructorSlug(slug)) ?? [],
   ).sort()
-  const type = appendUnique(
-    (searchParams.get('type') ?? '').split(',').filter(Boolean),
-    refinements.type,
-  )
-  const accessState = appendUnique(
-    (searchParams.get('access_state') ?? '').split(',').filter(Boolean),
+  const type = mergeCsvValues(searchParams.get('type'), refinements.type)
+  const accessState = mergeCsvValues(
+    searchParams.get('access_state'),
     refinements.access_state,
   )
   const q = searchParams.get('q')?.trim() ?? ''
   const sortBy = searchParams.get('sortBy')?.trim() ?? ''
   const page = Number(searchParams.get('page') ?? 1)
+  const pathRefinementCount = tags.length + instructors.length
+  const canUseCanonicalPath =
+    pathRefinementCount <= 1 &&
+    !q &&
+    !sortBy &&
+    (!Number.isFinite(page) || page <= 1) &&
+    !type &&
+    !accessState
 
-  const pathTags = tags.join('-and-')
-  const pathInstructors = instructors.length
-    ? `${pathTags ? '-' : ''}${CREATOR_DELINIATOR}-${instructors.join('-and-')}`
-    : ''
-  const destinationPathname = `/q${
-    pathTags || pathInstructors ? `/${pathTags}${pathInstructors}` : ''
-  }`
+  const pathTags = canUseCanonicalPath ? tags.join('-and-') : ''
+  const pathInstructors =
+    canUseCanonicalPath && instructors.length
+      ? `${pathTags ? '-' : ''}${CREATOR_DELINIATOR}-${instructors.join(
+          '-and-',
+        )}`
+      : ''
 
-  const queryParts: string[] = []
-  if (q) queryParts.push(`q=${encodeURIComponent(q)}`)
-  if (type.length > 0) {
-    queryParts.push(
-      `type=${type.map((value) => encodeURIComponent(value)).join(',')}`,
-    )
+  const destinationPathname =
+    pathTags || pathInstructors ? `/q/${pathTags}${pathInstructors}` : '/q'
+
+  const destinationQuery = new URLSearchParams()
+
+  if (q) destinationQuery.set('q', q)
+  if (type) destinationQuery.set('type', type)
+  if (accessState) destinationQuery.set('access_state', accessState)
+  if (sortBy) destinationQuery.set('sortBy', sortBy)
+  if (Number.isFinite(page) && page > 1) {
+    destinationQuery.set('page', String(page))
   }
-  if (accessState.length > 0) {
-    queryParts.push(
-      `access_state=${accessState
-        .map((value) => encodeURIComponent(value))
-        .join(',')}`,
-    )
+
+  if (!canUseCanonicalPath) {
+    if (tags.length > 0) destinationQuery.set('tags', tags.join(','))
+    if (instructors.length > 0) {
+      destinationQuery.set('instructors', instructors.join(','))
+    }
   }
-  if (sortBy) queryParts.push(`sortBy=${encodeURIComponent(sortBy)}`)
-  if (Number.isFinite(page) && page > 1) queryParts.push(`page=${page}`)
 
   return {
-    destinationPathname,
-    queryString: queryParts.join('&'),
+    href: `${destinationPathname}${
+      destinationQuery.toString() ? `?${destinationQuery.toString()}` : ''
+    }`,
+    hasLegacyRefinements,
   }
 }
 
@@ -172,13 +187,9 @@ export function getCanonicalSearchQueryRedirect(
 
   if (pathname !== '/q' && !pathname.startsWith('/q/')) return null
 
-  const canonical = buildCanonicalSearchPath({pathname, searchParams})
-  if (!canonical) return null
+  const canonical = buildCanonicalSearchHref({pathname, searchParams})
+  const destination = new URL(canonical.href, req.url)
 
-  const destination = new URL(canonical.destinationPathname, req.url)
-  if (canonical.queryString) {
-    destination.search = canonical.queryString
-  }
   appendPassthroughSearchParams({
     destination,
     originalSearchParams: searchParams,
@@ -196,6 +207,8 @@ export function getCanonicalSearchQueryRedirect(
       event: 'search.query_canonicalize',
       route_path: pathname,
       destination_pathname: destination.pathname,
+      destination_search: destination.search,
+      had_legacy_refinements: canonical.hasLegacyRefinements,
       stripped_refinement_keys: Array.from(
         new Set(
           Array.from(searchParams.keys()).filter((key) =>

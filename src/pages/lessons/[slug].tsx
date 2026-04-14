@@ -27,7 +27,7 @@ import {withHeaderBannerStaticProps} from '@/server/with-header-banner-props'
 
 import {VideoProvider} from '@/player'
 
-const LESSON_REVALIDATE_SECONDS = 300
+const LESSON_REVALIDATE_SECONDS = 60 * 60
 
 const isLessonNotFoundError = (error: unknown) => {
   return (
@@ -145,6 +145,7 @@ export const getStaticProps: GetStaticProps = withHeaderBannerStaticProps(
         undefined,
         false,
         logContext,
+        {includeComments: false},
       )
 
       if (!initialLesson?.slug) {

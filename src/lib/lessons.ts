@@ -168,10 +168,16 @@ async function cacheGraphqlLessonMiss(slug: string, logContext: LogContext) {
  * loads LESSON METADATA from Sanity
  * @param slug
  */
+type LessonMetadataLoadOptions = {
+  allowRuntimeCaches?: boolean
+}
+
 async function loadLessonMetadataFromSanity(
   slug: string,
   logContext: LogContext,
+  options: LessonMetadataLoadOptions = {},
 ) {
+  const {allowRuntimeCaches = true} = options
   const params = {
     slug,
   }
@@ -179,10 +185,12 @@ async function loadLessonMetadataFromSanity(
   try {
     // If the allowlist is ready and this slug is not in it, skip Sanity entirely.
     // This is the big win: 1 Redis check vs 1 Sanity GROQ call for every unique slug.
-    const allowlist = await sanityAllowlistAllowsLesson(slug, logContext)
-    if (allowlist.ready && !allowlist.allowed) return {}
+    if (allowRuntimeCaches) {
+      const allowlist = await sanityAllowlistAllowsLesson(slug, logContext)
+      if (allowlist.ready && !allowlist.allowed) return {}
+    }
 
-    const redis = getRedis()
+    const redis = allowRuntimeCaches ? getRedis() : null
 
     // KV-cached to avoid paying the Sanity roundtrip for the ~96% of slugs
     // that don't have Sanity overrides.
@@ -257,8 +265,14 @@ export async function loadLessonMetadataFromGraphQL(
   slug: string,
   token?: string,
   logContext: LogContext = {},
+  options: LessonMetadataLoadOptions = {},
 ) {
-  if (await isGraphqlLessonMissCached(slug, logContext)) {
+  const {allowRuntimeCaches = true} = options
+
+  if (
+    allowRuntimeCaches &&
+    (await isGraphqlLessonMissCached(slug, logContext))
+  ) {
     logEvent(
       'info',
       'lesson.loadLessonMetadataFromGraphQL.cache_hit',
@@ -293,7 +307,9 @@ export async function loadLessonMetadataFromGraphQL(
     return lessonMetadataFromGraphQL
   } catch (e) {
     if (isGraphQL404(e)) {
-      await cacheGraphqlLessonMiss(slug, logContext)
+      if (allowRuntimeCaches) {
+        await cacheGraphqlLessonMiss(slug, logContext)
+      }
       logEvent(
         'info',
         'lesson.loadLessonMetadataFromGraphQL.not_found',
@@ -329,46 +345,60 @@ export async function loadLessonMetadataFromGraphQL(
   }
 }
 
+type LoadLessonOptions = {
+  includeComments?: boolean
+  allowRuntimeCaches?: boolean
+}
+
 export async function loadLesson(
   slug: string,
   token?: string,
   useAuth?: boolean,
   logContext: LogContext = {},
+  options: LoadLessonOptions = {},
 ): Promise<LessonResource> {
   const startTime = Date.now()
+  const {includeComments = true, allowRuntimeCaches = true} = options
   token = useAuth ? token || getAccessTokenFromCookie() : undefined
 
-  /******************************************
-   * Primary Lesson Metadata GraphQL Request
-   * ****************************************/
-  const lessonMetadataFromGraphQL = await loadLessonMetadataFromGraphQL(
-    slug,
-    token,
-    logContext,
-  )
+  const [
+    lessonMetadataFromGraphQL,
+    comments,
+    lessonMetadataFromSanity,
+    lessonMetadataFromCourseBuilder,
+  ] = await Promise.all([
+    /******************************************
+     * Primary Lesson Metadata GraphQL Request
+     * ****************************************/
+    loadLessonMetadataFromGraphQL(slug, token, logContext, {
+      allowRuntimeCaches,
+    }),
 
-  /**********************************************
-   * Load comments from separate GraphQL Request
-   * ********************************************/
-  // comments are user-generated content that must come from the egghead-rails
-  // backend, so load those separately from the rest of lesson metadata.
-  const comments = await loadLessonComments(slug, token, logContext)
+    /**********************************************
+     * Load comments from separate GraphQL Request
+     * ********************************************/
+    // comments are user-generated content that must come from the egghead-rails
+    // backend. For static lesson shells we can skip this and hydrate comments on
+    // the client instead of blocking ISR on another GraphQL request.
+    includeComments
+      ? loadLessonComments(slug, token, logContext)
+      : Promise.resolve([]),
 
-  /*************************************
-   * Sanity Request for Lesson Metadata
-   * ***********************************/
-  // this will be used to override values from graphql
-  const lessonMetadataFromSanity = await loadLessonMetadataFromSanity(
-    slug,
-    logContext,
-  )
+    /*************************************
+     * Sanity Request for Lesson Metadata
+     * ***********************************/
+    // this will be used to override values from graphql
+    loadLessonMetadataFromSanity(slug, logContext, {
+      allowRuntimeCaches,
+    }),
 
-  const lessonMetadataFromCourseBuilder = await timeEvent(
-    'lesson.getCourseBuilderLesson.mysql',
-    {slug},
-    async () => getCourseBuilderLesson(slug),
-    logContext,
-  )
+    timeEvent(
+      'lesson.getCourseBuilderLesson.mysql',
+      {slug},
+      async () => getCourseBuilderLesson(slug),
+      logContext,
+    ),
+  ])
 
   /*************************************
    * Merge All Lesson Metadata Together
@@ -403,6 +433,8 @@ export async function loadLesson(
       has_sanity: !isEmpty(lessonMetadataFromSanity?.slug),
       has_coursebuilder: !!lessonMetadataFromCourseBuilder,
       comments_count: comments?.length ?? 0,
+      comments_included: includeComments,
+      runtime_caches_enabled: allowRuntimeCaches,
     },
     logContext,
   )

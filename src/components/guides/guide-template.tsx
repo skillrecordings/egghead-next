@@ -1,5 +1,5 @@
 import React from 'react'
-import {Guide, GuideResource, GuideSection} from '@/lib/guides'
+import {Guide, GuideResource, GuideSection} from '@/schemas/guide'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'

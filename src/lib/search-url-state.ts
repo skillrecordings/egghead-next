@@ -1,4 +1,9 @@
-import {parseUrl, type QueryReturnType} from '@/lib/search-url-builder'
+import {
+  parseUrl,
+  type QueryReturnType,
+  countPathSearchRefinements,
+  isCanonicalSearchBrowseState,
+} from '@/lib/search-url-builder'
 
 export const SEARCH_QUERY_PARAM_KEYS = [
   'q',
@@ -6,6 +11,8 @@ export const SEARCH_QUERY_PARAM_KEYS = [
   'access_state',
   'page',
   'sortBy',
+  'tags',
+  'instructors',
 ] as const
 
 type SearchQueryInput = {
@@ -15,6 +22,8 @@ type SearchQueryInput = {
   access_state?: string
   page?: number
   sortBy?: string
+  tags?: string
+  instructors?: string
 }
 
 export const getSearchAllSegmentsFromPathname = (pathname: string) => {
@@ -73,12 +82,7 @@ export const getSearchStateFromUrlParts = ({
   return parseUrl(buildSearchQueryInput({pathname, searchParams}))
 }
 
-export const countPathSearchRefinements = (searchState: QueryReturnType) => {
-  return (
-    (searchState.refinementList?._tags?.length ?? 0) +
-    (searchState.refinementList?.instructor_name?.length ?? 0)
-  )
-}
+export {countPathSearchRefinements, isCanonicalSearchBrowseState}
 
 export const isLowCardinalitySearchPath = (searchState: QueryReturnType) => {
   return countPathSearchRefinements(searchState) <= 1
