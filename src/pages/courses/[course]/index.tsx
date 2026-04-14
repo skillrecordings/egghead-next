@@ -74,6 +74,14 @@ const getStaticPropsLogContext = (courseSlug?: string) => ({
   course_slug: courseSlug,
 })
 
+function sanitizeStaticPropsValue<T>(value: T): T {
+  return JSON.parse(
+    JSON.stringify(value, (_, currentValue) =>
+      currentValue === undefined ? null : currentValue,
+    ),
+  ) as T
+}
+
 const logCourseStaticPropsRender = ({
   courseSlug,
   durationMs,
@@ -351,13 +359,13 @@ export const getStaticProps: GetStaticProps = withHeaderBannerStaticProps(
       })
 
       return {
-        props: {
+        props: sanitizeStaticPropsValue({
           course: {
             ...course,
             sections: course?.sections ?? null,
           },
           fullLessons,
-        },
+        }),
         revalidate: COURSE_REVALIDATE_SECONDS,
       }
     } catch (error) {

@@ -302,7 +302,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<
 
   const courseIllustrator = !isEmpty(sanityIllustrator)
     ? sanityIllustrator
-    : courseDependencies.illustrator
+    : courseDependencies?.illustrator
 
   logCollectionResource(course)
 

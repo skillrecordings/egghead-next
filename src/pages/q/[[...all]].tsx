@@ -6,8 +6,13 @@ import {NextSeo} from 'next-seo'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {withStaticPropsLogging} from '@/lib/logging'
 import qs from 'qs'
-import {createUrl, parseUrl, titleFromPath} from '@/lib/search-url-builder'
-import {isEmpty, get, first} from 'lodash'
+import {
+  createUrl,
+  parseUrl,
+  titleFromPath,
+  isCanonicalSearchBrowseState,
+} from '@/lib/search-url-builder'
+import {get, first} from 'lodash'
 import queryParamsPresent from '@/utils/query-params-present'
 import {loadInstructor} from '@/lib/instructors'
 import Header from '@/components/app/header'
@@ -17,8 +22,6 @@ import {loadTag} from '@/lib/tags'
 import {topicExtractor} from '@/utils/search/topic-extractor'
 import useLoadTopicData, {topicQuery} from '@/hooks/use-load-topic-data'
 import {sanityClient} from '@/utils/sanity-client'
-import {getServerState, InstantSearchSSRProvider} from 'react-instantsearch'
-import {renderToString} from 'react-dom/server'
 import {
   TYPESENSE_COLLECTION_NAME,
   typesenseInstantsearchAdapter,
@@ -70,12 +73,16 @@ const defaultProps = {
 const SEARCH_REVALIDATE_SECONDS = 300
 const getCanonicalSearchPath = (all: string[] = []) =>
   createUrl(parseUrl(all.length > 0 ? {all} : {}))
-const HOT_SEARCH_PATHS_SET = new Set(
-  HOT_SEARCH_PATHS.map((path) => {
-    const all = path.replace(/^\/q\/?/, '').split('/').filter(Boolean)
-    return getCanonicalSearchPath(all)
-  }),
-)
+
+const shouldNoIndexSearchPage = ({
+  href,
+  searchState,
+}: {
+  href: string
+  searchState: any
+}) => {
+  return queryParamsPresent(href) || !isLowCardinalitySearchPath(searchState)
+}
 
 const getInstructorsFromSearchState = (searchState: any) => {
   return get(searchState, 'refinementList.instructor_name', []) as string[]
@@ -85,27 +92,9 @@ const getInstructorSlugFromInstructorList = (instructors: string[]) => {
   return nameToSlug(first(instructors) as string).toLowerCase()
 }
 
-const sanitizeServerState = (serverState: any) => {
-  return JSON.parse(
-    JSON.stringify(serverState, (_, value) =>
-      value === undefined ? null : value,
-    ),
-  )
-}
-
-const getSearchResultsState = (serverState: any) => {
-  return Object.values(serverState?.initialResults ?? {})[0] as
-    | {
-        results?: unknown[]
-        state?: {query?: string}
-      }
-    | undefined
-}
-
 type SearchIndexProps = {
   error: string
   initialSearchState: any
-  serverState: any
   pageTitle: string
   noIndexInitial: boolean
   initialInstructor: any
@@ -117,7 +106,6 @@ type SearchIndexProps = {
 const SearchIndex: any = ({
   error,
   initialSearchState,
-  serverState,
   pageTitle,
   noIndexInitial,
   initialInstructor,
@@ -128,8 +116,6 @@ const SearchIndex: any = ({
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
   const [noIndex, setNoIndex] = React.useState(noIndexInitial)
-  const [effectiveServerState, setEffectiveServerState] =
-    React.useState(serverState)
   const debouncedState = React.useRef<any>(null)
   const instructorCache = React.useRef<Map<string, any>>(new Map())
   const lastInstructorSlug = React.useRef<string | null>(null)
@@ -148,13 +134,14 @@ const SearchIndex: any = ({
 
     if (createUrl(currentSearchState) !== createUrl(initialSearchState)) {
       setSearchState(currentSearchState)
-      setEffectiveServerState(null)
     }
 
-    if (queryParamsPresent(window.location.href)) {
-      setNoIndex(true)
-      setEffectiveServerState(null)
-    }
+    setNoIndex(
+      shouldNoIndexSearchPage({
+        href: `${currentUrl.pathname}${currentUrl.search}`,
+        searchState: currentSearchState,
+      }),
+    )
   }, [initialSearchState])
 
   if (error) {
@@ -226,7 +213,12 @@ const SearchIndex: any = ({
 
     debouncedState.current = setTimeout(() => {
       const href: string = createUrl(searchState)
-      setNoIndex(queryParamsPresent(href))
+      setNoIndex(
+        shouldNoIndexSearchPage({
+          href,
+          searchState,
+        }),
+      )
 
       singletonRouter.replace(href, undefined, {
         shallow: true,
@@ -253,17 +245,15 @@ const SearchIndex: any = ({
           site_name: 'egghead',
         }}
       />
-      <InstantSearchSSRProvider {...effectiveServerState}>
-        <Search
-          {...defaultProps}
-          {...customProps}
-          instructor={instructor}
-          topic={topicGraphqlData}
-          topicData={topicSanityData}
-          onSearchStateChange={onSearchStateChange}
-          loading={loading}
-        />
-      </InstantSearchSSRProvider>
+      <Search
+        {...defaultProps}
+        {...customProps}
+        instructor={instructor}
+        topic={topicGraphqlData}
+        topicData={topicSanityData}
+        onSearchStateChange={onSearchStateChange}
+        loading={loading}
+      />
     </div>
   )
 }
@@ -284,9 +274,15 @@ SearchIndex.getLayout = (Page: any, pageProps: any) => {
 export default SearchIndex
 
 const getStaticPathParamsForSearchPath = (path: string) => {
-  const all = path.replace(/^\/q\/?/, '').split('/').filter(Boolean)
+  const all = path
+    .replace(/^\/q\/?/, '')
+    .split('/')
+    .filter(Boolean)
   const canonicalPath = getCanonicalSearchPath(all)
-  const canonicalAll = canonicalPath.replace(/^\/q\/?/, '').split('/').filter(Boolean)
+  const canonicalAll = canonicalPath
+    .replace(/^\/q\/?/, '')
+    .split('/')
+    .filter(Boolean)
 
   return {
     params: {
@@ -295,17 +291,30 @@ const getStaticPathParamsForSearchPath = (path: string) => {
   }
 }
 
+const isCanonicalStaticSearchPath = (path: string) => {
+  const all = path
+    .replace(/^\/q\/?/, '')
+    .split('/')
+    .filter(Boolean)
+  const searchState = parseUrl(all.length > 0 ? {all} : {})
+
+  return isCanonicalSearchBrowseState(searchState)
+}
+
 export const getStaticPaths: GetStaticPaths = async () => {
+  const canonicalHotPaths = HOT_SEARCH_PATHS.filter(isCanonicalStaticSearchPath)
+
   console.log(
     JSON.stringify({
       event: 'search.static_paths.generated',
-      count: HOT_SEARCH_PATHS.length,
+      count: canonicalHotPaths.length,
+      requested_count: HOT_SEARCH_PATHS.length,
     }),
   )
 
   const dedupedPaths = Array.from(
     new Map(
-      HOT_SEARCH_PATHS.map((path) => {
+      canonicalHotPaths.map((path) => {
         const staticPath = getStaticPathParamsForSearchPath(path)
         const key = (staticPath.params.all ?? []).join('/')
         return [key, staticPath]
@@ -337,10 +346,9 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
       getInstructorsFromSearchState(initialSearchState)
     const selectedTopics = topicExtractor(initialSearchState)
     const pageTitle = titleFromPath(all)
-    const isHotStaticPath = HOT_SEARCH_PATHS_SET.has(path)
     const isLowCardinalityBrowse =
       isLowCardinalitySearchPath(initialSearchState)
-    const shouldGenerateServerState = isHotStaticPath || isLowCardinalityBrowse
+    const noIndexInitial = !isLowCardinalityBrowse
 
     try {
       if (!typesenseConfigured) {
@@ -349,7 +357,6 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
             error: 'Search service unavailable',
             initialSearchState,
             path,
-            serverState: null,
             pageTitle,
             noIndexInitial: true,
             initialInstructor: null,
@@ -360,54 +367,9 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
         }
       }
 
-      if (!shouldGenerateServerState) {
-        console.log(
-          JSON.stringify({
-            event: 'search.static_props.skip',
-            path,
-            hot_static_path: isHotStaticPath,
-            low_cardinality_browse: isLowCardinalityBrowse,
-            skip_reason: 'high_cardinality_path',
-            ok: true,
-          }),
-        )
-
-        return {
-          props: {
-            error: '',
-            initialSearchState,
-            path,
-            serverState: null,
-            pageTitle,
-            noIndexInitial: true,
-            initialInstructor: null,
-            initialTopicGraphqlData: null,
-            initialTopicSanityData: null,
-          },
-          revalidate: SEARCH_REVALIDATE_SECONDS,
-        }
-      }
-
-      const serverState = await getServerState(
-        <SearchIndex initialSearchState={initialSearchState} />,
-        {
-          renderToString,
-        },
-      )
-
-      const sanitizedServerState = sanitizeServerState(serverState)
-      const resultsState = getSearchResultsState(sanitizedServerState)
-      const results = resultsState?.results ?? []
-      const state = resultsState?.state
-
       let initialInstructor = null
       let initialTopicGraphqlData = null
       let initialTopicSanityData = null
-
-      const noHits = isEmpty(get(first(results), 'hits'))
-      const userQueryPresent = !isEmpty(state?.query)
-      const noIndexInitial =
-        noHits || userQueryPresent || !isLowCardinalityBrowse
 
       if (
         selectedTopics?.length === 1 &&
@@ -441,9 +403,9 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
         JSON.stringify({
           event: 'search.static_props.generated',
           path,
-          hot_static_path: isHotStaticPath,
           low_cardinality_browse: isLowCardinalityBrowse,
           no_index: noIndexInitial,
+          server_side_results: false,
           ok: true,
         }),
       )
@@ -453,7 +415,6 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
           error: '',
           initialSearchState,
           path,
-          serverState: sanitizedServerState,
           pageTitle,
           noIndexInitial,
           initialInstructor,
@@ -477,7 +438,6 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
           error: 'Search service unavailable',
           initialSearchState,
           path,
-          serverState: null,
           pageTitle,
           noIndexInitial: true,
           initialInstructor: null,

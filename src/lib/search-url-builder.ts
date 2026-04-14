@@ -81,11 +81,21 @@ export const createUrl = (searchState: {
   if (isEmpty(refinementList) && isEmpty(query) && isEmpty(sortBy))
     return config.searchUrlRoot
 
-  const tags = refinementList?._tags
-    ? `${refinementList._tags.map(nameToSlug).sort().join('-and-')}`
+  const tagSlugs = refinementList?._tags
+    ? refinementList._tags.map(nameToSlug).sort()
+    : []
+  const instructorSlugs = refinementList?.instructor_name
+    ? refinementList.instructor_name.map(nameToSlug).sort()
+    : []
+  const pathTags = tagSlugs.join('-and-')
+  const pathInstructors = instructorSlugs.length
+    ? `${pathTags && '-'}${CREATOR_DELINIATOR}-${instructorSlugs.join('-and-')}`
     : ''
   const type = get(refinementList, 'type')
   const access_state = get(refinementList, 'access_state')
+  const canUseCanonicalPath = isCanonicalSearchBrowseState(
+    searchState as QueryReturnType,
+  )
 
   const queryString = qs.stringify(
     {
@@ -94,18 +104,21 @@ export const createUrl = (searchState: {
       access_state: access_state ? access_state.join(',') : undefined,
       sortBy,
       ...(page && page > 1 && {page}),
+      ...(!canUseCanonicalPath && {
+        tags: tagSlugs.length > 0 ? tagSlugs.join(',') : undefined,
+        instructors:
+          instructorSlugs.length > 0 ? instructorSlugs.join(',') : undefined,
+      }),
     },
-    {encode: false},
+    {encode: false, sort: false},
   )
 
-  const instructors = refinementList?.instructor_name
-    ? `${tags && '-'}${CREATOR_DELINIATOR}-${refinementList?.instructor_name
-        .map(nameToSlug)
-        .sort()
-        .join('-and-')}`
-    : ''
+  const urlRoot = canUseCanonicalPath
+    ? pathTags || pathInstructors
+      ? `${config.searchUrlRoot}/${pathTags}${pathInstructors}`
+      : config.searchUrlRoot
+    : config.searchUrlRoot
 
-  const urlRoot = `${config.searchUrlRoot}/${tags}${instructors}`
   return `${urlRoot}${queryString && `?${queryString}`}`
 }
 
@@ -116,6 +129,8 @@ type InitialQueryType = {
   access_state?: any
   page?: number
   sortBy?: string
+  tags?: any
+  instructors?: any
 }
 
 export type QueryReturnType = {
@@ -130,9 +145,37 @@ export type QueryReturnType = {
   }
 }
 
+const splitCsv = (value?: string) => value?.split(',').filter(Boolean) ?? []
+
+const unique = <T>(values: T[] = []) => Array.from(new Set(values))
+
+const instructorNamesFromQuery = (value?: string) => {
+  return splitCsv(value).map(nameSlugToName)
+}
+
+export const countPathSearchRefinements = (searchState: QueryReturnType) => {
+  return (
+    (searchState.refinementList?._tags?.length ?? 0) +
+    (searchState.refinementList?.instructor_name?.length ?? 0)
+  )
+}
+
+export const isCanonicalSearchBrowseState = (searchState: QueryReturnType) => {
+  const type = get(searchState, 'refinementList.type', [])
+  const accessState = get(searchState, 'refinementList.access_state', [])
+
+  return (
+    countPathSearchRefinements(searchState) <= 1 &&
+    isEmpty(searchState.query) &&
+    isEmpty(searchState.sortBy) &&
+    (!searchState.page || searchState.page <= 1) &&
+    isEmpty(type) &&
+    isEmpty(accessState)
+  )
+}
+
 export const parseUrl = (query: InitialQueryType): QueryReturnType => {
   if (isEmpty(query)) {
-    // ensures that refinementList is not returned if either of its values are empty in the query
     const refinementList = pickBy({
       access_state: query.access_state,
       type: query.type,
@@ -145,23 +188,27 @@ export const parseUrl = (query: InitialQueryType): QueryReturnType => {
       refinementList: isEmpty(refinementList) ? null : refinementList,
     }) as QueryReturnType
   }
+
   const firstPath: string = first(query.all) as string
 
-  const instructors = instructorsForPath(firstPath)
-  const tags = tagsForPath(firstPath)
+  const instructors = unique([
+    ...(instructorsForPath(firstPath) ?? []),
+    ...instructorNamesFromQuery(query.instructors),
+  ])
+  const tags = unique([...tagsForPath(firstPath), ...splitCsv(query.tags)])
 
-  const type: string[] = query.type?.split(',')
-  const access_state: string[] = query.access_state?.split(',')
+  const type: string[] = splitCsv(query.type)
+  const access_state: string[] = splitCsv(query.access_state)
 
   return pickBy({
     query: query?.q?.replace('+', ' '),
     sortBy: query.sortBy,
     page: query.page,
     refinementList: pickBy({
-      access_state,
-      type,
+      access_state: access_state.length > 0 ? access_state : undefined,
+      type: type.length > 0 ? type : undefined,
       _tags: tags,
-      instructor_name: instructors,
+      instructor_name: instructors.length > 0 ? instructors : undefined,
     }),
   }) as QueryReturnType
 }

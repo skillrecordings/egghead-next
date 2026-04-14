@@ -1,40 +1,54 @@
 'use client'
 import React from 'react'
-import {type VideoResource} from '@/types'
-import {HLSSource, Player} from '@skillrecordings/player'
-import {MinimalEmbedPlayer} from './minimal-embed-player'
-
-import './embed-lesson.css'
+import MuxPlayer, {type MuxPlayerProps} from '@mux/mux-player-react'
 import {GenericErrorBoundary} from '@/components/generic-error-boundary'
+import './embed-lesson.css'
+
+export type EmbedLessonResource = {
+  slug: string
+  title?: string
+  hls_url?: string
+  muxPlaybackId?: string
+}
+
+const getPlaybackId = (lesson: EmbedLessonResource) => {
+  if (lesson?.muxPlaybackId) return lesson.muxPlaybackId
+
+  const match = lesson?.hls_url?.match(/stream\.mux\.com\/([^/.]+)\.m3u8/i)
+  return match?.[1]
+}
 
 export default function EmbedPlayer({
   initialLesson,
 }: {
-  initialLesson: VideoResource
+  initialLesson: EmbedLessonResource
 }) {
-  const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
+  const playbackId = getPlaybackId(initialLesson)
+  const playerProps = {
+    id: 'mux-player',
+    streamType: 'on-demand',
+    defaultHiddenCaptions: true,
+    thumbnailTime: 0,
+  } as MuxPlayerProps
+
+  if (!playbackId) {
+    return null
+  }
 
   return (
-    <div className=" relative flex aspect-video h-full w-full items-center justify-center ">
-      <div className="w-full h-full" ref={fullscreenWrapperRef}>
+    <div className="relative flex aspect-video h-full w-full items-center justify-center">
+      <div className="h-full w-full">
         <GenericErrorBoundary>
-          <React.Suspense fallback={<div>Loading minimal player...</div>}>
-            <MinimalEmbedPlayer>
-              <HLSSource
-                key={initialLesson?.hls_url}
-                src={initialLesson?.hls_url}
-              />
-              {initialLesson?.subtitles_url && (
-                <track
-                  key={initialLesson?.subtitles_url ?? ''}
-                  src={initialLesson?.subtitles_url ?? ''}
-                  kind="subtitles"
-                  srcLang="en"
-                  label="English"
-                />
-              )}
-            </MinimalEmbedPlayer>
-          </React.Suspense>
+          <MuxPlayer
+            playbackId={playbackId}
+            metadata={{
+              video_title: initialLesson?.title,
+              video_id: initialLesson?.slug,
+            }}
+            accentColor="#3b82f6"
+            className="h-full w-full"
+            {...playerProps}
+          />
         </GenericErrorBoundary>
       </div>
     </div>
