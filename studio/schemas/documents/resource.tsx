@@ -383,7 +383,6 @@ export default defineType({
           to: [
             {title: 'Course', type: 'course'},
             {title: 'Resource Ref', type: 'resource'},
-            {title: 'Guide Ref', type: 'guide'},
           ],
         }),
         defineArrayMember({

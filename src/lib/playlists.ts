@@ -528,7 +528,7 @@ async function loadPgPublicCourseShell(slug: string, logContext: LogContext) {
       squareCoverThumbUrl ??
       tags.find((tag) => tag.image_url)?.image_url ??
       DEFAULT_COURSE_IMAGE_URL,
-    square_cover_480_url: squareCover480Url,
+    square_cover_480_url: squareCover480Url ?? null,
     average_rating_out_of_5: core.average_rating_out_of_5 ?? 0,
     rating_count: core.rating_count ?? 0,
     watched_count: core.watched_count ?? 0,
@@ -1197,7 +1197,7 @@ async function loadCourseBuilderPublicCourseShell(
         courseBuilderMetadata.fields.description ||
         '',
       image_thumb_url: imageThumbUrl,
-      square_cover_480_url: squareCover480Url,
+      square_cover_480_url: squareCover480Url ?? null,
       average_rating_out_of_5: 0,
       rating_count: 0,
       watched_count: 0,
