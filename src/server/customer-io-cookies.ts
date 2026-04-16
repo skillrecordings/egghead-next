@@ -33,7 +33,11 @@ export function clearCustomerCookie(res: NextResponse) {
 
 export function setCustomerCookie(res: NextResponse, customer: any) {
   if (customer?.id) {
-    res.cookies.set(CIO_COOKIE_KEY, customer.id, getCioIdentifierCookieOptions())
+    res.cookies.set(
+      CIO_COOKIE_KEY,
+      customer.id,
+      getCioIdentifierCookieOptions(),
+    )
   }
 
   if (customer) {

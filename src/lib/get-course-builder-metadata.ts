@@ -781,3 +781,170 @@ export async function getCourseBuilderCourseLessons(
     }
   }
 }
+
+// Type for Course Builder case study data
+export type CourseBuilderCaseStudy = {
+  title: string
+  slug: string
+  description: string | null
+  body: string | null
+  summary: string | null
+  subtitle: string | null
+  coverImage: {url?: string; alt?: string; label?: string} | null
+  seo: Record<string, string> | null
+  featuredInstructors: Array<{name?: string; image?: any; slug?: any}> | null
+  resources: any[] | null
+  projects: any[] | null
+  publishedAt: string | null
+  state: string
+  author: {name: string | null; image: string | null} | null
+}
+
+/**
+ * Gets a single case study from Course Builder by slug
+ * @param slug - The case study slug
+ * @returns Promise<CourseBuilderCaseStudy | null>
+ */
+export async function getCourseBuilderCaseStudy(
+  slug: string,
+): Promise<CourseBuilderCaseStudy | null> {
+  if (!process.env.COURSE_BUILDER_DATABASE_URL) {
+    console.warn(
+      'COURSE_BUILDER_DATABASE_URL not configured, skipping case study lookup',
+    )
+    return null
+  }
+
+  const pool = getConnectionPool()
+  let conn
+
+  try {
+    conn = await pool.getConnection()
+    const [rows] = await conn.execute<RowDataPacket[]>(
+      `
+      SELECT cr.*, u.name AS author_name, u.image AS author_image
+      FROM egghead_ContentResource cr
+      LEFT JOIN egghead_User u ON cr.createdById = u.id
+      WHERE cr.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr.fields, '$.postType')) = 'case-study'
+        AND (
+          cr.id = ?
+          OR JSON_UNQUOTE(JSON_EXTRACT(cr.fields, '$.slug')) = ?
+        )
+      LIMIT 1
+      `,
+      [slug, slug],
+    )
+
+    const row = rows[0]
+    if (!row) {
+      console.log(`No Course Builder case study found for slug: ${slug}`)
+      return null
+    }
+
+    const fields =
+      typeof row.fields === 'string' ? JSON.parse(row.fields) : row.fields
+
+    console.log(`Found Course Builder case study: ${slug}`)
+    return {
+      title: fields.title || 'Untitled',
+      slug: fields.slug || slug,
+      description: fields.description || null,
+      body: fields.body || null,
+      summary: fields.summary || null,
+      subtitle: fields.subtitle || null,
+      coverImage: fields.coverImage || null,
+      seo: fields.seo || null,
+      featuredInstructors: fields.featuredInstructors || null,
+      resources: fields.resources || null,
+      projects: fields.projects || null,
+      publishedAt: fields.publishedAt || null,
+      state: fields.state || 'draft',
+      author:
+        row.author_name || row.author_image
+          ? {
+              name: (row.author_name as string) ?? null,
+              image: (row.author_image as string) ?? null,
+            }
+          : null,
+    }
+  } catch (error) {
+    console.error('Error fetching Course Builder case study:', error)
+    return null
+  } finally {
+    if (conn) {
+      conn.release()
+    }
+  }
+}
+
+/**
+ * Gets all published case studies from Course Builder
+ * @returns Promise<CourseBuilderCaseStudy[] | null>
+ */
+export async function getCourseBuilderCaseStudies(): Promise<
+  CourseBuilderCaseStudy[] | null
+> {
+  if (!process.env.COURSE_BUILDER_DATABASE_URL) {
+    console.warn(
+      'COURSE_BUILDER_DATABASE_URL not configured, skipping case studies lookup',
+    )
+    return null
+  }
+
+  const pool = getConnectionPool()
+  let conn
+
+  try {
+    conn = await pool.getConnection()
+    const [rows] = await conn.execute<RowDataPacket[]>(
+      `
+      SELECT cr.*
+      FROM egghead_ContentResource cr
+      WHERE cr.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr.fields, '$.postType')) = 'case-study'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr.fields, '$.state')) = 'published'
+      ORDER BY cr.createdAt DESC
+      `,
+    )
+
+    if (rows.length === 0) {
+      console.log('No published case studies found in Course Builder')
+      return null
+    }
+
+    const caseStudies: CourseBuilderCaseStudy[] = rows.map((row) => {
+      const fields =
+        typeof row.fields === 'string' ? JSON.parse(row.fields) : row.fields
+
+      return {
+        title: fields.title || 'Untitled',
+        slug: fields.slug || row.id,
+        description: fields.description || null,
+        body: fields.body || null,
+        summary: fields.summary || null,
+        subtitle: fields.subtitle || null,
+        coverImage: fields.coverImage || null,
+        seo: fields.seo || null,
+        featuredInstructors: fields.featuredInstructors || null,
+        resources: fields.resources || null,
+        projects: fields.projects || null,
+        publishedAt: fields.publishedAt || null,
+        state: fields.state || 'draft',
+        author: null,
+      }
+    })
+
+    console.log(
+      `Found ${caseStudies.length} published case studies in Course Builder`,
+    )
+    return caseStudies
+  } catch (error) {
+    console.error('Error fetching Course Builder case studies:', error)
+    return null
+  } finally {
+    if (conn) {
+      conn.release()
+    }
+  }
+}

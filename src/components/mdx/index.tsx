@@ -16,8 +16,7 @@ import ArticleSeriesList from './article-series-list'
 import CourseWidget from './course-widget'
 import EmailSubscribeWidget from './email-subscribe-widget'
 import ResourceWidget from './resource-widget'
-// @ts-ignore
-import {TwitterTweetEmbed} from 'react-twitter-embed'
+import {Tweet} from 'react-tweet'
 const mdxComponents = {
   Course,
   Link: (props: any) => <Link {...props} />,
@@ -28,7 +27,7 @@ const mdxComponents = {
   Callout,
   ProseSection,
   CheatSheet,
-  TwitterTweetEmbed,
+  TwitterTweetEmbed: ({tweetId}: {tweetId: string}) => <Tweet id={tweetId} />,
   DefaultLayout,
   ArticleCourseCard,
   ArticleTalkCard,

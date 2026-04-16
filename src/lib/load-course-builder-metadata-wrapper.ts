@@ -1,4 +1,9 @@
-import type {CourseBuilderCourseMetadata} from './get-course-builder-metadata'
+import type {
+  CourseBuilderCaseStudy,
+  CourseBuilderCourseMetadata,
+} from './get-course-builder-metadata'
+
+export type {CourseBuilderCaseStudy}
 
 /**
  * Client-safe wrapper for loadCourseBuilderMetadata
@@ -64,6 +69,38 @@ export async function getCourseBuilderCourseLessons(
       './get-course-builder-metadata'
     )
     return getLessons(slug)
+  }
+
+  return null
+}
+
+/**
+ * Client-safe wrapper for getCourseBuilderCaseStudy
+ */
+export async function loadCourseBuilderCaseStudy(
+  slug: string,
+): Promise<CourseBuilderCaseStudy | null> {
+  if (typeof window === 'undefined') {
+    const {getCourseBuilderCaseStudy: getCaseStudy} = await import(
+      './get-course-builder-metadata'
+    )
+    return getCaseStudy(slug)
+  }
+
+  return null
+}
+
+/**
+ * Client-safe wrapper for getCourseBuilderCaseStudies
+ */
+export async function loadCourseBuilderCaseStudies(): Promise<
+  CourseBuilderCaseStudy[] | null
+> {
+  if (typeof window === 'undefined') {
+    const {getCourseBuilderCaseStudies: getCaseStudies} = await import(
+      './get-course-builder-metadata'
+    )
+    return getCaseStudies()
   }
 
   return null
