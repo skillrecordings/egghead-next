@@ -59,30 +59,33 @@ async function currentApproach(slug) {
         params: [slug],
       }
 
-  // Iter 4: flat JOIN chain (no subquery) — target → parent course → siblings.
   const [rows] = await pool.execute(
     `
       SELECT
-        sib.id AS lessonId,
-        c.id AS parentId,
-        sib_crr.position
-      FROM egghead_ContentResource tgt
-      JOIN egghead_ContentResourceResource tgt_crr ON tgt.id = tgt_crr.resourceId
-      JOIN egghead_ContentResource c ON tgt_crr.resourceOfId = c.id
+        cr_lesson.id AS lessonId,
+        crr.resourceOfId AS parentId,
+        crr.position
+      FROM egghead_ContentResourceResource crr
+      JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
+      WHERE crr.resourceOfId = (
+        SELECT cr_course.id
+        FROM egghead_ContentResource cr_target
+        JOIN egghead_ContentResourceResource crr2 ON cr_target.id = crr2.resourceId
+        JOIN egghead_ContentResource cr_course ON crr2.resourceOfId = cr_course.id
+        WHERE ${targetMatch.clause}
         AND (
-          c.type = 'course'
-          OR (c.type = 'post' AND JSON_UNQUOTE(JSON_EXTRACT(c.fields, '$.postType')) = 'course')
+          cr_course.type = 'course'
+          OR (cr_course.type = 'post' AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course')
         )
-      JOIN egghead_ContentResourceResource sib_crr ON c.id = sib_crr.resourceOfId
-      JOIN egghead_ContentResource sib ON sib_crr.resourceId = sib.id
-      WHERE ${targetMatch.clause.replace(/cr_target/g, 'tgt')}
-        AND sib.deletedAt IS NULL
-        AND (
-          sib.type = 'lesson'
-          OR (sib.type = 'post' AND JSON_UNQUOTE(JSON_EXTRACT(sib.fields, '$.postType')) = 'lesson')
-        )
-        AND JSON_UNQUOTE(JSON_EXTRACT(sib.fields, '$.state')) IN ('published','approved','flagged','revised','retired')
-      ORDER BY sib_crr.position ASC, sib.createdAt ASC, sib.id ASC
+        LIMIT 1
+      )
+      AND cr_lesson.deletedAt IS NULL
+      AND (
+        cr_lesson.type = 'lesson'
+        OR (cr_lesson.type = 'post' AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')) = 'lesson')
+      )
+      AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) IN ('published','approved','flagged','revised','retired')
+      ORDER BY crr.position ASC, cr_lesson.createdAt ASC, cr_lesson.id ASC
     `,
     targetMatch.params,
   )
