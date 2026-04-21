@@ -6,7 +6,10 @@ import isEmpty from 'lodash/isEmpty'
 import crypto from 'crypto'
 import {mergeLessonMetadata} from '@/utils/lesson-metadata'
 import {convertUndefinedValuesToNull} from '@/utils/convert-undefined-values-to-null'
-import {getCourseBuilderLesson} from '@/lib/get-course-builder-metadata'
+import {
+  getCourseBuilderLesson,
+  getCourseBuilderLessonCourse,
+} from '@/lib/get-course-builder-metadata'
 import {logEvent, timeEvent, type LogContext} from '@/utils/structured-log'
 import {getRedis} from '@/lib/upstash-redis'
 
@@ -197,6 +200,7 @@ export async function loadLesson(
     lessonMetadataFromGraphQL,
     comments,
     lessonMetadataFromCourseBuilder,
+    courseBuilderCourse,
   ] = await Promise.all([
     /******************************************
      * Primary Lesson Metadata GraphQL Request
@@ -221,7 +225,26 @@ export async function loadLesson(
       async () => getCourseBuilderLesson(slug),
       logContext,
     ),
+
+    /****************************************
+     * Course Builder parent-course lookup (for the player sidebar).
+     * Runs in parallel — when present it overrides the rails collection;
+     * when null the rails GraphQL collection passes through unchanged.
+     * **************************************/
+    timeEvent(
+      'lesson.getCourseBuilderLessonCourse.mysql',
+      {slug},
+      async () => getCourseBuilderLessonCourse(slug),
+      logContext,
+    ),
   ])
+
+  const lessonMetadataFromCourseBuilderWithCourse = courseBuilderCourse
+    ? {
+        ...(lessonMetadataFromCourseBuilder ?? {}),
+        collection: courseBuilderCourse,
+      }
+    : lessonMetadataFromCourseBuilder
 
   /*************************************
    * Merge All Lesson Metadata Together
@@ -229,7 +252,7 @@ export async function loadLesson(
   // rails GraphQL is the base; Course Builder overrides take highest precedence
   let lessonMetadata = mergeLessonMetadata(
     lessonMetadataFromGraphQL,
-    lessonMetadataFromCourseBuilder,
+    lessonMetadataFromCourseBuilderWithCourse,
   )
 
   lessonMetadata = convertUndefinedValuesToNull(lessonMetadata)

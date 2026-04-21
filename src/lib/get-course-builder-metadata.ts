@@ -93,6 +93,25 @@ type CourseBuilderLessonData = {
   download_url?: string
 }
 
+// Parent course for a given lesson, shaped to match rails' Playlist GraphQL
+// fragment so the player sidebar can consume either source interchangeably.
+export type CourseBuilderLessonCourse = {
+  id: string
+  type: 'playlist'
+  title: string
+  slug: string
+  path: string
+  square_cover_480_url: string | null
+  lessons: Array<{
+    slug: string
+    type: 'lesson'
+    path: string
+    title: string
+    duration: number | null
+    thumb_url: string | null
+  }>
+}
+
 export type CourseBuilderCourseFields = {
   title?: string | null
   slug?: string | null
@@ -611,6 +630,118 @@ export async function getAllCourseBuilderPublicCourseSlugs(): Promise<
     if (conn) {
       conn.release()
     }
+  }
+}
+
+/**
+ * Finds the parent course for a lesson slug in Course Builder and returns it
+ * shaped to match rails' Playlist GraphQL fragment.
+ *
+ * Single-query strategy chosen via autoresearch benchmarking (see
+ * scripts/bench-cb-course.mjs): p50 ~107ms at the planetscale RTT floor,
+ * vs ~255ms for the naive 2-query approach and ~372ms for lesson→parent→siblings.
+ */
+export async function getCourseBuilderLessonCourse(
+  slug: string,
+): Promise<CourseBuilderLessonCourse | null> {
+  if (!process.env.COURSE_BUILDER_DATABASE_URL) return null
+
+  const {hashFromSlug} = parseSlugForHash(slug)
+  const targetMatch = hashFromSlug
+    ? {
+        clause: 'cr_target.id IN (?, ?, ?)',
+        params: [slug, `post_${hashFromSlug}`, `lesson_${hashFromSlug}`],
+      }
+    : {
+        clause: `JSON_UNQUOTE(JSON_EXTRACT(cr_target.fields, '$.slug')) = ?`,
+        params: [slug],
+      }
+
+  let conn
+  try {
+    const pool = getConnectionPool()
+    conn = await pool.getConnection()
+
+    const [rows] = await conn.execute<RowDataPacket[]>(
+      `
+        SELECT
+          cr_course.id AS course_id,
+          cr_course.fields AS course_fields,
+          cr_lesson.fields AS lesson_fields,
+          crr.position AS position
+        FROM egghead_ContentResourceResource crr
+        JOIN egghead_ContentResource cr_lesson ON crr.resourceId = cr_lesson.id
+        JOIN egghead_ContentResource cr_course ON crr.resourceOfId = cr_course.id
+        WHERE crr.resourceOfId = (
+          SELECT cr_course_inner.id
+          FROM egghead_ContentResource cr_target
+          JOIN egghead_ContentResourceResource crr2 ON cr_target.id = crr2.resourceId
+          JOIN egghead_ContentResource cr_course_inner ON crr2.resourceOfId = cr_course_inner.id
+          WHERE ${targetMatch.clause}
+          AND (
+            cr_course_inner.type = 'course'
+            OR (cr_course_inner.type = 'post' AND JSON_UNQUOTE(JSON_EXTRACT(cr_course_inner.fields, '$.postType')) = 'course')
+          )
+          LIMIT 1
+        )
+        AND cr_lesson.deletedAt IS NULL
+        AND (
+          cr_lesson.type = 'lesson'
+          OR (cr_lesson.type = 'post' AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')) = 'lesson')
+        )
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) IN ('published','approved','flagged','revised','retired')
+        ORDER BY crr.position ASC, cr_lesson.createdAt ASC, cr_lesson.id ASC
+      `,
+      targetMatch.params,
+    )
+
+    if (rows.length === 0) return null
+
+    const courseFields = parseCourseBuilderCourseFields(rows[0].course_fields)
+    const courseSlug =
+      typeof courseFields.slug === 'string' && courseFields.slug.length > 0
+        ? courseFields.slug
+        : rows[0].course_id
+
+    const lessons = rows.map((row) => {
+      const f = parseCourseBuilderCourseFields(row.lesson_fields)
+      const lessonSlug =
+        typeof f.slug === 'string' && f.slug.length > 0
+          ? f.slug
+          : String(row.position ?? '')
+      return {
+        slug: lessonSlug,
+        type: 'lesson' as const,
+        path: `/lessons/${lessonSlug}`,
+        title: typeof f.title === 'string' ? f.title : 'Untitled',
+        duration:
+          typeof f.duration === 'number'
+            ? f.duration
+            : f.duration == null
+            ? null
+            : Number(f.duration),
+        thumb_url: null,
+      }
+    })
+
+    return {
+      id: rows[0].course_id,
+      type: 'playlist',
+      title:
+        typeof courseFields.title === 'string'
+          ? courseFields.title
+          : 'Untitled',
+      slug: courseSlug,
+      path: `/courses/${courseSlug}`,
+      square_cover_480_url:
+        typeof courseFields.image === 'string' ? courseFields.image : null,
+      lessons,
+    }
+  } catch (error) {
+    console.error('Error fetching Course Builder lesson course:', error)
+    return null
+  } finally {
+    if (conn) conn.release()
   }
 }
 

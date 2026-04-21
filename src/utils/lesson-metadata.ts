@@ -1,6 +1,7 @@
 import isEmpty from 'lodash/isEmpty'
 import invariant from 'tiny-invariant'
 import {extractCourseBuilderIdSHA} from '@/lib/course-builder'
+import type {CourseBuilderLessonCourse} from '@/lib/get-course-builder-metadata'
 
 // Course Builder lesson overrides (includes transcript from video resource)
 type CourseBuilderLessonData = {
@@ -12,6 +13,7 @@ type CourseBuilderLessonData = {
   repo_url?: string
   download_url?: string
   muxPlaybackId?: string
+  collection?: CourseBuilderLessonCourse
 }
 
 type LessonMetadataMergeInput = {
@@ -54,6 +56,9 @@ export const mergeLessonMetadata = <T extends LessonMetadataMergeInput>(
         }),
         ...(lessonMetadataFromCourseBuilder.download_url && {
           download_url: lessonMetadataFromCourseBuilder.download_url,
+        }),
+        ...(lessonMetadataFromCourseBuilder.collection && {
+          collection: lessonMetadataFromCourseBuilder.collection,
         }),
         ogImage:
           (lessonMetadataFromCourseBuilder?.ogImage &&
