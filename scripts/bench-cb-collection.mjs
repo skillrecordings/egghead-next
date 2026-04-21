@@ -47,7 +47,10 @@ const hashFromSlug = SLUG.includes('~') ? SLUG.split('~').pop() : ''
 // Contract: given slug, return {parentId, lessonCount} or null.
 // =====================================================================
 async function currentApproach(slug) {
-  // Iter 1: single query with correlated subquery — one round-trip.
+  // Iter 2: sargable target lookup — exact PK match against post_<hash> | lesson_<hash>
+  // plus exact slug match, dropping the non-sargable LIKE scan.
+  const postId = hashFromSlug ? `post_${hashFromSlug}` : ''
+  const lessonId = hashFromSlug ? `lesson_${hashFromSlug}` : ''
   const [rows] = await pool.execute(
     `
       SELECT
@@ -62,9 +65,8 @@ async function currentApproach(slug) {
         JOIN egghead_ContentResourceResource crr2 ON cr_target.id = crr2.resourceId
         JOIN egghead_ContentResource cr_course ON crr2.resourceOfId = cr_course.id
         WHERE (
-          cr_target.id = ?
+          cr_target.id IN (?, ?, ?)
           OR JSON_UNQUOTE(JSON_EXTRACT(cr_target.fields, '$.slug')) = ?
-          ${hashFromSlug ? 'OR cr_target.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_target.fields, "$.slug")) LIKE ?' : ''}
         )
         AND (
           cr_course.type = 'course'
@@ -80,9 +82,7 @@ async function currentApproach(slug) {
       AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) IN ('published','approved','flagged','revised','retired')
       ORDER BY crr.position ASC, cr_lesson.createdAt ASC, cr_lesson.id ASC
     `,
-    hashFromSlug
-      ? [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`]
-      : [slug, slug],
+    [slug, postId, lessonId, slug],
   )
   if (rows.length === 0) return null
   return {parentId: rows[0].parentId, lessonCount: rows.length}
