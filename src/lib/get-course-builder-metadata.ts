@@ -233,6 +233,8 @@ export async function getCourseBuilderLesson(
   }
 
   const {hashFromSlug} = parseSlugForHash(slug)
+  // CB slugs carry a "~<hash>" suffix. Bare slugs are rails-only — skip.
+  if (!hashFromSlug) return null
   let conn
 
   try {
@@ -647,6 +649,8 @@ export async function getCourseBuilderLessonCourse(
   if (!process.env.COURSE_BUILDER_DATABASE_URL) return null
 
   const {hashFromSlug} = parseSlugForHash(slug)
+  // Bare (rails-only) slugs can't parent into a CB course — skip the round-trip.
+  if (!hashFromSlug) return null
   const targetMatch = hashFromSlug
     ? {
         clause: 'cr_target.id IN (?, ?, ?)',
