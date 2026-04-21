@@ -2,99 +2,24 @@ import {LessonResource} from '@/types'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import {loadLessonComments} from './lesson-comments'
-import {sanityClient} from '@/utils/sanity-client'
-import groq from 'groq'
 import isEmpty from 'lodash/isEmpty'
 import crypto from 'crypto'
-import {
-  mergeLessonMetadata,
-  deriveDataFromBaseValues,
-} from '@/utils/lesson-metadata'
-import compactedMerge from '@/utils/compacted-merge'
+import {mergeLessonMetadata} from '@/utils/lesson-metadata'
 import {convertUndefinedValuesToNull} from '@/utils/convert-undefined-values-to-null'
 import {getCourseBuilderLesson} from '@/lib/get-course-builder-metadata'
 import {logEvent, timeEvent, type LogContext} from '@/utils/structured-log'
 import {getRedis} from '@/lib/upstash-redis'
-import {sanityAllowlistAllowsLesson} from '@/lib/sanity-allowlist'
 
-// code_url is only used in a select few Kent C. Dodds lessons
-const lessonQuery = groq`
-*[_type == 'lesson' && slug.current == $slug][0]{
-  title,
-   "id": railsLessonId,
-  'slug': slug.current,
-  description,
-  ...resources[@->["_type"] == "videoResource"][0]->{
-    "transcript": transcript.text,
-    duration,
-  },
-  'path': '/lessons/' + slug.current,
-  'thumb_url': thumbnailUrl,
-  'icon_url': coalesce(softwareLibraries[0].library->image.url, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
-  'repo_url': repoUrl,
-  'code_url': codeUrl,
-  'scrimba': resources[_type == 'scrimbaResource'][0],
-  'created_at': eggheadRailsCreatedAt,
-  'updated_at': displayedUpdatedAt,
-  'published_at': publishedAt,
-  'instructor': collaborators[0]-> {
-    ...(person-> {
-      'full_name': name,
-      'slug': slug.current,
-      'avatar_64_url': image.url,
-      'twitter_url': twitter
-    }),
-  },
-  'tags': softwareLibraries[] {
-    ...(library-> {
-      'name': slug.current,
-      'label': name,
-      'http_url': url,
-      'image_url': image.url
-    }),
-  },
-  'collection': *[_type == 'course' && references(^._id)][0]{
-    "lessons": resources[]->{
-      title,
-      "type": _type,
-      "icon_url": softwareLibraries[0].library->image.url,
-      "duration": resource->duration,
-      "path": "/lessons/" + slug.current,
-      'slug': slug.current,
-      'scrimba': resources[_type == 'scrimbaResource'][0],
-    },
-    "id": railsCourseId,
-    'slug': slug.current,
-    'type': 'playlist',
-    'square_cover_480_url': coalesce(image, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
-    'path': '/courses/' + slug.current,
-    'title': title,
-  }
-}`
-
-const SANITY_LESSON_CACHE_PREFIX = 'sanity:lesson'
-const SANITY_LESSON_CACHE_TTL_SECONDS = 60 * 60 // 1 hour
-const SANITY_LESSON_CACHE_MISS_TTL_SECONDS = 60 * 60 * 24 // 24 hours
 const GRAPHQL_LESSON_MISS_CACHE_PREFIX = 'graphql:lesson:miss'
 const GRAPHQL_LESSON_MISS_TTL_SECONDS = 60 * 60 * 6 // 6 hours
 export const LESSON_NOT_FOUND_MESSAGE = 'Unable to lookup lesson metadata'
 
-type SanityLessonCacheValue =
-  | {ok: true; value: Record<string, unknown>}
-  | {ok: false}
-
 const inMemoryGraphqlMisses = new Map<string, number>()
 
-const lessonCacheKey = (prefix: string, slug: string) => {
+const graphqlLessonMissCacheKey = (slug: string) => {
   const hash = crypto.createHash('sha1').update(slug).digest('hex')
-  return `${prefix}:${hash}`
+  return `${GRAPHQL_LESSON_MISS_CACHE_PREFIX}:${hash}`
 }
-
-const sanityLessonCacheKey = (slug: string) =>
-  lessonCacheKey(SANITY_LESSON_CACHE_PREFIX, slug)
-
-const graphqlLessonMissCacheKey = (slug: string) =>
-  lessonCacheKey(GRAPHQL_LESSON_MISS_CACHE_PREFIX, slug)
 
 const hasFreshInMemoryGraphqlMiss = (slug: string) => {
   const expiresAt = inMemoryGraphqlMisses.get(slug)
@@ -164,101 +89,8 @@ async function cacheGraphqlLessonMiss(slug: string, logContext: LogContext) {
   }
 }
 
-/**
- * loads LESSON METADATA from Sanity
- * @param slug
- */
 type LessonMetadataLoadOptions = {
   allowRuntimeCaches?: boolean
-}
-
-async function loadLessonMetadataFromSanity(
-  slug: string,
-  logContext: LogContext,
-  options: LessonMetadataLoadOptions = {},
-) {
-  const {allowRuntimeCaches = true} = options
-  const params = {
-    slug,
-  }
-
-  try {
-    // If the allowlist is ready and this slug is not in it, skip Sanity entirely.
-    // This is the big win: 1 Redis check vs 1 Sanity GROQ call for every unique slug.
-    if (allowRuntimeCaches) {
-      const allowlist = await sanityAllowlistAllowsLesson(slug, logContext)
-      if (allowlist.ready && !allowlist.allowed) return {}
-    }
-
-    const redis = allowRuntimeCaches ? getRedis() : null
-
-    // KV-cached to avoid paying the Sanity roundtrip for the ~96% of slugs
-    // that don't have Sanity overrides.
-    const cacheKey = sanityLessonCacheKey(slug)
-    try {
-      if (redis) {
-        const cached = await redis.get<SanityLessonCacheValue>(cacheKey)
-        if (cached) {
-          if (!cached.ok) return {}
-          return (cached.value ?? {}) as Record<string, unknown>
-        }
-      }
-    } catch {
-      logEvent(
-        'warn',
-        'lesson.loadLessonMetadataFromSanity.kv_get_error',
-        {slug},
-        logContext,
-      )
-    }
-
-    const baseValues = await timeEvent(
-      'lesson.loadLessonMetadataFromSanity.groq',
-      {slug},
-      async () => sanityClient.fetch(lessonQuery, params),
-      logContext,
-    )
-
-    const derivedValues = baseValues ? deriveDataFromBaseValues(baseValues) : {}
-
-    const merged = compactedMerge(baseValues || {}, derivedValues)
-    const hasSanity = !isEmpty((merged as any)?.slug)
-
-    // Cache both hits and misses. Miss TTL is longer because new legacy Sanity
-    // lessons aren't expected to appear frequently.
-    const valueToCache: SanityLessonCacheValue = hasSanity
-      ? {ok: true, value: merged as Record<string, unknown>}
-      : {ok: false}
-
-    try {
-      if (redis) {
-        await redis.set(cacheKey, valueToCache, {
-          ex: hasSanity
-            ? SANITY_LESSON_CACHE_TTL_SECONDS
-            : SANITY_LESSON_CACHE_MISS_TTL_SECONDS,
-        })
-      }
-    } catch {
-      logEvent(
-        'warn',
-        'lesson.loadLessonMetadataFromSanity.kv_set_error',
-        {slug, has_sanity: hasSanity},
-        logContext,
-      )
-    }
-
-    return hasSanity ? merged : {}
-  } catch (e) {
-    // Likely a 404 Not Found error
-    logEvent(
-      'warn',
-      'lesson.loadLessonMetadataFromSanity.error',
-      {slug},
-      logContext,
-    )
-
-    return {}
-  }
 }
 
 export async function loadLessonMetadataFromGraphQL(
@@ -364,7 +196,6 @@ export async function loadLesson(
   const [
     lessonMetadataFromGraphQL,
     comments,
-    lessonMetadataFromSanity,
     lessonMetadataFromCourseBuilder,
   ] = await Promise.all([
     /******************************************
@@ -384,14 +215,6 @@ export async function loadLesson(
       ? loadLessonComments(slug, token, logContext)
       : Promise.resolve([]),
 
-    /*************************************
-     * Sanity Request for Lesson Metadata
-     * ***********************************/
-    // this will be used to override values from graphql
-    loadLessonMetadataFromSanity(slug, logContext, {
-      allowRuntimeCaches,
-    }),
-
     timeEvent(
       'lesson.getCourseBuilderLesson.mysql',
       {slug},
@@ -403,10 +226,9 @@ export async function loadLesson(
   /*************************************
    * Merge All Lesson Metadata Together
    * ***********************************/
-  // with preference for data coming from Sanity
+  // rails GraphQL is the base; Course Builder overrides take highest precedence
   let lessonMetadata = mergeLessonMetadata(
     lessonMetadataFromGraphQL,
-    lessonMetadataFromSanity,
     lessonMetadataFromCourseBuilder,
   )
 
@@ -430,7 +252,6 @@ export async function loadLesson(
       slug,
       duration_ms: Date.now() - startTime,
       has_graphql: !isEmpty(lessonMetadataFromGraphQL?.slug),
-      has_sanity: !isEmpty(lessonMetadataFromSanity?.slug),
       has_coursebuilder: !!lessonMetadataFromCourseBuilder,
       comments_count: comments?.length ?? 0,
       comments_included: includeComments,
@@ -439,13 +260,8 @@ export async function loadLesson(
     logContext,
   )
 
-  return {...lessonMetadata, comments} as LessonResource
+  return {...lessonMetadata, comments}
 }
-
-// values in the graphql that are being skipped/ignored by Sanity
-//
-// - dash_url - not used
-// - staff_notes_url - not used
 
 export async function loadAssociatedLessonsByTag(tag: string, token?: string) {
   const graphQLClient = getGraphQLClient(token)

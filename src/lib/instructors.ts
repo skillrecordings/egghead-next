@@ -131,13 +131,6 @@ const instructorQuery = groq`
     _id
   }`
 
-const topicQuery = groq`
-  *[_type == 'software-library'][]{
-    'id': _id,
-    name
-  }
-`
-
 export const loadSanityInstructorByEggheadId = async (eggheadId: number) => {
   const instructor: SanityInstructor[] = await sanityClient.fetch(
     instructorQuery,
@@ -147,9 +140,4 @@ export const loadSanityInstructorByEggheadId = async (eggheadId: number) => {
   return instructor.find(
     (instructor) => instructor.eggheadInstructorId === String(eggheadId),
   )
-}
-
-export const loadInstructorWipContent = async (id: string) => {
-  //   const instructor: Instructor[] = await sanityClient.fetch(instructorQuery)
-  //   const topics: Topic[] = await sanityClient.fetch(topicQuery)
 }

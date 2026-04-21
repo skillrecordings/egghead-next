@@ -1,12 +1,8 @@
-import {LessonResource} from '@/types'
-import some from 'lodash/some'
 import isEmpty from 'lodash/isEmpty'
-import compactedMerge from '@/utils/compacted-merge'
 import invariant from 'tiny-invariant'
 import {extractCourseBuilderIdSHA} from '@/lib/course-builder'
-import {Post} from '@/schemas/post'
 
-// Type for Course Builder lesson data that includes transcript from video resource
+// Course Builder lesson overrides (includes transcript from video resource)
 type CourseBuilderLessonData = {
   transcript?: string
   description?: string
@@ -18,63 +14,29 @@ type CourseBuilderLessonData = {
   muxPlaybackId?: string
 }
 
-export const mergeLessonMetadata = (
-  lessonMetadataFromGraphQL: LessonResource,
-  lessonMetadataFromSanity: LessonResource,
+type LessonMetadataMergeInput = {
+  slug?: string
+  [key: string]: unknown
+}
+
+type LessonMetadataMergeResult<T extends LessonMetadataMergeInput> = T & {
+  ogImage: string
+  title?: string
+  description?: string
+  transcript?: string
+  repo_url?: string
+  download_url?: string
+}
+
+export const mergeLessonMetadata = <T extends LessonMetadataMergeInput>(
+  lessonMetadataFromGraphQL: T,
   lessonMetadataFromCourseBuilder: CourseBuilderLessonData | null,
-): LessonResource => {
-  // we can merge most of it together as is, but there are a few nested pieces
-  // that need to be handled manually.
-  //
-  // e.g. if tags haven't been set yet on Sanity, they will appear as an empty
-  // array. With a standard spread, they empty tags from Sanity would override
-  // an actual list of tags from graphql. We can instead handle this manually
-  // by checking for `_.some()` and falling back to graphql if there aren't
-  // any.
-
-  // Nested fields:
-  // - `tags`
-  // - `instructor`
-  // - `collection`
-  //   - `lessons`
-
-  /*
-   * Extract primary and secondary fields
-   */
-  const {
-    tags: secondaryTags,
-    instructor: secondaryInstructor,
-    collection: secondaryCollection,
-    ...secondaryRest
-  } = lessonMetadataFromGraphQL
-
-  const {
-    tags: primaryTags,
-    instructor: primaryInstructor,
-    collection: primaryCollection,
-    ...primaryRest
-  } = lessonMetadataFromSanity
-
-  /*
-   * Determine which value to take for each complex type (`collection`, `tags`,
-   * and `instructor`).
-   */
-
-  const collection = collectionIsPresent(primaryCollection)
-    ? primaryCollection
-    : secondaryCollection
-
-  const tags = some(primaryTags) ? primaryTags : secondaryTags
-
-  const instructor = some(primaryInstructor)
-    ? primaryInstructor
-    : secondaryInstructor
-
-  const rest = compactedMerge(secondaryRest, primaryRest)
-
-  // Course Builder data takes highest preference - spread last to override other sources
+): LessonMetadataMergeResult<T> => {
+  // Course Builder overrides take highest precedence over the rails GraphQL
+  // baseline. Spread CB fields last so they win on key collisions, but only
+  // when they're actually populated.
   const courseBuilderIdSHA = extractCourseBuilderIdSHA(
-    lessonMetadataFromSanity?.slug || '',
+    lessonMetadataFromGraphQL?.slug || '',
   )
   const courseBuilderOverrides = lessonMetadataFromCourseBuilder
     ? {
@@ -100,15 +62,9 @@ export const mergeLessonMetadata = (
       }
     : {
         ogImage: `https://og-image-react-egghead.now.sh/lesson/${lessonMetadataFromGraphQL.slug}?v=20201027`,
-        // Allow Course Builder to override GitHub repo url
       }
 
-  return {collection, instructor, tags, ...rest, ...courseBuilderOverrides}
-}
-
-const collectionIsPresent = (collection: {lessons: any[] | undefined}) => {
-  const {lessons} = collection || {}
-  return some(lessons)
+  return {...lessonMetadataFromGraphQL, ...courseBuilderOverrides}
 }
 
 export const deriveDataFromBaseValues = ({path}: {path?: string}) => {
