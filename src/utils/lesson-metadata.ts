@@ -58,7 +58,14 @@ export const mergeLessonMetadata = <T extends LessonMetadataMergeInput>(
           download_url: lessonMetadataFromCourseBuilder.download_url,
         }),
         ...(lessonMetadataFromCourseBuilder.collection && {
-          collection: lessonMetadataFromCourseBuilder.collection,
+          collection: {
+            ...lessonMetadataFromCourseBuilder.collection,
+            square_cover_480_url:
+              lessonMetadataFromCourseBuilder.collection.square_cover_480_url ||
+              (lessonMetadataFromGraphQL as any)?.collection
+                ?.square_cover_480_url ||
+              null,
+          },
         }),
         ogImage:
           (lessonMetadataFromCourseBuilder?.ogImage &&

@@ -734,7 +734,10 @@ export async function getCourseBuilderLessonCourse(
       slug: courseSlug,
       path: `/courses/${courseSlug}`,
       square_cover_480_url:
-        typeof courseFields.image === 'string' ? courseFields.image : null,
+        typeof courseFields.image === 'string' &&
+        /^(https?:\/\/|\/)/.test(courseFields.image)
+          ? courseFields.image
+          : null,
       lessons,
     }
   } catch (error) {
