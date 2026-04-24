@@ -68,9 +68,9 @@ export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = ({
 
   const setInitialControlVisibility = React.useCallback(
     (shouldStayVisible: boolean) => {
-      const mediaController = (muxPlayerRef.current as any)?.shadowRoot?.querySelector(
-        'media-controller',
-      ) as HTMLElement | null
+      const mediaController = (
+        muxPlayerRef.current as any
+      )?.shadowRoot?.querySelector('media-controller') as HTMLElement | null
 
       if (!mediaController) return
 

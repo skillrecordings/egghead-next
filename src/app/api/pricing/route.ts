@@ -336,13 +336,14 @@ async function _GET(request: NextRequest) {
     request_id: requestId ?? undefined,
     route: '/api/pricing',
   }
-  const cacheKey = cacheableCandidate && PRICING_PROXY_CACHE_ENABLED
-    ? buildPricingCacheKey({
-        siteClientId,
-        country: safeCountry,
-        queryString: normalizedQueryString,
-      })
-    : null
+  const cacheKey =
+    cacheableCandidate && PRICING_PROXY_CACHE_ENABLED
+      ? buildPricingCacheKey({
+          siteClientId,
+          country: safeCountry,
+          queryString: normalizedQueryString,
+        })
+      : null
 
   try {
     try {

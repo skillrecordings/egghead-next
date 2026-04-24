@@ -57,9 +57,9 @@ export function getCanonicalContentQueryRedirect(
 
   if (!isCanonicalizedContentPath(pathname)) return null
 
-  const strippedKeys = Array.from(new Set(Array.from(searchParams.keys()))).filter(
-    (key) => shouldStripKey(pathname, key),
-  )
+  const strippedKeys = Array.from(
+    new Set(Array.from(searchParams.keys())),
+  ).filter((key) => shouldStripKey(pathname, key))
 
   if (strippedKeys.length === 0) return null
 
@@ -88,9 +88,14 @@ export function getCanonicalContentQueryRedirect(
     )
   }
 
-  const cioId = searchParams.get('_cio_id') ?? searchParams.get(CIO_IDENTIFIER_KEY)
+  const cioId =
+    searchParams.get('_cio_id') ?? searchParams.get(CIO_IDENTIFIER_KEY)
   if (cioId) {
-    response.cookies.set(CIO_IDENTIFIER_KEY, cioId, getCioIdentifierCookieOptions())
+    response.cookies.set(
+      CIO_IDENTIFIER_KEY,
+      cioId,
+      getCioIdentifierCookieOptions(),
+    )
   }
 
   console.log(
@@ -100,7 +105,9 @@ export function getCanonicalContentQueryRedirect(
       original_pathname: req.nextUrl.pathname,
       destination_pathname: destination.pathname,
       original_query_keys: Array.from(new Set(req.nextUrl.searchParams.keys())),
-      remaining_query_keys: Array.from(new Set(destination.searchParams.keys())),
+      remaining_query_keys: Array.from(
+        new Set(destination.searchParams.keys()),
+      ),
       stripped_keys: strippedKeys,
       captured_af: Boolean(affiliateToken),
       captured_rc: Boolean(referralToken),

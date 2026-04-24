@@ -1,19 +1,20 @@
 import * as React from 'react'
-import groq from 'groq'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
 import {MDXRemote} from 'next-mdx-remote'
 import mdxComponents from '@/components/mdx'
-import {sanityClient} from '@/utils/sanity-client'
 import {serialize} from 'next-mdx-remote/serialize'
-import {HIDDEN_CASE_STUDIES} from './index'
 import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
 import rehypeHighlight from 'rehype-highlight'
 import {withStaticPropsLogging} from '@/lib/logging'
 import {GenericErrorBoundary} from '@/components/generic-error-boundary'
+import {
+  getCourseBuilderCaseStudy,
+  getCourseBuilderCaseStudies,
+} from '@/lib/get-course-builder-metadata'
 
 type AuthorResource = {
   name: string
@@ -173,7 +174,7 @@ const Author = ({author}: any) => {
     <>
       {image && (
         <Image
-          src={image.url}
+          src={typeof image === 'string' ? image : image.url}
           width={48}
           height={48}
           alt={name}
@@ -199,43 +200,32 @@ const Author = ({author}: any) => {
   ) : null
 }
 
-const query = groq`*[_type == "caseStudy" && slug.current == $slug][0]{
-  title,
-  "author": authors[][0].author->,
-  seo,
-  coverImage,
-  body
-}`
-
 export const getStaticProps = withStaticPropsLogging(async (context: any) => {
   const slug = context.params?.slug as string
 
-  const rawData = await sanityClient.fetch(query, {slug})
+  const caseStudy = await getCourseBuilderCaseStudy(slug)
 
-  // Log null/missing document so we can spot broken slugs in Axiom
-  if (!rawData) {
+  if (!caseStudy) {
     console.error(
       JSON.stringify({
         event: 'case_study.not_found',
         slug,
         ok: false,
-        error: 'Sanity returned null for caseStudy query',
+        error: 'Course Builder returned null for case study query',
       }),
     )
     return {notFound: true}
   }
 
-  const {body, ...caseStudy} = rawData
+  const {body, ...rest} = caseStudy
 
-  // Log when the body field is missing (content not published / field empty)
   if (!body) {
     console.error(
       JSON.stringify({
         event: 'case_study.missing_body',
         slug,
         ok: false,
-        fields: Object.keys(rawData),
-        error: 'caseStudy document found but body field is null or undefined',
+        error: 'Case study found but body field is null or undefined',
       }),
     )
   } else {
@@ -244,10 +234,8 @@ export const getStaticProps = withStaticPropsLogging(async (context: any) => {
         event: 'case_study.fetched',
         slug,
         ok: true,
-        body_length:
-          typeof body === 'string' ? body.length : JSON.stringify(body).length,
-        has_author: !!(caseStudy as any).author,
-        has_cover_image: !!(caseStudy as any).coverImage,
+        body_length: body.length,
+        has_cover_image: !!rest.coverImage,
       }),
     )
   }
@@ -276,37 +264,33 @@ export const getStaticProps = withStaticPropsLogging(async (context: any) => {
             : undefined,
       }),
     )
-    // Return notFound so ISR serves a 404 rather than the error page
     return {notFound: true}
   }
 
   return {
-    props: {...caseStudy, source: mdxSource},
-    revalidate: 1,
+    props: {
+      title: rest.title,
+      subTitle: rest.subtitle || '',
+      author: rest.author ?? null,
+      seo: rest.seo || {},
+      coverImage: rest.coverImage || null,
+      source: mdxSource,
+      publishedAt: rest.publishedAt || '',
+    },
+    revalidate: 60,
   }
 })
 
-const allCaseStudiesQuery = groq`
-  *[_type == "caseStudy" && publishedAt < now() && !(slug.current match $hiddenCaseStudies)]{
-    "slug": slug.current
-  }
-`
-
 export async function getStaticPaths() {
-  const allCaseStudies = await sanityClient.fetch(allCaseStudiesQuery, {
-    hiddenCaseStudies: HIDDEN_CASE_STUDIES,
-  })
-  const paths = allCaseStudies.map((caseStudy: {slug: string}) => {
-    return {
-      params: {
-        slug: caseStudy.slug,
-      },
-    }
-  })
+  const allCaseStudies = await getCourseBuilderCaseStudies()
+
+  const paths = (allCaseStudies || []).map((caseStudy) => ({
+    params: {slug: caseStudy.slug},
+  }))
 
   return {
     paths,
-    fallback: false,
+    fallback: 'blocking',
   }
 }
 
