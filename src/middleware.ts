@@ -5,6 +5,28 @@ import {getCanonicalSearchQueryRedirect} from '@/server/search-query-canonicaliz
 
 const PUBLIC_FILE = /\.(.*)$/
 
+// Keys whose presence on /courses/* or /lessons/* should trigger canonicalization.
+// Must stay in sync with SHARED_STRIP_KEYS / LESSON_CONTEXT_STRIP_KEYS in
+// content-query-canonicalization.ts. Without one of these, the request can
+// be served straight from the static ISR cache without invoking the edge.
+const CONTENT_STRIP_QUERY_KEYS = [
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_content',
+  'utm_term',
+  'af',
+  'rc',
+  'ref',
+  '_cio_id',
+  'cio_id',
+] as const
+
+const LESSON_ONLY_STRIP_QUERY_KEYS = ['course', 'pl'] as const
+
+const queryHas = (keys: readonly string[]) =>
+  keys.map((key) => ({type: 'query' as const, key}))
+
 // The allow-list of paths where this middleware executes (perf)
 export const config = {
   matcher: [
@@ -12,8 +34,17 @@ export const config = {
     '/pricing/:path*',
     '/q',
     '/q/:path*',
-    '/courses/:path*',
-    '/lessons/:path*',
+    {
+      source: '/courses/:path*',
+      has: queryHas(CONTENT_STRIP_QUERY_KEYS),
+    },
+    {
+      source: '/lessons/:path*',
+      has: queryHas([
+        ...CONTENT_STRIP_QUERY_KEYS,
+        ...LESSON_ONLY_STRIP_QUERY_KEYS,
+      ]),
+    },
   ],
 }
 
