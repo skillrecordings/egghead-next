@@ -1,4 +1,3 @@
-import 'server-only'
 import type {RowDataPacket} from 'mysql2/promise'
 import * as mysql from 'mysql2/promise'
 import {getCourseBuilderConnectionOptions} from '@/lib/course-builder-db'
