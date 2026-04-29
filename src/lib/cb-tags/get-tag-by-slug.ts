@@ -1,3 +1,4 @@
+import 'server-only'
 import type {RowDataPacket} from 'mysql2/promise'
 import * as mysql from 'mysql2/promise'
 import {getCourseBuilderConnectionOptions} from '@/lib/course-builder-db'
@@ -53,8 +54,9 @@ function normalizeRow(row: RowDataPacket): CourseBuilderTag {
   const rowId = typeof row.id === 'string' ? row.id : String(row.id)
   const slug = asString(fields.slug) ?? rowId
   const explicitLegacyId = asNumber(fields.legacyId)
-  const legacyIdFromTagId =
-    /^tag_\d+$/.test(rowId) ? Number(rowId.slice(4)) : null
+  const legacyIdFromTagId = /^tag_\d+$/.test(rowId)
+    ? Number(rowId.slice(4))
+    : null
   const legacyId =
     explicitLegacyId ??
     (legacyIdFromTagId !== null && Number.isFinite(legacyIdFromTagId)
@@ -171,7 +173,12 @@ export async function listAllCourseBuilderTags(opts?: {
 }): Promise<CourseBuilderTag[]> {
   if (!process.env.COURSE_BUILDER_DATABASE_URL) return []
 
-  const limit = opts?.limit && opts.limit > 0 ? opts.limit : null
+  const limit =
+    typeof opts?.limit === 'number' &&
+    Number.isFinite(opts.limit) &&
+    opts.limit > 0
+      ? Math.floor(opts.limit)
+      : null
   const context = opts?.context ?? null
 
   let conn
@@ -185,7 +192,7 @@ export async function listAllCourseBuilderTags(opts?: {
       )
       params.push(context, context)
     }
-    const limitClause = limit ? `LIMIT ${Number(limit)}` : ''
+    const limitClause = limit ? `LIMIT ${limit}` : ''
     const [rows] = await conn.execute<RowDataPacket[]>(
       `SELECT id, fields
        FROM egghead_Tag

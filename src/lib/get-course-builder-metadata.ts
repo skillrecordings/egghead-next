@@ -653,17 +653,25 @@ export async function getAllCourseBuilderPublicCourseSlugs(): Promise<
 export async function getCourseBuilderLessonCourse(
   slug: string,
 ): Promise<CourseBuilderLessonCourse | null> {
-  if (!process.env.COURSE_BUILDER_DATABASE_URL) return null
+  if (!process.env.COURSE_BUILDER_DATABASE_URL) {
+    console.warn(
+      'COURSE_BUILDER_DATABASE_URL not configured, skipping Course Builder lesson-course lookup',
+    )
+    return null
+  }
 
   const {hashFromSlug} = parseSlugForHash(slug)
+  // Match on id OR JSON slug in both branches so we don't silently miss rows
+  // whose id doesn't follow post_/lesson_<hash> conventions but whose
+  // fields.slug equals the input.
   const targetMatch = hashFromSlug
     ? {
-        clause: 'cr_target.id IN (?, ?, ?)',
-        params: [slug, `post_${hashFromSlug}`, `lesson_${hashFromSlug}`],
+        clause: `(cr_target.id IN (?, ?, ?) OR JSON_UNQUOTE(JSON_EXTRACT(cr_target.fields, '$.slug')) = ?)`,
+        params: [slug, `post_${hashFromSlug}`, `lesson_${hashFromSlug}`, slug],
       }
     : {
-        clause: `JSON_UNQUOTE(JSON_EXTRACT(cr_target.fields, '$.slug')) = ?`,
-        params: [slug],
+        clause: `(cr_target.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_target.fields, '$.slug')) = ?)`,
+        params: [slug, slug],
       }
 
   let conn
@@ -676,6 +684,7 @@ export async function getCourseBuilderLessonCourse(
         SELECT
           cr_course.id AS course_id,
           cr_course.fields AS course_fields,
+          cr_lesson.id AS lesson_id,
           cr_lesson.fields AS lesson_fields,
           crr.position AS position
         FROM egghead_ContentResourceResource crr
@@ -717,7 +726,7 @@ export async function getCourseBuilderLessonCourse(
       const lessonSlug =
         typeof f.slug === 'string' && f.slug.length > 0
           ? f.slug
-          : String(row.position ?? '')
+          : String(row.lesson_id ?? '')
       return {
         slug: lessonSlug,
         type: 'lesson' as const,
