@@ -5,29 +5,13 @@ import {getCanonicalSearchQueryRedirect} from '@/server/search-query-canonicaliz
 
 const PUBLIC_FILE = /\.(.*)$/
 
-// Keys whose presence on /courses/* or /lessons/* should trigger canonicalization.
-// Must stay in sync with SHARED_STRIP_KEYS / LESSON_CONTEXT_STRIP_KEYS in
-// content-query-canonicalization.ts. Without one of these, the request can
-// be served straight from the static ISR cache without invoking the edge.
-const CONTENT_STRIP_QUERY_KEYS = [
-  'utm_source',
-  'utm_medium',
-  'utm_campaign',
-  'utm_content',
-  'utm_term',
-  'af',
-  'rc',
-  'ref',
-  '_cio_id',
-  'cio_id',
-] as const
-
-const LESSON_ONLY_STRIP_QUERY_KEYS = ['course', 'pl'] as const
-
-const queryHas = (keys: readonly string[]) =>
-  keys.map((key) => ({type: 'query' as const, key}))
-
-// The allow-list of paths where this middleware executes (perf)
+// The allow-list of paths where this middleware executes (perf).
+// `has` clauses on /courses/* and /lessons/* mean middleware only fires when
+// a strip-worthy query key is present, letting clean URLs serve directly
+// from the static ISR cache. Keys must stay in sync with SHARED_STRIP_KEYS /
+// LESSON_CONTEXT_STRIP_KEYS in content-query-canonicalization.ts. Listed
+// inline because Next.js statically analyzes this export — helpers/spreads
+// would fail the build with "Invalid segment configuration export".
 export const config = {
   matcher: [
     '/pricing',
@@ -36,14 +20,35 @@ export const config = {
     '/q/:path*',
     {
       source: '/courses/:path*',
-      has: queryHas(CONTENT_STRIP_QUERY_KEYS),
+      has: [
+        {type: 'query', key: 'utm_source'},
+        {type: 'query', key: 'utm_medium'},
+        {type: 'query', key: 'utm_campaign'},
+        {type: 'query', key: 'utm_content'},
+        {type: 'query', key: 'utm_term'},
+        {type: 'query', key: 'af'},
+        {type: 'query', key: 'rc'},
+        {type: 'query', key: 'ref'},
+        {type: 'query', key: '_cio_id'},
+        {type: 'query', key: 'cio_id'},
+      ],
     },
     {
       source: '/lessons/:path*',
-      has: queryHas([
-        ...CONTENT_STRIP_QUERY_KEYS,
-        ...LESSON_ONLY_STRIP_QUERY_KEYS,
-      ]),
+      has: [
+        {type: 'query', key: 'utm_source'},
+        {type: 'query', key: 'utm_medium'},
+        {type: 'query', key: 'utm_campaign'},
+        {type: 'query', key: 'utm_content'},
+        {type: 'query', key: 'utm_term'},
+        {type: 'query', key: 'af'},
+        {type: 'query', key: 'rc'},
+        {type: 'query', key: 'ref'},
+        {type: 'query', key: '_cio_id'},
+        {type: 'query', key: 'cio_id'},
+        {type: 'query', key: 'course'},
+        {type: 'query', key: 'pl'},
+      ],
     },
   ],
 }
