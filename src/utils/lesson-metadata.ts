@@ -14,6 +14,7 @@ type CourseBuilderLessonData = {
   download_url?: string
   muxPlaybackId?: string
   collection?: CourseBuilderLessonCourse
+  free_forever?: true
 }
 
 type LessonMetadataMergeInput = {
@@ -56,6 +57,9 @@ export const mergeLessonMetadata = <T extends LessonMetadataMergeInput>(
         }),
         ...(lessonMetadataFromCourseBuilder.download_url && {
           download_url: lessonMetadataFromCourseBuilder.download_url,
+        }),
+        ...(lessonMetadataFromCourseBuilder.free_forever && {
+          free_forever: true,
         }),
         ...(lessonMetadataFromCourseBuilder.collection && {
           collection: {

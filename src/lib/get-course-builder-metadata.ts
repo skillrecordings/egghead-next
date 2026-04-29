@@ -91,6 +91,9 @@ type CourseBuilderLessonData = {
   muxPlaybackId?: string
   // Download URL for MUX videos
   download_url?: string
+  // CB is the source of truth for free/paid; surface only the positive case so
+  // a paid CB lesson never overrides a rails free_forever=true (defensive).
+  free_forever?: true
 }
 
 // Parent course for a given lesson, shaped to match rails' Playlist GraphQL
@@ -320,6 +323,12 @@ export async function getCourseBuilderLesson(
     // Map GitHub repo URL if present on the lesson fields
     if (lessonFields?.github) {
       result.repo_url = lessonFields.github
+    }
+
+    // CB owns access state. Only surface the free case so a paid CB record
+    // can't downgrade a rails-free lesson.
+    if (lessonFields?.access === 'free') {
+      result.free_forever = true
     }
 
     // Extract MUX playback ID and asset ID for MUX videos
