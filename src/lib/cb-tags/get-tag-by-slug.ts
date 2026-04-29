@@ -151,10 +151,19 @@ export async function getCourseBuilderTagsBySlugs(
          )`,
       [...deduped, ...deduped],
     )
-    for (const row of rows) {
-      const normalized = normalizeRow(row)
+    const normalizedRows = rows.map(normalizeRow)
+    const slugKeys = new Set(normalizedRows.map((tag) => tag.slug))
+
+    for (const normalized of normalizedRows) {
       if (!result.has(normalized.slug)) result.set(normalized.slug, normalized)
-      if (normalized.name && !result.has(normalized.name)) {
+    }
+
+    for (const normalized of normalizedRows) {
+      if (
+        normalized.name &&
+        !slugKeys.has(normalized.name) &&
+        !result.has(normalized.name)
+      ) {
         result.set(normalized.name, normalized)
       }
     }

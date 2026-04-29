@@ -57,12 +57,41 @@ describe('mergeLessonMetadata()', () => {
   })
 
   test('falls back to a Course Builder OG image URL derived from slug when CB is present but no ogImage', () => {
-    const result = mergeLessonMetadata(
-      {title: 'Rails Title', slug: 'some-cb-lesson~abc12'},
-      {},
-    )
+    const previous = process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN
+    process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN = 'https://cb.example'
+    try {
+      const result = mergeLessonMetadata(
+        {title: 'Rails Title', slug: 'some-cb-lesson~abc12'},
+        {},
+      )
 
-    expect(result.ogImage).toMatch(/\/api\/og\?resource=post_/)
+      expect(result.ogImage).toMatch(/\/api\/og\?resource=post_/)
+    } finally {
+      if (previous === undefined) {
+        delete process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN
+      } else {
+        process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN = previous
+      }
+    }
+  })
+
+  test('falls back to legacy OG image URL when CB ogImage and CB domain are both missing', () => {
+    const previous = process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN
+    delete process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN
+    try {
+      const result = mergeLessonMetadata(
+        {title: 'Rails Title', slug: 'some-cb-lesson~abc12'},
+        {},
+      )
+
+      expect(result.ogImage).toBe(
+        'https://og-image-react-egghead.now.sh/lesson/some-cb-lesson~abc12?v=20201027',
+      )
+    } finally {
+      if (previous !== undefined) {
+        process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN = previous
+      }
+    }
   })
 })
 

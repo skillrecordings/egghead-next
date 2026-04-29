@@ -74,7 +74,9 @@ export const mergeLessonMetadata = <T extends LessonMetadataMergeInput>(
         ogImage:
           (lessonMetadataFromCourseBuilder?.ogImage &&
             lessonMetadataFromCourseBuilder.ogImage.trim()) ||
-          `${process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN}/api/og?resource=post_${courseBuilderIdSHA}`,
+          (process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN
+            ? `${process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN}/api/og?resource=post_${courseBuilderIdSHA}`
+            : `https://og-image-react-egghead.now.sh/lesson/${lessonMetadataFromGraphQL.slug}?v=20201027`),
       }
     : {
         ogImage: `https://og-image-react-egghead.now.sh/lesson/${lessonMetadataFromGraphQL.slug}?v=20201027`,
