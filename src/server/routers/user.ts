@@ -38,7 +38,7 @@ export const userRouter = router({
       }),
     )
     .mutation(async ({input, ctx}) => {
-      const token = ctx?.userToken
+      const token = ctx?.userToken || process.env.EGGHEAD_SUPPORT_BOT_TOKEN
 
       if (!token) return null
 
