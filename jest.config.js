@@ -23,6 +23,7 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)': '<rootDir>/src/$1',
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+    '^server-only$': '<rootDir>/jest/server-only.js',
   },
   moduleDirectories: ['node_modules', 'src'],
 }
