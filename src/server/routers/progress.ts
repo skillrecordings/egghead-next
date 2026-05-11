@@ -55,7 +55,7 @@ export const progressRouter = router({
           },
         },
       })
-    ).map((progress) => {
+    ).map((progress: {id: bigint | number | string}) => {
       return Number(progress.id)
     })
     return completedCourseIds
