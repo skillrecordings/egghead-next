@@ -12,11 +12,6 @@ describe('integration: loadResourcesForCourse (Course Builder backed)', () => {
   })
 
   test('returns ordered lessons from Course Builder for a course slug', async () => {
-    jest.doMock('@/lib/courses', () => ({
-      __esModule: true,
-      loadCourseMetadata: jest.fn(async () => null),
-    }))
-
     jest.doMock('@/lib/lessons', () => ({
       __esModule: true,
       loadLesson: jest.fn(async () => null),
@@ -74,11 +69,6 @@ describe('integration: loadResourcesForCourse (Course Builder backed)', () => {
   })
 
   test('returns an empty list when Course Builder has no published lessons for the course', async () => {
-    jest.doMock('@/lib/courses', () => ({
-      __esModule: true,
-      loadCourseMetadata: jest.fn(async () => null),
-    }))
-
     jest.doMock('@/lib/lessons', () => ({
       __esModule: true,
       loadLesson: jest.fn(async () => null),

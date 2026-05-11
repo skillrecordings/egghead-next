@@ -3,14 +3,12 @@ import getAccessTokenFromCookie from '@/utils/get-access-token-from-cookie'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import config from './config'
 import {pgQuery} from '@/db'
-import {loadCourseMetadata} from './courses'
 import {
   loadCourseBuilderMetadata,
   getCourseBuilderLessonStates,
   getCourseBuilderCourseLessons,
 } from './load-course-builder-metadata-wrapper'
 import {logEvent, timeEvent, type LogContext} from '@/utils/structured-log'
-import {sanityAllowlistAllowsCourse} from '@/lib/sanity-allowlist'
 
 const PUBLIC_VIEWABLE_PLAYLIST_STATES = [
   'published',
@@ -563,147 +561,6 @@ async function loadPgPublicCourseShell(slug: string, logContext: LogContext) {
   }
 }
 
-function isPublicLessonState(state?: string | null) {
-  return Boolean(state && PUBLIC_VIEWABLE_LESSON_STATES.includes(state))
-}
-
-function filterCourseItemsByLessonStates(
-  items: any[] = [],
-  lessonStates: Map<string, string>,
-) {
-  const isPublic = (slug?: string) =>
-    !slug ||
-    !lessonStates.has(slug) ||
-    isPublicLessonState(lessonStates.get(slug) ?? null)
-
-  return items
-    .map((item: any) =>
-      item?.lessons
-        ? {
-            ...item,
-            lessons: item.lessons.filter((lesson: any) =>
-              isPublic(lesson?.slug),
-            ),
-          }
-        : item,
-    )
-    .filter((item: any) => isPublic(item?.slug))
-}
-
-function filterCourseSectionsByLessonStates(
-  sections: any[] = [],
-  lessonStates: Map<string, string>,
-) {
-  return sections.map((section: any) => ({
-    ...section,
-    lessons:
-      section?.lessons?.filter(
-        (lesson: any) =>
-          isPublicLessonState(
-            lesson?.slug ? lessonStates.get(lesson.slug) ?? null : null,
-          ) ||
-          !lesson?.slug ||
-          !lessonStates.has(lesson.slug),
-      ) ?? [],
-  }))
-}
-
-async function mergeCourseShellSources(
-  playlist: any,
-  slug: string,
-  logContext: LogContext,
-) {
-  const courseMetaAllowlist = await sanityAllowlistAllowsCourse(
-    {slug: playlist.slug, courseId: playlist.id},
-    logContext,
-  )
-
-  const courseMeta =
-    courseMetaAllowlist.ready && !courseMetaAllowlist.allowed
-      ? null
-      : await timeEvent(
-          'course.loadCourseMetadata.sanity',
-          {slug, course_id: playlist.id},
-          async () => loadCourseMetadata(playlist.id, playlist.slug),
-          logContext,
-        )
-
-  const courseBuilderMetadata = await timeEvent(
-    'course.loadCourseBuilderMetadata.mysql',
-    {slug},
-    async () => loadCourseBuilderMetadata(playlist.slug),
-    logContext,
-  )
-  const lessonStates = await timeEvent(
-    'course.getCourseBuilderLessonStates.mysql',
-    {slug},
-    async () => getCourseBuilderLessonStates(playlist.slug),
-    logContext,
-  )
-  const courseBuilderLessons = await timeEvent(
-    'course.getCourseBuilderCourseLessons.mysql',
-    {slug},
-    async () => getCourseBuilderCourseLessons(playlist.slug),
-    logContext,
-  )
-
-  const mergedSectionsSource = courseMeta?.sections ?? playlist.sections ?? []
-
-  let filteredItems = playlist.items ?? []
-  let filteredSections = mergedSectionsSource
-
-  if (lessonStates && lessonStates.size > 0) {
-    filteredItems = filterCourseItemsByLessonStates(
-      playlist.items ?? [],
-      lessonStates,
-    )
-    filteredSections = filterCourseSectionsByLessonStates(
-      mergedSectionsSource,
-      lessonStates,
-    )
-  }
-
-  const courseBuilderOverrides = {
-    ogImage:
-      courseBuilderMetadata?.fields?.ogImage ||
-      playlist.customOgImage?.url ||
-      `https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`,
-    description: courseBuilderMetadata?.fields?.body || playlist.description,
-    title: courseBuilderMetadata?.fields?.title || playlist.title,
-    courseBuilderLessons,
-  }
-
-  const mergedInstructor =
-    courseMeta?.instructor != null
-      ? {...playlist.instructor, ...courseMeta.instructor}
-      : playlist.instructor
-
-  return {
-    result: {
-      ...playlist,
-      ...courseMeta,
-      ...courseBuilderOverrides,
-      instructor: mergedInstructor,
-      items: filteredItems,
-      sections: filteredSections,
-      slug,
-    },
-    metrics: {
-      items_count: playlist?.items?.length ?? 0,
-      sections_count: mergedSectionsSource?.length ?? 0,
-      filtered_items_count: filteredItems?.length ?? 0,
-      filtered_sections_count: filteredSections?.length ?? 0,
-      has_course_meta: !!courseMeta,
-      sanity_allowlist_ready: courseMetaAllowlist.ready,
-      sanity_allowlist_allowed: courseMetaAllowlist.allowed,
-      sanity_allowlist_reason: courseMetaAllowlist.reason,
-      has_coursebuilder_meta: !!courseBuilderMetadata,
-      lesson_states_count: lessonStates?.size ?? 0,
-      coursebuilder_lessons_count: courseBuilderLessons?.length ?? 0,
-    },
-  }
-}
-
 async function loadLegacyPublicPlaylist(
   slug: string,
   logContext: LogContext = {},
@@ -1236,10 +1093,6 @@ async function loadCourseBuilderPublicCourseShell(
       sections_count: 0,
       filtered_items_count: items.length,
       filtered_sections_count: 0,
-      has_course_meta: false,
-      sanity_allowlist_ready: false,
-      sanity_allowlist_allowed: true,
-      sanity_allowlist_reason: 'coursebuilder_only',
       has_coursebuilder_meta: true,
       lesson_states_count: 0,
       coursebuilder_lessons_count: courseBuilderLessons.length,

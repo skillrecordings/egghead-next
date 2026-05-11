@@ -76,41 +76,6 @@ describe('integration: loadPublicCourseShell (Course Builder backed)', () => {
       ]),
     }))
 
-    jest.doMock('@/lib/courses', () => ({
-      __esModule: true,
-      loadCourseMetadata: jest.fn(async () => ({
-        title: 'The Beginner’s Guide to React',
-        description: 'Sanity description',
-        square_cover_480_url: 'https://example.com/course-cover.png',
-        thumb_url: 'https://example.com/course-thumb.png',
-        tags: [
-          {
-            name: 'react',
-            label: 'React',
-            image_url: 'https://example.com/react.png',
-          },
-        ],
-        instructor: {
-          full_name: 'Kent C. Dodds',
-          slug: 'kent-c-dodds',
-          avatar_url: 'https://example.com/kent.png',
-          avatar_64_url: 'https://example.com/kent.png',
-          bio_short: 'Teacher of fine JavaScript things',
-          twitter: 'kentcdodds',
-        },
-        sections: [],
-      })),
-    }))
-
-    jest.doMock('@/lib/sanity-allowlist', () => ({
-      __esModule: true,
-      sanityAllowlistAllowsCourse: jest.fn(async () => ({
-        ready: false,
-        allowed: true,
-        reason: 'not-configured',
-      })),
-    }))
-
     jest.spyOn(console, 'log').mockImplementation(() => {})
     jest.spyOn(console, 'warn').mockImplementation(() => {})
     jest.spyOn(console, 'debug').mockImplementation(() => {})
@@ -229,20 +194,6 @@ describe('integration: loadPublicCourseShell (Course Builder backed)', () => {
       getCourseBuilderLessonStates: jest.fn(async () => null),
       getCourseBuilderCourseLessons: jest.fn(async () => null),
       getAllCourseBuilderPublicCourseSlugs: jest.fn(async () => []),
-    }))
-
-    jest.doMock('@/lib/courses', () => ({
-      __esModule: true,
-      loadCourseMetadata: jest.fn(async () => null),
-    }))
-
-    jest.doMock('@/lib/sanity-allowlist', () => ({
-      __esModule: true,
-      sanityAllowlistAllowsCourse: jest.fn(async () => ({
-        ready: false,
-        allowed: true,
-        reason: 'not-configured',
-      })),
     }))
 
     jest.spyOn(console, 'log').mockImplementation(() => {})

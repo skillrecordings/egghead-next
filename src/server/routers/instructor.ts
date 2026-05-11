@@ -7,10 +7,7 @@ import {z} from 'zod'
 import {nanoid} from 'nanoid'
 import slugify from 'slugify'
 import {loadSanityInstructorByEggheadId} from '../../lib/instructors'
-import {
-  loadDraftSanityCourseById,
-  loadSanityInstructorbyCourseId,
-} from '../../lib/courses'
+import {loadSanityInstructorbyCourseId} from '../../lib/courses'
 import {TRPCError} from '@trpc/server'
 import client from '@sanity/client'
 import groq from 'groq'
