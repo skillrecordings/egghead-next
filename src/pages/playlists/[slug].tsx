@@ -11,8 +11,9 @@ export default Playlist
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
   async ({res, params, query}) => {
     const slug = params && (params.slug as string)
+    const encodedSlug = encodeURIComponent(slug || '')
     const canonicalRedirect = canonicalizeInternalQueryParams({
-      pathname: `/playlists/${slug}`,
+      pathname: `/playlists/${encodedSlug}`,
       query,
       omitKeys: ['slug'],
     })
@@ -28,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
 
     return {
       redirect: {
-        destination: `/courses/${slug}`,
+        destination: `/courses/${encodedSlug}`,
         permanent: true,
       },
     }
