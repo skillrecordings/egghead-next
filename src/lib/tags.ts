@@ -1,9 +1,5 @@
 import axios from 'axios'
-import {sanityClient} from '@/utils/sanity-client'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
-import {reactPageQuery} from '@/components/search/curated/react'
-import {nextPageQuery} from '@/components/search/curated/next'
-import {remixPageQuery} from '@/components/search/curated/remix'
 import {getCourseBuilderTagBySlug} from '@/lib/cb-tags'
 
 async function readTags() {
@@ -95,35 +91,5 @@ export async function loadTag(slug: string) {
     }
   }
 
-  let sanityTag
-  if (canLoadSanityTag(slug)) {
-    sanityTag = await loadSanityTag(slug)
-  }
-
-  return {...tag, ...sanityTag}
-}
-
-const sanityTagPageHash = {
-  react: reactPageQuery,
-  next: nextPageQuery,
-  remix: remixPageQuery,
-}
-
-type SelectedTag = keyof typeof sanityTagPageHash
-
-export const canLoadSanityTag = (
-  selectedTag: string,
-): selectedTag is SelectedTag => {
-  const keyNames = Object.keys(sanityTagPageHash)
-
-  return keyNames.includes(selectedTag)
-}
-
-export const loadSanityTag = async (selectedTag: string) => {
-  if (!canLoadSanityTag(selectedTag)) return
-
-  const query = sanityTagPageHash[selectedTag]
-  if (!query) return
-
-  return await sanityClient.fetch(query)
+  return tag
 }
