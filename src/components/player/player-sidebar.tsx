@@ -66,13 +66,15 @@ const PlayerSidebar: React.FC<
                       className="flex items-center px-3 py-2 ml-4 space-x-2 transition-colors duration-200 ease-in-out hover:underline"
                     >
                       <div className="relative flex-shrink-0 w-12 h-12 ">
-                        <Image
-                          src={content.imageUrl}
-                          alt={`illustration of ${content.title} course`}
-                          width="64"
-                          height="64"
-                          layout="fill"
-                        />
+                        {content.imageUrl && (
+                          <Image
+                            src={content.imageUrl}
+                            alt={`illustration of ${content.title} course`}
+                            width="64"
+                            height="64"
+                            layout="fill"
+                          />
+                        )}
                       </div>
                       <div className="relative font-bold">{content.title}</div>
                     </Link>
@@ -224,14 +226,18 @@ const CourseHeader: React.FunctionComponent<
     // Only depend on fullCourse, not onCourseLoaded (which is memoized)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fullCourse])
+  const courseImageSrc =
+    fullCourse?.square_cover_480_url || course.square_cover_480_url
   return course ? (
     <div className="flex items-center">
       <div className="relative flex-shrink-0 block w-12 h-12 lg:w-16 lg:h-16 xl:w-20 xl:h-20">
-        <Image
-          src={fullCourse?.square_cover_480_url || course.square_cover_480_url}
-          alt={`illustration for ${course.title}`}
-          layout="fill"
-        />
+        {courseImageSrc && (
+          <Image
+            src={courseImageSrc}
+            alt={`illustration for ${course.title}`}
+            layout="fill"
+          />
+        )}
       </div>
       <div className="ml-2 lg:ml-4">
         <span className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
@@ -269,11 +275,13 @@ const TagHeader: React.FunctionComponent<
   return tag ? (
     <div className="flex items-center">
       <div className="relative flex-shrink-0 block w-12 h-12 lg:w-16 lg:h-16 xl:w-20 xl:h-20">
-        <Image
-          src={tag.image_url}
-          alt={`illustration for ${tag.name}`}
-          layout="fill"
-        />
+        {tag.image_url && (
+          <Image
+            src={tag.image_url}
+            alt={`illustration for ${tag.name}`}
+            layout="fill"
+          />
+        )}
       </div>
       <div className="ml-2 lg:ml-4">
         <span className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">

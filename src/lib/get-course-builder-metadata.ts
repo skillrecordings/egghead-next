@@ -151,9 +151,18 @@ function parseCourseBuilderCourseFields(
   fields: unknown,
 ): CourseBuilderCourseFields {
   if (!fields) return {}
-  return typeof fields === 'string'
-    ? (JSON.parse(fields) as CourseBuilderCourseFields)
-    : (fields as CourseBuilderCourseFields)
+  let parsed: unknown = fields
+  if (typeof fields === 'string') {
+    try {
+      parsed = JSON.parse(fields)
+    } catch {
+      return {}
+    }
+  }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    return {}
+  }
+  return parsed as CourseBuilderCourseFields
 }
 
 function buildCourseMetadataQuery(hasCourseBuilderId: boolean) {

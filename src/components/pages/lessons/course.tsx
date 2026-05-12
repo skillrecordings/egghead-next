@@ -21,11 +21,13 @@ const Course: React.FC<
           href={course.path}
           className="relative flex-shrink-0 block w-12 h-12 lg:w-20 lg:h-20"
         >
-          <Image
-            src={course.square_cover_480_url}
-            alt={`illustration for ${course.title}`}
-            layout="fill"
-          />
+          {course.square_cover_480_url && (
+            <Image
+              src={course.square_cover_480_url}
+              alt={`illustration for ${course.title}`}
+              layout="fill"
+            />
+          )}
         </Link>
         <div className="ml-2 lg:ml-4">
           <h4 className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
