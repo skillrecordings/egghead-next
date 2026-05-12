@@ -453,10 +453,12 @@ const CollectionPageLayout: React.FunctionComponent<
                     courseSlug={course.slug}
                   />
                   <div className="flex items-center justify-center md:justify-start space-x-2">
-                    {duration && (
-                      <Duration duration={convertTimeWithTitles(duration)} />
-                    )}
-                    <span>&middot;</span>
+                    {duration ? (
+                      <>
+                        <Duration duration={convertTimeWithTitles(duration)} />
+                        <span>&middot;</span>
+                      </>
+                    ) : null}
                     <div className="flex items-center space-x-1">
                       <span>
                         {lessons.length + playlistLessons.length} lessons
@@ -761,7 +763,7 @@ const CollectionPageLayout: React.FunctionComponent<
               <div className="flex flex-col mb-2 space-y-4 ">
                 <h2 className="text-xl font-bold">Course Content</h2>
                 <div className="text-sm font-normal text-gray-600 dark:text-gray-300">
-                  {duration && `${convertTimeWithTitles(duration)} • `}
+                  {duration ? `${convertTimeWithTitles(duration)} • ` : null}
                   {lessons.length + playlistLessons.length} lessons{' '}
                 </div>
               </div>
