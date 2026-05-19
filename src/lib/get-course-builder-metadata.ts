@@ -705,10 +705,14 @@ export async function getCourseBuilderLessonCourse(
           JOIN egghead_ContentResourceResource crr2 ON cr_target.id = crr2.resourceId
           JOIN egghead_ContentResource cr_course_inner ON crr2.resourceOfId = cr_course_inner.id
           WHERE ${targetMatch.clause}
+          AND cr_course_inner.deletedAt IS NULL
           AND (
             cr_course_inner.type = 'course'
             OR (cr_course_inner.type = 'post' AND JSON_UNQUOTE(JSON_EXTRACT(cr_course_inner.fields, '$.postType')) = 'course')
           )
+          AND JSON_UNQUOTE(JSON_EXTRACT(cr_course_inner.fields, '$.state')) = 'published'
+          AND COALESCE(JSON_UNQUOTE(JSON_EXTRACT(cr_course_inner.fields, '$.visibility')), 'public') NOT IN ('private', 'unlisted')
+          ORDER BY crr2.position ASC, cr_course_inner.createdAt ASC, cr_course_inner.id ASC
           LIMIT 1
         )
         AND cr_lesson.deletedAt IS NULL

@@ -4,7 +4,7 @@ import {getGraphQLClient} from '../utils/configured-graphql-client'
 import {reactPageQuery} from '@/components/search/curated/react'
 import {nextPageQuery} from '@/components/search/curated/next'
 import {remixPageQuery} from '@/components/search/curated/remix'
-import {getCourseBuilderTagBySlug} from '@/lib/cb-tags'
+import type {CourseBuilderTag} from '@/lib/cb-tags'
 
 async function readTags() {
   const endpoint = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/tags?size=40`
@@ -56,8 +56,17 @@ async function loadTagFromRails(slug: string): Promise<ResolvedTag | null> {
   return response?.tag ?? null
 }
 
+async function loadTagFromCourseBuilder(
+  slug: string,
+): Promise<CourseBuilderTag | null> {
+  if (typeof window !== 'undefined') return null
+
+  const {getCourseBuilderTagBySlug} = await import('@/lib/cb-tags')
+  return getCourseBuilderTagBySlug(slug)
+}
+
 export async function loadTag(slug: string) {
-  const cbTag = await getCourseBuilderTagBySlug(slug)
+  const cbTag = await loadTagFromCourseBuilder(slug)
 
   let tag: ResolvedTag | null = null
   if (cbTag) {
