@@ -164,32 +164,44 @@ export const getStaticProps: GetStaticProps = withHeaderBannerStaticProps(
       }
 
       if (initialLesson.slug !== lessonSlug) {
+        // The requested slug is an alias for `initialLesson.slug`. We can't
+        // return `redirect` here because Next.js disallows redirects from
+        // getStaticProps for paths included in `getStaticPaths` (prerender).
+        // Render the lesson at the alias URL; the `<NextSeo canonical>` tag
+        // on the page points crawlers to the canonical path.
+        const isPrerenderedAlias = HOT_LESSON_PATHS.some(
+          (entry) => entry.slug === lessonSlug,
+        )
+
         logEvent(
           'warn',
-          'lesson.static_props.redirect_slug',
+          'lesson.static_props.alias_slug',
           {
             slug: lessonSlug,
             canonical_slug: initialLesson.slug,
             canonical_path: initialLesson.path,
+            prerendered_alias: isPrerenderedAlias,
             ok: true,
             render_mode: 'isr',
           },
           getStaticPropsLogContext(lessonSlug),
         )
 
-        logLessonStaticPropsRender({
-          lessonSlug,
-          durationMs: Math.round(performance.now() - start),
-          ok: true,
-          isRedirect: true,
-        })
+        if (!isPrerenderedAlias) {
+          logLessonStaticPropsRender({
+            lessonSlug,
+            durationMs: Math.round(performance.now() - start),
+            ok: true,
+            isRedirect: true,
+          })
 
-        return {
-          redirect: {
-            destination: initialLesson.path,
-            permanent: true,
-          },
-          revalidate: 60,
+          return {
+            redirect: {
+              destination: initialLesson.path,
+              permanent: true,
+            },
+            revalidate: 60,
+          }
         }
       }
 
