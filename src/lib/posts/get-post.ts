@@ -130,7 +130,6 @@ export async function getAllPostSlugs() {
           'article',
           'lesson',
           'podcast',
-          'tip',
           'course'
         )
     `)
