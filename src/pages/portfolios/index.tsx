@@ -1,11 +1,10 @@
 import * as React from 'react'
-import groq from 'groq'
-import {sanityClient} from '@/utils/sanity-client'
 import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {sortBy} from 'lodash'
 import prettifyUrl from '@/utils/prettify-url'
+import standalonePageData from '@/data/standalone-page-data.json'
 
 const Portfolio: React.FC<React.PropsWithChildren<{portfolios: any}>> = (
   props,
@@ -76,20 +75,9 @@ const Portfolio: React.FC<React.PropsWithChildren<{portfolios: any}>> = (
   )
 }
 
-const query = groq`*[_type == "resource" && type == 'portfolio']{
-  "slug": slug.current,
-  image,
-  title,
-  url,
-  tags
-}`
-
 export async function getStaticProps(context: any) {
-  const portfolios = await sanityClient.fetch(query)
-
   return {
-    props: {portfolios},
-    revalidate: 1,
+    props: {portfolios: standalonePageData.portfolios},
   }
 }
 

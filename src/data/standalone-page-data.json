@@ -1,0 +1,1831 @@
+{
+  "portfolios": [
+    {
+      "description": "Testing the description",
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707453/portfolios/chrisbiscardi.png",
+      "slug": "chris-biscardi",
+      "tags": [
+        {
+          "label": "digital garden",
+          "value": "digital garden"
+        }
+      ],
+      "title": "Chris Biscardi",
+      "url": "https://www.christopherbiscardi.com/"
+    },
+    {
+      "description": null,
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617700426/portfolios/ivorreic.png",
+      "slug": "ivor-reic",
+      "tags": [
+        {
+          "label": "clean and simple",
+          "value": "clean and simple"
+        },
+        {
+          "label": "practical projects",
+          "value": "practical projects"
+        },
+        {
+          "label": "clear case studies",
+          "value": "clear case studies"
+        }
+      ],
+      "title": "Ivor Reic",
+      "url": "https://getivor.com/"
+    },
+    {
+      "description": "Testing the description",
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707407/portfolios/heydon.png",
+      "slug": "heydon-pickering",
+      "tags": [
+        {
+          "label": "practical projects",
+          "value": "practical projects"
+        },
+        {
+          "label": "strong personality",
+          "value": "strong personality"
+        }
+      ],
+      "title": "Heydon Pickering",
+      "url": "https://heydonworks.com/"
+    },
+    {
+      "description": null,
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707442/portfolios/michaelknepprath.png",
+      "slug": "michael-knepprath",
+      "tags": [
+        {
+          "label": "practical projects",
+          "value": "practical projects"
+        },
+        {
+          "label": "clear case studies",
+          "value": "clear case studies"
+        },
+        {
+          "label": "clean and simple",
+          "value": "clean and simple"
+        }
+      ],
+      "title": "Michael Knepprath",
+      "url": "https://mknepprath.com/"
+    },
+    {
+      "description": null,
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707439/portfolios/danielautry.png",
+      "slug": "daniel-autry",
+      "tags": [
+        {
+          "label": "clear case studies",
+          "value": "clear case studies"
+        },
+        {
+          "label": "clean and simple",
+          "value": "clean and simple"
+        },
+        {
+          "label": "practical projects",
+          "value": "practical projects"
+        }
+      ],
+      "title": "Daniel Autry",
+      "url": "https://danielautry.com/"
+    },
+    {
+      "description": null,
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707414/portfolios/stoiber.png",
+      "slug": "max-stoiber",
+      "tags": [
+        {
+          "label": "clean and simple",
+          "value": "clean and simple"
+        },
+        {
+          "label": "practical projects",
+          "value": "practical projects"
+        },
+        {
+          "label": "digital garden",
+          "value": "digital garden"
+        }
+      ],
+      "title": "Max Stoiber",
+      "url": "https://mxstbr.com/"
+    },
+    {
+      "description": null,
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617695158/portfolios/nateparrott.png",
+      "slug": "nate-parrott",
+      "tags": [
+        {
+          "label": "strong personality",
+          "value": "strong personality"
+        },
+        {
+          "label": "clear case studies",
+          "value": "clear case studies"
+        }
+      ],
+      "title": "Nate Parrott",
+      "url": "http://nateparrott.com/"
+    },
+    {
+      "description": null,
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707427/portfolios/patrickheng.png",
+      "slug": "patrick-heng",
+      "tags": [
+        {
+          "label": "practical projects",
+          "value": "practical projects"
+        }
+      ],
+      "title": "Patrick Heng",
+      "url": "https://patrickheng.com/"
+    },
+    {
+      "description": null,
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707427/portfolios/kristen-cabrera.png",
+      "slug": "kristen-cabrera",
+      "tags": [
+        {
+          "label": "practical projects",
+          "value": "practical projects"
+        },
+        {
+          "label": "strong personality",
+          "value": "strong personality"
+        }
+      ],
+      "title": "Kristen Cabrera",
+      "url": "https://www.kristencabrera.com/"
+    },
+    {
+      "description": null,
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707432/portfolios/kevin-green.png",
+      "slug": "kevin-green",
+      "tags": [
+        {
+          "label": "practical projects",
+          "value": "practical projects"
+        }
+      ],
+      "title": "Kevin Green",
+      "url": "https://kevingreen.sucks/"
+    },
+    {
+      "description": "Angie is both an interaction designer and a front-end developer, so their portfolio demonstrates a mix of both skills.\n\nThey do a good job of explicitly saying how they individually contributed to projects, rather than leaving us to make assumptions. Great work rarely happens alone, and it's always a good idea to state exactly how you individually contributed to a team project.\n\nTheir [Mo'Coffee](http://angiefu.com/mocoffee.html) project is an especially good example of how to present a project with rich contextual detail. They explain what problem the team was trying to solve, what challenges they faced, the process, the pain points, the prototypes, and the final outcome.\n\nDesigners usually receive a lot more training in how to present and communicate their work than developers, which is why developers can learn a lot from looking at designer portfolios. The problem is many of us miss the point – we only see the pretty homepage instead of paying attention to how they define their work in terms of problems, hypotheses, processes, and solutions. ",
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707443/portfolios/angiefu.png",
+      "slug": "angie-fu",
+      "tags": [
+        {
+          "label": "practical projects",
+          "value": "practical projects"
+        },
+        {
+          "label": "clear case studies",
+          "value": "clear case studies"
+        }
+      ],
+      "title": "Angie Fu",
+      "url": "http://angiefu.com/"
+    },
+    {
+      "description": null,
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707438/portfolios/tiffany-lam.png",
+      "slug": "tiffany-lam",
+      "tags": [
+        {
+          "label": "clear case studies",
+          "value": "clear case studies"
+        }
+      ],
+      "title": "Tiffany Lam",
+      "url": "https://tiffany.codes/"
+    },
+    {
+      "description": null,
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707440/portfolios/michaelmckeever.png",
+      "slug": "michael-mckeever",
+      "tags": [
+        {
+          "label": "clear case studies",
+          "value": "clear case studies"
+        }
+      ],
+      "title": "Michael McKeever",
+      "url": "https://mckvr.com/"
+    },
+    {
+      "description": "I'm a description",
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707745/portfolios/peter-tait.png",
+      "slug": "peter-tait",
+      "tags": [
+        {
+          "label": "clear case studies",
+          "value": "clear case studies"
+        },
+        {
+          "label": "practical projects",
+          "value": "practical projects"
+        }
+      ],
+      "title": "Peter Tait",
+      "url": "https://petertait.com/"
+    },
+    {
+      "description": null,
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707442/portfolios/henrydesroches.png",
+      "slug": "henry-desroches",
+      "tags": [
+        {
+          "label": "strong personality",
+          "value": "strong personality"
+        },
+        {
+          "label": "clear case studies",
+          "value": "clear case studies"
+        },
+        {
+          "label": "practical projects",
+          "value": "practical projects"
+        }
+      ],
+      "title": "Henry Desroches",
+      "url": "https://henry.codes/"
+    },
+    {
+      "description": null,
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1616707432/portfolios/anthony-kolber.png",
+      "slug": "anthony-kolbert",
+      "tags": [
+        {
+          "label": "practical projects",
+          "value": "practical projects"
+        }
+      ],
+      "title": "Anthony Kolbert",
+      "url": "http://www.kolber.info/"
+    }
+  ],
+  "talks": [
+    {
+      "byline": "Naya Bere • 20m",
+      "description": null,
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-how-to-fail-the-technical-interview-and-still-get-the-job-ZdnF8076H/egghead-how-to-fail-the-technical-interview-and-still-get-the-job-ZdnF8076H.jpg",
+      "instructor": {
+        "name": "Naya Bere"
+      },
+      "path": "/talks/egghead-how-to-fail-the-technical-interview-and-still-get-the-job",
+      "summary": null,
+      "title": "How to Fail the Technical Interview and Still Get The Job"
+    },
+    {
+      "byline": "Shaundai Person • 14m ",
+      "description": "As a self-taught developer, making the switch from sales to engineering was no easy task. Standing out amongst a sea of other applicants with more impressive resumes and experience required me to find creative ways to get the attention of recruiters and hiring managers.\n\nIn this session, we explore lessons learned from my career journey and actions you can take to make your non-traditional (or traditional) background stand out in all the best ways - no matter where you are in your career.\n\n",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-standing-out-as-a-non-traditional-applicant-alcovuo_8/egghead-standing-out-as-a-non-traditional-applicant-alcovuo_8.jpg",
+      "instructor": {
+        "name": "Shaundai Person"
+      },
+      "path": "/talks/egghead-standing-out-as-a-non-traditional-applicant",
+      "summary": "Learn actions you can take to make your non-traditional (or traditional) background stand out in all the best ways",
+      "title": "Standing Out as A Non-Traditional Applicant"
+    },
+    {
+      "byline": "Prince Wilson • 10m",
+      "description": "Prince Wilson, MDX contributor, takes us through one aspect of his personal site playground and dives deep into interactive code blocks.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-personal-site-playgrounds-with-mdx-3zHOanUzu/egghead-personal-site-playgrounds-with-mdx-3zHOanUzu.jpg",
+      "instructor": {
+        "name": "Prince Wilson"
+      },
+      "path": "/talks/mdx-personal-site-playgrounds-with-mdx",
+      "summary": "Prince Wilson, MDX contributor, takes us through one aspect of his personal site playground and dives deep into interactive code blocks.",
+      "title": "Personal Site Playgrounds with MDX"
+    },
+    {
+      "byline": "Talia Nassi • 8m",
+      "description": "Feature Flags allow you to do a plethora of things as developers, including testing in production, A/B testing, migrating your monolith to microservices, and canary releases. I will go through the quick and easy set up of creating your feature flags, and integrating them with your React App.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-talia-nassi-setting-up-feature-flags-with-react-0D9XVi2Pq/egghead-talia-nassi-setting-up-feature-flags-with-react-0D9XVi2Pq.jpg",
+      "instructor": {
+        "name": "Talia Nassi"
+      },
+      "path": "/talks/react-setting-up-feature-flags-with-react",
+      "summary": "Go through the quick and easy set up of creating your feature flags, and integrating them with your React App.",
+      "title": "Setting Up Feature Flags with React"
+    },
+    {
+      "byline": "Tomasz Łakomy • 50m",
+      "description": null,
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-online-conference-talk-sleeping-better-at-night-BkXa7ztSI/egghead-online-conference-talk-sleeping-better-at-night-BkXa7ztSI.jpg",
+      "instructor": {
+        "name": "Tomasz Łakomy"
+      },
+      "path": "/talks/egghead-sleeping-better-at-night",
+      "summary": "Why are we afraid to deploy on Friday? Because no one wants to debug on Saturday. This talk covers different approaches JavaScript developers, can use to make our lives easier",
+      "title": "Sleeping Better at Night"
+    },
+    {
+      "byline": "Stephanie Morillo • 34m",
+      "description": "Developers understand that marketing is beneficial, but can be put off by marketing tactics that seem more focused on making a sale than with sharing something they need or value. But self-promotion doesn’t have to be self-centered, and marketing content can, and should, be relevant to what software developers have created. \n\nLearn how developers successfully use marketing to spread the word about their projects, blogs, and more, often without trying to sell anything.\n",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-marketing-tactics-for-software-developers-iYtYMy2bz/egghead-marketing-tactics-for-software-developers-iYtYMy2bz.jpg",
+      "instructor": {
+        "name": "Stephanie Morillo"
+      },
+      "path": "/talks/egghead-marketing-tactics-for-software-developers",
+      "summary": "Learn how developers successfully use marketing to spread the word about their projects, blogs, and more, often without trying to sell anything.",
+      "title": "Marketing Tactics for Software Developers"
+    },
+    {
+      "byline": "Adhithi Ravichandran • 33m",
+      "description": "Native apps build cross platform apps for both iOS and Android. My talk will be interesting for those who are venturing into this mobile space either from the web development background, or other mobile development experience like native development. The talk will help them see an overview of all the options they have to build scalable React Native apps. I have given React Native talks at several conferences and have been involved actively in the RN community. I have also authored the course React Native : The Big Picture on Pluralsight. I have been building RN apps for the last 4 years, and quite interested and involved in the React Native space.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-adhithi-ravichandran-lessons-learned-from-building-react-native-apps-pummnbmcG/egghead-adhithi-ravichandran-lessons-learned-from-building-react-native-apps-pummnbmcG.jpg",
+      "instructor": {
+        "name": "Adhithi Ravichandran"
+      },
+      "path": "/talks/react-native-lessons-learned-from-building-react-native-apps",
+      "summary": "The talk will help them see an overview of all the options they have to build scalable React Native apps.",
+      "title": "Lessons Learned From Building React Native Apps"
+    },
+    {
+      "byline": "Cristian Ramos • 13m",
+      "description": "How many hours do we spend synchronizing our GraphQL API with our front end code? Whether it be updating types, writing the requests, making the react hooks, or all of the above, it quickly gets tedious. This talk will show you how you can let GraphQL code generators do the boring stuff.\n",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-let-graphql-code-generators-do-the-boring-stuff-QxQLUc-DV/egghead-let-graphql-code-generators-do-the-boring-stuff-QxQLUc-DV.jpg",
+      "instructor": {
+        "name": "Cristian Ramos"
+      },
+      "path": "/talks/graphql-let-graphql-code-generators-do-the-boring-stuff",
+      "summary": "How many hours do we spend synchronizing our GraphQL API with our front end code? This talk will show you how you can let GraphQL code generators do the boring stuff.",
+      "title": "Let GraphQL Code Generators do the boring stuff\n"
+    },
+    {
+      "byline": "Jonathan Bakebwa • 19m",
+      "description": "Jonathan Bakebwa introduces MDX support for VueJS and NuxtJS while also using Chakra UI Vue for MDX components",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-mdx-and-vuejs-nuxtjs-1Aih8ZncG/egghead-mdx-and-vuejs-nuxtjs-1Aih8ZncG.jpg",
+      "instructor": {
+        "name": "Jonathan Bakebwa"
+      },
+      "path": "/talks/mdx-mdx-and-vuejs-nuxtjs",
+      "summary": "Jonathan Bakebwa introduces MDX support for VueJS and NuxtJS while also using Chakra UI Vue for MDX components",
+      "title": "MDX and VueJS/NuxtJS"
+    },
+    {
+      "byline": null,
+      "description": null,
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-eggheadtalks-concurrent-react-from-scratch-AT2MNWqgR/egghead-eggheadtalks-concurrent-react-from-scratch-AT2MNWqgR.jpg",
+      "instructor": {
+        "name": "Shawn Wang"
+      },
+      "path": "/talks/react-concurrent-react-from-scratch",
+      "summary": "Create an effective mental model of Concurrent React by building a tiny clone of React!",
+      "title": "Concurrent React from Scratch"
+    },
+    {
+      "byline": "Taylor Desseyn • 29m",
+      "description": null,
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-how-social-media-can-land-you-your-dream-job-b6qoUMI6x/egghead-how-social-media-can-land-you-your-dream-job-b6qoUMI6x.jpg",
+      "instructor": {
+        "name": "Taylor Desseyn"
+      },
+      "path": "/talks/egghead-how-social-media-can-land-you-your-dream-job",
+      "summary": "This talk is a hands on guide to navigating social media to leverage your network and find your dream job without the hassle of all those terrible recruiters:)",
+      "title": "How Social Media Can Land You Your Dream Job\n"
+    },
+    {
+      "byline": "James Quick • 17m",
+      "description": null,
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-i-m-stuck-and-i-don-t-know-what-to-do-7QNXF0ohu/egghead-i-m-stuck-and-i-don-t-know-what-to-do-7QNXF0ohu.jpg",
+      "instructor": {
+        "name": "James Quick"
+      },
+      "path": "/talks/egghead-i-m-stuck-and-i-don-t-know-what-to-do",
+      "summary": "In this talk, we'll discuss the ups and downs of careers and how to achieve happiness in yours whatever that may look like for you.\n\n",
+      "title": "I'm Stuck And I Don't Know What To Do"
+    },
+    {
+      "byline": "Nick DeJesus • Talk • 24m",
+      "description": "As the costs associated with software development continue to increase, companies & developers are looking for ways to increase their efficiency & do more with their existing skillset. Meanwhile, in the serverless movement, there has been an evolution in the way companies think about the way they are building applications, reducing the initial cost of development by taking advantage of managed services like Auth0, Cloudinary, Firebase, & AWS Lambda instead of building & maintaining their own servers & service implementations.\\n\\n\\nWhen people speak about serverless, they typically tend to think about a collection of functions calling each other when in reality the best serverless applications consist of thick client code handling all interaction logic, heavy use of managed services & small glue functions to fill in the missing pieces.\\n\\n\\nIn this talk, I’ll introduce a workflow that allows front end developers to build full stack applications using JavaScript by taking advantage of managed services, implementing real-world features like authentication, managed GraphQL APIs, serverless Lambda functions, & chatbots using a CLI based workflow.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/making-hooks-framework-agnostic-with-redux-tool-kit-999dd858-pnPYPOZXr/making-hooks-framework-agnostic-with-redux-tool-kit-999dd858-pnPYPOZXr.jpg",
+      "instructor": {
+        "name": "Nick DeJesus"
+      },
+      "path": "/talks/egghead-making-hooks-framework-agnostic-with-redux-tool-kit-9e744471",
+      "summary": "Learn how to use Redux Tool Kit to make a React Hooks open-source library framework agnostic.",
+      "title": "Making Hooks Framework Agnostic with Redux Tool Kit"
+    },
+    {
+      "byline": "Mahmoud Abdelwahab • 17m",
+      "description": "In this talk, I'll be giving you an introduction to the different authentication strategies and then I'll be showing you how to add authentication to a React app using Auth0",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-authenticating-react-apps-using-auth0-WuXs-TiKQ/egghead-authenticating-react-apps-using-auth0-WuXs-TiKQ.jpg",
+      "instructor": {
+        "name": "Mahmoud Abdelwahab"
+      },
+      "path": "/talks/egghead-authenticating-react-apps-using-auth0",
+      "summary": "In this talk, I'll be giving you an introduction to the different authentication strategies and then I'll be showing you how to add authentication to a React app using Auth0",
+      "title": "Authenticating React Apps Using Auth0"
+    },
+    {
+      "byline": "Kristian Freeman • Talk • 28m",
+      "description": "To effectively use Supabase, you need to understand the basics of SQL, or Structured Query Language, and how it can be used to work with relational databases. In this talk, we'll look at the basics of SQL — how to query for data, how to insert and remove data, and how structured databases are organized using tables, rows, and columns.\n\n",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-understand-the-basics-of-sql-and-relational-databases-2RXe5AG2r/egghead-understand-the-basics-of-sql-and-relational-databases-2RXe5AG2r.jpg",
+      "instructor": {
+        "name": "Kristian Freeman"
+      },
+      "path": "/talks/supabase-understand-the-basics-of-sql-and-relational-databases",
+      "summary": "Understand the basics of SQL, and how it can be used to work with relational databases",
+      "title": "Understand the Basics of SQL and Relational Databases"
+    },
+    {
+      "byline": "Maggie Appleton • 37m • Talk",
+      "description": "A guide to the fundamentals of React explained through five visual metaphors. From component trees to state, Maggie explains the analogies and metaphorical comparisons that helped her \"get\" React for the first time.\n\nReact aside, this is primarily about how and why we should use visuals metaphors. Wrestling with invisible, abstract, complex concepts is part of what programming is all about. But we're often bad at succinctly and clearly communicating the overarching idea of them to other people.\n\nVisual metaphors are a powerful solution to this problem - they're perfectly designed to elegantly explain the essence of technical tools in a way pages of jargon-filled docs can't. \n\nYou can find plenty more visual explanations of programming topics around egghead, and on Maggie's [digital garden](https://maggieappleton.com/garden).\n\nIf you're interested in learning more about how to illustrate and create your own visual metaphors, check out Maggie's collection of [recommended courses and books](https://maggieappleton.com/resources/)",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-drawing-the-invisible-react-explained-in-5-visual-metaphors-JbocQxZsY/egghead-drawing-the-invisible-react-explained-in-5-visual-metaphors-JbocQxZsY.jpg",
+      "instructor": {
+        "name": "Maggie Appleton"
+      },
+      "path": "/talks/javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors",
+      "summary": "Fundamentals of React explained through five visual metaphors. From component trees to state, Maggie explains the analogies and metaphorical comparisons that helped her \"get\" React",
+      "title": "Drawing the Invisible: React Explained in Five Visual Metaphors"
+    },
+    {
+      "byline": "mykola bilokonsky • 29m",
+      "description": "A lot of characters have been spent talking about \"engineering time\" or about how to manage \"engineering personalities\", and many engineers may wryly chuckle at the archetype.\n\nBut advances in our understanding of neurodiversity mean it's time to look again at things like Autism, ADHD and other conditions that impact millions of undiagnosed people in various and often subtle ways.\n\nAre you running on \"Engineering Time\" - or are you an undiagnosed neurodivergent person, likely with a number of unmet needs? Let's talk about it!\n\nCheck out the [community notes for the course](https://github.com/eggheadio/eggheadio-course-notes/tree/master/egghead-talks-things-every-software-engineer-should-know-about-neurodiversity).",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-things-every-software-engineer-should-know-about-neurodiversity-B1NKYNf_I/egghead-things-every-software-engineer-should-know-about-neurodiversity-B1NKYNf_I.jpg",
+      "instructor": {
+        "name": "mykola bilokonsky"
+      },
+      "path": "/talks/egghead-things-you-should-know-about-neurodiversity",
+      "summary": "Are you running on \"Engineering Time\" - or are you an undiagnosed neurodivergent person, likely with a number of unmet needs? Let's talk about it!",
+      "title": "Things You Should Know About Neurodiversity "
+    },
+    {
+      "byline": "Artem Sapegin • 22m",
+      "description": "CSS is a great language and has improved a lot in the past decade but it still has the same global nature as in its early days. CSS was designed to style documents, which causes issues in large scale applications. Naming conventions, like BEM, CSS Modules and later CSS in JS significantly improved the maintainability of styles, but we can go one step further. Using components to create responsive Flexbox and Grid layouts can simplify code, improve the developer experience and feels natural in React. In this talk, we’ll explore how to create any kind of page layout with just three components.\n",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-say-hello-to-box-flex-and-stack-layouts-in-the-component-age-JuROCxHbE/egghead-say-hello-to-box-flex-and-stack-layouts-in-the-component-age-JuROCxHbE.jpg",
+      "instructor": {
+        "name": "Artem Sapegin"
+      },
+      "path": "/talks/css-say-hello-to-box-flex-and-stack-layouts-in-the-component-age",
+      "summary": "Using components to create Flexbox and Grid layouts simplifies code, improves dev experience and feels natural in React. Learn how to create any page layout with three components.",
+      "title": "Say hello to Box, Flex and Stack: layouts in the component age"
+    },
+    {
+      "byline": "Valerie Pheonix • 18m",
+      "description": "Imposter syndrome is something that the industry has become more and more aware of, with countless articles telling us how to navigate and overcome it. Still, perhaps instead, we should learn to accept this feeling and learn to use it to our benefit. \n\nDevelopmental psychology tells us there are multiple milestones that an individual should hit throughout our life cycle. In school, we are given standardized tests and grading rubrics to say to us how well we are doing. But once we make the transition into adulthood, all of that is gone. We start to feel like we're not good enough because we've lost our developmental structure. Removing the negative connotation we have with imposter syndrome is the first step we can take to reduce stress and stop feeling isolated, giving us the space we need to find our cure. ",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-imposter-syndrome-why-you-need-it-F8sLIfI0q/egghead-imposter-syndrome-why-you-need-it-F8sLIfI0q.jpg",
+      "instructor": {
+        "name": "Valerie Pheonix"
+      },
+      "path": "/talks/egghead-imposter-syndrome-why-you-need-it",
+      "summary": "Removing the negative connotation we have with imposter syndrome is the first step we can take to reduce stress and stop feeling isolated, giving us space to find our cure. ",
+      "title": "Imposter Syndrome: Why You Need It"
+    },
+    {
+      "byline": "Monica Powell • 21m",
+      "description": "Monica Powell, creator of React Ladies, talks through why someone would migrate from Remark to MDX before going into how to do that and what problems you might run into.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-migrating-to-mdx-DgvxekwIf/egghead-migrating-to-mdx-DgvxekwIf.jpg",
+      "instructor": {
+        "name": "Monica Powell"
+      },
+      "path": "/talks/mdx-migrating-to-mdx",
+      "summary": "Learn why someone would migrate from Remark to MDX before going into how to do that and what problems you might run into.",
+      "title": "Migrating to MDX"
+    },
+    {
+      "byline": "Niall Maher • 26m",
+      "description": "Most people tend to get nervous when it comes to job applications and preparations,\n\nI have interviewed over 100 frontend developers over the past few years and I am currently a technical reviewer for Packt publishing reviewing a book on interviewing for frontend jobs. \n\nI'm self-thought so I really understand the struggles as much as anyone. I've failed over 50 interviews trying to get my first job so I got a little bit of practice in the early days. \n\nI run a MeetUp in Dublin, Ireland where I teach people web development skills. I'm sure most people would be interested in learning what could give them an edge when it comes to interviewing.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-interviewing-for-front-end-jobs-01xhAuGdL/egghead-interviewing-for-front-end-jobs-01xhAuGdL.jpg",
+      "instructor": {
+        "name": "Niall Maher"
+      },
+      "path": "/talks/egghead-interviewing-for-front-end-jobs",
+      "summary": "Learn from over failed 50 interviews to get an edge when interviewing for your next role",
+      "title": "Interviewing for Front End Jobs"
+    },
+    {
+      "byline": "Sam Julien • 30m",
+      "description": "Are you confused about how authentication and authorization relate to GraphQL APIs? You’re not alone! It’s no secret that learning auth is hard on its own, let alone on top of GraphQL. Let’s demystify auth while learning how to use JSON Web Tokens (JWTs) with GraphQL APIs! \n\nAfter discovering why controlling access to APIs is so challenging and ways we can solve it, we’ll step through how to handle authorization in your GraphQL server. This talk will use JavaScript examples, but the principles will apply to other tech. By the end, you’ll feel a whole lot better about tackling auth in GraphQL!\n\nAfter you watch the talk, [head over to Sam's website](https://www.samjulien.com/graphql-auth-talk) for slides, resources, sample code, and more.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-egghead-talks-securing-graphql-backends-with-jwts-tglXoVhOt/egghead-egghead-talks-securing-graphql-backends-with-jwts-tglXoVhOt.jpg",
+      "instructor": {
+        "name": "Sam Julien"
+      },
+      "path": "/talks/graphql-securing-graphql-backends-with-jwts",
+      "summary": "Let’s demystify auth while learning how to use JSON Web Tokens (JWTs) with GraphQL APIs! ",
+      "title": "Securing GraphQL Backends with JWTs"
+    },
+    {
+      "byline": "Colby Fayock • 16m",
+      "description": "Ecommerce depends on highly dynamic solutions personalizing experiences for customers from the price of a product to the total cost of that customer’s shopping cart. How can we leverage React and tools like Next.js to bring that dynamic experience to the static web?  In this talk, we’ll explore the challenges of ecommerce in a static world. We’ll talk about what tools are available to us and how we can take advantage of them to build dynamic web apps with a practical example of a Next.js app.\n\nWant to learn how to create your own online store? Take the course here on egghead.io with [Create an eCommerce Store with Next.js and Stripe Checkout](https://egghead.io/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout).",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-getting-personal-with-ecommerce-react-the-static-web-0uIrLH4hV/egghead-getting-personal-with-ecommerce-react-the-static-web-0uIrLH4hV.jpg",
+      "instructor": {
+        "name": "Colby Fayock"
+      },
+      "path": "/talks/react-getting-personal-with-ecommerce-react-the-static-web",
+      "summary": "Explore the challenges of ecommerce in a static world. We’ll talk about what tools are available to us and how we can take advantage of them to build dynamic web apps",
+      "title": "Getting Personal with Ecommerce, React, & the Static Web"
+    },
+    {
+      "byline": "Emily Harber • 14m",
+      "description": "Networking was THE thing that gave me an edge in my job search, and it was the thing that lead to me getting my dream role at my dream company. But when people ask me \"How do you do networking?\" they find out it really means getting comfortable talking to complete strangers. This talk will teach you techniques to take the edge off of networking to get a leg up in your career.\n",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-networking-it-s-not-just-for-extroverts-anymore-fgHmTHI0J/egghead-networking-it-s-not-just-for-extroverts-anymore-fgHmTHI0J.jpg",
+      "instructor": {
+        "name": "Emily Harber"
+      },
+      "path": "/talks/egghead-networking-it-s-not-just-for-extroverts-anymore",
+      "summary": "Learn techniques to take the edge off of networking to get a leg up in your career.\n",
+      "title": "Networking: It's Not Just for Extroverts Anymore\n"
+    },
+    {
+      "byline": "John Lindquist • 19m",
+      "description": "A keyboard is the gateway to code. Your hands are the tools that manage the keyboard. Many people develop pain in their hands from repetitive stress injuries that can seriously damage their ability to code. This talk is about making your keyboard experience as gentle as possible on your hands so your hands are happier and you work more efficiently.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard-McpE69LtI/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard-McpE69LtI.jpg",
+      "instructor": {
+        "name": "John Lindquist"
+      },
+      "path": "/talks/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard",
+      "summary": "Make your keyboard experience as gentle as possible on your hands so your hands are happier and you work more efficiently.",
+      "title": "Save Your Hands and Save Your Time: Rethinking How to Use a Keyboard"
+    },
+    {
+      "byline": "Kent C. Dodds • 26m",
+      "description": "We want to make sure that when we ship new code, our users can use the application. The best way we've found to do that is to write automated tests that run before we deploy a new version of the app. But if our tests aren't doing exactly what the user will do, then how do we really know that things will work when users interact with our apps?\n\nLet's rethink what it means to ship applications with confidence and what it takes to get there. With improved tools and practices, we can be more certain that what we're shipping to our users will work the way it's intended. \n\nAdditional resources: [Slides](http://kcd.im/confident-react), [react-testing-library](https://github.com/kentcdodds/react-testing-library), [Jest](https://facebook.github.io/jest/), [jsdom](https://github.com/jsdom/jsdom), [jest-dom](https://github.com/gnapse/jest-dom)",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/scikit-learn-confident-react-Syle7Ze-X/scikit-learn-confident-react-Syle7Ze-X.jpg",
+      "instructor": {
+        "name": "Kent C. Dodds"
+      },
+      "path": "/talks/react-confidently-ship-production-react-apps",
+      "summary": "Learn how to ship applications with confidence and what it takes to get there. With improved tools and practices, we can be certain that what we're shipping to our users will work",
+      "title": "Confidently Ship Production React Apps"
+    },
+    {
+      "byline": "Tyler Clark • 21m",
+      "description": "Unfortunately, the JavaScript interview has turned into a, \"who knows the buzzwords\". Forget about your skills with React, CSS, or modern tooling, the real question is can you explain the Big O Notation of a binary search? \n\nThis talk is designed to cover some of the most common buzzwords that you might be asked about in your next interview! ",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-master-the-javascript-interview-pZlrmZB0D/egghead-master-the-javascript-interview-pZlrmZB0D.jpg",
+      "instructor": {
+        "name": "Tyler Clark"
+      },
+      "path": "/talks/javascript-master-the-javascript-interview",
+      "summary": "Cover some of the most common buzzwords that you might be asked about in your next interview! ",
+      "title": "Master the JavaScript Interview"
+    },
+    {
+      "byline": "Jason Lengstorf • 29m",
+      "description": "In this talk, we’ll break down the very real risks of idolizing individual contributors, dig into the nugget of truth that keeps this stereotype alive, and dive into what a real “10× developer” might look like.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB.jpg",
+      "instructor": {
+        "name": "Jason Lengstorf"
+      },
+      "path": "/talks/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way",
+      "summary": "Break down the very real risks of idolizing individual contributors, and dive into what a real “10× developer” might look like.",
+      "title": "What If The Real 10X Developer Is The Friends We Made Along The Way?"
+    },
+    {
+      "byline": "Kayla Sween • 12m",
+      "description": "In this talk, Kayla will address some common unintentionally exclusive web design and development practices and how to fix those problems to avoid being another website that SUX. Kayla will also present some resources to help developers create more inclusive websites.\n\nThis talk seems to interest people by just explaining to them accessibility and why we need to worry about it. It offers some simple ways to start thinking about designing and developing websites more inclusively. Accessibility is a large, sometimes complex, topic. I try to make it seem less daunting!",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-how-to-avoid-sux-kayla-sween-MZWkIZP5V/egghead-how-to-avoid-sux-kayla-sween-MZWkIZP5V.jpg",
+      "instructor": {
+        "name": "Kayla Sween"
+      },
+      "path": "/talks/egghead-designing-for-inclusive-user-experience",
+      "summary": "Address some common unintentionally exclusive web design and development practices and how to fix those problems.",
+      "title": "Designing for Inclusive User Experience"
+    },
+    {
+      "byline": "Tara Ojo • 16m",
+      "description": "\"What are your salary expectations?\" This can be a confusing question! We don't want to undersell ourselves, but we also don't want to ask for so much it seems ridiculous to the potential employer. We want our salary and compensation to be competitive, but how do we know how much that is?",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-data-driven-salary-negotiation-5-X48AXwR/egghead-data-driven-salary-negotiation-5-X48AXwR.jpg",
+      "instructor": {
+        "name": "Tara Ojo"
+      },
+      "path": "/talks/egghead-data-driven-salary-negotiation",
+      "summary": "Learn how to make sure your compensation is competitive when negotiating salary.",
+      "title": "Data-driven Salary Negotiation"
+    },
+    {
+      "byline": "Rodrigo Pombo • 9m",
+      "description": "Rodrigo Pombo introduces [Code Hike](https://codehike.org/) and talks through how Code Hike and MDX empower advanced scrolly telling techniques.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-the-x-in-mdx-4_8-3NMG1/egghead-the-x-in-mdx-4_8-3NMG1.jpg",
+      "instructor": {
+        "name": "Rodrigo Pombo"
+      },
+      "path": "/talks/mdx-the-x-in-mdx",
+      "summary": "Introduction to Code Hike and how Code Hike and MDX empower advanced scrolly telling techniques.",
+      "title": "The X in MDX"
+    },
+    {
+      "byline": "Amadou Sall • 30m",
+      "description": "Can you write a beautiful, maintainable, and responsive web applications without a single line of CSS? With Tailwind, you can. \n\nUnlike the majority of CSS frameworks that give you prebuilt components, Tailwind provides you with low-level CSS utility classes that you can combine to create custom designs.\n\nThe goal of this presentation is to help you understand the value proposition of the utility-first philosophy. We will have a look at:\n\n- Why utility-first CSS is the future\n- How Tailwind makes building bespoke user interfaces a total breeze\n- The benefits and challenges of the utility-first approach",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-the-css-of-today-amadou-sall-4HCphkM1N/egghead-the-css-of-today-amadou-sall-4HCphkM1N.jpg",
+      "instructor": {
+        "name": "Amadou Sall"
+      },
+      "path": "/talks/tailwind-tailwind-the-future-of-css-is-here",
+      "summary": "Write a beautiful, maintainable, and responsive web applications without a single line of CSS? With Tailwind's low-level CSS utility classes",
+      "title": "Tailwind - The Future of CSS is Here!"
+    },
+    {
+      "byline": "Joel Lord • 28m",
+      "description": "The end is nigh. Your application is almost ready, and you will need to deploy it. And with the deployment, the endless tweaking to get everything running on your production servers. \n\nIf only there were a way to test everything first. That is where containers will come in to save the day. With containers, you not only run your code in an environment similar to the production server, but you also run your code in precisely the same environment. \n\nIn this talk, the attendees will learn about how to create container friendly applications and how to use containers to share their code with their team.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-containers-for-software-developers-Z_WAQEd07/egghead-containers-for-software-developers-Z_WAQEd07.jpg",
+      "instructor": {
+        "name": "Joel Lord"
+      },
+      "path": "/talks/egghead-containers-for-software-developers",
+      "summary": "Learn how to create container friendly applications and how to use containers to share their code with their team.",
+      "title": "Containers for Software Developers"
+    },
+    {
+      "byline": "Josh Doody • 29m",
+      "description": "Negotiating job offers can be scary: What do you say? What if they retract their offer? What if you seem greedy?\n\nWith a proven process to follow, negotiating your offer doesn't have to be scary.\nI'll walk you through a straightforward salary negotiation process so you know what to say to get the best possible version of your new compensation package.\n\n[If you're looking for more, check out Josh's conversation with Joel on the egghead podcast]\n(https://egghead.io/podcasts/negotiating-your-salary-and-advancing-your-career-with-josh-doody).",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-josh-doody-salary-negotiation-for-software-developers-au7919To6/egghead-josh-doody-salary-negotiation-for-software-developers-au7919To6.jpg",
+      "instructor": {
+        "name": "Josh Doody"
+      },
+      "path": "/talks/egghead-salary-negotiation-for-software-developers",
+      "summary": "Learn a straightforward salary negotiation process so you know what to say to get the best possible version of your new compensation package.",
+      "title": "Salary Negotiation for Software Developers "
+    },
+    {
+      "byline": "Colby Fayock • 21m",
+      "description": "Bootcamps and tutorials have a habit of throwing those curious to learn straight into the deep end, immediately pushing Javascript into focus. More often than not, they skip fundamentals of web development and miss some of the key pieces to the puzzle of the web. For better or worse, developers can get far this way, but they’re building on top of a fragile foundation. In this talk, we’ll look at how you can level up your Javascript by getting back to the basics of HTML and CSS. We’ll go over why this is important and some best practices that can enhance SEO, performance, and accessibility.\n\n[Slides](https://slides.com/colbyfayock/put-down-the-javascript-level-up-with-the-fundamentals-of-web-development-egghead-talks)",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-put-down-the-javascript-level-up-with-the-fundamentals-of-web-development-Ge-Bd4TVy/egghead-put-down-the-javascript-level-up-with-the-fundamentals-of-web-development-Ge-Bd4TVy.jpg",
+      "instructor": {
+        "name": "Colby Fayock"
+      },
+      "path": "/talks/egghead-put-down-the-javascript-level-up-with-the-fundamentals-of-web-development",
+      "summary": "Level up your JavaScript by getting back to the basics of HTML and CSS. Learn why it's important and best practices to enhance SEO, performance, and accessibility.",
+      "title": "Put Down the Javascript - Level Up with the Fundamentals of Web Development"
+    },
+    {
+      "byline": "Ceora Ford • 15m",
+      "description": "This talk is going to point out some of the biggest pitfalls you need to avoid. It'll also highlight steps you can take to successfully learn any coding language or skill.\n\n![Carmina's sketch notes that detail the tips Ceora talks about](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1591132737/transcript-images/carmina-sketchnotes-on-ceora-ford-talk.png)",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.jpg",
+      "instructor": {
+        "name": "Ceora Ford"
+      },
+      "path": "/talks/egghead-learning-tips-every-developer-should-know",
+      "summary": "This talk is going to point out some of the biggest pitfalls you need to avoid. It'll also highlight steps you can take to successfully learn any coding language or skill.",
+      "title": "Learning Tips Every Developer Should Know"
+    },
+    {
+      "byline": "Laurie Barth • 11m",
+      "description": "Laurie Barth walks us through MDX v2's syntax by trying to break it. She starts at markdown syntax and takes us through increasingly complex applications of MDX, including passing dynamic props to .mdx files imported into other .mdx files.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-mdx-v2-syntax-KfRUSgw8N/egghead-mdx-v2-syntax-KfRUSgw8N.jpg",
+      "instructor": {
+        "name": "Laurie Barth"
+      },
+      "path": "/talks/egghead-mdx-v2-syntax",
+      "summary": "Walk through MDX v2's syntax by trying to break it. Start with markdown and go through increasingly complex applications of MDX.",
+      "title": "MDX v2 Syntax"
+    },
+    {
+      "byline": "Kathleen McMahon • 25m",
+      "description": "Design systems are a popular way for teams to flavor their design and development workflow. However, an often-missing ingredient in many design systems is a focus on accessibility best practices — especially when component libraries are involved.\n\nIn this talk, we’ll take a look at how you can mix some commonly-used components with the ingredients of accessibility. Pair this with best practices guidance in your documentation, and you’ll have the recipe for a delectably inclusive design system.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-accessibility-flavored-react-components-make-your-design-system-delicious-wxywnIZWY/egghead-accessibility-flavored-react-components-make-your-design-system-delicious-wxywnIZWY.jpg",
+      "instructor": {
+        "name": "Kathleen McMahon"
+      },
+      "path": "/talks/react-accessibility-flavored-react-components-make-your-design-system-delicious",
+      "summary": "Take a look at how you can mix some commonly-used components with the ingredients of accessibility. Pair this with best practices guidance in your documentation",
+      "title": "Accessibility-flavored React Components make your Design System Delicious"
+    },
+    {
+      "byline": "Cole Bemis • 23m",
+      "description": "Cole Bemis explains how MDX works by taking us though his own journey digging into what MDX does under the hood.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-demystifying-mdx-5cj-sZ5Zh/egghead-demystifying-mdx-5cj-sZ5Zh.jpg",
+      "instructor": {
+        "name": "Cole Bemis"
+      },
+      "path": "/talks/mdx-demystifying-mdx",
+      "summary": "Learn how MDX works by digging into what MDX does under the hood.",
+      "title": "Demystifying MDX"
+    },
+    {
+      "byline": "Rahat Chowdhury • 16m",
+      "description": "Navigating the tech industry is difficult whether you are brand new, have been around for a couple of years, or are a seasoned veteran. It gets even more difficult when your mental health isn't at its best. In this talk, Rahat talks about his struggles with depression, imposter syndrome, and burnout while searching for his first job as a developer. Rahat recounts different methods of coping with his mental illness and observations on how the tech industry as a whole can better support those who often suffer in silence.",
+      "image": "https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-hip-hop-code-and-mental-health-FTbI8E_MZ/egghead-hip-hop-code-and-mental-health-FTbI8E_MZ.jpg",
+      "instructor": {
+        "name": "Rahat Chowdhury"
+      },
+      "path": "/talks/egghead-hip-hop-code-and-mental-health",
+      "summary": "Learn different methods of coping with mental illness and observations on how the tech industry as a whole can better support those who often suffer in silence.",
+      "title": "Hip Hop, Code, and Mental Health"
+    }
+  ],
+  "developerPortfolio": {
+    "clubs": [
+      {
+        "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/282/thumb/xstate.png",
+        "path": "/clubs/xstate",
+        "slug": "xstate",
+        "subTitle": "6 weeks ・ Starting Mid-May",
+        "summary": "We will get together as a group for 6 weeks and build projects for our developer portfolios. The projects will be focused on building an application with xState.",
+        "title": "Build an App with xState"
+      },
+      {
+        "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/thumb/redux.png",
+        "path": "/clubs/redux",
+        "slug": "redux",
+        "subTitle": "6 weeks ・ Starting Mid-May",
+        "summary": "egghead is putting together a group of developers to work on building and documenting the creation of a portfolio project that uses Redux.",
+        "title": "Build an App with Redux"
+      }
+    ],
+    "cta": "Crafting an excellent portfolio piece is tough. You need to design what you're going to build, shape the work, and then do the actual work... but on top of all of that, you also need to communicate and show the process. \n\nThis means you need to learn in public, build in public, write about your work in progress, discuss what you learned, and summarize your understanding.\n\nBecause if you don't show your work, nobody will know what you did. They might assume it was nothing. The reality is that this a lot of tedious, pain in the ass, time-consuming unpaid work.\n\nYou don't have to do this alone. **You can join a Portfolio Project Club!**",
+    "description": "Portfolios are a long-standing tradition for artists and designers as a way to showcase their work and capabilities to prospective employers or clients.\n\nA portfolio contains representative examples of your skills as they relate to your craft. These examples can be created specifically as \"portfolio pieces\" or extracted from on-the-job projects when possible.\n\nLearn more about [crafting a business-oriented developer portfolio that stands out](https://joelhooks.com/developer-portfolio).",
+    "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1604394864/climbers.png",
+    "path": "clubs/portfolio-project",
+    "slug": {
+      "_type": "slug",
+      "current": "build-business-oriented-portfolio"
+    },
+    "title": "Build a Business-Oriented Developer Portfolio"
+  },
+  "digitalGardening": {
+    "cta": {
+      "description": "Build a digital garden"
+    },
+    "description": "Success in software development requires deeply layered, high-value communication. If you are serious about making an impact in your coding career, you should get good at writing words as well as code. This an agreed-upon quality for developers. And it all starts with having your own digital garden.",
+    "featured": {
+      "courses": [
+        {
+          "byline": "Chris Biscardi・1h 10m",
+          "image": [null],
+          "name": "Content Authoring",
+          "path": [null],
+          "title": "Create a Digital Garden CLI with Rust"
+        },
+        {
+          "byline": "Tomasz Łakomy・37m",
+          "image": [null],
+          "name": "Create A Portfolio",
+          "path": [null],
+          "title": "Build a Site From Scratch with Next.js"
+        },
+        {
+          "byline": "Laurie Barth・35m",
+          "image": [null],
+          "name": "Start a Blog",
+          "path": [null],
+          "title": "Build a Developer Blog with Gatsby"
+        }
+      ]
+    },
+    "illustration": {
+      "alt": "illustration for Digital Gardening for Developers",
+      "url": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png"
+    },
+    "path": "/learn/digital-gardening",
+    "quote": {
+      "description": "The phrase \"digital garden\" is a metaphor for thinking about writing and creating that focuses less on the resulting \"showpiece\" and more on the process, care, and craft it takes to get there. — [Joel Hooks](https://joelhooks.com/digital-garden)"
+    },
+    "talks": {
+      "cta": "Markdown for the Component Era",
+      "description": "MDX has grown rapidly since the first commit two and a half years ago. We’d like to celebrate our accomplishments so far, and talk about what lies ahead. We’ve got lots of plans.\n\n\nLearn how MDX increases developer productivity, improves educational content authoring, and even peek behind the curtains to see how MDX works.",
+      "resources": [
+        {
+          "byline": null,
+          "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/289/full/mdx.png",
+          "path": "/talks/mdx-the-x-in-mdx",
+          "title": "The X in MDX"
+        },
+        {
+          "byline": "Cole Bemis",
+          "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/289/full/mdx.png",
+          "path": "/talks/mdx-demystifying-mdx",
+          "title": "Demystifying MDX"
+        },
+        {
+          "byline": "Laurie Barth",
+          "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/289/full/mdx.png",
+          "path": "/talks/egghead-mdx-v2-syntax",
+          "title": "MDX v2 Syntax"
+        },
+        {
+          "byline": null,
+          "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/289/full/mdx.png",
+          "path": "/talks/mdx-digital-gardening-with-mdx-magic",
+          "title": "Digital Gardening with MDX Magic"
+        }
+      ],
+      "title": "Infrastructure for Digital Gardens"
+    },
+    "title": "Digital Gardening for Developers"
+  },
+  "stateManagement": {
+    "description": "Learn to build stateful UI applications through a diverse set of learning resources. Managing State is an art form. If you understand State Management, you understand UI development at its most profound levels.  ",
+    "jumbotron": {
+      "background": {
+        "url": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1627864522/egghead-next-pages/state-management-page/background-react-state-management-in-2021_2x.svg"
+      },
+      "description": "Learn to build stateful UI applications through a diverse set of learning resources. Managing State is an art form. If you understand State Management, you understand UI development at its most profound levels.  ",
+      "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617263084/next.egghead.io/resources/state-management-in-2021/state_management_2x.png",
+      "name": "build stateful UI applications",
+      "title": "The Missing Instruction Manual to State Management"
+    },
+    "path": "/learn/state-management",
+    "recoilSection": {
+      "_key": "d44a32cf7c39",
+      "_type": "resource",
+      "description": "Recoil is a state management library for React applications. It provides several capabilities that are difficult to achieve with React alone. These courses will give you a clear understanding of how to start managing state with Recoil.",
+      "path": "/q/recoil",
+      "resources": [
+        {
+          "_createdAt": "2021-02-22T23:58:48Z",
+          "_id": "playlist-387936",
+          "_rev": "5K8APhCE8sOpaOeJzhVPUa",
+          "_type": "resource",
+          "_updatedAt": "2023-06-21T18:57:46Z",
+          "byline": "Yoni Weisbrod ・24m・Course",
+          "collaborators": [
+            {
+              "_key": "Hjkquvp-0Y99kFrFY9ydi",
+              "_ref": "collaborator-instructor-yoni-weisbrod",
+              "_type": "reference"
+            }
+          ],
+          "content": [],
+          "description": "In this free collection on Facebook's new state management library, we'll get started using Recoil in our React applications and then delve into various common use cases that we may encounter in the field.\n\nWe'll start with the basics of state management in Recoil: the Atoms and Selectors. Then we'll dive further into the Selector API, an important part of the library. Along the way we'll learn different strategies for handling synchronous and asynchronous Selectors.\n\nAn efficient and practical course to learning Recoil. The Recoil version used in this course is ^0.0.10, and the latest version is 0.3.1, yet this is still a great introduction to understanding the core functionality of Recoil. As of 0.3.1, there are no major breaking changes.",
+          "essentialQuestions": [
+            {
+              "_key": "df2cfef14651",
+              "_ref": "essential-question-why-does-state-need-to-be-managed",
+              "_type": "reference"
+            },
+            {
+              "_key": "0eca0857d060",
+              "_ref": "essential-question-how-do-you-know-when-you-need-to-use-a-state-management-library",
+              "_type": "reference"
+            },
+            {
+              "_key": "32e53ac09161",
+              "_ref": "c0cf53ac-280b-4fe2-b6d3-4362483cd4d3",
+              "_type": "reference"
+            }
+          ],
+          "externalId": 387936,
+          "externalType": "playlist",
+          "image": "https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/936/full/manage_recoil_react_424_2x.png",
+          "images": [],
+          "path": "/courses/manage-react-state-with-recoiljs-70b5",
+          "prerequisites": [
+            {
+              "_key": "9f00c2c622e8",
+              "_ref": "playlist-432490",
+              "_type": "reference"
+            }
+          ],
+          "productionProcessState": "published",
+          "projects": [],
+          "related": [
+            {
+              "_key": "2f6430110b5a",
+              "_ref": "playlist-368392",
+              "_type": "reference"
+            },
+            {
+              "_key": "d5468fe88616",
+              "_ref": "playlist-368383",
+              "_type": "reference"
+            },
+            {
+              "_key": "b8f2818e83e3",
+              "_ref": "playlist-408538",
+              "_type": "reference"
+            }
+          ],
+          "resources": [
+            {
+              "_key": "tFKa5UZ3BtIyRRuDlj--E",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "vWzqshZmWADbvR0PiNMEd",
+                  "_ref": "collaborator-instructor-yoni-weisbrod",
+                  "_type": "reference"
+                }
+              ],
+              "description": "Learn how to set state in Recoil using the `useRecoilState` hook. \n\nSound familiar? It should, because it works very similarly to React's built-in `useState` hook (the functional component equivalent of `setState`).\n\nIn this lesson, we'll practice removing and adding items from an array that we keep in state using a Recoil atom. We'll create new immutable functions, and then call our setter functions in order to update the state.",
+              "externalId": 7570,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/react-update-recoil-state-in-react-using-userecoilstate",
+              "slug": {
+                "current": "react-update-recoil-state-in-react-using-userecoilstate"
+              },
+              "title": "Update Recoil State in React using useRecoilState",
+              "type": "video"
+            },
+            {
+              "_key": "QmmwAtEWuhch-vZSl2hTh",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "cjgrjekFBdaZz4IIiGan9",
+                  "_ref": "collaborator-instructor-yoni-weisbrod",
+                  "_type": "reference"
+                }
+              ],
+              "description": "In this lesson, we're going to show how RecoilJS selectors are used to display computed data in React. While atoms are the go-to state objects in Recoil, selectors are the ideal choice when data can be computed based on existing state - like displaying the price of a restaurant order. And your selector output always remains up to date - just subscribe to it using one of the RecoilJS hooks.",
+              "externalId": 7491,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/react-display-computed-data-using-recoil-selectors-in-react",
+              "slug": {
+                "current": "react-display-computed-data-using-recoil-selectors-in-react"
+              },
+              "title": "Display Computed Data Using Recoil Selectors in React",
+              "type": "video"
+            },
+            {
+              "_key": "QdqS29PczP09Cm7nfRAHP",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "aj--q_Lm8z3sT4GVZ4fDo",
+                  "_ref": "collaborator-instructor-yoni-weisbrod",
+                  "_type": "reference"
+                }
+              ],
+              "description": "In this lesson, we're going to learn how to create Recoil selectors that accept arguments. These are made possible using the `selectorFamily` utility function.\n\nWe'll start with an existing application that uses a regular `selector` to display a sorted array of Todo items, and then we'll refactor it so that we're able to supply the sort type (`ascending` or `descending`) in the React component itself.\n\nFor more information on `selectorFamily`, have a look at the official RecoilJS docs: https://recoiljs.org/docs/api-reference/utils/selectorFamily\n",
+              "externalId": 7586,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/react-use-selectorfamily-to-take-arguments-in-your-recoil-selectors",
+              "slug": {
+                "current": "react-use-selectorfamily-to-take-arguments-in-your-recoil-selectors"
+              },
+              "title": "Use selectorFamily to take arguments in your Recoil selectors",
+              "type": "video"
+            },
+            {
+              "_key": "FCfA8I3zkWlkFib7aRCis",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "_D_FXurd-Ewsf62sxdeIk",
+                  "_ref": "collaborator-instructor-yoni-weisbrod",
+                  "_type": "reference"
+                }
+              ],
+              "description": "Selectors are great for automatically triggering API calls with Recoil because they are automatically run as soon as any dependencies are updated, and because selectors are shared across your application.\n\nBe aware that Recoil will cache your selector values, so asynchronous selectors are best utilized when the data is not meant to change throughout the life-cycle of an application. Fetching a user's avatar would be a good use case.\n\nWhen writing asynchronous selectors, one thing to keep in mind is that React must always know what to render - even while your data is being fetched. One solution for this is to use Suspense, a React component that allows you to supply a fallback value to render until your data returns. In this lesson, we'll look at how to call APIs inside selectors and handle situations where selectors return promises.",
+              "externalId": 7660,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/react-use-recoil-selectors-to-make-api-calls-in-react",
+              "slug": {
+                "current": "react-use-recoil-selectors-to-make-api-calls-in-react"
+              },
+              "title": "Use Recoil Selectors to Make API Calls in React",
+              "type": "video"
+            },
+            {
+              "_key": "68ziP1_7_Q49DFgGFD0-A",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "JIEKXCm34V8iV9HyzDxPH",
+                  "_ref": "collaborator-instructor-yoni-weisbrod",
+                  "_type": "reference"
+                }
+              ],
+              "description": "When consuming asynchronous selectors in Recoil, you're going to need to tell React what to render while the API is fetching its data. \n\nOne way to solve this issue is by setting a fallback value using React `Suspense`. But there's another option that gives you fine-grained control, and that's by preventing the selectors from returning a promise in the first place.\n\nIn this lesson we're going to have our selectors return Recoil's `Loadable` object, which always contains the current selector value (`contents`) and what state the selector is in (`state`). By consuming this with the `useRecoilValueLoadable` hook rather than the regular `useRecoilValue` hook, we can manually define whatever we want React to render in each of the 3 states: `hasError`, `hasValue`, and `loading`.",
+              "externalId": 7698,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/react-handle-recoil-asynchronous-selectors-using-loadables-in-react",
+              "slug": {
+                "current": "react-handle-recoil-asynchronous-selectors-using-loadables-in-react"
+              },
+              "title": "Handle Recoil Asynchronous Selectors using Loadables in React",
+              "type": "video"
+            },
+            {
+              "_key": "eZ0xwYKrPfjKZqpR04cGR",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "kUALoiAdrhtUW8DfRaEvq",
+                  "_ref": "collaborator-instructor-yoni-weisbrod",
+                  "_type": "reference"
+                }
+              ],
+              "description": "Recoil offers several hooks to use for consuming state in React, and this lesson looks at how to choose which hook to use, and what happens when you don't use the right hook (hint: **extra renders**).\n\nThe three basic RecoilJS hooks are:\n\n1. `useRecoilState`, which is great for reading and writing state,\n2. `useRecoilValue`, ideal for reading state, and\n3. `useSetRecoilState`, the primary candidate when you just need to write state.",
+              "externalId": 7720,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/react-choose-the-right-hook-for-your-recoil-state",
+              "slug": {
+                "current": "react-choose-the-right-hook-for-your-recoil-state"
+              },
+              "title": "Choose the Right Hook for Your Recoil State",
+              "type": "video"
+            }
+          ],
+          "slug": {
+            "current": "manage-react-state-with-recoil-fe987643"
+          },
+          "softwareLibraries": [
+            {
+              "_key": "wm94fJt2Hr6zkJje9H4j7",
+              "_type": "versioned-software-library",
+              "library": {
+                "_key": "80a_bstLd-r701c0YYTBx",
+                "_ref": "software-library-react",
+                "_type": "reference"
+              }
+            }
+          ],
+          "summary": "Start with the basics of state management and dive further into the selector API, as well as learning different strategies for handling synchronous and asynchronous Selectors ",
+          "title": "Manage React State with Recoil",
+          "type": "course",
+          "urls": []
+        },
+        {
+          "_createdAt": "2021-02-22T23:57:16Z",
+          "_id": "playlist-368392",
+          "_rev": "5K8APhCE8sOpaOeJzhguXJ",
+          "_type": "resource",
+          "_updatedAt": "2023-06-21T18:57:47Z",
+          "byline": "Tomasz Łakomy • 5m • Course",
+          "collaborators": [
+            {
+              "_key": "_Q_HqtKon87-I5x9Vsgzd",
+              "_ref": "collaborator-instructor-tomasz-lakomy",
+              "_type": "reference"
+            }
+          ],
+          "content": [
+            {
+              "_key": "4daddbfc05fb",
+              "_type": "string-list",
+              "items": [
+                "Add Recoil to your React project",
+                "Create a Recoil `atom` and use it to store a piece of state",
+                "Use `useRecoilState` hook to read and write an atom",
+                "Use `useRecoilValue` to access the value stored in an atom in a read-only fashion",
+                "Use 🔥`selectors`🔥 in order to calculate derived data based on state stored within atoms (this is *really* powerful!)"
+              ],
+              "title": "topics"
+            }
+          ],
+          "description": "This course will give you a clear understanding of how to start managing state with Recoil. \n\nRecoil is a state management library for React applications. It provides several capabilities that are difficult to achieve with React alone. It aims to solve a few problems such as shared state, derived data,  asynchronous queries, app-wide state observation, routing, and many more issues when managing complex state. \n\nIf you are working on an application that is going to need state sync between components, derived state, app-wide observation, Recoil might be the appropriate library for you!\n\nThis course will guide you on how to implement Recoil's Hooks in a quick project where you'll have an integer stored on an `atom` and the use of `selectors` will allow you to re-calculate a derived state, which in this case, it will calculate the square of your integer. \n\nAn efficient and practical course to learning Recoil. The Recoil version used in this course is `^0.0.7`, and the latest version is `0.3.1`, yet this is still a great introduction to understanding the core functionality of Recoil. As of `0.3.1`, there are no major breaking changes.",
+          "essentialQuestions": [
+            {
+              "_key": "b5f55c5b0d97",
+              "_ref": "essential-question-how-do-you-know-when-you-need-to-use-a-state-management-library",
+              "_type": "reference"
+            },
+            {
+              "_key": "95ce8d9bbfa7",
+              "_ref": "essential-question-why-is-state-management-challenging",
+              "_type": "reference"
+            },
+            {
+              "_key": "ef973478ae05",
+              "_ref": "essential-question-why-does-state-need-to-be-managed",
+              "_type": "reference"
+            }
+          ],
+          "externalId": 368392,
+          "externalType": "playlist",
+          "image": "https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/368/392/full/uprunning_recoil_424_2x.png",
+          "images": [],
+          "nextSteps": [],
+          "path": "/courses/up-and-running-with-recoil-a-new-state-management-library-for-react-78b8",
+          "prerequisites": [
+            {
+              "_key": "d108cc0323ee",
+              "_ref": "playlist-432490",
+              "_type": "reference"
+            }
+          ],
+          "productionProcessState": "published",
+          "projects": [],
+          "related": [
+            {
+              "_key": "19389e2b7c18",
+              "_ref": "playlist-368383",
+              "_type": "reference"
+            },
+            {
+              "_key": "16ef1e29549c",
+              "_ref": "playlist-387936",
+              "_type": "reference"
+            },
+            {
+              "_key": "fc512f4d80f9",
+              "_ref": "playlist-408538",
+              "_type": "reference"
+            }
+          ],
+          "resources": [
+            {
+              "_key": "brhKBPKDGQ26pJ-jGH_Zz",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "kCw58E6DhKo-5FVc9CmsS",
+                  "_ref": "collaborator-instructor-tomasz-lakomy",
+                  "_type": "reference"
+                }
+              ],
+              "description": "[Recoil](https://twitter.com/recoiljs/status/1260965007954591744) is a brand new state management library for React developed by Facebook.\n\nIn this quick lesson we're going to learn how to add it to a React app and how to use a Recoil atom in order to share state between two React components using `useRecoilState` hook\n\n ",
+              "externalId": 6725,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/egghead-use-a-recoil-atom-to-share-state-between-two-react-components",
+              "slug": {
+                "current": "egghead-use-a-recoil-atom-to-share-state-between-two-react-components"
+              },
+              "title": "Use a Recoil atom to share state between two React components",
+              "type": "video"
+            },
+            {
+              "_key": "BfKmPkz1o3u_DKFUWLI17",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "RGAkw-axK51wvvTG9INYm",
+                  "_ref": "collaborator-instructor-tomasz-lakomy",
+                  "_type": "reference"
+                }
+              ],
+              "description": "Not every component is going to modify a 'global' state stored in a Recoil atom - in some cases a component just needs to be able to read the value.\n\nIn this quick lesson we're going to learn how to use a `useRecoilValue` hook to ensure that a component will be able to read a number stored in a Recoil atom in a read-only fashion. ",
+              "externalId": 6730,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/egghead-use-userecoilvalue-hook-to-read-a-value-from-a-recoil-atom",
+              "slug": {
+                "current": "egghead-use-userecoilvalue-hook-to-read-a-value-from-a-recoil-atom"
+              },
+              "title": "Use useRecoilValue hook to read a value from a Recoil atom",
+              "type": "video"
+            },
+            {
+              "_key": "8AeAsScyPf4s2ZSP9jE88",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "wbZzwJO5XRuh6VR61vM75",
+                  "_ref": "collaborator-instructor-tomasz-lakomy",
+                  "_type": "reference"
+                }
+              ],
+              "description": "Recoil allows us to use atoms in order to store pieces of state. More often than not in our apps we need to use data that derives from our application state (for instance to multiply height and width stored within a state to calculate area of an element).  \n\nLuckily Recoil provides us with a powerful tool to automatically re-calculate derived state value whenever an piece of state changes - selectors.\n\nA [selector](https://recoiljs.org/docs/introduction/core-concepts#selectors) is a pure function that accepts atoms or other selectors as input. When these upstream atoms or selectors are updated, the selector function will be re-evaluated.\n\nIn this quick lesson we're going to learn how to use a selector in order to automatically calculate a square of a number whenever a value stored within an atom is going to change. Holaa! ",
+              "externalId": 6734,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "images": [],
+              "path": "/lessons/react-use-selectors-to-calculate-derived-data-based-on-state-stored-within-a-recoil-atom",
+              "slug": {
+                "current": "react-use-selectors-to-calculate-derived-data-based-on-state-stored-within-a-recoil-atom"
+              },
+              "title": "Use selectors to calculate derived data based on state stored within a Recoil atom",
+              "type": "video"
+            }
+          ],
+          "slug": {
+            "current": "sync-state-across-components-with-recoil-in-react-3145"
+          },
+          "softwareLibraries": [
+            {
+              "_key": "Wx3N9KsRot4kOikrf_E4G",
+              "_type": "versioned-software-library",
+              "library": {
+                "_key": "IWbDhXnoHGZ9g5917DZGH",
+                "_ref": "software-library-react",
+                "_type": "reference"
+              }
+            }
+          ],
+          "summary": "Recoil works and thinks like React. Add some to your app and get fast and flexible shared state.",
+          "title": "Sync State Across Components with Recoil in React",
+          "type": "course",
+          "urls": []
+        },
+        {
+          "_createdAt": "2021-02-22T23:57:13Z",
+          "_id": "playlist-368383",
+          "_rev": "5K8APhCE8sOpaOeJzhgyHX",
+          "_type": "resource",
+          "_updatedAt": "2022-07-20T16:53:57Z",
+          "byline": "Chris Achard ・16m・Course",
+          "collaborators": [
+            {
+              "_key": "gWW83Ri3qNzJSe2thmGyd",
+              "_ref": "collaborator-instructor-chris-achard",
+              "_type": "reference"
+            }
+          ],
+          "content": [
+            {
+              "_key": "df39f0e68640",
+              "_type": "string-list",
+              "items": [
+                "Organize Atom and Selector files within an application",
+                "Share state throughout an application with Atoms",
+                "Set computed values with Recoil selectors",
+                "Create custom Recoil hooks for shared functionality",
+                "Handle async Atoms with React Suspense"
+              ],
+              "title": "topics"
+            }
+          ],
+          "description": "Recoil is a new (experimental!) library from Facebook that can handle complex shared data across a large react app.\n\nIn this course, we'll create a simple game with React using Recoil, to explore how you can share and update state across an app using Atoms and Selectors.\n\nRecoil is similar to (but different than) Context, Redux, or other shared state libraries (like MobX), but is designed to handle large (and variable) numbers of state that can update without re-rendering your entire app's component tree.",
+          "essentialQuestions": [],
+          "externalId": 368383,
+          "externalType": "playlist",
+          "image": "https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/368/383/full/get-started-recoil.png",
+          "images": [],
+          "path": "/courses/getting-started-with-recoil-in-react-1fca",
+          "prerequisites": [],
+          "productionProcessState": "published",
+          "projects": [],
+          "related": [
+            {
+              "_key": "877cafa5a5fe",
+              "_ref": "playlist-368392",
+              "_type": "reference"
+            },
+            {
+              "_key": "b238c50c29ff",
+              "_ref": "playlist-387936",
+              "_type": "reference"
+            },
+            {
+              "_key": "99681af4c4ac",
+              "_ref": "playlist-432508",
+              "_type": "reference"
+            }
+          ],
+          "resources": [
+            {
+              "_key": "6s6v7y1LXtYitGB4kNA7V",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "YZ10LqeYFoIh-_3NkGlEx",
+                  "_ref": "collaborator-instructor-chris-achard",
+                  "_type": "reference"
+                }
+              ],
+              "description": "We'll create a new React game with:\n\n```\nnpx create-react-app paper-game\ncd paper-game\n```\n\nand then install Recoil with:\n\n```\nnpm install recoil\n```\n\nand start the server:\n\n```\nnpm start\n```\n\nThen, to wrap the entire app in the recoil root, we'll import `RecoilRoot` from `recoil` and wrap the app:\n\n```\n    <RecoilRoot>\n      <Game />\n    </RecoilRoot>\n```\n\nAnd the app is now up and running - ready to use Recoil\n\n",
+              "externalId": 6729,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/react-set-up-recoil-in-a-new-react-app",
+              "slug": {
+                "current": "react-set-up-recoil-in-a-new-react-app"
+              },
+              "title": "Set Up Recoil in a new React App",
+              "type": "video"
+            },
+            {
+              "_key": "NO-aQ2WcAkbEcvzuvZuE0",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "5wKvuqHnZcJjex3-UzrwE",
+                  "_ref": "collaborator-instructor-chris-achard",
+                  "_type": "reference"
+                }
+              ],
+              "description": "We'll create a new bit of shared state (called an \"atom\" in Recoil) by importing `atom` from Recoil and setting a unique key and default value:\n\n```\nimport {\n  atom\n} from 'recoil'\n\nconst gameScore = atom({\n  key: 'gameScore',\n  default: 0\n})\n```\n\nThen we can use that `gameScore` by calling the Recoil hook `useRecoilState`\n\n```\nimport {\n  useRecoilState\n} from 'recoil'\n\n...\n\n  const [score, setScore] = useRecoilState(gameScore)\n```\n\nThat looks a lot like a local `useState` call - but is different because it creates the state in Recoil, which can then be used in this component, or in any other component in the tree (underneath the same `RecoilRoot`)",
+              "externalId": 6731,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/react-create-shared-state-with-recoil-in-a-react-app",
+              "slug": {
+                "current": "react-create-shared-state-with-recoil-in-a-react-app"
+              },
+              "title": "Create Shared State with Recoil in a React App",
+              "type": "video"
+            },
+            {
+              "_key": "qV2E2MdgUHY9g36RhNcz7",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "kO2BIigzmIx3lfJv8FyVQ",
+                  "_ref": "collaborator-instructor-chris-achard",
+                  "_type": "reference"
+                }
+              ],
+              "description": "To get a value from Recoil we can import the atom that we want and the hook `useRecoilValue` from recoil.\n\nThen we can get the value:\n\n```\nimport { useRecoilValue } from 'recoil'\n...\nimport { gameScore } from './atoms'\n...\nconst score = useRecoilValue(gameScore)\n```\n\nAnd display it in a lablel:\n\n```\n<h3>Score: {score}</h3>\n```\n\nThat value will update every time the button is clicked (and `setScore` is called) automatically!",
+              "externalId": 6732,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/react-read-a-value-from-recoil-with-userecoilvalue",
+              "slug": {
+                "current": "react-read-a-value-from-recoil-with-userecoilvalue"
+              },
+              "title": "Read a Value from Recoil with useRecoilValue",
+              "type": "video"
+            },
+            {
+              "_key": "e59cPGJMMFOy6neCTiVwH",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "RSNevLGV0lL5o_GWip6lD",
+                  "_ref": "collaborator-instructor-chris-achard",
+                  "_type": "reference"
+                }
+              ],
+              "description": "To compute a value from one or more values stored in Recoil, we can create a \"selector\".\n\nFirst import `selector` from Recoil, and then call it with an object that has two keys: `key` and `get`:\n\n```\nimport { selector } from recoil;\n...\nconst paperSize = selector({\n  key: 'paperSize',\n  get: ({get}) => {\n    const score = get(gameScore)\n    return 100 + (score * 5)\n  }\n})\n```\n\nInside of the `get` function we can get the current value of the `gameScore` atom from recoil, and then compute a new value from that to return to our game.  Then we can get the value using `useRecoilValue`:\n\n```\nimport { paperSize } from './selectors'\n...\nconst size = useRecoilValue(paperSize)\n```\n",
+              "externalId": 6733,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/react-compute-a-value-in-recoil-using-a-selector",
+              "slug": {
+                "current": "react-compute-a-value-in-recoil-using-a-selector"
+              },
+              "title": "Compute a Value in Recoil Using a Selector",
+              "type": "video"
+            },
+            {
+              "_key": "rszVf_unvjU5kLQCQkBn2",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "ME7mn3QO7NY9D319DkMog",
+                  "_ref": "collaborator-instructor-chris-achard",
+                  "_type": "reference"
+                }
+              ],
+              "description": "To change a value in state we can do that directly (by pulling the atom with `useRecoildState`), or we can write a custom hook that will change the value for us:\n\n```\nconst useResetScore = () => {\n  const [score, setScore] = useRecoilState(gameScore)\n  return () => {\n    setScore(0)\n  }\n}\n```\n\nThat function returns a function that we can then call from a component like any other hook:\n\n```\n  const resetScore = useResetScore()\n```\n\nand then we can use that new `resetScore` function for the `onClick` of a button:\n\n```\n<button onClick={resetScore}>Reset</button>\n```\n\nwhich will change the value in the Recoil state.\n\nThat's a simplistic example of a custom hook - but that hook could then be extended to do multiple state changes, and then could be imported into any component in the React tree and used.",
+              "externalId": 6735,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/react-write-a-custom-recoil-hook-to-reset-a-value-in-the-recoil-state",
+              "slug": {
+                "current": "react-write-a-custom-recoil-hook-to-reset-a-value-in-the-recoil-state"
+              },
+              "title": "Write a Custom Recoil Hook to Reset a Value in the Recoil State",
+              "type": "video"
+            },
+            {
+              "_key": "sykK4sOzfVlGKlIpt-K0D",
+              "_type": "resource",
+              "collaborators": [
+                {
+                  "_key": "6wVJ9KxAaCm-7sKokt2kf",
+                  "_ref": "collaborator-instructor-chris-achard",
+                  "_type": "reference"
+                }
+              ],
+              "description": "Instead of just returning a value from a recoil selector, you can return any promise, which means that you can do asynchronous functions in recoil selectors (this is a little like a redux thunk).\n\nThe huge bonus is that you don't have to do anything different when actually calling the selector - use can use `useRecoilValue` in the same way that you would from a normal selector.\n\nThe only thing you must do is somewhere in the component tree, wrap any component that uses an async selector with a `<React.Suspense>` tag with a `fallback` prop that will tell React what to display when the async selector isn't loaded yet.\n\n\n\n",
+              "externalId": 7047,
+              "externalType": "lesson",
+              "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png",
+              "path": "/lessons/react-use-async-functions-in-a-recoil-selector",
+              "slug": {
+                "current": "react-use-async-functions-in-a-recoil-selector"
+              },
+              "title": "Use Async Functions in a Recoil Selector",
+              "type": "video"
+            }
+          ],
+          "slug": {
+            "current": "getting-started-with-recoil-in-react-1fca"
+          },
+          "softwareLibraries": [
+            {
+              "_key": "kx1K5_3h_3sTr7u9u3m7u",
+              "_type": "versioned-software-library",
+              "library": {
+                "_key": "TWaxI8pKC_W-vjQVVo_5t",
+                "_ref": "software-library-react",
+                "_type": "reference"
+              },
+              "version": "16.12.0"
+            },
+            {
+              "_key": "70d0148d836c",
+              "_type": "versioned-software-library",
+              "library": {
+                "_ref": "3102165f-bd48-4c0e-8135-e08158e5afa1",
+                "_type": "reference"
+              },
+              "version": "0.3.1"
+            }
+          ],
+          "summary": "In this collection, you'll create a simple game with React using Recoil, to explore how you can share and update state across an app.",
+          "title": "Getting Started with Recoil in React",
+          "type": "course",
+          "urls": []
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "state-management-with-recoil"
+      },
+      "title": "State Management with Recoil",
+      "type": "feature"
+    },
+    "theBigIdeas": {
+      "description": "The reason why state management causes headaches is that it's core to application development. **Managing State is an art form.** If you understand State Management, you understand UI development at its most profound levels.\n\nThis learning path will provide the learning resources to becoming an expert at managing state. Together we'll explore some of the biggest questions about state management.\n\n**Why does state need to be managed?\nWhy is state management such a big issue in React?Why is state management such a big issue when building UI's?**\n\nThese resources will range from in-depth research interviews, courses, articles, podcast episodes, and portfolio clubs on state management.\n\nEven if you already have a working knowledge of state, this series will upgrade your mental model of state and give you more confidence when performing complex state tasks at work.\n\nAnd if you're starting out in web development, this will provide the gentle guided path to understanding the underlying principles of managing state.\n\nReady to start this journey? \n\n**Start here with these interviews that explore the big ideas of state management!**",
+      "resources": [
+        {
+          "_key": "5e6e68b6aa21",
+          "_type": "resource",
+          "byline": "Jared Palmer",
+          "description": "In this in-depth, expletive-filled conversation, Formik creator Jared Palmer discusses a variety of angles to approach state management. Whether you use MobX, Immer, the useEffect hook, or even your app's URL, there are pitfalls everywhere.",
+          "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1627884470/egghead-next-pages/state-management-page/Jared-Palmer.png",
+          "name": "Learn the Heuristics of State",
+          "path": "lessons/react-managing-complex-state-in-react-with-jared-palmer-explicit",
+          "slug": {
+            "_type": "slug",
+            "current": "react-managing-complex-state-in-react-with-jared-palmer-explicit"
+          },
+          "subTitle": "Learn the Heuristics of State",
+          "title": "Managing Complex State in React with Jared Palmer",
+          "type": "video"
+        },
+        {
+          "_key": "8698a8dfa84a",
+          "_type": "resource",
+          "byline": "Matt Pocock",
+          "description": "In state management everything is a balance of tradeoffs in complexity, performance, and user experience. In this interview, Joel and Matt discuss those challenges and big ideas that drive React State Management.",
+          "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1627884470/egghead-next-pages/state-management-page/Matt-Pocock.png",
+          "name": "Model stateful, reactive systems",
+          "path": "/lessons/react-building-stateful-ui-applications-with-matt-pocock",
+          "slug": {
+            "_type": "slug",
+            "current": "react-building-stateful-ui-applications-with-matt-pocock"
+          },
+          "subTitle": "Model stateful, reactive systems",
+          "title": "Building Stateful UI Applications with Matt Pocock",
+          "type": "video"
+        },
+        {
+          "_key": "4e9a4a709fbd",
+          "_type": "resource",
+          "byline": "Chance Strickland",
+          "description": "In this interview, Chance gives a guided tour behind the scenes of ReachUI. There's more thought that goes into seemingly simple interactions than you might think.",
+          "image": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1627884467/egghead-next-pages/state-management-page/Chance-Strickland.png",
+          "name": "Declarative Patterns for Components",
+          "path": "/lessons/react-state-management-in-react-with-chance-strickland",
+          "slug": {
+            "_type": "slug",
+            "current": "react-state-management-in-react-with-chance-strickland"
+          },
+          "subTitle": "Declarative Patterns for Components",
+          "title": "State Management in React with Chance Strickland",
+          "type": "video"
+        }
+      ],
+      "title": "The Big Ideas"
+    },
+    "title": "The Missing Instruction Manual to State Management"
+  },
+  "cssGridProject": {
+    "image": "https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png",
+    "path": "/courses/build-modern-layouts-with-css-grid-d3f5",
+    "projects": {
+      "content": [
+        {
+          "_key": "f4d5497bc2c8",
+          "_type": "markdownText",
+          "label": "Introduction",
+          "text": "Building layouts for the web is a fundamental skill of being a web developer.\n\nThere are common layouts that you will encounter throughout your career that span industries. e.g. Admin dashboard, tiered pricing page, message board, etc.\n\nWhile the individual style and look can vary, the underlying structure and goals are the same. In this mobile-first age, pages need to work well on any number of screen sizes and be flexible enough for the varying content that they could contain.\n\nThis is where [CSS Grid](https://developer.mozilla.org/en-US/docs/Web/CSS/grid) can help you level up your developer skills. CSS Grid is a (relatively) new technology that allows you to problem solve at the page-layout level. You can create two-dimensional layouts that adapt content to the available space and intelligently size and position items within its bounds.\n\nLearning CSS Grid may seem difficult, and this is because it presents new layout ideas and a different syntax in CSS. But it can be broken down into powerful patterns that when used together can blow your mind and change the way you create layouts for the web.\n\nThese patterns can be learned through deliberate practice.\n\nThis project's goal is to help you prove to yourself and others that you have the skills necessary for making a flexible and responsive two-dimensional layout using CSS Grid.",
+          "type": "introduction"
+        },
+        {
+          "_key": "1d14fec51647",
+          "_type": "markdownText",
+          "label": "Challenges",
+          "text": "## Challenges\n\nConsidering the following scenario as you work through the two different layout challenges:\n\nYour team is developing a new product. Designers on your team have handed you Figma files that mock up the general structure of the new product your team is shipping. One is the pricing page and the other is a CRM dashboard.\n\nYour goal is to implement these page layouts using the mockups through CSS Grid. You are not responsible for providing the content, data, or implementing the functionality. **You are only expected to implement the layout using CSS and HTML.**\n\nBoth are common layouts that you will find all over the web and are used to serve as inspiration for you to build a killer layout that shows you know CSS Grid.\n\nDo both if you are up for it! 💪",
+          "type": "challenges"
+        },
+        {
+          "_key": "b496652949a3",
+          "_type": "markdownText",
+          "label": "Pricing Page description",
+          "text": "The team plans on selling the new product in 3 tiers. Each tier should be represented on the screen as a card with the highest centered in the middle. You'll need to collapse the cards into a single column on mobile views with the middle tier positioned on top.\n"
+        },
+        {
+          "_key": "f20eff749a72",
+          "_type": "markdownText",
+          "label": "CRM page description",
+          "text": "The team is building a CRM dashboard to keep track of clients. The dashboard consists of 3 main sections. The contact section, milestones section, and a group chat section. These 3 sections need to be responsive and should contain nested grids for the individual items."
+        },
+        {
+          "_key": "54b0c478d28d",
+          "_type": "markdownText",
+          "label": "Outcomes",
+          "text": "## Outcome\n\nRegardless of the layout challenge you chose, the outcomes will be the same.\n\nYou'll prove that you know how to:\n\n- Break page content into sections\n- Create a responsive layout\n- Align elements within layouts\n- Structure section layouts with nested Grids\n\nWhether you are looking for a job or want to start using this technology at work, this portfolio piece will serve as a testament to the hard-won skills that you have earned.",
+          "type": "outcomes"
+        },
+        {
+          "_key": "04bef1123e8a",
+          "_type": "markdownText",
+          "label": "Resource",
+          "text": "As you start this challenge, use [Build Modern Layouts with CSS Grid](https://egghead.io/courses/build-modern-layouts-with-css-grid-d3f5) as a guide for problem-solving the different aspects of CSS Grid. \n\nThe course will provide the fundamentals for using CSS Grid, while the challenges will push you to understand CSS Grid at a deeper level.",
+          "type": "resource"
+        },
+        {
+          "_key": "3ce8b36e651a",
+          "_type": "markdownText",
+          "label": "Pricing page challenge",
+          "text": "### 💰 Pricing Page Challenge\n\n1. Review the pricing page layout in [Figma](https://www.figma.com/file/w362r40HtgLn6IWtiWppEX/CSS-Grid-Project?node-id=1%3A2)\n2. Create an `index.html` file\n3. Link a CSS file to the `index.html` file\n4. Create the `navbar`, `body` and `footer` using HTML\n5. Define the main sections of your layout using CSS Grid (`navbar`, `body` and `footer`)\n6. Create 3 cards that represent product plans\n7. The tier cards should be responsive on all viewports."
+        },
+        {
+          "_key": "af2fb47fa508",
+          "_type": "markdownText",
+          "label": "Dashboard page challenge",
+          "text": "### 🧮 Dashboard Page Challenge\n\n1. Review the dashboard page layout in [Figma](https://www.figma.com/file/w362r40HtgLn6IWtiWppEX/CSS-Grid-Project?node-id=1%3A2)\n2. Create an `index.html` file\n3. Link a CSS file to the `index.html` file\n4. Create the `navbar`, `body` and `footer` using HTML\n5. Define the main sections of your layout using CSS Grid (`navbar`, `body` and `footer`)\n6. Define a contact section, milestones section, and a group chat section using CSS Grid\n7. The page should be responsive."
+        },
+        {
+          "_key": "4f366b0365a7",
+          "_type": "markdownText",
+          "label": "Self-Study Questions",
+          "text": "## Self-Study Questions\n\nAs you work through the course and the challenge, demonstrate your understanding by answering the following free-form questions.\n\n- When should I introduce CSS Grid into my projects?\n- How can I keep accessibility in mind when creating two-dimensional layouts?\n- When should I use CSS Grid with/or without Flexbox?\n\nDo you have a good answer to these questions? Consider writing a blog post! 😉\n"
+        },
+        {
+          "_key": "6332ba5c6e12",
+          "_type": "markdownText",
+          "label": "Best Practices",
+          "text": "## Best Practices\n\nAs you work through the challenges please keep the following best practices.\n\n- Grid is responsive without using media queries\n- Grid areas contain implicit line names\n- The `fr` unit is used to calculate available space (let the browser do the math)\n- Nested layouts are used to reduce complexity\n- CSS Grid Inspector is used to examine grid layouts"
+        },
+        {
+          "_key": "b0dcb0bd7b65",
+          "_type": "markdownText",
+          "label": "Submission",
+          "text": "## Submission\n\nDid you complete the Portfolio Project Challenge? Let us know what you built!"
+        }
+      ],
+      "crmPageFigmaUrl": "https://www.figma.com/file/w362r40HtgLn6IWtiWppEX/CSS-Grid-Project?node-id=1%3A2",
+      "crmPageImageUrl": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615844192/egghead-next-pages/build-modern-layouts-with-css-grid/CRM.png",
+      "description": "This project's goal is to help you prove to yourself and others that you have the skills necessary for making a flexible and responsive two-dimensional layout using CSS Grid.",
+      "ogImage": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615926916/egghead-next-pages/build-modern-layouts-with-css-grid/share-card-portfolio-project-challenge_2x.png",
+      "pricingPageFigmaUrl": "https://www.figma.com/file/w362r40HtgLn6IWtiWppEX/CSS-Grid-Project?node-id=1%3A2",
+      "pricingPageImageUrl": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615844196/egghead-next-pages/build-modern-layouts-with-css-grid/Pricing-Page.png",
+      "title": "CSS Grid Layout Challenge",
+      "tweetCTA": "https://twitter.com/intent/tweet?text=Check%20out%20my%20@eggheadio%20CSS%20Grid%20portfolio%20project%20GITHUB_URL_HERE"
+    },
+    "resources": [
+      {
+        "path": "/lessons/css-define-root-colors-variables-and-set-up-box-sizing-for-a-css-layout",
+        "title": "Define Root Colors Variables and Set up Box-Sizing for a CSS Layout"
+      },
+      {
+        "path": "/lessons/css-introduction-to-css-grid-rows-and-columns-with-display-grid",
+        "title": "Introduction to CSS Grid Rows and Columns with display: grid"
+      },
+      {
+        "path": "/lessons/css-specify-a-gutter-in-css-grid-with-grid-gap",
+        "title": "Specify a Gutter in CSS Grid with grid-gap"
+      },
+      {
+        "path": "/lessons/css-utilize-firefox-developer-tools-to-visualize-css-grid-styles",
+        "title": "Utilize Firefox Developer Tools to Visualize CSS Grid Styles"
+      },
+      {
+        "path": "/lessons/css-determine-css-grid-sizing-with-the-fraction-unit-fr",
+        "title": "Determine CSS Grid Sizing with the Fraction Unit (fr)"
+      },
+      {
+        "path": "/lessons/css-define-a-page-layout-with-css-grid-using-grid-template-areas",
+        "title": "Define a Page Layout with CSS Grid Using grid-template-areas"
+      },
+      {
+        "path": "/lessons/css-align-content-by-adding-styling-to-a-css-grid-layout",
+        "title": "Align Content by Adding Styling to a CSS Grid Layout"
+      },
+      {
+        "path": "/lessons/css-build-a-navigation-bar-with-css-grid-using-grid-auto-flow",
+        "title": "Build a Navigation Bar with CSS Grid Using grid-auto-flow"
+      },
+      {
+        "path": "/lessons/css-create-a-nested-css-grid-layout",
+        "title": "Create a Nested CSS Grid Layout"
+      },
+      {
+        "path": "/lessons/css-use-the-repeat-css-function-to-efficiently-define-css-grid-rows-and-columns",
+        "title": "Use the repeat() CSS Function to Efficiently Define CSS Grid Rows and Columns"
+      },
+      {
+        "path": "/lessons/css-define-size-range-with-the-minmax-css-function-to-create-responsive-grid-items",
+        "title": "Define Size Range with the minmax() CSS Function to Create Responsive Grid Items"
+      },
+      {
+        "path": "/lessons/css-create-a-responsive-layout-using-media-queries-with-css-grid",
+        "title": "Create a Responsive Layout Using Media Queries with CSS Grid"
+      },
+      {
+        "path": "/lessons/css-use-grid-auto-flow-and-media-queries-to-flip-navigation-from-horizontal-to-vertical",
+        "title": "Use grid-auto-flow and Media Queries to Flip Navigation from Horizontal to Vertical"
+      }
+    ],
+    "tags": [
+      {
+        "label": "css",
+        "value": "css"
+      }
+    ],
+    "title": "Build Modern Layouts with CSS Grid"
+  },
+  "vueProject": {
+    "image": "https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/447/579/full/EGH_vue3.png",
+    "ogImage": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1622725071/next.egghead.io/resources/the-beginner-s-guide-to-vue-3/course-ogImage-vue-3.png",
+    "path": "/courses/the-beginner-s-guide-to-vue-3-1c46da8b",
+    "projects": {
+      "codesandboxLink": "https://codesandbox.io/s/github/doingandlearning/vue-fundamentals-challenge?utm_source=egghead&utm_medium=project&utm_campaign=vue",
+      "content": [
+        {
+          "_key": "8da6d605707b",
+          "_type": "markdownText",
+          "label": "Introduction",
+          "text": "The best way to solidify your learning is by actually taking the skills and knowledge you just acquired and apply it to a project. This proves to yourself and others that you actually absorbed the knowledge that you came to learn. \n\nAny skills that you thought you understood from a course/book/content become sharper and you'll understand them in a deeper way when you put them to practice.\n\nIn addition to proving to yourself that you know a topic, it's important that you demonstrate your skills to others (and potential employers!). This way when you apply for your next job in Web Development you don't have to convince everyone you know a skill, you can **show them.**\n\nWith this in mind, we have prepared a project challenge for you below. There are two aspects to the challenge: the technical bits and communicating your expertise so others know you truly get it.",
+          "type": "introduction"
+        },
+        {
+          "_key": "1a86c794efdb",
+          "_type": "markdownText",
+          "label": "Project Brief",
+          "text": "## Project Brief\n\nYou work for a contracting business and have been paired up with a designer to build out a website for a hardware store.\n\nThe owner of the store needs to be more competitive with big hardware companies by making their online shopping experience as pleasant as possible.\n\nYour task is to display hardware products for users to browse and purchase. You'll need to display all the products on a single page with key stats shown for each product. Additionally, the owner has requested that you be able to filter and sort these products. \n\nYou've been given the freedom to use what tech stack that you want. Your team has been building out products in Vue so that is what has been stubbed out for you with the data available to get started.",
+          "type": "project-brief"
+        },
+        {
+          "_key": "dc82f43b1de8",
+          "_type": "markdownText",
+          "label": "App Requirements",
+          "text": "## App Requirements\n\n1. Display all products on a page\n2. Product cards display key data\n3. Product list can be filtered\n4. Product list can be sorted\n5. Clearly distinguish out of stock products",
+          "type": "app-requirements"
+        },
+        {
+          "_key": "76f77c701899",
+          "_type": "markdownText",
+          "label": "App Data",
+          "text": "```js\n{\n    \"productName\": String,\n    \"manufacturer\": String,\n    \"productId\": String,\n    \"quantityInStock\": Number,\n    \"image\": String,\n    \"price\": Number,\n    \"category\": String\n  }\n```",
+          "type": "app-data"
+        },
+        {
+          "_key": "9a8eac6c5e1a",
+          "_type": "markdownText",
+          "label": "App Design",
+          "text": "## Design\n\nYou've been paired up with a designer who has given you wire frames for your first iteration on the application. Reference them as you build out the application if you aren't sure how to make the page look.",
+          "type": "app-design"
+        },
+        {
+          "_key": "b36ba498b3c1",
+          "_type": "markdownText",
+          "label": "Development Standards",
+          "text": "## Development Standards\n\nIn addition to building out the application, it's written in your contract that you keep a development log and document the decisions that you make for the owner and future contractors.\n\nWrite a technical blog post(s) on the key takeaways that you have for implementing features in this application. Each `App Requirement` can make a great post.",
+          "type": "development-standards"
+        },
+        {
+          "_key": "9980408f2e1e",
+          "_type": "markdownText",
+          "label": "Stretch Goal",
+          "text": "## Stretch Goal\n\nIf implementing the app requirements above wasn't enough, take this application a step further by adding routing to individual product pages.",
+          "type": "stretch-goal"
+        },
+        {
+          "_key": "cb0479ba61ef",
+          "_type": "markdownText",
+          "label": "Submission",
+          "text": "## Submission\n\nDid you complete the Portfolio Project Challenge? Let us know what you built!",
+          "type": "submission"
+        }
+      ],
+      "description": "This project's goal is to help you prove to yourself and others that you have the skills necessary for building a UI in Vue.",
+      "githubLink": "https://github.com/doingandlearning/vue-fundamentals-challenge",
+      "productCard": {
+        "description": "The product card should display all of the data provided from the mock API that is being used. \u2028\u2028\n\nA configuration like you see on the right works well but feel free to implement your own design if you’re up for the challenge.",
+        "url": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1622137649/next.egghead.io/resources/the-beginner-s-guide-to-vue-3/vue-3-challenge-product-card.png"
+      },
+      "productPage": {
+        "description": "The page layout has a header for the store information and shopping cart with filters for searching products on the left and product cards listed on the majority of the remaining screen ",
+        "url": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1622137633/next.egghead.io/resources/the-beginner-s-guide-to-vue-3/vue-3-challenge-product-page.png"
+      },
+      "title": "Vue 3 Challenge",
+      "tweetCTA": "https://twitter.com/intent/tweet?text=Check%20out%20my%20@eggheadio%20Vue%203%20portfolio%20project%20GITHUB_URL_HERE%20"
+    },
+    "resources": [
+      {
+        "path": "/lessons/vue-js-set-up-the-minimum-files-needed-to-run-vue-3",
+        "title": "Set up the Minimum Files Needed to Run Vue 3"
+      },
+      {
+        "path": "/lessons/vue-js-mount-a-vue-application-to-the-dom-and-render-reactive-data",
+        "title": "Mount a Vue Application to the DOM and Render Reactive Data"
+      },
+      {
+        "path": "/lessons/vue-js-add-vue-devtools-and-use-them-to-help-in-development",
+        "title": "Add Vue Devtools and Use Them to Help in Development"
+      },
+      {
+        "path": "/lessons/vue-js-interpolate-javascript-expressions-in-vue",
+        "title": "Interpolate JavaScript Expressions in Vue"
+      },
+      {
+        "path": "/lessons/vue-js-bind-reactive-properties-to-html-element-attributes",
+        "title": "Bind Reactive Properties to HTML Element Attributes"
+      },
+      {
+        "path": "/lessons/vue-js-render-content-conditionally-with-v-if-in-vue",
+        "title": "Render Content Conditionally with v-if in Vue"
+      },
+      {
+        "path": "/lessons/vue-js-render-arrays-of-data-as-lists-with-the-vue-v-for-directive",
+        "title": "Render Arrays of Data as Lists with the Vue v-for directive"
+      },
+      {
+        "path": "/lessons/vue-js-respond-to-events-with-the-v-on-directive-in-vue",
+        "title": "Respond to Events with the v-on (@) Directive in Vue"
+      },
+      {
+        "path": "/lessons/vue-js-define-and-use-methods-in-the-vue-configuration-object-for-complex-logic",
+        "title": "Define and Use Methods in the Vue Configuration Object for Complex Logic"
+      },
+      {
+        "path": "/lessons/vue-js-respond-to-a-mouseover-event-in-vue-with-the-v-on-directive",
+        "title": "Respond to a mouseover event in Vue with the v-on directive"
+      },
+      {
+        "path": "/lessons/vue-js-use-computed-properties-in-vue-to-be-more-efficient",
+        "title": "Use Computed Properties in Vue to Be More Efficient"
+      },
+      {
+        "path": "/lessons/vue-js-conditionally-apply-css-classes-to-elements-with-v-bind-in-vue",
+        "title": "Conditionally Apply CSS Classes to Elements with v-bind in Vue"
+      },
+      {
+        "path": "/lessons/vue-js-conditionally-apply-an-array-of-css-classes-to-elements-in-vue",
+        "title": "Conditionally Apply an Array of CSS Classes to Elements in Vue"
+      },
+      {
+        "path": "/lessons/vue-js-create-a-two-way-binding-to-update-data-throughout-an-app-with-vue-v-model",
+        "title": "Create a Two Way Binding to Update Data Throughout an App with Vue v-model"
+      },
+      {
+        "path": "/lessons/vue-js-decide-when-to-use-a-component-in-vue",
+        "title": "Decide when to use a component in Vue"
+      },
+      {
+        "path": "/lessons/vue-js-build-a-component-and-pass-props-to-it-in-vue",
+        "title": "Build a Component and Pass Props to It in Vue"
+      },
+      {
+        "path": "/lessons/vue-js-create-and-manipulate-state-within-a-vue-component-by-defining-methods-and-properties",
+        "title": "Create and Manipulate State within a Vue Component by Defining Methods and Properties"
+      },
+      {
+        "path": "/lessons/vue-js-send-an-emit-event-with-data-from-a-vue-component-to-it-s-parent",
+        "title": "Send an Emit Event with Data From a Vue Component to It's Parent"
+      },
+      {
+        "path": "/lessons/vue-js-use-axios-for-remote-data-fetching-with-vue-mounted-property",
+        "title": "Use Axios for Remote Data Fetching with Vue Mounted Property"
+      },
+      {
+        "path": "/lessons/vue-js-handle-errors-when-data-fetching-in-vue-with-axios",
+        "title": "Handle Errors when Data Fetching in Vue with Axios"
+      },
+      {
+        "path": "/lessons/vue-js-deploy-a-static-site-using-netlify-s-drop",
+        "title": "Deploy a static site using Netlify's Drop"
+      },
+      {
+        "path": "/lessons/vue-js-install-the-vue-cli",
+        "title": "Install the vue/cli"
+      },
+      {
+        "path": "/lessons/vue-js-refactor-to-use-vue-files",
+        "title": "Refactor to use Vue files"
+      }
+    ],
+    "tags": null,
+    "title": "The Beginner's Guide to Vue 3"
+  },
+  "portfolioFoundationsArticles": [],
+  "onlinePresenceArticles": [
+    {
+      "article": "The people making hiring decisions *will* Google you. This means:\n\n1. Yes, they will form their first impression of you before you meet.\n2. AND this impression will depend on all the information Google surfaces when they type in your name.\n\nToday, Google is a hirer's entryway into who you are.\n\nAnd that makes it a great place to begin. This guide will walk you through cataloging all the pages, images, and videos that show up for the keyword `{YOUR_NAME}`.\n\n**Resource:** [This Google sheet](https://docs.google.com/spreadsheets/d/1iVlBUQag3fZNkDt2P1xh2vpSh6RSwoA1AZIRxrFRACM/copy?usp=sharing) is where we will be doing the actual cataloging. Keep it handy, it will serve as your source of truth through this stage and next three. Owning your online presence is as simple as getting each page in this sheet to a place you can be proud of.\n\nWe are going to break this down into a 3 step process that you can get started working on today:\n\n## **Step 1**: Keyword: `{YOUR_NAME}`\n\nOpen up your [catalog Google sheet](https://docs.google.com/spreadsheets/d/1iVlBUQag3fZNkDt2P1xh2vpSh6RSwoA1AZIRxrFRACM/copy?usp=sharing).\n\nIn parallel, turn on your VPN, open up a private / incognito window, and Google your name.\n\nWe're going to record the following:\n\n1. **Keyword:** The keyword you're using — in this case, `{YOUR_NAME}`.\n2. **Page:** List out the pages that show up for your keyword.\n3. **Position (All):** Make a note of each page's position on the \"All\" tab. The first three will usually have a higher clickthrough rate than the rest of the links combined (definitely something we'll look into later on). Record the pages that show up for positions 1 to 15 (safe to assume no one's going to get past the second page of search results).\n4. **Position (Images):** Google populates the \"Images\" tab with images from the pages that contain your name. Click on the \"Images\" tab and record where the images are coming from. If you that an image is from a page you haven't listed as yet — add it in.\n5. **Position (Videos):** Do the same for the \"Videos\" tab.\n6. **Who owns this page?** Make a note of who this page belongs to. If it's your personal website  and you have control over all the content, type in your own name. If you have to interface with an app or a team to change the content, type in theirs. It's a good idea to know upfront what kind of effort you need to put into updating each of these pages to better reflect who you are.\n\n## Step 2: Related keywords\n\n`{YOUR_NAME}` might not be the only keyword that you want to look up.\n\nIf you share your name will other people, type in a more specific keyword like `{YOUR_NAME}` `{YOUR_HOMETOWN}` or `{YOUR_NAME}` `{YOUR_FAVORITE_FRAMEWORK}`.\n\nIf you own a lot of content online, check out Google's list of related keywords at the bottom of the page and give those a whirl.\n\nRepeat step 1 will each related keyword. (Remember not to catalog the same page twice though.)\n\n### Remember\n\n**Your catalog *will* surprise you.** Even seasoned professionals who spend a lot of time optimizing their search results are bewildered to find that\n\n- Google sometimes pulls an image from a page that's six years old.\n- Or their alternate Twitter account is showing up next to their primary one.\n- Or a page they created and forgot about is showing up in position three.\n\nDon't worry, though, this is precisely why we're doing this. We're looking at your profile and polishing it up before the people who matter get here.\n\n## What to do if none of these pages are yours\n\nMaybe you share a name with a celebrity. Maybe your last name also happens to be a famous brand in Spain (it happens). Maybe you've lived on a deserted island for the last two decades and this is the first time you're using the internet.\n\nDon't panic! Here's how you can carve out a (virtual) space to call your own if `{YOUR_NAME}` is already taken:\n\n- **Optimize for a more specific keyword.** If \"Katie Smith\" is already taken, you could optimize for (i.e., refer to yourself as) \"Kat M. Smith\" or \"KM Smith\". You could also go in a different direction: \"Katie Smith Oregon\" (if you live in Oregon) or \"Katie Smith React\" (if you want to be known for a certain kind of work).\n- **Choose a unique username.** You could also go by your username, a lot of people do! \"Katercoder\" or \"Katersmith\" don't come off as any less professional on the interwebs.\n- **Skip to stage 2.** If you really have a dearth of content to call your own, skip this step altogether and move on to stage 2. You can revisit this stage once you've got a few social media profiles set up.\n- **Focus on SEO.** This is a time-consuming strategy — but worth it if you're up for the effort — you could compete with everyone else optimizing for \"your name.\" This means really drilling down to on-page SEO and creating enough content to signal to Google that *you* are the foremost authority on the keyword `{YOUR_NAME}`.\n\n### Pro-tip\n\n**Add in other categories you'd like to track as separate columns.** For example: you might want your work-related pages to show up before your hobby-related pages. In this case, it's definitely worth tagging work pages in a separate column so you can optimize them first.\n\n## Step 3: How do I start updating my pages?\n\nYou're ready for the next stage! Keep your online presence catalog handy and ready to move on to the next stage, where we will help you figure out how to answer this question.\n\n\n\n\n\n",
+      "slug": "breaking-it-down",
+      "title": "Breaking Down Your Online Presence"
+    },
+    {
+      "article": "## **Who are we updating your pages for???**\n\nThat's a question we need to answer to figure out whether:\n\n1. Your page needs an update to begin with and\n2. What kind of information we use to make the update.\n\nIn this stage, we'll spend some time working through your preferences in the workplace. If you're clear on the kind of workplace that best suits you, can you tailor your Google search results to stand out decision makes there?\n\n### Note\n\nWe're *not* trying to make a list of companies you should start applying to. We *are* trying to figure out what kind of professional environments you gravitate towards as a person.\n\nThe point of this stage is to help you reflect on:\n\n1. The kind of company you want to work for and,\n2. What's most important to you in a work environment (which will be useful *long after* this project is complete.)\n\n## Reflecting on culture\n\nA company's culture is a milieu too vast for even the science-based personality test. These tests are sold as navigational compasses — instruments that will lay out a map of how well you will fit within the milieu — but they're just a step above reading tea leaves. And they don't help you think about what matters most to *you*.\n\nValues on the company wall aside (teamwork, Inclusion — you know what usually goes on the wall), culture is influenced by 1) how fast the company moves and 2) how autonomous the people moving it are encouraged to be.\n\n![your desired pace and autonomy as a 2x2 grid](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1620926086/online-presence/pace-and-autonomy.jpg)\n\n**Source:** This chart is adapted from Spencer Stuart's [Integrated Culture](https://www.spencerstuart.com/-/media/2020/may/hbr_leaders_guide_corporate_culture_updated.pdf) framework. Where Stuart focuses more on managers and leaders in a company, our chart accounts for how his tenets might change from an employee's POV. You can check out HBR's writeup on corporate culture [here](https://hbr.org/2018/01/the-leaders-guide-to-corporate-culture).\n\nHere are some questions to consider as you decide what balance of these you're comfortable with:\n\n1. **On a scale of one to ten, how predictable do you like your day-to-day to be?** (1 — I enjoy it when every day looks the same. 10 — I like it when I can't tell what tomorrow will look like.)\n2. **On a scale of one to ten, how much guidance do you enjoy when working with a problem?** ( 1 — the more my manager tells me what to do the better. 10 — I'm perfectly comfortable with a hands-off approach.)\n\n## Reflecting on the nature of the work\n\n![your comfort zone versus the desirability of work context as a 2x2 grid](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1620926084/online-presence/comfort-zone-versus-work-context-desireability.jpg)\n\nNow that you've considered the working conditions, consider the work itself. How do you like to learn? What kind of projects do you like to work on? How comfortably can you handle being outside of your comfort zone? How would you react if you want to work on `project` but the company needed `system maintenance`?\n\nAgain, it's a balance. Every role comes with challenges, and every learning comes with discomfort. You want to figure out where your threshold for both are.\n\nHere are some questions to consider as you decide what balance of these you're comfortable with:\n\n1. **On a scale of 1 to 10, are you comfortable with delaying work that you really want to do in order to do some work that is not exciting but the company needs?** (1 — I only want to do work that I like. 10 — I only want to do work that the company needs)\n2. **On a scale of 1 to 10, how much you enjoy learning in a high-pressure environment?** (1 — I can't function outside my comfort zone, let alone learn. 10 — If there's no pressure, the lessons don't sink in.)\n\n## Reflecting on your life goals\n\nThe final factor to consider is what your life goals are and how a company might be able to help you achieve them.\n\nYour goal could be to retire in your forties, or build a reputation in the industry, or only do socially conscious work. Either way, your goals 1) impact the kind of companies you want to attract and 2) tell you where you can make compromises and where you can't.\n\n## What kind of company do you want to work for?\n\nFor now, let's use the culture chart/questions to figure out what tone you should be taken when updating the pages in your G sheet.\n\nAt the moment, the goal is simply to make sure to use language that speaks to the right people.\n\n### The options:\n\n- **Fast-paced and autonomous:** Think about the early-stage startup environment. Things move very fast, you're racing towards profitability and trying to land those first few customers.\n- **Fast-paced and guidance dependent:** Think about a start-up building traction. Established product-market fit, ample funding, and a growing team. Could also be a fast-moving enterprise company like Stripe or Intercom.\n- **Steady-paced and guidance dependent:** late-stage start-up/enterprise company. Established playbooks, clear internal systems.\n- **Steady-paced and autonomous:** Small team-driven companies, bootstrapped startups, open-source companies. Think about companies where sustainability is prioritized overgrowth (rare but they exist).\n\n## What you need to starting setting the tone of your online presence in the next step\n\nUse your reflections here to make a shortlist of 5 companies that you would love to work at. Don't worry if they have open positions or not, we're just trying to figure out how they communicate so that you can take an appealing tone in your online profile. Remember: you're not applying to the companies on this list, you're applying to other companies *like* them.\n\nHere are a few guiding questions to help:\n\n- What services and applications do you use and love?\n- Which ones do you see potential in that you wish you could improve?\n- Think about some of the experiences in your day-to-day, which of those do you find yourself thinking about in-depth?\n- What do you like to learn about? Are there companies doing interesting work in that space?\n\nThink across sectors, industries, and areas of specialization — you're looking to find the intersection between 1) what's available out there 2) the kind of work environment you thrive in and 3) the kind of skills you have to offer.\n\nDocument your list of companies (with any notes and ideas that occur as you're thinking about them) in your [trusty Google sheet](https://docs.google.com/spreadsheets/d/1iVlBUQag3fZNkDt2P1xh2vpSh6RSwoA1AZIRxrFRACM/copy?usp=sharing).\n\n## Choosing The Tone of Your Online Presence\n\nNow that you have a rough idea of the *kind* of company you want to attract and impress with your online profile, it's time to start thinking about the *how* of it. \n\nIn this stage, we will zero in on on the tone you need to take when tailoring material for the kind of company you have in mind. The work you do here will set you up to actually start making changes in Stage 3. \n\n## Why choose a tone?\n\nIf you compare the career pages of an enterprise company like [Stripe](https://stripe.com/in/jobs) or [Microsoft](https://careers.microsoft.com/professionals/us/en/c-engineering), and those from smaller companies like [Wistia](https://wistia.com/jobs) or [HelpScout](https://www.helpscout.com/company/careers/), you'll notice some stark differences.  \n\nOne of those big difference is the people-focus.\n\nMicrosoft's career page shouts \"How can you contribute to our culture?\" where Wistia's gently asks, \"How can we celebrate who you are?\" \n\nThis matters. Especially when it comes to making a good first impression. If you're applying to a Microsoft, you want your online presence to come off a completely different way than if you were applying to a Wistia. \n\nPeople making decisions usually skim through information when they're googling you. So you could use the tiny amount of space in your Twitter bio to talk about playing the trumpet or excelling at React. Microsoft would care about the React. Wistia would care about both.\n\nCheck out the careers pages, marketing material, job descriptions, and Glassdoor reviews for the the five companies you've laid out at the top of this page — how would you like to present yourself to them? \n\n## General tone pointers\n\nIn either case, \n\n- **Write the way you talk.** This is underrated advice. In Edward Bailey's words, \"Imagine you're actually standing in front of your reader. Or talking to them on the telephone. What would you say—in an organized and polite way? Write those words. Simply talk on the paper.\"\n- **Think about layout as much as you think about words.** Bullet points instead of paragraphs, short paragraphs instead of long ones, lots of headers and visual breaks.\n- **Use ordinary words.** Another way to put this is: be simple and clear. Simplicity and clarity beat artful, and beautiful language in every arena except the novel.\n- **Use a variety of punctuation.** Commas, em dashes, hyphens, ellipses. The better you can capture the natural rhythm of speech, the better you writing will sound. Literally—your readers have a little voice in their heads reading your sentences out to them in the same way that a little voice is reading this one to you.\n- **Be inclusive.** Use \"they/them\" pronouns more, or \"folks\" over \"guys.\" You don't know who will be reading your work, and you don't want anyone reading your work to feel like you aren't talking to them.\n\n**Useful guide for general guidelines:** Edward Bailey's [Plain English at Work](http://amazon.com/Plain-English-Work-Writing-Speaking/dp/0195104498) \n\nAbove and beyond those basic rules, however, here's how to tailor your message: \n\n## Personality-first\n\n**Key:** Focus on being authentic.\n\n### Zero in on a  \"core message\"\n\nThe biggest challenge in personality-first messaging is focus. The better you deliver a consistent core message, the easier it is for people to remember who you are. \n\nHere are Jessica Zweig's guiding questions to help you navigate this space: \n\n- What are the things I care the most about?\n- What are the things I could talk about endlessly?\n- What are the things that demonstrate my expertise and my humanity?\n- Do these topics enhance and elevate my professional expertise or detract from it?\n\n(Read her book *[\"Be\"](https://www.amazon.com/Be-No-Bullsh-Increasing-Simply-Yourself/dp/1683646991#:~:text=Jessica%20Zweig%20founded%20the%20SimplyBe,connection%20into%20your%20winning%20brand.)* for the full framework) \n\nThe idea is to answer these questions in as much detail as you can and then whittle down to the few topics that you really believe in and want to put out into the world. \n\nKeep this message in mind as you revisit your pages (from the google sheet) and start making updates.\n\n### Document your answers to the questions above here\n\n- The things I care about most are...\n- ...\n- ...\n- \n\n## Company-first\n\n**Key:** Focus on the company. Showcase the parts of yourself that would appeal to them.\n\n In this case, you're taking messaging cues from the company you're applying to rather than yourself. Neither approach is better than the other, they're just different, and a personal choice. \n\n- What company values stand out to you?\n- How does the company demonstrate its own work? (Take cues from its engineering blog, for example, or from writing where the company is learning in public)\n- Check out the companies \"About\" and \"Careers\" pages — how do they look at their journey from founding to present?\n- Check out some of the Glassdoor reviews of the company.\n\n### Document your answers to the questions above here\n\n- The kind of companies I'm looking at appreciate...\n- ...\n- ...\n- ...\n-",
+      "slug": "choose-a-tone",
+      "title": "Workplace Culture and the Tone of Your Online Presence"
+    },
+    {
+      "article": "Now that you know *how* to update your pages, you're ready to revisit them! Make sure to update the following as you go through each page:\n\n## 1. Bio\n\nTake your bio through your tone/message pointers from stage three. Here are a few questions to think about as you do: \n\n- What can you do to make your bio more readable?\n- How can you better lead with value?\n- If you're taking a personality-first approach, how aligned is your bio with your core message?\n- If you're taking a company-first approach, how well does your bio speak to what the company is looking for?\n\n**Pro-tip:** If the stage 2 reflections on company culture and work environment helped you get some clarity on what kind of company you're looking for, include that information when you're updating your pages. Adding in a line like this — \"I'm looking for a role at a well-established late-stage startup or enterprise company. I like order, clear internal systems, and working with reliable teams to achieve ambitious company goals\" — can be extremely useful to people making hiring decisions. \n\n## 2. Personal information\n\nIf you're taking a personality-first approach, make sure that any personal information that shows up on these pages is consistent with your core message. \n\nIf you're taking a company-first approach, on the other hand, remember to either delete information that's too personal. Alternatively, give it a positive spin — how has experimenting with art, for example, made you a better engineer? The idea isn't to downplay what makes you unique but to signal to the company how your unique interests will make you a better asset. \n\n## 3. Skills\n\nDelete things that aren't necessary, particularly when it comes to your skills. Make sure that you're painting a relevant picture.\n\n## 4. Images\n\nMake sure your images are professional and up to date. \n\nHere's a great guide on how to choose the right picture for your LinkedIn / social media: [https://business.linkedin.com/talent-solutions/blog/2014/12/5-tips-for-picking-the-right-linkedin-profile-picture](https://business.linkedin.com/talent-solutions/blog/2014/12/5-tips-for-picking-the-right-linkedin-profile-picture) \n\n## 5. Information you might not be proud of\n\nThis is a good opportunity to revisit any information that doesn't help you make a good impression. Remember that Google might display your most popular tweets or pull pictures from your social media. Delete anything that might get in way of your coming across as professional.",
+      "slug": "5-point-cleanup",
+      "title": "The 5-Point Basic Cleanup of Your Online Presence"
+    },
+    {
+      "article": "The best way to enhance your online presence is to demonstrate your work more.  \n\nRemember, though: Leveling up your online game isn't about building quantity, it's about quality. Use your \"ideal work environment\" learnings from stage 2 as your north star. How can create high quality work that will stand out to the companies on that list? \n\n## Create your personal site\n\nIf you don't already have a site on your own domain now's the time to consider it.\n\nAs a developer you are learning, researching, and implementing solutions on a daily basis. Capturing that experience and your notes is a deeply rewarding habit to practice.\n\nNot only does this help you grow and learn by more deeply connecting your work in your mind while providing rich personal reference material, but it also shares your work with others. It allows potential collaborators the opportunity to learn more about you and the quality of your work.\n\nTo maximize the value of your effort, these posts should be posted to your own domain with your name associated with it.\n\nOne of our favorite ways to create a blog space that is really great to work with is using Eleventy.\n\n⭐ [Check out this 20min free Eleventy course from Eleventy expert Stephanie Eckles](https://egghead.io/courses/build-an-eleventy-11ty-site-from-scratch-bfd30)\n\n## Add resources to your site\n\nCreating useful resources for yourself and others can take many shapes and forms. Many people enjoy varying the medium, or better yet presenting resources across several mediums.\n\nA quick note or tweet can become a blog post. That blog post can serve as the basis for a livestream. The livestream can be expanded into an edited screencast that gets embedded in the original article and added to the thread on Twitter.\n\nSetting aside a couple of hours a week to capture your research and solutions will pay compound interest over your career as a developer.\n\n### Decide what to create\n\nBut don't spend too much time trying to decide. When in doubt **start writing**\n\n⭐ [Here's how to write your first draft in two hours or less](https://egghead.io/own-your-online-presence/step-by-step-blog-post).\n\nHere at egghead we **love** screencasts and have [created a screencast course on creating screencasts](https://egghead.io/courses/record-badass-screencasts-for-egghead-io)\n\n⭐ [Try screencasting yourself solving a problem](https://howtoegghead.com/instructor/) and post it to YouTube.\n\n⭐ [Learn how to setup a livestream on Twitch or other platforms](https://egghead.io/courses/how-to-livestream-code-and-design-on-twitch-6646).\n\n## Revisit your best resources and expand them\n\n- If you write a blog post, convert the highlights into a twitter thread\n- If you give a talk, record a version for YouTube\n- Curate your best resources and share them along with your favorite resources from others on social media\n\n## Create new profiles to showcase your work\n\nThere are many places that you can start showcasing your work! Here are a few that we like: \n\n- dev.to\n- stackoverflow\n- codesandbox\n- codepen\n- glitch\n- egghead",
+      "slug": "level-up",
+      "title": "Level Up Your Online Presence"
+    },
+    {
+      "article": "Writing a blog is easier than you think! Most follow the same basic structure. Answer the questions here to start off with a solid first draft. And remember to write the way you talk! \n\nExample: [https://jvns.ca/blog/2016/03/29/thread-pools-part-ii-i-love-blocking/](https://jvns.ca/blog/2016/03/29/thread-pools-part-ii-i-love-blocking/)\n\n## Part 1: _Intro_\n\n- What are problems are you going to talk about in this post?\n- Why was it a problem for you? Why were you stuck with it?\n- Did you manage to find a solution?\n- If there's one main idea you'd like readers to walk away with, what would that idea be?\n\n## Part 2: _Problem_\n\n- How does _bigger technology that problem fits into_ work? Give readers some context.\n- What led you to realize that _problem_ was a problem to begin with?\n- What do people need to understand about _bigger technology_ to understand _problem_ better? (Is there an analogy that helped you think about _problem_ better? **Example:** _problem_ works just like a...)\n- How did you try solving _problem_ before you hit on _solution_? (Every failure helped you learn, so don't be afraid to talk about how things went wrong)\n- How did you feel as you were trying to solve _problem_?\n\n## Part 3: _Solution_\n\n- When did your journey with _problem_ take a turn for the better?\n- How did you feel when you started making progress?\n- Explain the details of _solution_ (Be as explicit as possible about *how* the solution works or what it *does* to the system)\n- How did you understanding of _bigger technology_ change in light of _solution_?\n\n## Part 4: _Results_\n\n- How did _solution_ impact your project? What was different after you solved _problem_?\n- What are your biggest takeaways from the process?\n- What's the first thing you'll do when you encounter _problem_ again?\n- How has your understanding of _bigger technology_ changed now that you've solved _problem_?\n- How does _solution_ relate to the _big idea_ in the introduction.\n\n## Part 5: _Conclusion_\n\n- In a line, tell readers what problem you were trying to solve.\n- In a line, tell readers how you solved it.\n- What are you going to work on next?\n\n---\n\nIf you've answered these questions, congratulations, you have the first draft! All you need to do now is polish, polish, polish. \n\nHere's how. \n\n### The only editing tips you really need:\n\n- **Read your post out loud (or even to a real person).** Are there any sentences that feel clunky, long, or don't make too much sense? Those are the sentences you need to fix.\n- **Actively try to cut out words.** No one likes to admit this but this is 80% of editing. Go through each sentence and try to say the same thing is fewer words.\n- **Make a list of supporting ideas.** One of the first things we did as a part of this exercise was to come with *one* main idea to leave your readers with. How did you support this idea? Make a flowchart of how you introduced and communicated this idea through your post and you've got yourself the logical flow of the narrative. Are there supporting ideas you can add? Or ones you can remove?",
+      "slug": "step-by-step-blog-post",
+      "title": "How to Write a Blog Post Step by Step"
+    }
+  ]
+}

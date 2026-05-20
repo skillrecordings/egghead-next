@@ -1,10 +1,9 @@
 import * as React from 'react'
-import groq from 'groq'
-import {sanityClient} from '@/utils/sanity-client'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {track} from '@/utils/analytics'
 import Markdown from 'react-markdown'
+import standalonePageData from '@/data/standalone-page-data.json'
 
 const DeveloperPortfolio: React.FC<React.PropsWithChildren<any>> = ({data}) => {
   return (
@@ -58,29 +57,10 @@ const DeveloperPortfolio: React.FC<React.PropsWithChildren<any>> = ({data}) => {
 
 export default DeveloperPortfolio
 
-export const developerPortfolioQuery = groq`*[_type == 'resource' && slug.current == "build-business-oriented-portfolio"][0]{
-  title,
-  description,
-  "cta": content[0].description,
-  path,
-  slug,
-  image,
-  "clubs": resources[0].resources[]{
-      title,
-      subTitle,
-      "slug": slug.current,
-      path,
-      image,
-      summary,
-	}
-}`
-
 export async function getStaticProps() {
-  const data = await sanityClient.fetch(developerPortfolioQuery)
-
   return {
     props: {
-      data,
+      data: standalonePageData.developerPortfolio,
     },
   }
 }
