@@ -17,6 +17,12 @@ const GRAPHQL_LESSON_MISS_CACHE_PREFIX = 'graphql:lesson:miss'
 const GRAPHQL_LESSON_MISS_TTL_SECONDS = 60 * 60 * 6 // 6 hours
 export const LESSON_NOT_FOUND_MESSAGE = 'Unable to lookup lesson metadata'
 
+// Matches the fallback the old Sanity GROQ used to coalesce onto collection
+// images. Restored here so legacy lessons whose rails collection lacks an
+// image don't ship `null` to `next/legacy/image` during prerender.
+const DEFAULT_COURSE_IMAGE_URL =
+  'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'
+
 const inMemoryGraphqlMisses = new Map<string, number>()
 
 const graphqlLessonMissCacheKey = (slug: string) => {
@@ -239,12 +245,34 @@ export async function loadLesson(
     ),
   ])
 
-  const lessonMetadataFromCourseBuilderWithCourse = courseBuilderCourse
-    ? {
-        ...(lessonMetadataFromCourseBuilder ?? {}),
-        collection: courseBuilderCourse,
-      }
-    : lessonMetadataFromCourseBuilder
+  // Only use the CB course when it's structurally sound AND owns the lesson
+  // we're loading. Otherwise the rails GraphQL collection passes through.
+  const courseBuilderCourseOwnsLesson =
+    !!courseBuilderCourse &&
+    Array.isArray(courseBuilderCourse.lessons) &&
+    courseBuilderCourse.lessons.length > 0 &&
+    courseBuilderCourse.lessons.some((l) => l?.slug === slug)
+
+  if (courseBuilderCourse && !courseBuilderCourseOwnsLesson) {
+    logEvent(
+      'warn',
+      'lesson.getCourseBuilderLessonCourse.lesson_not_in_course',
+      {
+        slug,
+        cb_course_slug: courseBuilderCourse.slug,
+        cb_course_lesson_count: courseBuilderCourse.lessons?.length ?? 0,
+      },
+      logContext,
+    )
+  }
+
+  const lessonMetadataFromCourseBuilderWithCourse =
+    courseBuilderCourseOwnsLesson
+      ? {
+          ...(lessonMetadataFromCourseBuilder ?? {}),
+          collection: courseBuilderCourse,
+        }
+      : lessonMetadataFromCourseBuilder
 
   /*************************************
    * Merge All Lesson Metadata Together
@@ -256,6 +284,25 @@ export async function loadLesson(
   )
 
   lessonMetadata = convertUndefinedValuesToNull(lessonMetadata)
+
+  // Ensure the collection always has a non-null square_cover_480_url so
+  // `next/legacy/image` doesn't choke on `src={null}` during prerender of the
+  // player sidebar / course header. Priority: existing merged value (CB or
+  // rails) -> rails GraphQL collection's url (defensive in case the merge
+  // dropped it) -> eggo fallback that the old Sanity GROQ used to coalesce.
+  if (
+    lessonMetadata.collection &&
+    typeof lessonMetadata.collection === 'object'
+  ) {
+    const collection = lessonMetadata.collection as Record<string, any>
+    if (!collection.square_cover_480_url) {
+      const railsCollection = (lessonMetadataFromGraphQL as any)?.collection as
+        | Record<string, any>
+        | undefined
+      collection.square_cover_480_url =
+        railsCollection?.square_cover_480_url || DEFAULT_COURSE_IMAGE_URL
+    }
+  }
 
   // if (!eggheadViewer.is_pro && !lessonMetadata.free_forever) {
   //   delete lessonMetadata.hls_url

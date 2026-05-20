@@ -62,14 +62,37 @@ export const mergeLessonMetadata = <T extends LessonMetadataMergeInput>(
           free_forever: true,
         }),
         ...(lessonMetadataFromCourseBuilder.collection && {
-          collection: {
-            ...lessonMetadataFromCourseBuilder.collection,
-            square_cover_480_url:
-              lessonMetadataFromCourseBuilder.collection.square_cover_480_url ||
-              (lessonMetadataFromGraphQL as any)?.collection
-                ?.square_cover_480_url ||
-              null,
-          },
+          // Merge rails collection underneath CB collection so rails-only
+          // fields (e.g. `completed` on lessons) survive when CB hasn't
+          // populated them. Per-field fallbacks below catch null/empty values
+          // from CB and prefer the rails baseline.
+          collection: (() => {
+            const railsCollection =
+              ((lessonMetadataFromGraphQL as any)?.collection as
+                | Record<string, any>
+                | undefined) ?? {}
+            const cbCollection = lessonMetadataFromCourseBuilder.collection as
+              | Record<string, any>
+              | undefined
+            const cbLessons = Array.isArray(cbCollection?.lessons)
+              ? cbCollection?.lessons
+              : null
+            const railsLessons = Array.isArray(railsCollection.lessons)
+              ? railsCollection.lessons
+              : null
+            return {
+              ...railsCollection,
+              ...cbCollection,
+              square_cover_480_url:
+                cbCollection?.square_cover_480_url ||
+                railsCollection.square_cover_480_url ||
+                null,
+              lessons:
+                cbLessons && cbLessons.length > 0
+                  ? cbLessons
+                  : railsLessons ?? [],
+            }
+          })(),
         }),
         ogImage:
           (lessonMetadataFromCourseBuilder?.ogImage &&
