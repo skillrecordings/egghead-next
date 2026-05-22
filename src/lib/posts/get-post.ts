@@ -7,6 +7,38 @@ import {getTagsForPost} from './get-tags'
 import {getCourseForPost} from './get-course'
 import {getPool} from '../db'
 
+const ALLOWED_DIRECT_POST_TYPES = [
+  'article',
+  'lesson',
+  'podcast',
+  'course',
+  'case-study',
+] as const
+const COURSE_BUILDER_DIRECT_POST_TYPES = [
+  ...ALLOWED_DIRECT_POST_TYPES,
+  'tip',
+] as const
+
+const allowedDirectPostTypesSql = ALLOWED_DIRECT_POST_TYPES.map(
+  (postType) => `'${postType}'`,
+).join(', ')
+const courseBuilderDirectPostTypesSql = COURSE_BUILDER_DIRECT_POST_TYPES.map(
+  (postType) => `'${postType}'`,
+).join(', ')
+
+function isAllowedDirectPostType(
+  postType: unknown,
+  {hasCourseBuilderId}: {hasCourseBuilderId: boolean},
+) {
+  const allowedPostTypes = hasCourseBuilderId
+    ? COURSE_BUILDER_DIRECT_POST_TYPES
+    : ALLOWED_DIRECT_POST_TYPES
+
+  return allowedPostTypes.includes(
+    (postType ?? 'lesson') as (typeof allowedPostTypes)[number],
+  )
+}
+
 export async function getPost(slug: string) {
   if (!process.env.COURSE_BUILDER_DATABASE_URL) {
     console.warn('COURSE_BUILDER_DATABASE_URL not configured, skipping getPost')
@@ -51,6 +83,14 @@ export async function getPost(slug: string) {
     )
 
     // Get post data - filter by type='post' to avoid migrated lessons.
+    const allowedDirectPostTypesFilter = `AND COALESCE(
+         JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')),
+         'lesson'
+       ) IN (${
+         hasCourseBuilderId
+           ? courseBuilderDirectPostTypesSql
+           : allowedDirectPostTypesSql
+       })`
     const postSql = hasCourseBuilderId
       ? `SELECT cr_lesson.*, egh_user.name, egh_user.image
        FROM egghead_ContentResource cr_lesson
@@ -58,12 +98,14 @@ export async function getPost(slug: string) {
        WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ? 
               OR cr_lesson.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?)
        AND cr_lesson.type = 'post'
+       ${allowedDirectPostTypesFilter}
        LIMIT 1`
       : `SELECT cr_lesson.*, egh_user.name, egh_user.image
        FROM egghead_ContentResource cr_lesson
        LEFT JOIN egghead_User egh_user ON cr_lesson.createdById = egh_user.id
        WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ?)
        AND cr_lesson.type = 'post'
+       ${allowedDirectPostTypesFilter}
        LIMIT 1`
     const postParams = hasCourseBuilderId
       ? [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`]
@@ -75,6 +117,13 @@ export async function getPost(slug: string) {
 
     if (!postRow) {
       console.log('No post found for slug:', slug)
+      return null
+    }
+
+    if (
+      !isAllowedDirectPostType(postRow.fields?.postType, {hasCourseBuilderId})
+    ) {
+      console.log('No post found for unsupported postType:', slug)
       return null
     }
 
@@ -126,13 +175,7 @@ export async function getAllPostSlugs() {
         AND COALESCE(
           JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')),
           'lesson'
-        ) IN (
-          'article',
-          'lesson',
-          'podcast',
-          'tip',
-          'course'
-        )
+        ) IN (${allowedDirectPostTypesSql})
     `)
 
     return postRows.map((post: any) => ({
