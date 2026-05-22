@@ -18,10 +18,6 @@ import {loadInstructor} from '@/lib/instructors'
 import Header from '@/components/app/header'
 import Main from '@/components/app/main'
 import Footer from '@/components/app/footer'
-import {loadTag} from '@/lib/tags'
-import {topicExtractor} from '@/utils/search/topic-extractor'
-import useLoadTopicData, {topicQuery} from '@/hooks/use-load-topic-data'
-import {sanityClient} from '@/utils/sanity-client'
 import {
   TYPESENSE_COLLECTION_NAME,
   typesenseInstantsearchAdapter,
@@ -98,8 +94,6 @@ type SearchIndexProps = {
   pageTitle: string
   noIndexInitial: boolean
   initialInstructor: any
-  initialTopicGraphqlData: any
-  initialTopicSanityData: any
   path: string
 }
 
@@ -109,8 +103,6 @@ const SearchIndex: any = ({
   pageTitle,
   noIndexInitial,
   initialInstructor,
-  initialTopicGraphqlData,
-  initialTopicSanityData,
   path,
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
@@ -119,11 +111,6 @@ const SearchIndex: any = ({
   const debouncedState = React.useRef<any>(null)
   const instructorCache = React.useRef<Map<string, any>>(new Map())
   const lastInstructorSlug = React.useRef<string | null>(null)
-  const {loading, topicSanityData, topicGraphqlData} = useLoadTopicData(
-    initialTopicGraphqlData,
-    initialTopicSanityData,
-    searchState,
-  )
 
   React.useEffect(() => {
     const currentUrl = new URL(window.location.href)
@@ -249,10 +236,7 @@ const SearchIndex: any = ({
         {...defaultProps}
         {...customProps}
         instructor={instructor}
-        topic={topicGraphqlData}
-        topicData={topicSanityData}
         onSearchStateChange={onSearchStateChange}
-        loading={loading}
       />
     </div>
   )
@@ -344,7 +328,6 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
     const path = getCanonicalSearchPath(all)
     const selectedInstructors =
       getInstructorsFromSearchState(initialSearchState)
-    const selectedTopics = topicExtractor(initialSearchState)
     const pageTitle = titleFromPath(all)
     const isLowCardinalityBrowse =
       isLowCardinalitySearchPath(initialSearchState)
@@ -360,34 +343,12 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
             pageTitle,
             noIndexInitial: true,
             initialInstructor: null,
-            initialTopicGraphqlData: null,
-            initialTopicSanityData: null,
           },
           revalidate: 60,
         }
       }
 
       let initialInstructor = null
-      let initialTopicGraphqlData = null
-      let initialTopicSanityData = null
-
-      if (
-        selectedTopics?.length === 1 &&
-        !selectedTopics.includes('undefined')
-      ) {
-        const topic = first<string>(selectedTopics)
-
-        try {
-          if (topic) {
-            initialTopicGraphqlData = await loadTag(topic)
-            initialTopicSanityData = await sanityClient.fetch(topicQuery, {
-              slug: topic,
-            })
-          }
-        } catch (error) {
-          console.error(error)
-        }
-      }
 
       if (selectedInstructors.length === 1) {
         const instructorSlug =
@@ -418,8 +379,6 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
           pageTitle,
           noIndexInitial,
           initialInstructor,
-          ...(!!initialTopicGraphqlData && {initialTopicGraphqlData}),
-          ...(!!initialTopicSanityData && {initialTopicSanityData}),
         },
         revalidate: SEARCH_REVALIDATE_SECONDS,
       }
@@ -441,8 +400,6 @@ export const getStaticProps: GetStaticProps = withStaticPropsLogging(
           pageTitle,
           noIndexInitial: true,
           initialInstructor: null,
-          initialTopicGraphqlData: null,
-          initialTopicSanityData: null,
         },
         revalidate: 60,
       }
