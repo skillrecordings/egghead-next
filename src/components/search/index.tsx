@@ -12,15 +12,10 @@ import {useToggle} from 'react-use'
 import config from '@/lib/config'
 import InstructorsIndex from '@/components/search/instructors/index'
 import NoSearchResults from '@/components/search/components/no-search-results'
-import SearchCuratedEssential from './curated/curated-essential'
 import SearchInstructorEssential from './instructors/instructor-essential'
-import CuratedTopicsIndex from './curated'
-import {searchQueryToArray} from '../../utils/search/topic-extractor'
-import Spinner from '@/components/spinner'
 import {Element as ScrollElement, scroller} from 'react-scroll'
 import SimpleBar from 'simplebar-react'
 import cx from 'classnames'
-import NewCuratedTopicPage from './curated/[slug]'
 import Link from 'next/link'
 import analytics from '@/utils/analytics'
 import {TYPESENSE_COLLECTION_NAME} from '@/utils/typesense'
@@ -30,9 +25,6 @@ type SearchProps = {
   searchClient?: any
   searchState?: any
   instructor?: any
-  topic?: any
-  topicData?: any
-  loading?: boolean
   onSearchStateChange?: any
 }
 
@@ -44,21 +36,11 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
   onSearchStateChange,
   searchState,
   instructor,
-  topic,
-  topicData,
-  loading,
   ...rest
 }) => {
   const [isFilterShown, setShowFilter] = useToggle(false)
-  const noInstructorsSelected = (searchState: any) => {
-    return get(searchState, 'refinementList.instructor_name', []).length === 0
-  }
-
   const noTopicsSelected = (searchState: any) => {
-    return (
-      isEmpty(topic) &&
-      get(searchState, 'refinementList._tags', []).length === 0
-    )
+    return get(searchState, 'refinementList._tags', []).length === 0
   }
 
   const isRefinementOn =
@@ -77,19 +59,6 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
     ? `Search resources by ${instructor.full_name}`
     : undefined
 
-  const shouldDisplayLandingPageForTopics = (topic: any) => {
-    if (!topic) return false
-
-    const terms = searchQueryToArray(searchState)
-
-    return (
-      (isEmpty(searchState.query) ||
-        (terms.includes(topic.name) && terms.length === 1)) &&
-      isEmpty(searchState.page) &&
-      noInstructorsSelected(searchState)
-    )
-  }
-
   const shouldDisplayLandingPageForInstructor = (slug: string) => {
     return (
       isEmpty(searchState.query) &&
@@ -101,9 +70,6 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
   const InstructorCuratedPage =
     instructor &&
     (InstructorsIndex[instructor.slug] || SearchInstructorEssential)
-
-  const CuratedTopicPage =
-    topic && (CuratedTopicsIndex[topic.name] || SearchCuratedEssential)
 
   const [mounted, setMounted] = React.useState<boolean>(false)
 
@@ -262,45 +228,14 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
                 {RefinementsDesktop()}
                 {RefinementsMobile()}
                 <main className="col-span-10 flex flex-col w-full relative dark:bg-gray-900 bg-gray-50">
-                  {!loading && isEmpty(instructor) && isEmpty(topic) && (
-                    <h1 className="hidden">Search</h1>
-                  )}
+                  {isEmpty(instructor) && <h1 className="hidden">Search</h1>}
                   <div className="dark:bg-gray-900 bg-white sticky top-0 z-40 shadow-smooth flex items-center w-full border-b dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5">
                     <SearchBox placeholder={searchBoxPlaceholder} />
                     <div className="border-l dark:border-gray-800 border-gray-100 flex items-center flex-shrink-0 space-x-2 flex-nowrap h-full">
                       <PresetOptions />
                     </div>
                   </div>
-                  {!loading && (
-                    <NoSearchResults searchQuery={searchState?.query ?? ''} />
-                  )}
-                  {loading && shouldDisplayLandingPageForTopics(topic) && (
-                    <div className="flex py-8 justify-center">
-                      <Spinner
-                        size={8}
-                        className="dark:text-gray-300 text-gray-600"
-                      />
-                    </div>
-                  )}
-                  {!loading && shouldDisplayLandingPageForTopics(topic) && (
-                    <>
-                      {isEmpty(topicData) ? (
-                        CuratedTopicPage && (
-                          // TODO: create more topic pages in Sanity and deprecate
-                          // following component in favor of approach below
-                          <div className="px-5">
-                            <CuratedTopicPage topic={topic} />
-                          </div>
-                        )
-                      ) : (
-                        // dynamic topic from page resource in Sanity
-                        <NewCuratedTopicPage
-                          topicData={topicData}
-                          topic={topic}
-                        />
-                      )}
-                    </>
-                  )}
+                  <NoSearchResults searchQuery={searchState?.query ?? ''} />
 
                   {!isEmpty(instructor) &&
                     shouldDisplayLandingPageForInstructor(instructor.slug) && (
