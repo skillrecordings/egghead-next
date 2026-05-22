@@ -39,7 +39,7 @@ const curatedInstructorData = {
       {
         background:
           'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1633112015/next.egghead.io/resources/build-a-modern-user-interface-with-chakra-ui-fac68106/feature-card-background--modern-interface-chakra-ui.png',
-        byline: 'Lazar Nkolov・42m・Course',
+        byline: 'Lazar Nikolov・42m・Course',
         description:
           'Lazar will show you how to build well-designed user interfaces without spending a lot of time (if even) styling every component and element with Chakra UI.',
         image:
