@@ -2,6 +2,7 @@
 
 import {RowDataPacket} from 'mysql2/promise'
 import {PostSchema} from '@/schemas/post'
+import {logEvent} from '@/utils/structured-log'
 import {parseSlugForHash} from './utils'
 import {getTagsForPost} from './get-tags'
 import {getCourseForPost} from './get-course'
@@ -11,31 +12,18 @@ const ALLOWED_DIRECT_POST_TYPES = [
   'article',
   'lesson',
   'podcast',
+  'tip',
   'course',
   'case-study',
-] as const
-const COURSE_BUILDER_DIRECT_POST_TYPES = [
-  ...ALLOWED_DIRECT_POST_TYPES,
-  'tip',
 ] as const
 
 const allowedDirectPostTypesSql = ALLOWED_DIRECT_POST_TYPES.map(
   (postType) => `'${postType}'`,
 ).join(', ')
-const courseBuilderDirectPostTypesSql = COURSE_BUILDER_DIRECT_POST_TYPES.map(
-  (postType) => `'${postType}'`,
-).join(', ')
 
-function isAllowedDirectPostType(
-  postType: unknown,
-  {hasCourseBuilderId}: {hasCourseBuilderId: boolean},
-) {
-  const allowedPostTypes = hasCourseBuilderId
-    ? COURSE_BUILDER_DIRECT_POST_TYPES
-    : ALLOWED_DIRECT_POST_TYPES
-
-  return allowedPostTypes.includes(
-    (postType ?? 'lesson') as (typeof allowedPostTypes)[number],
+function isAllowedDirectPostType(postType: unknown) {
+  return ALLOWED_DIRECT_POST_TYPES.includes(
+    (postType ?? 'lesson') as (typeof ALLOWED_DIRECT_POST_TYPES)[number],
   )
 }
 
@@ -86,11 +74,7 @@ export async function getPost(slug: string) {
     const allowedDirectPostTypesFilter = `AND COALESCE(
          JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')),
          'lesson'
-       ) IN (${
-         hasCourseBuilderId
-           ? courseBuilderDirectPostTypesSql
-           : allowedDirectPostTypesSql
-       })`
+       ) IN (${allowedDirectPostTypesSql})`
     const postSql = hasCourseBuilderId
       ? `SELECT cr_lesson.*, egh_user.name, egh_user.image
        FROM egghead_ContentResource cr_lesson
@@ -120,26 +104,19 @@ export async function getPost(slug: string) {
       return null
     }
 
-    if (
-      !isAllowedDirectPostType(postRow.fields?.postType, {hasCourseBuilderId})
-    ) {
-      console.log('No post found for unsupported postType:', slug)
+    if (!isAllowedDirectPostType(postRow.fields?.postType)) {
+      logEvent('warn', 'post.unsupported_post_type', {
+        level: 'warn',
+        timestamp: new Date().toISOString(),
+        message: 'No post found for unsupported postType',
+        slug,
+        postType: postRow.fields?.postType,
+      })
       return null
     }
 
-    const normalizedPostRow =
-      hasCourseBuilderId && postRow.fields?.postType === 'tip'
-        ? {
-            ...postRow,
-            fields: {
-              ...postRow.fields,
-              postType: 'lesson',
-            },
-          }
-        : postRow
-
     // Validate post data
-    const postData = PostSchema.safeParse(normalizedPostRow)
+    const postData = PostSchema.safeParse(postRow)
     if (!postData.success) {
       console.error('Post validation failed:', postData.error)
       throw new Error(`Invalid post data: ${postData.error.message}`)
