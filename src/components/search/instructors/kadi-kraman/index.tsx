@@ -39,7 +39,7 @@ const curatedInstructorData = {
       {
         background:
           'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1636483593/next.egghead.io/resources/building-an-customisable-animated-skeleton-loader-in-react-native-51f6231d/feature-card-background--Skeleton-react-native.png',
-        byline: 'Kadi Karmann・29m・Course',
+        byline: 'Kadi Kraman・29m・Course',
         description:
           "In 30 mins you'll get a quick intro to 3 powerful RN libraries linear gradient, masked view, reanimated 2, and then use them to build a customizable skeleton loader for your app!",
         image:
