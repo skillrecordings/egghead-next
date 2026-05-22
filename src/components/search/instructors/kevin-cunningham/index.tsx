@@ -3,13 +3,13 @@ import SearchInstructorEssential from '../instructor-essential'
 import Image from 'next/legacy/image'
 import {get} from 'lodash'
 import Link from 'next/link'
-import groq from 'groq'
 import {bpMinMD} from '@/utils/breakpoints'
 import {track} from '@/utils/analytics'
 import ExternalTrackedLink from '@/components/external-tracked-link'
 import {HorizontalResourceCard} from '@/components/card/horizontal-resource-card'
 
 export default function SearchKevinCunningham({instructor}: {instructor: any}) {
+  instructor = {...instructor, ...curatedInstructorData}
   const {courses} = instructor
 
   const [primaryCourse, secondaryCourse, thirdCourse] = courses.resources
@@ -46,21 +46,53 @@ export default function SearchKevinCunningham({instructor}: {instructor: any}) {
   )
 }
 
-export const kevinCunninghamQuery = groq`*[_type == 'resource' && slug.current == "kevin-cunningham-landing-page"][0]{
-  'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-      title,
-      'description': summary,
-    	path,
-      byline,
-    	image,
-      'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[@->.role == 'instructor'][0]->{
-      	'name': person->.name
-    	},
-    }
+const curatedInstructorData = {
+  courses: {
+    resources: [
+      {
+        background:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1622666320/next.egghead.io/resources/the-beginner-s-guide-to-vue-3/vue-3-feature-card-background.png',
+        byline: 'Kevin Cunningham • 49m • Course',
+        description:
+          "This course is for learners just starting out as well as for those who want to get up to speed on Vue 3. You'll learn all the foundational skills of web development in Vue. ",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/447/579/full/EGH_vue3.png',
+        instructor: {
+          name: 'Kevin Cunningham',
+        },
+        path: '/courses/the-beginner-s-guide-to-vue-3-1c46da8b',
+        title: "The Beginner's Guide to Vue 3",
+      },
+      {
+        background: null,
+        byline: 'Kevin Cunningham • 59m • Course',
+        description:
+          'Using WordPress as a headless CMS turns it into a data source ready to work with Gatsby, Next.js, or whatever else you want to build with. Learn Headless WordPress today!',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
+        instructor: {
+          name: 'Kevin Cunningham',
+        },
+        path: '/courses/headless-wordpress-4a14',
+        title:
+          'WordPress as a Headless Content Management System (CMS) and GraphQL API',
+      },
+      {
+        background: null,
+        byline: 'Kevin Cunningham • 31m • Course',
+        description:
+          'Learn the fundamentals of building a modern API in JavaScript. This course will explore concepts that will be helpful in building a wide variety of applications.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/359/full/expressjslogo.png',
+        instructor: {
+          name: 'Kevin Cunningham',
+        },
+        path: '/courses/building-an-api-with-express-f1ea',
+        title: 'Building an API with Express',
+      },
+    ],
   },
-}`
+} as Record<string, any>
 
 const FeaturedVue3Course: React.FC<
   React.PropsWithChildren<{location: string; resource: any}>

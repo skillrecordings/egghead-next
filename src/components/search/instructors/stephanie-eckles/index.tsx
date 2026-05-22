@@ -3,7 +3,6 @@ import SearchInstructorEssential from '../instructor-essential'
 import Image from 'next/legacy/image'
 import {get} from 'lodash'
 import Link from 'next/link'
-import groq from 'groq'
 
 import {Card} from '@/components/card'
 
@@ -14,6 +13,7 @@ import {HorizontalResourceCard} from '@/components/card/new-horizontal-resource-
 import {VerticalResourceCard} from '@/components/card/new-vertical-resource-card'
 
 export default function SearchStephanieEckles({instructor}: {instructor: any}) {
+  instructor = {...instructor, ...curatedInstructorData}
   const combinedInstructor = {...instructor}
 
   const {projects, courses} = instructor
@@ -59,29 +59,92 @@ export default function SearchStephanieEckles({instructor}: {instructor: any}) {
   )
 }
 
-export const stephanieEcklesQuery = groq`*[_type == 'resource' && slug.current == "stephanie-eckles-landing-page"][0]{
-	'projects': resources[slug.current == 'instructor-landing-page-projects'][0]{
-    resources[]{
-      title,
-      'path': url,
-      description,
-      image
-    }
-},
-	'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-      title,
-      'description': summary,
-    	path,
-      byline,
-    	image,
-      'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[@->.role == 'instructor'][0]->{
-      	'name': person->.name
-    	},
-    }
+const curatedInstructorData = {
+  courses: {
+    resources: [
+      {
+        background:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1633545274/next.egghead.io/resources/accessible-cross-browser-css-form-styling-7297/feature-card-background--css-form-styling.png',
+        byline: 'Stephanie Eckles・1h 52m・Course',
+        description:
+          'Confidently build out accessibility-focused form design systems that works in all browsers.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/628/full/EGH_accessible-css.png',
+        instructor: {
+          name: 'Stephanie Eckles',
+        },
+        path: '/courses/accessible-cross-browser-css-form-styling-7297',
+        title: 'Accessible Cross-Browser CSS Form Styling',
+      },
+      {
+        background: null,
+        byline: 'Stephanie Eckles・20m・Course',
+        description:
+          'Learn how to progressively style a responsive landing page template while building your knowledge on when to select grid or flexbox for any layout scenario.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/371/940/full/css-grid-flexbox.png',
+        instructor: {
+          name: 'Stephanie Eckles',
+        },
+        path: '/courses/create-a-landing-page-with-css-grid-and-flexbox-6048',
+        title: 'Create a Landing Page with CSS Grid and Flexbox',
+      },
+      {
+        background: null,
+        byline: 'Stephanie Eckles・19m・Course',
+        description: 'Build a blog with 11ty and style with Sass.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/284/full/11ty.png',
+        instructor: {
+          name: 'Stephanie Eckles',
+        },
+        path: '/courses/build-an-eleventy-11ty-site-from-scratch-bfd3',
+        title: 'Build An Eleventy (11ty) Site From Scratch',
+      },
+      {
+        background: null,
+        byline: 'Stephanie Eckles・27m・Course',
+        description:
+          'Techniques to improve your CSS, Sass, and HTML implementations for everyday scenarios.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/full/csslang.png',
+        instructor: {
+          name: 'Stephanie Eckles',
+        },
+        path: '/courses/learn-the-fundamentals-of-css-and-sass-to-create-modern-and-responsive-layouts-f341',
+        title:
+          'Learn the Fundamentals of CSS and Sass to Create Modern and Responsive Layouts ',
+      },
+    ],
   },
-}`
+  projects: {
+    resources: [
+      {
+        description:
+          'A video series with enhanced transcripts to help beginners learn the essentials of HTML and CSS.',
+        image:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619633972/next.egghead.io/pages/instructors/stephanie-eckles/learnfromsteph.svg',
+        path: 'https://learnfromsteph.dev/',
+        title: 'learnfromsteph.dev',
+      },
+      {
+        description:
+          'A tutorial series exploring modern CSS solutions to old CSS problems.',
+        image:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619633876/next.egghead.io/pages/instructors/stephanie-eckles/moderncss.svg',
+        path: 'https://moderncss.dev/',
+        title: 'moderncss.dev',
+      },
+      {
+        description: 'A modern CSS showcase styled by community contributions',
+        image:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619633876/next.egghead.io/pages/instructors/stephanie-eckles/stylestage.svg',
+        path: 'https://stylestage.dev/',
+        title: 'stylestage.dev',
+      },
+    ],
+  },
+} as Record<string, any>
 
 const ProjectStack: FunctionComponent<React.PropsWithChildren<any>> = ({
   data,

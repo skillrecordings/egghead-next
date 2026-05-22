@@ -1,4 +1,3 @@
-import groq from 'groq'
 import Image from 'next/legacy/image'
 import {get} from 'lodash'
 import ExternalTrackedLink from '@/components/external-tracked-link'
@@ -8,6 +7,7 @@ import CtaCard from '@/components/search/components/cta-card'
 import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 
 const SearchKentCDodds = ({instructor}: any) => {
+  instructor = {...instructor, ...curatedInstructorData}
   const {
     collection,
     courses,
@@ -128,78 +128,133 @@ const SearchKentCDodds = ({instructor}: any) => {
 }
 export default SearchKentCDodds
 
-export const kentCDoddsQuery = groq`
-*[_type == 'resource' && slug.current == 'kent-c-dodds-landing-page'][0]{
-  title,
-  'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-       title,
-       'description': summary,
-       path,
-       byline,
-       image,
-       'background': images[label == 'feature-card-background'][0].url,
-       'instructor': collaborators[@->.role == 'instructor'][0]->{
-         'name': person->.name
-       },
-     }
+const curatedInstructorData = {
+  caseStudy: {
+    byline: 'egghead Case Study',
+    description: 'Learn how Kent started working with egghead.',
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1628625842/howtoegghead/eggo_mic.svg',
+    path: 'https://howtoegghead.com/instructor/case-studies/kent-c-dodds/',
+    title: "Kent's Instructor Journey",
+  },
+  collection: {
+    description:
+      "Open source is an excellent way to level up your skills as a developer. You don't need to be an expert to start contributing to open source. Learn how Kent recommends starting in open source.",
+    resources: [
+      {
+        background: null,
+        byline: 'Kent C. Dodds • Course • 38m',
+        description:
+          '“Feel free to submit a PR!” - words often found in GitHub issues, but met with confusion and fear by many. Getting started with contributing open source is not always straightforward and can be tricky. With this course, you’ll be equipped with the the tools, knowledge, and understanding you need to be productive and contribute to the wonderful world of open source projects. Much of this series speaks about GitHub, but most of the concepts are generally applicable to contributing to any open source project, regardless of where it’s hosted.\n\nSo enjoy the course and start contributing to the projects you use and love today!',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/579/full/EGH_JSopensource_final.png',
+        instructor: {
+          name: 'Kent C. Dodds',
+        },
+        path: '/courses/how-to-contribute-to-an-open-source-project-on-github',
+        title: 'How to Contribute to an Open Source Project on GitHub',
+      },
+      {
+        background: null,
+        byline: 'Kent C. Dodds • Course • 1h 30m',
+        description:
+          "Publishing a JavaScript library for public use requires some extra steps. You need to think about how people will use the library. From end users, to contributors your library now has a variety of people outside of yourself potentially making use of the code that you've released into the wild.\r\n\r\nFrom Github and npm, to releasing beta versions, semantic versioning, code coverage, continuous integration, and providing your library with a solid set of unit tests, there are a ton of things to learn.\r\n\r\nThis series will guide you through a set of steps to publish a JavaScript open source library.\r\n\r\nYou might also enjoy [this article about contributing to open source](https://egghead.io/articles/get-started-contributing-to-javascript-open-source).",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/524/full/EGH_Webpack-Final.png',
+        instructor: {
+          name: 'Kent C. Dodds',
+        },
+        path: '/courses/how-to-write-an-open-source-javascript-library',
+        title: 'How to Write an Open Source JavaScript Library',
+      },
+      {
+        byline: 'Kent C. Dodds • Article • 5m',
+        image:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625172066/next.egghead.io/pages/instructors/kent-c-dodds/Software_Engineer_React_Training_Testing_JavaScript_Training.png',
+        path: 'https://kentcdodds.com/blog/what-open-source-project-should-i-contribute-to',
+        title: 'What open source project should I contribute to?',
+      },
+      {
+        byline: 'Kent C. Dodds • Article • 3m',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/276/full/github_logo.png',
+        path: 'https://kentcdodds.com/blog/becoming-an-open-source-project-maintainer',
+        title: 'Becoming an Open Source Project Maintainer',
+      },
+    ],
+    title: 'Get into Open Source',
+  },
+  courses: {
+    resources: [
+      {
+        background:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625165391/next.egghead.io/pages/instructors/kent-c-dodds/feature-card-background.png',
+        byline: 'Kent C. Dodds • 2h 29m • Course',
+        description:
+          'This course is for React newbies and anyone looking to build a solid foundation. It’s designed to teach you everything you need to start building web apps in React right away.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/490/full/EGH_BeginnersReact2.png',
+        instructor: {
+          name: 'Kent C. Dodds',
+        },
+        path: '/courses/the-beginner-s-guide-to-react',
+        title: "The Beginner's Guide to React",
+      },
+      {
+        background: null,
+        byline: 'Kent C. Dodds・38m・Course',
+        description:
+          'Learn Hooks by taking a modern React codebase that uses classes and refactor the entire thing to use function components as much as possible.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/510/full/EGH_SimplifyHooks_Final.png',
+        instructor: {
+          name: 'Kent C. Dodds',
+        },
+        path: '/courses/simplify-react-apps-with-react-hooks',
+        title: 'Simplify React Apps with React Hooks',
+      },
+      {
+        background: null,
+        byline: 'Kent C. Dodds・1h 26m・Course',
+        description: null,
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/509/full/SuspenseAsyncUI_1000.png',
+        instructor: {
+          name: 'Kent C. Dodds',
+        },
+        path: '/courses/use-suspense-to-simplify-your-async-ui',
+        title: 'Use Suspense to Simplify Your Async UI',
+      },
+    ],
+  },
+  epicReactCaseStudy: {
+    byline: 'Epic React Case Study',
+    description: 'Learn how Epic React came to be.',
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1628626769/egghead-next-pages/instructors/Kent%20C.%20Dodds/some_illustrations_from_EpicReact.dev.png',
+    path: 'https://skillrecordings.com/epic-react',
+    title: 'Launching Epic React',
+  },
+  podcast: {
+    byline: 'Podcast',
+    description:
+      'Kent C. Dodds chats with developers about life, career, and code.',
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625172068/next.egghead.io/pages/instructors/kent-c-dodds/Kent_C._Dodds.svg',
+    path: 'https://kentcdodds.com/chats-with-kent-podcast',
+    title: 'Chats with Kent',
+  },
+  products: {
+    epicReact: {
+      image:
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625165392/next.egghead.io/pages/instructors/kent-c-dodds/epic-react-card.png',
+      url: 'https://epicreact.dev/',
     },
-   'products': resources[slug.current == 'instructor-landing-page-featured-products'][0]{
-     'epicReact': resources[slug.current == 'epicreact'][0]{
-       url,
-       image,
-     },
-     'testingJavascript': resources[slug.current == 'testingjavascript'][0]{
-       url,
-       image,
-     }
-   },
-   'collection': resources[slug.current == 'instructor-landing-page-featured-collection'][0]{
-     title,
-     description,
-     resources[]{
-       title,
-       select(_type == 'reference') =>
-          @->{
-           title,
-           description,
-           path,
-           byline,
-           image,
-           'background': images[label == 'feature-card-background'][0].url,
-           'instructor': collaborators[@->.role == 'instructor'][0]->{
-             'name': person->.name
-           }
-         },
- 
-       _type == 'resource' => {
-         title,
-         image,
-         byline,
-         "path": url,
-       }
-     }
-   },
-   'podcast': resources[slug.current == 'instructor-landing-page-featured-podcast'][0]{
-     title,
-     'path': url,
-     byline,
-     description,
-     image,
-   },
-   'epicReactCaseStudy': resources[slug.current == 'epic-react-case-study'][0]{
-    title,
-    'path': url,
-    byline,
-    description,
-    image,
+    testingJavascript: {
+      image:
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625668388/next.egghead.io/pages/instructors/kent-c-dodds/testing-javascript-card.png',
+      url: 'https://testingjavascript.com/',
+    },
   },
-   'caseStudy': resources[slug.current == 'instructor-landing-page-egghead-case-study'][0]{
-    title,
-    'path': url,
-    byline,
-    description,
-    image,
-  },
- }
-`
+  title: 'Kent C. Dodds Landing Page',
+} as Record<string, any>

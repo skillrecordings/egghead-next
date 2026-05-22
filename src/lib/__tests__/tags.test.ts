@@ -42,22 +42,6 @@ describe('loadTag', () => {
       __esModule: true,
       getGraphQLClient: () => ({request}),
     }))
-    jest.doMock('@/components/search/curated/react', () => ({
-      __esModule: true,
-      reactPageQuery: '*[]',
-    }))
-    jest.doMock('@/components/search/curated/next', () => ({
-      __esModule: true,
-      nextPageQuery: '*[]',
-    }))
-    jest.doMock('@/components/search/curated/remix', () => ({
-      __esModule: true,
-      remixPageQuery: '*[]',
-    }))
-    jest.doMock('@/utils/sanity-client', () => ({
-      __esModule: true,
-      sanityClient: {fetch: jest.fn()},
-    }))
     jest.doMock('@/lib/cb-tags', () => ({
       __esModule: true,
       getCourseBuilderTagBySlug,
