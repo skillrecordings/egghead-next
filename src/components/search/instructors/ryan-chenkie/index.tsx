@@ -1,11 +1,10 @@
-import groq from 'groq'
-
 import CtaCard from '@/components/search/components/cta-card'
 import {CardResource} from '@/types'
 import SearchInstructorEssential from '../instructor-essential'
 import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 
 const SearchRyanChenkie = ({instructor}: {instructor: any}) => {
+  instructor = {...instructor, ...curatedInstructorData}
   const {courses} = instructor
 
   if (!courses) {
@@ -36,21 +35,24 @@ const SearchRyanChenkie = ({instructor}: {instructor: any}) => {
 }
 export default SearchRyanChenkie
 
-export const RyanChenkieQuery = groq`
-*[_type == 'resource' && slug.current == 'ryan-chenkie-landing-page'][0]{
-  title,
-  'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-       title,
-       'description': summary,
-       path,
-       byline,
-       image,
-       'background': images[label == 'feature-card-background'][0].url,
-       'instructor': collaborators[@->.role == 'instructor'][0]->{
-         'name': person->.name
-       },
-     }
-    },
- }
-`
+const curatedInstructorData = {
+  courses: {
+    resources: [
+      {
+        background:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1630596747/egghead-next-pages/build-a-backend-with-prisma-in-a-typescript-node-project/feature-card-background--prisma.png',
+        byline: 'Ryan Chenkie • 18m • Course',
+        description:
+          'In this course, you will learn how to initialize Prisma in a TypeScript Node project, use Prisma Client to create and find records, use Express to create data dynamically, and more',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/487/059/full/Prisma_TS.png',
+        instructor: {
+          name: 'Ryan Chenkie',
+        },
+        path: '/courses/build-a-backend-with-prisma-in-a-typescript-node-project-ca6628d3',
+        title: 'Build a Backend with Prisma in a TypeScript Node Project',
+      },
+    ],
+  },
+  title: 'Ryan Chenkie Landing Page ',
+} as Record<string, any>

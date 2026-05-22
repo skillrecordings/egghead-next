@@ -1,11 +1,10 @@
-import groq from 'groq'
-
 import CtaCard from '@/components/search/components/cta-card'
 import {CardResource} from '@/types'
 import SearchInstructorEssential from '../instructor-essential'
 import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 
 const SearchKyleShevlin = ({instructor}: {instructor: any}) => {
+  instructor = {...instructor, ...curatedInstructorData}
   const {courses} = instructor
 
   if (!courses) {
@@ -54,21 +53,63 @@ const SearchKyleShevlin = ({instructor}: {instructor: any}) => {
 }
 export default SearchKyleShevlin
 
-export const KyleShevlinQuery = groq`
-*[_type == 'resource' && slug.current == 'kyle-shevlin-landing-page'][0]{
-  title,
-  'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-       title,
-       'description': summary,
-       path,
-       byline,
-       image,
-       'background': images[label == 'feature-card-background'][0].url,
-       'instructor': collaborators[@->.role == 'instructor'][0]->{
-         'name': person->.name
-       },
-     }
-    },
- }
-`
+const curatedInstructorData = {
+  courses: {
+    resources: [
+      {
+        background:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1629303449/egghead-next-pages/manage-complex-tic-tac-toe-game-state-in-react/feature-card-background--react-tic-tac-toe.png',
+        byline: 'Kyle Shevlin • Course • 24m',
+        description:
+          'Learn how to build a grid with CSS Grid and manage complex state with useReducer while building a Tic Tac Toe Game.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/384/937/full/react_tictactoe_424_2x.png',
+        instructor: {
+          name: 'Kyle Shevlin',
+        },
+        path: '/courses/manage-complex-tic-tac-toe-game-state-in-react-dddda3f8',
+        title: 'Manage Complex Tic Tac Toe Game State in React',
+      },
+      {
+        background: null,
+        byline: 'Kyle Shevlin • Course • 49m',
+        description:
+          'Learn how to implement data structures, sorting algorithms, and the trade-offs between what algorithms to choose.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/446/full/EGH_JSAlgorithms_Final.png',
+        instructor: {
+          name: 'Kyle Shevlin',
+        },
+        path: '/courses/data-structures-and-algorithms-in-javascript',
+        title: 'Data Structures and Algorithms in JavaScript',
+      },
+      {
+        background: null,
+        byline: 'Kyle Shevlin • Course • 58m',
+        description:
+          'Managing state is one of the primary reasons our applications become so complex. See how to simplify state with state machines.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/472/full/IntroxState_1000.png',
+        instructor: {
+          name: 'Kyle Shevlin',
+        },
+        path: '/courses/introduction-to-state-machines-using-xstate',
+        title: 'Introduction to State Machines Using XState',
+      },
+      {
+        background: null,
+        byline: 'Kyle Shevlin • Course • 30m',
+        description:
+          'Functional Programming can be overwhelming to learn with all the new jargon and concepts. Learn this style without all the headaches.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/473/full/Functional_Programming.png',
+        instructor: {
+          name: 'Kyle Shevlin',
+        },
+        path: '/courses/just-enough-functional-programming-in-javascript',
+        title: 'Just Enough Functional Programming in JavaScript',
+      },
+    ],
+  },
+  title: 'Kyle Shevlin Landing Page',
+} as Record<string, any>

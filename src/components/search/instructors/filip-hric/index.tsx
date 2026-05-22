@@ -3,7 +3,6 @@ import SearchInstructorEssential from '../instructor-essential'
 import Image from 'next/legacy/image'
 import {get} from 'lodash'
 import Link from 'next/link'
-import groq from 'groq'
 import {isFunction} from 'formik'
 import analytics from '@/utils/analytics'
 
@@ -19,6 +18,7 @@ export default function SearchFilipHric({
   instructor: any
   props: any
 }) {
+  instructor = {...instructor, ...curatedInstructorData}
   const {
     courses,
     resources: {socials, workshopCta},
@@ -82,58 +82,96 @@ export default function SearchFilipHric({
   )
 }
 
-export const filipHricQuery = groq`*[_type == 'resource' && slug.current == "filip-hric-landing-page"][0]{
-	resources[slug.current == 'instructor-landing-page-projects'][0]{
-    'socials': resources[slug.current == 'socials'][0] {
-      'discord': resources[slug.current == 'discord'][0]{
-        title,
-        'url': urls[0].url
+const curatedInstructorData = {
+  articles: {
+    resources: [
+      {
+        byline: 'Filip Hric • Article',
+        collaborators: {
+          image:
+            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/555/medium/photo_edit_4.png',
+          name: 'Filip Hric',
+        },
+        image:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1618432104/egghead-next-ebombs/intercepting-network-requests-in-cypress/ball_of_yarn_1.png',
+        path: '/blog/intercepting-network-requests-in-cypress',
+        summary:
+          'Walk through some of the capabilities of Cypress’ `.intercept()` command. Super useful tool, especially for testing hard-to-reach places of your app.',
+        title: 'A Practical Guide to Intercepting Network Requests in Cypress',
       },
-      'youtube': resources[slug.current == 'youtube'][0]{
-        title,
-        'url': urls[0].url
+      {
+        byline: 'Filip Hric • Article',
+        collaborators: {
+          image:
+            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/555/medium/photo_edit_4.png',
+          name: 'Filip Hric',
+        },
+        image:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1665510470/next.egghead.io/pages/learn/javascript/handling-copy-and-paste-in-cypress/copy-and-paste_square.png',
+        path: '/blog/handling-copy-and-paste-in-cypress',
+        summary:
+          'Clipboard or pasting text is not available in Cypress. But Cypress is pure JavaScript, so you can do anything that JS allows you to do.',
+        title: 'Handling Copy and Paste in Cypress',
       },
-      'github': resources[slug.current == 'github'][0]{
-        title,
-        'url': urls[0].url
+    ],
+  },
+  courses: {
+    resources: [
+      {
+        background: null,
+        byline: 'Filip Hric • 14m • Course',
+        description:
+          'Learn how to set up and test different network conditions using the Cypress intercept command.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/529/470/full/cypress.png',
+        instructor: {
+          name: 'Filip Hric',
+        },
+        path: '/playlists/test-network-edge-cases-with-intercept-command-in-cypress-0fd94c68',
+        title: 'Test Network Edge Cases with .intercept() Command in Cypress',
       },
-      'linkedin': resources[slug.current == 'linkedin'][0]{
-        title,
-        'url': urls[0].url
+      {
+        background: null,
+        byline: 'Filip Hric • 37m • Course',
+        description:
+          'With Cypress’ component testing, you can now take the best of both worlds. Render components and interact with them in a real browser.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/599/439/full/egh_vue-cypress_2000.png',
+        instructor: {
+          name: 'Filip Hric',
+        },
+        path: '/playlists/write-test-and-debug-vue-3-components-in-the-browser-using-cypress-3723fe80',
+        title:
+          'Write, Test, and Debug Vue 3 Components in the Browser Using Cypress',
+      },
+    ],
+  },
+  resources: {
+    socials: {
+      discord: {
+        title: 'Discord',
+        url: 'https://filiphric.com/discord',
+      },
+      github: {
+        title: 'GitHub',
+        url: 'https://github.com/filiphric/',
+      },
+      linkedin: {
+        title: 'LinkedIn',
+        url: 'https://www.linkedin.com/in/filip-hric-11a5b1126/',
+      },
+      youtube: {
+        title: 'Youtube',
+        url: 'https://www.youtube.com/channel/UCDOCAVIhSh5VpJMEfdak1OA',
       },
     },
-    'workshopCta': resources[slug.current == 'workshop-cta'][0] {
-      'url': urls[0].url,
-      image
-    }
+    workshopCta: {
+      image:
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1665172332/egghead-next-pages/instructors/Filip%20Hric/filip-cypress-workshop-cta.png',
+      url: 'https://filiphric.com/cypress-core-workshop-november-2022',
+    },
   },
-	'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-      title,
-      'description': summary,
-    	path,
-      byline,
-    	image,
-      'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[@->.role == 'instructor'][0]->{
-      	'name': person->.name
-    	},
-    }
-  },
-  'articles': resources[slug.current == 'instructor-landing-page-featured-articles'][0]{
-    resources[] {
-      title,
-      summary,
-      image,
-      byline,
-      path,
-      collaborators[0]-> {
-        'name': person->name,
-        'image': person->image.url
-      }
-    }
-  }
-}`
+} as Record<string, any>
 
 const isModifiedEvent = (event: any) =>
   !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
