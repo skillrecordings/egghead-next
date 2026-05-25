@@ -1,7 +1,6 @@
 import {inngest} from '@/inngest/inngest.server'
 import {MUX_SRT_READY_EVENT} from '@/inngest/events/mux-add-srt-to-asset'
 import {VideoResourceSchema} from '@/inngest/functions/transcript-ready'
-import {sanityQuery} from '@/utils/sanity.fetch.only.server'
 import {
   addSrtTrackToAsset,
   deleteAssetTrack,
@@ -40,6 +39,19 @@ export const addSrtToMuxAsset = inngest.createFunction(
       })
 
       if (muxAsset.status === 'ready') {
+        const srtUrl = event.data.srtUrl
+        if (!srtUrl) {
+          console.warn(
+            'Skipping Mux SRT track creation because no public SRT URL was provided',
+            {videoResourceId: videoResource._id},
+          )
+          return {
+            muxAsset,
+            videoResource,
+            skipped: 'No public SRT URL provided',
+          }
+        }
+
         await step.run('delete existing srt track from mux asset', async () => {
           const trackId = muxAsset.tracks.filter(
             (track: {type: string; status: string}) => track.type === 'text',
@@ -51,7 +63,7 @@ export const addSrtToMuxAsset = inngest.createFunction(
         await step.run('add srt track to mux asset', async () => {
           return await addSrtTrackToAsset({
             assetId: muxAsset.id,
-            videoResourceId: videoResource._id,
+            srtUrl,
           })
         })
 

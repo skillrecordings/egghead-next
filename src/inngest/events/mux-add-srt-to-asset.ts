@@ -10,6 +10,7 @@ export type MuxSrtReady = {
 export const MuxSrtReadyEventSchema = z.object({
   videoResourceId: z.string(),
   srt: z.string(),
+  srtUrl: z.string().url().optional(),
 })
 
 export type MuxSrtReadyEvent = z.infer<typeof MuxSrtReadyEventSchema>
