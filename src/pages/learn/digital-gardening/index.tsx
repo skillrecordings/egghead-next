@@ -1,12 +1,11 @@
 import * as React from 'react'
-import groq from 'groq'
-import {sanityClient} from '@/utils/sanity-client'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import {track} from '@/utils/analytics'
 import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 import rehypeRaw from 'rehype-raw'
+import standalonePageData from '@/data/standalone-page-data.json'
 
 const DigitalGardening: React.FC<React.PropsWithChildren<any>> = ({data}) => {
   return (
@@ -110,48 +109,10 @@ const DigitalGardening: React.FC<React.PropsWithChildren<any>> = ({data}) => {
 
 export default DigitalGardening
 
-export const digitalGardeningQuery = groq`*[_type == 'resource' && slug.current == "digital-gardening-for-developers-v2"][0]{
-  title,
-  description,
-  path,
-  'illustration': images[label == 'eggo'][0]{
-    url,
-    alt
-  },
-  'quote': content[title == 'quote'][0]{
-    description
-  },
-  'cta': content[title == 'cta'][0]{
-    description
-  },
-  'featured': resources[slug.current == 'featured-digital-gardening-courses'][0]{
- 		'courses': resources[]{
-    	title,
-    	byline,
-      'name': content[title == 'name'][0].description,
-    	'path': resources[]->[0].path,
-    	'image': resources[]->[0].image
-  	}
-  },
-  'talks': resources[slug.current == 'infrastructure-for-digital-gardens'][0]{
-      title,
-      description,
-      'cta': content[title == 'cta'][0].description,
-      resources[]{
-        title,
-        'path': slug.current,
-        byline,
-        image,
-      },
-  },
-}`
-
 export async function getStaticProps() {
-  const data = await sanityClient.fetch(digitalGardeningQuery)
-
   return {
     props: {
-      data,
+      data: standalonePageData.digitalGardening,
     },
   }
 }
