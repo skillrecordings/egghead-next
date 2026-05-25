@@ -7,6 +7,7 @@ import {
   getMuxAsset,
 } from '../../../lib/mux'
 import {sanityWriteClient} from '@/utils/sanity-server'
+import {logEvent} from '@/utils/structured-log'
 
 const COOLDOWN = 10000
 
@@ -41,10 +42,9 @@ export const addSrtToMuxAsset = inngest.createFunction(
       if (muxAsset.status === 'ready') {
         const srtUrl = event.data.srtUrl
         if (!srtUrl) {
-          console.warn(
-            'Skipping Mux SRT track creation because no public SRT URL was provided',
-            {videoResourceId: videoResource._id},
-          )
+          logEvent('warn', 'mux.srt_track.skip_missing_public_url', {
+            videoResourceId: videoResource._id,
+          })
           return {
             muxAsset,
             videoResource,
