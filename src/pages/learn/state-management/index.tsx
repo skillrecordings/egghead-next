@@ -66,6 +66,7 @@ const RecoilSection = ({resource}: any) => {
         {resources.map((resource: any) => {
           return (
             <VerticalResourceCard
+              key={resource.path || resource.title}
               resource={resource}
               className="mb-4 text-center"
             />
@@ -95,7 +96,13 @@ const BigIdeasSection = ({resource}: any) => {
         </div>
         <div className="col-span-3">
           {resources.map((resource: any) => {
-            return <VideoCard resource={resource} className="mb-4" />
+            return (
+              <VideoCard
+                key={resource.path || resource.title}
+                resource={resource}
+                className="mb-4"
+              />
+            )
           })}
         </div>
       </div>

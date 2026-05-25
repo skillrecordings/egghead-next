@@ -32,21 +32,32 @@ const VerticalResourceCard: React.FC<
   as,
   ...props
 }) => {
+  const resourcePath =
+    typeof resource.path === 'string' && resource.path.length > 0
+      ? resource.path
+      : undefined
+  const imageSrc =
+    typeof resource.image === 'string'
+      ? resource.image
+      : typeof get(resource.image, 'src') === 'string'
+      ? get(resource.image, 'src')
+      : undefined
+
   return (
     <Card {...props} className={className}>
-      {resource.image && resource.path ? (
-        <ResourceLink path={resource.path} location={location} linkType="image">
-          <PreviewImage image={resource.image} title={resource.title} />
+      {imageSrc && resourcePath ? (
+        <ResourceLink path={resourcePath} location={location} linkType="image">
+          <PreviewImage image={imageSrc} title={resource.title} />
         </ResourceLink>
       ) : (
-        <PreviewImage image={resource.image} title={resource.title} />
+        <PreviewImage image={imageSrc} title={resource.title} />
       )}
       <CardContent>
         <CardHeader>
           <p className="mb-1 text-xs font-semibold text-gray-700 uppercase dark:text-gray-300">
             {resource.name}
           </p>
-          <ResourceLink path={resource.path} location={location}>
+          <ResourceLink path={resourcePath} location={location}>
             <Heading
               className="py-3 text-lg font-bold leading-tighter dark:hover:text-blue-300 hover:text-blue-700"
               as={as}
@@ -71,38 +82,46 @@ const VerticalResourceCard: React.FC<
 
 const ResourceLink: React.FC<
   React.PropsWithChildren<{
-    path: string
+    path?: string
     location?: string
     className?: string
     linkType?: string
   }>
-> = ({children, path, location, linkType = 'text', ...props}) => (
-  <Link
-    href={path}
-    onClick={() => {
-      track('clicked resource', {
-        resource: path,
-        linkType,
-        location,
-      })
-    }}
-    {...props}
-  >
-    {children}
-  </Link>
-)
+> = ({children, path, location, linkType = 'text', ...props}) => {
+  if (!path) return <>{children}</>
+
+  return (
+    <Link
+      href={path}
+      onClick={() => {
+        track('clicked resource', {
+          resource: path,
+          linkType,
+          location,
+        })
+      }}
+      {...props}
+    >
+      {children}
+    </Link>
+  )
+}
 
 const PreviewImage: React.FC<
-  React.PropsWithChildren<{title: string; image: any}>
-> = ({title, image}) => (
-  <CardPreview>
-    <Image
-      src={get(image, 'src', image)}
-      width={200}
-      height={200}
-      quality={100}
-      alt={`illustration for ${title}`}
-    />
-  </CardPreview>
-)
+  React.PropsWithChildren<{title: string; image?: string}>
+> = ({title, image}) => {
+  if (!image) return null
+
+  return (
+    <CardPreview>
+      <Image
+        src={image}
+        width={200}
+        height={200}
+        quality={100}
+        alt={`illustration for ${title}`}
+      />
+    </CardPreview>
+  )
+}
 export {VerticalResourceCard}

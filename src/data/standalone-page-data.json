@@ -749,23 +749,23 @@
       "courses": [
         {
           "byline": "Chris Biscardi・1h 10m",
-          "image": [null],
+          "image": "https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/429/801/square_480/rust-garden-cli_424_2x.png",
           "name": "Content Authoring",
-          "path": [null],
+          "path": "/playlists/creating-a-digital-garden-cli-with-rust-34b8",
           "title": "Create a Digital Garden CLI with Rust"
         },
         {
           "byline": "Tomasz Łakomy・37m",
-          "image": [null],
+          "image": "https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png",
           "name": "Create A Portfolio",
-          "path": [null],
+          "path": "/playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc",
           "title": "Build a Site From Scratch with Next.js"
         },
         {
           "byline": "Laurie Barth・35m",
-          "image": [null],
+          "image": "https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/square_480/developer_blog_1000_2x.png",
           "name": "Start a Blog",
-          "path": [null],
+          "path": "/playlists/build-a-developer-blog-with-gatsby-bd96",
           "title": "Build a Developer Blog with Gatsby"
         }
       ]
