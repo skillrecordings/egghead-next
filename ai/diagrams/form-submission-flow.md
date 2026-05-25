@@ -8,7 +8,6 @@ Comprehensive form handling including validation, submission, error handling, an
 
 - `src/components/forms/generic-newsletter-signup.tsx`
 - `src/components/workshop/claude-code/contact-form.tsx`
-- `src/components/tips/tip-uploader.tsx`
 - `src/components/customer-io/email-entry-form.tsx`
 
 ## Trigger Points
@@ -79,17 +78,14 @@ flowchart TD
 
     KK -->|Newsletter| LL[Submit to Email Service]
     KK -->|Workshop Quote| MM[Submit to Quote API]
-    KK -->|Tip Upload| NN[Upload File & Submit]
     KK -->|Contact| OO[Submit to Contact API]
 
     LL --> PP[Customer.io API Call]
     MM --> QQ[Workshop Quote Processing]
-    NN --> RR[S3 Upload + tRPC Call]
     OO --> SS[Email Service Call]
 
     PP --> TT{Subscription Success?}
     QQ --> UU{Quote Sent?}
-    RR --> VV{Upload & Create Success?}
     SS --> WW{Email Sent?}
 
     TT -->|No| XX[Email Subscription Error]
@@ -98,20 +94,15 @@ flowchart TD
     UU -->|No| ZZ[Quote Processing Error]
     UU -->|Yes| AAA[Quote Sent Confirmation]
 
-    VV -->|No| BBB[Upload/Creation Error]
-    VV -->|Yes| CCC[Tip Created Successfully]
-
     WW -->|No| DDD[Contact Email Error]
     WW -->|Yes| EEE[Contact Sent Confirmation]
 
     XX --> FFF[Show Error Message]
     ZZ --> FFF
-    BBB --> FFF
     DDD --> FFF
 
     YY --> GGG[Show Success Message]
     AAA --> GGG
-    CCC --> HHH[Navigate to Edit Page]
     EEE --> GGG
 
     FFF --> III[Enable Retry Option]
@@ -119,9 +110,7 @@ flowchart TD
     JJJ --> KKK[Allow Form Re-submission]
 
     GGG --> LLL[Reset Form State]
-    HHH --> MMM[Clear Form Data]
     LLL --> NNN[Show Thank You Message]
-    MMM --> OOO[Initialize Edit Mode]
 
     PPP[Error Recovery] --> QQQ{Error Type}
     QQQ -->|Network| RRR[Retry Automatically]
