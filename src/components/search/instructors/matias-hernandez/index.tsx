@@ -1,4 +1,3 @@
-import groq from 'groq'
 import Link from 'next/link'
 import Markdown from '@/components/markdown'
 import {track} from '@/utils/analytics'
@@ -19,6 +18,7 @@ export default function SearchMatiasHernandez({
   instructor: any
   props: any
 }) {
+  instructor = {...instructor, ...curatedInstructorData}
   const combinedInstructor = {...instructor}
 
   const {courses, articles} = instructor
@@ -121,33 +121,119 @@ export default function SearchMatiasHernandez({
   )
 }
 
-export const MatiasHernandezQuery = groq`*[_type == 'resource' && slug.current == "matias-hernandez-landing-page"][0]{
-  'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-      title,
-      'description': summary,
-    	path,
-      byline,
-    	image,
-      'instructor': collaborators[@->.role == 'instructor'][0]->{
-      	'name': person->.name
-    	},
-    }
+const curatedInstructorData = {
+  articles: {
+    resources: [
+      {
+        byline: null,
+        collaborators: {
+          image:
+            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/176/medium/profile.png',
+          name: 'Matías Hernández',
+        },
+        image:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1681326663/articles/DALL_E_2023-01-26_23.webp',
+        path: '/blog/an-introduction-to-typescript-generics',
+        summary: null,
+        title: 'An Introduction to TypeScript Generics',
+      },
+      {
+        byline: null,
+        collaborators: {
+          image:
+            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/176/medium/profile.png',
+          name: 'Matías Hernández',
+        },
+        image:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1681327032/articles/cover.webp',
+        path: '/blog/typescript-s-powerful-type-inference-with-conditional-types-and-string-literals',
+        summary: null,
+        title:
+          "TypeScript's Powerful Type Inference with Conditional Types and String Literals",
+      },
+      {
+        byline: null,
+        collaborators: {
+          image:
+            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/176/medium/profile.png',
+          name: 'Matías Hernández',
+        },
+        image:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1681327157/articles/DALL_E_2022-12-08_14.webp',
+        path: '/blog/learn-the-key-concepts-of-typescript-s-powerful-generic-and-mapped-types',
+        summary: null,
+        title:
+          'Learn the Key Concepts of TypeScript’s Powerful Generic and Mapped Types',
+      },
+      {
+        byline: null,
+        collaborators: {
+          image:
+            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/176/medium/profile.png',
+          name: 'Matías Hernández',
+        },
+        image:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1681327334/articles/DALL_E_2023-02-28_16.webp',
+        path: '/blog/3-effective-type-narrowing-techniques-in-typescript',
+        summary: null,
+        title: '3 Effective Type Narrowing Techniques in TypeScript',
+      },
+    ],
   },
-  'articles': resources[slug.current == 'instructor-landing-page-featured-articles'][0]{
-    resources[] {
-      title,
-      summary,
-      image,
-      byline,
-      path,
-      collaborators[0]-> {
-        'name': person->name,
-        'image': person->image.url
-      }
-    }
-  }
-}`
+  courses: {
+    resources: [
+      {
+        byline: 'Matías Hernández • Course • 1h 05m',
+        description:
+          'Learn how to write, test, communicate, and interact with a smart contract using Solidity and SvelteKit.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/611/059/full/egh_svelte-eth_2000-new.png',
+        instructor: {
+          name: 'Matías Hernández',
+        },
+        path: '/courses/full-stack-web3-and-blockchain-development-on-ethereum-with-sveltekit-f522ceec',
+        title:
+          'Full Stack Web3 and Blockchain Development on Ethereum with SvelteKit',
+      },
+      {
+        byline: 'Matías Hernández・27m・Course',
+        description:
+          'Learn how to build complex components using different design patterns implemented with the React Hooks API.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/404/918/full/React1_Lv1_Base_424_2x.png',
+        instructor: {
+          name: 'Matías Hernández',
+        },
+        path: '/courses/build-advanced-component-with-react-hooks-cd6a',
+        title: 'Build Advanced Components with React Hooks',
+      },
+      {
+        byline: ' Matías Hernández • 11m • Course',
+        description:
+          'En este curso aprender diferentes métodos para resolver problemas que encontrarás en tu día a día como desarrollador web.\n',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/383/584/full/JS_Lv1_Base_424_2x.png',
+        instructor: {
+          name: 'Matías Hernández',
+        },
+        path: '/courses/manipulacion-de-arreglos-con-javascript-12bd',
+        title: 'Manipulación Eficiente de Arreglos con Javascript',
+      },
+      {
+        byline: ' Matías Hernández • 3m • Course',
+        description:
+          'Javascript offers multiple ways to create solutions for different manipulations and transformations needed to work with arrays. ',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/424/829/full/JS_Lv1_Base_424_2x.png',
+        instructor: {
+          name: 'Matías Hernández',
+        },
+        path: '/courses/efficient-javascript-array-manipulation-da4e',
+        title: 'Efficient JavaScript Array Manipulation',
+      },
+    ],
+  },
+} as Record<string, any>
 
 const FeaturedPrimaryCourse: React.FC<
   React.PropsWithChildren<{location: string; resource: any}>

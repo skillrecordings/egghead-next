@@ -1,10 +1,9 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Markdown from 'react-markdown'
-import {sanityClient} from '@/utils/sanity-client'
-import groq from 'groq'
 import Image from 'next/legacy/image'
 import {find} from 'lodash'
+import standalonePageData from '@/data/standalone-page-data.json'
 
 type LandingProps = {
   course: any
@@ -208,45 +207,10 @@ const landingPage: FunctionComponent<React.PropsWithChildren<LandingProps>> = (
   )
 }
 
-const courseQuery = groq`
-*[_type == 'resource' && externalId == $courseId]{
-  title,
-  path,
-  tags,
-  image,
-  resources[]{
-    title,
-    path
-  },
-	projects[0] {
-    title,
-    description,
-		content,
-    "pricingPageFigmaUrl": urls[0].url,
-    "crmPageFigmaUrl": urls[1].url,
-    "tweetCTA": urls[2].url,
-    "pricingPageImageUrl": images[0].url,
-    "crmPageImageUrl": images[1].url,
-    "ogImage": images[2].url,
-  },
-}[0]
-`
-
-async function loadCourse(id: number) {
-  const params = {
-    courseId: id,
-  }
-
-  const course = await sanityClient.fetch(courseQuery, params)
-  return course
-}
-
 export async function getStaticProps() {
-  const course = await loadCourse(418653)
-
   return {
     props: {
-      course,
+      course: standalonePageData.cssGridProject,
     },
   }
 }

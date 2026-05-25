@@ -1,11 +1,10 @@
-import groq from 'groq'
-
 import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 import {get} from 'lodash'
 import CtaCard from '@/components/search/components/cta-card'
 import SearchInstructorEssential from '../instructor-essential'
 
 const SearchChrisAchard = ({instructor}: {instructor: any}) => {
+  instructor = {...instructor, ...curatedInstructorData}
   const {chrisAchardCta} = instructor
 
   if (!chrisAchardCta) {
@@ -59,34 +58,68 @@ const SearchChrisAchard = ({instructor}: {instructor: any}) => {
 }
 export default SearchChrisAchard
 
-export const ChrisAchardQuery = groq`
-*[_type == 'resource' && slug.current == 'chris-achard-landing-page'][0]{
-  title,
-  'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-       title,
-       'description': summary,
-       path,
-       byline,
-       image,
-       'background': images[label == 'feature-card-background'][0].url,
-       'instructor': collaborators[@->.role == 'instructor'][0]->{
-         'name': person->.name
-       },
-     }
-    },
-	'chrisAchardCta': resources[slug.current == 'chris-achard-cta'][0]{
-    resources[]->{
-       title,
-       'description': summary,
-       path,
-       byline,
-       image,
-       'background': images[label == 'feature-card-background'][0].url,
-       'instructor': collaborators[@->.role == 'instructor'][0]->{
-         'name': person->.name
-       },
-     }
-    },
- }
-`
+const curatedInstructorData = {
+  chrisAchardCta: {
+    resources: [
+      {
+        background:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1633706075/course-resources/react-crash-course-58eb/feature-card-background--build-static-pages-dynamically-using-nextjs-and-the-notion-api.png',
+        byline: 'Chris Achard • 14m • Course',
+        description:
+          'This course gets you up and running with react in under a minute by using codesandbox.io to skip the painful process of setting up your dev environment.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/365/616/full/react-crash-course-hooks.png',
+        instructor: {
+          name: 'Chris Achard',
+        },
+        path: '/courses/react-crash-course-58eb',
+        title: 'React Crash Course with Hooks',
+      },
+    ],
+  },
+  courses: {
+    resources: [
+      {
+        background: null,
+        byline: 'Chris Achard • Course • 45m',
+        description:
+          'In this course, we’ll create an online/offline note-taking app.  We’ll use `create-react-app` to create the frontend, and node.js to create a simple backend. ',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/497/full/EGH_PWAReact_Final.png',
+        instructor: {
+          name: 'Chris Achard',
+        },
+        path: '/courses/progressive-web-apps-in-react-with-create-react-app',
+        title: 'Progressive Web Apps in React with create-react-app',
+      },
+      {
+        background: null,
+        byline: 'Chris Achard • Course • 1h 18m',
+        description:
+          'We’ll build a mobile app with React Native for both iOS and Android. Prior React experience is required, but you don’t have to know mobile development to participate.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/464/full/EGH_ReactTakeoutbox_.png',
+        instructor: {
+          name: 'Chris Achard',
+        },
+        path: '/courses/build-a-react-native-application-for-ios-and-android-from-start-to-finish',
+        title:
+          'Build a React Native Application for iOS and Android from Start to Finish',
+      },
+      {
+        background: null,
+        byline: 'Chris Achard ・16m・Course',
+        description:
+          "In this collection, you'll create a simple game with React using Recoil, to explore how you can share and update state across an app.",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/368/383/full/get-started-recoil.png',
+        instructor: {
+          name: 'Chris Achard',
+        },
+        path: '/courses/getting-started-with-recoil-in-react-1fca',
+        title: 'Getting Started with Recoil in React',
+      },
+    ],
+  },
+  title: 'Chris Achard Landing Page',
+} as Record<string, any>

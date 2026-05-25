@@ -17,7 +17,6 @@ import videoResource from './documents/videoResource'
 import post from './documents/post'
 import course from './documents/course'
 import lesson from './documents/lesson'
-import tip from './documents/tip'
 import podcastEpisode from './documents/podcastEpisode'
 import podcastSeason from './documents/podcastSeason'
 import caseStudy from './documents/caseStudy'
@@ -63,7 +62,6 @@ export const schema = [
   course,
   section,
   lesson,
-  tip,
   videoResource,
   post,
   library,

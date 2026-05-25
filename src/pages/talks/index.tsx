@@ -1,10 +1,9 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
-import groq from 'groq'
-import {sanityClient} from '@/utils/sanity-client'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
+import standalonePageData from '@/data/standalone-page-data.json'
 
 const Talks: React.FC<React.PropsWithChildren<unknown>> = ({allTalks}: any) => {
   const router = useRouter()
@@ -93,26 +92,10 @@ const IconPlaceholder = () => (
   </svg>
 )
 
-const allTalksQuery = groq`
-*[_type == 'resource' && type == "talk"]{
-  title,
- path,
- byline,
- image,
- description,
- summary,
- 'instructor': collaborators[@->.role == 'instructor'][0]->{
-   'name': person->.name
- },
-}
-`
-
 export async function getStaticProps() {
-  const allTalks = await sanityClient.fetch(allTalksQuery)
-
   return {
     props: {
-      allTalks,
+      allTalks: standalonePageData.talks,
     },
   }
 }

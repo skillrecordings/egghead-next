@@ -1,6 +1,0 @@
-mux-player {
-  aspect-ratio: 16 / 9;
-  width: 100%;
-  height: auto;
-  @apply relative overflow-hidden;
-}

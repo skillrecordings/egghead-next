@@ -2,10 +2,30 @@
 
 import {RowDataPacket} from 'mysql2/promise'
 import {PostSchema} from '@/schemas/post'
+import {logEvent} from '@/utils/structured-log'
 import {parseSlugForHash} from './utils'
 import {getTagsForPost} from './get-tags'
 import {getCourseForPost} from './get-course'
 import {getPool} from '../db'
+
+const ALLOWED_DIRECT_POST_TYPES = [
+  'article',
+  'lesson',
+  'podcast',
+  'tip',
+  'course',
+  'case-study',
+] as const
+
+const allowedDirectPostTypesSql = ALLOWED_DIRECT_POST_TYPES.map(
+  (postType) => `'${postType}'`,
+).join(', ')
+
+function isAllowedDirectPostType(postType: unknown) {
+  return ALLOWED_DIRECT_POST_TYPES.includes(
+    (postType ?? 'lesson') as (typeof ALLOWED_DIRECT_POST_TYPES)[number],
+  )
+}
 
 export async function getPost(slug: string) {
   if (!process.env.COURSE_BUILDER_DATABASE_URL) {
@@ -51,6 +71,10 @@ export async function getPost(slug: string) {
     )
 
     // Get post data - filter by type='post' to avoid migrated lessons.
+    const allowedDirectPostTypesFilter = `AND COALESCE(
+         JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')),
+         'lesson'
+       ) IN (${allowedDirectPostTypesSql})`
     const postSql = hasCourseBuilderId
       ? `SELECT cr_lesson.*, egh_user.name, egh_user.image
        FROM egghead_ContentResource cr_lesson
@@ -58,12 +82,14 @@ export async function getPost(slug: string) {
        WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ? 
               OR cr_lesson.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?)
        AND cr_lesson.type = 'post'
+       ${allowedDirectPostTypesFilter}
        LIMIT 1`
       : `SELECT cr_lesson.*, egh_user.name, egh_user.image
        FROM egghead_ContentResource cr_lesson
        LEFT JOIN egghead_User egh_user ON cr_lesson.createdById = egh_user.id
        WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ?)
        AND cr_lesson.type = 'post'
+       ${allowedDirectPostTypesFilter}
        LIMIT 1`
     const postParams = hasCourseBuilderId
       ? [slug, slug, `%${hashFromSlug}`, `%${hashFromSlug}`]
@@ -75,6 +101,17 @@ export async function getPost(slug: string) {
 
     if (!postRow) {
       console.log('No post found for slug:', slug)
+      return null
+    }
+
+    if (!isAllowedDirectPostType(postRow.fields?.postType)) {
+      logEvent('warn', 'post.unsupported_post_type', {
+        level: 'warn',
+        timestamp: new Date().toISOString(),
+        message: 'No post found for unsupported postType',
+        slug,
+        postType: postRow.fields?.postType,
+      })
       return null
     }
 
@@ -126,13 +163,7 @@ export async function getAllPostSlugs() {
         AND COALESCE(
           JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')),
           'lesson'
-        ) IN (
-          'article',
-          'lesson',
-          'podcast',
-          'tip',
-          'course'
-        )
+        ) IN (${allowedDirectPostTypesSql})
     `)
 
     return postRows.map((post: any) => ({

@@ -1,11 +1,10 @@
 import * as React from 'react'
-import groq from 'groq'
 import Markdown from 'react-markdown'
-import {sanityClient} from '@/utils/sanity-client'
 import Image from 'next/legacy/image'
 import {NextSeo} from 'next-seo'
 import Link from 'next/link'
 import prettifyUrl from '@/utils/prettify-url'
+import standalonePageData from '@/data/standalone-page-data.json'
 
 const Portfolio = (props: any) => {
   const {title, image, url, description = ''} = props
@@ -123,17 +122,16 @@ const ExternalLinkIcon = () => {
   )
 }
 
-const query = groq`*[_type == "resource" && slug.current == $slug][0]{
-  image,
-  title,
-  description,
-  url
-}`
-
 export async function getStaticProps(context: any) {
-  const {body = '', ...post} = await sanityClient.fetch(query, {
-    slug: context.params.slug,
-  })
+  const post = standalonePageData.portfolios.find(
+    (portfolio) => portfolio.slug === context.params.slug,
+  )
+
+  if (!post) {
+    return {
+      notFound: true,
+    }
+  }
 
   // const mdxSource = await renderToString(body, {
   //   components: mdxComponents,
@@ -144,20 +142,11 @@ export async function getStaticProps(context: any) {
       ...post,
       // body: mdxSource
     },
-    revalidate: 1,
   }
 }
 
-const allPortfoliosQuery = groq`
-  *[_type == "resource" && type == "portfolio"]{
-    "slug": slug.current
-  }
-`
-
 export async function getStaticPaths() {
-  const allPortfolios = await sanityClient.fetch(allPortfoliosQuery)
-
-  const paths = allPortfolios.map((post: {slug: string}) => {
+  const paths = standalonePageData.portfolios.map((post: {slug: string}) => {
     return {
       params: {
         slug: post.slug,
