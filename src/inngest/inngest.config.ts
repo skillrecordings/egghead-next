@@ -9,9 +9,7 @@ import {addSrtToMuxAsset} from '@/inngest/functions/mux/add-srt-to-mux-asset'
 import {indexLessonsForever} from '@/inngest/functions/index-lessons'
 import {sendSlackMessage} from '@/inngest/functions/send-slack-message'
 import {sendFeedbackEmail} from '@/inngest/functions/send-feedback-email'
-import {createLesson} from '@/inngest/functions/create-lesson'
 import {handleTransloaditNotification} from '@/inngest/functions/handle-transloadit-notification'
-import {createCourse} from '@/inngest/functions/create-course'
 import {stripeWebhookCheckoutSessionCompleted} from './functions/stripe-webhook-handlers'
 import {lifetimePurchase} from '@/inngest/functions/lifetime-purchase'
 import {identifyCustomerIo} from '@/inngest/functions/identify-customer-io'
@@ -42,9 +40,7 @@ export const inngestConfig = {
     indexLessonsForever,
     sendSlackMessage,
     sendFeedbackEmail,
-    createLesson,
     handleTransloaditNotification,
-    createCourse,
     test,
     ...stripeWebhookFunctions,
     lifetimePurchase,
