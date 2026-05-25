@@ -6,7 +6,6 @@ import {userRouter} from './user'
 import {subscriptionDetailsRouter} from './subscription-detail'
 import {stripeRouter} from './stripe'
 import {progressRouter} from './progress'
-import {instructorRouter} from './instructor'
 import {topicRouter} from './topics'
 import {customerIORouter} from './customer-io'
 import {lessonRouter} from './lesson'
@@ -16,7 +15,6 @@ import {featureFlagRouter} from './feature-flag'
 export const appRouter = router({
   healthcheck: baseProcedure.query(() => 'yay!'),
   user: userRouter,
-  instructor: instructorRouter,
   subscriptionDetails: subscriptionDetailsRouter,
   stripe: stripeRouter,
   progress: progressRouter,

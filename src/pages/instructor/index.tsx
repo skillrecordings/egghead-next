@@ -1,22 +1,11 @@
 import AppLayout from '@/components/app/layout'
 import UserLayout from '@/components/pages/user/components/user-layout'
-import {InstructorTabContent} from '@/components/pages/user'
 import {GetServerSideProps} from 'next/types'
 import {withSSRLogging} from '@/lib/logging'
 import {getAbilityFromToken} from '@/server/ability'
 import {ACCESS_TOKEN_KEY} from '@/utils/auth'
-import {getFeatureFlag} from '@/lib/feature-flags'
-import {loadCurrentViewerRoles} from '@/lib/viewer'
 
-const Instructor = ({canViewDraftCourses}: {canViewDraftCourses: boolean}) => {
-  if (canViewDraftCourses) {
-    return (
-      <div className="w-full h-full">
-        <InstructorTabContent />
-      </div>
-    )
-  }
-
+const Instructor = () => {
   return (
     <>
       <div className="sm:h-[50vh] md:w-[75ch] mx-auto">
@@ -58,19 +47,10 @@ Instructor.getLayout = function getLayout(Page: any, pageProps: any) {
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
   async function ({req}) {
     const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
-    const roles = await loadCurrentViewerRoles(req.cookies[ACCESS_TOKEN_KEY])
-    const draftCourseRole = await getFeatureFlag(
-      'featureFlagDraftCourse',
-      'allowedRoles',
-    )
-
-    const canViewDraftCourses = roles?.includes(draftCourseRole)
 
     if (ability.can('upload', 'Video')) {
       return {
-        props: {
-          canViewDraftCourses,
-        },
+        props: {},
       }
     } else {
       return {
