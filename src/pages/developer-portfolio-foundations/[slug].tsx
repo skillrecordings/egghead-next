@@ -2,14 +2,19 @@ import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import {withSSRLogging} from '@/lib/logging'
 import mdxComponents from '@/components/mdx'
-import {sanityClient} from '@/utils/sanity-client'
-import groq from 'groq'
 import {serialize} from 'next-mdx-remote/serialize'
 import {MDXRemote} from 'next-mdx-remote'
 import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
 import rehypeHighlight from 'rehype-highlight'
 import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
+import standalonePageData from '@/data/standalone-page-data.json'
+
+type InlineArticle = {
+  slug: string
+  title: string
+  article?: string
+}
 
 const PortfolioFoundationsArticle: React.FC<React.PropsWithChildren<any>> = ({
   source,
@@ -48,18 +53,18 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
           },
         }
       }
+      const articles =
+        standalonePageData.portfolioFoundationsArticles as InlineArticle[]
+      // Sanity no longer has child article resources for this retired guide.
+      const resource = articles.find((article) => article.slug === params.slug)
+
+      if (!resource?.article) {
+        res.statusCode = 404
+        res.end()
+        return {props: {}}
+      }
+
       try {
-        const articleQuery = groq`
-    *[_type == 'resource' && slug.current == 'portfolio-foundations'][0]{
-    "resource": resources[slug.current == '${params.slug}'][0]{
-      title,
-      "article": content[label == "article"][0].text
-    }
-  }
-  `
-
-        const {resource} = await sanityClient.fetch(articleQuery)
-
         const source = await serialize(resource.article, {
           blockJS: false,
           blockDangerousJS: true,

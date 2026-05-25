@@ -1,11 +1,10 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Markdown from 'react-markdown'
-import {sanityClient} from '@/utils/sanity-client'
-import groq from 'groq'
 import Image from 'next/legacy/image'
 import {find} from 'lodash'
 import {track} from '@/utils/analytics'
+import standalonePageData from '@/data/standalone-page-data.json'
 
 type LandingProps = {
   course: any
@@ -15,7 +14,7 @@ const landingPage: FunctionComponent<React.PropsWithChildren<LandingProps>> = (
   props,
 ) => {
   const {course} = props
-  const {title, ogImage, path, image, tags} = course
+  const {title, ogImage, image} = course
 
   const introduction: any = find(course?.projects?.content, {
     label: 'Introduction',
@@ -239,50 +238,10 @@ const CtaButton = ({text, path}: any) => {
   )
 }
 
-const courseQuery = groq`
-*[_type == 'resource' && externalId == $courseId]{
-  title,
-  path,
-  tags,
-  image,
-  'ogImage': images[label == 'og-image'][0].url,
-  resources[]{
-    title,
-    path
-  },
-	projects[0] {
-    title,
-    description,
-		content,
-    "productCard": images[label == 'product-card-design'][0] {
-    url,
-    description
-  },
-    "productPage": images[label == 'product-page-design'][0] {
-    url,
-    description
-  },
-  "tweetCTA": urls[label == 'tweetCTA'][0].url,
-  "githubLink": urls[label == 'githubLink'][0].url,
-  "codesandboxLink": urls[label == 'codesandboxLink'][0].url,
-  },
-}[0]`
-
-async function loadCourse(id: number) {
-  const params = {
-    courseId: id,
-  }
-
-  const course = await sanityClient.fetch(courseQuery, params)
-  return course
-}
-
 export async function getStaticProps() {
-  const course = await loadCourse(447579)
-
   return {
     props: {
-      course,
+      course: standalonePageData.vueProject,
     },
   }
 }
