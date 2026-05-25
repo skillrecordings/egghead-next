@@ -11,7 +11,6 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from '../markdown'
 import {track} from '@/utils/analytics'
-import {get} from 'lodash'
 import {CardResource} from '@/types'
 import Heading from './heading'
 
@@ -32,16 +31,8 @@ const VerticalResourceCard: React.FC<
   as,
   ...props
 }) => {
-  const resourcePath =
-    typeof resource.path === 'string' && resource.path.length > 0
-      ? resource.path
-      : undefined
-  const imageSrc =
-    typeof resource.image === 'string'
-      ? resource.image
-      : typeof get(resource.image, 'src') === 'string'
-      ? get(resource.image, 'src')
-      : undefined
+  const resourcePath = getResourcePath(resource)
+  const imageSrc = getResourceImage(resource)
 
   return (
     <Card {...props} className={className}>
@@ -124,4 +115,16 @@ const PreviewImage: React.FC<
     </CardPreview>
   )
 }
+
+const getResourcePath = (resource: CardResource) =>
+  isPresentString(resource.path) ? resource.path : undefined
+
+const getResourceImage = (resource: CardResource) => {
+  if (isPresentString(resource.image)) return resource.image
+  if (isPresentString(resource.image?.src)) return resource.image.src
+}
+
+const isPresentString = (value: unknown): value is string =>
+  typeof value === 'string' && value.length > 0
+
 export {VerticalResourceCard}
