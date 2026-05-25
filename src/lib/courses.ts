@@ -1,201 +1,37 @@
 import {sanityClient} from '@/utils/sanity-client'
 import groq from 'groq'
 import {loadPlaylist} from './playlists'
-
-const courseQuery = groq`
-*[
-  (_type == 'resource' || _type == 'course') && (railsCourseId == $courseId || externalId == $courseId || slug.current == $slug)
-][0]{
-  "id": _id,
-  title,
-  "slug": slug.current,
-  productionProcessState,
-  description,
-  challengeRating,
-  "square_cover_480_url": image,
-  "thumb_url": thumbnailUrl,
-  // Primary lessons source: the lessons array field
-  "lessons": lessons[]->{
-    title,
-    "type": _type,
-    "slug": slug.current,
-    "http_url": awsFilename,
-    "icon_url": softwareLibraries[0].library->image.url,
-    "duration": resource->duration,
-    "path": "/lessons/" + slug.current,
-    "tags": softwareLibraries[] {
-      ...(library->{
-        'name': slug.current,
-        'label': name,
-        'http_url': url,
-        'image_url': image.url
-      })
-    },
-    "primary_tag": softwareLibraries[0].library->name,
-  },
-  // Fallback lessons source: resources array filtered to lessons only
-  "_resourceLessons": resources[@->_type == "lesson"]->{
-    title,
-    "type": _type,
-    "slug": slug.current,
-    "http_url": awsFilename,
-    "icon_url": softwareLibraries[0].library->image.url,
-    "duration": resource->duration,
-    "path": "/lessons/" + slug.current,
-    "tags": softwareLibraries[] {
-      ...(library->{
-        'name': slug.current,
-        'label': name,
-        'http_url': url,
-        'image_url': image.url
-      })
-    },
-    "primary_tag": softwareLibraries[0].library->name,
-  },
-  "instructor": collaborators[0]->{
-    "avatar_url": person->image.url,
-    "full_name": person->name,
-    "slug": person->slug.current,
-    "website": person->website,
-    "twitter": person->twitter,
-    "id": _id
-  },
-  "tags": softwareLibraries[] {
-    ...(library->{
-      name,
-      'label': slug.current,
-      'http_url': url,
-      'image_url': image.url
-    })
-  },
-  "customOgImage": images[label == 'og-image'][0]{
-    url
-  },
-  "illustration": images[label == 'illustration'][0]{
-    url
-  },
-  'illustrator': collaborators[@->.role == 'illustrator'][0]->{
-    'name': person->name,
-    'image': person->image.url
-  },
-  'instructor': collaborators[@->.role == "instructor"][0]->{
-    'full_name': person->name,
-    'avatar_url': person->image.url,
-    'slug': person->slug.current,
-    "website": person->website,
-    "twitter": person->twitter,
-  },
-  'dependencies': softwareLibraries[]{
-    version,
-    ...library->{
-      description,
-      "slug": slug.current,
-      path,
-      name,
-      'label': name,
-      'image_url': image.url
-    }
-  },
-  "topics": content[title == 'topics'][0]{
-    items[],
-    description
-  },
-  "features": content[title == 'features'][0]{
-    items[],
-    description
-  },
-  "prerequisites": prerequisites[]->{
-    "id": eggheadId,
-    title,
-    path,
-    type
-  },
-  projects[]{
-    label,
-    url
-  },
-  "pairWithResources": related[]->{
-    name,
-    title,
-    byline,
-    "description": summary,
-    path,
-    image,
-    'instructor': collaborators[@->.role == "instructor"][0][]->{
-    	'name': person->name,
-  	}
-	},
-	"customOgImage": images[label == 'og-image'][0]{
-    url
-  },
-  "sections": resources[]->{
-      // Section fields
-      _type,
-      _id,
-      title,
-      slug,
-      "lessons": resources[]->{
-        title,
-        "type": _type,
-        "icon_url": softwareLibraries[0].library->image.url,
-        "duration": resource->duration,
-        "path": "/lessons/" + slug.current
-      },
-    }
-}
-`
-
-/**
- * loads COURSE METADATA from Sanity
- * @param id
- */
-export async function loadCourseMetadata(id: number, slug: string) {
-  const params = {
-    courseId: Number(id),
-    slug: slug,
-  }
-
-  const course = await sanityClient.fetch(courseQuery, params)
-
-  if (course && !course?.square_cover_480_url) {
-    const imageUrl = course?.dependencies
-      ? `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683914713/tags/${course?.dependencies[0]?.name}.png`
-      : 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1569292667/eggo/eggo_flair.png'
-    course['square_cover_480_url'] = imageUrl
-  }
-
-  // Filter out null items from lessons arrays (broken references)
-  if (course?.lessons) {
-    course.lessons = course.lessons.filter(
-      (lesson: any) => lesson != null && lesson.slug,
-    )
-  }
-  if (course?._resourceLessons) {
-    course._resourceLessons = course._resourceLessons.filter(
-      (lesson: any) => lesson != null && lesson.slug,
-    )
-  }
-
-  // Use fallback _resourceLessons if lessons array is empty
-  if (
-    course &&
-    (!course.lessons || course.lessons.length === 0) &&
-    course._resourceLessons?.length > 0
-  ) {
-    console.log(
-      `loadCourseMetadata: Using _resourceLessons fallback for course ${slug}`,
-    )
-    course.lessons = course._resourceLessons
-  }
-
-  // Clean up the fallback field
-  if (course) {
-    delete course._resourceLessons
-  }
-
-  return course
-}
+import {z} from 'zod'
 
 export async function loadCourse(slug: string, token?: string) {
   return loadPlaylist(slug, token)
 }
+
+export async function loadSanityInstructorbyCourseId(
+  id: string,
+  token?: string,
+) {
+  const query = groq`*[_type == 'course' && _id == $id][0]{
+    "instructor": collaborators[0]-> {
+      "avatar_url": person->image.url,
+      "full_name": person->name,
+      "slug": person->slug.current,
+      "website": person->website,
+      "twitter": person->twitter,
+      "id": _id
+    },
+ }`
+
+  const {instructor} = await sanityClient.fetch(query, {id})
+
+  return SanityInstructorSchema.parse(instructor)
+}
+
+const SanityInstructorSchema = z.object({
+  avatar_url: z.string(),
+  full_name: z.string(),
+  slug: z.string(),
+  id: z.string(),
+  website: z.string(),
+  twitter: z.string(),
+})
