@@ -102,7 +102,6 @@ flowchart TD
 - **video-uploaded**: Initial video processing orchestration
 - **mux-webhooks-handlers**: Mux video processing events
 - **transcript-ready**: Speech-to-text processing completion
-- **tip-video-uploaded**: Tip-specific video processing
 
 ### 2. Payment & Subscription Jobs
 

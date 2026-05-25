@@ -2,7 +2,6 @@
 // import caseStudies from './src/structure/caseStudies'
 import pages from './src/structure/pages'
 
-import tips from './src/structure/tips'
 import resources from './src/structure/resources'
 import resourcesCourses from './src/structure/resources-courses'
 import lessons from './src/structure/lessons'
@@ -19,7 +18,6 @@ const hiddenDocTypes = (listItem: any) =>
     'caseStudy',
     'videoResource',
 
-    'tip',
     'resource',
     // 'route',
     // 'essentialQuestion',
@@ -42,7 +40,6 @@ export default (S: any) =>
       resourcesCourses(S),
       blog(S),
 
-      tips(S),
       pages(S),
       caseStudies(S),
       resources(S),

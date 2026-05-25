@@ -3,12 +3,12 @@ import SearchInstructorEssential from '../instructor-essential'
 import Image from 'next/legacy/image'
 import {get} from 'lodash'
 import Link from 'next/link'
-import groq from 'groq'
 import {bpMinMD} from '@/utils/breakpoints'
 import {track} from '@/utils/analytics'
 import ExternalTrackedLink from '@/components/external-tracked-link'
 
 export default function SearchAlexReardon({instructor}: {instructor: any}) {
+  instructor = {...instructor, ...curatedInstructorData}
   const combinedInstructor = {...instructor}
 
   const {courses} = instructor
@@ -29,21 +29,26 @@ export default function SearchAlexReardon({instructor}: {instructor: any}) {
   )
 }
 
-export const alexReardonQuery = groq`*[_type == 'resource' && slug.current == "alex-reardon-landing-page"][0]{
-  'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-      title,
-      'description': summary,
-    	path,
-      byline,
-    	image,
-      'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[@->.role == 'instructor'][0]->{
-      	'name': person->.name
-    	},
-    }
+const curatedInstructorData = {
+  courses: {
+    resources: [
+      {
+        background:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1621335770/egghead-next-pages/dom-events/feature-card-dom-events.svg',
+        byline: 'Alex Reardon・2h 9m・Course',
+        description:
+          'Whether you are just starting out with frontend engineering or you are a seasoned veteran, this course will provide a strong understanding of the DOM Event system.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/437/603/full/DOM_424_2x.png',
+        instructor: {
+          name: 'Alex Reardon',
+        },
+        path: '/courses/the-ultimate-guide-for-understanding-dom-events-6c0c0d23',
+        title: 'Your Ultimate Guide to Understanding DOM Events',
+      },
+    ],
   },
-}`
+} as Record<string, any>
 
 const FeaturedDomEventsCourse: React.FC<
   React.PropsWithChildren<{location: string; resource: any}>

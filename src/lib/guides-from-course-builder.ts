@@ -234,8 +234,6 @@ function mapResourceType(
         return 'article'
       case 'podcast':
         return 'podcast'
-      case 'tip':
-        return 'article'
       default:
         return 'course'
     }

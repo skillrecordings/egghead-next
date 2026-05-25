@@ -8,7 +8,6 @@ import {stripeRouter} from './stripe'
 import {progressRouter} from './progress'
 import {topicRouter} from './topics'
 import {customerIORouter} from './customer-io'
-import {tipsRouter} from './tips'
 import {lessonRouter} from './lesson'
 import {likesRouter} from './likes'
 import {courseRouter} from './course'
@@ -21,7 +20,6 @@ export const appRouter = router({
   progress: progressRouter,
   topics: topicRouter,
   customerIO: customerIORouter,
-  tips: tipsRouter,
   lesson: lessonRouter,
   likes: likesRouter,
   course: courseRouter,
