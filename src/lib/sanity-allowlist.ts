@@ -3,15 +3,10 @@ import groq from 'groq'
 import {getRedis} from '@/lib/upstash-redis'
 import {logEvent, type LogContext} from '@/utils/structured-log'
 
-type AllowlistKind = 'lesson' | 'course'
+type AllowlistKind = 'lesson'
 
 const LESSON_SET_KEY = 'sanity:allowlist:lesson:slugs'
 const LESSON_META_KEY = 'sanity:allowlist:lesson:meta'
-
-// Course metadata can match by slug OR by Rails numeric IDs.
-// loadCourseMetadata() matches: railsCourseId == $courseId || externalId == $courseId || slug.current == $slug
-const COURSE_SET_KEY = 'sanity:allowlist:course:keys'
-const COURSE_META_KEY = 'sanity:allowlist:course:meta'
 
 const DEFAULT_MAX_AGE_SECONDS = 60 * 60 * 6 // 6h
 const META_MEMORY_TTL_MS = 60 * 1000 // 1m per lambda instance
@@ -39,11 +34,11 @@ type RefreshResult = {
 }
 
 function metaKeyFor(kind: AllowlistKind) {
-  return kind === 'lesson' ? LESSON_META_KEY : COURSE_META_KEY
+  return LESSON_META_KEY
 }
 
 function setKeyFor(kind: AllowlistKind) {
-  return kind === 'lesson' ? LESSON_SET_KEY : COURSE_SET_KEY
+  return LESSON_SET_KEY
 }
 
 function tmpKeyFor(kind: AllowlistKind, nonce: string) {
@@ -97,14 +92,6 @@ const lessonAllowlistQuery = groq`
 }
 `
 
-const courseAllowlistQuery = groq`
-*[_type in ["course","resource"] && (defined(slug.current) || defined(railsCourseId) || defined(externalId))]{
-  "slug": slug.current,
-  "railsCourseId": railsCourseId,
-  "externalId": externalId
-}
-`
-
 function chunk<T>(items: T[], size: number): T[][] {
   if (size <= 0) return [items]
   const out: T[][] = []
@@ -128,69 +115,18 @@ async function refreshAllowlist(
   const tmpSetKey = tmpKeyFor(kind, nonce)
 
   try {
-    if (kind === 'lesson') {
-      const rows = (await sanityClient.fetch<{slug?: string}[]>(
-        lessonAllowlistQuery,
-      )) as {slug?: string}[]
-      const slugs = rows
-        .map((r) => (r?.slug || '').trim())
-        .filter(Boolean) as string[]
-      const unique = Array.from(new Set(slugs))
-
-      await redis.del(tmpSetKey)
-      for (const part of chunk(unique, 1000)) {
-        // Upstash types require at least 1 member. `chunk()` guarantees non-empty parts
-        // but TS can't infer that from `string[]`, so we destructure safely.
-        const [first, ...rest] = part
-        if (!first) continue
-        await redis.sadd(tmpSetKey, first, ...rest)
-      }
-
-      await redis.rename(tmpSetKey, stableSetKey)
-
-      const meta: AllowlistMeta = {
-        version: 1,
-        kind,
-        refreshed_at: new Date().toISOString(),
-        count: unique.length,
-      }
-      await redis.set(metaKeyFor(kind), meta)
-      metaMemoryCache.set(kind, {
-        value: meta,
-        expiresAt: Date.now() + META_MEMORY_TTL_MS,
-      })
-
-      return {
-        ok: true,
-        kind,
-        refreshed: true,
-        count: unique.length,
-        duration_ms: Date.now() - startedAt,
-      }
-    }
-
-    // course
-    const rows = (await sanityClient.fetch<
-      {slug?: string; railsCourseId?: number; externalId?: number}[]
-    >(courseAllowlistQuery)) as {
-      slug?: string
-      railsCourseId?: number
-      externalId?: number
-    }[]
-
-    const keys: string[] = []
-    for (const r of rows) {
-      const slug = (r?.slug || '').trim()
-      if (slug) keys.push(`slug:${slug}`)
-      if (Number.isFinite(r?.railsCourseId))
-        keys.push(`id:${Number(r?.railsCourseId)}`)
-      if (Number.isFinite(r?.externalId))
-        keys.push(`id:${Number(r?.externalId)}`)
-    }
-    const unique = Array.from(new Set(keys))
+    const rows = (await sanityClient.fetch<{slug?: string}[]>(
+      lessonAllowlistQuery,
+    )) as {slug?: string}[]
+    const slugs = rows
+      .map((r) => (r?.slug || '').trim())
+      .filter(Boolean) as string[]
+    const unique = Array.from(new Set(slugs))
 
     await redis.del(tmpSetKey)
     for (const part of chunk(unique, 1000)) {
+      // Upstash types require at least 1 member. `chunk()` guarantees non-empty parts
+      // but TS can't infer that from `string[]`, so we destructure safely.
       const [first, ...rest] = part
       if (!first) continue
       await redis.sadd(tmpSetKey, first, ...rest)
@@ -284,47 +220,6 @@ export async function sanityAllowlistAllowsLesson(
 
   try {
     const allowed = Boolean(await redis.sismember(LESSON_SET_KEY, slug))
-    return {
-      ready: true,
-      allowed,
-      reason: allowed ? 'allowlist_hit' : 'allowlist_miss',
-    }
-  } catch {
-    return {ready: false, allowed: true, reason: 'allowlist_not_ready'}
-  }
-}
-
-export async function sanityAllowlistAllowsCourse(
-  params: {slug?: string; courseId?: number},
-  logContext: LogContext = {},
-): Promise<AllowlistStatus> {
-  const redis = getRedis()
-  if (!redis) {
-    return {ready: false, allowed: true, reason: 'allowlist_not_ready'}
-  }
-
-  const meta = await getMeta('course')
-  if (!meta) return {ready: false, allowed: true, reason: 'allowlist_not_ready'}
-
-  const slugKey = params.slug ? `slug:${params.slug}` : null
-  const idKey =
-    params.courseId != null && Number.isFinite(params.courseId)
-      ? `id:${Number(params.courseId)}`
-      : null
-
-  // If we can't build a key, we can't safely check membership. Fail open.
-  if (!slugKey && !idKey) {
-    return {ready: false, allowed: true, reason: 'allowlist_not_ready'}
-  }
-
-  try {
-    // We check both potential match keys because the Sanity doc might only have
-    // railsCourseId/externalId populated (or the slug could drift).
-    const p = redis.pipeline()
-    if (slugKey) p.sismember(COURSE_SET_KEY, slugKey)
-    if (idKey) p.sismember(COURSE_SET_KEY, idKey)
-    const results = await p.exec<number[]>()
-    const allowed = results.some((r) => Boolean(r))
     return {
       ready: true,
       allowed,
