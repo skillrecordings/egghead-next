@@ -94,7 +94,6 @@ Host: https://egghead.io
 # Sitemaps
 Sitemap: https://egghead.io/sitemap.xml
 Sitemap: https://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz
-Sitemap: https://egghead.io/server-sitemap.xml
 Sitemap: https://egghead.io/tags-sitemap-0.xml
 Sitemap: https://egghead.io/tags-sitemap-1.xml
 Sitemap: https://egghead.io/tags-sitemap-2.xml

@@ -3,12 +3,12 @@ import SearchInstructorEssential from '../instructor-essential'
 import Image from 'next/legacy/image'
 import {get} from 'lodash'
 import Link from 'next/link'
-import groq from 'groq'
 import {bpMinMD} from '@/utils/breakpoints'
 import {track} from '@/utils/analytics'
 import ExternalTrackedLink from '@/components/external-tracked-link'
 
 export default function SearchKamranAhmed({instructor}: {instructor: any}) {
+  instructor = {...instructor, ...curatedInstructorData}
   const combinedInstructor = {...instructor}
 
   const {courses} = instructor
@@ -29,20 +29,24 @@ export default function SearchKamranAhmed({instructor}: {instructor: any}) {
   )
 }
 
-export const kamranAhmedQuery = groq`*[_type == 'resource' && slug.current == "kamran-ahmed-landing-page"][0]{
-  'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-      title,
-      'description': summary,
-    	path,
-      byline,
-    	image,
-      'instructor': collaborators[@->.role == 'instructor'][0]->{
-      	'name': person->.name
-    	},
-    }
+const curatedInstructorData = {
+  courses: {
+    resources: [
+      {
+        byline: 'Kamran Ahmed・9m・Course',
+        description:
+          'Learn to use some of the tips and tricks that can help you write better TypeScript. ',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/352/310/full/typescripts_tipstricks.png',
+        instructor: {
+          name: 'Kamran Ahmed',
+        },
+        path: '/courses/typescript-tips-and-tricks-20c4',
+        title: 'TypeScript: Tips and Tricks',
+      },
+    ],
   },
-}`
+} as Record<string, any>
 
 const FeaturedTypescriptCourse: React.FC<
   React.PropsWithChildren<{location: string; resource: any}>

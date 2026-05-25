@@ -2,7 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
 <url><loc>https://egghead.io/learn</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.849Z</lastmod></url>
 <url><loc>https://egghead.io/api/cron</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.850Z</lastmod></url>
-<url><loc>https://egghead.io/tips</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.850Z</lastmod></url>
 <url><loc>https://egghead.io/blocked</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.850Z</lastmod></url>
 <url><loc>https://egghead.io/courses</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.850Z</lastmod></url>
 <url><loc>https://egghead.io/guides</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.850Z</lastmod></url>
@@ -202,7 +201,6 @@
 <url><loc>https://egghead.io/talks</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.850Z</lastmod></url>
 <url><loc>https://egghead.io/topics</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.850Z</lastmod></url>
 <url><loc>https://egghead.io/projects/build-modern-layouts-with-css-grid</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.850Z</lastmod></url>
-<url><loc>https://egghead.io/tipz</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.850Z</lastmod></url>
 <url><loc>https://egghead.io</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.850Z</lastmod></url>
 <url><loc>https://egghead.io/guides/just-enough-css-for-modern-app-development</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.850Z</lastmod></url>
 <url><loc>https://egghead.io/guides/quickly-become-an-aws-power-user</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2024-10-09T21:18:43.850Z</lastmod></url>

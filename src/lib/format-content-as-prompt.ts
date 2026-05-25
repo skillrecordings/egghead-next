@@ -120,9 +120,7 @@ export function validateContentData(content: ContentData): {
   }
 
   if (
-    !['article', 'lesson', 'podcast', 'tip', 'course'].includes(
-      content.contentType,
-    )
+    !['article', 'lesson', 'podcast', 'course'].includes(content.contentType)
   ) {
     console.log(
       '❌ Validation error: Invalid content type:',

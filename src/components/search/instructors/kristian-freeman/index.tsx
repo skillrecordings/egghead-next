@@ -3,13 +3,13 @@ import SearchInstructorEssential from '../instructor-essential'
 import Image from 'next/legacy/image'
 import {get} from 'lodash'
 import Link from 'next/link'
-import groq from 'groq'
 import {bpMinMD} from '@/utils/breakpoints'
 import {track} from '@/utils/analytics'
 import ExternalTrackedLink from '@/components/external-tracked-link'
 import {HorizontalResourceCard} from '@/components/card/horizontal-resource-card'
 
 export default function SearchKristianFreeman({instructor}: {instructor: any}) {
+  instructor = {...instructor, ...curatedInstructorData}
   const combinedInstructor = {...instructor}
   const {courses} = instructor
   const [primaryCourse, secondaryCourse, tertiaryCourse] = courses.resources
@@ -44,21 +44,54 @@ export default function SearchKristianFreeman({instructor}: {instructor: any}) {
   )
 }
 
-export const kristianFreemanQuery = groq`*[_type == 'resource' && slug.current == "kristian-freeman-landing-page"][0]{
-  'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-      title,
-      'description': summary,
-    	path,
-      byline,
-    	image,
-      'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[@->.role == 'instructor'][0]->{
-      	'name': person->.name
-    	},
-    }
+const curatedInstructorData = {
+  courses: {
+    resources: [
+      {
+        background:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1628704067/next.egghead.io/resources/build-a-real-time-data-syncing-chat-application-with-supabase-and-next-js/feature-card-background--nextjs--supabase.png',
+        byline: 'Kristian Freeman • 2h 1m • Course',
+        description:
+          'Learn to model real-world scenarios in actual relational databases, understand how to manage real-time data, and leverage key functionality provided by Supabase.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/476/205/full/next_supabase_212_2x.png',
+        instructor: {
+          name: 'Kristian Freeman',
+        },
+        path: '/courses/build-a-real-time-data-syncing-chat-application-with-supabase-and-next-js-84e58958',
+        title:
+          'Build a Real-Time Data Syncing Chat Application with Supabase and Next.js',
+      },
+      {
+        background:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1623765767/egghead-next-pages/build-a-serverless-api-with-cloudflare-workers/feature-card--cloudflare-workers.svg',
+        byline: 'Kristian Freeman • 47m • Course',
+        description:
+          'You will learn how to build and deploy a Serverless API with Cloudflare Workers. Enabling you to effectively manage a highly available backend for your projects. ',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/441/045/full/EGH_cloudflare-workers_424_2x.png',
+        instructor: {
+          name: 'Kristian Freeman',
+        },
+        path: '/courses/build-a-serverless-api-with-cloudflare-workers-d67ca551',
+        title: 'Build a Serverless API with Cloudflare Workers',
+      },
+      {
+        background: null,
+        byline: 'Kristian Freeman ・47m・Course',
+        description:
+          "Follow along with Kristian Freeman as you build a localization engine that renders data based on the Edge location nearest to the application's user.",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
+        instructor: {
+          name: 'Kristian Freeman',
+        },
+        path: '/courses/introduction-to-cloudflare-workers-5aa3',
+        title: 'Introduction to Cloudflare Workers',
+      },
+    ],
   },
-}`
+} as Record<string, any>
 
 const FeaturedCourse: React.FC<
   React.PropsWithChildren<{location: string; resource: any}>

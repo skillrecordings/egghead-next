@@ -73,7 +73,9 @@ describe('get-course-builder-metadata query gating', () => {
   })
 
   test('lesson parent course lookup only selects published public courses', async () => {
-    const execute = jest.fn(async () => [[]] as any)
+    const execute = jest.fn(async (sql: string, params: any[]) => {
+      return [[]] as any
+    })
     const release = jest.fn()
     const getConnection = jest.fn(async () => ({execute, release}))
 
