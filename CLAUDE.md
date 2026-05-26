@@ -25,8 +25,6 @@ pnpm lint            # Run ESLint with auto-fix
 pnpm format          # Run Prettier on all files
 pnpm build           # Production build (also runs type checking)
 
-# Sanity CMS
-pnpm sanity          # Start Sanity Studio
 ```
 
 ## Architecture Overview
@@ -180,12 +178,6 @@ Husky automatically runs:
 - Routers in `src/server/routers/`
 - Use `trpc.useQuery()` for data fetching
 - Type safety is automatic
-
-### Sanity CMS
-
-- Studio runs at `/studio`
-- Schema files in `studio/schemas/`
-- Use GROQ queries for data fetching
 
 ## Important Notes
 

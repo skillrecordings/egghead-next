@@ -20,8 +20,6 @@ node_modules
 /.next/
 /out/
 
-/studio/dist
-
 # production
 /build
 
