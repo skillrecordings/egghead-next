@@ -118,7 +118,6 @@ flowchart TD
 
 ### 4. Content Management Jobs
 
-- **create-course**: Course creation workflow
 - **index-lessons**: Search index maintenance
 - **handle-transloadit-notification**: File processing results
 

@@ -8,13 +8,12 @@ Comprehensive webhook handling from external services including validation, proc
 
 - `src/app/api/mux/webhook/route.ts`
 - `src/app/api/deepgram/webhook/route.ts`
-- `src/app/api/webhooks/sanity/route.ts`
 - `src/app/api/webhooks/transloadit/route.ts`
 - `src/inngest/events/*.ts`
 
 ## Trigger Points
 
-- External service events (Mux, Deepgram, Sanity, Transloadit)
+- External service events (Mux, Deepgram, Transloadit)
 - Webhook signature validation
 - Event processing and routing
 - Error handling and retries
@@ -50,7 +49,6 @@ flowchart TD
 
     S -->|Mux| T[Handle Video Events]
     S -->|Deepgram| U[Handle Transcript Events]
-    S -->|Sanity| V[Handle Content Events]
     S -->|Transloadit| W[Handle File Events]
 
     T --> X[Mux Event Processing]
@@ -68,16 +66,6 @@ flowchart TD
     GG --> HH[Generate SRT Format]
     HH --> II[Trigger transcript-ready Event]
 
-    V --> JJ[Sanity Event Processing]
-    JJ --> KK{Event Action}
-    KK -->|create| LL[Content Created]
-    KK -->|update| MM[Content Updated]
-    KK -->|delete| NN[Content Deleted]
-
-    LL --> OO[Invalidate Cache]
-    MM --> PP[Update Search Index]
-    NN --> QQ[Remove from Index]
-
     W --> RR[Transloadit Event Processing]
     RR --> SS[Extract File Results]
     SS --> TT[Update File Records]
@@ -86,8 +74,6 @@ flowchart TD
     CC --> VV[Background Job Execution]
     DD --> WW[Database Update]
     II --> XX[Transcript Processing]
-    OO --> YY[Cache Invalidation]
-    PP --> ZZ[Search Update]
     UU --> AAA[File Processing Complete]
 
     BBB[Error Handling] --> CCC{Error Type}
@@ -128,13 +114,7 @@ flowchart TD
 - **transcript.completed**: Speech-to-text processing complete
 - **transcript.failed**: Transcription processing failure
 
-### 3. Sanity Webhooks
-
-- **create**: New content document created
-- **update**: Existing content modified
-- **delete**: Content document removed
-
-### 4. Transloadit Webhooks
+### 3. Transloadit Webhooks
 
 - **ASSEMBLY_COMPLETED**: File processing pipeline complete
 - **ASSEMBLY_FAILED**: File processing pipeline failure
@@ -151,10 +131,6 @@ const isValid = verifyMuxSignature(body, signature, secret)
 // Deepgram validation
 const token = headers.get('authorization')
 const isValid = validateDeepgramToken(token)
-
-// Sanity validation
-const signature = headers.get('sanity-webhook-signature')
-const isValid = verifySanitySignature(body, signature, secret)
 ```
 
 ### Rate Limiting
@@ -181,7 +157,6 @@ const isValid = verifySanitySignature(body, signature, secret)
 
 - **Mux**: Built-in retry with exponential backoff
 - **Deepgram**: Manual retry for critical failures
-- **Sanity**: Cache invalidation can be retried
 - **Transloadit**: File processing can be re-triggered
 
 ### Failure Recovery
