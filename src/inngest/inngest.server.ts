@@ -8,8 +8,6 @@ import {
   TRANSCRIPT_READY_EVENT,
   TranscriptReady,
 } from './events/transcript-requested'
-import {VIDEO_UPLOADED_EVENT, VideoUploaded} from './events/video-uploaded'
-import {MUX_SRT_READY_EVENT, MuxSrtReady} from './events/mux-add-srt-to-asset'
 import {
   INDEX_LESSONS_FOREVER,
   IndexLessonsForever,
@@ -23,10 +21,6 @@ import {
   FeedbackEmail,
 } from './events/send-feedback-email'
 import {
-  SANITY_WEBHOOK_LESSON_CREATED,
-  SanityWebhookLessonCreated,
-} from './events/sanity/webhooks/lesson/created'
-import {
   RECEIVED_TRANSLOADIT_NOTIFICATION_EVENT,
   ReceivedTransloaditNotification,
 } from './events/received-transloadit-notification'
@@ -34,10 +28,6 @@ import {
   VERIFIED_TRANSLOADIT_NOTIFICATION_EVENT,
   VerifiedTransloaditNotification,
 } from './events/verified-transloadit-notification'
-import {
-  SANITY_COURSE_DOCUMENT_CREATED,
-  SanityCourseDocumentCreated,
-} from '@/inngest/events/sanity-course-document-created'
 import {STRIPE_WEBHOOK_EVENT, StripeWebhook} from './events/stripe-webhook'
 import {
   LIFETIME_PURCHASE_EVENT,
@@ -71,15 +61,11 @@ type Events = {
   [SPECIFIC_PRODUCT_PURCHASE_EVENT]: SpecificProductPurchase
   [DEEPGRAM_WEBHOOK_EVENT]: DeepgramWebhook
   [TRANSCRIPT_READY_EVENT]: TranscriptReady
-  [VIDEO_UPLOADED_EVENT]: VideoUploaded
-  [MUX_SRT_READY_EVENT]: MuxSrtReady
   [INDEX_LESSONS_FOREVER]: IndexLessonsForever
   [SEND_SLACK_MESSAGE_EVENT]: SlackMessage
   [SEND_FEEDBACK_EMAIL_EVENT]: FeedbackEmail
-  [SANITY_WEBHOOK_LESSON_CREATED]: SanityWebhookLessonCreated
   [RECEIVED_TRANSLOADIT_NOTIFICATION_EVENT]: ReceivedTransloaditNotification
   [VERIFIED_TRANSLOADIT_NOTIFICATION_EVENT]: VerifiedTransloaditNotification
-  [SANITY_COURSE_DOCUMENT_CREATED]: SanityCourseDocumentCreated
   [COURSE_UNPUBLISHED_EVENT]: CourseUnpublished
   [CUSTOMER_IO_IDENTIFY_EVENT]: CustomerIoIdentify
   [WORKSHOP_QUOTE_REQUEST_EVENT]: WorkshopQuoteRequest

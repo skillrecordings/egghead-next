@@ -6,7 +6,6 @@ import {
   type MuxPlayerRefAttributes,
   type MuxPlayerProps,
 } from '@mux/mux-player-react'
-import {useVideoResource} from '@/hooks/use-video-resource'
 import {useLesson} from '@/hooks/use-lesson'
 import {useNextLesson} from './use-next-lesson'
 import {
@@ -102,8 +101,6 @@ export const VideoProvider: React.FC<
   const router = useRouter()
   const pathname = usePathname()
 
-  const {videoResource, loadingVideoResource} = useVideoResource()
-
   const {lesson, section, module} = useLesson()
 
   useGlobalPlayerShortcuts(muxPlayerRef)
@@ -145,8 +142,7 @@ export const VideoProvider: React.FC<
 
   const title = get(lesson, 'title') || get(lesson, 'label')
 
-  // const loadingUserStatus =
-  //   abilityRulesStatus === 'loading' || loadingVideoResource
+  // const loadingUserStatus = abilityRulesStatus === 'loading'
   const loadingUserStatus = false
 
   const handlePlay = React.useCallback(() => {
@@ -270,7 +266,6 @@ export const VideoProvider: React.FC<
     nextExercise,
     nextExerciseStatus,
     nextSection,
-    video: videoResource,
     path,
     canShowVideo,
     // refetchAbility,

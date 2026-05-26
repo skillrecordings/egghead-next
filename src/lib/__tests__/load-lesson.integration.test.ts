@@ -98,11 +98,6 @@ describe('integration: loadLesson (title correctness)', () => {
       getGraphQLClient: () => ({request}),
     }))
 
-    jest.doMock('@/utils/sanity-client', () => ({
-      __esModule: true,
-      sanityClient: {fetch: jest.fn(async () => ({}))},
-    }))
-
     jest.doMock('@/lib/lesson-comments', () => ({
       __esModule: true,
       loadLessonComments: jest.fn(async () => []),
@@ -127,7 +122,7 @@ describe('integration: loadLesson (title correctness)', () => {
     }
   })
 
-  test('skips Sanity GROQ entirely when allowlist is ready and slug is not allowlisted', async () => {
+  test('loads legacy lesson metadata without Sanity dependencies', async () => {
     const execute = jest.fn(async () => [[]] as any)
     const release = jest.fn()
     const getConnection = jest.fn(async () => ({execute, release}))
@@ -191,21 +186,6 @@ describe('integration: loadLesson (title correctness)', () => {
       getGraphQLClient: () => ({request}),
     }))
 
-    const sanityFetch = jest.fn(async () => ({}))
-    jest.doMock('@/utils/sanity-client', () => ({
-      __esModule: true,
-      sanityClient: {fetch: sanityFetch},
-    }))
-
-    jest.doMock('@/lib/sanity-allowlist', () => ({
-      __esModule: true,
-      sanityAllowlistAllowsLesson: jest.fn(async () => ({
-        ready: true,
-        allowed: false,
-        reason: 'allowlist_miss',
-      })),
-    }))
-
     jest.doMock('@/lib/lesson-comments', () => ({
       __esModule: true,
       loadLessonComments: jest.fn(async () => []),
@@ -221,7 +201,6 @@ describe('integration: loadLesson (title correctness)', () => {
     const lesson = await loadLesson(legacySlug)
 
     expect(lesson.slug).toBe(legacySlug)
-    expect(sanityFetch).not.toHaveBeenCalled()
   })
 
   test('caches GraphQL 404 misses and skips repeated lookups for missing slugs', async () => {
