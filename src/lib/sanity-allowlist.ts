@@ -1,3 +1,4 @@
+import 'server-only'
 import {sanityClient} from '@/utils/sanity-client'
 import groq from 'groq'
 import {getRedis} from '@/lib/upstash-redis'
@@ -124,15 +125,19 @@ async function refreshAllowlist(
     const unique = Array.from(new Set(slugs))
 
     await redis.del(tmpSetKey)
-    for (const part of chunk(unique, 1000)) {
-      // Upstash types require at least 1 member. `chunk()` guarantees non-empty parts
-      // but TS can't infer that from `string[]`, so we destructure safely.
-      const [first, ...rest] = part
-      if (!first) continue
-      await redis.sadd(tmpSetKey, first, ...rest)
-    }
+    if (unique.length === 0) {
+      await redis.del(stableSetKey)
+    } else {
+      for (const part of chunk(unique, 1000)) {
+        // Upstash types require at least 1 member. `chunk()` guarantees non-empty parts
+        // but TS can't infer that from `string[]`, so we destructure safely.
+        const [first, ...rest] = part
+        if (!first) continue
+        await redis.sadd(tmpSetKey, first, ...rest)
+      }
 
-    await redis.rename(tmpSetKey, stableSetKey)
+      await redis.rename(tmpSetKey, stableSetKey)
+    }
 
     const meta: AllowlistMeta = {
       version: 1,

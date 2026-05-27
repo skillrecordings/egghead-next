@@ -184,7 +184,7 @@ const CollectionPageLayout: React.FunctionComponent<
 
   const ogImage = customOgImage ? customOgImage.url : ogImageUrl
 
-  const relatedResources = metadataPairWithResources
+  const relatedResources = !isEmpty(metadataPairWithResources)
     ? metadataPairWithResources
     : pairWithResources
   const courseEssentialQuestions = !isEmpty(metadataEssentialQuestions)
