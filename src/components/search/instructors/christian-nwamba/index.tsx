@@ -3,12 +3,12 @@ import SearchInstructorEssential from '../instructor-essential'
 import Image from 'next/legacy/image'
 import {get} from 'lodash'
 import Link from 'next/link'
-import groq from 'groq'
 import {bpMinMD} from '@/utils/breakpoints'
 import {track} from '@/utils/analytics'
 import ExternalTrackedLink from '@/components/external-tracked-link'
 
 export default function SearchChristianNwamba({instructor}: {instructor: any}) {
+  instructor = {...instructor, ...curatedInstructorData}
   const combinedInstructor = {...instructor}
   const {courses} = instructor
   const [primaryCourse] = courses.resources
@@ -26,21 +26,26 @@ export default function SearchChristianNwamba({instructor}: {instructor: any}) {
   )
 }
 
-export const christianNwambaQuery = groq`*[_type == 'resource' && slug.current == "christian-nwamba-landing-page"][0]{
-  'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-      title,
-      'description': summary,
-    	path,
-      byline,
-    	image,
-      'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[@->.role == 'instructor'][0]->{
-      	'name': person->.name
-    	},
-    }
-  }
-}`
+const curatedInstructorData = {
+  courses: {
+    resources: [
+      {
+        background:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1623165942/next.egghead.io/resources/oauth-2-0-from-scratch/feature-card-background.png',
+        byline: 'Christian Nwamba • 19m • Course',
+        description:
+          'Learn the fundamental building blocks of Authentication and Authorization on the web using the OAuth 2.0 protocol.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/451/045/full/0auth-from-scratch.png',
+        instructor: {
+          name: 'Christian Nwamba',
+        },
+        path: '/courses/oauth-2-0-from-scratch-74a92b57',
+        title: 'Add Github Login to Your Web App with OAuth 2.0',
+      },
+    ],
+  },
+} as Record<string, any>
 
 const FeaturedCourse: React.FC<
   React.PropsWithChildren<{location: string; resource: any}>

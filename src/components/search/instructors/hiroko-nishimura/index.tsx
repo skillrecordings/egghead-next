@@ -3,13 +3,13 @@ import SearchInstructorEssential from '../instructor-essential'
 import Image from 'next/legacy/image'
 import {get} from 'lodash'
 import Link from 'next/link'
-import groq from 'groq'
 import {bpMinMD} from '@/utils/breakpoints'
 import {track} from '@/utils/analytics'
 import ExternalTrackedLink from '@/components/external-tracked-link'
 import {HorizontalResourceCard} from '@/components/card/horizontal-resource-card'
 
 export default function SearchHirokoNishimura({instructor}: {instructor: any}) {
+  instructor = {...instructor, ...curatedInstructorData}
   const combinedInstructor = {...instructor}
   const {courses, projects} = instructor
   const primaryProject = projects?.resources
@@ -54,30 +54,50 @@ export default function SearchHirokoNishimura({instructor}: {instructor: any}) {
   )
 }
 
-export const hirokoNishimuraQuery = groq`*[_type == 'resource' && slug.current == "hiroko-nishimura-landing-page"][0]{
-  'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-      title,
-      'description': summary,
-    	path,
-      byline,
-    	image,
-      'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[@->.role == 'instructor'][0]->{
-      	'name': person->.name
-    	},
-    }
+const curatedInstructorData = {
+  courses: {
+    resources: [
+      {
+        background:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1624913996/egghead-next-pages/build-modern-layouts-with-css-grid/instructor-page-background-CTA.svg',
+        byline: 'Hiroko Nishimura • 22m • Course',
+        description:
+          "CSS Grid Layout introduces a system allowing both fixed and flexible track sizes. In this course, you'll build pages that behave how you expect it to on any device.",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png',
+        instructor: {
+          name: 'Hiroko Nishimura',
+        },
+        path: '/courses/build-modern-layouts-with-css-grid-d3f5',
+        title: 'Build Modern Layouts with CSS Grid',
+      },
+      {
+        background: null,
+        byline: 'Hiroko Nishimura • 8m • Course',
+        description:
+          'Learn different ways to manipulate elements (like images and text) on mouse-over by using the :hover pseudo-class in CSS.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/full/csslang.png',
+        instructor: {
+          name: 'Hiroko Nishimura',
+        },
+        path: '/courses/css-tips-and-tricks-on-hover-effects-7703',
+        title: 'CSS Tips and Tricks on :hover Effects',
+      },
+    ],
   },
-	'projects': resources[slug.current == 'instructor-landing-page-projects'][0]{
-    resources[0]{
-      title,
-      'path': coalesce(url, path),
-      description,
-      image,
-      byline
-    }
-  }
-}`
+  projects: {
+    resources: {
+      byline: 'Project ・Freelance Finance eBook',
+      description:
+        'An ebook for side hustlers and freelancers looking to leave their full-time jobs.',
+      image:
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1624303241/next.egghead.io/pages/instructors/hiroko-nishimura/freelancefinance101.jpg',
+      path: 'https://freelancefinance101.com/',
+      title: 'freelancefinance101',
+    },
+  },
+} as Record<string, any>
 
 const FeaturedCourse: React.FC<
   React.PropsWithChildren<{location: string; resource: any}>

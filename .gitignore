@@ -61,3 +61,4 @@ prisma/generated.schema.prisma
 .npmrc
 *storybook.log
 storybook-static
+autoresearch-results.tsv

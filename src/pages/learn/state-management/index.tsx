@@ -1,7 +1,5 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import groq from 'groq'
-import {sanityClient} from '@/utils/sanity-client'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
@@ -11,6 +9,7 @@ import {get} from 'lodash'
 import VideoCard from '@/components/pages/home/video-card'
 import {VerticalResourceCard} from '@/components/card/verticle-resource-card'
 import rehypeRaw from 'rehype-raw'
+import standalonePageData from '@/data/standalone-page-data.json'
 
 const StateManagement: React.FC<React.PropsWithChildren<any>> = ({data}) => {
   return (
@@ -30,41 +29,10 @@ const StateManagement: React.FC<React.PropsWithChildren<any>> = ({data}) => {
 
 export default StateManagement
 
-export const StateManagementQuery = groq`*[_type == 'resource' && slug.current == "state-management"][0]{
-  title,
-  description,
-  path,
-  "jumbotron": {
-    "background": images[0] {
-    	url
-  	},
-    image,
-    title,
-  	description,
-  	"name": subTitle
-  },
-  'theBigIdeas': resources[slug.current == 'the-big-ideas'][0]{
-    description,
-    title,
-    resources[] {
-    "name": subTitle,
-      ...
-    }
- },
- "recoilSection": resources[slug.current == 'state-management-with-recoil'][0]{
-  ...,
-  resources[]-> {
-    ...
-  }
- },
-}`
-
 export async function getStaticProps() {
-  const data = await sanityClient.fetch(StateManagementQuery)
-
   return {
     props: {
-      data,
+      data: standalonePageData.stateManagement,
     },
   }
 }
@@ -98,6 +66,7 @@ const RecoilSection = ({resource}: any) => {
         {resources.map((resource: any) => {
           return (
             <VerticalResourceCard
+              key={resource.path || resource.title}
               resource={resource}
               className="mb-4 text-center"
             />
@@ -127,7 +96,13 @@ const BigIdeasSection = ({resource}: any) => {
         </div>
         <div className="col-span-3">
           {resources.map((resource: any) => {
-            return <VideoCard resource={resource} className="mb-4" />
+            return (
+              <VideoCard
+                key={resource.path || resource.title}
+                resource={resource}
+                className="mb-4"
+              />
+            )
           })}
         </div>
       </div>

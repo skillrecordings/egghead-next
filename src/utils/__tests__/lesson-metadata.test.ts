@@ -1,181 +1,97 @@
-import {LessonResource} from '@/types'
 import {mergeLessonMetadata, deriveDataFromBaseValues} from '../lesson-metadata'
 
 describe('mergeLessonMetadata()', () => {
-  test('top-level data from Sanity overrides graphql', () => {
-    const graphqlMetadata = {
+  test('returns the graphql baseline plus a derived ogImage when no CB overrides', () => {
+    const result = mergeLessonMetadata(
+      {title: 'Ultimate React', duration: 123, slug: 'ultimate-react'},
+      null,
+    )
+
+    expect(result).toEqual({
       title: 'Ultimate React',
       duration: 123,
       slug: 'ultimate-react',
-    } as LessonResource
-    const sanityMetadata = {
-      title: 'Xtreme React',
-      path: '/path/to/lesson',
-    } as LessonResource
-
-    const expectedResult = {
-      collection: undefined,
-      instructor: undefined,
-      tags: undefined,
-      title: 'Xtreme React',
-      duration: 123,
-      path: '/path/to/lesson',
-      slug: 'ultimate-react',
       ogImage:
         'https://og-image-react-egghead.now.sh/lesson/ultimate-react?v=20201027',
-    }
-
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
-
-    expect(result).toEqual(expectedResult)
+    })
   })
 
-  test('Sanity tags override graphql tags when present', () => {
-    const graphqlMetadata = {
-      tags: [{name: 'Vue'}],
-      slug: 'test-lesson',
-    } as LessonResource
+  test('Course Builder overrides take precedence over graphql for populated fields', () => {
+    const result = mergeLessonMetadata(
+      {
+        title: 'Rails Title',
+        description: 'Rails description',
+        slug: 'test-lesson',
+        repo_url: 'https://rails.example/repo',
+      },
+      {
+        title: 'CB Title',
+        description: 'CB description',
+        transcript: 'CB transcript',
+        repo_url: 'https://cb.example/repo',
+        download_url: 'https://cb.example/download',
+        ogImage: 'https://cb.example/og.png',
+      },
+    )
 
-    const sanityMetadata = {
-      tags: [{name: 'React'}],
-    } as LessonResource
-
-    const expectedResult = {
-      collection: undefined,
-      instructor: undefined,
-      tags: [{name: 'React'}],
-      slug: 'test-lesson',
-      ogImage:
-        'https://og-image-react-egghead.now.sh/lesson/test-lesson?v=20201027',
-    }
-
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
-
-    expect(result).toEqual(expectedResult)
+    expect(result.title).toBe('CB Title')
+    expect(result.description).toBe('CB description')
+    expect(result.transcript).toBe('CB transcript')
+    expect(result.repo_url).toBe('https://cb.example/repo')
+    expect(result.download_url).toBe('https://cb.example/download')
+    expect(result.ogImage).toBe('https://cb.example/og.png')
   })
 
-  test('graphql tags override Sanity tags if Sanity tags are not present', () => {
-    const graphqlMetadata = {
-      tags: [{name: 'Vue'}],
-      slug: 'test-lesson',
-    } as LessonResource
+  test('empty CB fields do not clobber graphql values', () => {
+    const result = mergeLessonMetadata(
+      {
+        title: 'Rails Title',
+        description: 'Rails description',
+        slug: 'test-lesson',
+      },
+      {title: '', description: undefined},
+    )
 
-    const sanityMetadata = {
-      tags: [] as Array<{}>,
-    } as LessonResource
-
-    const expectedResult = {
-      collection: undefined,
-      instructor: undefined,
-      tags: [{name: 'Vue'}],
-      slug: 'test-lesson',
-      ogImage:
-        'https://og-image-react-egghead.now.sh/lesson/test-lesson?v=20201027',
-    }
-
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
-
-    expect(result).toEqual(expectedResult)
+    expect(result.title).toBe('Rails Title')
+    expect(result.description).toBe('Rails description')
   })
 
-  test('Sanity instructor takes precedence to graphql instructor', () => {
-    const graphqlMetadata = {
-      instructor: {name: 'Zac Jones'},
-      slug: 'test-lesson',
-    } as LessonResource
+  test('falls back to a Course Builder OG image URL derived from slug when CB is present but no ogImage', () => {
+    const previous = process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN
+    process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN = 'https://cb.example'
+    try {
+      const result = mergeLessonMetadata(
+        {title: 'Rails Title', slug: 'some-cb-lesson~abc12'},
+        {},
+      )
 
-    const sanityMetadata = {
-      instructor: {name: 'Ian Jones'},
-    } as LessonResource
-
-    const expectedResult = {
-      collection: undefined,
-      instructor: {name: 'Ian Jones'},
-      tags: undefined,
-      slug: 'test-lesson',
-      ogImage:
-        'https://og-image-react-egghead.now.sh/lesson/test-lesson?v=20201027',
+      expect(result.ogImage).toMatch(/\/api\/og\?resource=post_/)
+    } finally {
+      if (previous === undefined) {
+        delete process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN
+      } else {
+        process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN = previous
+      }
     }
-
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
-
-    expect(result).toEqual(expectedResult)
   })
 
-  test('graphql instructor is used when Sanity instructor is not present', () => {
-    const graphqlMetadata = {
-      instructor: {name: 'Zac Jones'},
-      slug: 'test-lesson',
-    } as LessonResource
+  test('falls back to legacy OG image URL when CB ogImage and CB domain are both missing', () => {
+    const previous = process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN
+    delete process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN
+    try {
+      const result = mergeLessonMetadata(
+        {title: 'Rails Title', slug: 'some-cb-lesson~abc12'},
+        {},
+      )
 
-    const sanityMetadata = {
-      instructor: {},
-    } as LessonResource
-
-    const expectedResult = {
-      collection: undefined,
-      instructor: {name: 'Zac Jones'},
-      tags: undefined,
-      slug: 'test-lesson',
-      ogImage:
-        'https://og-image-react-egghead.now.sh/lesson/test-lesson?v=20201027',
+      expect(result.ogImage).toBe(
+        'https://og-image-react-egghead.now.sh/lesson/some-cb-lesson~abc12?v=20201027',
+      )
+    } finally {
+      if (previous !== undefined) {
+        process.env.NEXT_PUBLIC_COURSE_BUILDER_DOMAIN = previous
+      }
     }
-
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
-
-    expect(result).toEqual(expectedResult)
-  })
-
-  test('Sanity collection takes precedence to graphql collection', () => {
-    const graphqlMetadata = {
-      collection: {title: 'Xtreme React Course', lessons: [4, 5, 6]},
-      slug: 'test-lesson',
-    } as LessonResource
-
-    // a collection needs to include some course metadata and a non-empty list of
-    // lessons to be considered present.
-    const sanityMetadata = {
-      collection: {title: 'Ultimate React Course', lessons: [1, 2, 3]},
-    } as LessonResource
-
-    const expectedResult = {
-      collection: {title: 'Ultimate React Course', lessons: [1, 2, 3]},
-      instructor: undefined,
-      tags: undefined,
-      slug: 'test-lesson',
-      ogImage:
-        'https://og-image-react-egghead.now.sh/lesson/test-lesson?v=20201027',
-    }
-
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
-
-    expect(result).toEqual(expectedResult)
-  })
-
-  test('graphql collection is used if Sanity collection is not present', () => {
-    const graphqlMetadata = {
-      collection: {title: 'Xtreme React Course', lessons: [4, 5, 6]},
-      slug: 'test-lesson',
-    } as LessonResource
-
-    // a collection needs to include some course metadata and a non-empty list of
-    // lessons to be considered present.
-    const sanityMetadata = {
-      collection: {title: 'Ultimate React Course', lessons: [] as Array<{}>},
-    } as LessonResource
-
-    const expectedResult = {
-      collection: {title: 'Xtreme React Course', lessons: [4, 5, 6]},
-      instructor: undefined,
-      tags: undefined,
-      slug: 'test-lesson',
-      ogImage:
-        'https://og-image-react-egghead.now.sh/lesson/test-lesson?v=20201027',
-    }
-
-    const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata, null)
-
-    expect(result).toEqual(expectedResult)
   })
 })
 

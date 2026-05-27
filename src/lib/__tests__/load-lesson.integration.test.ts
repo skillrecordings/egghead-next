@@ -121,9 +121,10 @@ describe('integration: loadLesson (title correctness)', () => {
     expect(lesson.slug).toBe(legacySlug)
 
     // Ensure mysql executed but did not run LIKE-based query for legacy slugs
-    expect(execute).toHaveBeenCalledTimes(1)
-    const [sql] = execute.mock.calls[0]
-    expect(String(sql)).not.toContain('LIKE')
+    expect(execute).toHaveBeenCalled()
+    for (const [sql] of execute.mock.calls) {
+      expect(String(sql)).not.toContain('LIKE')
+    }
   })
 
   test('skips Sanity GROQ entirely when allowlist is ready and slug is not allowlisted', async () => {

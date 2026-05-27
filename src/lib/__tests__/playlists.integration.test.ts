@@ -1,5 +1,6 @@
 describe('integration: loadPublicCourseShell (Course Builder backed)', () => {
   const originalEnv = process.env
+  const originalFetch = (global as any).fetch
 
   beforeEach(() => {
     jest.resetModules()
@@ -11,6 +12,11 @@ describe('integration: loadPublicCourseShell (Course Builder backed)', () => {
 
   afterEach(() => {
     process.env = originalEnv
+    if (originalFetch === undefined) {
+      delete (global as any).fetch
+    } else {
+      ;(global as any).fetch = originalFetch
+    }
     jest.restoreAllMocks()
   })
 
@@ -314,6 +320,69 @@ describe('integration: loadPublicCourseShell (Course Builder backed)', () => {
       courseBuilderLessons: [
         expect.objectContaining({slug: 'legacy-lesson-1'}),
       ],
+    })
+  })
+
+  test('falls back to the Rails playlists API for a Course Builder shell missing image fields', async () => {
+    process.env.NEXT_PUBLIC_AUTH_DOMAIN = 'https://app.example.com'
+    const fetchMock = jest.fn(async (url: string) => ({
+      ok: true,
+      json: async () => ({
+        square_cover_480_url: 'https://rails.example.com/square-480.png',
+        square_cover_url: 'https://rails.example.com/thumb.png',
+      }),
+    }))
+    ;(global as any).fetch = fetchMock
+
+    jest.doMock('@/utils/configured-graphql-client', () => ({
+      __esModule: true,
+      getGraphQLClient: () => ({request: jest.fn()}),
+    }))
+
+    jest.doMock('@/lib/load-course-builder-metadata-wrapper', () => ({
+      __esModule: true,
+      loadCourseBuilderMetadata: jest.fn(async () => ({
+        id: 'course_without_image',
+        type: 'post',
+        createdById: 'user_1',
+        createdAt: new Date('2024-01-01T00:00:00.000Z'),
+        updatedAt: new Date('2024-01-02T00:00:00.000Z'),
+        name: 'Kent C. Dodds',
+        image: 'https://example.com/kent.png',
+        fields: {
+          title: 'Course Missing CB Cover',
+          slug: 'course-missing-cb-cover',
+          postType: 'course',
+          description: 'Missing image fields in Course Builder',
+          state: 'published',
+          visibility: 'public',
+          access: 'free',
+        },
+      })),
+      getCourseBuilderLessonStates: jest.fn(async () => new Map()),
+      getCourseBuilderCourseLessons: jest.fn(async () => []),
+      getAllCourseBuilderPublicCourseSlugs: jest.fn(async () => [
+        'course-missing-cb-cover',
+      ]),
+    }))
+
+    jest.spyOn(console, 'log').mockImplementation(() => {})
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
+    jest.spyOn(console, 'debug').mockImplementation(() => {})
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    const {loadPublicCourseShell} = await import('../playlists')
+
+    const playlist = await loadPublicCourseShell('course-missing-cb-cover')
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://app.example.com/api/v1/playlists/course-missing-cb-cover',
+      {headers: {Accept: 'application/json'}},
+    )
+    expect(playlist).toMatchObject({
+      slug: 'course-missing-cb-cover',
+      square_cover_480_url: 'https://rails.example.com/square-480.png',
+      image_thumb_url: 'https://rails.example.com/thumb.png',
     })
   })
 

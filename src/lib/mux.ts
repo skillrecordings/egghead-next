@@ -91,10 +91,10 @@ export async function enableMasterAccess(assetId: string) {
 
 export async function addSrtTrackToAsset({
   assetId,
-  videoResourceId,
+  srtUrl,
 }: {
   assetId: string
-  videoResourceId: string
+  srtUrl: string
 }) {
   return await fetch(`https://api.mux.com/video/v1/assets/${assetId}/tracks`, {
     method: 'POST',
@@ -105,7 +105,7 @@ export async function addSrtTrackToAsset({
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/api/videos/${videoResourceId}/srt`,
+      url: srtUrl,
       type: 'text',
       text_type: 'subtitles',
       closed_captions: true,

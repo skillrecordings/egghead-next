@@ -37,6 +37,35 @@ const DISPLAYED_TAG_CONTEXTS = [
 const DEFAULT_COURSE_IMAGE_URL =
   'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'
 
+type RailsPlaylistCoverUrls = {
+  square_cover_480_url: string | null
+  square_cover_url: string | null
+}
+
+async function fetchRailsPlaylistCoverUrls(
+  slug: string,
+): Promise<RailsPlaylistCoverUrls | null> {
+  const authDomain = process.env.NEXT_PUBLIC_AUTH_DOMAIN
+  if (!authDomain || !slug) return null
+
+  try {
+    const response = await fetch(
+      `${authDomain}/api/v1/playlists/${encodeURIComponent(slug)}`,
+      {headers: {Accept: 'application/json'}},
+    )
+    if (!response.ok) return null
+    const data = (await response.json()) as Record<string, unknown>
+    const square480 = data?.square_cover_480_url
+    const squareThumb = data?.square_cover_url
+    return {
+      square_cover_480_url: typeof square480 === 'string' ? square480 : null,
+      square_cover_url: typeof squareThumb === 'string' ? squareThumb : null,
+    }
+  } catch {
+    return null
+  }
+}
+
 type PgCourseTagRow = {
   id: number
   name: string
@@ -1010,7 +1039,7 @@ async function loadCourseBuilderPublicCourseShell(
       : null
 
   const directImageUrl = imageField?.startsWith('http') ? imageField : undefined
-  const squareCover480Url =
+  let squareCover480Url =
     directImageUrl ||
     buildPaperclipUrl(
       'playlists',
@@ -1019,7 +1048,7 @@ async function loadCourseBuilderPublicCourseShell(
       'square_480',
       imageField,
     )
-  const imageThumbUrl =
+  let imageThumbUrl =
     directImageUrl ||
     buildPaperclipUrl(
       'playlists',
@@ -1027,9 +1056,30 @@ async function loadCourseBuilderPublicCourseShell(
       legacyRailsPlaylistId || undefined,
       'thumb',
       imageField,
-    ) ||
-    squareCover480Url ||
-    DEFAULT_COURSE_IMAGE_URL
+    )
+
+  // Fall back to the rails playlists API for the cover image when CB doesn't
+  // carry a direct URL or a (legacyRailsPlaylistId + imageField) pair we can
+  // turn into a paperclip URL. This restores covers for courses that exist in
+  // CB as shells but never had their image migrated (e.g.
+  // the-beginner-s-guide-to-react). Pg is skipped because the rails API is
+  // authoritative for `square_cover_*_url` and works the same in dev and prod.
+  if (!squareCover480Url) {
+    const railsCover = await timeEvent(
+      'course.railsPlaylistImage.fetch',
+      {slug: canonicalSlug},
+      async () => fetchRailsPlaylistCoverUrls(canonicalSlug),
+      logContext,
+    )
+
+    if (railsCover) {
+      squareCover480Url =
+        squareCover480Url || railsCover.square_cover_480_url || undefined
+      imageThumbUrl = imageThumbUrl || railsCover.square_cover_url || undefined
+    }
+  }
+
+  imageThumbUrl = imageThumbUrl || squareCover480Url || DEFAULT_COURSE_IMAGE_URL
 
   const accessState = courseBuilderMetadata.fields.access
     ? courseBuilderMetadata.fields.access

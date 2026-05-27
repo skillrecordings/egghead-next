@@ -11,7 +11,6 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Markdown from '../markdown'
 import {track} from '@/utils/analytics'
-import {get} from 'lodash'
 import {CardResource} from '@/types'
 import Heading from './heading'
 
@@ -32,21 +31,24 @@ const VerticalResourceCard: React.FC<
   as,
   ...props
 }) => {
+  const resourcePath = getResourcePath(resource)
+  const imageSrc = getResourceImage(resource)
+
   return (
     <Card {...props} className={className}>
-      {resource.image && resource.path ? (
-        <ResourceLink path={resource.path} location={location} linkType="image">
-          <PreviewImage image={resource.image} title={resource.title} />
+      {imageSrc && resourcePath ? (
+        <ResourceLink path={resourcePath} location={location} linkType="image">
+          <PreviewImage image={imageSrc} title={resource.title} />
         </ResourceLink>
       ) : (
-        <PreviewImage image={resource.image} title={resource.title} />
+        <PreviewImage image={imageSrc} title={resource.title} />
       )}
       <CardContent>
         <CardHeader>
           <p className="mb-1 text-xs font-semibold text-gray-700 uppercase dark:text-gray-300">
             {resource.name}
           </p>
-          <ResourceLink path={resource.path} location={location}>
+          <ResourceLink path={resourcePath} location={location}>
             <Heading
               className="py-3 text-lg font-bold leading-tighter dark:hover:text-blue-300 hover:text-blue-700"
               as={as}
@@ -71,38 +73,58 @@ const VerticalResourceCard: React.FC<
 
 const ResourceLink: React.FC<
   React.PropsWithChildren<{
-    path: string
+    path?: string
     location?: string
     className?: string
     linkType?: string
   }>
-> = ({children, path, location, linkType = 'text', ...props}) => (
-  <Link
-    href={path}
-    onClick={() => {
-      track('clicked resource', {
-        resource: path,
-        linkType,
-        location,
-      })
-    }}
-    {...props}
-  >
-    {children}
-  </Link>
-)
+> = ({children, path, location, linkType = 'text', ...props}) => {
+  if (!path) return <>{children}</>
+
+  return (
+    <Link
+      href={path}
+      onClick={() => {
+        track('clicked resource', {
+          resource: path,
+          linkType,
+          location,
+        })
+      }}
+      {...props}
+    >
+      {children}
+    </Link>
+  )
+}
 
 const PreviewImage: React.FC<
-  React.PropsWithChildren<{title: string; image: any}>
-> = ({title, image}) => (
-  <CardPreview>
-    <Image
-      src={get(image, 'src', image)}
-      width={200}
-      height={200}
-      quality={100}
-      alt={`illustration for ${title}`}
-    />
-  </CardPreview>
-)
+  React.PropsWithChildren<{title: string; image?: string}>
+> = ({title, image}) => {
+  if (!image) return null
+
+  return (
+    <CardPreview>
+      <Image
+        src={image}
+        width={200}
+        height={200}
+        quality={100}
+        alt={`illustration for ${title}`}
+      />
+    </CardPreview>
+  )
+}
+
+const getResourcePath = (resource: CardResource) =>
+  isPresentString(resource.path) ? resource.path : undefined
+
+const getResourceImage = (resource: CardResource) => {
+  if (isPresentString(resource.image)) return resource.image
+  if (isPresentString(resource.image?.src)) return resource.image.src
+}
+
+const isPresentString = (value: unknown): value is string =>
+  typeof value === 'string' && value.length > 0
+
 export {VerticalResourceCard}

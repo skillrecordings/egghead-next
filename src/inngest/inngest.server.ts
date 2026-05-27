@@ -1,5 +1,4 @@
 import {Inngest, EventSchemas} from 'inngest'
-import {NewTipVideo, TIP_VIDEO_UPLOADED_EVENT} from './events/tips'
 import {MUX_WEBHOOK_EVENT, MuxWebhook} from './events/mux-webhook'
 import {
   DEEPGRAM_WEBHOOK_EVENT,
@@ -10,7 +9,6 @@ import {
   TranscriptReady,
 } from './events/transcript-requested'
 import {VIDEO_UPLOADED_EVENT, VideoUploaded} from './events/video-uploaded'
-import {MUX_SRT_READY_EVENT, MuxSrtReady} from './events/mux-add-srt-to-asset'
 import {
   INDEX_LESSONS_FOREVER,
   IndexLessonsForever,
@@ -73,8 +71,6 @@ type Events = {
   [DEEPGRAM_WEBHOOK_EVENT]: DeepgramWebhook
   [TRANSCRIPT_READY_EVENT]: TranscriptReady
   [VIDEO_UPLOADED_EVENT]: VideoUploaded
-  [MUX_SRT_READY_EVENT]: MuxSrtReady
-  [TIP_VIDEO_UPLOADED_EVENT]: NewTipVideo
   [INDEX_LESSONS_FOREVER]: IndexLessonsForever
   [SEND_SLACK_MESSAGE_EVENT]: SlackMessage
   [SEND_FEEDBACK_EMAIL_EVENT]: FeedbackEmail

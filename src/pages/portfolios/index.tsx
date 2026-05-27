@@ -1,11 +1,10 @@
 import * as React from 'react'
-import groq from 'groq'
-import {sanityClient} from '@/utils/sanity-client'
 import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {sortBy} from 'lodash'
 import prettifyUrl from '@/utils/prettify-url'
+import standalonePageData from '@/data/standalone-page-data.json'
 
 const Portfolio: React.FC<React.PropsWithChildren<{portfolios: any}>> = (
   props,
@@ -27,7 +26,10 @@ const Portfolio: React.FC<React.PropsWithChildren<{portfolios: any}>> = (
         <section className="grid grid-cols-1 gap-5 pt-16 md:grid-cols-2 lg:grid-cols-3 sm:gap-8">
           {sortBy(portfolios, 'title', 'asc').map((portfolio: any) => {
             return (
-              <article className="relative overflow-hidden text-gray-700 transition-all duration-200 ease-in-out border border-gray-200 rounded-md shadow-sm dark:border-transparent dark:bg-gray-800 hover:shadow-lg dark:text-gray-200">
+              <article
+                key={portfolio.slug}
+                className="relative overflow-hidden text-gray-700 transition-all duration-200 ease-in-out border border-gray-200 rounded-md shadow-sm dark:border-transparent dark:bg-gray-800 hover:shadow-lg dark:text-gray-200"
+              >
                 <header>
                   {portfolio.image && (
                     <Link href={`${path}/${portfolio.slug}`}>
@@ -60,7 +62,10 @@ const Portfolio: React.FC<React.PropsWithChildren<{portfolios: any}>> = (
                     {portfolio.tags &&
                       portfolio.tags.map((tag: any) => {
                         return (
-                          <div className="items-center px-3 py-1 mt-2 mr-2 text-xs font-medium text-blue-500 capitalize bg-blue-100 rounded-md pointer-events-none dark:bg-blueGray-700 dark:text-blue-200">
+                          <div
+                            key={tag.value}
+                            className="items-center px-3 py-1 mt-2 mr-2 text-xs font-medium text-blue-500 capitalize bg-blue-100 rounded-md pointer-events-none dark:bg-blueGray-700 dark:text-blue-200"
+                          >
                             {tag.label}
                           </div>
                         )
@@ -76,20 +81,9 @@ const Portfolio: React.FC<React.PropsWithChildren<{portfolios: any}>> = (
   )
 }
 
-const query = groq`*[_type == "resource" && type == 'portfolio']{
-  "slug": slug.current,
-  image,
-  title,
-  url,
-  tags
-}`
-
 export async function getStaticProps(context: any) {
-  const portfolios = await sanityClient.fetch(query)
-
   return {
-    props: {portfolios},
-    revalidate: 1,
+    props: {portfolios: standalonePageData.portfolios},
   }
 }
 

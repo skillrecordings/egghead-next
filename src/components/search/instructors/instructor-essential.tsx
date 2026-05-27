@@ -2,7 +2,6 @@ import React, {FunctionComponent} from 'react'
 import Markdown from 'react-markdown'
 import Image from 'next/legacy/image'
 import {NextSeo, SocialProfileJsonLd} from 'next-seo'
-import DefaultCTA from '../curated/default-cta'
 import analytics, {track} from '@/utils/analytics'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
@@ -31,7 +30,6 @@ const SearchInstructorEssential: FunctionComponent<
     bio,
   } = instructor
 
-  const location = `${name} landing`
   const router = useRouter()
 
   const [isCopied, setCopied] = useClipboard(
@@ -292,7 +290,7 @@ const SearchInstructorEssential: FunctionComponent<
             )}
           </div>
         </div>
-        {CTAComponent ? CTAComponent : <DefaultCTA location={location} />}
+        {CTAComponent ?? null}
       </div>
       {children}
     </div>

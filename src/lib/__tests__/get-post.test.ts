@@ -45,6 +45,53 @@ describe('getPost matching', () => {
     expect(release).toHaveBeenCalled()
   })
 
+  test('allows tip rows', async () => {
+    const tipRow = {
+      id: 'post_tip',
+      type: 'post',
+      fields: {
+        title: 'Profile tasks in an Nx Workspace with Chrome DevTools',
+        postType: 'tip',
+        slug: 'profile-tasks-in-an-nx-workspace-with-chrome-devtools~86iwv',
+      },
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }
+    const execute = jest
+      .fn()
+      .mockResolvedValueOnce([[]] as any)
+      .mockResolvedValueOnce([[tipRow]] as any)
+      .mockResolvedValueOnce([[]] as any)
+      .mockResolvedValueOnce([[]] as any)
+    const release = jest.fn()
+    const getConnection = jest.fn(async () => ({execute, release}))
+
+    jest.doMock('mysql2/promise', () => ({
+      __esModule: true,
+      createPool: jest.fn(() => ({getConnection})),
+    }))
+
+    jest.spyOn(console, 'log').mockImplementation(() => {})
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    const {getPost} = await import('../posts/get-post')
+
+    await expect(
+      getPost('profile-tasks-in-an-nx-workspace-with-chrome-devtools~86iwv'),
+    ).resolves.toMatchObject({
+      post: {
+        id: 'post_tip',
+        fields: {
+          postType: 'tip',
+        },
+      },
+    })
+
+    const postSql = String(execute.mock.calls[1][0])
+    expect(postSql).toContain("'tip'")
+    expect(release).toHaveBeenCalled()
+  })
+
   test('allows loose matching for Course Builder slugs with a tilde id suffix', async () => {
     const execute = jest.fn(async () => [[]] as any)
     const release = jest.fn()
