@@ -11,6 +11,16 @@ export type LogContext = {
 
 const SAMPLE_RATE = Number(process.env.EGGHEAD_LOG_SAMPLE_RATE ?? '1')
 
+function shouldDisableLogs() {
+  const logLevel =
+    typeof process !== 'undefined' ? process.env.LOG_LEVEL : undefined
+  const argv =
+    typeof process !== 'undefined' && Array.isArray(process.argv)
+      ? process.argv
+      : []
+  return logLevel === 'off' || argv.includes('--no-log')
+}
+
 function shouldSample(level: LogLevel) {
   if (level === 'warn' || level === 'error') return true
   if (Number.isNaN(SAMPLE_RATE) || SAMPLE_RATE >= 1) return true
@@ -44,6 +54,7 @@ export function logEvent(
   context: LogContext = {},
 ): void {
   try {
+    if (shouldDisableLogs()) return
     if (shouldSuppressInfoLogs(level, data, context)) {
       return
     }

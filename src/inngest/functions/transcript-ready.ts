@@ -1,7 +1,6 @@
 import z from 'zod'
 import {inngest} from '@/inngest/inngest.server'
 import {TRANSCRIPT_READY_EVENT} from '@/inngest/events/transcript-requested'
-import {MUX_SRT_READY_EVENT} from '@/inngest/events/mux-add-srt-to-asset'
 import {sanityWriteClient} from '@/utils/sanity-server'
 import axios from 'axios'
 
@@ -78,16 +77,6 @@ export const transcriptReady = inngest.createFunction(
             )
           },
         )
-      }
-      if (videoResource?.muxAsset) {
-        await step.sendEvent('announce that srt is ready', {
-          name: MUX_SRT_READY_EVENT,
-          data: {
-            videoResourceId: videoResource._id as string,
-            moduleSlug: event.data.moduleSlug,
-            srt: event.data.srt,
-          },
-        })
       }
     }
 
