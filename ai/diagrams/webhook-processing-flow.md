@@ -130,7 +130,15 @@ const isValid = verifyMuxSignature(body, signature, secret)
 
 // Deepgram validation
 const token = headers.get('authorization')
-const isValid = validateDeepgramToken(token)
+const isDeepgramValid = validateDeepgramToken(token)
+
+// Transloadit validation
+const receivedSignature = formData.get('signature')
+const payload = formData.get('transloadit')
+const expectedSignature = createHmac('sha1', process.env.TRANSLOADIT_SECRET!)
+  .update(Buffer.from(String(payload), 'utf-8'))
+  .digest('hex')
+const isTransloaditValid = expectedSignature === receivedSignature
 ```
 
 ### Rate Limiting
