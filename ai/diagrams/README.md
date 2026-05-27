@@ -43,7 +43,7 @@ After analyzing the entire codebase (839 TypeScript/JavaScript files), these dia
 
 ### 6. External Integrations
 
-- **[webhook-processing-flow.md](./webhook-processing-flow.md)** - Webhook handling from Mux, Deepgram, Sanity, and Transloadit
+- **[webhook-processing-flow.md](./webhook-processing-flow.md)** - Webhook handling from Mux, Deepgram, and Transloadit
 - **[email-automation-flow.md](./email-automation-flow.md)** - Email system including transactional and marketing automation
 
 ### 7. User Experience & Interface
