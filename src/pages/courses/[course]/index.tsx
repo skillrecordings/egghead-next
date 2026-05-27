@@ -163,7 +163,7 @@ const Course: React.FC<React.PropsWithChildren<CourseProps>> = (props) => {
 
   const items = get(course, 'items', [])
 
-  // Prefer Course Builder lessons (new source) over Sanity, then fallback to fullLessons, then items
+  // Prefer Course Builder lessons (new source) over loaded lessons, then fallback to fullLessons, then items
   // Course Builder is the authoritative source for new courses
   const courseLessons =
     courseBuilderLessons && courseBuilderLessons.length > 0

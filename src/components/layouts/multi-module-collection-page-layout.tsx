@@ -212,37 +212,37 @@ const MultiModuleCollectionPageLayout: React.FunctionComponent<
     created_at,
     access_state,
     customOgImage,
-    prerequisites: sanityPrerequisites,
-    topics: sanityTopics,
-    pairWithResources: sanityPairWithResources,
-    essentialQuestions: sanityEssentialQuestions,
-    illustrator: sanityIllustrator,
-    dependencies: sanityTags = [],
+    prerequisites: metadataPrerequisites,
+    topics: metadataTopics,
+    pairWithResources: metadataPairWithResources,
+    essentialQuestions: metadataEssentialQuestions,
+    illustrator: metadataIllustrator,
+    dependencies: metadataTags = [],
     state,
     path,
     tags: railsTags = [],
   } = course
 
-  const sanityTagsPresent = () => {
-    return sanityTags.length > 0
+  const metadataTagsPresent = () => {
+    return metadataTags.length > 0
   }
 
   const ogImage = customOgImage ? customOgImage.url : ogImageUrl
 
-  const relatedResources = sanityPairWithResources
-    ? sanityPairWithResources
+  const relatedResources = metadataPairWithResources
+    ? metadataPairWithResources
     : pairWithResources
-  const courseEssentialQuestions = !isEmpty(sanityEssentialQuestions)
-    ? transformSanityEssentialQuestions(sanityEssentialQuestions)
+  const courseEssentialQuestions = !isEmpty(metadataEssentialQuestions)
+    ? transformMetadataEssentialQuestions(metadataEssentialQuestions)
     : essentialQuestions
-  const courseTopics = !isEmpty(sanityTopics)
-    ? transformSanityTopics(sanityTopics)
+  const courseTopics = !isEmpty(metadataTopics)
+    ? transformMetadataTopics(metadataTopics)
     : topics
-  const coursePrerequisites = !isEmpty(sanityPrerequisites)
-    ? sanityPrerequisites
+  const coursePrerequisites = !isEmpty(metadataPrerequisites)
+    ? metadataPrerequisites
     : prerequisites
-  const courseIllustrator = !isEmpty(sanityIllustrator)
-    ? sanityIllustrator
+  const courseIllustrator = !isEmpty(metadataIllustrator)
+    ? metadataIllustrator
     : illustrator
 
   const podcast = first(
@@ -487,7 +487,7 @@ const MultiModuleCollectionPageLayout: React.FunctionComponent<
 
                 <div className="flex flex-col flex-wrap items-center md:flex-row space-y-3 md:space-y-0">
                   <TagList
-                    tags={sanityTagsPresent() ? sanityTags : railsTags}
+                    tags={metadataTagsPresent() ? metadataTags : railsTags}
                     courseSlug={course.slug}
                   />
                   <div className="flex items-center justify-center md:justify-start space-x-2">
@@ -1098,11 +1098,11 @@ const Prereqs = ({prerequisites}: any) => {
   )
 }
 
-const transformSanityEssentialQuestions = (essentialQuestions: any) => {
+const transformMetadataEssentialQuestions = (essentialQuestions: any) => {
   return essentialQuestions.map((question: any) => question.question)
 }
 
-const transformSanityTopics = (topics: any) => {
+const transformMetadataTopics = (topics: any) => {
   return topics.items
 }
 
