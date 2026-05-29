@@ -287,21 +287,21 @@ const PhpCollectionPageLayout: React.FunctionComponent<
     created_at,
     access_state,
     customOgImage,
-    illustrator: sanityIllustrator,
-    dependencies: sanityTags = [],
+    illustrator: metadataIllustrator,
+    dependencies: metadataTags = [],
     state,
     path,
     tags: railsTags = [],
   } = course
 
-  const sanityTagsPresent = () => {
-    return sanityTags.length > 0
+  const metadataTagsPresent = () => {
+    return metadataTags.length > 0
   }
 
   const ogImage = customOgImage ? customOgImage.url : ogImageUrl
 
-  const courseIllustrator = !isEmpty(sanityIllustrator)
-    ? sanityIllustrator
+  const courseIllustrator = !isEmpty(metadataIllustrator)
+    ? metadataIllustrator
     : courseDependencies?.illustrator
 
   logCollectionResource(course)
@@ -488,7 +488,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<
                   )}
                   <div className="flex flex-col flex-wrap items-center md:flex-row space-y-3 md:space-y-0">
                     <TagList
-                      tags={sanityTagsPresent() ? sanityTags : railsTags}
+                      tags={metadataTagsPresent() ? metadataTags : railsTags}
                       courseSlug={course.slug}
                     />
                     <div className="flex items-center justify-center md:justify-start space-x-2">

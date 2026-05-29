@@ -6,10 +6,10 @@ async function _GET() {
     method: 'PUT',
   })
 
-  // Keep allowlists warm so we can skip Sanity for ~95%+ of legacy content.
+  // Keep the lesson allowlist warm so lesson pages can skip Sanity for most
+  // legacy content. Course shells no longer read Sanity metadata at runtime.
   // Staleness-gated to avoid hammering Sanity (cron runs every minute).
   await refreshAllowlistIfStale('lesson', {route: '/api/cron'})
-  await refreshAllowlistIfStale('course', {route: '/api/cron'})
 
   return new Response(null, {
     status: 200,

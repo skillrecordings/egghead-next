@@ -56,6 +56,11 @@ describe('integration: loadPublicCourseShell (Course Builder backed)', () => {
           eggheadPlaylistId: 100,
           image: 'https://example.com/course-cover.png',
           ogImage: 'https://example.com/og-course.png',
+          tags: [{name: 'react', label: 'React'}],
+          dependencies: [{name: 'react', version: '19'}],
+          prerequisites: [{title: 'JavaScript basics'}],
+          relatedResources: [{title: 'React patterns'}],
+          illustration: {url: 'https://example.com/illustration.png'},
         },
       })),
       getCourseBuilderLessonStates: jest.fn(async () => new Map()),
@@ -111,12 +116,142 @@ describe('integration: loadPublicCourseShell (Course Builder backed)', () => {
         expect.objectContaining({slug: 'react-lesson-1'}),
         expect.objectContaining({slug: 'react-lesson-2'}),
       ],
+      tags: [expect.objectContaining({name: 'react'})],
+      dependencies: [expect.objectContaining({name: 'react'})],
+      prerequisites: [expect.objectContaining({title: 'JavaScript basics'})],
+      relatedResources: [expect.objectContaining({title: 'React patterns'})],
+      illustration: {url: 'https://example.com/illustration.png'},
     })
     expect(playlist?.items).toHaveLength(2)
     expect(playlist?.items?.[0]).toMatchObject({
       slug: 'react-lesson-1',
       path: '/lessons/react-lesson-1',
     })
+    expect(request).not.toHaveBeenCalled()
+  })
+
+  test('returns a legacy Rails-backed public course shell from Postgres without touching Sanity or legacy GraphQL', async () => {
+    const request = jest.fn(async () => {
+      throw new Error('Legacy GraphQL should not be called for course shells')
+    })
+    const pgQuery = jest
+      .fn()
+      .mockResolvedValueOnce({
+        rows: [
+          {
+            id: 321,
+            slug: 'legacy-rails-course',
+            title: 'Legacy Rails Course',
+            description: 'Rails description',
+            access_state: 'free',
+            visibility_state: 'indexed',
+            state: 'published',
+            created_at: '2024-01-01T00:00:00.000Z',
+            updated_at: '2024-01-02T00:00:00.000Z',
+            published_at: '2024-01-03T00:00:00.000Z',
+            owner_id: 10,
+            owner_full_name: 'Legacy Owner',
+            owner_avatar_url: 'https://example.com/owner.png',
+            instructor_id: 20,
+            instructor_full_name: 'Legacy Instructor',
+            instructor_slug: 'legacy-instructor',
+            instructor_avatar_url: 'https://example.com/instructor.png',
+            instructor_bio_short: 'Legacy bio',
+            instructor_twitter: 'legacydev',
+            square_cover_file_name: 'legacy-cover.png',
+            average_rating_out_of_5: 4.5,
+            rating_count: 12,
+            watched_count: 34,
+            duration: 120,
+            tags: [
+              {
+                id: 7,
+                name: 'typescript',
+                label: 'TypeScript',
+                http_url: 'https://egghead.io/q/typescript',
+                image_file_name: 'typescript.png',
+              },
+            ],
+          },
+        ],
+      })
+      .mockResolvedValueOnce({
+        rows: [
+          {
+            row_order: 1,
+            tracklistable_type: 'Lesson',
+            lesson_id: 1,
+            lesson_slug: 'legacy-lesson',
+            lesson_title: 'Legacy Lesson',
+            lesson_description: 'Lesson summary',
+            lesson_duration: 120,
+            lesson_thumb_url: 'https://example.com/lesson.png',
+            lesson_created_at: '2024-01-01T00:00:00.000Z',
+            lesson_updated_at: '2024-01-02T00:00:00.000Z',
+            lesson_published_at: '2024-01-03T00:00:00.000Z',
+            lesson_type: 'lesson',
+          },
+        ],
+      })
+
+    jest.doMock('@/utils/configured-graphql-client', () => ({
+      __esModule: true,
+      getGraphQLClient: () => ({request}),
+    }))
+
+    jest.doMock('@/db', () => ({
+      __esModule: true,
+      pgQuery,
+    }))
+
+    jest.doMock('@/lib/load-course-builder-metadata-wrapper', () => ({
+      __esModule: true,
+      loadCourseBuilderMetadata: jest.fn(async () => null),
+      getCourseBuilderCourseLessons: jest.fn(async () => null),
+      getAllCourseBuilderPublicCourseSlugs: jest.fn(async () => []),
+    }))
+
+    jest.spyOn(console, 'log').mockImplementation(() => {})
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
+    jest.spyOn(console, 'debug').mockImplementation(() => {})
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    const {loadPublicCourseShell} = await import('../playlists')
+
+    const playlist = await loadPublicCourseShell('legacy-rails-course')
+
+    expect(playlist).toMatchObject({
+      id: 321,
+      slug: 'legacy-rails-course',
+      title: 'Legacy Rails Course',
+      description: 'Rails description',
+      path: '/courses/legacy-rails-course',
+      access_state: 'free',
+      visibility_state: 'indexed',
+      state: 'published',
+      duration: 120,
+      square_cover_480_url:
+        'https://images.example.com/playlists/square_covers/000/000/321/square_480/legacy-cover.png',
+      image_thumb_url:
+        'https://images.example.com/playlists/square_covers/000/000/321/thumb/legacy-cover.png',
+      tags: [expect.objectContaining({name: 'typescript'})],
+      dependencies: [],
+      prerequisites: [],
+      pairWithResources: [],
+      relatedResources: [],
+      illustration: null,
+      instructor: {
+        full_name: 'Legacy Instructor',
+        slug: 'legacy-instructor',
+      },
+      courseBuilderLessons: [],
+    })
+    expect(playlist?.items).toEqual([
+      expect.objectContaining({
+        slug: 'legacy-lesson',
+        path: '/lessons/legacy-lesson',
+      }),
+    ])
     expect(request).not.toHaveBeenCalled()
   })
 
@@ -263,6 +398,11 @@ describe('integration: loadPublicCourseShell (Course Builder backed)', () => {
       getCourseBuilderLessonStates: jest.fn(async () => null),
       getCourseBuilderCourseLessons: jest.fn(async () => null),
       getAllCourseBuilderPublicCourseSlugs: jest.fn(async () => []),
+    }))
+
+    jest.doMock('@/db', () => ({
+      __esModule: true,
+      pgQuery: jest.fn(async () => ({rows: []})),
     }))
 
     jest.spyOn(console, 'log').mockImplementation(() => {})

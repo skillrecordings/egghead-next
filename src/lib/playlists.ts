@@ -5,7 +5,6 @@ import config from './config'
 import {pgQuery} from '@/db'
 import {
   loadCourseBuilderMetadata,
-  getCourseBuilderLessonStates,
   getCourseBuilderCourseLessons,
 } from './load-course-builder-metadata-wrapper'
 import {logEvent, timeEvent, type LogContext} from '@/utils/structured-log'
@@ -207,6 +206,10 @@ function mapLessonShell(row: {
     updated_at: serializeDateLike(row.lesson_updated_at),
     published_at: serializeDateLike(row.lesson_published_at),
   }
+}
+
+function arrayField(value: unknown): any[] {
+  return Array.isArray(value) ? value : []
 }
 
 async function loadPgCourseShellCore(
@@ -570,7 +573,20 @@ async function loadPgPublicCourseShell(slug: string, logContext: LogContext) {
     visibility_state: core.visibility_state,
     state: core.state,
     tags,
+    dependencies: [],
+    prerequisites: [],
+    pairWithResources: [],
+    relatedResources: [],
+    projects: [],
+    topics: null,
+    features: null,
+    illustration: null,
+    illustrator: null,
     items,
+    lessons: items.filter((item: any) =>
+      ['lesson', 'talk'].includes(item?.type),
+    ),
+    sections: [],
     instructor: core.instructor_id
       ? {
           id: core.instructor_id,
@@ -587,6 +603,9 @@ async function loadPgPublicCourseShell(slug: string, logContext: LogContext) {
       full_name: core.owner_full_name,
       avatar_url: core.owner_avatar_url,
     },
+    customOgImage: undefined,
+    ogImage: `https://og-image-react-egghead.now.sh/playlists/${core.slug}?v=20201103`,
+    courseBuilderLessons: [],
   }
 }
 
@@ -1075,6 +1094,7 @@ async function loadCourseBuilderPublicCourseShell(
     icon_url: undefined,
     thumb_url: undefined,
   }))
+  const sections = arrayField(courseBuilderMetadata.fields.sections)
 
   const instructor =
     courseBuilderMetadata.type === 'post' && courseBuilderMetadata.name
@@ -1118,10 +1138,27 @@ async function loadCourseBuilderPublicCourseShell(
       access_state: accessState,
       visibility_state: visibility,
       state,
-      tags: [],
+      // Course Builder owns rich course metadata for new shells. Legacy Rails
+      // fallback fields below use stable empty/null defaults where Rails has no
+      // equivalent runtime source.
+      tags: arrayField(courseBuilderMetadata.fields.tags),
+      dependencies: arrayField(courseBuilderMetadata.fields.dependencies),
+      prerequisites: arrayField(courseBuilderMetadata.fields.prerequisites),
+      pairWithResources: arrayField(
+        courseBuilderMetadata.fields.pairWithResources ??
+          courseBuilderMetadata.fields.relatedResources,
+      ),
+      relatedResources: arrayField(
+        courseBuilderMetadata.fields.relatedResources,
+      ),
+      projects: arrayField(courseBuilderMetadata.fields.projects),
+      topics: courseBuilderMetadata.fields.topics ?? null,
+      features: courseBuilderMetadata.fields.features ?? null,
+      illustration: courseBuilderMetadata.fields.illustration ?? null,
+      illustrator: courseBuilderMetadata.fields.illustrator ?? null,
       items,
       lessons: courseBuilderLessons,
-      sections: [],
+      sections,
       instructor,
       owner: instructor
         ? {
@@ -1140,11 +1177,11 @@ async function loadCourseBuilderPublicCourseShell(
     },
     metrics: {
       items_count: items.length,
-      sections_count: 0,
+      sections_count: sections.length,
       filtered_items_count: items.length,
-      filtered_sections_count: 0,
+      filtered_sections_count: sections.length,
+      has_course_meta: false,
       has_coursebuilder_meta: true,
-      lesson_states_count: 0,
       coursebuilder_lessons_count: courseBuilderLessons.length,
     },
   }
@@ -1158,32 +1195,56 @@ export async function loadPublicCourseShell(
 
   const course = await loadCourseBuilderPublicCourseShell(slug, logContext)
 
-  if (!course) {
+  if (course) {
     logEvent(
-      'warn',
-      'course.loadPublicCourseShell.not_found',
+      'info',
+      'course.loadPublicCourseShell.summary',
       {
         slug,
         duration_ms: Date.now() - startTime,
+        source: 'coursebuilder',
+        ...course.metrics,
       },
       logContext,
     )
-    return null
+
+    return course.result
+  }
+
+  const legacyCourse = await loadPgPublicCourseShell(slug, logContext)
+
+  if (legacyCourse) {
+    logEvent(
+      'info',
+      'course.loadPublicCourseShell.summary',
+      {
+        slug,
+        duration_ms: Date.now() - startTime,
+        source: 'rails_pg',
+        items_count: legacyCourse.items?.length ?? 0,
+        sections_count: legacyCourse.sections?.length ?? 0,
+        filtered_items_count: legacyCourse.items?.length ?? 0,
+        filtered_sections_count: legacyCourse.sections?.length ?? 0,
+        has_course_meta: false,
+        has_coursebuilder_meta: false,
+        coursebuilder_lessons_count: 0,
+      },
+      logContext,
+    )
+
+    return legacyCourse
   }
 
   logEvent(
-    'info',
-    'course.loadPublicCourseShell.summary',
+    'warn',
+    'course.loadPublicCourseShell.not_found',
     {
       slug,
       duration_ms: Date.now() - startTime,
-      source: 'coursebuilder',
-      ...course.metrics,
     },
     logContext,
   )
-
-  return course.result
+  return null
 }
 
 /**
