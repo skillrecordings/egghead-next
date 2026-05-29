@@ -5,11 +5,6 @@ import {
   DeepgramWebhook,
 } from './events/deepgram-webhook'
 import {
-  TRANSCRIPT_READY_EVENT,
-  TranscriptReady,
-} from './events/transcript-requested'
-import {VIDEO_UPLOADED_EVENT, VideoUploaded} from './events/video-uploaded'
-import {
   INDEX_LESSONS_FOREVER,
   IndexLessonsForever,
 } from '@/inngest/events/index-lessons-forever-event'
@@ -61,8 +56,6 @@ type Events = {
   [LIFETIME_PURCHASE_EVENT]: LifetimePurchase
   [SPECIFIC_PRODUCT_PURCHASE_EVENT]: SpecificProductPurchase
   [DEEPGRAM_WEBHOOK_EVENT]: DeepgramWebhook
-  [TRANSCRIPT_READY_EVENT]: TranscriptReady
-  [VIDEO_UPLOADED_EVENT]: VideoUploaded
   [INDEX_LESSONS_FOREVER]: IndexLessonsForever
   [SEND_SLACK_MESSAGE_EVENT]: SlackMessage
   [SEND_FEEDBACK_EMAIL_EVENT]: FeedbackEmail
