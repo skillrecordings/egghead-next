@@ -32,7 +32,7 @@ flowchart TD
     F --> G{Mux Asset Created?}
 
     G -->|No| H[Log Error & Retry]
-    G -->|Yes| I[Create Sanity Video Resource]
+    G -->|Yes| I[Create Video Resource]
 
     I --> J[Update Module Builder Record]
     J --> K[Order Deepgram Transcript]
@@ -49,7 +49,7 @@ flowchart TD
     S --> T[Process Transcript Text]
     T --> U[Generate SRT File]
     U --> V[Add SRT to Mux Asset]
-    V --> W[Update Sanity with Transcript]
+    V --> W[Update Transcript]
     W --> X[Sync to Rails Backend]
 
     Q --> Y[Video Ready for Playback]
@@ -94,7 +94,6 @@ flowchart TD
 - AWS S3 for file storage
 - Mux for video processing and hosting
 - Deepgram for speech-to-text transcription
-- Sanity CMS for metadata storage
 - Rails backend for lesson management
 
 ## Async Background Jobs

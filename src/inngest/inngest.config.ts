@@ -1,10 +1,5 @@
 import {inngest} from '@/inngest/inngest.server'
-import {
-  muxVideoAssetCreated,
-  muxVideoAssetReady,
-} from '@/inngest/functions/mux/mux-webhooks-handlers'
-import {transcriptReady} from '@/inngest/functions/transcript-ready'
-import {videoUploaded} from '@/inngest/functions/video-uploaded'
+import {muxVideoAssetCreated} from '@/inngest/functions/mux/mux-webhooks-handlers'
 import {indexLessonsForever} from '@/inngest/functions/index-lessons'
 import {sendSlackMessage} from '@/inngest/functions/send-slack-message'
 import {sendFeedbackEmail} from '@/inngest/functions/send-feedback-email'
@@ -32,9 +27,6 @@ export const inngestConfig = {
   client: inngest,
   functions: [
     muxVideoAssetCreated,
-    muxVideoAssetReady,
-    transcriptReady,
-    videoUploaded,
     indexLessonsForever,
     sendSlackMessage,
     sendFeedbackEmail,

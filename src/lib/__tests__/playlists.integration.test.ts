@@ -130,7 +130,7 @@ describe('integration: loadPublicCourseShell (Course Builder backed)', () => {
     expect(request).not.toHaveBeenCalled()
   })
 
-  test('returns a legacy Rails-backed public course shell from Postgres without touching Sanity or legacy GraphQL', async () => {
+  test('returns a legacy Rails-backed public course shell from Postgres without touching legacy GraphQL', async () => {
     const request = jest.fn(async () => {
       throw new Error('Legacy GraphQL should not be called for course shells')
     })

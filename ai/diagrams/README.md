@@ -94,7 +94,6 @@ After analyzing the entire codebase (839 TypeScript/JavaScript files), these dia
 
 - **Mux**: Video hosting and processing
 - **Stripe**: Payment processing
-- **Sanity**: Headless CMS
 - **Deepgram**: Speech-to-text transcription
 - **Customer.io**: Email marketing automation
 - **PostHog**: Product analytics

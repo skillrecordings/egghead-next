@@ -17,7 +17,7 @@ const GRAPHQL_LESSON_MISS_CACHE_PREFIX = 'graphql:lesson:miss'
 const GRAPHQL_LESSON_MISS_TTL_SECONDS = 60 * 60 * 6 // 6 hours
 export const LESSON_NOT_FOUND_MESSAGE = 'Unable to lookup lesson metadata'
 
-// Matches the fallback the old Sanity GROQ used to coalesce onto collection
+// Matches the legacy fallback used to coalesce onto collection
 // images. Restored here so legacy lessons whose rails collection lacks an
 // image don't ship `null` to `next/legacy/image` during prerender.
 const DEFAULT_COURSE_IMAGE_URL =
@@ -289,7 +289,7 @@ export async function loadLesson(
   // `next/legacy/image` doesn't choke on `src={null}` during prerender of the
   // player sidebar / course header. Priority: existing merged value (CB or
   // rails) -> rails GraphQL collection's url (defensive in case the merge
-  // dropped it) -> eggo fallback that the old Sanity GROQ used to coalesce.
+  // dropped it) -> eggo fallback that legacy metadata used to coalesce.
   if (
     lessonMetadata.collection &&
     typeof lessonMetadata.collection === 'object'

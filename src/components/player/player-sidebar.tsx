@@ -141,7 +141,7 @@ const LessonListTab: React.FC<
   const collectionIsEmpty: boolean = isEmpty(videoResource.collection)
   const [filteredCourse, setFilteredCourse] = React.useState<any>(null)
 
-  // accounts for data coming from either GraphQL or Sanity. Sometimes there will be an array of tags instead of a single primary tag
+  // accounts for data coming from multiple metadata sources. Sometimes there will be an array of tags instead of a single primary tag
   const primaryTag = videoResource.primary_tag
     ? videoResource.primary_tag
     : videoResource.tags

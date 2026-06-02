@@ -55,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
       }
       const articles =
         standalonePageData.portfolioFoundationsArticles as InlineArticle[]
-      // Sanity no longer has child article resources for this retired guide.
+      // Retired guide no longer has child article resources.
       const resource = articles.find((article) => article.slug === params.slug)
 
       if (!resource?.article) {

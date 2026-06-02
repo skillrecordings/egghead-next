@@ -9,7 +9,7 @@ import standalonePageData from '@/data/standalone-page-data.json'
 const Portfolio = (props: any) => {
   const {title, image, url, description = ''} = props
 
-  // there's no `body` field or similar with MDX content in Sanity,
+  // there's no `body` field or similar with MDX content,
   // so MDX stuff is commented out and we're using description field as plain markdown for now
   const content = description // useHydrate(body, {components: mdxComponents})
 
