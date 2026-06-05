@@ -465,6 +465,14 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
           workshopTitle="Live Claude Code Workshop"
         />
       )}
+      {pathname !== '/workshop/codex' && pathname !== '/' && (
+        <WorkshopSaleHeaderBanner
+          isEnabled={Boolean(bannerData?.codexWorkshopSaleEnabled)}
+          workshopDateAndTime={bannerData?.codexWorkshop ?? undefined}
+          workshopPath="/workshop/codex"
+          workshopTitle="Live Codex Workshop with John Lindquist"
+        />
+      )}
       {pathname !== '/workshop/cursor' && (
         <WorkshopEarlyBirdHeaderBanner
           isEnabled={Boolean(bannerData?.cursorWorkshopEarlyBirdEnabled)}

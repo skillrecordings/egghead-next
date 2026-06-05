@@ -44,6 +44,7 @@ export const handleSpecificProductPurchase = async (
   const workshopFlagKeys = [
     'featureFlagCursorWorkshopSale',
     'featureFlagClaudeCodeWorkshopSale',
+    'featureFlagCodexWorkshopSale',
     // ✨ To add another workshop, just add its feature flag key here!
   ]
 

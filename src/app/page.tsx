@@ -150,6 +150,21 @@ export default async function HomePage() {
               ]}
               analyticsLabel="Cursor Workshop"
             />
+            <WorkshopCTA
+              workshopLink="/workshop/codex"
+              featureFlagName="featureFlagCodexWorkshopSale"
+              imageUrl=""
+              imageAlt="Codex Workshop"
+              title="Become a Codex Power User"
+              description="Join a hands-on session to master terminal-based agent workflows, specialized agents, reusable skills, and the Codex SDK to transform your development process."
+              featureTags={[
+                'Live Q&A',
+                'Terminal Agents',
+                'Skills & Hooks',
+                'Codex SDK',
+              ]}
+              analyticsLabel="Codex Workshop"
+            />
           </Suspense>
         </section>
 
