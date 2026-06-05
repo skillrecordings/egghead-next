@@ -94,7 +94,7 @@ CodexWorkshopPage.getLayout = (Page: any, pageProps: any) => {
         openGraph={{
           images: [
             {
-              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1780695643/codex-workshop/card--mocking-vitest_2x.png',
+              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1780697697/codex-workshop/card--_2x.png',
               width: 1200,
               height: 630,
             },
