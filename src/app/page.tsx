@@ -153,7 +153,7 @@ export default async function HomePage() {
             <WorkshopCTA
               workshopLink="/workshop/codex"
               featureFlagName="featureFlagCodexWorkshopSale"
-              imageUrl=""
+              imageUrl="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1780695731/codex-workshop/card--mocking-vitest_2x_1.png"
               imageAlt="Codex Workshop"
               title="Become a Codex Power User"
               description="Join a hands-on session to master terminal-based agent workflows, specialized agents, reusable skills, and the Codex SDK to transform your development process."
