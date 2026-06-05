@@ -29,9 +29,14 @@ export async function containsSpecificProduct(
       'featureFlagClaudeCodeWorkshopSale',
       'workshop',
     )
+    const codexWorkshop = await getFeatureFlag(
+      'featureFlagCodexWorkshopSale',
+      'workshop',
+    )
 
     const parsedCursorWorkshop = LiveWorkshopSchema.safeParse(cursorWorkshop)
     const parsedClaudeWorkshop = LiveWorkshopSchema.safeParse(claudeWorkshop)
+    const parsedCodexWorkshop = LiveWorkshopSchema.safeParse(codexWorkshop)
 
     const possibleProductIds: string[] = []
 
@@ -40,6 +45,9 @@ export async function containsSpecificProduct(
     }
     if (parsedClaudeWorkshop.success && parsedClaudeWorkshop.data) {
       possibleProductIds.push(parsedClaudeWorkshop.data.productId)
+    }
+    if (parsedCodexWorkshop.success && parsedCodexWorkshop.data) {
+      possibleProductIds.push(parsedCodexWorkshop.data.productId)
     }
 
     if (possibleProductIds.length === 0) {

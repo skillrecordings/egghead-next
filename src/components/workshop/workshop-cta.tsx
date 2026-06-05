@@ -15,6 +15,7 @@ export interface WorkshopCTAProps {
   description: string
   featureTags: string[]
   analyticsLabel: string
+  imageFill?: boolean
 }
 
 const WorkshopCTA: React.FC<WorkshopCTAProps> = ({
@@ -26,6 +27,7 @@ const WorkshopCTA: React.FC<WorkshopCTAProps> = ({
   description,
   featureTags,
   analyticsLabel,
+  imageFill = false,
 }) => {
   const {data: liveWorkshop, isLoading: isLiveWorkshopLoading} =
     trpc.featureFlag.getLiveWorkshop.useQuery({
@@ -59,17 +61,30 @@ const WorkshopCTA: React.FC<WorkshopCTAProps> = ({
         }}
       >
         <div className="flex flex-col sm:flex-row">
-          <div className="sm:w-1/3 lg:w-1/4 bg-[#0b0b0b] flex items-center justify-center p-8">
-            <div className="relative w-full max-w-[200px] aspect-square">
+          {imageFill ? (
+            <div className="relative sm:w-1/3 lg:w-1/4 bg-[#0b0b0b] min-h-[12rem] sm:min-h-0">
               <Image
                 src={imageUrl}
                 alt={imageAlt}
                 layout="fill"
-                objectFit="contain"
+                objectFit="cover"
+                objectPosition="center"
                 priority
               />
             </div>
-          </div>
+          ) : (
+            <div className="sm:w-1/3 lg:w-1/4 bg-[#0b0b0b] flex items-center justify-center p-8">
+              <div className="relative w-full max-w-[200px] aspect-square">
+                <Image
+                  src={imageUrl}
+                  alt={imageAlt}
+                  layout="fill"
+                  objectFit="contain"
+                  priority
+                />
+              </div>
+            </div>
+          )}
           <div className="flex-1 p-6 sm:p-8">
             {/* Primary Workshop Badge - Single focal point */}
             <div className="mb-4">
