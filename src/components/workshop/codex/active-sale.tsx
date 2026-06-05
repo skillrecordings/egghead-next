@@ -189,9 +189,6 @@ const ActiveSale = ({
               <br />
               Your transformation into a Codex power user starts here.
               <br />
-              <br />
-              The previous workshop sold out in 7 days. Don’t join the
-              wait-list, secure your spot today.
             </p>
           </div>
           {teamToggleState ? (
