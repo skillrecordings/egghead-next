@@ -109,6 +109,14 @@ const nextConfig = {
       ...learnRoutes,
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: '/.well-known/vercel/flags',
+        destination: '/api/vercel/flags',
+      },
+    ];
+  },
 };
 
 const learnRoutes = [
