@@ -15,7 +15,6 @@ import {
   SOURCE_EXCERPT_CARDS,
   INLINE_INTRO,
   WORKSHOP_MAP_MD,
-  VERIFICATION_BOUNDARY,
 } from '@/components/workshop/codex/power-user-reference/content'
 
 const REFERENCE_BASE = '/workshop/codex/power-user-reference'
@@ -142,16 +141,6 @@ export default function PowerUserReferencePage() {
                   Keyframes
                 </h2>
                 <Keyframes />
-              </section>
-
-              {/* Verification Boundary */}
-              <section className="border-t border-gray-200 py-12 dark:border-gray-800 sm:py-16">
-                <h2 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-                  Verification Boundary
-                </h2>
-                <p className="mt-3 leading-relaxed text-gray-600 dark:text-gray-300">
-                  <InlineMarkdown>{VERIFICATION_BOUNDARY}</InlineMarkdown>
-                </p>
               </section>
             </div>
           </main>
