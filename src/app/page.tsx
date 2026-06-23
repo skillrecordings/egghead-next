@@ -136,6 +136,14 @@ export default async function HomePage() {
               analyticsLabel="Claude Code Workshop"
             />
             <WorkshopCTA
+              workshopLink="/workshop/codex"
+              featureFlagName="featureFlagCodexWorkshopSale"
+              title="Become a Codex Power User"
+              description="Join a hands-on session to unlock advanced Codex workflows, automation, and integrations that will transform your development process."
+              featureTags={['Live Q&A', 'Codex CLI', 'Custom Workflows']}
+              analyticsLabel="Codex Workshop"
+            />
+            <WorkshopCTA
               workshopLink="/workshop/cursor"
               featureFlagName="featureFlagCursorWorkshopSale"
               imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/411/full/cursor.png"

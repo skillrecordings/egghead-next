@@ -9,8 +9,8 @@ import Image from 'next/legacy/image'
 export interface WorkshopCTAProps {
   workshopLink: string
   featureFlagName: string
-  imageUrl: string
-  imageAlt: string
+  imageUrl?: string
+  imageAlt?: string
   title: string
   description: string
   featureTags: string[]
@@ -61,7 +61,7 @@ const WorkshopCTA: React.FC<WorkshopCTAProps> = ({
         }}
       >
         <div className="flex flex-col sm:flex-row">
-          {imageFill ? (
+          {!imageUrl ? null : imageFill ? (
             <div className="relative sm:w-1/3 lg:w-1/4 bg-[#0b0b0b] min-h-[12rem] sm:min-h-0">
               <Image
                 src={imageUrl}
