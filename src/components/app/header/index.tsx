@@ -471,6 +471,7 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
           workshopDateAndTime={bannerData?.codexWorkshop ?? undefined}
           workshopPath="/workshop/codex"
           workshopTitle="Live Codex Workshop with John Lindquist"
+          displayDate
         />
       )}
       {pathname !== '/workshop/cursor' && (
