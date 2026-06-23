@@ -116,9 +116,10 @@ const WorkshopSaleHeaderBanner: React.FC<WorkshopSaleHeaderBannerProps> = ({
               <div className="flex  items-center gap-1">
                 <span>
                   Sign up for the {workshopTitle}
-                  {showDateBadge ? ' —' : " — you've got"}
+                  {showDateBadge ? ' on' : " — you've got"}
                 </span>{' '}
                 {timing}
+                {showDateBadge && <span aria-hidden="true">—</span>}
               </div>
             ) : (
               'Sale:'
