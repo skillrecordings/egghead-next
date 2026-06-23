@@ -126,7 +126,7 @@ const WorkshopSaleHeaderBanner: React.FC<WorkshopSaleHeaderBannerProps> = ({
           </div>
         </div>
         <div className="flex items-center flex-shrink-0 px-2 py-px text-white underline">
-          <span className="pr-1 font-medium">to Claim your Spot</span>{' '}
+          <span className="pr-1 font-medium">Claim your Spot</span>{' '}
           <span role="img" aria-hidden="true">
             →
           </span>
