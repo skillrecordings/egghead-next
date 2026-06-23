@@ -138,6 +138,7 @@ export default async function HomePage() {
             <WorkshopCTA
               workshopLink="/workshop/codex"
               featureFlagName="featureFlagCodexWorkshopSale"
+              instructor="John Lindquist"
               title="Become a Codex Power User"
               description="Join a hands-on session to unlock advanced Codex workflows, automation, and integrations that will transform your development process."
               featureTags={['Live Q&A', 'Codex CLI', 'Custom Workflows']}

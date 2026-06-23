@@ -16,6 +16,7 @@ export interface WorkshopCTAProps {
   featureTags: string[]
   analyticsLabel: string
   imageFill?: boolean
+  instructor?: string
 }
 
 const WorkshopCTA: React.FC<WorkshopCTAProps> = ({
@@ -28,6 +29,7 @@ const WorkshopCTA: React.FC<WorkshopCTAProps> = ({
   featureTags,
   analyticsLabel,
   imageFill = false,
+  instructor,
 }) => {
   const {data: liveWorkshop, isLoading: isLiveWorkshopLoading} =
     trpc.featureFlag.getLiveWorkshop.useQuery({
@@ -100,6 +102,9 @@ const WorkshopCTA: React.FC<WorkshopCTAProps> = ({
 
             {/* Workshop Details - Reduced prominence */}
             <div className="flex flex-wrap items-center gap-3 mb-4 text-sm text-gray-600 dark:text-gray-400">
+              {instructor && (
+                <span className="font-medium">with {instructor}</span>
+              )}
               {workshopDate && (
                 <span className="font-medium">{workshopDate}</span>
               )}
@@ -140,11 +145,11 @@ const WorkshopCTA: React.FC<WorkshopCTAProps> = ({
               ))}
             </div>
 
-            {/* Call to Action - Clear visual weight */}
-            <div className="flex items-center text-gray-900 dark:text-gray-100 font-semibold group-hover:translate-x-1 transition-transform">
-              <span>Learn More</span>
+            {/* Call to Action - Blue button */}
+            <span className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors group-hover:bg-blue-700">
+              Claim Your Spot
               <svg
-                className="w-4 h-4 ml-2"
+                className="w-4 h-4 transition-transform group-hover:translate-x-1"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -156,7 +161,7 @@ const WorkshopCTA: React.FC<WorkshopCTAProps> = ({
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-            </div>
+            </span>
           </div>
         </div>
       </Link>
