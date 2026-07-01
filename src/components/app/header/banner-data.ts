@@ -5,8 +5,10 @@ export type HeaderBannerData = {
   cursorWorkshopSaleEnabled: boolean
   claudeCodeWorkshopSaleEnabled: boolean
   codexWorkshopSaleEnabled: boolean
+  softwareFactoryWorkshopSaleEnabled: boolean
   cursorWorkshopEarlyBirdEnabled: boolean
   cursorWorkshop: LiveWorkshop | null
   claudeCodeWorkshop: LiveWorkshop | null
   codexWorkshop: LiveWorkshop | null
+  softwareFactoryWorkshop: LiveWorkshop | null
 }

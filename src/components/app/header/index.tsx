@@ -474,6 +474,15 @@ const Header: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
           displayDate
         />
       )}
+      {pathname !== '/workshop/software-factory' && (
+        <WorkshopSaleHeaderBanner
+          isEnabled={Boolean(bannerData?.softwareFactoryWorkshopSaleEnabled)}
+          workshopDateAndTime={bannerData?.softwareFactoryWorkshop ?? undefined}
+          workshopPath="/workshop/software-factory"
+          workshopTitle="Live Agentic Software Factory Workshop with John Lindquist"
+          displayDate
+        />
+      )}
       {pathname !== '/workshop/cursor' && (
         <WorkshopEarlyBirdHeaderBanner
           isEnabled={Boolean(bannerData?.cursorWorkshopEarlyBirdEnabled)}

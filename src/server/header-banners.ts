@@ -11,6 +11,7 @@ export async function getHeaderBannerData(
     cursorWorkshopSaleEnabled,
     claudeCodeWorkshopSaleEnabled,
     codexWorkshopSaleEnabled,
+    softwareFactoryWorkshopSaleEnabled,
     cursorWorkshopEarlyBirdEnabled,
   ] = await Promise.all([
     getSaleBannerFeatureFlag(
@@ -34,32 +35,44 @@ export async function getHeaderBannerData(
       logContext,
     ),
     getSaleBannerFeatureFlag(
+      'featureFlagSoftwareFactoryWorkshopSale',
+      'saleBanner',
+      logContext,
+    ),
+    getSaleBannerFeatureFlag(
       'featureFlagCursorWorkshopSale',
       'earlyBirdBanner',
       logContext,
     ),
   ])
 
-  const [cursorWorkshopRaw, claudeCodeWorkshopRaw, codexWorkshopRaw] =
-    await Promise.all([
-      cursorWorkshopSaleEnabled || cursorWorkshopEarlyBirdEnabled
-        ? getFeatureFlag(
-            'featureFlagCursorWorkshopSale',
-            'workshop',
-            logContext,
-          )
-        : Promise.resolve(undefined),
-      claudeCodeWorkshopSaleEnabled
-        ? getFeatureFlag(
-            'featureFlagClaudeCodeWorkshopSale',
-            'workshop',
-            logContext,
-          )
-        : Promise.resolve(undefined),
-      codexWorkshopSaleEnabled
-        ? getFeatureFlag('featureFlagCodexWorkshopSale', 'workshop', logContext)
-        : Promise.resolve(undefined),
-    ])
+  const [
+    cursorWorkshopRaw,
+    claudeCodeWorkshopRaw,
+    codexWorkshopRaw,
+    softwareFactoryWorkshopRaw,
+  ] = await Promise.all([
+    cursorWorkshopSaleEnabled || cursorWorkshopEarlyBirdEnabled
+      ? getFeatureFlag('featureFlagCursorWorkshopSale', 'workshop', logContext)
+      : Promise.resolve(undefined),
+    claudeCodeWorkshopSaleEnabled
+      ? getFeatureFlag(
+          'featureFlagClaudeCodeWorkshopSale',
+          'workshop',
+          logContext,
+        )
+      : Promise.resolve(undefined),
+    codexWorkshopSaleEnabled
+      ? getFeatureFlag('featureFlagCodexWorkshopSale', 'workshop', logContext)
+      : Promise.resolve(undefined),
+    softwareFactoryWorkshopSaleEnabled
+      ? getFeatureFlag(
+          'featureFlagSoftwareFactoryWorkshopSale',
+          'workshop',
+          logContext,
+        )
+      : Promise.resolve(undefined),
+  ])
 
   const parsedCursorWorkshop = cursorWorkshopRaw
     ? LiveWorkshopSchema.safeParse(cursorWorkshopRaw)
@@ -70,12 +83,18 @@ export async function getHeaderBannerData(
   const parsedCodexWorkshop = codexWorkshopRaw
     ? LiveWorkshopSchema.safeParse(codexWorkshopRaw)
     : {success: true as const, data: undefined}
+  const parsedSoftwareFactoryWorkshop = softwareFactoryWorkshopRaw
+    ? LiveWorkshopSchema.safeParse(softwareFactoryWorkshopRaw)
+    : {success: true as const, data: undefined}
 
   return {
     lifetimeSaleEnabled: Boolean(lifetimeSaleEnabled),
     cursorWorkshopSaleEnabled: Boolean(cursorWorkshopSaleEnabled),
     claudeCodeWorkshopSaleEnabled: Boolean(claudeCodeWorkshopSaleEnabled),
     codexWorkshopSaleEnabled: Boolean(codexWorkshopSaleEnabled),
+    softwareFactoryWorkshopSaleEnabled: Boolean(
+      softwareFactoryWorkshopSaleEnabled,
+    ),
     cursorWorkshopEarlyBirdEnabled: Boolean(cursorWorkshopEarlyBirdEnabled),
     cursorWorkshop: parsedCursorWorkshop.success
       ? parsedCursorWorkshop.data ?? null
@@ -85,6 +104,9 @@ export async function getHeaderBannerData(
       : null,
     codexWorkshop: parsedCodexWorkshop.success
       ? parsedCodexWorkshop.data ?? null
+      : null,
+    softwareFactoryWorkshop: parsedSoftwareFactoryWorkshop.success
+      ? parsedSoftwareFactoryWorkshop.data ?? null
       : null,
   }
 }
