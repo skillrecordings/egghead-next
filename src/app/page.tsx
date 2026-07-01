@@ -121,6 +121,20 @@ export default async function HomePage() {
         <section>
           <Suspense fallback={<div>Loading...</div>}>
             <WorkshopCTA
+              workshopLink="/workshop/software-factory"
+              featureFlagName="featureFlagSoftwareFactoryWorkshopSale"
+              instructor="John Lindquist"
+              title="Agentic Software Factory Workshop"
+              description="Join a hands-on session to build your own factory of specialized AI coding agents with Claude Code and Codex — context engineering, terminal agent workflows, and automation."
+              featureTags={[
+                'Live Q&A',
+                'Claude Code & Codex',
+                'Specialized Agents',
+                'Automation',
+              ]}
+              analyticsLabel="Agentic Software Factory Workshop"
+            />
+            <WorkshopCTA
               workshopLink="/workshop/claude-code"
               featureFlagName="featureFlagClaudeCodeWorkshopSale"
               imageUrl="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1752698761/claude-code-workshop-logo-square_hopfzn.png"
