@@ -84,14 +84,39 @@ export const getStaticProps: GetServerSideProps = async function ({params}) {
     console.warn(`Error fetching lesson ${post.fields.eggheadLessonId}:`, error)
   }
 
-  // Serialize MDX content
-  const mdxSource = await serializeMDX(post.fields?.body ?? '', {
+  // Serialize MDX content.
+  // A single post with malformed MDX (e.g. an unescaped `<` that MDX reads as a
+  // JSX tag) must never crash the entire static export, so we degrade gracefully:
+  //   1. serialize the real body
+  //   2. on failure, neutralize `<` so tag-like sequences render as plain text
+  //   3. on failure, fall back to an empty body
+  const body = post.fields?.body ?? ''
+  const shikiOptions = {
     useShikiTwoslash: true,
     syntaxHighlighterOptions: {
       authorization: process.env.SHIKI_AUTH_TOKEN!,
       endpoint: process.env.SHIKI_ENDPOINT!,
     },
-  })
+  }
+
+  let mdxSource
+  try {
+    mdxSource = await serializeMDX(body, shikiOptions)
+  } catch (error) {
+    console.error(
+      `[post] MDX serialize failed for "${params.post}", retrying with neutralized angle brackets:`,
+      error,
+    )
+    try {
+      mdxSource = await serializeMDX(body.replace(/</g, '&lt;'), shikiOptions)
+    } catch (fallbackError) {
+      console.error(
+        `[post] MDX fallback serialize also failed for "${params.post}", rendering empty body:`,
+        fallbackError,
+      )
+      mdxSource = await serializeMDX('')
+    }
+  }
 
   return {
     props: {
