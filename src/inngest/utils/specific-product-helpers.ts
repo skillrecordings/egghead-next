@@ -2,6 +2,7 @@ import Stripe from 'stripe'
 import {stripe} from '@/utils/stripe'
 import {getFeatureFlag} from '@/lib/feature-flags'
 import {LiveWorkshopSchema} from '@/types'
+import {LIVE_WORKSHOP_SALE_FLAGS} from '@/lib/live-workshop-flags'
 
 /**
  * Checks if a checkout session contains our specific product.
@@ -21,26 +22,15 @@ export async function containsSpecificProduct(
   checkoutSession: Stripe.Checkout.Session,
 ): Promise<boolean> {
   try {
-    const cursorWorkshop = await getFeatureFlag(
-      'featureFlagCursorWorkshopSale',
-      'workshop',
+    const workshops = await Promise.all(
+      LIVE_WORKSHOP_SALE_FLAGS.map((flag) => getFeatureFlag(flag, 'workshop')),
     )
-    const claudeWorkshop = await getFeatureFlag(
-      'featureFlagClaudeCodeWorkshopSale',
-      'workshop',
-    )
-
-    const parsedCursorWorkshop = LiveWorkshopSchema.safeParse(cursorWorkshop)
-    const parsedClaudeWorkshop = LiveWorkshopSchema.safeParse(claudeWorkshop)
-
-    const possibleProductIds: string[] = []
-
-    if (parsedCursorWorkshop.success && parsedCursorWorkshop.data) {
-      possibleProductIds.push(parsedCursorWorkshop.data.productId)
-    }
-    if (parsedClaudeWorkshop.success && parsedClaudeWorkshop.data) {
-      possibleProductIds.push(parsedClaudeWorkshop.data.productId)
-    }
+    const possibleProductIds = workshops.flatMap((workshop) => {
+      const parsedWorkshop = LiveWorkshopSchema.safeParse(workshop)
+      return parsedWorkshop.success && parsedWorkshop.data
+        ? [parsedWorkshop.data.productId]
+        : []
+    })
 
     if (possibleProductIds.length === 0) {
       console.warn('No workshop found')
@@ -120,18 +110,19 @@ export async function containsSpecificProduct(
  */
 export async function getSpecificProductName(): Promise<string> {
   try {
-    const workshop = await getFeatureFlag(
-      'featureFlagCursorWorkshopSale',
-      'workshop',
+    const workshops = await Promise.all(
+      LIVE_WORKSHOP_SALE_FLAGS.map((flag) => getFeatureFlag(flag, 'workshop')),
     )
-    const parsedWorkshop = LiveWorkshopSchema.parse(workshop)
+    const workshop = workshops
+      .map((workshop) => LiveWorkshopSchema.safeParse(workshop))
+      .find((parsedWorkshop) => parsedWorkshop.success)?.data
 
-    if (!parsedWorkshop) {
+    if (!workshop) {
       console.warn('No workshop found')
       return ''
     }
 
-    const product = await stripe.products.retrieve(parsedWorkshop.productId)
+    const product = await stripe.products.retrieve(workshop.productId)
     return product.name || ''
   } catch (error) {
     console.error(`Error retrieving specific product name: ${error}`)
