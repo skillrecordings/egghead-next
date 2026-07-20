@@ -95,7 +95,7 @@ SoftwareFactoryWorkshopPage.getLayout = (Page: any, pageProps: any) => {
         openGraph={{
           images: [
             {
-              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1782933355/codex-workshop/card--_2x.png',
+              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1784576819/Group_459_ogkbbw.png',
               width: 1200,
               height: 630,
             },
