@@ -3,6 +3,7 @@ import * as React from 'react'
 import Stripe from 'stripe'
 import {WorkshopInvoice} from '@/components/workshop/shared/invoices/workshop-invoice'
 import {withSSRLogging} from '@/lib/logging'
+import {logEvent} from '@/utils/structured-log'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2020-08-27',
@@ -34,9 +35,10 @@ const getProductNameForCharge = async (
       }
     }
   } catch (error) {
-    console.error(
-      `Error resolving product name for charge ${charge.id}: ${error}`,
-    )
+    logEvent('error', 'workshop_invoice_product_name_resolution_failed', {
+      stripe_charge_id: charge.id,
+      error_message: error instanceof Error ? error.message : String(error),
+    })
   }
 
   return charge.description || 'egghead Workshop'

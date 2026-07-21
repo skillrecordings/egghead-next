@@ -5,6 +5,7 @@ import {
 import {inngest} from '@/inngest/inngest.server'
 import {postToSlack} from '@/lib/slack'
 import {stripe} from '@/utils/stripe'
+import {logEvent} from '@/utils/structured-log'
 import {NonRetriableError} from 'inngest'
 
 export const sendWorkshopPurchaseSlackNotification = inngest.createFunction(
@@ -19,9 +20,9 @@ export const sendWorkshopPurchaseSlackNotification = inngest.createFunction(
     const channel = process.env.SLACK_JOHN_SALES_CHANNEL_ID
 
     if (!channel) {
-      console.warn(
-        'SLACK_JOHN_SALES_CHANNEL_ID is not set, skipping workshop purchase Slack notification',
-      )
+      logEvent('warn', 'workshop_purchase_slack_notification_skipped', {
+        reason: 'SLACK_JOHN_SALES_CHANNEL_ID is not set',
+      })
       return {success: false, skipped: true}
     }
 
@@ -40,7 +41,10 @@ export const sendWorkshopPurchaseSlackNotification = inngest.createFunction(
         const charge = await stripe.charges.retrieve(stripeChargeIdentifier)
         return charge.amount / 100
       } catch (error) {
-        console.error(`Error retrieving charge amount: ${error}`)
+        logEvent('error', 'workshop_purchase_charge_retrieval_failed', {
+          stripe_charge_id: stripeChargeIdentifier,
+          error_message: error instanceof Error ? error.message : String(error),
+        })
         return null
       }
     })
