@@ -27,7 +27,11 @@ export const WorkshopInvoice = ({
   const date = format(created, 'MMMM d, y')
   const amount = charge.amount / 100
 
-  const emailData = `mailto:?subject=Invoice for ${productName}&body=Invoice for ${productName} purchase: ${`${process.env.NEXT_PUBLIC_URL}/invoices/${charge.id}`}`
+  const emailData = `mailto:?subject=${encodeURIComponent(
+    `Invoice for ${productName}`,
+  )}&body=${encodeURIComponent(
+    `Invoice for ${productName} purchase: ${process.env.NEXT_PUBLIC_URL}/workshop/invoice/${charge.id}`,
+  )}`
 
   return (
     <div className="container border-x px-5">
