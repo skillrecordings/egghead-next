@@ -8,6 +8,7 @@ import {stripeWebhookCheckoutSessionCompleted} from './functions/stripe-webhook-
 import {lifetimePurchase} from '@/inngest/functions/lifetime-purchase'
 import {identifyCustomerIo} from '@/inngest/functions/identify-customer-io'
 import {sendSpecificProductEmail} from '@/inngest/functions/send-specific-product-email'
+import {sendWorkshopPurchaseSlackNotification} from '@/inngest/functions/send-workshop-purchase-slack-notification'
 import {sendWorkshopQuoteEmail} from '@/inngest/functions/send-workshop-quote-email'
 import {upsertGuideToTypesense} from '@/inngest/functions/typesense/upsert-guide-to-typesense'
 const test = inngest.createFunction(
@@ -36,6 +37,7 @@ export const inngestConfig = {
     lifetimePurchase,
     identifyCustomerIo,
     sendSpecificProductEmail,
+    sendWorkshopPurchaseSlackNotification,
     sendWorkshopQuoteEmail,
     upsertGuideToTypesense,
   ],

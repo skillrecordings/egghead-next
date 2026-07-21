@@ -40,11 +40,14 @@ export const SpecificProductEmail = ({
 }: SpecificProductEmailProps) => {
   const greeting = customerName ? `Hi ${customerName},` : 'Hi there,'
 
-  const productCategory = productName.toLowerCase().includes('claude')
-    ? 'claude-code'
-    : 'cursor'
+  const lowerProductName = productName.toLowerCase()
+  const invoicePath = lowerProductName.includes('claude')
+    ? `/workshop/claude-code/invoice/${stripeChargeIdentifier}`
+    : lowerProductName.includes('cursor')
+    ? `/workshop/cursor/invoice/${stripeChargeIdentifier}`
+    : `/workshop/invoice/${stripeChargeIdentifier}`
 
-  const invoiceUrl = `${process.env.NEXT_PUBLIC_URL}/workshop/${productCategory}/invoice/${stripeChargeIdentifier}`
+  const invoiceUrl = `${process.env.NEXT_PUBLIC_URL}${invoicePath}`
 
   return (
     <Html>
