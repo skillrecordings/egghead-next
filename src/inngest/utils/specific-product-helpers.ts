@@ -4,6 +4,17 @@ import {getFeatureFlag} from '@/lib/feature-flags'
 import {LiveWorkshopSchema} from '@/types'
 
 /**
+ * Feature flag keys for every workshop sold via Stripe Payment Links.
+ * To add another workshop, just add its feature flag key here.
+ */
+export const WORKSHOP_FLAG_KEYS = [
+  'featureFlagCursorWorkshopSale',
+  'featureFlagClaudeCodeWorkshopSale',
+  'featureFlagCodexWorkshopSale',
+  'featureFlagSoftwareFactoryWorkshopSale',
+]
+
+/**
  * Checks if a checkout session contains our specific product.
  *
  * Stripe's API can return products in different formats:
@@ -21,33 +32,17 @@ export async function containsSpecificProduct(
   checkoutSession: Stripe.Checkout.Session,
 ): Promise<boolean> {
   try {
-    const cursorWorkshop = await getFeatureFlag(
-      'featureFlagCursorWorkshopSale',
-      'workshop',
+    const workshopFlags = await Promise.all(
+      WORKSHOP_FLAG_KEYS.map((key) => getFeatureFlag(key, 'workshop')),
     )
-    const claudeWorkshop = await getFeatureFlag(
-      'featureFlagClaudeCodeWorkshopSale',
-      'workshop',
-    )
-    const codexWorkshop = await getFeatureFlag(
-      'featureFlagCodexWorkshopSale',
-      'workshop',
-    )
-
-    const parsedCursorWorkshop = LiveWorkshopSchema.safeParse(cursorWorkshop)
-    const parsedClaudeWorkshop = LiveWorkshopSchema.safeParse(claudeWorkshop)
-    const parsedCodexWorkshop = LiveWorkshopSchema.safeParse(codexWorkshop)
 
     const possibleProductIds: string[] = []
 
-    if (parsedCursorWorkshop.success && parsedCursorWorkshop.data) {
-      possibleProductIds.push(parsedCursorWorkshop.data.productId)
-    }
-    if (parsedClaudeWorkshop.success && parsedClaudeWorkshop.data) {
-      possibleProductIds.push(parsedClaudeWorkshop.data.productId)
-    }
-    if (parsedCodexWorkshop.success && parsedCodexWorkshop.data) {
-      possibleProductIds.push(parsedCodexWorkshop.data.productId)
+    for (const flagData of workshopFlags) {
+      const parsedWorkshop = LiveWorkshopSchema.safeParse(flagData)
+      if (parsedWorkshop.success && parsedWorkshop.data) {
+        possibleProductIds.push(parsedWorkshop.data.productId)
+      }
     }
 
     if (possibleProductIds.length === 0) {
