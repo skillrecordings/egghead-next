@@ -210,7 +210,7 @@
     "remark-gfm-v3": "npm:remark-gfm@3.0.1",
     "remove-markdown": "^0.3.0",
     "rss": "^1.2.2",
-    "sharp": "^0.32.4",
+    "sharp": "^0.35.0",
     "shiki": "^0.14.4",
     "simplebar-react": "^2.3.5",
     "slugify": "^1.6.0",
