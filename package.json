@@ -229,7 +229,7 @@
     "unified": "^10.1.2",
     "unist-util-visit": "5.0.0",
     "use-fit-text": "^2.4.0",
-    "uuid": "^8.3.2",
+    "uuid": "^14.0.0",
     "xstate": "^4.23.1",
     "yaml": "2.3.2",
     "yup": "^0.32.9",
