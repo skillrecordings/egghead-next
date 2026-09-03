@@ -5,15 +5,51 @@ import {getCanonicalSearchQueryRedirect} from '@/server/search-query-canonicaliz
 
 const PUBLIC_FILE = /\.(.*)$/
 
-// The allow-list of paths where this middleware executes (perf)
+// The allow-list of paths where this middleware executes (perf).
+// `has` clauses on /courses/* and /lessons/* mean middleware only fires when
+// a strip-worthy query key is present, letting clean URLs serve directly
+// from the static ISR cache. Keys must stay in sync with SHARED_STRIP_KEYS /
+// LESSON_CONTEXT_STRIP_KEYS in content-query-canonicalization.ts. Listed
+// inline because Next.js statically analyzes this export — helpers/spreads
+// would fail the build with "Invalid segment configuration export".
 export const config = {
   matcher: [
     '/pricing',
     '/pricing/:path*',
     '/q',
     '/q/:path*',
-    '/courses/:path*',
-    '/lessons/:path*',
+    {
+      source: '/courses/:path*',
+      has: [
+        {type: 'query', key: 'utm_source'},
+        {type: 'query', key: 'utm_medium'},
+        {type: 'query', key: 'utm_campaign'},
+        {type: 'query', key: 'utm_content'},
+        {type: 'query', key: 'utm_term'},
+        {type: 'query', key: 'af'},
+        {type: 'query', key: 'rc'},
+        {type: 'query', key: 'ref'},
+        {type: 'query', key: '_cio_id'},
+        {type: 'query', key: 'cio_id'},
+      ],
+    },
+    {
+      source: '/lessons/:path*',
+      has: [
+        {type: 'query', key: 'utm_source'},
+        {type: 'query', key: 'utm_medium'},
+        {type: 'query', key: 'utm_campaign'},
+        {type: 'query', key: 'utm_content'},
+        {type: 'query', key: 'utm_term'},
+        {type: 'query', key: 'af'},
+        {type: 'query', key: 'rc'},
+        {type: 'query', key: 'ref'},
+        {type: 'query', key: '_cio_id'},
+        {type: 'query', key: 'cio_id'},
+        {type: 'query', key: 'course'},
+        {type: 'query', key: 'pl'},
+      ],
+    },
   ],
 }
 
