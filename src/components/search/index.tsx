@@ -6,7 +6,7 @@ import Stats from './stats'
 import SearchBox from './search-box'
 import RefinementList from './refinement-list'
 import Pagination from './pagination'
-import {Configure, InstantSearch, ClearRefinements} from 'react-instantsearch'
+import {Configure, ClearRefinements} from 'react-instantsearch'
 import {get, isEmpty} from 'lodash'
 import {useToggle} from 'react-use'
 import config from '@/lib/config'
@@ -20,12 +20,20 @@ import Link from 'next/link'
 import analytics from '@/utils/analytics'
 import {TYPESENSE_COLLECTION_NAME} from '@/utils/typesense'
 import PresetOptions from './components/preset-options'
+import SearchUrlSync from './search-url-sync'
+
+type SearchState = Parameters<
+  React.ComponentProps<typeof SearchUrlSync>['onSearchStateChange']
+>[0]
 
 type SearchProps = {
-  searchClient?: any
-  searchState?: any
+  searchClient: React.ComponentProps<typeof SearchUrlSync>['searchClient']
+  initialSearchState: SearchState
+  searchState: SearchState
   instructor?: any
-  onSearchStateChange?: any
+  onSearchStateChange: React.ComponentProps<
+    typeof SearchUrlSync
+  >['onSearchStateChange']
 }
 
 const queryClient = new QueryClient()
@@ -33,10 +41,10 @@ const queryClient = new QueryClient()
 const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
   children = [],
   searchClient,
+  initialSearchState,
   onSearchStateChange,
   searchState,
   instructor,
-  ...rest
 }) => {
   const [isFilterShown, setShowFilter] = useToggle(false)
   const noTopicsSelected = (searchState: any) => {
@@ -82,7 +90,7 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
   React.useEffect(() => {
     if (mounted) {
       const currentPage = get(searchState, 'page', 0)
-      if (currentPage && parseInt(currentPage) > 1) {
+      if (currentPage && Number(currentPage) > 1) {
         scroller.scrollTo('hits', {
           offset: -47,
         })
@@ -96,7 +104,7 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
     return (
       <button
         onClick={setShowFilter}
-        className={`z-40 fixed bottom-3 right-3 bg-blue-500 text-white rounded-full sm:hidden flex items-center px-4 text-sm font-medium py-2`}
+        className={`z-40 fixed bottom-3 right-3 bg-blue-500 text-white rounded-full md:hidden flex items-center px-4 text-sm font-medium py-2`}
       >
         <span className="pr-1">Filter</span>
         {numberOfRefinements > 0 ? (
@@ -205,19 +213,12 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
         />
       </Head>
       <div className="dark:bg-gray-1000 bg-gray-100 relative">
-        <InstantSearch
-          indexName={TYPESENSE_COLLECTION_NAME}
+        <SearchUrlSync
           searchClient={searchClient}
-          onStateChange={onSearchStateChange}
-          future={{
-            preserveSharedStateOnUnmount: true,
-          }}
+          onSearchStateChange={onSearchStateChange}
           initialUiState={{
-            [TYPESENSE_COLLECTION_NAME]: {
-              ...searchState,
-            },
+            [TYPESENSE_COLLECTION_NAME]: initialSearchState,
           }}
-          {...rest}
         >
           <Configure hitsPerPage={config.searchResultCount} />
           <ScrollElement name="page" />
@@ -260,7 +261,7 @@ const Search: FunctionComponent<React.PropsWithChildren<SearchProps>> = ({
               </div>
             </div>
           </div>
-        </InstantSearch>
+        </SearchUrlSync>
       </div>
     </>
   )
