@@ -43,6 +43,21 @@ export function getTokenFromCookieHeaders(serverCookies = '') {
 
 const SIXTY_DAYS_IN_SECONDS = JSON.stringify(60 * 24 * 60 * 60)
 
+// Sign-in diagnostics. Reports presence booleans only, never token values.
+export function reportCookieReadback(step: string) {
+  try {
+    const body = JSON.stringify({
+      step,
+      cookieReadOk: Boolean(cookie.get(ACCESS_TOKEN_KEY)),
+      localStorageOk: Boolean(localStorage.getItem(ACCESS_TOKEN_KEY)),
+      fromRedirect: window.location.pathname === '/redirect',
+    })
+    if (navigator.sendBeacon) navigator.sendBeacon('/api/auth-readback', body)
+  } catch {
+    // diagnostics must never affect sign-in
+  }
+}
+
 export default class Auth {
   eggheadAuth: OAuthClient
 
@@ -349,7 +364,22 @@ export default class Auth {
         sameSite: 'lax',
         secure: process.env.NODE_ENV === 'production',
       })
-      resolve(this.refreshUser(true, accessToken))
+      reportCookieReadback('set')
+      resolve(
+        this.refreshUser(true, accessToken).then(
+          (user) => {
+            const cleared = !user && !cookie.get(ACCESS_TOKEN_KEY)
+            reportCookieReadback(
+              user ? 'refresh_ok' : cleared ? 'cleared' : 'refresh_null',
+            )
+            return user
+          },
+          (error) => {
+            reportCookieReadback('refresh_null')
+            throw error
+          },
+        ),
+      )
     })
   }
 
