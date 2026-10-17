@@ -207,3 +207,47 @@ describe('Auth.refreshUser', () => {
     expect(auth.getAuthToken()).toBe('cookie-token')
   })
 })
+
+describe('Auth.setSession cookie readback', () => {
+  const sendBeacon = jest.fn(() => true)
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    mockCookieStore.clear()
+    localStorage.clear()
+    ;(global as any).window.location = {pathname: '/redirect'}
+    Object.defineProperty(global, 'navigator', {
+      value: {sendBeacon},
+      writable: true,
+      configurable: true,
+    })
+  })
+
+  const steps = () =>
+    sendBeacon.mock.calls.map(([, body]: any) => JSON.parse(body).step)
+
+  test('reports set then refresh_ok without sending the token', async () => {
+    mockHttp.get.mockResolvedValue({data: {id: 42}})
+
+    await new Auth().setSession('secret-token', '3600')
+
+    expect(steps()).toEqual(['set', 'refresh_ok'])
+    expect(JSON.parse((sendBeacon.mock.calls[0] as any)[1])).toEqual({
+      step: 'set',
+      cookieReadOk: true,
+      localStorageOk: true,
+      fromRedirect: true,
+    })
+    for (const [, body] of sendBeacon.mock.calls as any) {
+      expect(body).not.toContain('secret-token')
+    }
+  })
+
+  test('reports cleared when the zombie cleanup removes the cookie', async () => {
+    mockHttp.get.mockResolvedValue({data: null})
+
+    await expect(new Auth().setSession('t', '3600')).resolves.toBeNull()
+
+    expect(steps()).toEqual(['set', 'cleared'])
+  })
+})
