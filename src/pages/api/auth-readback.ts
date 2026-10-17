@@ -2,6 +2,8 @@ import type {NextApiRequest, NextApiResponse} from 'next'
 import {logEvent} from '@/utils/structured-log'
 
 // Sign-in diagnostics: booleans, a step name and a coarse browser family only.
+export const config = {api: {bodyParser: {sizeLimit: '1kb'}}}
+
 const STEPS = ['set', 'refresh_ok', 'refresh_null', 'cleared']
 
 // Engine over brand on iOS: every iOS browser is WebKit with Safari cookie rules.
