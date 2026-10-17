@@ -45,7 +45,8 @@ const SIXTY_DAYS_IN_SECONDS = JSON.stringify(60 * 24 * 60 * 60)
 
 // Sign-in diagnostics. Reports presence booleans only, never token values.
 // After refresh: refresh_ok, cleared (zombie cleanup removed the cookie), or
-// refresh_null (no user, cookie kept; also covers a rejected refresh).
+// refresh_null (no user, cookie kept). A rejected refresh reports refresh_null
+// or cleared depending on the cookie.
 export function reportCookieReadback(step: 'set' | 'refresh', user?: unknown) {
   try {
     const cookieReadOk = Boolean(cookie.get(ACCESS_TOKEN_KEY))
@@ -376,7 +377,7 @@ export default class Auth {
       })
       reportCookieReadback('set')
       resolve(
-        this.refreshUser(true, accessToken).then(
+        Promise.resolve(this.refreshUser(true, accessToken)).then(
           (user) => {
             reportCookieReadback('refresh', user)
             return user
