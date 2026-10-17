@@ -209,9 +209,15 @@ describe('Auth.refreshUser', () => {
 })
 
 describe('Auth.setSession cookie readback', () => {
-  const sendBeacon = jest.fn(() => true)
+  const sendBeacon = jest.fn((_url: string, _body: string) => true)
+
+  afterEach(() => {
+    delete (global as any).navigator
+    delete (global as any).window.location
+  })
 
   beforeEach(() => {
+    sendBeacon.mockImplementation(() => true)
     jest.clearAllMocks()
     mockCookieStore.clear()
     localStorage.clear()
@@ -249,5 +255,37 @@ describe('Auth.setSession cookie readback', () => {
     await expect(new Auth().setSession('t', '3600')).resolves.toBeNull()
 
     expect(steps()).toEqual(['set', 'cleared'])
+  })
+
+  test('reports refresh_null and passes the rejection through', async () => {
+    mockHttp.get.mockResolvedValue({data: {id: 42}})
+    const auth = new Auth()
+    jest.spyOn(auth, 'isAuthenticated').mockReturnValue(false)
+
+    await expect(auth.setSession('t', '3600')).rejects.toBe('not authenticated')
+    expect(steps()).toEqual(['set', 'refresh_null'])
+  })
+
+  test('still resolves the user when the beacon throws or is missing', async () => {
+    mockHttp.get.mockResolvedValue({data: {id: 42}})
+    sendBeacon.mockImplementation(() => {
+      throw new Error('blocked')
+    })
+    await expect(new Auth().setSession('t', '3600')).resolves.toEqual({
+      id: 42,
+    })
+    ;(global as any).navigator = {}
+    await expect(new Auth().setSession('t', '3600')).resolves.toEqual({
+      id: 42,
+    })
+  })
+
+  test('routine refreshUser page loads send nothing', async () => {
+    seedSession()
+    mockHttp.get.mockResolvedValue({data: {id: 42}})
+
+    await new Auth().refreshUser()
+
+    expect(sendBeacon).not.toHaveBeenCalled()
   })
 })

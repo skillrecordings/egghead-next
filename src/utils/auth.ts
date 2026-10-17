@@ -44,11 +44,21 @@ export function getTokenFromCookieHeaders(serverCookies = '') {
 const SIXTY_DAYS_IN_SECONDS = JSON.stringify(60 * 24 * 60 * 60)
 
 // Sign-in diagnostics. Reports presence booleans only, never token values.
-export function reportCookieReadback(step: string) {
+// After refresh: refresh_ok, cleared (zombie cleanup removed the cookie), or
+// refresh_null (no user, cookie kept; also covers a rejected refresh).
+export function reportCookieReadback(step: 'set' | 'refresh', user?: unknown) {
   try {
+    const cookieReadOk = Boolean(cookie.get(ACCESS_TOKEN_KEY))
     const body = JSON.stringify({
-      step,
-      cookieReadOk: Boolean(cookie.get(ACCESS_TOKEN_KEY)),
+      step:
+        step === 'set'
+          ? 'set'
+          : user
+          ? 'refresh_ok'
+          : cookieReadOk
+          ? 'refresh_null'
+          : 'cleared',
+      cookieReadOk,
       localStorageOk: Boolean(localStorage.getItem(ACCESS_TOKEN_KEY)),
       fromRedirect: window.location.pathname === '/redirect',
     })
@@ -368,14 +378,11 @@ export default class Auth {
       resolve(
         this.refreshUser(true, accessToken).then(
           (user) => {
-            const cleared = !user && !cookie.get(ACCESS_TOKEN_KEY)
-            reportCookieReadback(
-              user ? 'refresh_ok' : cleared ? 'cleared' : 'refresh_null',
-            )
+            reportCookieReadback('refresh', user)
             return user
           },
           (error) => {
-            reportCookieReadback('refresh_null')
+            reportCookieReadback('refresh', null)
             throw error
           },
         ),
