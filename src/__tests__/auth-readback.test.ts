@@ -1,4 +1,4 @@
-import handler from './auth-readback'
+import handler from '@/pages/api/auth-readback'
 import {logEvent} from '@/utils/structured-log'
 
 jest.mock('@/utils/structured-log', () => ({logEvent: jest.fn()}))
