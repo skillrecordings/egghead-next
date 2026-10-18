@@ -160,7 +160,7 @@
     "mixpanel-browser": "^2.41.0",
     "motion": "^12.23.12",
     "mysql2": "^3.11.0",
-    "nanoid": "^5.0.7",
+    "nanoid": "^5.1.16",
     "next": "15.4.8",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.1",
