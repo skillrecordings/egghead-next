@@ -2,6 +2,7 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import {withSSRLogging} from '@/lib/logging'
+import {logEvent} from '@/utils/structured-log'
 import {loadTag} from '@/lib/tags'
 import Markdown from 'react-markdown'
 import {canonicalizeInternalQueryParams} from '@/server/nxtp-query'
@@ -42,6 +43,10 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
     }
 
     const tag = params && (await loadTag(params.slug as string))
+    if (!tag) {
+      logEvent('info', 'learn.tag.not_found', {})
+      return {notFound: true}
+    }
     return {
       props: {
         tag,
