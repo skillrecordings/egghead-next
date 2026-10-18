@@ -1,4 +1,4 @@
-import {getServerSideProps} from './[slug]'
+import {getServerSideProps} from '@/pages/learn/[slug]'
 import {loadTag} from '@/lib/tags'
 import {logEvent} from '@/utils/structured-log'
 
