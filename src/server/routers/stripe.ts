@@ -5,6 +5,10 @@ import {Stripe} from 'stripe'
 import {findStripeCustomerIdByEmail} from '../../utils/stripe-customer'
 
 import {getFeatureFlag} from '@/lib/feature-flags'
+import {
+  buildWorkshopChargesQuery,
+  isPastWorkshopCharge,
+} from './workshop-transactions'
 
 export const stripeRouter = router({
   checkoutSessionById: baseProcedure
@@ -152,7 +156,7 @@ export const stripeRouter = router({
       if (!user?.email) {
         return []
       }
-      // Build a charges.search query using the user's email and past workshop product IDs in metadata
+      // Search by email, then filter past workshop product IDs locally
       const productIds: string[] = Array.isArray(pastWorkshopIds)
         ? (pastWorkshopIds as string[])
         : []
@@ -162,17 +166,7 @@ export const stripeRouter = router({
         return []
       }
 
-      const escapeSingleQuotes = (value: string) => value.replace(/'/g, "\\'")
-
-      const productClause = `(${productIds
-        .map((id) => `metadata['productId']:'${escapeSingleQuotes(id)}'`)
-        .join(' OR ')})`
-
-      const identityClause = `billing_details.email:'${escapeSingleQuotes(
-        user.email,
-      )}'`
-
-      const finalQuery = `${identityClause} AND ${productClause} AND status:'succeeded'`
+      const finalQuery = buildWorkshopChargesQuery(user.email)
 
       // Page through all results to collect every relevant charge
       let page: string | undefined = undefined
@@ -185,7 +179,11 @@ export const stripeRouter = router({
           ...(page ? {page} : {}),
         })) as Stripe.ApiSearchResult<Stripe.Charge>
 
-        allCharges.push(...result.data)
+        allCharges.push(
+          ...result.data.filter((charge) =>
+            isPastWorkshopCharge(charge, productIds),
+          ),
+        )
         page = result.next_page || undefined
       } while (page)
 
