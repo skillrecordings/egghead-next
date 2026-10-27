@@ -107,7 +107,9 @@ const Overlays: React.FC<React.PropsWithChildren<OverlaysProps>> = ({
                   ...(comment && {comment}),
                   ...(!!prompt && {prompt}),
                 })
-                if (subscriber) {
+                // Cookie-only visitors have no attributes; incrementing from 0
+                // would overwrite their real score.
+                if (subscriber?.attributes) {
                   const currentScore =
                     Number(subscriber.attributes?.learner_score) || 0
                   cioIdentify(subscriber.id, {

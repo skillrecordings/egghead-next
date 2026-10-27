@@ -244,7 +244,9 @@ const Feedback: FunctionComponent<React.PropsWithChildren<FeedbackProps>> = ({
           window.location.toString(),
         )
 
-        if (subscriber) {
+        // Cookie-only visitors have no attributes; incrementing from 0 would
+        // overwrite their real score.
+        if (subscriber?.attributes) {
           const learner_score =
             Number(subscriber.attributes?.learner_score) || 0
           cioIdentify(subscriber.id, {
