@@ -108,7 +108,7 @@ describe('/api/cio/identify/[id]', () => {
 
   test('accepts every attribute shape the repo sends', async () => {
     const attributes = {
-      unsubscribed_from_newsletter: false,
+      unsubscribed_from_newsletter: true,
       theme_preference: 'dark',
       learner_score: 120,
       interested_in_lifetime_since: 1793059200,
@@ -235,6 +235,62 @@ describe('/api/cio/identify/[id]', () => {
     )
     expect(mockCioGet).not.toHaveBeenCalled()
     expect(putBody()).toEqual({email: 'changed@example.com', _update: true})
+  })
+
+  test('cookie-only callers cannot re-subscribe someone', async () => {
+    await call('someone-id', {
+      unsubscribed: false,
+      unsubscribed_from_newsletter: false,
+      theme_preference: 'dark',
+    })
+
+    expect(putBody()).toEqual({theme_preference: 'dark', _update: true})
+    const [[, , fields]] = loggedEvents('cio_identify_resubscribe_rejected')
+    expect(fields).toEqual({
+      cio_id: 'someone-id',
+      keys: ['unsubscribed', 'unsubscribed_from_newsletter'],
+    })
+  })
+
+  test('the logged-in owner may re-subscribe', async () => {
+    mockEggGet.mockResolvedValue({data: {contact_id: 'someone-id'}})
+
+    await call(
+      'someone-id',
+      {unsubscribed: false},
+      {cookie: `${ACCESS_TOKEN_KEY}=good-token`},
+    )
+
+    expect(putBody()).toEqual({unsubscribed: false, _update: true})
+  })
+
+  test("a logged-in user can't re-subscribe someone else", async () => {
+    mockEggGet.mockResolvedValue({data: {contact_id: 'my-own-id'}})
+
+    await call(
+      'someone-id',
+      {unsubscribed: false},
+      {cookie: `${ACCESS_TOKEN_KEY}=good-token`},
+    )
+
+    expect(putBody()).toEqual({_update: true})
+  })
+
+  test('checks token ownership once for re-subscribe and email', async () => {
+    mockEggGet.mockResolvedValue({data: {contact_id: 'someone-id'}})
+
+    await call(
+      'someone-id',
+      {unsubscribed: false, email: 'changed@example.com'},
+      {cookie: `${ACCESS_TOKEN_KEY}=good-token`},
+    )
+
+    expect(mockEggGet).toHaveBeenCalledTimes(1)
+    expect(putBody()).toEqual({
+      unsubscribed: false,
+      email: 'changed@example.com',
+      _update: true,
+    })
   })
 
   test("a logged-in user can't change someone else's email", async () => {
