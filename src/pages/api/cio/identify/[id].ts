@@ -7,17 +7,13 @@ import {ENCODED_CUSTOMER_IO_TRACKING_API_CREDENTIALS} from '@/lib/customer-io'
 import {inngest} from '@/inngest/inngest.server'
 import {SEND_SLACK_MESSAGE_EVENT} from '@/inngest/events/send-slack-message'
 import {reportCioApiError} from '@/utils/cio/report-cio-api-error'
+import {isValidCioId} from '@/utils/parse-server-cookie'
+import {logEvent} from '@/utils/structured-log'
 
 const serverCookie = require('cookie')
 const axios = require('axios')
 
 const tracer = getTracer('cio-identify-api')
-
-const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
-
-const cioAxios = axios.create({
-  baseURL: CIO_BASE_URL,
-})
 
 const cioIdentify = async (req: NextApiRequest, res: NextApiResponse) => {
   setupHttpTracing({name: cioIdentify.name, tracer, req, res})
@@ -26,6 +22,13 @@ const cioIdentify = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const {id} = req.query
       const options = req.body || {}
+
+      // The id comes straight from the URL; anything malformed is a no-op.
+      if (!isValidCioId(id)) {
+        logEvent('warn', 'cio_identify_skip', {reason: 'invalid_id'})
+        res.status(200).end()
+        return
+      }
 
       if (!process.env.CUSTOMER_IO_APPLICATION_API_KEY)
         throw new Error('No CIO Secret Key Found')
@@ -37,7 +40,9 @@ const cioIdentify = async (req: NextApiRequest, res: NextApiResponse) => {
 
       await axios
         .put(
-          `https://track.customer.io/api/v1/customers/${id}`,
+          `https://track.customer.io/api/v1/customers/${encodeURIComponent(
+            id,
+          )}`,
           {...options, _update: true},
           {headers},
         )
@@ -49,20 +54,11 @@ const cioIdentify = async (req: NextApiRequest, res: NextApiResponse) => {
         maxAge: 31556952,
       })
 
-      const customer = await cioAxios
-        .get(`/customers/${id}/attributes`, {
-          headers: {
-            Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
-          },
-        })
-        .then(({data}: {data: any}) => data.customer)
-        .catch((error: any) => {
-          // console.error(error)
-          return {}
-        })
-
       res.setHeader('Set-Cookie', cioCookie)
-      res.status(200).json(customer)
+      // Write-only: never read the customer back. Anyone can call this with
+      // any id (email links identify visitors without a login), so returning
+      // attributes here would leak them.
+      res.status(200).json({id})
     } catch (error: any) {
       if (error.response?.status !== 404) {
         await reportCioApiError(error)
@@ -71,7 +67,7 @@ const cioIdentify = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(200).end()
     }
   } else {
-    console.error('non-get request made')
+    logEvent('warn', 'cio_identify_skip', {reason: 'non_post'})
     res.status(404).end()
   }
 }
