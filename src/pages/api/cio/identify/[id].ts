@@ -143,14 +143,17 @@ async function existingCioEmail(id: string): Promise<string | undefined> {
   }
 }
 
+const isUnsubscribeKey = (key: string) =>
+  key === 'unsubscribed' || key.startsWith('unsubscribed_from_')
+
 // Anyone can call identify with any id, so an email only lands if the caller
 // owns the contact, or it fills an empty email, or it matches the existing one.
 async function emailAllowed(
-  req: NextApiRequest,
+  ownsContact: () => Promise<boolean>,
   id: string,
   email: string,
 ): Promise<{allowed: boolean; reason: string}> {
-  if (await tokenOwnsContact(req, id)) return {allowed: true, reason: 'token'}
+  if (await ownsContact()) return {allowed: true, reason: 'token'}
   const existing = await existingCioEmail(id)
   if (existing === undefined) return {allowed: false, reason: 'lookup_failed'}
   if (existing === '') return {allowed: true, reason: 'empty'}
@@ -186,8 +189,29 @@ const cioIdentify = async (req: NextApiRequest, res: NextApiResponse) => {
         })
       }
 
+      let owns: Promise<boolean> | undefined
+      const ownsContact = () => (owns ??= tokenOwnsContact(req, id))
+
+      // Anyone with an email link may opt out, but only the logged-in owner
+      // may opt back in; otherwise anyone who knows an id could re-subscribe
+      // someone who unsubscribed.
+      const resubscribeKeys = Object.keys(attributes).filter(
+        (key) => isUnsubscribeKey(key) && attributes[key] === false,
+      )
+      if (resubscribeKeys.length > 0 && !(await ownsContact())) {
+        for (const key of resubscribeKeys) delete attributes[key]
+        logEvent('warn', 'cio_identify_resubscribe_rejected', {
+          cio_id: id,
+          keys: resubscribeKeys,
+        })
+      }
+
       if (typeof attributes.email === 'string') {
-        const {allowed, reason} = await emailAllowed(req, id, attributes.email)
+        const {allowed, reason} = await emailAllowed(
+          ownsContact,
+          id,
+          attributes.email,
+        )
         if (!allowed) {
           delete attributes.email
           logEvent('warn', 'cio_identify_email_rejected', {cio_id: id, reason})
