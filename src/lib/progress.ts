@@ -5,7 +5,12 @@ import {z} from 'zod'
 
 const PlaylistProgressSchema = z
   .object({
-    is_complete: z.boolean(),
+    // Rails sends null for progress rows that never set the flag; treat it as
+    // incomplete instead of failing the whole progress lookup.
+    is_complete: z
+      .boolean()
+      .nullish()
+      .transform((complete) => complete ?? false),
     lesson_count: z.number(),
     completed_lesson_count: z.number(),
     completed_lessons: z.array(
