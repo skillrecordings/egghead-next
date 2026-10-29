@@ -5,6 +5,13 @@ import {Stripe} from 'stripe'
 import {findStripeCustomerIdByEmail} from '../../utils/stripe-customer'
 
 import {getFeatureFlag} from '@/lib/feature-flags'
+import {logEvent} from '@/utils/structured-log'
+import {
+  isPastWorkshopSession,
+  sessionPaymentIntentId,
+  toWorkshopTransaction,
+  WorkshopTransaction,
+} from './workshop-transactions'
 
 export const stripeRouter = router({
   checkoutSessionById: baseProcedure
@@ -152,7 +159,7 @@ export const stripeRouter = router({
       if (!user?.email) {
         return []
       }
-      // Build a charges.search query using the user's email and past workshop product IDs in metadata
+      // List checkout sessions by email, then filter past workshop products locally
       const productIds: string[] = Array.isArray(pastWorkshopIds)
         ? (pastWorkshopIds as string[])
         : []
@@ -162,82 +169,48 @@ export const stripeRouter = router({
         return []
       }
 
-      const escapeSingleQuotes = (value: string) => value.replace(/'/g, "\\'")
-
-      const productClause = `(${productIds
-        .map((id) => `metadata['productId']:'${escapeSingleQuotes(id)}'`)
-        .join(' OR ')})`
-
-      const identityClause = `billing_details.email:'${escapeSingleQuotes(
-        user.email,
-      )}'`
-
-      const finalQuery = `${identityClause} AND ${productClause} AND status:'succeeded'`
-
-      // Page through all results to collect every relevant charge
-      let page: string | undefined = undefined
-      const allCharges: Stripe.Charge[] = []
+      // Page through all sessions to collect every paid workshop purchase
+      let startingAfter: string | undefined = undefined
+      const workshopSessions: Stripe.Checkout.Session[] = []
 
       do {
-        const result = (await stripe.charges.search({
-          query: finalQuery,
-          limit: 100,
-          ...(page ? {page} : {}),
-        })) as Stripe.ApiSearchResult<Stripe.Charge>
+        const result: Stripe.ApiList<Stripe.Checkout.Session> =
+          await stripe.checkout.sessions.list({
+            customer_details: {email: user.email},
+            limit: 100,
+            expand: ['data.line_items'],
+            ...(startingAfter ? {starting_after: startingAfter} : {}),
+          })
 
-        allCharges.push(...result.data)
-        page = result.next_page || undefined
-      } while (page)
+        workshopSessions.push(
+          ...result.data.filter((session) =>
+            isPastWorkshopSession(session, productIds),
+          ),
+        )
+        startingAfter = result.has_more
+          ? result.data[result.data.length - 1]?.id
+          : undefined
+      } while (startingAfter)
 
-      // Resolve unique product names with minimal API calls
-      const uniqueProductIds = Array.from(
-        new Set(
-          allCharges
-            .map((c) => c.metadata?.productId || c.metadata?.product_id)
-            .filter((id): id is string => Boolean(id)),
-        ),
-      )
-
-      const productNameCache = new Map<string, string>()
-      await Promise.all(
-        uniqueProductIds.map(async (productId) => {
-          try {
-            const product = await stripe.products.retrieve(productId)
-            productNameCache.set(productId, product.name || 'Workshop')
-          } catch {
-            productNameCache.set(productId, 'Workshop')
-          }
+      // Resolve each session's charge for the receipt and invoice link
+      const resolved = await Promise.all(
+        workshopSessions.map(async (session) => {
+          const paymentIntent = sessionPaymentIntentId(session)
+          if (!paymentIntent) return null
+          const charges = await stripe.charges.list({
+            payment_intent: paymentIntent,
+            limit: 1,
+          })
+          const charge = charges.data[0]
+          if (!charge) return null
+          return toWorkshopTransaction(session, charge, productIds, user.email)
         }),
       )
 
-      const transactions = allCharges.map((charge) => {
-        const productId =
-          (charge.metadata?.productId as string | undefined) ||
-          (charge.metadata?.product_id as string | undefined)
-
-        const productName =
-          (charge.metadata?.product_name as string | undefined) ||
-          (productId ? productNameCache.get(productId) : undefined) ||
-          charge.description ||
-          'Workshop'
-
-        // Determine workshop type for routing to invoice pages
-        const workshopType =
-          (charge.metadata?.workshop_type as string | undefined) ||
-          (productName.toLowerCase().includes('cursor')
-            ? 'cursor'
-            : 'claude-code')
-
-        return {
-          id: charge.id,
-          charge_id: charge.id,
-          amount: charge.amount || 0,
-          created_at: new Date(charge.created * 1000).toISOString(),
-          customer_email: charge.billing_details?.email || user.email,
-          product_name: productName,
-          workshop_type: workshopType,
-        }
-      })
+      const transactions = resolved.filter(
+        (transaction): transaction is WorkshopTransaction =>
+          Boolean(transaction),
+      )
 
       // Sort newest first for display consistency
       transactions.sort(
@@ -247,7 +220,9 @@ export const stripeRouter = router({
 
       return transactions
     } catch (error) {
-      console.error('Error fetching workshop transactions:', error)
+      logEvent('error', 'workshop_transactions_fetch_failed', {
+        error_message: error instanceof Error ? error.message : String(error),
+      })
       return []
     }
   }),

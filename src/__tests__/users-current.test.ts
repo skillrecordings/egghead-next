@@ -1,4 +1,4 @@
-import {current} from './current'
+import {current} from '@/pages/api/users/current'
 import fetchEggheadUser from '@/api/egghead/users/from-token'
 
 jest.mock('@/api/egghead/users/from-token', () => ({

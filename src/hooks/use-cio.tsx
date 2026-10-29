@@ -11,10 +11,12 @@ export const cioIdentify = async (id: string, options?: any) => {
   }
 }
 
+// Cookie-only visitors get `{id}` back; email and attributes are only
+// present for the logged-in egghead user's own subscriber record.
 export type CIOSubscriber = {
   id: string
-  email: string
-  attributes: any
+  email?: string
+  attributes?: any
 }
 
 export const CioContext = React.createContext<{

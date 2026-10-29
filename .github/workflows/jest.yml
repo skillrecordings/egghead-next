@@ -4,7 +4,7 @@ on: [deployment_status]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v2
       - name: Test using Node.js
@@ -16,6 +16,10 @@ jobs:
         with:
           version: 8
       - name: Install Dependencies
+        # GCC 14 on the runner image makes incompatible-pointer-types an error,
+        # which breaks the old oniguruma native build (unused; remove later).
+        env:
+          CFLAGS: -Wno-error=incompatible-pointer-types
         run: pnpm i
       - run: pnpm test:ci
       - name: Jest tests ✅
