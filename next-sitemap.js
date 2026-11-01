@@ -33,16 +33,17 @@ module.exports = {
       },
       {
         userAgent: 'ClaudeBot',
-        disallow: ['/q'],
+        disallow: ['/q', '/api/'],
       },
       {
         userAgent: 'GPTBot',
-        disallow: ['/q'],
+        disallow: ['/q', '/api/'],
       },
       {
         userAgent: '*',
         allow: ['/'],
         disallow: [
+          '/api/',
           '/discord',
           '/purchase',
           '/404',
