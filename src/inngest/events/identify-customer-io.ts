@@ -7,6 +7,15 @@ export const customerIoIdentifySchema = z.object({
   id: z.string().optional(),
   selectedInterests: z.record(z.union([z.number(), z.string()])),
   userToken: z.string().optional(),
+  page: z.string().optional(),
+  screening: z
+    .object({
+      provider: z.literal('shieldshiba'),
+      verdict: z.string(),
+      hostname: z.string(),
+      verifiedAt: z.string(),
+    })
+    .optional(),
 })
 
 export type CustomerIoIdentify = {
