@@ -41,39 +41,13 @@ const go = async () => {
 go()
 
 /**
- * Generate all possible combinations of an Array with a given length
- * Visualize how it works: https://twitter.com/johnlindquist/status/1317170257128091648
+ * Single-tag search pages only. Multi-tag paths (angular-and-react) now
+ * 307 to /q?tags=... (search-query-canonicalization), so listing them put
+ * ~800k redirecting URLs in the sitemap.
  */
 function* makeInts(length) {
-  let int = 0
-  while (int < length) {
+  for (let int = 0; int < length; int++) {
     yield [int]
-
-    let int2 = 0
-    while (int2 < int) {
-      yield [int2, int]
-
-      let int3 = 0
-      while (int3 < int2) {
-        yield [int3, int2, int]
-
-        //A depth of 3 generates 6 sitemaps...
-        //A depth of 4 generates 200+ sitemaps...
-        //I didn't dare try a depth of 5
-
-        // let int4 = 0
-        // while (int4 < int3) {
-        //   yield [int4, int3, int2, int]
-        //   int4++
-        // }
-
-        int3++
-      }
-
-      int2++
-    }
-
-    int++
   }
 }
 
