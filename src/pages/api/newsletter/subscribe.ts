@@ -4,11 +4,15 @@ import {z} from 'zod'
 import {inngest} from '@/inngest/inngest.server'
 import {CUSTOMER_IO_IDENTIFY_EVENT} from '@/inngest/events/identify-customer-io'
 import emailIsValid from '@/utils/email-is-valid'
+import {drovrSignupsEnabled} from '@/lib/drovr-signup'
+import {verifyShieldShiba} from '@/lib/shield-shiba'
 
 const subscribeRequestSchema = z.object({
   email: z.string().email('Invalid email address'),
   name: z.string().optional(),
   source: z.string().default('newsletter_signup'),
+  shieldToken: z.string().optional(),
+  page: z.string().url().optional(),
 })
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -37,7 +41,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
     }
 
-    const {email, name, source} = validationResult.data
+    const {email, name, source, shieldToken, page} = validationResult.data
 
     // Double-check email validity
     if (!emailIsValid(email)) {
@@ -64,6 +68,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
     }
 
+    const screening = drovrSignupsEnabled()
+      ? await verifyShieldShiba({token: shieldToken, email})
+      : null
+
     // Send to Customer.io via Inngest
     await inngest.send({
       name: CUSTOMER_IO_IDENTIFY_EVENT,
@@ -72,6 +80,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         selectedInterests,
         userToken: process.env.EGGHEAD_SUPPORT_BOT_TOKEN,
         ...(name && {first_name: name}),
+        ...(page && {page}),
+        ...(screening && {screening}),
       },
     })
 

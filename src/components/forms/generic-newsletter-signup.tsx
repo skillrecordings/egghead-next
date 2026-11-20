@@ -5,6 +5,7 @@ import {z} from 'zod'
 import {trpc} from '@/app/_trpc/client'
 import {track} from '@/utils/analytics'
 import {useViewer} from '@/context/viewer-context'
+import {ShieldShibaWidget, signupPage, useShieldShiba} from './shield-shiba'
 
 const newsletterSignupSchema = z.object({
   email: z
@@ -60,6 +61,7 @@ export default function GenericNewsletterSignupForm({
 
   const {viewer} = useViewer()
   const customerIOIdentify = trpc.customerIO.identify.useMutation()
+  const shield = useShieldShiba()
 
   const {
     register,
@@ -71,6 +73,10 @@ export default function GenericNewsletterSignupForm({
   })
 
   const onSubmit = async (data: NewsletterSignupFormData) => {
+    const shieldToken = shield.enabled ? shield.takeToken() : undefined
+    if (shield.enabled && !shieldToken) return
+    const page = signupPage()
+
     try {
       console.log(
         `INFO: Newsletter subscription attempt for email: ${data.email}`,
@@ -101,6 +107,8 @@ export default function GenericNewsletterSignupForm({
         await customerIOIdentify.mutateAsync({
           email,
           selectedInterests,
+          shieldToken,
+          page,
         })
       } catch (trpcError) {
         console.error(
@@ -118,6 +126,8 @@ export default function GenericNewsletterSignupForm({
             email,
             name,
             source: trackingSource,
+            shieldToken,
+            page,
           }),
         })
 
@@ -236,6 +246,8 @@ export default function GenericNewsletterSignupForm({
             )}
           </div>
         )}
+
+        <ShieldShibaWidget widgetRef={shield.widgetRef} />
 
         <button
           type="submit"

@@ -7,6 +7,7 @@ import {handleTransloaditNotification} from '@/inngest/functions/handle-transloa
 import {stripeWebhookCheckoutSessionCompleted} from './functions/stripe-webhook-handlers'
 import {lifetimePurchase} from '@/inngest/functions/lifetime-purchase'
 import {identifyCustomerIo} from '@/inngest/functions/identify-customer-io'
+import {drovrSignup} from '@/inngest/functions/drovr-signup'
 import {sendSpecificProductEmail} from '@/inngest/functions/send-specific-product-email'
 import {sendWorkshopPurchaseSlackNotification} from '@/inngest/functions/send-workshop-purchase-slack-notification'
 import {sendWorkshopQuoteEmail} from '@/inngest/functions/send-workshop-quote-email'
@@ -36,6 +37,7 @@ export const inngestConfig = {
     ...stripeWebhookFunctions,
     lifetimePurchase,
     identifyCustomerIo,
+    drovrSignup,
     sendSpecificProductEmail,
     sendWorkshopPurchaseSlackNotification,
     sendWorkshopQuoteEmail,
