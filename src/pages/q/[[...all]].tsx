@@ -1,11 +1,9 @@
 import * as React from 'react'
-import singletonRouter from 'next/router'
 import Image from 'next/image'
 import Search from '@/components/search'
 import {NextSeo} from 'next-seo'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {withStaticPropsLogging} from '@/lib/logging'
-import qs from 'qs'
 import {
   createUrl,
   parseUrl,
@@ -18,20 +16,13 @@ import {loadInstructor} from '@/lib/instructors'
 import Header from '@/components/app/header'
 import Main from '@/components/app/main'
 import Footer from '@/components/app/footer'
-import {
-  TYPESENSE_COLLECTION_NAME,
-  typesenseInstantsearchAdapter,
-} from '@/utils/typesense'
+import {typesenseInstantsearchAdapter} from '@/utils/typesense'
 import nameToSlug from '@/lib/name-to-slug'
 import Link from 'next/link'
 import {HOT_SEARCH_PATHS} from '@/lib/hot-search-paths'
-import {
-  getSearchStateFromUrlParts,
-  isLowCardinalitySearchPath,
-} from '@/lib/search-url-state'
+import {isLowCardinalitySearchPath} from '@/lib/search-url-state'
 import {withHeaderBannerStaticProps} from '@/server/with-header-banner-props'
-
-const createURL = (state: any) => `?${qs.stringify(state)}`
+import useSearchInstructor from '@/hooks/use-search-instructor'
 
 const typesenseAdapterInit = (() => {
   try {
@@ -106,30 +97,18 @@ const SearchIndex: any = ({
   path,
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
-  const [instructor, setInstructor] = React.useState(initialInstructor)
+  const instructor = useSearchInstructor({
+    instructorNames: getInstructorsFromSearchState(searchState),
+    initialInstructor,
+  })
   const [noIndex, setNoIndex] = React.useState(noIndexInitial)
-  const debouncedState = React.useRef<any>(null)
-  const instructorCache = React.useRef<Map<string, any>>(new Map())
-  const lastInstructorSlug = React.useRef<string | null>(null)
 
-  React.useEffect(() => {
-    const currentUrl = new URL(window.location.href)
-    const currentSearchState = getSearchStateFromUrlParts({
-      pathname: currentUrl.pathname,
-      searchParams: currentUrl.searchParams,
-    })
-
-    if (createUrl(currentSearchState) !== createUrl(initialSearchState)) {
-      setSearchState(currentSearchState)
-    }
-
-    setNoIndex(
-      shouldNoIndexSearchPage({
-        href: `${currentUrl.pathname}${currentUrl.search}`,
-        searchState: currentSearchState,
-      }),
-    )
-  }, [initialSearchState])
+  const onSearchStateChange = React.useCallback<
+    React.ComponentProps<typeof Search>['onSearchStateChange']
+  >((state, href) => {
+    setSearchState(state)
+    setNoIndex(shouldNoIndexSearchPage({href, searchState: state}))
+  }, [])
 
   if (error) {
     return (
@@ -171,56 +150,6 @@ const SearchIndex: any = ({
     )
   }
 
-  const onSearchStateChange = async (state: any) => {
-    clearTimeout(debouncedState.current)
-
-    const searchState = {...state.uiState[TYPESENSE_COLLECTION_NAME]}
-
-    const instructors = getInstructorsFromSearchState(searchState)
-
-    if (instructors.length === 1) {
-      const instructorSlug = getInstructorSlugFromInstructorList(instructors)
-      if (lastInstructorSlug.current !== instructorSlug) {
-        lastInstructorSlug.current = instructorSlug
-        const cached = instructorCache.current.get(instructorSlug)
-        if (cached) {
-          setInstructor(cached)
-        } else {
-          try {
-            const loaded = await loadInstructor(instructorSlug)
-            instructorCache.current.set(instructorSlug, loaded)
-            setInstructor(loaded)
-          } catch (error) {}
-        }
-      }
-    } else {
-      lastInstructorSlug.current = null
-      setInstructor(null)
-    }
-
-    debouncedState.current = setTimeout(() => {
-      const href: string = createUrl(searchState)
-      setNoIndex(
-        shouldNoIndexSearchPage({
-          href,
-          searchState,
-        }),
-      )
-
-      singletonRouter.replace(href, undefined, {
-        shallow: true,
-      })
-    }, 500)
-
-    state.setUiState(state.uiState)
-    setSearchState(searchState)
-  }
-
-  const customProps = {
-    searchState,
-    createURL,
-  }
-
   return (
     <div className="flex-grow">
       <NextSeo
@@ -234,7 +163,8 @@ const SearchIndex: any = ({
       />
       <Search
         {...defaultProps}
-        {...customProps}
+        initialSearchState={initialSearchState}
+        searchState={searchState}
         instructor={instructor}
         onSearchStateChange={onSearchStateChange}
       />
