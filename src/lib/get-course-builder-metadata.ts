@@ -187,6 +187,8 @@ function buildCourseMetadataQuery(hasCourseBuilderId: boolean) {
         cr_course.type = 'course'
         OR (
           cr_course.type = 'post'
+          AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.state')) = 'published'
+          AND cr_course.deletedAt IS NULL
           AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
         )
       )
@@ -274,6 +276,10 @@ export async function getCourseBuilderLesson(
           OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?
         )
         AND cr_lesson.type IN ('post', 'lesson')
+        AND (cr_lesson.type <> 'post' OR (
+          JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+          AND cr_lesson.deletedAt IS NULL
+        ))
         LIMIT 1
       `
       : `
@@ -282,6 +288,10 @@ export async function getCourseBuilderLesson(
           OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ?
         )
         AND cr_lesson.type IN ('post', 'lesson')
+        AND (cr_lesson.type <> 'post' OR (
+          JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+          AND cr_lesson.deletedAt IS NULL
+        ))
         LIMIT 1
       `
 
@@ -408,6 +418,10 @@ export async function getCourseBuilderVideoResource(
           OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?
         )
         AND cr_video.type = 'videoResource'
+        AND (cr_lesson.type <> 'post' OR (
+          JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+          AND cr_lesson.deletedAt IS NULL
+        ))
         LIMIT 1
       `
       : `
@@ -420,6 +434,10 @@ export async function getCourseBuilderVideoResource(
           OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ?
         )
         AND cr_video.type = 'videoResource'
+        AND (cr_lesson.type <> 'post' OR (
+          JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+          AND cr_lesson.deletedAt IS NULL
+        ))
         LIMIT 1
       `
     const params = hasCourseBuilderId
@@ -530,8 +548,12 @@ export async function getCourseBuilderLessonStates(
           OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) LIKE ?
         )
         AND cr_course.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.state')) = 'published'
+        AND cr_course.deletedAt IS NULL
         AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
         AND cr_lesson.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+        AND cr_lesson.deletedAt IS NULL
       `
       : `
         SELECT
@@ -545,8 +567,12 @@ export async function getCourseBuilderLessonStates(
           OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?
         )
         AND cr_course.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.state')) = 'published'
+        AND cr_course.deletedAt IS NULL
         AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
         AND cr_lesson.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+        AND cr_lesson.deletedAt IS NULL
       `
     const params = hasCourseBuilderId
       ? [courseSlug, courseSlug, `%${hashFromSlug}`, `%${hashFromSlug}`]
@@ -630,7 +656,7 @@ export async function getAllCourseBuilderPublicCourseSlugs(): Promise<
           AND cr_course.type = 'post'
           AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
           AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.state')) = 'published'
-          AND COALESCE(JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.visibility')), 'public') NOT IN ('private', 'unlisted')
+          AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.visibility')) = 'public'
       ) published_courses
       WHERE slug IS NOT NULL
         AND slug <> ''
@@ -705,6 +731,10 @@ export async function getCourseBuilderLessonCourse(
           JOIN egghead_ContentResourceResource crr2 ON cr_target.id = crr2.resourceId
           JOIN egghead_ContentResource cr_course_inner ON crr2.resourceOfId = cr_course_inner.id
           WHERE ${targetMatch.clause}
+          AND (cr_target.type <> 'post' OR (
+            JSON_UNQUOTE(JSON_EXTRACT(cr_target.fields, '$.state')) = 'published'
+            AND cr_target.deletedAt IS NULL
+          ))
           AND cr_course_inner.deletedAt IS NULL
           AND (
             cr_course_inner.type = 'course'
@@ -715,10 +745,15 @@ export async function getCourseBuilderLessonCourse(
           ORDER BY crr2.position ASC, cr_course_inner.createdAt ASC, cr_course_inner.id ASC
           LIMIT 1
         )
+        AND (cr_course.type <> 'post' OR (
+          JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.state')) = 'published'
+          AND cr_course.deletedAt IS NULL
+        ))
         AND cr_lesson.deletedAt IS NULL
         AND (
           cr_lesson.type = 'lesson'
-          OR (cr_lesson.type = 'post' AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')) = 'lesson')
+          OR (cr_lesson.type = 'post' AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')) = 'lesson'
+            AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published')
         )
         AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) IN ('published','approved','flagged','revised','retired')
         ORDER BY crr.position ASC, cr_lesson.createdAt ASC, cr_lesson.id ASC
@@ -825,6 +860,8 @@ export async function getCourseBuilderCourseLessons(
               cr_lesson.type = 'lesson'
               OR (
                 cr_lesson.type = 'post'
+                AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+                AND cr_lesson.deletedAt IS NULL
                 AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')) = 'lesson'
               )
             )
@@ -883,6 +920,8 @@ export async function getCourseBuilderCourseLessons(
               cr_lesson.type = 'lesson'
               OR (
                 cr_lesson.type = 'post'
+                AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+                AND cr_lesson.deletedAt IS NULL
                 AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')) = 'lesson'
               )
             )
@@ -991,6 +1030,8 @@ export async function getCourseBuilderCaseStudy(
       FROM egghead_ContentResource cr
       LEFT JOIN egghead_User u ON cr.createdById = u.id
       WHERE cr.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr.fields, '$.state')) = 'published'
+        AND cr.deletedAt IS NULL
         AND JSON_UNQUOTE(JSON_EXTRACT(cr.fields, '$.postType')) = 'case-study'
         AND (
           cr.id = ?
@@ -1067,8 +1108,10 @@ export async function getCourseBuilderCaseStudies(): Promise<
       SELECT cr.*
       FROM egghead_ContentResource cr
       WHERE cr.type = 'post'
+        AND cr.deletedAt IS NULL
         AND JSON_UNQUOTE(JSON_EXTRACT(cr.fields, '$.postType')) = 'case-study'
         AND JSON_UNQUOTE(JSON_EXTRACT(cr.fields, '$.state')) = 'published'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr.fields, '$.visibility')) = 'public'
       ORDER BY cr.createdAt DESC
       `,
     )

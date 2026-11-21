@@ -54,6 +54,8 @@ export const courseRouter = router({
               type = 'course'
               OR (
                 type = 'post'
+                AND JSON_UNQUOTE(JSON_EXTRACT(fields, '$.state')) = 'published'
+                AND deletedAt IS NULL
                 AND JSON_UNQUOTE(JSON_EXTRACT(fields, '$.postType')) = 'course'
               )
             )

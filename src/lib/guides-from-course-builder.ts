@@ -129,6 +129,10 @@ export async function getGuideFromCourseBuilder(
          FROM egghead_ContentResourceResource crr
          JOIN egghead_ContentResource cr_resource ON crr.resourceId = cr_resource.id
          WHERE crr.resourceOfId IN (?)
+           AND (cr_resource.type <> 'post' OR (
+             JSON_UNQUOTE(JSON_EXTRACT(cr_resource.fields, '$.state')) = 'published'
+             AND cr_resource.deletedAt IS NULL
+           ))
          ORDER BY crr.position ASC`,
         [sectionIds],
       )

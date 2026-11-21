@@ -37,6 +37,10 @@ describe('getPost matching', () => {
     >) {
       const [sql, params] = call
       expect(String(sql)).not.toContain('LIKE')
+      expect(String(sql)).toContain(
+        "JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'",
+      )
+      expect(String(sql)).toContain('cr_lesson.deletedAt IS NULL')
       expect(params).toEqual([
         'build-realtime-and-authenticated-apps-with-firebase-vite',
         'build-realtime-and-authenticated-apps-with-firebase-vite',
@@ -52,6 +56,7 @@ describe('getPost matching', () => {
       fields: {
         title: 'Profile tasks in an Nx Workspace with Chrome DevTools',
         postType: 'tip',
+        state: 'published',
         slug: 'profile-tasks-in-an-nx-workspace-with-chrome-devtools~86iwv',
       },
       createdAt: new Date(),
@@ -115,6 +120,10 @@ describe('getPost matching', () => {
     >) {
       const [sql, params] = call
       expect(String(sql)).toContain('LIKE')
+      expect(String(sql)).toContain(
+        "JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'",
+      )
+      expect(String(sql)).toContain('cr_lesson.deletedAt IS NULL')
       expect(params).toEqual([
         'some-course-builder-post~abc123',
         'some-course-builder-post~abc123',

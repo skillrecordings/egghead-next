@@ -52,6 +52,8 @@ export async function getPost(slug: string) {
        WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ?
               OR cr_lesson.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?)
        AND cr_lesson.type = 'post'
+       AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+       AND cr_lesson.deletedAt IS NULL
        AND cr_video.type = 'videoResource'
        LIMIT 1`
       : `SELECT *
@@ -60,6 +62,8 @@ export async function getPost(slug: string) {
        JOIN egghead_ContentResource cr_video ON crr.resourceId = cr_video.id
        WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ?)
        AND cr_lesson.type = 'post'
+       AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+       AND cr_lesson.deletedAt IS NULL
        AND cr_video.type = 'videoResource'
        LIMIT 1`
     const videoResourceParams = hasCourseBuilderId
@@ -82,6 +86,8 @@ export async function getPost(slug: string) {
        WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ? 
               OR cr_lesson.id LIKE ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) LIKE ?)
        AND cr_lesson.type = 'post'
+       AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+       AND cr_lesson.deletedAt IS NULL
        ${allowedDirectPostTypesFilter}
        LIMIT 1`
       : `SELECT cr_lesson.*, egh_user.name, egh_user.image
@@ -89,6 +95,8 @@ export async function getPost(slug: string) {
        LEFT JOIN egghead_User egh_user ON cr_lesson.createdById = egh_user.id
        WHERE (cr_lesson.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.slug')) = ?)
        AND cr_lesson.type = 'post'
+       AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+       AND cr_lesson.deletedAt IS NULL
        ${allowedDirectPostTypesFilter}
        LIMIT 1`
     const postParams = hasCourseBuilderId
@@ -99,8 +107,12 @@ export async function getPost(slug: string) {
     const videoResource = videoResourceRows[0]
     const postRow = postRows[0]
 
-    if (!postRow) {
-      console.log('No post found for slug:', slug)
+    if (
+      !postRow ||
+      postRow.fields?.state !== 'published' ||
+      postRow.deletedAt != null
+    ) {
+      logEvent('info', 'post.not_found', {slug})
       return null
     }
 
@@ -160,6 +172,9 @@ export async function getAllPostSlugs() {
     const [postRows] = await conn.execute<RowDataPacket[]>(`
       SELECT * FROM egghead_ContentResource cr_lesson
       WHERE cr_lesson.type = 'post'
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+        AND cr_lesson.deletedAt IS NULL
+        AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.visibility')) = 'public'
         AND COALESCE(
           JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.postType')),
           'lesson'

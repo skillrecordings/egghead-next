@@ -12,10 +12,19 @@ export async function getCourseForPost(postId: string, conn: Connection) {
       cr_course.id AS id,
       crr.position AS position,
       (SELECT COUNT(*) FROM egghead_ContentResourceResource lesson_crr
-       WHERE lesson_crr.resourceOfId = cr_course.id) as totalLessons
+       JOIN egghead_ContentResource cr_lesson ON lesson_crr.resourceId = cr_lesson.id
+       WHERE lesson_crr.resourceOfId = cr_course.id
+         AND (cr_lesson.type <> 'post' OR (
+           JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+           AND cr_lesson.deletedAt IS NULL
+         ))) as totalLessons
     FROM egghead_ContentResourceResource crr
     INNER JOIN egghead_ContentResource cr_course ON crr.resourceOfId = cr_course.id
     WHERE crr.resourceId = ?
+      AND (cr_course.type <> 'post' OR (
+        JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.state')) = 'published'
+        AND cr_course.deletedAt IS NULL
+      ))
     LIMIT 1`,
     [postId],
   )

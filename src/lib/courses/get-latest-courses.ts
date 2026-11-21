@@ -55,6 +55,7 @@ export async function getLatestCourses(
         ON crr.resourceId = cr_lesson.id
         AND cr_lesson.type = 'post'
         AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+        AND cr_lesson.deletedAt IS NULL
       WHERE
         cr_course.type = 'post'
         AND JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.postType')) = 'course'
@@ -154,6 +155,7 @@ export async function getCourseWithActivity(
         ON crr.resourceId = cr_lesson.id
         AND cr_lesson.type = 'post'
         AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+        AND cr_lesson.deletedAt IS NULL
       WHERE
         (cr_course.id = ? OR JSON_UNQUOTE(JSON_EXTRACT(cr_course.fields, '$.slug')) = ?)
         AND cr_course.type = 'post'
