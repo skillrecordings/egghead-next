@@ -207,15 +207,6 @@ export default function PostPage({
 
       {/* Main content */}
       <div className="container mx-auto w-fit">
-        {/* Draft indicator */}
-        {post.fields.state === 'draft' && (
-          <div className="bg-gray-100 dark:bg-gray-800 p-1 rounded-b-lg flex justify-center">
-            <p className="text-gray-600 dark:text-gray-400 text-xs">
-              This post is a draft and not published yet.
-            </p>
-          </div>
-        )}
-
         {/* Header */}
         <header className="flex flex-col gap-5 sm:pt-8 pt-5 max-w-4xl mb-5">
           <h1 className="font-bold sm:text-2xl text-xl leading-tighter tracking-tight">

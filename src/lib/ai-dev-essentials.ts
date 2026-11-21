@@ -45,6 +45,8 @@ export async function getAIDevEssentialsPosts(): Promise<Post[]> {
       LEFT JOIN egghead_User egh_user ON cr_lesson.createdById = egh_user.id
       WHERE JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.title')) LIKE '%AI Dev Essentials%'
       AND cr_lesson.type = 'post'
+      AND JSON_UNQUOTE(JSON_EXTRACT(cr_lesson.fields, '$.state')) = 'published'
+      AND cr_lesson.deletedAt IS NULL
       ORDER BY cr_lesson.createdAt DESC
       `,
     )
