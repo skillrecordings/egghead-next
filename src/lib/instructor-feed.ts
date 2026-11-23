@@ -3,17 +3,25 @@ import Typesense from 'typesense'
 import {Feed} from 'feed'
 import removeMarkdown from 'remove-markdown'
 import {getTypesenseNodes} from '@/utils/typesense-host'
+import {logEvent} from '@/utils/structured-log'
 
 export async function getInstructorFeed(slug: string) {
+  if (typeof slug !== 'string' || !slug || /[^a-z0-9-]/.test(slug)) {
+    logEvent('warn', 'instructor.feed.invalid_slug', {})
+    return null
+  }
   const siteURL = 'https://egghead.io'
   const date = new Date()
 
-  const instructorResources = await pgQuery(`
+  const instructorResources = await pgQuery(
+    `
       SELECT
         *
       FROM instructors
-      WHERE slug = '${slug}'
-    `)
+      WHERE slug = $1
+    `,
+    [slug],
+  )
 
   const instructor = instructorResources.rows[0]
 

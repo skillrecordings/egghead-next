@@ -24,7 +24,8 @@ export async function getLastChargeForActiveSubscription(
       return null
     })
 
-  const queryResult = await pgQuery(`
+  const queryResult = await pgQuery(
+    `
     select account_subscriptions.stripe_subscription_id as stripe_subscription_id,
            accounts.stripe_customer_id as stripe_customer_id,
            users.email, 
@@ -34,12 +35,12 @@ export async function getLastChargeForActiveSubscription(
     join account_users ON account_users.user_id = users.id
     join accounts on accounts.id = account_users.account_id
     join account_subscriptions on accounts.id = account_subscriptions.account_id
-    where (users.email = lower('${email}') ${
-    eggheadUser?.id ? `OR users.id = ${eggheadUser?.id}` : ''
-  }) 
+    where (users.email = lower($1) OR users.id = $2)
     and account_subscriptions.status = 'active'
     and account_subscriptions.stripe_subscription_id not like '%sub_gift_not_in_stripe%'
-    limit 1`)
+    limit 1`,
+    [email ?? null, eggheadUser?.id ?? null],
+  )
 
   let amountPaid = 0
 
