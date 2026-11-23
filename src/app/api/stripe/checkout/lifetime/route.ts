@@ -4,12 +4,21 @@ import {stripeAdapter} from '@/adapters/stripe-adapter'
 import {add} from 'date-fns'
 import {getLastChargeForActiveSubscription} from '@/lib/subscriptions'
 import {withAppApiLogging} from '@/lib/logging'
+import {z} from 'zod'
+import {logEvent} from '@/utils/structured-log'
 
 async function _POST(req: NextRequest) {
   const allCookies = await cookies()
   const authToken = allCookies.get('eh_token_2020_11_22')
 
   const {email, successPath, metadata, cancelPath} = await req.json()
+  if (!z.string().email().safeParse(email).success) {
+    logEvent('warn', 'checkout.lifetime.invalid_email', {})
+    return NextResponse.json(
+      {error: 'A valid email is required'},
+      {status: 400},
+    )
+  }
 
   let {
     amountPaid = 0,
