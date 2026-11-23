@@ -137,14 +137,106 @@ it('shows the rate-limit message for HTTP 429 without navigating', async () => {
   expect(refreshUser).not.toHaveBeenCalled()
 })
 
-it('stays on the page if the viewer refresh fails after the POST', async () => {
-  post.mockResolvedValueOnce({data: {}})
-  refreshUser.mockRejectedValueOnce(new Error('refresh unavailable'))
+it.each([
+  ['viewer refresh', () => refreshUser.mockRejectedValueOnce(new Error('x'))],
+  ['navigation', () => push.mockRejectedValueOnce(new Error('x'))],
+])(
+  'reports the gift as claimed and blocks a second claim if %s fails after the POST',
+  async (_step, fail) => {
+    fail()
+    post.mockResolvedValueOnce({data: {}})
+    render(<GiftClaim gift={gift} />)
+    fireEvent.click(screen.getByText(/^Claim Your Membership/))
+
+    expect(await screen.findByRole('status')).toHaveTextContent(
+      'Your gift is claimed. Refresh the page to start watching.',
+    )
+    expect(screen.getByText('Refresh the page')).toHaveAttribute(
+      'href',
+      '/learn/',
+    )
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(screen.getByRole('button')).toBeDisabled()
+    fireEvent.click(screen.getByRole('button'))
+    expect(post).toHaveBeenCalledTimes(1)
+    expect(logEvent).not.toHaveBeenCalledWith(
+      'warn',
+      'gift.claim.failed',
+      expect.anything(),
+    )
+  },
+)
+
+it('shows the first error message from the Rails response', async () => {
+  post.mockRejectedValueOnce({
+    isAxiosError: true,
+    response: {
+      status: 400,
+      data: {errors: ['You already have an active membership.', 'Other']},
+    },
+  })
+  render(<GiftClaim gift={gift} />)
+  fireEvent.click(screen.getByText(/^Claim Your Membership/))
+
+  expect(await screen.findByRole('alert')).toHaveTextContent(
+    /^You already have an active membership\.$/,
+  )
+  expect(screen.getByRole('button')).toBeEnabled()
+})
+
+it('renders the Rails error message as plain text', async () => {
+  const html = '<img src=x onerror="alert(1)"><b>bold</b>'
+  post.mockRejectedValueOnce({
+    isAxiosError: true,
+    response: {status: 400, data: {errors: [html]}},
+  })
+  render(<GiftClaim gift={gift} />)
+  fireEvent.click(screen.getByText(/^Claim Your Membership/))
+
+  const alert = await screen.findByRole('alert')
+  expect(alert).toHaveTextContent(html)
+  expect(alert.querySelector('img, b')).toBeNull()
+})
+
+it.each([
+  ['an empty errors array', {errors: []}],
+  ['no errors key', {}],
+  ['non-string errors', {errors: [{message: 'nope'}, '  ']}],
+])('falls back to the generic claim error for %s', async (_label, data) => {
+  post.mockRejectedValueOnce({
+    isAxiosError: true,
+    response: {status: 400, data},
+  })
   render(<GiftClaim gift={gift} />)
   fireEvent.click(screen.getByText(/^Claim Your Membership/))
 
   expect(await screen.findByRole('alert')).toHaveTextContent(claimError)
-  expect(push).not.toHaveBeenCalled()
+})
+
+it('keeps the rate-limit message for HTTP 429 even with Rails errors', async () => {
+  post.mockRejectedValueOnce({
+    isAxiosError: true,
+    response: {status: 429, data: {errors: ['Something else']}},
+  })
+  render(<GiftClaim gift={gift} />)
+  fireEvent.click(screen.getByText(/^Claim Your Membership/))
+
+  expect(await screen.findByRole('alert')).toHaveTextContent(
+    'Too many tries. Wait a minute and try again.',
+  )
+})
+
+it('does not promise pro members that the gift stacks on their membership', () => {
+  jest.mocked(useViewer).mockReturnValue({
+    viewer: {email: 'pro@example.com', is_pro: true},
+    refreshUser,
+  } as unknown as ReturnType<typeof useViewer>)
+  render(<GiftClaim gift={gift} />)
+
+  expect(screen.queryByText(/on top of your existing membership/)).toBeNull()
+  expect(
+    screen.getByText(/can't be applied to an account that already has an/),
+  ).toBeInTheDocument()
 })
 
 it('handles a network failure and allows retrying the claim', async () => {
