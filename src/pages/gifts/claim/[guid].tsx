@@ -8,7 +8,7 @@ import Image from 'next/legacy/image'
 import axios from '@/utils/configured-axios'
 import {useRouter} from 'next/router'
 import {useViewer} from '../../../context/viewer-context'
-import {PrimaryButton} from '../../../components/buttons'
+import {logEvent} from '@/utils/structured-log'
 
 export const getServerSideProps: GetServerSideProps = withSSRLogging(
   async function ({req, query}) {
@@ -49,6 +49,10 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
 
 type Gift = {claim_url: string; claimed: boolean; duration_months: number}
 type GiftClaimProps = {error?: {type: string; message: string}; gift?: Gift}
+type ClaimState =
+  | {status: 'idle'}
+  | {status: 'claiming'}
+  | {status: 'error'; message: string}
 
 const GiftClaim: React.FC<React.PropsWithChildren<GiftClaimProps>> = ({
   error,
@@ -56,15 +60,40 @@ const GiftClaim: React.FC<React.PropsWithChildren<GiftClaimProps>> = ({
 }) => {
   const router = useRouter()
   const {viewer, refreshUser} = useViewer()
+  // idle/error -> claiming -> navigate on success, or error with a retry.
+  const [claimState, setClaimState] = React.useState<ClaimState>({
+    status: 'idle',
+  })
 
   const handleClaimGift = async () => {
-    if (!gift) {
+    if (!gift || claimState.status === 'claiming') {
       return
     }
-    let {claim_url} = gift
-    await axios.post(claim_url)
+    setClaimState({status: 'claiming'})
 
-    await refreshUser()
+    try {
+      await axios.post(gift.claim_url)
+      await refreshUser()
+      await router.push({
+        pathname: '/learn/',
+        query: {
+          message: 'You have claimed the membership coupon.',
+          type: 'claimed',
+        },
+      })
+    } catch (error: unknown) {
+      const status = axios.isAxiosError(error)
+        ? error.response?.status
+        : undefined
+      logEvent('warn', 'gift.claim.failed', {status: status ?? null})
+      setClaimState({
+        status: 'error',
+        message:
+          status === 429
+            ? 'Too many tries. Wait a minute and try again.'
+            : "This gift has expired or can't be claimed. Email support@egghead.io and we'll sort it out.",
+      })
+    }
   }
 
   return (
@@ -111,18 +140,19 @@ const GiftClaim: React.FC<React.PropsWithChildren<GiftClaimProps>> = ({
                 is the account you want the gift applied to.
               </p>
             )}
-            <PrimaryButton
-              url={{
-                pathname: '/learn/',
-                query: {
-                  message: 'You have claimed the membership coupon.',
-                  type: 'claimed',
-                },
-              }}
-              label={`Claim Your Membership for ${viewer?.email}`}
+            <button
+              type="button"
+              disabled={claimState.status === 'claiming'}
               onClick={handleClaimGift}
-              className="mt-6 no-underline"
-            />
+              className="mt-6 inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white font-medium transition-all hover:bg-blue-800 dark:hover:bg-blue-500 ease-in-out duration-200 disabled:opacity-50"
+            >
+              {claimState.status === 'claiming'
+                ? 'Claiming Your Membership...'
+                : `Claim Your Membership for ${viewer?.email}`}
+            </button>
+            {claimState.status === 'error' && (
+              <p role="alert">{claimState.message}</p>
+            )}
           </>
         )}
       </div>
