@@ -53,6 +53,31 @@ type ClaimState =
   | {status: 'idle'}
   | {status: 'claiming'}
   | {status: 'error'; message: string}
+  | {status: 'claimed'}
+  | {status: 'claimed-refresh-failed'}
+
+const RATE_LIMIT_MESSAGE = 'Too many tries. Wait a minute and try again.'
+const GENERIC_CLAIM_ERROR =
+  "This gift has expired or can't be claimed. Email support@egghead.io and we'll sort it out."
+
+// Rails sends {errors: [...]} with the claim failure reasons. Older Rails
+// sends an empty array, so fall back to the generic message.
+const claimErrorMessage = (error: unknown): string => {
+  if (!axios.isAxiosError(error)) {
+    return GENERIC_CLAIM_ERROR
+  }
+  if (error.response?.status === 429) {
+    return RATE_LIMIT_MESSAGE
+  }
+  const errors: unknown = (error.response?.data as {errors?: unknown})?.errors
+  const first = Array.isArray(errors)
+    ? errors.find(
+        (message): message is string =>
+          typeof message === 'string' && message.trim() !== '',
+      )
+    : undefined
+  return first?.trim() ?? GENERIC_CLAIM_ERROR
+}
 
 const GiftClaim: React.FC<React.PropsWithChildren<GiftClaimProps>> = ({
   error,
@@ -60,19 +85,36 @@ const GiftClaim: React.FC<React.PropsWithChildren<GiftClaimProps>> = ({
 }) => {
   const router = useRouter()
   const {viewer, refreshUser} = useViewer()
-  // idle/error -> claiming -> navigate on success, or error with a retry.
+  // idle/error -> claiming -> error (retry allowed) or claimed.
+  // claimed -> navigate, or claimed-refresh-failed if refresh/navigation
+  // fails. Both claimed states are terminal: the gift can't be claimed twice.
   const [claimState, setClaimState] = React.useState<ClaimState>({
     status: 'idle',
   })
+  const isClaimed =
+    claimState.status === 'claimed' ||
+    claimState.status === 'claimed-refresh-failed'
 
   const handleClaimGift = async () => {
-    if (!gift || claimState.status === 'claiming') {
+    if (!gift || claimState.status === 'claiming' || isClaimed) {
       return
     }
     setClaimState({status: 'claiming'})
 
     try {
       await axios.post(gift.claim_url)
+    } catch (error: unknown) {
+      const status = axios.isAxiosError(error)
+        ? error.response?.status
+        : undefined
+      logEvent('warn', 'gift.claim.failed', {status: status ?? null})
+      setClaimState({status: 'error', message: claimErrorMessage(error)})
+      return
+    }
+
+    setClaimState({status: 'claimed'})
+
+    try {
       await refreshUser()
       await router.push({
         pathname: '/learn/',
@@ -82,17 +124,10 @@ const GiftClaim: React.FC<React.PropsWithChildren<GiftClaimProps>> = ({
         },
       })
     } catch (error: unknown) {
-      const status = axios.isAxiosError(error)
-        ? error.response?.status
-        : undefined
-      logEvent('warn', 'gift.claim.failed', {status: status ?? null})
-      setClaimState({
-        status: 'error',
-        message:
-          status === 429
-            ? 'Too many tries. Wait a minute and try again.'
-            : "This gift has expired or can't be claimed. Email support@egghead.io and we'll sort it out.",
+      logEvent('warn', 'gift.claim.post_claim_failed', {
+        error: error instanceof Error ? error.message : String(error),
       })
+      setClaimState({status: 'claimed-refresh-failed'})
     }
   }
 
@@ -121,13 +156,9 @@ const GiftClaim: React.FC<React.PropsWithChildren<GiftClaimProps>> = ({
             <h1 className="mt-6 md:mt-12">Claim your membership.</h1>
             {viewer?.is_pro ? (
               <p>
-                A gift membership can only be claimed one time. As an existing
-                egghead member this gift membership will be applied{' '}
-                <em>
-                  <b>on top of your existing membership</b>
-                </em>
-                . When the gift expires, your existing membership will resume.
-                You will not lose any membership time/money.
+                A gift membership can't be applied to an account that already
+                has an active membership. If you want to use this gift, email
+                support@egghead.io and we'll sort it out.
               </p>
             ) : (
               <p>
@@ -142,16 +173,24 @@ const GiftClaim: React.FC<React.PropsWithChildren<GiftClaimProps>> = ({
             )}
             <button
               type="button"
-              disabled={claimState.status === 'claiming'}
+              disabled={claimState.status === 'claiming' || isClaimed}
               onClick={handleClaimGift}
               className="mt-6 inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white font-medium transition-all hover:bg-blue-800 dark:hover:bg-blue-500 ease-in-out duration-200 disabled:opacity-50"
             >
               {claimState.status === 'claiming'
                 ? 'Claiming Your Membership...'
+                : isClaimed
+                ? 'Membership Claimed'
                 : `Claim Your Membership for ${viewer?.email}`}
             </button>
             {claimState.status === 'error' && (
               <p role="alert">{claimState.message}</p>
+            )}
+            {claimState.status === 'claimed-refresh-failed' && (
+              <p role="status">
+                Your gift is claimed. <a href="/learn/">Refresh the page</a> to
+                start watching.
+              </p>
             )}
           </>
         )}
