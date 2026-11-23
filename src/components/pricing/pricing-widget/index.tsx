@@ -13,7 +13,6 @@ import SelectPlanNew from '@/components/pricing/select-plan-new'
 import PoweredByStripe from '@/components/pricing/powered-by-stripe'
 import ParityCouponMessage from '@/components/pricing/parity-coupon-message'
 import isEmpty from 'lodash/isEmpty'
-import axios from 'axios'
 import toast from 'react-hot-toast'
 import countries from 'i18n-iso-countries'
 import enLocale from 'i18n-iso-countries/langs/en.json'
@@ -90,13 +89,7 @@ const PricingWidget: FunctionComponent<React.PropsWithChildren<{}>> = () => {
     })
 
     if (emailIsValid(viewer?.email)) {
-      const {hasProAccess} = await axios
-        .post(`/api/users/check-pro-status`, {
-          email: viewer?.email,
-        })
-        .then(({data}) => data)
-
-      if (hasProAccess) {
+      if (viewer?.is_pro || viewer?.is_instructor) {
         const message = `You already have pro access with this account (${viewer?.email}). Please contact support@egghead.io if you need help with your membership.`
 
         toast.error(message, {
@@ -104,7 +97,7 @@ const PricingWidget: FunctionComponent<React.PropsWithChildren<{}>> = () => {
           icon: '❌',
         })
 
-        // email is already associated with a pro account, return early instead
+        // The signed-in viewer already has access, return early instead
         // of sending the user to a Stripe Checkout Session.
         return
       }

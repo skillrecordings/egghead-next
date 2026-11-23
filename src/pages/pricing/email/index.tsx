@@ -4,7 +4,6 @@ import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 import {bpMinSM} from '@/utils/breakpoints'
 import {track} from '@/utils/analytics'
-import axios from '@/utils/configured-axios'
 import * as yup from 'yup'
 import Stepper from '@/components/pricing/stepper'
 import Spinner from '@/components/spinner'
@@ -40,20 +39,7 @@ const Email: React.FunctionComponent<
 
   const validateEmail = async (email: string) => {
     setIsSubmitted(true)
-    const {hasProAccess} = await axios
-      .post(`/api/users/check-pro-status`, {
-        email,
-      })
-      .then(({data}) => data)
-
-    if (hasProAccess) {
-      setIsError(
-        `You've already got a pro account at ${email}. [Please login](/login).`,
-      )
-      track('checkout: existing pro account found', {
-        email,
-      })
-    } else if (!!priceId) {
+    if (!!priceId) {
       setIsError(false)
       redirectToSubscriptionCheckout({
         priceId,
