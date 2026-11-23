@@ -6,6 +6,7 @@ import PoweredByStripe from '../powered-by-stripe'
 import {twMerge} from 'tailwind-merge'
 import slugify from 'slugify'
 import Spinner from '@/components/spinner'
+import {logEvent} from '@/utils/structured-log'
 
 const ActiveSale = ({lastCharge}: {lastCharge?: {amountPaid: number}}) => {
   const {viewer} = useViewer()
@@ -13,6 +14,7 @@ const ActiveSale = ({lastCharge}: {lastCharge?: {amountPaid: number}}) => {
   const router = useRouter()
 
   const [loaderOn, setLoaderOn] = React.useState<boolean>(false)
+  const [checkoutError, setCheckoutError] = React.useState<string | null>(null)
 
   const priceId = process.env.NEXT_PUBLIC_STRIPE_LIFETIME_MEMBERSHIP_PRICE_ID
   const quantity = 1
@@ -30,18 +32,33 @@ const ActiveSale = ({lastCharge}: {lastCharge?: {amountPaid: number}}) => {
 
       // the user doesn't have pro access, proceed to checkout
 
-      const {sessionUrl, error} = await fetch('/api/stripe/checkout/lifetime', {
-        method: 'POST',
-        body: JSON.stringify({
-          email: viewer.email,
-          successPath: '/confirm/forever',
-          cancelPath: '/pricing/forever',
-        }),
-      }).then((res) => res.json())
-      if (sessionUrl) {
-        router.push(sessionUrl)
-      } else {
-        console.error('error creating checkout session', error)
+      setCheckoutError(null)
+      try {
+        const response = await fetch('/api/stripe/checkout/lifetime', {
+          method: 'POST',
+          body: JSON.stringify({
+            email: viewer.email,
+            successPath: '/confirm/forever',
+            cancelPath: '/pricing/forever',
+          }),
+        })
+        if (response.status === 410) {
+          setCheckoutError('Lifetime sales are closed')
+          logEvent('info', 'checkout.lifetime.closed', {})
+          return
+        }
+        const {sessionUrl} = await response.json()
+        if (response.ok && sessionUrl) {
+          router.push(sessionUrl)
+        } else {
+          setCheckoutError('Unable to start checkout. Please try again.')
+          logEvent('warn', 'checkout.lifetime.failed', {
+            status: response.status,
+          })
+        }
+      } catch {
+        setCheckoutError('Unable to start checkout. Please try again.')
+        logEvent('warn', 'checkout.lifetime.failed', {})
       }
     } else {
       // const couponCode = state.context.couponToApply?.couponCode
@@ -106,6 +123,7 @@ const ActiveSale = ({lastCharge}: {lastCharge?: {amountPaid: number}}) => {
             loaderOn={loaderOn}
             pricesLoading={pricesLoading}
           />
+          {checkoutError && <p role="alert">{checkoutError}</p>}
         </div>
         {/* <SelectPlanNew
      prices={prices}

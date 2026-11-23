@@ -12,6 +12,7 @@ import {withSSRLogging} from '@/lib/logging'
 import {setupHttpTracing} from '@/utils/tracing-js/dist/src/index'
 import {useRouter} from 'next/router'
 import invariant from 'tiny-invariant'
+import {logEvent} from '@/utils/structured-log'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -46,21 +47,30 @@ const ForeverEmail: React.FunctionComponent<
     setIsSubmitted(true)
     setIsError(false)
 
-    const {sessionUrl, error} = await fetch('/api/stripe/checkout/lifetime', {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        successPath: '/confirm/forever',
-        cancelPath: '/pricing/forever',
-      }),
-    }).then((res) => res.json())
-
-    console.log('sessionUrl', sessionUrl)
-
-    if (sessionUrl) {
-      router.push(sessionUrl)
-    } else {
-      setIsError(error)
+    try {
+      const response = await fetch('/api/stripe/checkout/lifetime', {
+        method: 'POST',
+        body: JSON.stringify({
+          email,
+          successPath: '/confirm/forever',
+          cancelPath: '/pricing/forever',
+        }),
+      })
+      if (response.status === 410) {
+        setIsError('Lifetime sales are closed')
+        logEvent('info', 'checkout.lifetime.closed', {})
+        return
+      }
+      const {sessionUrl} = await response.json()
+      if (response.ok && sessionUrl) {
+        await router.push(sessionUrl)
+      } else {
+        setIsError('Unable to start checkout. Please try again.')
+        logEvent('warn', 'checkout.lifetime.failed', {status: response.status})
+      }
+    } catch {
+      setIsError('Unable to start checkout. Please try again.')
+      logEvent('warn', 'checkout.lifetime.failed', {})
     }
   }
 
@@ -142,9 +152,11 @@ const ForeverEmail: React.FunctionComponent<
               </div>
             )}
             {isError && (
-              <ReactMarkdown className="py-16 prose text-center dark:prose-dark sm:dark:prose-xl-dark sm:prose-xl">
-                {isError.toString()}
-              </ReactMarkdown>
+              <div role="alert">
+                <ReactMarkdown className="py-16 prose text-center dark:prose-dark sm:dark:prose-xl-dark sm:prose-xl">
+                  {isError.toString()}
+                </ReactMarkdown>
+              </div>
             )}
           </div>
         </div>
