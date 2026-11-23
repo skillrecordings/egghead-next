@@ -1,8 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
 import {isEmpty, get, first} from 'lodash'
-import toast from 'react-hot-toast'
-import axios from 'axios'
 import * as Yup from 'yup'
 import {FormikProps, useFormik} from 'formik'
 import {useCommerceMachine} from '@/hooks/use-commerce-machine'
@@ -83,35 +81,6 @@ const PricingCta = () => {
     await track('checkout: selected plan', {
       priceId: priceId,
     })
-
-    const emailRequiresAProCheck =
-      !isEmpty(formik.values.email) && formik.values.email !== viewer?.email
-
-    if (emailRequiresAProCheck) {
-      const {hasProAccess} = await axios
-        .post(`/api/users/check-pro-status`, {
-          email: formik.values.email,
-        })
-        .then(({data}) => data)
-
-      if (hasProAccess) {
-        const message = `You've already got a pro account at ${formik.values.email}. Please sign in.`
-
-        toast.error(message, {
-          duration: 6000,
-          icon: '❌',
-        })
-
-        track('checkout: existing pro account found', {
-          email: formik.values.email,
-          location: 'signup page',
-        })
-
-        // email is already associated with a pro account, return early instead
-        // of sending the user to a Stripe Checkout Session.
-        return
-      }
-    }
 
     if (emailIsValid(formik.values.email)) {
       await track('checkout: valid email present', {
