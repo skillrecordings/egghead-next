@@ -4,12 +4,9 @@ import {
   loadAssociatedLessonsByTag,
   loadLesson,
   loadLessonViewUrl,
+  isGraphQL403,
 } from '@/lib/lessons'
 import {logEvent} from '@/utils/structured-log'
-
-function isGraphQL403(e: unknown): boolean {
-  return e instanceof Error && e.message.includes('Code: 403')
-}
 
 export const lessonRouter = router({
   getAssociatedLessonsByTag: baseProcedure

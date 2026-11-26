@@ -1,5 +1,11 @@
-import {loadLesson, loadLessonViewUrl, toSharedLessonPayload} from '../lessons'
+import {
+  isGraphQL403,
+  loadLesson,
+  loadLessonViewUrl,
+  toSharedLessonPayload,
+} from '../lessons'
 import * as structuredLog from '@/utils/structured-log'
+import {ClientError} from 'graphql-request'
 
 const mockRequest = jest.fn()
 const mockGetGraphQLClient = jest.fn((..._args: any[]) => ({
@@ -38,6 +44,17 @@ const viewUrlLogs = () =>
     ([, event]) => event === 'lesson.loadLessonViewUrl.result',
   )
 
+// graphql-request's real error type, shaped as it is thrown for a non-2xx
+// Rails response (status on `response.status`).
+const railsError = (status: number, message?: string) =>
+  new ClientError(
+    {
+      status,
+      ...(message ? {errors: [{message}]} : {}),
+    } as any,
+    {query: 'query getLessonViewUrl', variables: {slug: 'some-lesson'}},
+  )
+
 describe('loadLessonViewUrl outcomes', () => {
   test.each([
     [
@@ -54,7 +71,23 @@ describe('loadLessonViewUrl outcomes', () => {
     [
       'forbidden',
       'info',
-      () => mockRequest.mockRejectedValue(new Error('Forbidden. Code: 403')),
+      () => mockRequest.mockRejectedValue(railsError(403, 'Not authorized')),
+    ],
+    [
+      'forbidden',
+      'info',
+      // no GraphQL errors body: graphql-request falls back to "Code: 403"
+      () => mockRequest.mockRejectedValue(railsError(403)),
+    ],
+    [
+      'unauthenticated',
+      'info',
+      () => mockRequest.mockRejectedValue(railsError(401, 'Token expired')),
+    ],
+    [
+      'error',
+      'warn',
+      () => mockRequest.mockRejectedValue(railsError(500, 'boom')),
     ],
     [
       'error',
@@ -79,8 +112,16 @@ describe('loadLessonViewUrl outcomes', () => {
     expect(viewUrlLogs()[0][2]).toMatchObject({outcome: 'anonymous'})
   })
 
+  test('error logs carry the status, never the raw request', async () => {
+    mockRequest.mockRejectedValue(railsError(500, 'boom'))
+    await loadLessonViewUrl('some-lesson', TEST_TOKEN)
+    const data = viewUrlLogs()[0][2]
+    expect(data).toMatchObject({status: 500})
+    expect(JSON.stringify(data)).not.toContain('getLessonViewUrl')
+  })
+
   test('only real failures are warn-level', async () => {
-    mockRequest.mockRejectedValue(new Error('Forbidden. Code: 403'))
+    mockRequest.mockRejectedValue(railsError(403, 'Not authorized'))
     await loadLessonViewUrl('some-lesson', TEST_TOKEN)
     expect(logSpy.mock.calls.some(([level]) => level === 'warn')).toBe(false)
   })
@@ -159,5 +200,19 @@ describe('shared lesson payload', () => {
     for (const call of mockGetGraphQLClient.mock.calls) {
       expect(call[0]).toBeUndefined()
     }
+  })
+})
+
+describe('isGraphQL403 (shared with the lesson router)', () => {
+  test('reads the status from a real ClientError', () => {
+    expect(isGraphQL403(railsError(403, 'Not authorized'))).toBe(true)
+    expect(isGraphQL403(railsError(401, 'Token expired'))).toBe(false)
+    expect(isGraphQL403(railsError(404, 'Not found'))).toBe(false)
+  })
+
+  test('falls back to the "Code: 403" message form', () => {
+    expect(isGraphQL403(new Error('GraphQL Error (Code: 403)'))).toBe(true)
+    expect(isGraphQL403(new Error('socket hang up'))).toBe(false)
+    expect(isGraphQL403(undefined)).toBe(false)
   })
 })

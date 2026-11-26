@@ -41,12 +41,49 @@ const toLessonViewParams = ({
 
 let lessonProgress: {[x: string]: number}
 
-// The per-viewer lesson_view_url arrives from a client fetch after the page
-// renders, so a segment (or a completion) can happen before it lands. Remember
-// which lessons already posted a view, and which ended without a URL, so
-// `flushPendingLessonView` can post once the URL arrives.
-const postedViewSlugs = new Set<string>()
-const endedWithoutViewUrl = new Set<string>()
+// --- view-post serialization -------------------------------------------
+// Rails find-or-creates one LessonView per (user, lesson, collection) with no
+// unique index (egghead-rails db/schema.rb lesson_views), so two concurrent
+// creates for the same key can make two rows. Every create for a key (segment,
+// completion or late flush) runs through one promise chain, one at a time.
+const viewKey = (lesson: {slug?: string}, collection?: any) =>
+  `${lesson?.slug}|${get(collection, 'type') ?? ''}:${
+    get(collection, 'id') ?? ''
+  }`
+
+const viewQueues = new Map<string, Promise<unknown>>()
+
+const enqueueViewPost = <T>(
+  key: string,
+  task: () => Promise<T>,
+): Promise<T> => {
+  const next = (viewQueues.get(key) ?? Promise.resolve())
+    .catch(() => undefined)
+    .then(task)
+  viewQueues.set(key, next)
+  return next
+}
+
+// --- pending views ---------------------------------------------------------
+// The per-viewer lesson_view_url arrives from a client fetch, so a segment or
+// a completion can happen before it lands. useLessonViewUrl opens one pending
+// session per (lesson, viewer) with beginLessonViewSession; only segments the
+// player actually plays inside that session, while the URL is missing, are
+// counted. Nothing is seeded from cookies or earlier sessions, and a new
+// viewer (sign in, sign out, switch) starts a fresh, empty session, so
+// anonymous watching is never credited to the user who signs in later.
+type PendingView = {
+  owner: string
+  segments: number
+  ended: boolean
+  collection?: any
+}
+
+const pendingViews = new Map<string, PendingView>()
+
+const beginLessonViewSession = (slug: string, owner: string) => {
+  pendingViews.set(slug, {owner, segments: 0, ended: false})
+}
 
 const createLessonView = async (lesson: LessonResource, collection?: any) => {
   const {data} = await axios.post(
@@ -72,8 +109,9 @@ const storeProgress = (
   return new Promise((resolve) => {
     const isSegment = Math.round(playedSeconds) % 30 === 0
     if (isSegment) {
-      postedViewSlugs.add(lesson.slug)
-      createLessonView(lesson, list).then(incrementViewSegments).then(resolve)
+      enqueueViewPost(viewKey(lesson, list), () =>
+        createLessonView(lesson, list).then(incrementViewSegments),
+      ).then(resolve)
     }
   })
 }
@@ -107,6 +145,8 @@ const onProgress = async (
   if (lesson.lesson_view_url) {
     return await storeProgress(roundedProgress, lesson)
   } else {
+    const pending = pendingViews.get(lesson.slug)
+    if (pending) pending.segments += 1
     const segments = lessonProgress[lesson.slug] / 30
     const lessonViews = cookies.get('egghead-lessonViews') || {}
     lessonViews[lesson.id] = segments
@@ -177,10 +217,11 @@ const completeLesson = (lessonView: {
   axios.put(lessonView.complete_url, {}, getOptions()).then(({data}) => data)
 
 const onComplete = (lesson: any, collection?: any) => {
-  return getOrCreateLessonView(lesson, collection)
-    .then(trackStartingCourse)
-    .then(completeLesson)
-    .then(trackPercentComplete)
+  return enqueueViewPost(viewKey(lesson, collection), () =>
+    getOrCreateLessonView(lesson, collection)
+      .then(trackStartingCourse)
+      .then(completeLesson),
+  ).then(trackPercentComplete)
 }
 
 const onEnded = async (lesson: {
@@ -191,34 +232,48 @@ const onEnded = async (lesson: {
   setEmailCaptureCookie(emailCaptureCookie + 1)
 
   if (lesson.lesson_view_url) {
-    endedWithoutViewUrl.delete(lesson.slug)
-    postedViewSlugs.add(lesson.slug)
     return await onComplete(lesson)
   } else {
-    endedWithoutViewUrl.add(lesson.slug)
+    const pending = pendingViews.get(lesson.slug)
+    if (pending) pending.ended = true
     return Promise.resolve()
   }
 }
 
 /**
- * Post what the player recorded before `lesson_view_url` arrived: the
- * completion if the lesson already ended, otherwise one view for segments
- * already watched. Rails find-or-creates one LessonView per (user, lesson,
- * collection), and later segments post as usual, so this only fills the gap;
- * it never adds a second row. Does nothing without a URL or without pending
- * progress.
+ * Post what the player recorded before `lesson_view_url` arrived, once, for
+ * the viewer the URL was granted to: the completion if the lesson already
+ * ended, otherwise one create plus one increment per segment played while
+ * waiting (RevenueShareQuery sums `segments`, and Rails' increment adds one
+ * per call). Uses the same (lesson, collection) key and queue as the segment
+ * path, so it can't race a segment into a second row. Does nothing without a
+ * URL, without an open session for this owner, or without pending progress.
  */
-const flushPendingLessonView = async (lesson: LessonResource) => {
+const flushPendingLessonView = async (
+  lesson: LessonResource,
+  owner: string,
+) => {
   if (!lesson?.lesson_view_url || !lesson.slug) return
-  if (endedWithoutViewUrl.has(lesson.slug)) {
-    endedWithoutViewUrl.delete(lesson.slug)
-    postedViewSlugs.add(lesson.slug)
-    return await onComplete(lesson)
+  const pending = pendingViews.get(lesson.slug)
+  if (!pending || pending.owner !== owner) return
+  // consume: later segments carry the URL and post on their own
+  pendingViews.set(lesson.slug, {owner, segments: 0, ended: false})
+
+  if (pending.ended) {
+    return await onComplete(lesson, pending.collection)
   }
-  const watchedSegments = (lessonProgress?.[lesson.slug] || 0) / 30
-  if (watchedSegments < 1 || postedViewSlugs.has(lesson.slug)) return
-  postedViewSlugs.add(lesson.slug)
-  return await createLessonView(lesson).then(incrementViewSegments)
+  if (pending.segments < 1) return
+  return await enqueueViewPost(
+    viewKey(lesson, pending.collection),
+    async () => {
+      const created = await createLessonView(lesson, pending.collection)
+      let lessonView = created
+      for (let i = 0; i < pending.segments; i++) {
+        lessonView = await incrementViewSegments(created)
+      }
+      return lessonView
+    },
+  )
 }
 
 function onError() {}
@@ -335,5 +390,6 @@ export default function useEggheadPlayer(lesson: LessonResource) {
 export {
   onProgress as trackLessonProgress,
   onEnded as trackLessonEnded,
+  beginLessonViewSession,
   flushPendingLessonView,
 }

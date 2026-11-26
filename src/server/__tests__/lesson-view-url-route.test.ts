@@ -12,6 +12,7 @@ jest.mock('@/lib/lessons', () => ({
   loadLessonViewUrl: jest.fn(),
   loadLesson: jest.fn(async (slug: string) => ({slug, title: 'Shared'})),
   loadAssociatedLessonsByTag: jest.fn(async () => []),
+  isGraphQL403: jest.fn(() => false),
 }))
 jest.mock('@/server/routers/_app', () => {
   const {router} = jest.requireActual('@/server/trpc')

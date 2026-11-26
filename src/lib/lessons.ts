@@ -47,6 +47,22 @@ const rememberInMemoryGraphqlMiss = (slug: string) => {
   )
 }
 
+/**
+ * HTTP status of a failed GraphQL request. graphql-request's ClientError
+ * carries it on `response.status`; its message only says "Code: <status>"
+ * when Rails sent no GraphQL `errors`, so the message is a fallback.
+ */
+export function graphQLErrorStatus(error: unknown): number | undefined {
+  const status = (error as any)?.response?.status
+  if (typeof status === 'number') return status
+  const match =
+    error instanceof Error ? error.message.match(/Code: (\d{3})/) : null
+  return match ? Number(match[1]) : undefined
+}
+
+export const isGraphQL403 = (error: unknown) =>
+  graphQLErrorStatus(error) === 403
+
 function isGraphQL404(error: unknown): boolean {
   return error instanceof Error && error.message.includes('Code: 404')
 }
@@ -358,6 +374,7 @@ export type LessonViewUrlOutcome =
   | 'granted' // Rails returned a URL
   | 'withheld' // Rails answered but withheld the URL (ability check)
   | 'forbidden' // Rails answered 403 for this viewer
+  | 'unauthenticated' // Rails answered 401: expired or revoked token
   | 'error' // anything else: network, 5xx, malformed response
 
 /**
@@ -366,7 +383,8 @@ export type LessonViewUrlOutcome =
  * null and nothing is sent to Rails.
  *
  * Every call logs `lesson.loadLessonViewUrl.result` with an `outcome`.
- * Expected refusals (`withheld`, `forbidden`) are info-level; only real
+ * Expected refusals (`withheld`, `forbidden`, `unauthenticated`) are
+ * info-level; only real
  * failures (`error`) are warn-level, so the error signal stays readable.
  */
 export async function loadLessonViewUrl(
@@ -403,9 +421,18 @@ export async function loadLessonViewUrl(
     report(lessonViewUrl ? 'granted' : 'withheld')
     return lessonViewUrl
   } catch (e) {
-    const error_message = e instanceof Error ? e.message : String(e)
-    report(error_message.includes('Code: 403') ? 'forbidden' : 'error', {
-      error_message,
+    const status = graphQLErrorStatus(e)
+    const outcome: LessonViewUrlOutcome =
+      status === 403
+        ? 'forbidden'
+        : status === 401
+        ? 'unauthenticated'
+        : 'error'
+    // The raw ClientError message embeds the whole request; log the status
+    // and a short reason only.
+    report(outcome, {
+      status: status ?? null,
+      error_name: e instanceof Error ? e.name : typeof e,
     })
     return null
   }
