@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {get} from 'lodash'
 import {trpc} from '@/app/_trpc/client'
+import {useViewer} from '@/context/viewer-context'
 import {
   beginLessonViewSession,
   flushPendingLessonView,
@@ -130,4 +131,43 @@ export function useLessonViewUrl<T extends TrackableLesson>(
   }, [lessonViewUrl])
 
   return {lesson: trackedLesson, requestViewUrl}
+}
+
+/**
+ * Player wiring shared by every page that reports lesson views (lessons,
+ * talks). Players bind their `timeupdate` listener once per video element,
+ * so this hands back stable callbacks that always read the latest tracked
+ * lesson.
+ *
+ * - `lessonForPlayback(videoElement)`: call from `timeupdate`. Returns null
+ *   for events that aren't real playback (seeks or resume positions while
+ *   paused); otherwise requests the viewer's URL (once) and returns the
+ *   lesson to pass to `onProgress`.
+ * - `lessonForCompletion()`: the lesson to pass to `onEnded`.
+ */
+export function useLessonViewTracking<T extends TrackableLesson>(lesson: T) {
+  const {viewer} = useViewer()
+  const {lesson: trackedLesson, requestViewUrl} = useLessonViewUrl(
+    lesson,
+    viewer,
+  )
+  const trackedLessonRef = React.useRef(trackedLesson)
+  trackedLessonRef.current = trackedLesson
+  const requestViewUrlRef = React.useRef(requestViewUrl)
+  requestViewUrlRef.current = requestViewUrl
+
+  const lessonForPlayback = React.useCallback(
+    (videoElement?: {paused?: boolean} | null): T | null => {
+      if (videoElement?.paused) return null
+      requestViewUrlRef.current()
+      return trackedLessonRef.current
+    },
+    [],
+  )
+  const lessonForCompletion = React.useCallback(
+    (): T => trackedLessonRef.current,
+    [],
+  )
+
+  return {trackedLesson, lessonForPlayback, lessonForCompletion}
 }
