@@ -3,6 +3,8 @@ import {useRouter} from 'next/router'
 import {filter, get, isEmpty, compact, truncate} from 'lodash'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import {useEggheadPlayer} from '@/components/EggheadPlayer'
+import {useLessonViewUrl} from '@/components/EggheadPlayer/use-lesson-view-url'
+import {useViewer} from '@/context/viewer-context'
 import Course from '@/components/pages/lessons/course'
 import Overlays from '@/components/pages/lessons/overlays'
 import specialLessons from '@/components/pages/lessons/special-lessons'
@@ -128,6 +130,13 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
   const lesson: any = lessonState.context.lesson
 
   const {onProgress, onEnded} = useEggheadPlayer(lesson)
+  // The shared (ISR) lesson payload never carries the viewer-gated
+  // lesson_view_url; fetch it per signed-in viewer and report progress
+  // against that. A ref keeps the timeupdate listener on the latest value.
+  const {viewer: signedInViewer} = useViewer()
+  const trackedLesson: any = useLessonViewUrl(lesson, signedInViewer)
+  const trackedLessonRef = React.useRef<any>(trackedLesson)
+  trackedLessonRef.current = trackedLesson
   const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
   const [lessonView, setLessonView] = React.useState<any>()
 
@@ -351,7 +360,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
           lessonView,
           isIncomingAnonViewer,
         })
-        onEnded(lesson)
+        onEnded(trackedLessonRef.current)
           .then((lessonView: any) => {
             if (lessonView) {
               setLessonView(lessonView)
@@ -435,7 +444,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
     // Record progress
     const recordProgress = (e: any) => {
       const {currentTime} = e.srcElement
-      onProgress({playedSeconds: currentTime}, lesson).then(
+      onProgress({playedSeconds: currentTime}, trackedLessonRef.current).then(
         (lessonView: any) => {
           if (lessonView) {
             console.debug('progress recorded', {

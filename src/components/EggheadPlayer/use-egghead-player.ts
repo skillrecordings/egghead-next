@@ -295,3 +295,6 @@ export default function useEggheadPlayer(lesson: LessonResource) {
     getPlayerPrefs: React.useCallback(getPlayerPrefs, []),
   }
 }
+
+// Exported for tests of the view-tracking path.
+export {onProgress as trackLessonProgress, onEnded as trackLessonEnded}
