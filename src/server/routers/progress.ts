@@ -11,6 +11,7 @@ function isGraphQL403(e: unknown): boolean {
 const createLessonView = async (
   lessonId: String | Number,
   token: string | null = null,
+  onStatus?: (status: number) => void,
 ) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/lessons/${lessonId}/views`,
@@ -28,8 +29,21 @@ const createLessonView = async (
     },
   )
 
+  onStatus?.(res.status)
   return res.ok ? res.json() : null
 }
+
+// Outcome of one Course Builder post-player progress write. Every call logs
+// `progress.addProgressToLesson.result` with one of these, so a silent skip
+// (no cookie token, no Rails lesson id) is visible next to Rails' own counts.
+type AddProgressOutcome =
+  | 'no_token'
+  | 'no_lesson_id'
+  | 'no_seconds'
+  | 'not_segment'
+  | 'create_failed'
+  | 'increment_failed'
+  | 'posted'
 
 export const progressRouter = router({
   completedCourseIds: baseProcedure.query(async ({ctx}): Promise<number[]> => {
@@ -146,20 +160,53 @@ export const progressRouter = router({
     )
     .mutation(async ({input, ctx}) => {
       const token = ctx?.userToken
+      const report = (
+        outcome: AddProgressOutcome,
+        extra: Record<string, unknown> = {},
+      ) =>
+        logEvent(
+          outcome === 'create_failed' || outcome === 'increment_failed'
+            ? 'warn'
+            : 'info',
+          'progress.addProgressToLesson.result',
+          {
+            outcome,
+            lesson_id: input.lessonId ?? null,
+            seconds_watched: input.secondsWatched ?? null,
+            has_token: Boolean(token),
+            ...extra,
+          },
+        )
 
-      if (!token || !input.secondsWatched || !input.lessonId) return null
+      if (!token) {
+        report('no_token')
+        return null
+      }
+      if (!input.lessonId) {
+        report('no_lesson_id')
+        return null
+      }
+      if (!input.secondsWatched) {
+        report('no_seconds')
+        return null
+      }
 
       const roundedProgress = Math.ceil(input.secondsWatched)
       const isSegment = roundedProgress % 30 === 0
 
       if (!isSegment) {
+        report('not_segment')
         return
       }
 
+      let createStatus: number | null = null
       const incrementViewSegments = async (
         lessonView: {increment_url: string} | null,
       ) => {
-        if (!lessonView) return null
+        if (!lessonView) {
+          report('create_failed', {create_status: createStatus})
+          return null
+        }
         const res = await fetch(lessonView.increment_url, {
           method: 'PUT',
           headers: {
@@ -168,12 +215,16 @@ export const progressRouter = router({
           },
           body: JSON.stringify({}),
         })
+        report(res.ok ? 'posted' : 'increment_failed', {
+          create_status: createStatus,
+          increment_status: res.status,
+        })
         return res.ok ? res.json() : null
       }
 
-      return await createLessonView(input.lessonId, token).then(
-        incrementViewSegments,
-      )
+      return await createLessonView(input.lessonId, token, (status) => {
+        createStatus = status
+      }).then(incrementViewSegments)
     }),
   markLessonComplete: baseProcedure
     .input(

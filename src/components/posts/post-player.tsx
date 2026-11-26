@@ -11,6 +11,11 @@ import {trpc} from '@/app/_trpc/client'
 import {useMuxPlayer} from '@/hooks/use-mux-player'
 import {useVideoPlayerOverlay} from '@/hooks/mux/use-video-player-overlay'
 import {track} from '@/utils/analytics'
+import getAccessTokenFromCookie from '@/utils/get-access-token-from-cookie'
+import {
+  segmentToWrite,
+  type LastWrittenSegment,
+} from '@/lib/post-progress-segment'
 import type {Post, Tag} from '@/schemas/post'
 
 const defaultPlayerProps = {
@@ -53,6 +58,12 @@ export function PostPlayer({
   const canView =
     !isPro || (isPro && Boolean(viewer) && Boolean(viewer?.is_pro))
 
+  // Each 30s segment is written once per lesson (see segmentToWrite).
+  const lastWrittenSegment = React.useRef<LastWrittenSegment>({
+    lessonId: null,
+    segment: 0,
+  })
+
   async function writeProgressToLesson({
     currentTime,
     lessonId,
@@ -60,14 +71,20 @@ export function PostPlayer({
     currentTime?: number
     lessonId?: number | null
   }) {
-    const secondsWatched = Math.ceil(currentTime || 0)
-    const isSegment = secondsWatched % 30 === 0 && secondsWatched > 0
-    if (isSegment) {
-      return addProgressToLesson({
-        lessonId,
-        secondsWatched,
-      })
-    }
+    const segment = segmentToWrite(
+      currentTime,
+      lessonId,
+      lastWrittenSegment.current,
+    )
+    if (segment === null) return
+    // Signed out: the server would return at its token check anyway, so
+    // don't send the call (about 600 wasted calls every 2 hours).
+    if (!getAccessTokenFromCookie()) return
+    lastWrittenSegment.current = {lessonId, segment}
+    return addProgressToLesson({
+      lessonId,
+      secondsWatched: segment * 30,
+    })
   }
 
   return (
