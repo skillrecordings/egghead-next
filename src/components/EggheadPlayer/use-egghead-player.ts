@@ -41,6 +41,13 @@ const toLessonViewParams = ({
 
 let lessonProgress: {[x: string]: number}
 
+// The per-viewer lesson_view_url arrives from a client fetch after the page
+// renders, so a segment (or a completion) can happen before it lands. Remember
+// which lessons already posted a view, and which ended without a URL, so
+// `flushPendingLessonView` can post once the URL arrives.
+const postedViewSlugs = new Set<string>()
+const endedWithoutViewUrl = new Set<string>()
+
 const createLessonView = async (lesson: LessonResource, collection?: any) => {
   const {data} = await axios.post(
     lesson.lesson_view_url,
@@ -65,6 +72,7 @@ const storeProgress = (
   return new Promise((resolve) => {
     const isSegment = Math.round(playedSeconds) % 30 === 0
     if (isSegment) {
+      postedViewSlugs.add(lesson.slug)
       createLessonView(lesson, list).then(incrementViewSegments).then(resolve)
     }
   })
@@ -183,10 +191,34 @@ const onEnded = async (lesson: {
   setEmailCaptureCookie(emailCaptureCookie + 1)
 
   if (lesson.lesson_view_url) {
+    endedWithoutViewUrl.delete(lesson.slug)
+    postedViewSlugs.add(lesson.slug)
     return await onComplete(lesson)
   } else {
+    endedWithoutViewUrl.add(lesson.slug)
     return Promise.resolve()
   }
+}
+
+/**
+ * Post what the player recorded before `lesson_view_url` arrived: the
+ * completion if the lesson already ended, otherwise one view for segments
+ * already watched. Rails find-or-creates one LessonView per (user, lesson,
+ * collection), and later segments post as usual, so this only fills the gap;
+ * it never adds a second row. Does nothing without a URL or without pending
+ * progress.
+ */
+const flushPendingLessonView = async (lesson: LessonResource) => {
+  if (!lesson?.lesson_view_url || !lesson.slug) return
+  if (endedWithoutViewUrl.has(lesson.slug)) {
+    endedWithoutViewUrl.delete(lesson.slug)
+    postedViewSlugs.add(lesson.slug)
+    return await onComplete(lesson)
+  }
+  const watchedSegments = (lessonProgress?.[lesson.slug] || 0) / 30
+  if (watchedSegments < 1 || postedViewSlugs.has(lesson.slug)) return
+  postedViewSlugs.add(lesson.slug)
+  return await createLessonView(lesson).then(incrementViewSegments)
 }
 
 function onError() {}
@@ -296,5 +328,12 @@ export default function useEggheadPlayer(lesson: LessonResource) {
   }
 }
 
-// Exported for tests of the view-tracking path.
-export {onProgress as trackLessonProgress, onEnded as trackLessonEnded}
+// onProgress/onEnded are module-level (shared progress state) and only reach
+// callers through useEggheadPlayer; named exports let tests drive the real
+// view-tracking path without rendering a player. flushPendingLessonView is
+// used by useLessonViewUrl.
+export {
+  onProgress as trackLessonProgress,
+  onEnded as trackLessonEnded,
+  flushPendingLessonView,
+}

@@ -353,17 +353,43 @@ const loadLessonViewUrlQuery = /* GraphQL */ `
   }
 `
 
+export type LessonViewUrlOutcome =
+  | 'anonymous' // no viewer token; Rails is not called
+  | 'granted' // Rails returned a URL
+  | 'withheld' // Rails answered but withheld the URL (ability check)
+  | 'forbidden' // Rails answered 403 for this viewer
+  | 'error' // anything else: network, 5xx, malformed response
+
 /**
  * Ask Rails, as the viewer, for the lesson's view-tracking URL. Rails' own
  * ability check decides who gets one (signed-in users); anonymous callers get
  * null and nothing is sent to Rails.
+ *
+ * Every call logs `lesson.loadLessonViewUrl.result` with an `outcome`.
+ * Expected refusals (`withheld`, `forbidden`) are info-level; only real
+ * failures (`error`) are warn-level, so the error signal stays readable.
  */
 export async function loadLessonViewUrl(
   slug: string,
   token?: string,
   logContext: LogContext = {},
 ): Promise<string | null> {
-  if (!token) return null
+  const start = Date.now()
+  const report = (
+    outcome: LessonViewUrlOutcome,
+    extra: Record<string, unknown> = {},
+  ) =>
+    logEvent(
+      outcome === 'error' ? 'warn' : 'info',
+      'lesson.loadLessonViewUrl.result',
+      {slug, outcome, duration_ms: Date.now() - start, ...extra},
+      logContext,
+    )
+
+  if (!token) {
+    report('anonymous')
+    return null
+  }
 
   const graphQLClient = getGraphQLClient(token, {
     allowStoredTokenFallback: false,
@@ -373,14 +399,14 @@ export async function loadLessonViewUrl(
     const {lesson} = await graphQLClient.request(loadLessonViewUrlQuery, {
       slug,
     })
-    return lesson?.lesson_view_url ?? null
+    const lessonViewUrl: string | null = lesson?.lesson_view_url ?? null
+    report(lessonViewUrl ? 'granted' : 'withheld')
+    return lessonViewUrl
   } catch (e) {
-    logEvent(
-      'warn',
-      'lesson.loadLessonViewUrl.error',
-      {slug, error_message: e instanceof Error ? e.message : String(e)},
-      logContext,
-    )
+    const error_message = e instanceof Error ? e.message : String(e)
+    report(error_message.includes('Code: 403') ? 'forbidden' : 'error', {
+      error_message,
+    })
     return null
   }
 }

@@ -42,11 +42,17 @@ export const lessonRouter = router({
       }
     }),
   // Per-viewer view-tracking URL. Kept separate from getLessonbySlug so the
-  // lesson payload itself stays shareable; this response is per user and must
-  // never be cached.
+  // lesson payload itself stays shareable.
+  //
+  // This answer is per user, so it is a *mutation* on purpose: tRPC's
+  // httpBatchLink sends mutations as POST in their own batch (it keeps one
+  // loader per operation type), so it can never be batched into a GET query
+  // response, and POST responses are not stored by the CDN or the browser.
+  // The slug is echoed back so the client only attaches a URL to the lesson
+  // it was issued for.
   getLessonViewUrl: baseProcedure
     .input(z.object({slug: z.string()}))
-    .query(async ({input, ctx}) => {
+    .mutation(async ({input, ctx}) => {
       const lesson_view_url = await loadLessonViewUrl(
         input.slug,
         ctx?.userToken,
@@ -58,7 +64,7 @@ export const lessonRouter = router({
           lesson_slug: input.slug,
         },
       )
-      return {lesson_view_url}
+      return {slug: input.slug, lesson_view_url}
     }),
   getLessonbySlug: baseProcedure
     .input(z.object({slug: z.string()}))

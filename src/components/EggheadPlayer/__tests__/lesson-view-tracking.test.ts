@@ -6,6 +6,7 @@ import axios from 'axios'
 import {
   trackLessonProgress as onProgress,
   trackLessonEnded as onEnded,
+  flushPendingLessonView,
 } from '../use-egghead-player'
 
 jest.mock('axios', () => ({
@@ -37,6 +38,33 @@ const freshLesson = (lesson_view_url: string | null) => ({
   ...baseLesson,
   slug: `some-lesson-${++slugCounter}`,
   lesson_view_url,
+})
+
+describe('lessonViewUrlFor', () => {
+  const {lessonViewUrlFor} = require('../use-lesson-view-url')
+
+  test('returns the URL issued for this lesson', () => {
+    expect(
+      lessonViewUrlFor('some-lesson', {
+        slug: 'some-lesson',
+        lesson_view_url: VIEW_URL,
+      }),
+    ).toBe(VIEW_URL)
+  })
+
+  test('never returns the previous lesson URL for a new lesson', () => {
+    expect(
+      lessonViewUrlFor('next-lesson', {
+        slug: 'some-lesson',
+        lesson_view_url: VIEW_URL,
+      }),
+    ).toBeNull()
+  })
+
+  test('returns null when nothing was issued', () => {
+    expect(lessonViewUrlFor('some-lesson', null)).toBeNull()
+    expect(lessonViewUrlFor(undefined, null)).toBeNull()
+  })
 })
 
 describe('withLessonViewUrl', () => {
@@ -116,5 +144,65 @@ describe('player view posts', () => {
       {},
       expect.anything(),
     )
+  })
+
+  test('a segment watched before the URL arrives is posted once the URL lands', async () => {
+    const lesson = freshLesson(null)
+
+    // URL not here yet: the 30s segment is recorded but cannot post
+    await onProgress({playedSeconds: 30}, lesson)
+    expect(mockedAxios.post).not.toHaveBeenCalled()
+
+    const tracked = {...lesson, lesson_view_url: VIEW_URL}
+    await flushPendingLessonView(tracked as any)
+    expect(mockedAxios.post).toHaveBeenCalledTimes(1)
+    expect(mockedAxios.post.mock.calls[0][0]).toBe(VIEW_URL)
+    expect(mockedAxios.put).toHaveBeenCalledWith(
+      `${VIEW_URL}/1/increment`,
+      {},
+      expect.anything(),
+    )
+
+    // flushing again does not post a second time
+    await flushPendingLessonView(tracked as any)
+    expect(mockedAxios.post).toHaveBeenCalledTimes(1)
+  })
+
+  test('flush posts nothing when no segment was watched yet', async () => {
+    const lesson = freshLesson(VIEW_URL)
+    await flushPendingLessonView(lesson as any)
+    expect(mockedAxios.post).not.toHaveBeenCalled()
+  })
+
+  test('flush posts nothing once the player already posted with the URL', async () => {
+    const lesson = freshLesson(VIEW_URL)
+    await onProgress({playedSeconds: 30}, lesson)
+    await flushPendingLessonView(lesson as any)
+    expect(mockedAxios.post).toHaveBeenCalledTimes(1)
+  })
+
+  test('flush posts nothing without a URL (anonymous)', async () => {
+    const lesson = freshLesson(null)
+    await onProgress({playedSeconds: 30}, lesson)
+    await flushPendingLessonView(lesson as any)
+    expect(mockedAxios.post).not.toHaveBeenCalled()
+  })
+
+  test('a lesson that ended before the URL arrived is completed once it lands', async () => {
+    const lesson = freshLesson(null)
+    await onEnded(lesson)
+    expect(mockedAxios.post).not.toHaveBeenCalled()
+
+    const tracked = {...lesson, lesson_view_url: VIEW_URL}
+    await flushPendingLessonView(tracked as any)
+    expect(mockedAxios.post).toHaveBeenCalledTimes(1)
+    expect(mockedAxios.put).toHaveBeenCalledWith(
+      `${VIEW_URL}/1/complete`,
+      {},
+      expect.anything(),
+    )
+
+    await flushPendingLessonView(tracked as any)
+    expect(mockedAxios.post).toHaveBeenCalledTimes(1)
   })
 })
