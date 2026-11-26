@@ -5,7 +5,7 @@ import {useMachine} from '@xstate/react'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
 import Image from 'next/legacy/image'
-import {loadLesson} from '@/lib/lessons'
+import {loadLesson, toSharedLessonPayload} from '@/lib/lessons'
 import {useViewer} from '@/context/viewer-context'
 import {GetServerSideProps} from 'next'
 import {withSSRLogging} from '@/lib/logging'
@@ -228,7 +228,11 @@ export const getServerSideProps: GetServerSideProps = withSSRLogging(
         res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
         return {
           props: {
-            initialLesson,
+            // CDN-cached (s-maxage) and shared by every visitor: never ship a
+            // viewer-gated lesson_view_url in it.
+            initialLesson: initialLesson
+              ? toSharedLessonPayload(initialLesson)
+              : initialLesson,
           },
         }
       }

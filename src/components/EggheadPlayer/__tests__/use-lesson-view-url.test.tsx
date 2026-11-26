@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import {act, renderHook, waitFor} from '@testing-library/react'
-import {useLessonViewUrl} from '../use-lesson-view-url'
+import {useLessonViewTracking, useLessonViewUrl} from '../use-lesson-view-url'
 import {
   beginLessonViewSession,
   flushPendingLessonView,
@@ -19,6 +19,10 @@ jest.mock('@/app/_trpc/client', () => ({
       },
     },
   },
+}))
+let mockViewer: any = null
+jest.mock('@/context/viewer-context', () => ({
+  useViewer: () => ({viewer: mockViewer}),
 }))
 jest.mock('../use-egghead-player', () => ({
   beginLessonViewSession: jest.fn(),
@@ -39,6 +43,7 @@ let pending: Record<string, ((v: any) => void)[]> = {}
 
 beforeEach(() => {
   pending = {}
+  mockViewer = null
   mockMutateAsync.mockReset()
   mockUseMutation.mockClear()
   mockedFlush.mockClear()
@@ -169,4 +174,63 @@ test('a failed fetch is not retried on every playback event', async () => {
   play(result)
   play(result)
   expect(mockMutateAsync).toHaveBeenCalledTimes(1)
+})
+
+describe('useLessonViewTracking (shared by the lesson and talks players)', () => {
+  test('paused timeupdate events are not playback: no lesson, no Rails call', () => {
+    mockViewer = viewer
+    const {result} = renderHook(() => useLessonViewTracking(lessonA))
+    expect(result.current.lessonForPlayback({paused: true})).toBeNull()
+    expect(mockMutateAsync).not.toHaveBeenCalled()
+  })
+
+  test('real playback requests the URL once and reports against the tracked lesson', async () => {
+    mockViewer = viewer
+    const {result} = renderHook(() => useLessonViewTracking(lessonA))
+
+    let reported: any
+    act(() => {
+      reported = result.current.lessonForPlayback({paused: false})
+      result.current.lessonForPlayback({paused: false})
+    })
+    expect(reported.slug).toBe('lesson-a')
+    expect(mockMutateAsync).toHaveBeenCalledTimes(1)
+
+    await issue('lesson-a')
+    await waitFor(() =>
+      expect(
+        result.current.lessonForPlayback({paused: false})?.lesson_view_url,
+      ).toBe(urlFor('lesson-a')),
+    )
+    expect(result.current.lessonForCompletion().lesson_view_url).toBe(
+      urlFor('lesson-a'),
+    )
+  })
+
+  test('callbacks are stable for once-bound listeners and still read the latest lesson', async () => {
+    mockViewer = viewer
+    const {result, rerender} = renderHook(
+      ({lesson}) => useLessonViewTracking(lesson),
+      {initialProps: {lesson: lessonA as any}},
+    )
+    const first = result.current
+    act(() => {
+      first.lessonForPlayback({paused: false})
+    })
+    await issue('lesson-a')
+    rerender({lesson: {...lessonA, title: 'refetched'}})
+
+    expect(result.current.lessonForPlayback).toBe(first.lessonForPlayback)
+    expect(result.current.lessonForCompletion).toBe(first.lessonForCompletion)
+    // the callback captured at bind time sees the URL that arrived later
+    expect(first.lessonForCompletion().lesson_view_url).toBe(urlFor('lesson-a'))
+  })
+
+  test('anonymous viewer: playback reports the bare lesson and never calls Rails', () => {
+    const {result} = renderHook(() => useLessonViewTracking(lessonA))
+    expect(
+      result.current.lessonForPlayback({paused: false})?.lesson_view_url,
+    ).toBeNull()
+    expect(mockMutateAsync).not.toHaveBeenCalled()
+  })
 })

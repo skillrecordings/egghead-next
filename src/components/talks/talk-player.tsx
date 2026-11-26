@@ -2,6 +2,7 @@ import React from 'react'
 import {useRouter} from 'next/router'
 import {filter, get, isEmpty} from 'lodash'
 import {useEggheadPlayer} from '@/components/EggheadPlayer'
+import {useLessonViewTracking} from '@/components/EggheadPlayer/use-lesson-view-url'
 import Overlays from '@/components/pages/lessons/overlays'
 import useLastResource from '@/hooks/use-last-resource'
 import {track} from '@/utils/analytics'
@@ -75,6 +76,9 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
   const lesson: any = lessonState.context.lesson
 
   const {onProgress, onEnded} = useEggheadPlayer(lesson)
+  // The CDN-cached SSR payload never carries the viewer-gated
+  // lesson_view_url; it is fetched per signed-in viewer on first playback.
+  const {lessonForPlayback, lessonForCompletion} = useLessonViewTracking(lesson)
   const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
   const [lessonView, setLessonView] = React.useState<any>()
 
@@ -229,7 +233,7 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
           lessonView,
           isIncomingAnonViewer,
         })
-        onEnded(lesson)
+        onEnded(lessonForCompletion())
           .then((lessonView: any) => {
             if (lessonView) {
               setLessonView(lessonView)
@@ -292,7 +296,11 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
     // Record progress
     const recordProgress = (e: any) => {
       const {currentTime} = e.srcElement
-      onProgress({playedSeconds: currentTime}, lesson).then(
+      // null for seeks/resume positions while paused: only real playback
+      // counts toward a view
+      const trackedLesson = lessonForPlayback(e.srcElement)
+      if (!trackedLesson) return
+      onProgress({playedSeconds: currentTime}, trackedLesson).then(
         (lessonView: any) => {
           if (lessonView) {
             console.debug('progress recorded', {

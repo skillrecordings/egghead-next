@@ -3,8 +3,7 @@ import {useRouter} from 'next/router'
 import {filter, get, isEmpty, compact, truncate} from 'lodash'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import {useEggheadPlayer} from '@/components/EggheadPlayer'
-import {useLessonViewUrl} from '@/components/EggheadPlayer/use-lesson-view-url'
-import {useViewer} from '@/context/viewer-context'
+import {useLessonViewTracking} from '@/components/EggheadPlayer/use-lesson-view-url'
 import Course from '@/components/pages/lessons/course'
 import Overlays from '@/components/pages/lessons/overlays'
 import specialLessons from '@/components/pages/lessons/special-lessons'
@@ -131,18 +130,8 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
 
   const {onProgress, onEnded} = useEggheadPlayer(lesson)
   // The shared (ISR) lesson payload never carries the viewer-gated
-  // lesson_view_url; fetch it per signed-in viewer on first playback and
-  // report progress against that. Refs keep the timeupdate listener (bound
-  // once per video element) on the latest values.
-  const {viewer: signedInViewer} = useViewer()
-  const {lesson: trackedLesson, requestViewUrl} = useLessonViewUrl(
-    lesson,
-    signedInViewer,
-  )
-  const trackedLessonRef = React.useRef<any>(trackedLesson)
-  trackedLessonRef.current = trackedLesson
-  const requestViewUrlRef = React.useRef(requestViewUrl)
-  requestViewUrlRef.current = requestViewUrl
+  // lesson_view_url; it is fetched per signed-in viewer on first playback.
+  const {lessonForPlayback, lessonForCompletion} = useLessonViewTracking(lesson)
   const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
   const [lessonView, setLessonView] = React.useState<any>()
 
@@ -366,7 +355,7 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
           lessonView,
           isIncomingAnonViewer,
         })
-        onEnded(trackedLessonRef.current)
+        onEnded(lessonForCompletion())
           .then((lessonView: any) => {
             if (lessonView) {
               setLessonView(lessonView)
@@ -449,12 +438,12 @@ const Lesson: React.FC<React.PropsWithChildren<LessonProps>> = ({
   React.useEffect(() => {
     // Record progress
     const recordProgress = (e: any) => {
-      const {currentTime, paused} = e.srcElement
-      // timeupdate also fires for seeks/resume positions while paused; only
-      // real playback counts toward a view.
-      if (paused) return
-      requestViewUrlRef.current()
-      onProgress({playedSeconds: currentTime}, trackedLessonRef.current).then(
+      const {currentTime} = e.srcElement
+      // null for seeks/resume positions while paused: only real playback
+      // counts toward a view
+      const trackedLesson = lessonForPlayback(e.srcElement)
+      if (!trackedLesson) return
+      onProgress({playedSeconds: currentTime}, trackedLesson).then(
         (lessonView: any) => {
           if (lessonView) {
             console.debug('progress recorded', {
