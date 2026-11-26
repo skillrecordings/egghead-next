@@ -173,6 +173,16 @@ describe('shared lesson payload', () => {
     expect(shared.title).toBe('Some Lesson')
   })
 
+  test('toSharedLessonPayload removes a complete_url too', () => {
+    const shared: any = toSharedLessonPayload({
+      slug: 'some-lesson',
+      lesson_view_url: VIEW_URL,
+      complete_url: `${VIEW_URL}/1/complete`,
+    })
+    expect('complete_url' in shared).toBe(false)
+    expect(shared.lesson_view_url).toBeNull()
+  })
+
   test('the static/shared loadLesson path never sends a viewer token', async () => {
     mockRequest.mockResolvedValue({
       lesson: {

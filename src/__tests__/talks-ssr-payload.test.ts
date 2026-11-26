@@ -74,3 +74,66 @@ test('the SSR load is not authenticated', async () => {
   // never used to build the shared payload
   expect(mockedLoadLesson).toHaveBeenCalledWith('some-talk')
 })
+
+const runWith = async (query: Record<string, string>) => {
+  const res = {
+    setHeader: jest.fn(),
+    getHeader: jest.fn(),
+    statusCode: 200,
+  }
+  return (await getServerSideProps({
+    params: {slug: 'some-talk'},
+    query,
+    req: {headers: {}, url: '/talks/some-talk'},
+    res,
+    resolvedUrl: '/talks/some-talk',
+  } as any)) as any
+}
+
+describe('every getServerSideProps branch is free of viewer-gated URLs', () => {
+  const gated = {
+    slug: 'some-talk',
+    title: 'Some Talk',
+    path: '/talks/some-talk',
+    lesson_view_url: VIEW_URL,
+    complete_url: `${VIEW_URL}/1/complete`,
+  }
+
+  test('props branch', async () => {
+    mockedLoadLesson.mockResolvedValue(gated)
+    const result = await runWith({slug: 'some-talk'})
+    expect(result.props.initialLesson.lesson_view_url).toBeNull()
+    expect('complete_url' in result.props.initialLesson).toBe(false)
+    expect(JSON.stringify(result)).not.toContain(VIEW_URL)
+  })
+
+  test('canonical-query redirect branch carries no lesson', async () => {
+    mockedLoadLesson.mockResolvedValue(gated)
+    const result = await runWith({slug: 'some-talk', nxtPslug: 'some-talk'})
+    expect(result.redirect).toBeDefined()
+    expect(result.props).toBeUndefined()
+    expect(JSON.stringify(result)).not.toContain(VIEW_URL)
+  })
+
+  test('alias-slug redirect branch carries only the path', async () => {
+    mockedLoadLesson.mockResolvedValue({...gated, slug: 'canonical-talk'})
+    const result = await runWith({slug: 'some-talk'})
+    expect(result.redirect.destination).toBe('/talks/some-talk')
+    expect(result.props).toBeUndefined()
+    expect(JSON.stringify(result)).not.toContain(VIEW_URL)
+  })
+
+  test('error branch carries no lesson', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => undefined)
+    mockedLoadLesson.mockRejectedValue(new Error('boom'))
+    const result = await runWith({slug: 'some-talk'})
+    expect(result.redirect.destination).toBe('/')
+    expect(JSON.stringify(result)).not.toContain(VIEW_URL)
+  })
+
+  test('missing lesson: props carry nothing gated', async () => {
+    mockedLoadLesson.mockResolvedValue(undefined)
+    const result = await runWith({slug: 'some-talk'})
+    expect(JSON.stringify(result ?? {})).not.toContain(VIEW_URL)
+  })
+})

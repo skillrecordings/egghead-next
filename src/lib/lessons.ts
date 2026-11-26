@@ -353,12 +353,15 @@ export async function loadLesson(
  * Strip viewer-gated fields from a lesson before it goes into a shared
  * ISR/CDN payload. Rails only returns `lesson_view_url` to a signed-in caller,
  * so a static payload must never carry it; the player fetches it per viewer
- * with `loadLessonViewUrl` instead.
+ * with `loadLessonViewUrl` instead. `complete_url` is per lesson view (it
+ * comes back from the view POST, not the lesson query) and is removed too in
+ * case a payload ever carries one.
  */
 export function toSharedLessonPayload<T extends Record<string, any>>(
   lesson: T,
 ): T {
-  return {...lesson, lesson_view_url: null}
+  const {complete_url: _completeUrl, ...shared} = lesson
+  return {...shared, lesson_view_url: null} as unknown as T
 }
 
 const loadLessonViewUrlQuery = /* GraphQL */ `

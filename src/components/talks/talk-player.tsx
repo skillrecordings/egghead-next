@@ -7,6 +7,7 @@ import Overlays from '@/components/pages/lessons/overlays'
 import useLastResource from '@/hooks/use-last-resource'
 import {track} from '@/utils/analytics'
 import cookieUtil from '@/utils/cookies'
+import {logEvent} from '@/utils/structured-log'
 import {useNextForCollection} from '@/hooks/use-next-up-data'
 import DownloadControl from '@/components/player/download-control'
 import useCio from '@/hooks/use-cio'
@@ -303,8 +304,8 @@ const TalkPlayer: React.FC<React.PropsWithChildren<LessonProps>> = ({
       onProgress({playedSeconds: currentTime}, trackedLesson).then(
         (lessonView: any) => {
           if (lessonView) {
-            console.debug('progress recorded', {
-              progress: lessonView,
+            logEvent('debug', 'talk.progress.recorded', {
+              lesson_slug: trackedLesson.slug,
             })
             setLessonView(lessonView)
           }
