@@ -234,3 +234,34 @@ describe('useLessonViewTracking (shared by the lesson and talks players)', () =>
     expect(mockMutateAsync).not.toHaveBeenCalled()
   })
 })
+
+describe('lesson not loaded yet', () => {
+  test('undefined lesson: no fetch, no throw, and tracking starts once it arrives', async () => {
+    mockViewer = viewer
+    const {result, rerender} = renderHook(
+      ({lesson}) => useLessonViewTracking(lesson as any),
+      {initialProps: {lesson: undefined as any}},
+    )
+    let reported: any = 'unset'
+    act(() => {
+      reported = result.current.lessonForPlayback({paused: false})
+    })
+    expect(reported).toBeUndefined()
+    expect(result.current.lessonForCompletion()).toBeUndefined()
+    expect(mockMutateAsync).not.toHaveBeenCalled()
+    expect(mockedBegin).not.toHaveBeenCalled()
+
+    rerender({lesson: lessonA})
+    expect(mockedBegin).toHaveBeenCalledWith('lesson-a', 'viewer:99')
+    act(() => {
+      result.current.lessonForPlayback({paused: false})
+    })
+    expect(mockMutateAsync).toHaveBeenCalledWith({slug: 'lesson-a'})
+    await issue('lesson-a')
+    await waitFor(() =>
+      expect(result.current.lessonForCompletion().lesson_view_url).toBe(
+        urlFor('lesson-a'),
+      ),
+    )
+  })
+})
