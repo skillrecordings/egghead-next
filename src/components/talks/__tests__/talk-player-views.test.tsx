@@ -97,9 +97,10 @@ jest.mock('@/app/_trpc/client', () => ({
     },
   },
 }))
-let mockViewer: any = {id: 99}
-jest.mock('@/context/viewer-context', () => ({
-  useViewer: () => ({viewer: mockViewer}),
+let mockToken: string | false = 'tok-99'
+jest.mock('@/utils/get-access-token-from-cookie', () => ({
+  __esModule: true,
+  default: () => mockToken,
 }))
 
 const mockedAxios = axios as unknown as {post: jest.Mock; put: jest.Mock}
@@ -140,7 +141,7 @@ const viewCreates = (slug: string) =>
   mockedAxios.post.mock.calls.filter(([url]) => url === urlFor(slug))
 
 beforeEach(() => {
-  mockViewer = {id: 99}
+  mockToken = 'tok-99'
   mockVideo.listeners.clear()
   mockMutateAsync.mockReset()
   mockMutateAsync.mockImplementation(async ({slug}: {slug: string}) => ({
@@ -190,7 +191,7 @@ test('paused or seek events post nothing and fetch nothing', async () => {
 })
 
 test('an anonymous play never asks Rails for a URL or posts', async () => {
-  mockViewer = null
+  mockToken = false
   const talk = makeTalk()
   renderTalk(talk)
   await tick(1)

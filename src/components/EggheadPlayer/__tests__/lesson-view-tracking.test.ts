@@ -10,7 +10,7 @@ import {
 } from '../use-egghead-player'
 import {
   lessonViewUrlFor,
-  viewerOwnerKey,
+  tokenOwnerKey,
   withLessonViewUrl,
   ANONYMOUS_OWNER,
 } from '../use-lesson-view-url'
@@ -88,8 +88,8 @@ describe('lessonViewUrlFor', () => {
   })
 
   test('owner keys', () => {
-    expect(viewerOwnerKey(null)).toBe(ANONYMOUS_OWNER)
-    expect(viewerOwnerKey({id: 7})).toBe('viewer:7')
+    expect(tokenOwnerKey(undefined)).toBe(ANONYMOUS_OWNER)
+    expect(tokenOwnerKey('tok-7')).toMatch(/^token:/)
   })
 })
 
