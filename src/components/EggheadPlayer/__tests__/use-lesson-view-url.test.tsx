@@ -2,7 +2,11 @@
  * @jest-environment jsdom
  */
 import {act, renderHook, waitFor} from '@testing-library/react'
-import {useLessonViewTracking, useLessonViewUrl} from '../use-lesson-view-url'
+import {
+  tokenOwnerKey,
+  useLessonViewTracking,
+  useLessonViewUrl,
+} from '../use-lesson-view-url'
 import {
   beginLessonViewSession,
   flushPendingLessonView,
@@ -20,9 +24,11 @@ jest.mock('@/app/_trpc/client', () => ({
     },
   },
 }))
-let mockViewer: any = null
-jest.mock('@/context/viewer-context', () => ({
-  useViewer: () => ({viewer: mockViewer}),
+// useLessonViewTracking decides "signed in" from the access-token cookie
+let mockToken: string | false = false
+jest.mock('@/utils/get-access-token-from-cookie', () => ({
+  __esModule: true,
+  default: () => mockToken,
 }))
 jest.mock('../use-egghead-player', () => ({
   beginLessonViewSession: jest.fn(),
@@ -37,13 +43,14 @@ const urlFor = (slug: string) =>
 const lessonA = {id: 1, slug: 'lesson-a', lesson_view_url: null}
 const lessonB = {id: 2, slug: 'lesson-b', lesson_view_url: null}
 const viewer = {id: 99}
+const ownerOf = (v: any) => () => v ? `viewer:${v.id}` : 'anonymous'
 const otherViewer = {id: 100}
 
 let pending: Record<string, ((v: any) => void)[]> = {}
 
 beforeEach(() => {
   pending = {}
-  mockViewer = null
+  mockToken = false
   mockMutateAsync.mockReset()
   mockUseMutation.mockClear()
   mockedFlush.mockClear()
@@ -68,7 +75,7 @@ const play = (result: {current: {requestViewUrl: () => void}}) =>
   })
 
 test('mount alone makes no Rails call; the first playback event does', async () => {
-  const {result} = renderHook(() => useLessonViewUrl(lessonA, viewer))
+  const {result} = renderHook(() => useLessonViewUrl(lessonA, ownerOf(viewer)))
   expect(mockMutateAsync).not.toHaveBeenCalled()
   expect(mockedBegin).toHaveBeenCalledWith('lesson-a', 'viewer:99')
 
@@ -87,7 +94,7 @@ test('mount alone makes no Rails call; the first playback event does', async () 
 })
 
 test('anonymous viewer: playback never calls Rails', () => {
-  const {result} = renderHook(() => useLessonViewUrl(lessonA, null))
+  const {result} = renderHook(() => useLessonViewUrl(lessonA, ownerOf(null)))
   play(result)
   expect(mockMutateAsync).not.toHaveBeenCalled()
   expect(result.current.lesson.lesson_view_url).toBeNull()
@@ -96,7 +103,7 @@ test('anonymous viewer: playback never calls Rails', () => {
 
 test('a refetched lesson object for the same slug does not fetch again', async () => {
   const {result, rerender} = renderHook(
-    ({lesson}) => useLessonViewUrl(lesson, viewer),
+    ({lesson}) => useLessonViewUrl(lesson, ownerOf(viewer)),
     {initialProps: {lesson: lessonA as any}},
   )
   play(result)
@@ -110,7 +117,7 @@ test('a refetched lesson object for the same slug does not fetch again', async (
 
 test('client navigation never attaches the previous lesson URL to the next lesson', async () => {
   const {result, rerender} = renderHook(
-    ({lesson}) => useLessonViewUrl(lesson, viewer),
+    ({lesson}) => useLessonViewUrl(lesson, ownerOf(viewer)),
     {initialProps: {lesson: lessonA}},
   )
   play(result)
@@ -131,7 +138,7 @@ test('client navigation never attaches the previous lesson URL to the next lesso
 
 test('a late answer for the previous lesson is ignored', async () => {
   const {result, rerender} = renderHook(
-    ({lesson}) => useLessonViewUrl(lesson, viewer),
+    ({lesson}) => useLessonViewUrl(lesson, ownerOf(viewer)),
     {initialProps: {lesson: lessonA}},
   )
   play(result)
@@ -142,9 +149,12 @@ test('a late answer for the previous lesson is ignored', async () => {
 })
 
 test('signing out drops the URL and opens an anonymous session', async () => {
-  const {result, rerender} = renderHook(({v}) => useLessonViewUrl(lessonA, v), {
-    initialProps: {v: viewer as any},
-  })
+  const {result, rerender} = renderHook(
+    ({v}) => useLessonViewUrl(lessonA, ownerOf(v)),
+    {
+      initialProps: {v: viewer as any},
+    },
+  )
   play(result)
   await issue('lesson-a')
   rerender({v: null})
@@ -153,9 +163,12 @@ test('signing out drops the URL and opens an anonymous session', async () => {
 })
 
 test('switching viewers never reuses the first viewer URL', async () => {
-  const {result, rerender} = renderHook(({v}) => useLessonViewUrl(lessonA, v), {
-    initialProps: {v: viewer as any},
-  })
+  const {result, rerender} = renderHook(
+    ({v}) => useLessonViewUrl(lessonA, ownerOf(v)),
+    {
+      initialProps: {v: viewer as any},
+    },
+  )
   play(result)
   await issue('lesson-a')
   rerender({v: otherViewer})
@@ -168,7 +181,7 @@ test('switching viewers never reuses the first viewer URL', async () => {
 
 test('a failed fetch is not retried on every playback event', async () => {
   mockMutateAsync.mockRejectedValueOnce(new Error('network'))
-  const {result} = renderHook(() => useLessonViewUrl(lessonA, viewer))
+  const {result} = renderHook(() => useLessonViewUrl(lessonA, ownerOf(viewer)))
   play(result)
   await act(async () => undefined)
   play(result)
@@ -178,14 +191,14 @@ test('a failed fetch is not retried on every playback event', async () => {
 
 describe('useLessonViewTracking (shared by the lesson and talks players)', () => {
   test('paused timeupdate events are not playback: no lesson, no Rails call', () => {
-    mockViewer = viewer
+    mockToken = 'tok-99'
     const {result} = renderHook(() => useLessonViewTracking(lessonA))
     expect(result.current.lessonForPlayback({paused: true})).toBeNull()
     expect(mockMutateAsync).not.toHaveBeenCalled()
   })
 
   test('real playback requests the URL once and reports against the tracked lesson', async () => {
-    mockViewer = viewer
+    mockToken = 'tok-99'
     const {result} = renderHook(() => useLessonViewTracking(lessonA))
 
     let reported: any
@@ -208,7 +221,7 @@ describe('useLessonViewTracking (shared by the lesson and talks players)', () =>
   })
 
   test('callbacks are stable for once-bound listeners and still read the latest lesson', async () => {
-    mockViewer = viewer
+    mockToken = 'tok-99'
     const {result, rerender} = renderHook(
       ({lesson}) => useLessonViewTracking(lesson),
       {initialProps: {lesson: lessonA as any}},
@@ -237,7 +250,7 @@ describe('useLessonViewTracking (shared by the lesson and talks players)', () =>
 
 describe('lesson not loaded yet', () => {
   test('undefined lesson: no fetch, no throw, and tracking starts once it arrives', async () => {
-    mockViewer = viewer
+    mockToken = 'tok-99'
     const {result, rerender} = renderHook(
       ({lesson}) => useLessonViewTracking(lesson as any),
       {initialProps: {lesson: undefined as any}},
@@ -252,7 +265,10 @@ describe('lesson not loaded yet', () => {
     expect(mockedBegin).not.toHaveBeenCalled()
 
     rerender({lesson: lessonA})
-    expect(mockedBegin).toHaveBeenCalledWith('lesson-a', 'viewer:99')
+    expect(mockedBegin).toHaveBeenCalledWith(
+      'lesson-a',
+      tokenOwnerKey('tok-99'),
+    )
     act(() => {
       result.current.lessonForPlayback({paused: false})
     })
@@ -263,5 +279,36 @@ describe('lesson not loaded yet', () => {
         urlFor('lesson-a'),
       ),
     )
+  })
+})
+
+describe('signed-in check follows the token cookie', () => {
+  test('signing in mid-page: the next playback opens a fresh session, then requests', async () => {
+    mockToken = false
+    const {result} = renderHook(() => useLessonViewTracking(lessonA))
+    act(() => {
+      result.current.lessonForPlayback({paused: false})
+    })
+    expect(mockMutateAsync).not.toHaveBeenCalled()
+
+    mockToken = 'tok-99' // cookie set by a sign-in in this tab, no re-render
+    act(() => {
+      result.current.lessonForPlayback({paused: false}) // triggers re-render
+    })
+    expect(mockedBegin).toHaveBeenLastCalledWith(
+      'lesson-a',
+      tokenOwnerKey('tok-99'),
+    )
+    act(() => {
+      result.current.lessonForPlayback({paused: false})
+    })
+    expect(mockMutateAsync).toHaveBeenCalledTimes(1)
+  })
+
+  test('a different account gets a different owner', () => {
+    expect(tokenOwnerKey('tok-a')).not.toBe(tokenOwnerKey('tok-b'))
+    expect(tokenOwnerKey('tok-a')).toBe(tokenOwnerKey('tok-a'))
+    expect(tokenOwnerKey(false)).toBe('anonymous')
+    expect(tokenOwnerKey('tok-a')).not.toContain('tok-a')
   })
 })

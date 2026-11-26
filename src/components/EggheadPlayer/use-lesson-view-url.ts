@@ -1,7 +1,6 @@
 import * as React from 'react'
-import {get} from 'lodash'
 import {trpc} from '@/app/_trpc/client'
-import {useViewer} from '@/context/viewer-context'
+import getAccessTokenFromCookie from '@/utils/get-access-token-from-cookie'
 import {
   beginLessonViewSession,
   flushPendingLessonView,
@@ -17,13 +16,36 @@ export type IssuedLessonViewUrl = {
 
 export const ANONYMOUS_OWNER = 'anonymous'
 
-/** Stable identity for "who this URL was granted to". */
-export function viewerOwnerKey(viewer: unknown): string {
-  if (!viewer) return ANONYMOUS_OWNER
-  const id =
-    get(viewer, 'id') ?? get(viewer, 'contact_id') ?? get(viewer, 'email')
-  return id ? `viewer:${id}` : 'viewer:unknown'
+/**
+ * Short, stable, non-reversible tag for a token (FNV-1a). Lets pending
+ * sessions tell one signed-in account from another without keeping the
+ * token itself in keys.
+ */
+function tokenTag(token: string): string {
+  let hash = 0x811c9dc5
+  for (let i = 0; i < token.length; i++) {
+    hash ^= token.charCodeAt(i)
+    hash = Math.imul(hash, 0x01000193) >>> 0
+  }
+  return hash.toString(16)
 }
+
+/**
+ * Who a view would be credited to, from the access-token cookie: the same
+ * credential the tRPC server (ctx.userToken) and the player's view POSTs
+ * (getOptions) authenticate with. Deliberately not `useViewer().viewer`:
+ * that also needs a localStorage expiry and a successful
+ * /api/users/current, and was empty for signed-in players in production,
+ * so no view URL was ever requested.
+ */
+export function tokenOwnerKey(
+  token: string | false | null | undefined,
+): string {
+  return token ? `token:${tokenTag(token)}` : ANONYMOUS_OWNER
+}
+
+const currentTokenOwner = () =>
+  tokenOwnerKey(getAccessTokenFromCookie() || undefined)
 
 /**
  * The URL Rails issued for *this* lesson and *this* viewer, or null. Rails
@@ -71,10 +93,13 @@ export function withLessonViewUrl<T extends TrackableLesson>(
  */
 export function useLessonViewUrl<T extends TrackableLesson>(
   lesson: T,
-  viewer: unknown,
+  resolveOwner: () => string,
 ): {lesson: T; requestViewUrl: () => void} {
   const slug = lesson?.slug
-  const owner = viewerOwnerKey(viewer)
+  const owner = resolveOwner()
+  const resolveOwnerRef = React.useRef(resolveOwner)
+  resolveOwnerRef.current = resolveOwner
+  const [, forceRender] = React.useReducer((n: number) => n + 1, 0)
   const {mutateAsync} = trpc.lesson.getLessonViewUrl.useMutation({
     retry: false,
   })
@@ -92,6 +117,13 @@ export function useLessonViewUrl<T extends TrackableLesson>(
 
   const requestViewUrl = React.useCallback(() => {
     const {slug: s, owner: o} = current.current
+    // The credential can change without a re-render (sign-in or sign-out in
+    // this tab). Re-render first so a fresh session opens for the new
+    // owner; the next playback event then requests for it.
+    if (resolveOwnerRef.current() !== o) {
+      forceRender()
+      return
+    }
     if (!s || o === ANONYMOUS_OWNER) return
     const key = `${o}|${s}`
     if (requestedFor.current === key) return
@@ -146,10 +178,9 @@ export function useLessonViewUrl<T extends TrackableLesson>(
  * - `lessonForCompletion()`: the lesson to pass to `onEnded`.
  */
 export function useLessonViewTracking<T extends TrackableLesson>(lesson: T) {
-  const {viewer} = useViewer()
   const {lesson: trackedLesson, requestViewUrl} = useLessonViewUrl(
     lesson,
-    viewer,
+    currentTokenOwner,
   )
   const trackedLessonRef = React.useRef(trackedLesson)
   trackedLessonRef.current = trackedLesson
