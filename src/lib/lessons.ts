@@ -333,6 +333,58 @@ export async function loadLesson(
   return {...lessonMetadata, comments}
 }
 
+/**
+ * Strip viewer-gated fields from a lesson before it goes into a shared
+ * ISR/CDN payload. Rails only returns `lesson_view_url` to a signed-in caller,
+ * so a static payload must never carry it; the player fetches it per viewer
+ * with `loadLessonViewUrl` instead.
+ */
+export function toSharedLessonPayload<T extends Record<string, any>>(
+  lesson: T,
+): T {
+  return {...lesson, lesson_view_url: null}
+}
+
+const loadLessonViewUrlQuery = /* GraphQL */ `
+  query getLessonViewUrl($slug: String!) {
+    lesson(slug: $slug) {
+      lesson_view_url
+    }
+  }
+`
+
+/**
+ * Ask Rails, as the viewer, for the lesson's view-tracking URL. Rails' own
+ * ability check decides who gets one (signed-in users); anonymous callers get
+ * null and nothing is sent to Rails.
+ */
+export async function loadLessonViewUrl(
+  slug: string,
+  token?: string,
+  logContext: LogContext = {},
+): Promise<string | null> {
+  if (!token) return null
+
+  const graphQLClient = getGraphQLClient(token, {
+    allowStoredTokenFallback: false,
+  })
+
+  try {
+    const {lesson} = await graphQLClient.request(loadLessonViewUrlQuery, {
+      slug,
+    })
+    return lesson?.lesson_view_url ?? null
+  } catch (e) {
+    logEvent(
+      'warn',
+      'lesson.loadLessonViewUrl.error',
+      {slug, error_message: e instanceof Error ? e.message : String(e)},
+      logContext,
+    )
+    return null
+  }
+}
+
 export async function loadAssociatedLessonsByTag(tag: string, token?: string) {
   const graphQLClient = getGraphQLClient(token)
 

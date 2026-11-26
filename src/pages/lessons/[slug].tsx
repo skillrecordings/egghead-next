@@ -3,7 +3,11 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {get} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {lessonMachine} from '@/machines/lesson-machine'
-import {LESSON_NOT_FOUND_MESSAGE, loadLesson} from '@/lib/lessons'
+import {
+  LESSON_NOT_FOUND_MESSAGE,
+  loadLesson,
+  toSharedLessonPayload,
+} from '@/lib/lessons'
 import {useViewer} from '@/context/viewer-context'
 import {LessonResource, VideoResource} from '@/types'
 import cookieUtil from '@/utils/cookies'
@@ -213,7 +217,9 @@ export const getStaticProps: GetStaticProps = withHeaderBannerStaticProps(
 
       return {
         props: {
-          initialLesson,
+          // ISR payload is shared by every visitor: never ship a
+          // viewer-gated lesson_view_url in it.
+          initialLesson: toSharedLessonPayload(initialLesson),
         },
         revalidate: LESSON_REVALIDATE_SECONDS,
       }

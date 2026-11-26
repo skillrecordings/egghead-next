@@ -1,6 +1,10 @@
 import {router, baseProcedure} from '../trpc'
 import {z} from 'zod'
-import {loadAssociatedLessonsByTag, loadLesson} from '@/lib/lessons'
+import {
+  loadAssociatedLessonsByTag,
+  loadLesson,
+  loadLessonViewUrl,
+} from '@/lib/lessons'
 import {logEvent} from '@/utils/structured-log'
 
 function isGraphQL403(e: unknown): boolean {
@@ -36,6 +40,25 @@ export const lessonRouter = router({
         }
         throw e
       }
+    }),
+  // Per-viewer view-tracking URL. Kept separate from getLessonbySlug so the
+  // lesson payload itself stays shareable; this response is per user and must
+  // never be cached.
+  getLessonViewUrl: baseProcedure
+    .input(z.object({slug: z.string()}))
+    .query(async ({input, ctx}) => {
+      const lesson_view_url = await loadLessonViewUrl(
+        input.slug,
+        ctx?.userToken,
+        {
+          request_id:
+            ctx?.req?.headers?.get('x-egghead-request-id') ?? undefined,
+          route: '/api/trpc',
+          page: 'lesson',
+          lesson_slug: input.slug,
+        },
+      )
+      return {lesson_view_url}
     }),
   getLessonbySlug: baseProcedure
     .input(z.object({slug: z.string()}))
