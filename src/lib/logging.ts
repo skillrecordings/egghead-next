@@ -78,11 +78,23 @@ function describeSSRResult(
   return {result_type: 'props'}
 }
 
+/** Cookie the App Router download route reads the egghead token from. */
+export const EGGHEAD_TOKEN_COOKIE_KEY = 'egghead_token'
+
+/** True when the Authorization header carries a non-empty Bearer token. */
+export function hasBearerToken(authHeader?: string | null): boolean {
+  if (!authHeader) return false
+  if (!authHeader.toLowerCase().startsWith('bearer ')) return false
+  return authHeader.slice(7).trim().length > 0
+}
+
 /**
- * Extract user identity from cookie or Authorization header.
+ * Extract user identity from cookies and the Authorization header.
  *
- * Parses the `eh_user` cookie for `user_id` and checks for the presence
- * of the access token cookie. Falls back to the Authorization header.
+ * `user_id` comes only from the non-secret `eh_user` cookie; tokens are
+ * never decoded or verified here. `has_token` is true when any token is
+ * present: the `eh_token_2020_11_22` or `egghead_token` cookie, or a
+ * Bearer header. Unrelated cookies never hide a Bearer header.
  *
  * NEVER throws — returns a safe default on any error.
  */
@@ -91,33 +103,36 @@ export function extractUserContext(
   authHeader?: string | null,
 ): UserContext {
   try {
+    let userId: number | null = null
+    let hasCookieToken = false
+
     if (cookieHeader) {
-      const cookies = serverCookie.parse(cookieHeader)
+      try {
+        const cookies = serverCookie.parse(cookieHeader)
 
-      let userId: number | null = null
-      const rawUser = cookies[EGGHEAD_USER_COOKIE_KEY]
-      if (rawUser) {
-        try {
-          const parsed = JSON.parse(decodeURIComponent(rawUser))
-          if (parsed && typeof parsed.id === 'number') {
-            userId = parsed.id
+        const rawUser = cookies[EGGHEAD_USER_COOKIE_KEY]
+        if (rawUser) {
+          try {
+            const parsed = JSON.parse(decodeURIComponent(rawUser))
+            if (parsed && typeof parsed.id === 'number') {
+              userId = parsed.id
+            }
+          } catch {
+            // malformed cookie — swallow
           }
-        } catch {
-          // malformed cookie — swallow
         }
+
+        hasCookieToken =
+          !!cookies[ACCESS_TOKEN_KEY] || !!cookies[EGGHEAD_TOKEN_COOKIE_KEY]
+      } catch {
+        // malformed cookie header — still check the Authorization header
       }
-
-      const hasToken = !!cookies[ACCESS_TOKEN_KEY]
-
-      return {user_id: userId, has_token: hasToken}
     }
 
-    // Fallback: Authorization header
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      return {user_id: null, has_token: true}
+    return {
+      user_id: userId,
+      has_token: hasCookieToken || hasBearerToken(authHeader),
     }
-
-    return {user_id: null, has_token: false}
   } catch {
     return {user_id: null, has_token: false}
   }
@@ -226,22 +241,10 @@ export function withAppApiLogging(handler: AppRouteHandler): AppRouteHandler {
     let userCtx: UserContext = {user_id: null, has_token: false}
 
     try {
-      // App Router uses req.cookies (RequestCookies API)
-      let userId: number | null = null
-      const rawUser = req.cookies.get(EGGHEAD_USER_COOKIE_KEY)?.value
-      if (rawUser) {
-        try {
-          const parsed = JSON.parse(decodeURIComponent(rawUser))
-          if (parsed && typeof parsed.id === 'number') {
-            userId = parsed.id
-          }
-        } catch {
-          // malformed cookie
-        }
-      }
-
-      const hasToken = !!req.cookies.get(ACCESS_TOKEN_KEY)?.value
-      userCtx = {user_id: userId, has_token: hasToken}
+      userCtx = extractUserContext(
+        req.headers.get('cookie'),
+        req.headers.get('authorization'),
+      )
     } catch {
       // never crash on context extraction
     }

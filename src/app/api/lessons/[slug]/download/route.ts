@@ -4,6 +4,7 @@ import {getMuxAsset} from '@/lib/mux'
 import {isMember} from '@/utils/is-member'
 import fetchEggheadUser from '@/api/egghead/users/from-token'
 import {withAppApiLogging} from '@/lib/logging'
+import {logEvent} from '@/utils/structured-log'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -15,19 +16,49 @@ export async function OPTIONS() {
   return NextResponse.json({}, {headers: corsHeaders})
 }
 
+type DownloadAuth = 'cookie' | 'bearer' | 'none'
+type DownloadOutcome =
+  | 'not_member'
+  | 'not_found'
+  | 'no_video'
+  | 'granted'
+  | 'error'
+
+/**
+ * One structured line per download attempt naming the resolved viewer.
+ * Never carries the token, email or name.
+ */
+function logDownloadResult(
+  outcome: DownloadOutcome,
+  details: {slug?: string; userId: number | null; auth: DownloadAuth},
+) {
+  logEvent(outcome === 'error' ? 'error' : 'info', 'lesson.download.result', {
+    user_id: details.userId,
+    outcome,
+    slug: details.slug ?? null,
+    auth: details.auth,
+  })
+}
+
 async function _GET(
   request: NextRequest,
   {params}: {params: Promise<{slug: string}>},
 ) {
+  let slug: string | undefined
+  let auth: DownloadAuth = 'none'
+  let userId: number | null = null
   try {
-    const {slug} = await params
+    slug = (await params).slug
 
     // Check if user is a member (pro or instructor)
     let token = request.cookies.get('egghead_token')?.value
     // Allow token via Authorization header for cross-origin requests
     const authHeader = request.headers.get('authorization')
-    if (!token && authHeader?.toLowerCase().startsWith('bearer ')) {
+    if (token) {
+      auth = 'cookie'
+    } else if (authHeader?.toLowerCase().startsWith('bearer ')) {
       token = authHeader.slice(7).trim()
+      if (token) auth = 'bearer'
     }
     let viewer = null
 
@@ -39,7 +70,10 @@ async function _GET(
       }
     }
 
+    userId = typeof viewer?.id === 'number' ? viewer.id : null
+
     if (!isMember(viewer)) {
+      logDownloadResult('not_member', {slug, userId, auth})
       return NextResponse.json(
         {
           error: 'Download access is only available to egghead members.',
@@ -53,6 +87,7 @@ async function _GET(
     const courseBuilderLesson = await getCourseBuilderLesson(slug)
 
     if (!courseBuilderLesson) {
+      logDownloadResult('not_found', {slug, userId, auth})
       return NextResponse.json(
         {error: 'Lesson not found in Course Builder'},
         {status: 404, headers: corsHeaders},
@@ -63,6 +98,7 @@ async function _GET(
     const muxPlaybackId = courseBuilderLesson.muxPlaybackId
 
     if (!muxAssetId && !muxPlaybackId) {
+      logDownloadResult('no_video', {slug, userId, auth})
       return NextResponse.json(
         {error: 'No MUX video found for this lesson'},
         {status: 404, headers: corsHeaders},
@@ -106,6 +142,7 @@ async function _GET(
         }
 
         if (!downloadUrl) {
+          logDownloadResult('no_video', {slug, userId, auth})
           return NextResponse.json(
             {
               error:
@@ -126,6 +163,7 @@ async function _GET(
     }
 
     if (!downloadUrl) {
+      logDownloadResult('no_video', {slug, userId, auth})
       return NextResponse.json(
         {
           error: 'No MUX playback ID or asset ID available for download.',
@@ -133,6 +171,8 @@ async function _GET(
         {status: 404, headers: corsHeaders},
       )
     }
+
+    logDownloadResult('granted', {slug, userId, auth})
 
     // Return the download URL
     return NextResponse.json(downloadUrl, {
@@ -143,6 +183,7 @@ async function _GET(
     })
   } catch (error) {
     console.error('Error generating MUX download URL:', error)
+    logDownloadResult('error', {slug, userId, auth})
     const errorMessage =
       error instanceof Error ? error.message : 'Unknown error'
     return NextResponse.json(
