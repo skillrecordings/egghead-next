@@ -4,6 +4,7 @@
   "engines": {
     "node": "22.x"
   },
+  "packageManager": "pnpm@10.33.2",
   "resolutions": {
     "autoprefixer": "10.4.5"
   },
