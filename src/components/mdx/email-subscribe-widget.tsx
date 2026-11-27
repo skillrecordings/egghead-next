@@ -7,6 +7,11 @@ import toast from 'react-hot-toast'
 import cookieUtil from '@/utils/cookies'
 import {ARTICLE_NEWSLETTER_INTEREST_KEY} from '@/config'
 import analytics from '@/utils/analytics'
+import {
+  ShieldShibaWidget,
+  signupPage,
+  useShieldShiba,
+} from '@/components/forms/shield-shiba'
 
 const validateEmail = (value: string) => {
   let error
@@ -30,6 +35,7 @@ const EmailSubscribeWidget = (props: any) => {
   const authorName = author?.name ?? ''
 
   const identify = trpc.customerIO.identify.useMutation()
+  const shield = useShieldShiba()
 
   React.useEffect(() => {
     if (signedUpForNewsletter) {
@@ -49,6 +55,11 @@ const EmailSubscribeWidget = (props: any) => {
             onSubmit={async (values) => {
               const {email, portfolio} = values
 
+              const shieldToken = shield.enabled
+                ? shield.takeToken()
+                : undefined
+              if (shield.enabled && !shieldToken) return
+
               const currentDateTime = Math.floor(Date.now() * 0.001) // Customer.io uses seconds with their UNIX epoch timestamps
 
               const selectedInterests = {
@@ -58,6 +69,8 @@ const EmailSubscribeWidget = (props: any) => {
               await identify.mutateAsync({
                 email,
                 selectedInterests,
+                shieldToken,
+                page: signupPage(),
               })
 
               const interestsArray = Object.keys(selectedInterests)
@@ -123,6 +136,7 @@ const EmailSubscribeWidget = (props: any) => {
                         <Field type="checkbox" name="typescript" />
                         <span className="pl-2">TypeScript</span>
                       </label> */}
+                      <ShieldShibaWidget widgetRef={shield.widgetRef} />
                       <button
                         className={`bg-blue-600 text-white rounded-md font-semibold p-1 ${
                           errors.email &&
