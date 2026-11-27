@@ -1,20 +1,50 @@
 import React, {FunctionComponent} from 'react'
 import {useSearchBox, SearchBoxProps} from 'react-instantsearch'
-import {track} from '@/utils/analytics'
 import useBreakpoint from '@/utils/breakpoints'
 import analytics from '@/utils/analytics'
+import {SearchNavigationContext} from './search-url-sync'
 
 const CustomSearchBox: FunctionComponent<
   React.PropsWithChildren<SearchBoxProps>
 > = (props) => {
   const {placeholder = 'Search for Anything'} = props
-  const {query, refine} = useSearchBox(props)
+  const {query: renderedQuery, refine} = useSearchBox(props)
 
-  const [timerId, setTimerId] = React.useState<NodeJS.Timeout | null>()
-  const [trackTimerId, setTrackTimerId] =
-    React.useState<NodeJS.Timeout | null>()
+  const navigation = React.useContext(SearchNavigationContext)
+  const query = navigation?.query ?? renderedQuery
+  const navigationVersion = React.useRef<number | null>(null)
+  const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+  const trackTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+  const submittedQuery = React.useRef<string | null>(null)
 
   const [value, setValue] = React.useState<string>(query)
+
+  const cancelTimers = React.useCallback(() => {
+    if (timer.current !== null) clearTimeout(timer.current)
+    if (trackTimer.current !== null) clearTimeout(trackTimer.current)
+    timer.current = null
+    trackTimer.current = null
+  }, [])
+
+  React.useEffect(() => cancelTimers, [cancelTimers])
+
+  React.useEffect(() => {
+    if (query === submittedQuery.current) {
+      submittedQuery.current = null
+      return
+    }
+    submittedQuery.current = null
+    cancelTimers()
+    setValue(query)
+  }, [query, cancelTimers])
+
+  React.useEffect(() => {
+    if (!navigation || navigation.version === navigationVersion.current) return
+    navigationVersion.current = navigation.version
+    cancelTimers()
+    submittedQuery.current = null
+    setValue(navigation.query)
+  }, [navigation, cancelTimers])
 
   const {sm} = useBreakpoint()
 
@@ -26,20 +56,18 @@ const CustomSearchBox: FunctionComponent<
 
   const onChangeDebounced = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value
-    if (timerId) clearTimeout(timerId)
-    if (trackTimerId) clearTimeout(trackTimerId)
+    cancelTimers()
 
-    setTimerId(
-      setTimeout(() => {
-        refine(value)
-      }, 450),
-    )
+    timer.current = setTimeout(() => {
+      timer.current = null
+      submittedQuery.current = value
+      refine(value)
+    }, 450)
 
-    setTrackTimerId(
-      setTimeout(() => {
-        analytics.events.engagementSearchedWithQuery('search page', value)
-      }, 1500),
-    )
+    trackTimer.current = setTimeout(() => {
+      trackTimer.current = null
+      analytics.events.engagementSearchedWithQuery('search page', value)
+    }, 1500)
 
     setValue(value)
   }
